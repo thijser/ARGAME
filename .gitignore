@@ -19,3 +19,11 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+
+# Cache files and temporary files
+.DS_Store
+*.log
+
+# LaTeX intermediate files
+*.aux
+*.synctex.gz
