@@ -25,6 +25,7 @@ sysinfo.txt
 *.log
 
 # LaTeX intermediate files
+*.out
 *.aux
 *.synctex.gz
 *.pdf
