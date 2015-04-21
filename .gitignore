@@ -27,3 +27,5 @@ sysinfo.txt
 # LaTeX intermediate files
 *.aux
 *.synctex.gz
+*.pdf
+
