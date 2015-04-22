@@ -2,7 +2,7 @@
 
 public class Webcam : MonoBehaviour {
     //public MeshRenderer[] UseWebcamTexture;
-    private WebCamTexture webcamTexture;
+    public WebCamTexture webcamTexture;
 
     public string webcamName;
 
