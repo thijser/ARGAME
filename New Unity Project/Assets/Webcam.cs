@@ -8,7 +8,7 @@ public class Webcam : MonoBehaviour {
 
     void Start() {
         foreach (WebCamDevice dev in WebCamTexture.devices) {
-            //Debug.Log(dev.name);
+            Debug.Log(dev.name);
         }
 
         webcamTexture = new WebCamTexture(webcamName, 320, 240);
