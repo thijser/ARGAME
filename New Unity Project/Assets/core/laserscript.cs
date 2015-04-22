@@ -19,11 +19,14 @@ public class laserscript : MonoBehaviour {
 			Debug.Log(" hit");
 			return hitInfo;
 		}
+		Debug.Log("miss");
+
 		return hitInfo;
 	}
 	// Use this for initialization
 	void Start () {
-
+		gethit ();
+		print ("starting");
 	}
 	
 	// Update is called once per frame
