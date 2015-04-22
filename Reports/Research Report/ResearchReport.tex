@@ -1,13 +1,14 @@
 \documentclass{report}
 
 \usepackage[section] {placeins}
-\usepackage[verbose, a4paper, margin=0.5in] {geometry}
+\usepackage[a4paper, margin=0.7in] {geometry}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt plus 2pt minus 1pt}
 
 \title{Research Report}
-\author{Thijs Boumans\\ Patrick Kramer\\ Alexander Overvoorde\\ Tim van Rossum}
+\author{Thijs Boumans \and Patrick Kramer \and 
+        Alexander Overvoorde \and Tim van Rossum}
 
 \begin{document}
 \maketitle
@@ -16,8 +17,10 @@
 \dots
 \end{abstract}
 
+\tableofcontents
+
 \input{Introduction.tex}
-\input{TechnologicalChallenges.tex}
+\input{TechnicalChallenges.tex}
 \input{Conclusion.tex}
 
 \end{document}
