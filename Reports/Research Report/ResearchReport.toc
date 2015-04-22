@@ -1,8 +1,0 @@
-\contentsline {chapter}{\numberline {1}Introduction}{2}
-\contentsline {section}{\numberline {1.1}Problem Formulation}{2}
-\contentsline {section}{\numberline {1.2}Proposed Solution}{2}
-\contentsline {chapter}{\numberline {2}Technical Challenges}{3}
-\contentsline {section}{\numberline {2.1}Augmented Reality Hardware}{3}
-\contentsline {section}{\numberline {2.2}Marker-based tracking library}{3}
-\contentsline {section}{\numberline {2.3}Programming Environment}{3}
-\contentsline {chapter}{\numberline {3}Conclusion}{4}
