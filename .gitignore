@@ -27,6 +27,9 @@ sysinfo.txt
 .DS_Store
 *.log
 
+# Windows-style shortcuts
+*.lnk
+
 # LaTeX intermediate files
 *.out
 *.aux
