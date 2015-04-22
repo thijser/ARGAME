@@ -11,7 +11,7 @@ public class Webcam : MonoBehaviour {
             Debug.Log(dev.name);
         }
 
-        webcamTexture = new WebCamTexture(webcamName, 320, 240);
+        webcamTexture = new WebCamTexture(webcamName);
         /*foreach (MeshRenderer r in UseWebcamTexture) {
             r.material.mainTexture = webcamTexture;
         }*/
