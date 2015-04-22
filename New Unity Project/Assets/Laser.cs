@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Laser : MonoBehaviour {
     public int maxReflections = 10;
+    public LineRenderer lineRenderer;
 
 	void Start() {
         
@@ -12,19 +13,32 @@ public class Laser : MonoBehaviour {
         Vector3 pos = transform.position;
         Vector3 dir = transform.forward;
 
+        var positions = new ArrayList(maxReflections);
+        positions.Add(pos);
+
         for (int i = 0; i < maxReflections; i++) {
             RaycastHit hitInfo;
 
             if (Physics.Raycast(pos, dir, out hitInfo, 20.0f)) {
-                Debug.DrawLine(pos, hitInfo.point, Color.green);
+                positions.Add(hitInfo.point);
 
                 pos = hitInfo.point;
                 dir = Vector3.Reflect(dir, hitInfo.normal);
+
+                if (hitInfo.collider.tag != "Mirror") {
+                    break;
+                }
             } else {
-                Debug.DrawLine(pos, pos + dir * 20, Color.red);
+                positions.Add(pos + dir * 20);
 
                 break;
             }
+        }
+
+        lineRenderer.SetVertexCount(positions.Count);
+
+        for (int i = 0; i < positions.Count; i++) {
+            lineRenderer.SetPosition(i, (Vector3) positions[i]);
         }
 	}
 }
