@@ -1,8 +1,12 @@
 \documentclass{report}
+\usepackage[english] {babel}
+
+\usepackage{url}
+\usepackage{cite}
+\bibliographystyle{apalike}
 
 \usepackage[section] {placeins}
 \usepackage[a4paper, margin=0.7in] {geometry}
-
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt plus 2pt minus 1pt}
 
@@ -14,7 +18,7 @@
 \maketitle
 
 \begin{abstract}
-\dots
+% TODO: Write abstract
 \end{abstract}
 
 \tableofcontents
@@ -22,5 +26,7 @@
 \input{Introduction.tex}
 \input{TechnicalChallenges.tex}
 \input{Conclusion.tex}
+
+\bibliography{Bibliography}
 
 \end{document}
