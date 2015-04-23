@@ -10,22 +10,29 @@
 	
 	% Hardware devices to consider:
 	%   - META One (as indicated by the BEPSys project page)
-	%       - Has a limited Field-of-View
-	%       - Optical see-through glasses means AR works out of the box
-	%   - Oculus Rift + mounted cameras
-	%       - High Field-of-View
+	%       - Has a limited Field-of-View (around 35 degrees)
+	%          - May interfere with the experience of the game.
+	%       - Optical see-through glasses means AR works out of the box.
+	%   - Oculus Rift + mounted cameras (http://oculusvr.com/)
+	%       - High Field-of-View (100 degrees)
 	%       - VR glasses, so need to project the real world using cameras.
-	%   - <Add more as needed>
+	%          - Limited resolution creates blurriness.
+	%          - Projection can be done from within Unity
+	%          - Potentially requires a lot of calibration
+	%   - ... <Add more as needed>
 	
 	\section{Marker-based tracking library} \label{sec:trackinglib}
 	% Compares different (AR) tracking libraries.
 	
 	% Libraries to consider:
-	%   - Vuforia (http://vuforia.com/)
+	%   - Vuforia (http://vuforia.com/ and http://developer.vuforia.com/)
 	%       - Includes integration with Unity
-	%   - Unity AR Toolkit (UART) (see https://research.cc.gatech.edu/uart/content/contents)
+	%   - Unity AR Toolkit (UART) (https://research.cc.gatech.edu/uart/content/contents/)
+	%       - Source code and demos hosted on SourceForge (http://sourceforge.net/projects/uart/)
 	%       - Seems to be a research project
 	%       - Seems easy to use (comes with examples)
-	%   - Metaio
+	%       - Built for Unity
+	%       - Last change to SVN repo was in 2011.
+	%   - Metaio (http://www.metaio.com/)
 	%       - Mainly oriented towards mobile phones, so may not be suitable for this project
-	%   - <Add more as needed>
+	%   - ... <Add more as needed>
