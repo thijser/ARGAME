@@ -1,0 +1,32 @@
+\documentclass{report}
+\usepackage[english] {babel}
+
+\usepackage{url}
+\usepackage{cite}
+\bibliographystyle{apalike}
+
+\usepackage[section] {placeins}
+\usepackage[a4paper, margin=0.7in] {geometry}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+
+\title{TITLE}    %TODO: Change title
+\author{AUTHORS} %TODO: Change authors
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+%TODO: Write Abstract
+\end{abstract}
+
+\tableofcontents 
+
+%TODO: Insert document body
+
+\pagebreak % Required to fix page numbering in Table of Contents
+\bibliography{BIB} %TODO: Change to name of bibliography file
+\addcontentsline{toc}{chapter}{Bibliography}
+
+
+\end{document}          
