@@ -1,19 +1,38 @@
 \chapter{Technical Challenges} \label{ch:technicalchallenges}
 	% Includes the challenges surrounding AR and Networking.
-	% Also motivates the choice for Unity, Vuforia, and the Oculus Rift.
+	% Also motivates the choices made.
 	This section provides an overview of the technical challenges of 
 	this project. For each named challenge, an overview and comparison is 
 	given of the possible solutions, with the chosen solution as conclusion.
 	
 	\section{Augmented Reality Hardware} \label{sec:arhardware}
-	% Compares various AR hardware devices and motivates the 
-	% choice for choosing the Oculus Rift with two mounted cameras
+	% Compares various AR hardware devices.
+	
+	% Hardware devices to consider:
+	%   - META One (as indicated by the BEPSys project page)
+	%       - Has a limited Field-of-View (around 35 degrees)
+	%          - May interfere with the experience of the game.
+	%       - Optical see-through glasses means AR works out of the box.
+	%   - Oculus Rift + mounted cameras (http://oculusvr.com/)
+	%       - High Field-of-View (100 degrees)
+	%       - VR glasses, so need to project the real world using cameras.
+	%          - Limited resolution creates blurriness.
+	%          - Projection can be done from within Unity
+	%          - Potentially requires a lot of calibration
+	%   - ... <Add more as needed>
 	
 	\section{Marker-based tracking library} \label{sec:trackinglib}
-	% Compares different (AR) tracking libraries and motivates 
-	% the choice for choosing Quallcom's Vuforia library.
+	% Compares different (AR) tracking libraries.
 	
-	\section{Programming Environment} \label{sec:programmingenvironment}
-	% Compares different environments and frameworks and motivates
-	% the choice for choosing Unity over other frameworks.
-	
+	% Libraries to consider:
+	%   - Vuforia (http://vuforia.com/ and http://developer.vuforia.com/)
+	%       - Includes integration with Unity
+	%   - Unity AR Toolkit (UART) (https://research.cc.gatech.edu/uart/content/contents/)
+	%       - Source code and demos hosted on SourceForge (http://sourceforge.net/projects/uart/)
+	%       - Seems to be a research project
+	%       - Seems easy to use (comes with examples)
+	%       - Built for Unity
+	%       - Last change to SVN repo was in 2011.
+	%   - Metaio (http://www.metaio.com/)
+	%       - Mainly oriented towards mobile phones, so may not be suitable for this project
+	%   - ... <Add more as needed>

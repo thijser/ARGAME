@@ -1,9 +1,10 @@
 \chapter{Introduction} \label{ch:introduction}
 	% An introduction of what the project is about.
 	This chapter introduces the problem in section \ref{sec:problem}, as well as
-	the proposed solution in section \ref{sec:solution}. The proposed solution
-	also presents some potential technical challenges to overcome. Details about 
-	these challenges are discussed in chapter \ref{ch:technicalchallenges}.
+	the proposed solution in section \ref{sec:solution}. The problem formulation
+	as well as the proposed solution present some potential technical challenges 
+	to overcome. Details about these challenges are discussed in chapter 
+	\ref{ch:technicalchallenges}.
 
 	\section{Problem Formulation} \label{sec:problem}
 		% The problem description is taken from BEPSys. It has been shortened 
@@ -17,17 +18,17 @@
 		as an approximation of collaboratively solving complex problems, as they 
 		occur in crime scene investigation when using virtual co-location, i.e. 
 		expert remote crime scene investigators to guide local investigators in 
-		AR to collaboratively analyse the crime scene.
+		AR to collaboratively analyse the crime scene. 
 		
 		It has to be possible to play the game with at least three players: At 
 		least two players are present at the same location (physically 
 		co-located). At least one player is physically remote but virtually 
-		co-located. \cite{bepsys}
+		co-located \cite{bepsys}.
 	
 	\section{Proposed Solution} \label{sec:solution}
-		% A description of the proposed solution, including 
-		% gameplay elements. This subsection should motivate 
-		% why the proposed solution is a good solution.
+		% A description of the proposed solution, including gameplay elements. 
+		% The description is taken from the Product Plan. This section also 
+		% motivates why the proposed solution is a good solution.
 		The goal of the game is to solve a puzzle by controlling laser beams 
 		using mirrors in such a way that a predefined target is hit. The game 
 		can be played by one or more local players and one or more remote players.
@@ -53,4 +54,27 @@
 		powerful beams. Other optical components like beam splitters can also be 
 		introduced.
 		
-		%TODO: Add paragraph on why this solution is a good one.
+		The game is designed to increase situational awareness by requiring the 
+		cooperation between the physically co-located players and the physically 
+		remote player(s). It does so by dividing abilities required for solving
+		the puzzles amongst all players as follows:
+		
+		\begin{itemize}
+			\item Physically co-located players each get only a part of the 
+			      mirror bases required to solve the puzzle, requiring input 
+			      from all of these players.
+			\item If there are multiple virtually co-located players, each of 
+			      these players can only rotate a subset of the mirrors, and 
+			      as such input from all virtually co-located players is 
+			      required for solving the puzzle. 
+			\item Virtually co-located players have the ability to rotate 
+			      mirrors while the physically co-located players do not have 
+			      this ability, requiring input from both physically as well
+			      as virtually co-located players.
+		\end{itemize}
+
+		Because of this division of abilities, there is an interdependence 
+		between all players, regardless of whether these players are physically 
+		co-located or not. This replicates the interdependence that exists in 
+		the crime scene example as given in the problem formulation (section 
+		\ref{sec:problem}).
