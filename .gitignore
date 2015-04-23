@@ -31,6 +31,8 @@ sysinfo.txt
 *.lnk
 
 # LaTeX intermediate files
+*.bbl
+*.blg
 *.toc
 *.out
 *.aux
