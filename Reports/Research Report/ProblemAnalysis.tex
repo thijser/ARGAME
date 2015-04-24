@@ -60,9 +60,35 @@
 			% 		- Using Oculus Rift means we need to implement AR functionality 
 			%         ourselves (as optical see-through often has this built-in).
 			%         AR Libraries to consider:
+			We've built a camera rig for the Oculus Rift that can be used to
+			turn it into an augmented reality device. To detect the markers and
+			render objects on them in Unity, there are several libraries
+			available. Each of these will be discussed in the next sections.
+
+			Oculus offers an SDK for Unity that makes it easy to integrate a
+			game with the Rift. The challenge that we'll be facing during
+			development is to properly integrate this SDK with the augmented
+			reality libraries. Each of the frameworks try to take control of the
+			camera in different ways and it's easy to get conflicts there.
+			Getting the Rift see-through functionality working in Unity on its
+			own and the augmented reality functionality on its own is not a
+			challenge.
+
 			\subsubsection{Vuforia} \label{sssec:vuforia}
 				%   - Vuforia (http://vuforia.com/ and http://developer.vuforia.com/)
 				%       - Includes integration with Unity
+				Vuforia is a framework by Qualcomm that allows you to create
+				arbitrary markers, import them into Unity and place objects onto
+				them. You can then select a webcam and have it render the camera
+				images with 3D objects projected onto the markers. It's very
+				easy to use and has built-in support for virtual reality
+				solutions like GearVR. The tracking quality is very good and
+				stable, even with low quality markers (with few color transitions).
+
+				Unfortunately it currently only works with the 32-bit version of
+				Unity. It also lacks support for the Oculus Rift on the desktop,
+				which means that we'll have to build that functionality ourselves.
+
 			\subsubsection{Unity AR Toolkit (UART)} \label{sssec:uart}
 				%   - Unity AR Toolkit (UART) (https://research.cc.gatech.edu/uart/content/contents/)
 				%       - Source code and demos hosted on SourceForge (http://sourceforge.net/projects/uart/)
@@ -70,6 +96,8 @@
 				%       - Seems easy to use (comes with examples)
 				%       - Built for Unity
 				%       - Last change to SVN repo was in 2011.
+
+
 			\subsubsection{Metaio} \label{sssec:metaio}
 				%   - Metaio (http://www.metaio.com/)
 				%       - Mainly oriented towards mobile phones, so may not be suitable for this project
