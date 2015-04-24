@@ -1,34 +1,58 @@
 \chapter{Problem Analysis} \label{cha:analysis}
-	% Analysis of the problem description with regards to any potential 
-	% difficulties that may arise in the implementation of the proposed 
-	% solution. This chapter is a lead-in to the chapter Technical Challenges:
-	% that chapter provides an analysis of alternatives and derives a conclusion
-	% from that analysis.
-	This chapter provides an analysis of the problem description and the 
-	proposed solution in terms of technical difficulties that may arise during
-	development.
+	% Includes the challenges surrounding AR and Networking.
+	% Also motivates the choices made.
+	This chapter provides an analysis of the problem description of problems
+	and challenges that may arise during development. It provides an analysis 
+	of the problems and possible solutions that can be used in order to 
+	solve these problems. 
 	
-	% Because this chapter is closely related to the chapter Technical 
-	% Challenges, the sections in that chapter should reflect the difficulties
-	% mentioned here.
-
-	% Overview of challenges to consider:
-	%   - The use of AR technology presents a challenge on its own
-	%       - Solving the AR problem is done using an Oculus Rift and mounted
-	%         cameras, in conjunction with an AR library.
-	%   - Creating the exprience for the players that they are co-located
-	%     even though they are physically remote (virtual co-location)
-	%       - We do this by using the Oculus Rift, though that should not be 
-	%         mentioned in this chapter
-	%   - Creating a set-up that requires physically co-located and physically 
-	%     remote players to cooperate (by creating interdependence between them)
-	%       - The chapter Technical Challenges may address this by observing 
-	%         that this requires interdependance based either on knowledge or on
-	%         abilities, but that knowledge is more easily transferred, 
-	%         effectively removing the interdependence.
-	%   - Since it's a game, playing it should be enjoyable for all players.
-	%       - Added this entry because some of our brainstorming ideas missed 
-	%         this aspect. Might as well add it in here.
-	%
-	%   - ... <Add more as needed>
+	\section{Augmented Reality (AR) Functionality} \label{sec:ar}
+		% AR is a core element in the project. As such, we need to compare
+		% various AR hardware devices and corresponding ways to implement
+		% AR functionality for each device.
 	
+		% Hardware devices to consider:
+		\subsection{META One} \label{ssec:metaone}
+			%   - META One (as indicated by the BEPSys project page)
+			%       - Has a limited Field-of-View (around 35 degrees)
+			%          - May interfere with the experience of the game.
+			%       - Optical see-through glasses means AR works out of the box.
+		\subsection{Oculus Rift} \label{ssec:oculusrift}
+			%   - Oculus Rift + mounted cameras (http://oculusvr.com/)
+			%       - High Field-of-View (100 degrees)
+			%       - VR glasses, so need to project the real world using cameras.
+			%          - Limited resolution creates blurriness.
+			%          - Projection can be done from within Unity
+			%          - Potentially requires a lot of calibration
+			% 		- Using Oculus Rift means we need to implement AR functionality 
+			%         ourselves (as optical see-through often has this built-in).
+			%         AR Libraries to consider:
+			\subsubsection{Vuforia} \label{sssec:vuforia}
+				%   - Vuforia (http://vuforia.com/ and http://developer.vuforia.com/)
+				%       - Includes integration with Unity
+			\subsubsection{Unity AR Toolkit (UART)} \label{sssec:uart}
+				%   - Unity AR Toolkit (UART) (https://research.cc.gatech.edu/uart/content/contents/)
+				%       - Source code and demos hosted on SourceForge (http://sourceforge.net/projects/uart/)
+				%       - Seems to be a research project
+				%       - Seems easy to use (comes with examples)
+				%       - Built for Unity
+				%       - Last change to SVN repo was in 2011.
+			\subsubsection{Metaio} \label{sssec:metaio}
+				%   - Metaio (http://www.metaio.com/)
+				%       - Mainly oriented towards mobile phones, so may not be suitable for this project
+	
+		%   - ... <Add more as needed>
+	
+	\section{Situational Awareness} \label{sec:awareness}
+		% Improving situational awareness is part of the main goal of the project.
+		% We should indicate the steps needed to achieve this, which can be based 
+		% on (possibly) a large range of scientific articles.
+	
+	\section{Interdependence between players} \label{sec:interdependence}
+		% Creating interdependence between players requires them to work together.
+		% This can be done in several ways. We need to elaborate on the various ways
+		% in which this can be achieved.
+		
+	\section{Analysis Conclusions} \label{sec:analysisconclusion}
+		% Provides the coices we made for the abovementioned problems along with a short
+		% motivation based on the above analysis.
