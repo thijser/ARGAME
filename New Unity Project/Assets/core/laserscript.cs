@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+//FIXME: Replace all tabs in this file with sequences of spaces
+﻿﻿﻿using UnityEngine;
 using System.Collections;
 
+//FIXME: Rename class to match the C# naming convention
 public class laserscript : MonoBehaviour {
-	public Transform start; 
+	public Transform start;
 	public bool first=true;
 	public ParticleSystem me;
 	private int maskSolids=1+2;
 	private int maskLauncherAndSolids=1+2+512;
+	//FIXME: Rename this method to match the C# naming convention
 	RaycastHit gethit(){
 		int layermask;
 		if (first) {
@@ -28,7 +31,7 @@ public class laserscript : MonoBehaviour {
 		gethit ();
 		print ("starting");
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		gethit ();
