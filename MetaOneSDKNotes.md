@@ -7,10 +7,10 @@ features of the SDK.
 
 Note: The Meta One (probably) needs support from the native MetaVision library,
 deployed as a DLL in `Plugins/MetaVisionDLL_1_5_0_1184.dll`. However, as this is 
-a native library, Unity can only link to it on Windows... As such it may not 
-work on Linux or Mac OS X. On Mac OS X, at least, Unity logs an error message
-stating failure to load the abovementioned library. However, basic functionality
-such as the Meta One camera and display seem to work on Mac OS X.
+a native library (not a C# library), Unity can only link to it on Windows... As 
+such it may not work on Linux or Mac OS X. On Mac OS X, at least, Unity logs an 
+error message stating failure to load the abovementioned library. However, basic 
+functionality such as the Meta One camera and display seem to work on Mac OS X.
 
 Setting up the Meta SDK
 -----------------------
@@ -20,6 +20,10 @@ and optimise workflow. Note that these issues may or may not occur, and if the
 issue does not occur, you should leave everything as-is to prevent accidentally
 breaking something else.
 
+First, manually run the MSVC Redist in the Libraries directory of the 
+Meta SDK Program Files directory if you haven't already done so. You may need 
+to restart Unity for it to find the MSVC libraries required by the Meta SDK.
+
 The Meta SDK uses a class that was in Unity 4 but is deprecated and has been 
 removed from Unity 5. As such, to use the SDK, you have to navigate to 
 `Plugins/HighlighingSystem/Scripts/` and open the `HighlightableObject` script. 
@@ -28,7 +32,7 @@ surrounded by a preprocessor directive `#if !UNITY_FLASH … #endif`. Replace th
 clause of the directive to `UNITY_4 && !UNITY_FLASH` to only enable the feature 
 on Unity 4. Disabling this part of the script has no noticeable effect on the 
 operation of the SDK unless the Cloth class is used (which is the single 
-replacement for a few classes dedicated to rendering clothing).  
+replacement for a few classes dedicated to rendering clothing).
 
 The Console may report repeated Exceptions originating from 
 `SyntaxTree.VisualStudio.Unity.Bridge.*`. As this clutters Console output and 
@@ -49,6 +53,15 @@ Using the Meta SDK
 Because the Meta SDK is still in Beta, documentation is sometimes unclear, 
 incorrect or even missing. An overview of main features of the SDK is collected
 here for reference.
+
+Documentation for the Meta SDK (as far as available) can be found under 
+Window > Meta. However, documentation of some rather important parts of the SDK
+(such as the 'Meta Input' and 'Meta Gesture Manager' entries) are 'Coming Soon'
+and there's only a limited set of examples available.
+
+It is possible to verify if the libraries and drivers are properly installed and 
+can be used. See the "Meta Setup Guide" topic of the Meta documentation for 
+details.
 
 Main Prefab to use is `_Meta/_MetaCore/_Prefabs/_MetaWorld` (including 
 underscores). This includes the MetaCamera and a directional light for 
