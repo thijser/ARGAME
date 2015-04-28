@@ -28,6 +28,8 @@ sysinfo.txt
 
 # Cache files and temporary files
 .DS_Store
+desktop.ini
+thumbs.db
 *.log
 
 # Windows-style shortcuts
@@ -41,6 +43,10 @@ sysinfo.txt
 *.aux
 *.synctex.gz
 *.pdf
+# LaTeXmk intermediate files
+*.dvi
+*.fdb_latexmk
+*.fls
 
 # Generated Executables and Libaries
 *.exe
