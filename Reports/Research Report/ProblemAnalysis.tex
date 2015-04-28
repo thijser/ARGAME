@@ -137,10 +137,49 @@
 		Establishing virtual co-location is required to allow physically remote players
 		to play the game together. As such, both the virtualization of the game world and
 		the networking are considered in virtually co-locating physically remote players.
-		Unity has multiplayer support, because of its master server to handle multiplayer
+		Unity has multi player support, because of its master server to handle multi player
 		games, but the server could be down at times. There are tutorials on the internet
-		to create a basic multiplayer game that uses the master server to handle requests.
-		These tutorials can be used to implement our own multiplayer support.
+		to create a basic multi player game that uses the master server to handle requests.
+		These tutorials can be used to implement our own multilayer support. Alternatively
+		we could provide the players with the means to easily get and exchange their IP
+		addresses through other means such as mail. 
+		Besides the networking we have to look at how we synchronize locations, depending on
+		the chosen game we have in order of ascending complexity several options:
+		1 Use markers with a known locations, this only works if we have a limited size 
+		and reasonably fixed playing area which we can prepare ahead of time. This most 
+		likely comes in the form of a set of markers at the edge and middle of the playing 
+		field. 
+		2 Use mobile markers which synchronize between players automatically, for example
+		cards in a card game. This only works if we can trust the play er to keep these markers
+		within their screen or if it does not matter if there is no augmentation needed if they
+		cannot see a marker. 
+		3 Object recognition which tracks the locations of objects in the scene,
+		this method only works if there are a number of reasonably stable objects 
+		within the player's vision. 
+		4 Combining the output of a compass, a gyroscope and trilocations. This is 
+		works regardless of what is visible but requires accurate trilocation which works
+		can be quite hard to do without building a heavy rig. 
+		Of course a combination of several of the above methods is also possible. 
+
+		Then there is the matter of making the players "feel" that they are in the 
+		same location. One obvious method might be to put an oculus on the remote player(s) and let 
+		them see through the eyes of the local player(s), however this is likely to cause nausea. 
+		Of course we can do away with the oculus but that might result in relative pasivism from 
+		the remote players as they feel they cannot 
+		even control their own view while not being forced to watch what the other player does. 
+
+		We can also let the remote player control one or more avatars within the game world
+		and view these through either oculus or screen. This would keep the remote player
+		more interested by giving more of a feeling of agency then just viewing through the eyes 
+		of the other player at the cost of the feeling of connectivity. But this would require 
+		mapping out a large part of the scene in the virtual world. 
+		
+		Lastly we can also let the remote player view the world from a birds eye perspective 
+		this can either be done by mounting a camera above the scene or by rendering it in 
+		the virtual world, the second case offers increased player agency resulting in 
+		a better attention to the situation at the cost of having the map the scene fully 
+		in the virtual world. 
+		
 		% Allowing phsyically remote players to play the game, we need to establish
 		% some idea of virtual co-location. This includes the virtualization of the 
 		% game world as well as the networking functionality required to establish
