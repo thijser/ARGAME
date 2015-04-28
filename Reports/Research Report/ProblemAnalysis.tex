@@ -14,9 +14,6 @@
 	between players in such a way that requires collaboration from all players.
 	This challenge is analyzed in section \ref{sec:interdependence}.
 
-	Lastly, a conclusion based on the analyses of these challenges is given in
-	section \ref{sec:analysisconclusion}.
-
 	\section{Augmented Reality (AR) Functionality} \label{sec:ar}
 		% AR is a core element in the project. As such, we need to compare
 		% various AR hardware devices and corresponding ways to implement
@@ -50,10 +47,11 @@
 			than the Field-of-View of a person, which may have a negative impact
 			on the game experience.
 
-			One of the advantages of this device is that the SDK has tracking
-			and gesture recognition built-in. That allows us to focus on just
-			the gameplay aspects.
-			
+			One of the advantages of this device is that the Software Development
+			Kit (SDK) that comes with the glasses has tracking and gesture
+			recognition built-in. That allows us to focus on just the gameplay
+			aspects.
+
 		\subsection{Oculus Rift} \label{ssec:oculusrift}
 			%   - Oculus Rift + mounted cameras (http://oculusvr.com/)
 			%       - High Field-of-View (100 degrees)
@@ -77,6 +75,16 @@
 			Getting the Rift see-through functionality working in Unity on its
 			own and the augmented reality functionality on its own is not a
 			challenge.
+
+			The advantage of the Oculus rift with mounted cameras is that it
+			provides complete control over the screen allowing us to completely block
+			certain regions of view or project black objects. Another advantage is
+			that the field of view of the virtual world is the same as that of the
+			physical world. Disadvantages are that we must be careful not to induce
+			any extra latency because that would result in the movements of the head
+			and of the view no longer matching up. Yet another disadvantage is that
+			because the cameras are mounted on the front of the Oculus Rift, the
+			field of view of the physical world is limited.
 
 			\subsubsection{Vuforia} \label{sssec:vuforia}
 				%   - Vuforia (http://vuforia.com/ and http://developer.vuforia.com/)
@@ -185,5 +193,12 @@
 			here when one type of player has nearly all of the information or can
 			infer nearly all information.
 
+
+\section{Analysis Conclusions} \label{sec:analysisconclusion}
+We have looked at what type of headset we want to use either a Oculus rift with front mounted cameras or a META One. The advantage of the Oculus being more control over what is seen and the field of view of the virtual world matching that of the augmented world while the disadvantage is that latency can quickly become a problem. The META One meanwhile does not allow us to completely block something out and the field of view of the physical world is larger then that of the virtual world. We have also looked at whatever to use Vuforia, UART or Metaio for object tracking. 
+We also looked at the Interdependence between players and how asymmetry or overload in information or ability can be used to force cooperation we have also looked at various ways we can allow players to feel as they share the same space and how it helps to be able to communicate easily and notice another and how various points of view for the remote player influence this. We have seen how unity has some options for easily setting up networking. 
+% Provides the coices we made for the abovementioned problems along with a short
+% motivation based on the above analysis.
+
+
 	\input{VirtualCoLocation.tex}
-	\input{AnalysisConclusion.tex}
