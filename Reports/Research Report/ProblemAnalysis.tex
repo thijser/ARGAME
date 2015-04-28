@@ -2,54 +2,54 @@
 	% Includes the challenges surrounding AR and Networking.
 	% Also motivates the choices made.
 	This chapter provides an analysis of the problem description of problems
-	and challenges that may arise during development. It provides an analysis 
-	of the problems and possible solutions that can be used in order to 
-	solve these problems. 
-	
-	One of the core challenges of the project is the use of Augmented Reality 
-	(AR) technology. An analysis of the available options to implement this 
+	and challenges that may arise during development. It provides an analysis
+	of the problems and possible solutions that can be used in order to
+	solve these problems.
+
+	One of the core challenges of the project is the use of Augmented Reality
+	(AR) technology. An analysis of the available options to implement this
 	functionality is given in section \ref{sec:ar}. Another important challenge
-	is improving situational awareness, which is discussed in section 
-	\ref{sec:awareness}. The last challenge is the creation of interdependence 
+	is improving situational awareness, which is discussed in section
+	\ref{sec:awareness}. The last challenge is the creation of interdependence
 	between players in such a way that requires collaboration from all players.
-	This challenge is analyzed in section \ref{sec:interdependence}. 
-	
+	This challenge is analyzed in section \ref{sec:interdependence}.
+
 	Lastly, a conclusion based on the analyses of these challenges is given in
 	section \ref{sec:analysisconclusion}.
-	
+
 	\section{Augmented Reality (AR) Functionality} \label{sec:ar}
 		% AR is a core element in the project. As such, we need to compare
 		% various AR hardware devices and corresponding ways to implement
 		% AR functionality for each device.
-		Augmented Reality (AR) is a core aspect of the problem formulation. 
+		Augmented Reality (AR) is a core aspect of the problem formulation.
 		As such, careful analysis has to be done as to how the AR functionality
 		can be best implemented to fully address the context of this project.
-		
+
 		We consider two choices for implementing AR functionality: The META One,
-		an optical see-through device (\ref{ssec:metaone}), and the Oculus Rift 
-		Virtual Reality glasses in conjunction with mounted cameras 
+		an optical see-through device (\ref{ssec:metaone}), and the Oculus Rift
+		Virtual Reality glasses in conjunction with mounted cameras
 		(\ref{ssec:oculusrift}).
-	
+
 		% Hardware devices to consider:
 		\subsection{META One} \label{ssec:metaone}
 			%   - META One (as indicated by the BEPSys project page)
 			%       - Has a limited Field-of-View (around 35 degrees)
 			%          - May interfere with the experience of the game.
 			%       - Optical see-through glasses means AR works out of the box.
-			
-			The META One glasses are optical see-through glasses. Optical 
+
+			The META One glasses are optical see-through glasses. Optical
 			see-through glasses work by projecting a virtual image on top of the
 			world you see, effectively implementing a 3D AR exprience.
-			
-			Because the META One is an optical see-through device that also 
-			features motion tracking, AR can be implemented simply by 
+
+			Because the META One is an optical see-through device that also
+			features motion tracking, AR can be implemented simply by
 			projecting an image against a black background to the glasses.
-			
-			A big drawback of the available META One glasses is their 
+
+			A big drawback of the available META One glasses is their
 			Field-of-View, which is 35 degrees. This Field-of-View is way lower
-			than the Field-of-View of a person, which may have a negative impact 
+			than the Field-of-View of a person, which may have a negative impact
 			on the game experience.
-			
+
 		\subsection{Oculus Rift} \label{ssec:oculusrift}
 			%   - Oculus Rift + mounted cameras (http://oculusvr.com/)
 			%       - High Field-of-View (100 degrees)
@@ -57,7 +57,7 @@
 			%          - Limited resolution creates blurriness.
 			%          - Projection can be done from within Unity
 			%          - Potentially requires a lot of calibration
-			% 		- Using Oculus Rift means we need to implement AR functionality 
+			% 		- Using Oculus Rift means we need to implement AR functionality
 			%         ourselves (as optical see-through often has this built-in).
 			%         AR Libraries to consider:
 			We've built a camera rig for the Oculus Rift that can be used to
@@ -101,39 +101,58 @@
 			\subsubsection{Metaio} \label{sssec:metaio}
 				%   - Metaio (http://www.metaio.com/)
 				%       - Mainly oriented towards mobile phones, so may not be suitable for this project
-	
+
 		%   - ... <Add more as needed>
-	
+
 	\section{Situational Awareness} \label{sec:awareness}
 		% Improving situational awareness is part of the main goal of the project.
-		% We should indicate the steps needed to achieve this, which can be based 
+		% We should indicate the steps needed to achieve this, which can be based
 		% on (possibly) a large range of scientific articles.
-		This project is about exploring the different perception of situational 
-		awareness, presence and workload in a physical and an AR environment 
-		(see chapter \ref{cha:problem}). As such, situational awareness plays a 
+		This project is about exploring the different perception of situational
+		awareness, presence and workload in a physical and an AR environment
+		(see chapter \ref{cha:problem}). As such, situational awareness plays a
 		key role in this project.
-		
-	
+
+		Before considering how situational awareness plays a role in this project,
+		it is important to define exactly what situational awareness means.
+		According to \cite{endsley}, situational awareness is defined as "the
+		perception of the elements in the environment within a volume of time and
+		space, comprehension of their meaning, and the projection of their status in
+		the near future". In other words, situational awareness means to
+		fully understand the situation, and be able to predict what is going to
+		happen next. This also includes understanding any risks the situation brings.
+
+
 	\section{Interdependence between players} \label{sec:interdependence}
 		% Creating interdependence between players requires them to work together.
 		% This can be done in several ways. We need to elaborate on the various ways
 		% in which this can be achieved.
-		The problem formulation states that the game is to be employed as an 
+		The problem formulation states that the game is to be employed as an
 		approximation of collaboratively solving complex problems. In order to
 		motivate players of the game to collaborate, there is a need to create
-		a form of interdependence amongst the players. One way to do this is to 
+		a form of interdependence amongst the players. One way to do this is to
 		create an asymmetry between either the information that the players have or
 		an asymmetry of abilities, as explained in the following subsection. 
-		\subsection{Reasons to co-operate}
+		\subsection{Asymmetry of abilities}
 			The main reason to co-operate is the asymmetry of abilities between
-			the players involved. For example: the physically co-located players
-			have the ability to put down mirrors, and the virtually co-located
-			players can then rotate the mirrors. Furthermore, information
-			asymmetry can also be implemented, for example by allowing only the
-			virtually co-located players to see the obstacles. Because of physical
-			separation, asymmetry should be focused on physical abilities.
+			the players involved. For example: physically co-located players can
+			alter the game world, while virtually co-located players can guide
+			characters to a certain goal utilizing the altered game environment.
+			One thing to note is that a "puppet master" scenario should be avoided.
+			This scenario happens when one player can do everything except for a
+			few required tasks, and uses the other players to execute these tasks.
+			In this case, the other players will have less involvement with the
+			shared goal, and the amount of co-operation will go down.
+		\subsection{Asymmetry of information}
+			Asymmetry of information could be used as another reason for the players
+			to co-operate. It means that both types of players (both the physically
+			co-located and the virtually co-located) have different, separate, parts
+			of the information required to complete the game. in this case, a 
+			"puppet master" scenario should also be avoided. Such a scenario can occur
+			here when one type of player has nearly all of the information or can
+			infer nearly all information.
 		
-	\section{Virtual Co-location} \label{sec:virtualcolocation}
+	\include{VirtualCoLocation.tex}
 		Establishing virtual co-location is required to allow physically remote players
 		to play the game together. As such, both the virtualization of the game world and
 		the networking are considered in virtually co-locating physically remote players.
@@ -181,10 +200,10 @@
 		in the virtual world. 
 		
 		% Allowing phsyically remote players to play the game, we need to establish
-		% some idea of virtual co-location. This includes the virtualization of the 
+		% some idea of virtual co-location. This includes the virtualization of the
 		% game world as well as the networking functionality required to establish
 		% the actual connection.
-		
+
 	\section{Analysis Conclusions} \label{sec:analysisconclusion}
 		\include{AnalysisConclusion.tex}
 		% Provides the coices we made for the abovementioned problems along with a short
