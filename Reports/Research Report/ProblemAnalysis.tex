@@ -125,7 +125,14 @@
 			\subsubsection{Metaio} \label{sssec:metaio}
 				%   - Metaio (http://www.metaio.com/)
 				%       - Mainly oriented towards mobile phones, so may not be suitable for this project
+				Metaio is a well-supported project, much like Vuforia. The
+				difference is that it has native support for see-through stereo
+				glasses, which makes it well suitable for both the META One and
+				Oculus Rift solution.
 
+				Unlike any of the other solutions, this frameworks works
+				natively on Unity 64-bit. It does have the limit of only working
+				with OpenGL, but we don't expect that to be a problem.
 
 		%   - ... <Add more as needed>
 
@@ -164,9 +171,9 @@
 		The problem formulation states that the game is to be employed as an
 		approximation of collaboratively solving complex problems. In order to
 		motivate players of the game to collaborate, there is a need to create
-		a form of interdependence amongst the players. One way to do this is to
-		create an asymmetry between either the information that the players have or
-		an asymmetry of abilities, as explained in the following subsection.
+		a form of interdependence amongst the players, as mentioned in \cite{zagal}. One way to do this is to
+		create an asymmetry of abilities. Other ways to create interdependence
+		are explained in the following subsections.
 		\subsection{Asymmetry of abilities}
 			The main reason to co-operate is the asymmetry of abilities between
 			the players involved. For example: physically co-located players can
@@ -181,9 +188,26 @@
 			Asymmetry of information could be used as another reason for the players
 			to co-operate. It means that both types of players (both the physically
 			co-located and the virtually co-located) have different, separate, parts
-			of the information required to complete the game. in this case, a
+			of the information required to complete the game. In this case, a
 			"puppet master" scenario should also be avoided. Such a scenario can occur
 			here when one type of player has nearly all of the information or can
 			infer nearly all information.
+		\subsection{Information overload}
+			Another reason for players to co-operate could be information overload.
+			This means that, while the game could technically be completed by a single
+			player, the amount of incoming information is too large for one player 
+			to handle. An example would be in Call of Duty, where people work together
+			because there are too many enemies that walk around and shoot at them. A
+			single player could potentially beat the game by themselves, but this is
+			not really feasible considering the amount of enemies and the amount of
+			information coming in continuously. 
+
+
+\section{Analysis Conclusions} \label{sec:analysisconclusion}
+We have looked at what type of headset we want to use either a Oculus rift with front mounted cameras or a META One. The advantage of the Oculus being more control over what is seen and the field of view of the virtual world matching that of the augmented world while the disadvantage is that latency can quickly become a problem. The META One meanwhile does not allow us to completely block something out and the field of view of the physical world is larger then that of the virtual world. We have also looked at whatever to use Vuforia, UART or Metaio for object tracking. 
+We also looked at the Interdependence between players and how asymmetry or overload in information or ability can be used to force cooperation we have also looked at various ways we can allow players to feel as they share the same space and how it helps to be able to communicate easily and notice another and how various points of view for the remote player influence this. We have seen how unity has some options for easily setting up networking. 
+% Provides the coices we made for the abovementioned problems along with a short
+% motivation based on the above analysis.
+
 
 	\input{VirtualCoLocation.tex}
