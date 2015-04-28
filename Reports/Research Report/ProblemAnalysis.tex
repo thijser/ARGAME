@@ -125,7 +125,14 @@
 			\subsubsection{Metaio} \label{sssec:metaio}
 				%   - Metaio (http://www.metaio.com/)
 				%       - Mainly oriented towards mobile phones, so may not be suitable for this project
+				Metaio is a well-supported project, much like Vuforia. The
+				difference is that it has native support for see-through stereo
+				glasses, which makes it well suitable for both the META One and
+				Oculus Rift solution.
 
+				Unlike any of the other solutions, this frameworks works
+				natively on Unity 64-bit. It does have the limit of only working
+				with OpenGL, but we don't expect that to be a problem.
 
 		%   - ... <Add more as needed>
 
@@ -194,5 +201,13 @@
 			single player could potentially beat the game by themselves, but this is
 			not really feasible considering the amount of enemies and the amount of
 			information coming in continuously. 
+
+
+\section{Analysis Conclusions} \label{sec:analysisconclusion}
+We have looked at what type of headset we want to use either a Oculus rift with front mounted cameras or a META One. The advantage of the Oculus being more control over what is seen and the field of view of the virtual world matching that of the augmented world while the disadvantage is that latency can quickly become a problem. The META One meanwhile does not allow us to completely block something out and the field of view of the physical world is larger then that of the virtual world. We have also looked at whatever to use Vuforia, UART or Metaio for object tracking. 
+We also looked at the Interdependence between players and how asymmetry or overload in information or ability can be used to force cooperation we have also looked at various ways we can allow players to feel as they share the same space and how it helps to be able to communicate easily and notice another and how various points of view for the remote player influence this. We have seen how unity has some options for easily setting up networking. 
+% Provides the coices we made for the abovementioned problems along with a short
+% motivation based on the above analysis.
+
 
 	\input{VirtualCoLocation.tex}
