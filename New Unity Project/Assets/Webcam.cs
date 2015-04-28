@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 public class Webcam : MonoBehaviour {
+    //FIXME: Remove commented out code
     //public MeshRenderer[] UseWebcamTexture;
     public WebCamTexture webcamTexture;
 
@@ -12,6 +13,7 @@ public class Webcam : MonoBehaviour {
         }
 
         webcamTexture = new WebCamTexture(webcamName);
+        //FIXME: Remove commented out code
         /*foreach (MeshRenderer r in UseWebcamTexture) {
             r.material.mainTexture = webcamTexture;
         }*/
