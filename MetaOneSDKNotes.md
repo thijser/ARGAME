@@ -64,6 +64,8 @@ Comment out the following line in MetaGrid.cs:
 
 	LeanTween.move(o.go, rounded+this.transform.position, 0.1f).setEase( LeanTweenType.linear );
 
+Lastly, a word of advice: SAVE OFTEN. Crashes are very frequent with this setup.
+
 Using the Meta SDK
 ------------------
 Because the Meta SDK is still in Beta, documentation is sometimes unclear, 
