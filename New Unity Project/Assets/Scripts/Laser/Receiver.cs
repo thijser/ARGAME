@@ -5,10 +5,18 @@ namespace Laser {
 
 public class Receiver : MonoBehaviour, ILaserReceiver {
 
-    public ILaserReceiver laserBehavior;
+    public MonoBehaviour laserBehaviour;
 
     public void OnLaserHit(Laser laser) {
-      laserBehavior.OnLaserHit (laser);
+      ILaserReceiver receiver = laserBehaviour as ILaserReceiver;
+      if (receiver != null) 
+      {
+        receiver.OnLaserHit (laser);
+      }
+      else 
+      {
+        Debug.LogError("LaserBehaviour set to a non-ILaserReceiver script");
+      }
     }
 }
 
