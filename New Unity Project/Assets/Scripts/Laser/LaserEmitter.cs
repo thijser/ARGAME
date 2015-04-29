@@ -44,9 +44,9 @@ namespace Laser
         }
     }
 
-      public void AddLaser(Laser l)
+      public void AddLaser(Laser laser)
       {
-        segments.Add(l);
+        segments.Add(laser);
       }
   }
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace Laser
 {
@@ -8,6 +9,10 @@ namespace Laser
 
     public void OnLaserHit(Laser laser)
     {
+      if (laser == null)
+      {
+        throw new ArgumentNullException();
+      }
       Quaternion normal = gameObject.transform.rotation;
       normal.w = 0;
       Quaternion reflection = normal * laser.direction * normal;
