@@ -48,6 +48,22 @@ The `_MetaWorld` Prefab may contain an invalid reference to a script. Look for
 `IRDisplay`. Then go to the MetaDisplay GameObject and set the value of the
 field `IR Display` to `HeatDisplay`.
 
+Extra instructions for Unity 5 64-bit on Windows
+------------------------------------------------
+
+Delete the "_Meta Packages/LeanTween" folder and "Editor" folders to get rid of
+most errors. Set "Api Compatibility Level" in Player Settings to .NET 2.0.
+
+Add a GetHashCode() method to the mMatrix class in the MetaDataStruct.cs file, like:
+
+	public override int GetHashCode() {
+		return (int)(m00 + m01 + m02 + m03 + m10 + m11 + m12 + m13 + m20 + m21 + m22 + m23 + m30 + m32 + m32 + m33);
+	}
+
+Comment out the following line in MetaGrid.cs:
+
+	LeanTween.move(o.go, rounded+this.transform.position, 0.1f).setEase( LeanTweenType.linear );
+
 Using the Meta SDK
 ------------------
 Because the Meta SDK is still in Beta, documentation is sometimes unclear, 
