@@ -5,11 +5,11 @@ namespace Laser {
 
 public class Receiver : MonoBehaviour, ILaserReceiver {
 
-	public ILaserReceiver laserBehavior;
+    public ILaserReceiver laserBehavior;
 
-	public void OnLaserHit(Laser laser) {
-		laserBehavior.OnLaserHit (laser);
-	}
+    public void OnLaserHit(Laser laser) {
+      laserBehavior.OnLaserHit (laser);
+    }
 }
 
 }

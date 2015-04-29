@@ -5,7 +5,7 @@ public class Laser_old : MonoBehaviour {
     public int maxReflections = 10;
     public LineRenderer lineRenderer;
 
-	void Update() {
+    void Update() {
         Vector3 pos = transform.position;
         Vector3 dir = transform.forward;
 
@@ -36,5 +36,5 @@ public class Laser_old : MonoBehaviour {
         for (int i = 0; i < positions.Count; i++) {
             lineRenderer.SetPosition(i, (Vector3) positions[i]);
         }
-	}
+    }
 }

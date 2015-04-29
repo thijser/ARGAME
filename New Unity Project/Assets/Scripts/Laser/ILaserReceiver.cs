@@ -4,7 +4,7 @@ using System.Collections;
 namespace Laser {
 
 public interface ILaserReceiver {
-	void OnLaserHit(Laser laser);
+    void OnLaserHit(Laser laser);
 }
 
 }
