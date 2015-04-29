@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 public class Webcam : MonoBehaviour {
-    //public MeshRenderer[] UseWebcamTexture;
     public WebCamTexture webcamTexture;
 
     public string webcamName;
@@ -12,10 +11,6 @@ public class Webcam : MonoBehaviour {
         }
 
         webcamTexture = new WebCamTexture(webcamName);
-        /*foreach (MeshRenderer r in UseWebcamTexture) {
-            r.material.mainTexture = webcamTexture;
-        }*/
-        //renderer.material.mainTexture = webcamTexture;
         gameObject.GetComponent<Renderer>().material.mainTexture = webcamTexture;
         webcamTexture.Play();
 
