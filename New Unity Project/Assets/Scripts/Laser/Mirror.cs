@@ -13,9 +13,8 @@ namespace Laser
       {
         throw new ArgumentNullException();
       }
-      Quaternion normal = gameObject.transform.rotation;
-      normal.w = 0;
-      Quaternion reflection = normal * laser.direction * normal;
+      Vector3 normal = gameObject.transform.rotation * Vector3.back;
+      Vector3 reflection = Vector3.Reflect (laser.direction, normal);
       laser.Extend(laser.endpoint, reflection);
     }
   }
