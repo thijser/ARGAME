@@ -3,9 +3,6 @@
 [Oo]bj/
 [Bb]uild/
 
-OVR/
-Plugins/
-
 # Blender backup files
 *.blend?
 
@@ -51,6 +48,5 @@ thumbs.db
 *.fdb_latexmk
 *.fls
 
-# Generated Executables and Libaries
+# Generated Executables
 *.exe
-*.dll
