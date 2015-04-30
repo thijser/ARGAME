@@ -12,8 +12,10 @@ public class TargetAnimation : MonoBehaviour {
 
 	}
 	void Update(){
-		if (Input.GetKeyDown ("space"))
+		if (Input.GetKeyDown ("space")) {
 			rev ();
+			Debug.Log("reversing");
+		}
 	}
 	void rev(){
 		anim.Rewind ();
