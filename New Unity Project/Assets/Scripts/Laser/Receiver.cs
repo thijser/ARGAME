@@ -1,24 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Laser
-{
-  public class Receiver : MonoBehaviour, ILaserReceiver
-  {
-
+namespace Laser {
+  ///<summary>
+  ///Dynamic Receiver ready to be used in the Unity Editor.
+  ///Because the Unity editor can only deal with specific types
+  ///and not with interfaces, this class enables registration of
+  ///ILaserReceiver instances from within the Unity Editor.
+  ///
+  ///To use this class, add it to a gameObject in the Editor.
+  ///Also add the class you want to use as a script.
+  ///Then drag the script of the class you want to use into
+  ///the "Laser Behaviour" field in the Unity Editor.
+  ///This will cause the desired behaviour to be invoked when
+  ///the object is hit with a Laser beam.
+  ///</summary>
+  public class Receiver : MonoBehaviour, ILaserReceiver {
+    ///<summary>
+    ///The ILaserReceiver to call when this object is hit by a Laser beam.
+    ///</summary>
     public MonoBehaviour laserBehaviour;
 
-    public void OnLaserHit(Laser laser)
-    {
+    ///<summary>
+    ///Calls the delegate laserBehaviour object if it is a valid
+    ///ILaserReceiver instance. Logs an error message otherwise.
+    ///</summary>
+    public void OnLaserHit(Laser laser) {
       ILaserReceiver receiver = laserBehaviour as ILaserReceiver;
-      if (receiver != null)
-        {
-          receiver.OnLaserHit(laser);
-        } else
-          {
-            Debug.LogError("LaserBehaviour set to a non-ILaserReceiver script");
-          }
+      if (receiver != null) {
+        receiver.OnLaserHit(laser);
+      } else {
+        Debug.LogError("LaserBehaviour set to a non-ILaserReceiver script");
+      }
     }
   }
-
-    }
+}
