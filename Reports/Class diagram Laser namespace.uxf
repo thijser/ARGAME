@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>300</y>
+      <w>300</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>Laser
+elementstyle=autoresize
+--
++ origin: Vector3
++ direction: Quaternion
++ endpoint: Vector3
+- emitter: LaserEmitter
+--
++ Laser(Vector3, Quaternion, LaserEmitter)
+
++ Create()
++ Extend(Vector3, Quaternion): Laser</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>350</x>
+      <y>390</y>
+      <w>200</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Mirror :: MonoBehaviour
+/implements ILaserReceiver/
+elementstyle=autoresize
+--
++ OnLaserHit(Laser) 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>90</y>
+      <w>220</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>LaserEmitter :: MonoBehaviour
+elementstyle=autoresize
+--
++ lineRenderer: LineRenderer
+- segments: List&lt;Laser&gt;
+--
++ Update()
+
++ Clear()
++ MakeLaser()
++ Render()
+
++ AddLaser(Laser)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>500</x>
+      <y>270</y>
+      <w>160</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>/ILaserReceiver/
+elementstyle=autoresize
+--
++ OnLaserHit(Laser) 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>580</x>
+      <y>390</y>
+      <w>240</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Receiver :: MonoBehaviour
+/implements ILaserReceiver/
+elementstyle=autoresize
+--
++ laserBehaviour : ILaserReceiver
+--
++ OnLaserHit(Laser) 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>550</x>
+      <y>290</y>
+      <w>150</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>30;30;30;60;130;60;130;100</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>470</x>
+      <y>290</y>
+      <w>130</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>110;30;110;60;30;60;30;100</additional_attributes>
+  </element>
+</diagram>

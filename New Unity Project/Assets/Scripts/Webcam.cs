@@ -1,39 +1,42 @@
 ﻿using UnityEngine;
 
-public class Webcam : MonoBehaviour {
-    //public MeshRenderer[] UseWebcamTexture;
-    public WebCamTexture webcamTexture;
+public class Webcam : MonoBehaviour
+{
+  public WebCamTexture webcamTexture;
+  public string webcamName;
 
-    public string webcamName;
+  void Start()
+  {
+    foreach (WebCamDevice dev in WebCamTexture.devices)
+      {
+        Debug.Log(dev.name);
+      }
 
-    void Start() {
-        foreach (WebCamDevice dev in WebCamTexture.devices) {
-            Debug.Log(dev.name);
-        }
+      webcamTexture = new WebCamTexture(webcamName);
+      gameObject.GetComponent<Renderer>().material.mainTexture = webcamTexture;
+      webcamTexture.Play();
 
-        webcamTexture = new WebCamTexture(webcamName);
-        /*foreach (MeshRenderer r in UseWebcamTexture) {
-            r.material.mainTexture = webcamTexture;
-        }*/
-        //renderer.material.mainTexture = webcamTexture;
-        gameObject.GetComponent<Renderer>().material.mainTexture = webcamTexture;
-        webcamTexture.Play();
+      Debug.Log(webcamTexture.width + ", " + webcamTexture.height);
+  }
 
-        Debug.Log(webcamTexture.width + ", " + webcamTexture.height);
-    }
-
-    void OnGUI() {
-        if (webcamTexture.isPlaying) {
-            if (GUILayout.Button("Pause")) {
-                webcamTexture.Pause();
+    void OnGUI()
+    {
+      if (webcamTexture.isPlaying)
+        {
+          if (GUILayout.Button("Pause"))
+            {
+              webcamTexture.Pause();
             }
-            if (GUILayout.Button("Stop")) {
+            if (GUILayout.Button("Stop"))
+              {
                 webcamTexture.Stop();
-            }
-        } else {
-            if (GUILayout.Button("Play")) {
-                webcamTexture.Play();
-            }
-        }
+              }
+        } else
+              {
+                if (GUILayout.Button("Play"))
+                  {
+                    webcamTexture.Play();
+                  }
+              }
     }
 }
