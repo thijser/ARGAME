@@ -34,10 +34,6 @@ namespace Laser
 
     public void Render()
     {
-      Debug.Log (segments.Count + " segments:");
-      foreach (Laser seg in segments) {
-        Debug.Log ("Segment: " + seg.origin + " - " + seg.endpoint);
-      }
       lineRenderer.SetVertexCount(segments.Count + 1);
       Vector3 renderOrigin = segments [0].origin + gameObject.transform.forward * RenderOffset;
       lineRenderer.SetPosition (0, renderOrigin);
