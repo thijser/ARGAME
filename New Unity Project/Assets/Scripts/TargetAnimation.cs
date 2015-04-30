@@ -16,7 +16,7 @@ public class TargetAnimation : MonoBehaviour {
 			rev ();
 	}
 	void rev(){
-		anim.rewind ();
+		anim.Rewind ();
 	}
 
 }
