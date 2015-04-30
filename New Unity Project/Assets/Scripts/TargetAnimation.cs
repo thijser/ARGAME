@@ -11,4 +11,12 @@ public class TargetAnimation : MonoBehaviour {
 		anim.Play ("Open");
 
 	}
+	void Update(){
+		if (Input.GetKeyDown ("space"))
+			rev ();
+	}
+	void rev(){
+		anim.rewind ();
+	}
+
 }
