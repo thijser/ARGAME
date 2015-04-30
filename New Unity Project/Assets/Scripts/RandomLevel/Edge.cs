@@ -7,5 +7,17 @@ namespace RandomLevel{
 			from = f;
 			to = t;
 		}
+		Vertex GetFrom(){
+			return from;
+		}
+		Vertex GetTo(){
+			return to;
+		}
+		void SetFrom(Vertex v){
+			from = v;
+		}
+		void SetTo(Vertex v){
+			to = v;
+		}
 	}
 }
