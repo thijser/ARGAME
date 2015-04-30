@@ -36,6 +36,7 @@ namespace Laser
         if (receiver != null) {
           receiver.OnLaserHit (this);
         }
+        // If the Receiver is null, the gameObject simply blocks the laser beam.
       } else {
         this.endpoint = this.origin + (this.direction) * MaxLaserLength;
         emitter.AddLaser (this);
