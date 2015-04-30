@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 namespace RandomLevel{
-	public class Vertex {
+	class Vertex {
 		private int i = 0;
 		private int isWall = 0;
-		private IList<Edge> edges = new List<Edge>();
+		private IList<Vertex> adjacent = new List<Vertex>();
 		public Vertex(){
 		}
 		void SetVisited()
@@ -19,9 +19,9 @@ namespace RandomLevel{
 		{
 			i = 0;
 		}
-		void AddEdge(Edge e)
+		public void AddAdjacent(Vertex v)
 		{
-			edges.Add(e);
+			adjacent.Add(v);
 		}
 		void SetWall(int w) {
 			isWall = w;
