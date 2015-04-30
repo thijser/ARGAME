@@ -1,15 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Laser {
+namespace Laser
+{
+  public class Receiver : MonoBehaviour, ILaserReceiver
+  {
 
-public class Receiver : MonoBehaviour, ILaserReceiver {
+    public MonoBehaviour laserBehaviour;
 
-	public ILaserReceiver laserBehavior;
+    public void OnLaserHit(Laser laser)
+    {
+      ILaserReceiver receiver = laserBehaviour as ILaserReceiver;
+      if (receiver != null)
+        {
+          receiver.OnLaserHit(laser);
+        } else
+          {
+            Debug.LogError("LaserBehaviour set to a non-ILaserReceiver script");
+          }
+    }
+  }
 
-	public void OnLaserHit(Laser laser) {
-		laserBehavior.OnLaserHit (laser);
-	}
-}
-
-}
+    }
