@@ -18,7 +18,7 @@ namespace Laser
     {
       if (laser == null)
       {
-        throw new ArgumentNullException();
+        throw new ArgumentNullException("laser");
       }
       Vector3 normal = gameObject.transform.rotation * Vector3.back;
       Vector3 reflection = Vector3.Reflect (laser.direction, normal);
