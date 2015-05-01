@@ -14,12 +14,12 @@ public class NetworkManager : MonoBehaviour
     MasterServer.RegisterHost(typeName, gameName);
   }
 
-  void OnServerInitialized()
+  public void OnServerInitialized()
   {
     Debug.Log("Server Initializied");
   }
 
-  void OnGUI()
+  public void OnGUI()
   {
     if (!Network.isClient && !Network.isServer)
     {
@@ -49,7 +49,7 @@ public class NetworkManager : MonoBehaviour
     MasterServer.RequestHostList(typeName);
   }
 
-  void OnMasterServerEvent(MasterServerEvent msEvent)
+  public void OnMasterServerEvent(MasterServerEvent msEvent)
   {
     if (msEvent == MasterServerEvent.HostListReceived)
     {
@@ -62,7 +62,7 @@ public class NetworkManager : MonoBehaviour
     Network.Connect(hostData);
   }
 
-  void OnConnectedToServer()
+  public void OnConnectedToServer()
   {
     Debug.Log("Server Joined");
   }
