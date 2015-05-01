@@ -145,24 +145,49 @@
 
 		%   - ... <Add more as needed>
 		\subsection{Google Cardboard} \label{ssec:cardboard}
+			Google Cardboard can be used to implement the same concept for
+			augmented reality as the Oculus Rift. It allows you to turn a
+			smartphone into a VR headset by mounting lenses in front of it. This
+			can then be used to implement AR by overlaying 3D objects over the
+			phone camera image. \cite{cardboard}
 
-		Google Cardboard can be used to implement the same concept for augmented
-		reality as the Oculus Rift. It allows you to turn a smartphone into a VR
-		headset by mounting lenses in front of it. This can then be used to
-		implement AR by overlaying 3D objects over the phone camera image.
-		\cite{cardboard}
+			The advantage of this approach over the Oculus Rift is that it's
+			much more convenient. The solution would be completely mobile,
+			meaning that there are no cables getting in the way (a problem we
+			ran into during testing). It's also much cheaper, making it easier
+			for local players to join by simply owning a smartphone. The
+			disadvantage is that there would be no depth, since most smartphones
+			don't have a stereo camera.
 
-		The advantage of this approach over the Oculus Rift is that it's much
-		more convenient. The solution would be completely mobile, meaning that
-		there are no cables getting in the way (a problem we ran into during
-		testing). It's also much cheaper, making it easier for local players to
-		join by simply owning a smartphone. The disadvantage is that there would
-		be no depth, since most smartphones don't have a stereo camera.
+			The libraries mentioned in the previous section are all suitable for
+			mobile usage. In fact, they were designed for it and just happen to
+			allow for desktop usage as well. This currently seems like the most
+			promising alternative, but it will require further testing.
 
-		The libraries mentioned in the previous section are all suitable for
-		mobile usage. In fact, they were designed for it and just happen to
-		allow for desktop usage as well. This currently seems like the most
-		promising alternative, but it will require further testing.
+		\subsection{Markers} \label{ssec:markers}
+			An essential component of augmented reality systems are markers.
+			Markers are physical objects that are used by the augmented reality
+			framework to establish the position of the player and objects in the
+			virtual world (tracking). There are two main types of tracking:
+
+			\begin{itemize}
+				\item \textbf{Marker tracking:} Special asymmetric patterns
+					similar to QR codes are printed to cards. These are designed
+					to be efficiently detected by a computer
+
+				\item \textbf{Markerless tracking:} Tracking with arbitrary
+					images as opposed to specially designed markers, therefore
+					known as markerless tracking. This name is a bit misleading,
+					because these images are still typically chosen based on
+					properties like contrasting colors and sharp edges that are
+					easier to detect.
+			\end{itemize}
+
+			The advantage of markerless tracking is that they look more
+			aesthetically pleasing to the players, but the performance may be
+			worse than specially designed patterns. For that reason, we're going
+			to use a hybrid form that combines an easy to scan pattern with a
+			nice looking image of the object it represents (like a mirror).
 
 	\section{Situational Awareness} \label{sec:awareness}
 		% Improving situational awareness is part of the main goal of the
