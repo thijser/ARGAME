@@ -10,7 +10,8 @@ namespace Laser {
         ///<summary>
         ///Called every time the object is hit by a laser beam.
         ///</summary>
-        ///<param name="laser">The Laser object that hits this object</param>
+        ///<param name="sender">The sender of the event.</param>
+        ///<param name="args">The event arguments.</param>
         void OnLaserHit(object sender, HitEventArgs args);
     }
 
