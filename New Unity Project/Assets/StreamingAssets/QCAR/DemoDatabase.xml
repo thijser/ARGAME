@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="marker3_rainbow" size="10.000000 9.913644" />
+    <ImageTarget name="marker2_metaioman" size="10.000000 10.069565" />
+    <ImageTarget name="marker1_flowers" size="10.000000 10.101695" />
+  </Tracking>
+</QCARConfig>

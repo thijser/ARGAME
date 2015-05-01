@@ -1,9 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 namespace RandomLevel{
-	class SquareGraph {
+
+	///<summary>
+	///Represents a grid-shaped graph with connections
+	///in the four cardinal directions.
+	///</summary>
+	public class SquareGraph {
 		private Vertex[,] squareMap;
 		private int maxrow, maxcol;
+		
+		///<summary>
+		///Creates a new SquareGraph instance of the specified size.
+		///</summary>
+		///<param name="rows">The amount of rows.</param>
+		///<param name="cols">The amount of columns.</param>
 		public SquareGraph(int rows, int cols){
 			maxrow = rows - 1;
 			maxcol = cols - 1;

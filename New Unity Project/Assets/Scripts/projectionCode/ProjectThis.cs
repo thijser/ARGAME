@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class ProjectThis : MonoBehaviour {
-	projectioncode Projector; 
+	public projectioncode Projector; 
 
 	
 	// Update is called once per frame
 	void Update () {
-		transform=Projector.projectTransform(transform);
+		Projector.projectTransform(transform);
 	}
 }

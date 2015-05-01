@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Laser
-{
-  ///<summary>
-  ///An object that is manipulated by a Laser beam.
-  ///</summary>
-  ///<seealso cref="Laser.Laser" />
-  public interface ILaserReceiver
-  {
+namespace Laser {
     ///<summary>
-    ///Called every time the object is hit by a laser beam.
+    ///An object that is manipulated by a Laser beam.
     ///</summary>
-    ///<param name="laser">The Laser object that hits this object</param>
-    void OnLaserHit(Laser laser);
-  }
+    ///<seealso cref="Laser.Laser" />
+    public interface ILaserReceiver {
+        ///<summary>
+        ///Called every time the object is hit by a laser beam.
+        ///</summary>
+        ///<param name="sender">The sender of the event.</param>
+        ///<param name="args">The event arguments.</param>
+        void OnLaserHit(object sender, HitEventArgs args);
+    }
 
 }

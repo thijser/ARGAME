@@ -21,10 +21,11 @@
 		As such, careful analysis has to be done as to how the AR functionality
 		can be best implemented to fully address the context of this project.
 
-		We consider two choices for implementing AR functionality: The META One,
-		an optical see-through device (\ref{ssec:metaone}), and the Oculus Rift
-		Virtual Reality glasses in conjunction with mounted cameras
-		(\ref{ssec:oculusrift}).
+		We consider three choices for implementing AR functionality: The META
+		One (an optical see-through device (\ref{ssec:metaone})), the Oculus
+		Rift virtual reality glasses in conjunction with mounted cameras
+		(\ref{ssec:oculusrift}) and a smartphone with Google Cardboard
+		(\ref{ssec:cardboard}).
 
 		% Hardware devices to consider:
 		\subsection{META One} \label{ssec:metaone}
@@ -138,11 +139,30 @@
 				glasses, which makes it well suitable for both the META One and
 				Oculus Rift solution. \cite{metaio}
 
-				Unlike any of the other solutions, this frameworks works
+				Unlike any of the other solutions, this framework works
 				natively on Unity 64-bit. It does have the limit of only working
 				with OpenGL, but we don't expect that to be a problem.
 
 		%   - ... <Add more as needed>
+		\subsection{Google Cardboard} \label{ssec:cardboard}
+
+		Google Cardboard can be used to implement the same concept for augmented
+		reality as the Oculus Rift. It allows you to turn a smartphone into a VR
+		headset by mounting lenses in front of it. This can then be used to
+		implement AR by overlaying 3D objects over the phone camera image.
+		\cite{cardboard}
+
+		The advantage of this approach over the Oculus Rift is that it's much
+		more convenient. The solution would be completely mobile, meaning that
+		there are no cables getting in the way (a problem we ran into during
+		testing). It's also much cheaper, making it easier for local players to
+		join by simply owning a smartphone. The disadvantage is that there would
+		be no depth, since most smartphones don't have a stereo camera.
+
+		The libraries mentioned in the previous section are all suitable for
+		mobile usage. In fact, they were designed for it and just happen to
+		allow for desktop usage as well. This currently seems like the most
+		promising alternative, but it will require further testing.
 
 	\section{Situational Awareness} \label{sec:awareness}
 		% Improving situational awareness is part of the main goal of the
