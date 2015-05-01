@@ -88,7 +88,7 @@ public struct OVRUnityVersion : IComparable<OVRUnityVersion>
 	public char type { get; private set; }
 	public int release { get; private set; }
 
-	public OVRUnityVersion(string unityVersion)
+	public OVRUnityVersion(string unityVersion) : this()
 	{
 		// Split the version string at non-numbers.
 		string nonNumbers = "[^0-9]";
@@ -135,7 +135,7 @@ public struct OVRUnityVersion : IComparable<OVRUnityVersion>
 			Debug.LogError("Encountered invalid Unity version string - Interpreted: " + unityVersion + " as: " + this.ToString());
 	}
 
-	public OVRUnityVersion(int major, int minor, int change, char type, int release)
+	public OVRUnityVersion(int major, int minor, int change, char type, int release) : this()
 	{
 		this.major = major;
 		this.minor = minor;

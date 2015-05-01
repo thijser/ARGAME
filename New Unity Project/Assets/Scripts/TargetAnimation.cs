@@ -2,22 +2,21 @@
 using System.Collections;
 
 public class TargetAnimation : MonoBehaviour {
-	Animation anim;
-	public AnimationClip Open; 
-	// Use this for initialization
-	void Start () {
+	private Animation anim;
+	public AnimationClip Open;
+
+	public void Start () {
 		anim = GetComponent<Animation>();
 		anim.AddClip (Open, "Open");
 		anim.Play ("Open");
-
 	}
-	void Update(){
+	public void Update() {
 		if (Input.GetKeyDown ("space")) {
-			rev ();
+			Rewind ();
 			Debug.Log("reversing");
 		}
 	}
-	void rev(){
+	public void Rewind() {
 		anim.Rewind ();
 	}
 

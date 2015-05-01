@@ -33,7 +33,7 @@ namespace RandomLevel{
 				squareMap [i, j].AddAdjacent (squareMap [i + 1, j]);
 		}
 		private bool isValid(int row, int col){
-			return !(row < 0 || row > maxrow || col < 0 || col > maxcol); 
+			return !(row < 0 || row > maxrow || col < 0 || col > maxcol);
 		}
 	}
 }
