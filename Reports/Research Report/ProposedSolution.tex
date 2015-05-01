@@ -3,8 +3,7 @@
 	% The description is taken from the Product Plan. This section also
 	% motivates why the proposed solution is a good solution.
 
-\section{Laser mirror game}
-	%TODO: Add references to Problem Analysis chapter where appropriate.
+\section{Laser mirror game} \label{sec:lasergame}
 	The goal of the game is to solve a puzzle by controlling laser beams
 	using mirrors in such a way that a predefined target is hit. The game
 	can be played by one or more local players and one or more remote players.
@@ -54,7 +53,7 @@
 	interdependence that exists in the crime scene example as given in the
 	problem formulation (see chapter \ref{cha:problem}).
 
-\section{Platformer}
+\section{Platformer} \label{sec:platformer}
 	The game starts with the avatar of the remote player appearing
 	on the table and a goal appearing above the table. The local
   players have a pile of blocks, each of these blocks exists both
@@ -65,28 +64,34 @@
 	The local and remote player must work together in order to get the
 	virtual avatar to the goal.
 
-	Team work is heavily encouraged due to this form of ability
-	asymmetry and shared goal. Ability asymmetry is caused by the remote
-	player not being able to place any blocks.
+	Team work is heavily encouraged due to the interdependence between the
+	players: There is information asymmetry (section \ref{ssec:information})
+	because the remote player can see some pre-existing blocks the local
+	player cannot see, and the fact that local players can place new blocks
+	in the game world provides ability asymmetry (section \ref{ssec:ability}).
 
-\section{FPS Survival game}
-	Similar to the platformer, the remote players are represented
-	as avatars controlled from the first person perspective and
-	the local player can place blocks. What is different however
-	is that the goal of the game is no longer to reach a given
-	location but to work together in order to protect a given
-	structure from hostile entities. Doing so requires the
-	cooperation of the remote players who can most easily damage
-	the hostile entities and the local players who can hinder the
-	movement. Monsters continue to grow stronger until they eventually
-	overwhelm the players.
-	The difference between the abilities of a remote player and
-	a local player give rise to an ability asymmetry and the fact
-	that the monsters keep getting stronger means that eventually
-	there will also be a difficulty overload forcing extra
-	team work.
+\section{FPS Survival game} \label{sec:fpssurvival}
+	The goal of the game is to protect a virtual structure from enemies. These
+	enemies will come from multiple sides to attack the structure while the
+	remote players have to stop them. For doing so, they require the aid of the
+	local players, who can place blocks (similar to the platformer game, section
+	\ref{sec:platformer}) to block the path of the enemies.
 
-\section{Tower defense}
+	The local players can block the path of the enemies, but they cannot defeat
+	them. The remote players, who view the game from a first-person perspective,
+	have to defeat the enemies. Since the perspective of the remote players is
+	limited (also partly because of the blocks placed by local players), they
+	require information from the local players, who view the scene from above
+	and as such have a good view of the entire situation. This creates
+	information asymmetry between the players (section \ref{ssec:information}).
+
+	To keep the game challenging, the enemies will grow stronger over time,
+	requiring the cooperation between the local and remote players to improve
+	as well. Because of the fact that local players can only defeat the enemies,
+	and the remote players can block their path, there is a form of ability
+	asymmetry between the local and remote players (section \ref{ssec:ability}).
+
+\section{Tower defense} \label{sec:towerdefense}
 	The local players start off with a number of towers each
 	which have certain strengths and abilities. They must place
 	these towers on a table in front of them. What they cannot
@@ -96,6 +101,16 @@
 	positions to be able to defeat the enemies before they escape
 	by communicating the ideal locations of the
 	towers and paths that the hostile entities will take.
+
+	This game idea is relatively simple, and because of the simplicity,
+	complexity can easily be added to make the game more engaging. For
+	example, towers could be upgradeable, utilizing resources that
+	could be gained either by defeating individual enemies or by defeating
+	a wave of enemies. These resources could then be used to upgrade
+	tower types. As these resources are shared, and they can only be
+	used once, players must work together to choose the best upgrade
+	available in the given scenario. Enemies should also get procedurally
+	stronger because of the increased capabilities of the towers.
 
 	The problem with this idea is that it will very likely create a
 	\emph{puppet master} scenario where the remote player takes charge
@@ -134,7 +149,7 @@
 	on a mine. Finally, a space large enough for a field would likely have to be
 	found outside and sunlight doesn't play well with augmented reality devices.
 
-\section{The chosen idea}
+\section{The chosen idea} \label{sec:chosenidea}
 	The idea that is chosen is the mirror game idea. The reason for this
 	decision is that it is a relatively simple idea, it can create hard
 	to solve puzzles, and extra complexity can easily be added. It also
