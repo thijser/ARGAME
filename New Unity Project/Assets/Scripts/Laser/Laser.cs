@@ -60,9 +60,7 @@ namespace Laser {
                 Collider target = hit.collider;
                 Receiver receiver = target.GetComponent<Receiver>();
                 if (receiver != null) {
-                    HitEventArgs args = new HitEventArgs();
-                    args.laser = this;
-                    args.normal = hit.normal;
+                    HitEventArgs args = new HitEventArgs(this, hit.normal);
                     receiver.OnLaserHit(this, args);
                 }
                 // If the Receiver is null, the gameObject simply blocks the laser beam.

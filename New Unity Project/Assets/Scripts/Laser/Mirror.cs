@@ -11,10 +11,11 @@ namespace Laser {
         ///Reflects the argument Laser beam and creates a new Laser beam
         ///in the reflected direction.
         ///</summary>
-        ///<param name="laser">The Laser beam that hits this Mirror.</param>
+        ///<param name="sender">The sender of the event.</param>
+        ///<param name="args">The EventArgs object that describes the event.</param>
         public void OnLaserHit(object sender, HitEventArgs args) {
             if (args == null) {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("args");
             }
             Vector3 reflection = Vector3.Reflect(args.laser.direction, args.normal);
             args.laser.Extend(args.laser.endpoint, reflection);

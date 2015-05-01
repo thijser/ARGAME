@@ -16,6 +16,7 @@ namespace Laser {
     ///the object is hit with a Laser beam.
     ///</summary>
     public class Receiver : MonoBehaviour, ILaserReceiver {
+
         ///<summary>
         ///The ILaserReceiver to call when this object is hit by a Laser beam.
         ///</summary>
@@ -25,6 +26,8 @@ namespace Laser {
         ///Calls the delegate laserBehaviour object if it is a valid
         ///ILaserReceiver instance. Logs an error message otherwise.
         ///</summary>
+        ///<param name="sender">The sender of the event</param>
+        ///<param name="args">The HitEventArgs describing the event</param>
         public void OnLaserHit(object sender, HitEventArgs args) {
             ILaserReceiver receiver = laserBehaviour as ILaserReceiver;
             if (receiver != null) {
