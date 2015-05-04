@@ -13,7 +13,7 @@ namespace Laser {
         ///<summary>
         ///The maximum distance the laser beam will check for collisions.
         ///<summary>
-        public const float MaxRaycastDist = 20.0f;
+        public const float MaxRaycastDist = 1000.0f;
 
         ///<summary>
         ///The origin point of this Laser beam.
