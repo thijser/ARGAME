@@ -44,7 +44,8 @@ namespace RandomLevel{
 		/// <summary>
 		/// Returns the randomly generated map, in SquareGraph form.
 		/// </summary>
-		public void returnRandomMap(){
+		/// <returns>The randomly generated map.</returns>
+		public SquareGraph ReturnRandomMap(){
 			return sg;
 		}
 		/// <summary>

@@ -35,7 +35,7 @@ namespace RandomLevel{
 		/// <param name="coord">The coordinate of the vertex.</param>
 		internal Vertex GetVertexAtCoords(Coordinate coord)
 		{
-			if (!IsValid (coord.row, coord.col)) {
+			if (!IsValid (coord)) {
 				throw new ArgumentException ();
 			}
 			return squareMap [coord.row, coord.col];
