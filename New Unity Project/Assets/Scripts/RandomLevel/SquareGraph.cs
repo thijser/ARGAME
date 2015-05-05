@@ -8,7 +8,8 @@ namespace RandomLevel{
 	///</summary>
 	public class SquareGraph {
 		private Vertex[,] squareMap;
-		private int maxrow, maxcol;
+		public int maxrow { get; set;}
+		public int maxcol { get; set;}
 		
 		///<summary>
 		///Creates a new SquareGraph instance of the specified size.
@@ -16,35 +17,26 @@ namespace RandomLevel{
 		///<param name="rows">The amount of rows.</param>
 		///<param name="cols">The amount of columns.</param>
 		public SquareGraph(int rows, int cols){
-			maxrow = rows - 1;
-			maxcol = cols - 1;
+			maxrow = rows;
+			maxcol = cols;
 			squareMap = new Vertex[rows,cols];
 			for(int i = 0; i < rows; i++){
 				for(int j = 0; j < cols; j++){
 					squareMap[i,j] = new Vertex();
 				}
 			}
-			ConnectFull ();
 		}
-		private void ConnectFull(){
-			for(int i = 0; i <= maxrow; i++){
-				for(int j = 0; j <= maxcol; j++){
-					Connect(i,j);
-				}
+		Vertex getVertexAtCoords(Coordinate coord)
+		{
+			if (!IsValid (coord.row, coord.col)) {
+				throw new UnityException();
 			}
+			int r = coord.row;
+			int c = coord.col;
+			return squareMap [r, c];
 		}
-		private void Connect(int i, int j){
-			if (isValid (i, j - 1))
-				squareMap [i, j].AddAdjacent (squareMap [i, j - 1]);
-			if (isValid (i, j + 1))
-				squareMap [i, j].AddAdjacent (squareMap [i, j + 1]);
-			if (isValid (i - 1, j))
-				squareMap [i, j].AddAdjacent (squareMap [i - 1, j]);
-			if (isValid (i + 1, j))
-				squareMap [i, j].AddAdjacent (squareMap [i + 1, j]);
-		}
-		private bool isValid(int row, int col){
-			return !(row < 0 || row > maxrow || col < 0 || col > maxcol);
+		bool IsValid(int row, int col){
+			return !(row < 0 || row >= maxrow || col < 0 || col >= maxcol);
 		}
 	}
 }
