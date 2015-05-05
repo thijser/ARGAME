@@ -13,7 +13,7 @@ namespace RandomLevel
 {
 	public class MapTesting : MonoBehaviour
 	{
-		void Update() {
+		static void main(string[] args){
 			new RandomLevelGenerator (21, 21);
 		}
 	}

@@ -1,4 +1,3 @@
-using UnityEngine;
 using System.Collections;
 using System;
 namespace RandomLevel{
@@ -13,6 +12,8 @@ namespace RandomLevel{
 	///</summary>
 	public class RandomLevelGenerator {
 		private Coordinate targetCoord;
+		Random r;
+		public SquareGraph sg { get; set; }
 		///<summary>
 		///Creates a new RandomLevelGenerator with the given
 		///size of the playing field.
@@ -20,7 +21,8 @@ namespace RandomLevel{
 		///<param name="rows">The amount of rows</param>
 		///<param name="cols">The amount of columns</param>
 		public RandomLevelGenerator(int rows, int cols){
-			SquareGraph sg = new SquareGraph (rows, cols);
+			sg = new SquareGraph (rows, cols);
+			r = new Random (Environment.TickCount);
 			run(sg);
 		}
 		public void run(SquareGraph sg) {
@@ -42,12 +44,7 @@ namespace RandomLevel{
 		/// <param name="min">The minimum value, inclusionary.</param>
 		/// <param name="max">The maximum value, exclusionary.</param>
 		private int randInt(int min, int max) {
-			// nextInt is normally exclusive of the top value,
-			// so add 1 to make it inclusive
-			// (deleted here, as it would cause problems).
-			int randomNum = UnityEngine.Random.Range (min, max);
-			
-			return randomNum;
+			return r.Next (min, max);
 		}
 		Quadrant DetermineQuad(int i){
 			if (i == 0)
@@ -58,7 +55,7 @@ namespace RandomLevel{
 				return Quadrant.SOUTHEAST;
 			else
 				return Quadrant.SOUTHWEST;
-
+			
 		}
 		private void findPath(SquareGraph sg, Quadrant q) {
 			if(q == Quadrant.NORTHWEST) {
@@ -146,10 +143,14 @@ namespace RandomLevel{
 			}
 		}
 		private void addRandomWalls(SquareGraph sg) {
-			int max = (int) (sg.maxrow*sg.maxcol*0.4);
+			int max = (int) (sg.maxrow*sg.maxcol*4)/10;
 			for(int i = 0; i < max; i++) {
 				int randRow = randInt(0,sg.maxrow);
 				int randCol = randInt(0,sg.maxcol);
+				Console.Write (randRow);
+				Console.Write (" ");
+				Console.Write (randCol);
+				Console.WriteLine ();
 				if(isNotYetOccupied(sg.GetVertexAtCoords(new Coordinate(randRow, randCol)))){
 					sg.GetVertexAtCoords(new Coordinate(randRow, randCol)).IsWall = true;
 				}
@@ -174,7 +175,7 @@ namespace RandomLevel{
 						Console.Write(".");
 					}
 				}
-				Console.Write("/n");
+				Console.Write("\n");
 			}
 		}
 	}
