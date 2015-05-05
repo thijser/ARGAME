@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 namespace RandomLevel{
 	enum Quadrant {
@@ -26,9 +26,5 @@ namespace RandomLevel{
 		///</summary>
 		///<param name="rows">The amount of rows</param>
 		///<param name="cols">The amount of columns</param>
-		public RandomLevelGenerator(int rows, int cols){
-			SquareGraph sg = new SquareGraph (rows, cols);
-
-		}
-	}
+		
 }

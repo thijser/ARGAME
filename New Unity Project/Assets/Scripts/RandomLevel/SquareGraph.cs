@@ -2,20 +2,20 @@
 using System.Collections;
 namespace RandomLevel{
 
-	///<summary>
-	///Represents a grid-shaped graph with connections
-	///in the four cardinal directions.
-	///</summary>
+	/// <summary>
+	/// Represents a grid-shaped graph with connections
+	/// in the four cardinal directions.
+	/// </summary>
 	public class SquareGraph {
 		private Vertex[,] squareMap;
 		public int maxrow { get; set;}
 		public int maxcol { get; set;}
 		
-		///<summary>
-		///Creates a new SquareGraph instance of the specified size.
-		///</summary>
-		///<param name="rows">The amount of rows.</param>
-		///<param name="cols">The amount of columns.</param>
+		/// <summary>
+		/// Creates a new SquareGraph instance of the specified size.
+		/// </summary>
+		/// <param name="rows">The amount of rows.</param>
+		/// <param name="cols">The amount of columns.</param>
 		public SquareGraph(int rows, int cols){
 			maxrow = rows;
 			maxcol = cols;

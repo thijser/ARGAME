@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
-  <Tracking>
-    <ImageTarget name="metaioman_marker" size="10.000000 10.274443" />
-    <ImageTarget name="mirror_marker" size="50.000000 67.992424" />
-    <ImageTarget name="OVmarker" size="10.000000 4.696970" />
-    <ImageTarget name="AR_Marker_PNG_24" size="100.000000 100.000000" />
-  </Tracking>
-</QCARConfig>
