@@ -10,6 +10,9 @@
 using System;
 namespace RandomLevel
 {
+	/// <summary>
+	/// An enum that gives several properties of a point in the map.
+	/// </summary>
 	public enum Property
 	{
 		WALL,

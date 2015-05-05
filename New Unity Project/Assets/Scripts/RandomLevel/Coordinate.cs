@@ -10,12 +10,20 @@
 using System;
 namespace RandomLevel
 {
+	/// <summary>
+	/// A coordinate class, to specify a coordinate in the map
+	/// </summary>
 	public class Coordinate {
 		public int row { get; set;}
 		public int col { get; set;}
-		public Coordinate(int xcoor, int ycoor){
-			row = xcoor;
-			col = ycoor;
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RandomLevel.Coordinate"/> class.
+		/// </summary>
+		/// <param name="_row"> The row coordinate.</param>
+		/// <param name="_col"> The column coordinate.</param>
+		public Coordinate(int _row, int _col){
+			row = _row;
+			col = _col;
 		}
 	}
 }

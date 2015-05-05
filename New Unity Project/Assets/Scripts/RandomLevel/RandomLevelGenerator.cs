@@ -12,8 +12,8 @@ namespace RandomLevel{
 	///</summary>
 	public class RandomLevelGenerator {
 		private Coordinate targetCoord;
-		Random r;
-		SquareGraph sg { get; set; }
+		private Random r;
+		private SquareGraph sg;
 		///<summary>
 		///Creates a new RandomLevelGenerator with the given
 		///size of the playing field.
@@ -25,27 +25,42 @@ namespace RandomLevel{
 			r = new Random (Environment.TickCount);
 			run();
 		}
+		/// <summary>
+		/// Runs the map creation procedure. Called during construction
+		/// of the object.
+		/// </summary>
 		public void run() {
 			//Specify row and column coordinate of target.
 			int targetRowCoord = sg.maxrow/2;
 			int targetColCoord = sg.maxcol/2;
 			targetCoord = new Coordinate(targetRowCoord, targetColCoord);
-			//Creating interim positions.
 			sg.GetVertexAtCoords(targetCoord).prop = Property.TARGET;
+			//Determine first quadrant to plan a route to.
 			int firstQuad = randInt(0,4);
 			Quadrant q = DetermineQuad (firstQuad);
 			findPath(q);
 			printGraph();
 		}
 		/// <summary>
+		/// Returns the randomly generated map, in SquareGraph form.
+		/// </summary>
+		public void returnRandomMap(){
+			return sg;
+		}
+		/// <summary>
 		/// Generates a random integer between min and max - 1.
 		/// </summary>
-		/// <returns>The int.</returns>
+		/// <returns>The random integer.</returns>
 		/// <param name="min">The minimum value, inclusionary.</param>
 		/// <param name="max">The maximum value, exclusionary.</param>
 		private int randInt(int min, int max) {
 			return r.Next (min, max);
 		}
+		/// <summary>
+		/// Determines the quadrant from the given integer.
+		/// </summary>
+		/// <returns>The corresponding quadrant.</returns>
+		/// <param name="i">The integer.</param>
 		Quadrant DetermineQuad(int i){
 			if (i == 0)
 				return Quadrant.NORTHWEST;
@@ -57,6 +72,10 @@ namespace RandomLevel{
 				return Quadrant.SOUTHWEST;
 			
 		}
+		/// <summary>
+		/// Constructs a path from target to laser.
+		/// </summary>
+		/// <param name="q"> The first quadrant.</param>
 		private void findPath(Quadrant q) {
 			if(q == Quadrant.NORTHWEST) {
 				FindPathNorthWest ();
