@@ -26,7 +26,7 @@ namespace RandomLevel{
 				}
 			}
 		}
-		Vertex getVertexAtCoords(Coordinate coord)
+		internal Vertex GetVertexAtCoords(Coordinate coord)
 		{
 			if (!IsValid (coord.row, coord.col)) {
 				throw new UnityException();

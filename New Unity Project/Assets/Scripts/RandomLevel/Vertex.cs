@@ -30,4 +30,5 @@ namespace RandomLevel{
 		///Adds the given Vertex as a neighbour.
 		///</summary>
 		///<param name="vertex">The Vertex to add, not null.</param>
+	}
 }
