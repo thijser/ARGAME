@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System;
 namespace RandomLevel{
-
+	
 	/// <summary>
 	/// Represents a grid-shaped graph with connections
 	/// in the four cardinal directions.
@@ -29,7 +29,7 @@ namespace RandomLevel{
 		internal Vertex GetVertexAtCoords(Coordinate coord)
 		{
 			if (!IsValid (coord.row, coord.col)) {
-				throw new UnityException();
+				throw new ArgumentException ();
 			}
 			int r = coord.row;
 			int c = coord.col;
