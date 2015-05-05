@@ -1,23 +1,48 @@
-﻿using UnityEngine;
 using System.Collections;
+﻿using UnityEngine;
 
-public class TargetAnimation : MonoBehaviour {
+/// <summary>
+/// Provides an Animation for the Laser Target.
+/// </summary>
+public class TargetAnimation : MonoBehaviour
+{
+    /// <summary>
+    /// The Animation for the Laser Target.
+    /// </summary>
 	private Animation anim;
-	public AnimationClip Open;
 
-	public void Start () {
-		anim = GetComponent<Animation>();
-		anim.AddClip (Open, "Open");
-		anim.Play ("Open");
-	}
-	public void Update() {
-		if (Input.GetKeyDown ("space")) {
-			Rewind ();
-			Debug.Log("reversing");
-		}
-	}
-	public void Rewind() {
-		anim.Rewind ();
-	}
+    /// <summary>
+    /// The AnimationClip for the LaserTarget.
+    /// </summary>
+	public AnimationClip OpenClip;
 
+    /// <summary>
+    /// Starts the Animation.
+    /// </summary>
+	public void Start()
+    {
+		this.anim = GetComponent<Animation>();
+		this.anim.AddClip(this.OpenClip, "Open");
+        this.anim.Play("Open");
+    }
+
+    /// <summary>
+    /// Rewinds the Animation if (and only if) the space bar is pressed.
+    /// </summary>
+    public void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            this.Rewind();
+            Debug.Log("reversing");
+        }
+    }
+
+    /// <summary>
+    /// Rewinds the Animation.
+    /// </summary>
+    public void Rewind()
+    {
+        this.anim.Rewind();
+    }
 }
