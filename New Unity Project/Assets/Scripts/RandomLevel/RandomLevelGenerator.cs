@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 namespace RandomLevel{
 	enum Quadrant {
 		NORTHWEST,
@@ -44,7 +45,7 @@ namespace RandomLevel{
 			// nextInt is normally exclusive of the top value,
 			// so add 1 to make it inclusive
 			// (deleted here, as it would cause problems).
-			int randomNum = Random.Range (min, max);
+			int randomNum = UnityEngine.Random.Range (min, max);
 			
 			return randomNum;
 		}
@@ -58,6 +59,123 @@ namespace RandomLevel{
 			else
 				return Quadrant.SOUTHWEST;
 
+		}
+		private void findPath(SquareGraph sg, Quadrant q) {
+			if(q == Quadrant.NORTHWEST) {
+				int randRow = randInt(0,targetCoord.row);
+				int randCol = randInt(0,targetCoord.col);
+				int spare;
+				pathFromToCol(sg, targetCoord.row, targetCoord.col - 1, randCol);
+				pathFromToRow(sg, targetCoord.row, randRow, randCol);
+				spare = randCol;
+				randCol = randInt(targetCoord.col + 1, sg.maxcol);
+				pathFromToCol(sg, randRow, spare, randCol);
+				spare = randRow;
+				randRow = randInt(targetCoord.row+1, sg.maxrow);
+				pathFromToRow(sg, spare, randRow, randCol);
+				sg.GetVertexAtCoords(new Coordinate(randRow,0)).IsLaser = true;
+				pathFromToCol(sg, randRow, randCol, 1);
+			}
+			else if (q == Quadrant.NORTHEAST){
+				int randRow = randInt(0,targetCoord.row);
+				int randCol = randInt(targetCoord.col + 1, sg.maxcol);
+				int spare;
+				pathFromToRow(sg, targetCoord.row - 1, randRow, targetCoord.col);
+				pathFromToCol(sg, randRow, targetCoord.col, randCol);
+				spare = randRow;
+				randRow = randInt(targetCoord.row+1, sg.maxrow);
+				pathFromToRow(sg,spare,randRow,randCol);
+				spare = randCol;
+				randCol = randInt(0,targetCoord.col);
+				pathFromToCol(sg,randRow,spare,randCol);
+				sg.GetVertexAtCoords(new Coordinate(0,randCol)).IsLaser = true;
+				pathFromToRow(sg,randRow,1,randCol);
+			}
+			else if (q == Quadrant.SOUTHEAST) {
+				int randRow = randInt(targetCoord.row + 1, sg.maxrow);
+				int randCol = randInt(targetCoord.col + 1, sg.maxcol);
+				int spare;
+				pathFromToCol(sg, targetCoord.row, targetCoord.col + 1, randCol);
+				pathFromToRow(sg, targetCoord.row, randRow, randCol);
+				spare = randCol;
+				randCol = randInt(0,targetCoord.col);
+				pathFromToCol(sg,randRow,spare,randCol);
+				spare = randRow;
+				randRow = randInt(0,targetCoord.row);
+				pathFromToRow(sg,randRow,spare,randCol);
+				sg.GetVertexAtCoords(new Coordinate(randRow,sg.maxcol-1)).IsLaser = true;
+				pathFromToCol(sg, randRow, randCol, sg.maxcol - 2);
+			} else {
+				int randRow = randInt(targetCoord.row + 1, sg.maxrow);
+				int randCol = randInt(0,targetCoord.col);
+				int spare;
+				pathFromToRow(sg, targetCoord.row + 1, randRow, targetCoord.col);
+				pathFromToCol(sg, randRow, randCol, targetCoord.col);
+				spare = randRow;
+				randRow = randInt(0,targetCoord.row);
+				pathFromToRow(sg,randRow,spare,randCol);
+				spare = randCol;
+				randCol = randInt(targetCoord.col + 1, sg.maxcol);
+				pathFromToCol(sg, randRow, spare, randCol);
+				sg.GetVertexAtCoords(new Coordinate(sg.maxrow-1,randCol)).IsLaser = true;
+				pathFromToRow(sg, randRow, sg.maxrow-2, randCol);
+			}
+			addRandomWalls(sg);
+		}
+		private void pathFromToCol(SquareGraph sg, int row, int initcol, int endcol) {
+			if(initcol < endcol) {
+				for(int i = initcol; i <= endcol; i++) {
+					sg.GetVertexAtCoords(new Coordinate(row,i)).PartOfPath = true;
+				}
+			}
+			else {
+				for(int i = endcol; i <= initcol; i++) {
+					sg.GetVertexAtCoords(new Coordinate(row,i)).PartOfPath = true;
+				}
+			}
+		}
+		private void pathFromToRow(SquareGraph sg, int initrow, int endrow, int col) {
+			if(initrow < endrow) {
+				for(int i = initrow; i <= endrow; i++) {
+					sg.GetVertexAtCoords(new Coordinate(i,col)).PartOfPath = true;
+				}
+			} else {
+				for(int i = endrow; i <= initrow; i++) {
+					sg.GetVertexAtCoords(new Coordinate(i,col)).PartOfPath = true;
+				}
+			}
+		}
+		private void addRandomWalls(SquareGraph sg) {
+			int max = (int) (sg.maxrow*sg.maxcol*0.4);
+			for(int i = 0; i < max; i++) {
+				int randRow = randInt(0,sg.maxrow);
+				int randCol = randInt(0,sg.maxcol);
+				if(isNotYetOccupied(sg.GetVertexAtCoords(new Coordinate(randRow, randCol)))){
+					sg.GetVertexAtCoords(new Coordinate(randRow, randCol)).IsWall = true;
+				}
+			}
+		}
+		private bool isNotYetOccupied(Vertex v) {
+			return !(v.IsLaser || v.PartOfPath || v.IsWall || v.IsTarget);
+		}
+		public void printGraph(SquareGraph sg) {
+			for(int i = 0; i < sg.maxrow; i++) {
+				for(int j = 0; j < sg.maxcol; j++) {
+					Vertex v = sg.GetVertexAtCoords(new Coordinate(i,j));
+					if(v.IsTarget){
+						Console.Write("@");
+					} else if (v.IsLaser) {
+						Console.Write("L");
+					} else if (v.PartOfPath) {
+						Console.Write("#");
+					} else if(v.IsWall) {
+						Console.Write("!");
+					} else {
+						Console.Write(".");
+					}
+				}
+				Console.Write("/n");
+			}
 		}
 	}
 }
