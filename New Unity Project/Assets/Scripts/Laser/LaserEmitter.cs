@@ -2,6 +2,7 @@
 {
     using System.Collections;
     using System.Collections.Generic;
+	using System.Collections.ObjectModel;
     using UnityEngine;
 
     /// <summary>
@@ -72,5 +73,10 @@
         {
             this.segments.Add(laser);
         }
+
+		public ReadOnlyCollection<Laser> GetLasers() 
+		{
+			return segments.AsReadOnly();
+		}
     }
 }
