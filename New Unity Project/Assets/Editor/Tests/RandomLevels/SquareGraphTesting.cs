@@ -18,22 +18,22 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
 		public void SqGraphTestRowsIsZero() {
-			SquareGraph sg = new SquareGraph (0, 20);
+			new SquareGraph (0, 20);
 		}
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
 		public void SqGraphTestRowsIsNegative() {
-			SquareGraph sg = new SquareGraph (-1, 20);
+			new SquareGraph (-1, 20);
 		}
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
 		public void SqGraphTestColsIsZero() {
-			SquareGraph sg = new SquareGraph (20, 0);
+			new SquareGraph (20, 0);
 		}
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
 		public void SqGraphTestColsIsNegative() {
-			SquareGraph sg = new SquareGraph (20, -1);
+			new SquareGraph (20, -1);
 		}
 		[Test]
 		public void SqGraphTestValid() {
@@ -60,6 +60,23 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 		public void SqGraphTestCoordIsValid() {
 			SquareGraph sg = new SquareGraph (20, 20);
 			Assert.True(sg.IsValid(new Coordinate(12,9)));
+		}
+		[Test]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void SqGraphTestCoordIsNullv2() {
+			SquareGraph sg = new SquareGraph (20, 20);
+			sg.GetVertexAtCoords (null);
+		}
+		[Test]
+		[ExpectedException(typeof(ArgumentException))]
+		public void SqGraphTestInvalidCoord() {
+			SquareGraph sg = new SquareGraph (20, 20);
+			sg.GetVertexAtCoords (new Coordinate(21,21));
+		}
+		[Test]
+		public void SqGraphTestValidCoord() {
+			SquareGraph sg = new SquareGraph (20, 20);
+			Assert.NotNull(sg.GetVertexAtCoords (new Coordinate(9,9)));
 		}
 	}
 }

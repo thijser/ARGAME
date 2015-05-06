@@ -23,6 +23,9 @@ namespace RandomLevel
 		/// </summary>
 		public void AddRandomWalls(SquareGraph sg) 
 		{
+			if (sg == null) {
+				throw new ArgumentNullException("The supplied argument should not be null.");
+			}
 			int max = (int) (sg.maxrow*sg.maxcol*4)/10;
 			for(int i = 0; i < max; i++) 
 			{
