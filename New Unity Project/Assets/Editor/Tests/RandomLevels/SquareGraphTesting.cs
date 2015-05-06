@@ -90,23 +90,38 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 			Assert.False(sg.IsValid(new Coordinate(4,-1)));
 		}
 		[Test]
+		/// <summary>
+		/// Tests for validity of a valid coordinate.
+		/// </summary>
 		public void SqGraphTestCoordIsValid() {
 			SquareGraph sg = new SquareGraph (20, 20);
 			Assert.True(sg.IsValid(new Coordinate(12,9)));
 		}
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
+		/// <summary>
+		/// Tests if the correct exception is thrown when
+		/// a null coordinate is used in the GetVertexAtCoords method.
+		/// </summary>
 		public void SqGraphTestCoordIsNullv2() {
 			SquareGraph sg = new SquareGraph (20, 20);
 			sg.GetVertexAtCoords (null);
 		}
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
+		/// <summary>
+		/// Tests if the correct exception is thrown when
+		/// an invalid coordinate is used in the GetVertexAtCoords method.
+		/// </summary>
 		public void SqGraphTestInvalidCoord() {
 			SquareGraph sg = new SquareGraph (20, 20);
 			sg.GetVertexAtCoords (new Coordinate(21,21));
 		}
 		[Test]
+		/// <summary>
+		/// Tests if a non-null vertex is returned when a valid coordinate
+		/// is used as a method argument.
+		/// </summary>
 		public void SqGraphTestValidCoord() {
 			SquareGraph sg = new SquareGraph (20, 20);
 			Assert.NotNull(sg.GetVertexAtCoords (new Coordinate(9,9)));

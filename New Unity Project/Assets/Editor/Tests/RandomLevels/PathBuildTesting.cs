@@ -17,15 +17,27 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 	{
 		[Test]
 		[ExpectedException(typeof(System.ArgumentNullException))]
+		/// <summary>
+		/// Tests if the correct exception is thrown when a null reference
+		/// is used in the constructor as SquareGraph.
+		/// </summary>
 		public void PathBuilderConstructionNullSGTest() {
 			new PathBuilder (null, new Coordinate (0, 0));
 		}
 		[Test]
 		[ExpectedException(typeof(System.ArgumentNullException))]
+		/// <summary>
+		/// Tests if the correct exception is thrown when a null reference
+		/// is used in the constructor as Coordinate.
+		/// </summary>
 		public void PathBuilderConstructionNullCoordTest() {
 			new PathBuilder (new SquareGraph(1,1), null);
 		}
 		[Test]
+		/// <summary>
+		/// Tests if the first vertex labeled as part of the critical
+		/// path is positioned correctly, given the first quadrant is NW.
+		/// </summary>
 		public void PathBuilderNWFirstTest(){
 			SquareGraph square = new SquareGraph (20, 20);
 			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));
@@ -33,6 +45,10 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 			Assert.IsTrue (square.GetVertexAtCoords (new Coordinate (10, 9)).prop == Property.PARTOFPATH);
 		}
 		[Test]
+		/// <summary>
+		/// Tests if the first vertex labeled as part of the critical
+		/// path is positioned correctly, given the first quadrant is NE.
+		/// </summary>
 		public void PathBuilderNEFirstTest(){
 			SquareGraph square = new SquareGraph (20, 20);
 			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));
@@ -40,6 +56,10 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 			Assert.IsTrue (square.GetVertexAtCoords (new Coordinate (9, 10)).prop == Property.PARTOFPATH);
 		}
 		[Test]
+		/// <summary>
+		/// Tests if the first vertex labeled as part of the critical
+		/// path is positioned correctly, given the first quadrant is SE.
+		/// </summary>
 		public void PathBuilderSEFirstTest(){
 			SquareGraph square = new SquareGraph (20, 20);
 			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));
@@ -47,6 +67,10 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 			Assert.IsTrue (square.GetVertexAtCoords (new Coordinate (10, 11)).prop == Property.PARTOFPATH);
 		}
 		[Test]
+		/// <summary>
+		/// Tests if the first vertex labeled as part of the critical
+		/// path is positioned correctly, given the first quadrant is SW.
+		/// </summary>
 		public void PathBuilderSWFirstTest(){
 			SquareGraph square = new SquareGraph (20, 20);
 			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));

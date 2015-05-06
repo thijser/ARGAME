@@ -13,16 +13,26 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 	using RandomLevel;
 	using NUnit.Framework;
 	[TestFixture]
+	/// <summary>
+	/// Unit tests for the WallBuilder class.
+	/// </summary>
 	public class WallBuildTesting
 	{
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
+		/// <summary>
+		/// Tests if the correct exception is thrown
+		/// when a null object is passed to the AddRandomWalls method.
+		/// </summary>
 		public void WallBuildTestSGNull() 
 		{
 			WallBuilder wallbuild = new WallBuilder ();
 			wallbuild.AddRandomWalls (null);
 		}
 		[Test]
+		/// <summary>
+		/// Checks if at least one vertex has been labeled as a wall.
+		/// </summary>
 		public void WallBuildTestAtLeastOneWall() 
 		{
 			WallBuilder wb = new WallBuilder ();
@@ -42,6 +52,9 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 			Assert.IsTrue (check);
 		} 
 		[Test]
+		/// <summary>
+		/// Checks if at least one vertex has been labeled as empty space.
+		/// </summary>
 		public void WallBuildTestAtLeastOneEmptySpace() 
 		{
 			WallBuilder wb = new WallBuilder ();
