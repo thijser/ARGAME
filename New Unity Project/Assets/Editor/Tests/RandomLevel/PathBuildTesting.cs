@@ -7,23 +7,24 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-namespace AssemblyCSharpEditor.Tests.RandomLevels
+namespace RandomLevel
 {
 	using System;
-	using RandomLevel;
 	using NUnit.Framework;
+
 	[TestFixture]
 	public class PathBuildTesting
 	{
 		[Test]
 		[ExpectedException(typeof(System.ArgumentNullException))]
 		public void PathBuilderConstructionNullSGTest() {
-			new PathBuilder (null, new Coordinate (0, 0));
+			new PathBuilder(null, new Coordinate (0, 0));
 		}
+
 		[Test]
 		[ExpectedException(typeof(System.ArgumentNullException))]
 		public void PathBuilderConstructionNullCoordTest() {
-			new PathBuilder (new SquareGraph(1,1), null);
+			new PathBuilder(new SquareGraph(1,1), null);
 		}
 	}
 }
