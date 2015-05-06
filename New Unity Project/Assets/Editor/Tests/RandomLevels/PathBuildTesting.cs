@@ -18,12 +18,12 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 		[Test]
 		[ExpectedException(typeof(System.ArgumentNullException))]
 		public void PathBuilderConstructionNullSGTest() {
-			PathBuilder pb = new PathBuilder (null, new Coordinate (0, 0));
+			new PathBuilder (null, new Coordinate (0, 0));
 		}
 		[Test]
 		[ExpectedException(typeof(System.ArgumentNullException))]
 		public void PathBuilderConstructionNullCoordTest() {
-			PathBuilder pb = new PathBuilder (new SquareGraph(1,1), null);
+			new PathBuilder (new SquareGraph(1,1), null);
 		}
 	}
 }
