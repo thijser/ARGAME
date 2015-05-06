@@ -11,20 +11,24 @@ using System;
 using UnityEngine;
 namespace RandomLevel
 {
-	public class RandomLevelRenderer
+	public class RandomLevelRenderer : MonoBehaviour
 	{
 		private SquareGraph sg;
 		private Vector3 targetVec;
+		public GameObject emitterPrefab, wallPrefab, targetPrefab;
 		public RandomLevelRenderer (int rows, int cols)
 		{
 			RandomLevelGenerator rlg = new RandomLevelGenerator (rows, cols);
 			sg = rlg.ReturnRandomMap ();
 			targetVec = CoordToVector (rlg.GetTargetCoord ());
-			render ();
+			Render ();
 		}
-		void render() {
-			for (int i = 0; i < sg.maxrow; i++) {
-				for (int j = 0; j < sg.maxcol; j++) {
+		private void Render() 
+		{
+			for (int i = 0; i < sg.maxrow; i++) 
+			{
+				for (int j = 0; j < sg.maxcol; j++) 
+				{
 					Coordinate c = new Coordinate(i,j);
 					Vertex v = sg.GetVertexAtCoords(c);
 					Vector3 spawnVec = CoordToVector(c) - targetVec;
@@ -32,13 +36,32 @@ namespace RandomLevel
 				}
 			}
 		}
-		Vector3 CoordToVector(Coordinate c) {
+		Vector3 CoordToVector(Coordinate c) 
+		{
 			return new Vector3 (c.col*10f, 0f, c.row*-10f);
 		}
-		void InstantiateObject(Vertex v, Vector3 spawnVec){
-			if (v.prop == Property.LASER) {
-
+		void InstantiateObject(Vertex v, Vector3 spawnVec)
+		{
+			if (v.prop == Property.LASER) 
+			{
+				Instantiate (emitterPrefab, spawnVec, Quaternion.identity);
+			} 
+			else if (v.prop == Property.WALL) 
+			{
+				Instantiate (wallPrefab, spawnVec, Quaternion.identity);
+			} 
+			else if (v.prop == Property.TARGET) 
+			{
+				Instantiate (targetPrefab, spawnVec, Quaternion.identity);
 			}
+		}
+		public void Update() 
+		{
+
+		}
+		public void Start()
+		{
+			new RandomLevelRenderer (10, 10);
 		}
 	}
 }
