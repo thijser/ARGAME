@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-
+using System;
 using System.Collections;
 using UnityEngine;
 namespace RandomLevel
@@ -48,7 +48,7 @@ namespace RandomLevel
 			} 
 			else if (v.prop == Property.WALL) 
 			{
-				Quaternion q = Quaternion.Euler(0, Random.Range(0,4)*90, 0);
+				Quaternion q = Quaternion.Euler(0, UnityEngine.Random.Range(0,4)*90, 0);
 				Instantiate (wallPrefab, spawnVec, q);
 			} 
 			else if (v.prop == Property.TARGET) 
@@ -68,10 +68,11 @@ namespace RandomLevel
 		{
 			switch (q) 
 			{
-			case Quadrant.NORTHWEST: return 0;
-			case Quadrant.SOUTHWEST: return -1;
-			case Quadrant.SOUTHEAST: return -2;
-			default: return -3;
+			case Quadrant.NORTHWEST: return 3;
+			case Quadrant.SOUTHWEST: return 0;
+			case Quadrant.SOUTHEAST: return 1;
+			case Quadrant.NORTHEAST: return 2;
+			default: throw new ArgumentException("The parameter should be a valid quadrant value.");
 			}
 		}
 	}
