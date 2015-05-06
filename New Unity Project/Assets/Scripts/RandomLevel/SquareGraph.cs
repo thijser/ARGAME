@@ -58,8 +58,11 @@ namespace RandomLevel{
 		/// <returns><c>true</c> if the coordinate is within bounds,
 		/// <c>false</c> otherwise.
 		/// <param name="c">The coordinate to be checked</param>
-		private bool IsValid(Coordinate c)
+		public bool IsValid(Coordinate c)
 		{
+			if (c == null) {
+				throw new ArgumentNullException("The provided coordinate should not be null.");
+			}
 			return !(c.row < 0 || c.row >= maxrow || c.col < 0 || c.col >= maxcol);
 		}
 	}
