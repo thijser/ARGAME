@@ -8,12 +8,35 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-namespace AssemblyCSharpEditor
+namespace AssemblyCSharpEditor.Tests.RandomLevels
 {
+	using System;
+	using RandomLevel;
+	using NUnit.Framework;
+	[TestFixture]
 	public class RandomLevelGenTest
 	{
-		public RandomLevelGenTest ()
-		{
+		[Test]
+		[ExpectedException(typeof(ArgumentException))]
+		public void CreateRLGRowsLessThanTen() {
+			new RandomLevelGenerator (9, 10);
+		}
+		[Test]
+		[ExpectedException(typeof(ArgumentException))]
+		public void CreateRLGColsLessThanTen() {
+			new RandomLevelGenerator (10, 9);
+		}
+		[Test]
+		public void CreateRLGResultNonZeroTest() {
+			RandomLevelGenerator randomlevs = new RandomLevelGenerator (10, 10);
+			Assert.NotNull (randomlevs.ReturnRandomMap ());
+		}
+		[Test]
+		public void DetermineQuadrantTest() {
+			Assert.IsTrue (RandomLevelGenerator.DetermineQuad (0) == Quadrant.NORTHWEST);
+			Assert.IsTrue (RandomLevelGenerator.DetermineQuad (1) == Quadrant.NORTHEAST);
+			Assert.IsTrue (RandomLevelGenerator.DetermineQuad (2) == Quadrant.SOUTHEAST);
+			Assert.IsTrue (RandomLevelGenerator.DetermineQuad (3) == Quadrant.SOUTHWEST);
 		}
 	}
 }

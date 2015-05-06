@@ -13,29 +13,53 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 	using RandomLevel;
 	using NUnit.Framework;
 	[TestFixture]
+	/// <summary>
+	/// Test class for the SquareGraph-class. All the options of all externally available
+	/// methods are tested to maximize the amount of tested code.
+	/// </summary>
 	public class SquareGraphTesting
 	{
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
+		/// <summary>
+		/// Tests if the correct exception is thrown when
+		/// the amount of rows is 0.
+		/// </summary>
 		public void SqGraphTestRowsIsZero() {
 			new SquareGraph (0, 20);
 		}
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
+		/// <summary>
+		/// Tests if the correct exception is thrown when
+		/// the amount of rows is negative.
+		/// </summary>
 		public void SqGraphTestRowsIsNegative() {
 			new SquareGraph (-1, 20);
 		}
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
+		/// <summary>
+		/// Tests if the correct exception is thrown when
+		/// the amount of cols is 0.
+		/// </summary>
 		public void SqGraphTestColsIsZero() {
 			new SquareGraph (20, 0);
 		}
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
+		/// <summary>
+		/// Tests if the correct exception is thrown when
+		/// the amount of cols is negative.
+		/// </summary>
 		public void SqGraphTestColsIsNegative() {
 			new SquareGraph (20, -1);
 		}
 		[Test]
+		/// <summary>
+		/// Tests some SquareGraph behaviour if the given parameters 
+		/// are valid.
+		/// </summary>
 		public void SqGraphTestValid() {
 			SquareGraph sg = new SquareGraph (20, 20);
 			Assert.AreNotEqual (sg, null);
@@ -44,11 +68,20 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 		}
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
+		/// <summary>
+		/// Tests if the correct exception is thrown when a null
+		/// coordinate is passed as a parameter in the IsValid-method.
+		/// </summary>
 		public void SqGraphTestCoordIsNull() {
 			SquareGraph sg = new SquareGraph (20, 20);
 			sg.IsValid (null);
 		}
 		[Test]
+		/// <summary>
+		/// Tests for invalidity of several invalid coordinates
+		/// (these coordinates have been designed to test every single
+		/// possibility of invalidity).
+		/// </summary>
 		public void SqGraphTestCoordIsInValid() {
 			SquareGraph sg = new SquareGraph (20, 20);
 			Assert.False(sg.IsValid(new Coordinate(20,9)));

@@ -12,6 +12,10 @@ using System.Collections;
 using UnityEngine;
 namespace RandomLevel
 {
+	/// <summary>
+	/// This class forms te bridge between a randomly created level and a randomly rendered level.
+	/// It creates a randomly generated level, and then renders that level in the game world.
+	/// </summary>
 	public class RandomLevelRenderer : MonoBehaviour
 	{
 		private SquareGraph sg;
@@ -33,11 +37,11 @@ namespace RandomLevel
 				}
 			}
 		}
-		static Vector3 CoordToVector(Coordinate c) 
+		private static Vector3 CoordToVector(Coordinate c) 
 		{
 			return new Vector3 (c.col*ScaleFact, 0f, c.row*-ScaleFact);
 		}
-		void InstantiateObject(Vertex v, Vector3 spawnVec)
+		private void InstantiateObject(Vertex v, Vector3 spawnVec)
 		{
 
 			if (v.prop == Property.LASER) 
@@ -64,7 +68,7 @@ namespace RandomLevel
 			targetVec = CoordToVector (rlg.targetCoord);
 			Render ();
 		}
-		static int DetermineQuadRotation(Quadrant q) 
+		private static int DetermineQuadRotation(Quadrant q) 
 		{
 			switch (q) 
 			{

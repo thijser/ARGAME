@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-namespace AssemblyCSharpEditor
+namespace AssemblyCSharpEditor.Tests.RandomLevels
 {
 	using System;
 	using RandomLevel;

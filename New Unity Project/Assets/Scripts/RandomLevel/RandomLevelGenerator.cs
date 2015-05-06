@@ -11,10 +11,10 @@ namespace RandomLevel{
 	///Generates randomized levels.
 	///</summary>
 	public class RandomLevelGenerator {
-		internal Coordinate targetCoord { get; set;}
+		public Coordinate targetCoord { get; private set;}
 		private Random r;
 		private SquareGraph sg;
-		public Quadrant q { get; set; }
+		public Quadrant q { get; private set; }
 		///<summary>
 		///Creates a new RandomLevelGenerator with the given
 		///size of the playing field.
@@ -36,7 +36,7 @@ namespace RandomLevel{
 		/// Runs the map creation procedure. Called during construction
 		/// of the object.
 		/// </summary>
-		public void Run() 
+		private void Run() 
 		{
 			//Specify row and column coordinate of target.
 			int targetRowCoord = sg.maxrow/2;
@@ -72,7 +72,7 @@ namespace RandomLevel{
 		/// </summary>
 		/// <returns>The corresponding quadrant.</returns>
 		/// <param name="i">The integer.</param>
-		static Quadrant DetermineQuad(int i)
+		public static Quadrant DetermineQuad(int i)
 		{
 			switch (i) 
 			{
