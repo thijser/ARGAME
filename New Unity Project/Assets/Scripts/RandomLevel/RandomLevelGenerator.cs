@@ -46,6 +46,13 @@ namespace RandomLevel{
 			printGraph();
 		}
 		/// <summary>
+		/// Returns the target coordinate.
+		/// </summary>
+		/// <returns>The target coordinate.</returns>
+		public Coordinate GetTargetCoord() {
+			return targetCoord;
+		}
+		/// <summary>
 		/// Returns the randomly generated map, in SquareGraph form.
 		/// </summary>
 		/// <returns>The randomly generated map.</returns>
