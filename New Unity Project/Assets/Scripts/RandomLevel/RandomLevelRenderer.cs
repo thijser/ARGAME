@@ -16,13 +16,8 @@ namespace RandomLevel
 		private SquareGraph sg;
 		private Vector3 targetVec;
 		public GameObject emitterPrefab, wallPrefab, targetPrefab;
-		public RandomLevelRenderer (int rows, int cols)
-		{
-			RandomLevelGenerator rlg = new RandomLevelGenerator (rows, cols);
-			sg = rlg.ReturnRandomMap ();
-			targetVec = CoordToVector (rlg.GetTargetCoord ());
-			Render ();
-		}
+		public int rows, cols;
+		public const float ScaleFact = 15f;
 		private void Render() 
 		{
 			for (int i = 0; i < sg.maxrow; i++) 
@@ -38,7 +33,7 @@ namespace RandomLevel
 		}
 		Vector3 CoordToVector(Coordinate c) 
 		{
-			return new Vector3 (c.col*10f, 0f, c.row*-10f);
+			return new Vector3 (c.col*ScaleFact, 0f, c.row*-ScaleFact);
 		}
 		void InstantiateObject(Vertex v, Vector3 spawnVec)
 		{
@@ -55,13 +50,11 @@ namespace RandomLevel
 				Instantiate (targetPrefab, spawnVec, Quaternion.identity);
 			}
 		}
-		public void Update() 
-		{
-
-		}
-		public void Start()
-		{
-			new RandomLevelRenderer (10, 10);
+		void Start() {
+			RandomLevelGenerator rlg = new RandomLevelGenerator (rows, cols);
+			sg = rlg.ReturnRandomMap ();
+			targetVec = CoordToVector (rlg.GetTargetCoord ());
+			Render ();
 		}
 	}
 }
