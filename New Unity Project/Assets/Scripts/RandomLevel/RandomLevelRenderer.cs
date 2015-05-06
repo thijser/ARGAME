@@ -7,7 +7,8 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using System;
+
+using System.Collections;
 using UnityEngine;
 namespace RandomLevel
 {
@@ -17,6 +18,7 @@ namespace RandomLevel
 		private Vector3 targetVec;
 		public GameObject emitterPrefab, wallPrefab, targetPrefab;
 		public int rows, cols;
+		private Quadrant quad;
 		public const float ScaleFact = 15f;
 		private void Render() 
 		{
@@ -37,13 +39,17 @@ namespace RandomLevel
 		}
 		void InstantiateObject(Vertex v, Vector3 spawnVec)
 		{
+
 			if (v.prop == Property.LASER) 
 			{
-				Instantiate (emitterPrefab, spawnVec, Quaternion.identity);
+				int i = DetermineQuadRotation (quad);
+				Quaternion q = Quaternion.Euler(0, i*90, 0);
+				Instantiate (emitterPrefab, spawnVec, q);
 			} 
 			else if (v.prop == Property.WALL) 
 			{
-				Instantiate (wallPrefab, spawnVec, Quaternion.identity);
+				Quaternion q = Quaternion.Euler(0, Random.Range(0,4)*90, 0);
+				Instantiate (wallPrefab, spawnVec, q);
 			} 
 			else if (v.prop == Property.TARGET) 
 			{
@@ -52,9 +58,18 @@ namespace RandomLevel
 		}
 		void Start() {
 			RandomLevelGenerator rlg = new RandomLevelGenerator (rows, cols);
+			quad = rlg.q;
 			sg = rlg.ReturnRandomMap ();
 			targetVec = CoordToVector (rlg.GetTargetCoord ());
 			Render ();
+		}
+		int DetermineQuadRotation(Quadrant q) {
+			switch (q) {
+			case Quadrant.NORTHWEST: return 0;
+			case Quadrant.SOUTHWEST: return -1;
+			case Quadrant.SOUTHEAST: return -2;
+			default: return -3;
+			}
 		}
 	}
 }

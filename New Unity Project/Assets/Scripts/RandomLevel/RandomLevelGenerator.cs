@@ -1,7 +1,7 @@
 using System.Collections;
 using System;
 namespace RandomLevel{
-	enum Quadrant {
+	public enum Quadrant {
 		NORTHWEST,
 		NORTHEAST,
 		SOUTHEAST,
@@ -14,6 +14,7 @@ namespace RandomLevel{
 		private Coordinate targetCoord;
 		private Random r;
 		private SquareGraph sg;
+		public Quadrant q { get; set; }
 		///<summary>
 		///Creates a new RandomLevelGenerator with the given
 		///size of the playing field.
@@ -41,7 +42,7 @@ namespace RandomLevel{
 			sg.GetVertexAtCoords(targetCoord).prop = Property.TARGET;
 			//Determine first quadrant to plan a route to.
 			int firstQuad = randInt(0,4);
-			Quadrant q = DetermineQuad (firstQuad);
+			q = DetermineQuad (firstQuad);
 			findPath(q);
 			printGraph();
 		}
