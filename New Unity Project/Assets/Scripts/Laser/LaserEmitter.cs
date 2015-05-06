@@ -1,8 +1,17 @@
-﻿namespace Laser 
+﻿//----------------------------------------------------------------------------
+// <copyright file="LaserEmitter.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//     
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not, 
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
+namespace Laser 
 {
     using System.Collections;
     using System.Collections.Generic;
-	using System.Collections.ObjectModel;
+    using System.Collections.ObjectModel;
     using UnityEngine;
 
     /// <summary>
@@ -74,9 +83,13 @@
             this.segments.Add(laser);
         }
 
-		public ReadOnlyCollection<Laser> GetLasers() 
-		{
-			return segments.AsReadOnly();
-		}
+        /// <summary>
+        /// Returns a read-only view of the Collection of Laser segments.
+        /// </summary>
+        /// <returns>The Laser beams</returns>
+        public ReadOnlyCollection<Laser> GetLasers() 
+        {
+            return this.segments.AsReadOnly();
+        }
     }
 }
