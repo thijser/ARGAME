@@ -93,9 +93,9 @@
         /// <returns>The created Laser instance.</returns>
         public Laser Extend(Vector3 newOrigin, Vector3 newDirection) 
         {
-            Laser l = new Laser(newOrigin, newDirection, this.emitter);
-            l.Create();
-            return l;
+            Laser laser = new Laser(newOrigin, newDirection, this.emitter);
+            laser.Create();
+            return laser;
         }
     }
 }

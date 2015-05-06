@@ -12,7 +12,7 @@
         /// Reflects the argument Laser beam and creates a new Laser beam
         /// in the reflected direction.
         /// </summary>
-        /// <param name="sender">The sender of the event.</param>
+        /// <param name="sender">The sender of the event, ignored here.</param>
         /// <param name="args">The EventArgs object that describes the event.</param>
         public void OnLaserHit(object sender, HitEventArgs args) 
         {
@@ -20,9 +20,23 @@
             {
                 throw new ArgumentNullException("args");
             }
-            
-            Vector3 reflection = Vector3.Reflect(args.Laser.Direction, args.Normal);
-            args.Laser.Extend(args.Laser.Endpoint, reflection);
+			CreateReflection(args.Laser, args.Normal);
         }
+
+		/// <summary>
+		/// Creates a reflection of the specified Laser beam.
+		/// </summary>
+		/// <returns>The reflected Laser beam segment.</returns>
+		/// <param name="laser">The Laser beam.</param>
+		/// <param name="surfaceNormal">The surface normal.</param>
+		public Laser CreateReflection(Laser laser, Vector3 surfaceNormal)
+		{
+			if (laser == null) 
+			{
+				throw new ArgumentNullException ("laser");
+			}
+			Vector3 reflection = Vector3.Reflect (laser.Direction, surfaceNormal);
+			return laser.Extend (laser.Endpoint, reflection);
+		}
     }
 }
