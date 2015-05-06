@@ -21,7 +21,7 @@ namespace RandomLevel{
 		///<param name="rows">The amount of rows</param>
 		///<param name="cols">The amount of columns</param>
 		public RandomLevelGenerator(int rows, int cols){
-			if (rows < 10 && cols < 10) {
+			if (rows < 10 || cols < 10) {
 				throw new ArgumentException("The amount of rows and the amount of cols" +
 					"should both be at least 10.");
 			}
