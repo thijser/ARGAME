@@ -47,7 +47,6 @@ namespace RandomLevel{
 			int firstQuad = RandInt(0,4);
 			q = DetermineQuad (firstQuad);
 			FindPath(q);
-			PrintGraph();
 		}
 		/// <summary>
 		/// Returns the randomly generated map, in SquareGraph form.
@@ -189,45 +188,6 @@ namespace RandomLevel{
 		private static bool IsNotYetOccupied(Vertex v) 
 		{
 			return v.prop == Property.EMPTY;
-		}
-		/// <summary>
-		/// Prints the randomly generated map. Useful for debugging.
-		/// </summary>
-		public void PrintGraph() 
-		{
-			string target = "@";
-			string laser = "L";
-			string pop = "#";
-			string wall = "!";
-			string empty = ".";
-			for(int i = 0; i < sg.maxrow; i++) 
-			{
-				for(int j = 0; j < sg.maxcol; j++) 
-				{
-					Vertex v = sg.GetVertexAtCoords(new Coordinate(i,j));
-					if(v.prop == Property.TARGET)
-					{
-						Console.Write(target);
-					} 
-					else if (v.prop == Property.LASER) 
-					{
-						Console.Write(laser);
-					} 
-					else if (v.prop == Property.PARTOFPATH) 
-					{
-						Console.Write(pop);
-					} 
-					else if(v.prop == Property.WALL) 
-					{
-						Console.Write(wall);
-					} 
-					else 
-					{
-						Console.Write(empty);
-					}
-				}
-				Console.WriteLine();
-			}
 		}
 		/// <summary>
 		/// Finds a path, having northwest as the first quadrant.
