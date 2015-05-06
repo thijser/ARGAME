@@ -33,7 +33,7 @@ namespace RandomLevel
 				}
 			}
 		}
-		Vector3 CoordToVector(Coordinate c) 
+		static Vector3 CoordToVector(Coordinate c) 
 		{
 			return new Vector3 (c.col*ScaleFact, 0f, c.row*-ScaleFact);
 		}
@@ -56,15 +56,18 @@ namespace RandomLevel
 				Instantiate (targetPrefab, spawnVec, Quaternion.identity);
 			}
 		}
-		public void Start() {
+		public void Start() 
+		{
 			RandomLevelGenerator rlg = new RandomLevelGenerator (rows, cols);
 			quad = rlg.q;
 			sg = rlg.ReturnRandomMap ();
 			targetVec = CoordToVector (rlg.targetCoord);
 			Render ();
 		}
-		int DetermineQuadRotation(Quadrant q) {
-			switch (q) {
+		static int DetermineQuadRotation(Quadrant q) 
+		{
+			switch (q) 
+			{
 			case Quadrant.NORTHWEST: return 0;
 			case Quadrant.SOUTHWEST: return -1;
 			case Quadrant.SOUTHEAST: return -2;

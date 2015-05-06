@@ -21,8 +21,10 @@ namespace RandomLevel{
 		///</summary>
 		///<param name="rows">The amount of rows</param>
 		///<param name="cols">The amount of columns</param>
-		public RandomLevelGenerator(int rows, int cols){
-			if (rows < 10 || cols < 10) {
+		public RandomLevelGenerator(int rows, int cols)
+		{
+			if (rows < 10 || cols < 10) 
+			{
 				throw new ArgumentException("The amount of rows and the amount of cols" +
 					"should both be at least 10.");
 			}
@@ -34,7 +36,8 @@ namespace RandomLevel{
 		/// Runs the map creation procedure. Called during construction
 		/// of the object.
 		/// </summary>
-		public void Run() {
+		public void Run() 
+		{
 			//Specify row and column coordinate of target.
 			int targetRowCoord = sg.maxrow/2;
 			int targetColCoord = sg.maxcol/2;
@@ -50,7 +53,8 @@ namespace RandomLevel{
 		/// Returns the randomly generated map, in SquareGraph form.
 		/// </summary>
 		/// <returns>The randomly generated map.</returns>
-		public SquareGraph ReturnRandomMap(){
+		public SquareGraph ReturnRandomMap()
+		{
 			return sg;
 		}
 		/// <summary>
@@ -59,7 +63,8 @@ namespace RandomLevel{
 		/// <returns>The random integer.</returns>
 		/// <param name="min">The minimum value, inclusionary.</param>
 		/// <param name="max">The maximum value, exclusionary.</param>
-		private int RandInt(int min, int max) {
+		private int RandInt(int min, int max) 
+		{
 			return r.Next (min, max);
 		}
 		/// <summary>
@@ -67,35 +72,49 @@ namespace RandomLevel{
 		/// </summary>
 		/// <returns>The corresponding quadrant.</returns>
 		/// <param name="i">The integer.</param>
-		Quadrant DetermineQuad(int i){
-			if (i == 0)
+		static Quadrant DetermineQuad(int i)
+		{
+			if (i == 0) 
+			{
 				return Quadrant.NORTHWEST;
-			else if (i == 1)
+			} 
+			else if (i == 1) 
+			{
 				return Quadrant.NORTHEAST;
-			else if (i == 2)
+			}
+			else if (i == 2) 
+			{
 				return Quadrant.SOUTHEAST;
+			}
 			else
+			{
 				return Quadrant.SOUTHWEST;
+			}
 			
 		}
 		/// <summary>
 		/// Constructs a path from target to laser.
 		/// </summary>
 		/// <param name="q"> The first quadrant.</param>
-		private void FindPath(Quadrant q) {
-			if(q == Quadrant.NORTHWEST) {
+		private void FindPath(Quadrant q) 
+		{
+			if(q == Quadrant.NORTHWEST) 
+			{
 				FindPathNorthWest ();
 			}
-			else if (q == Quadrant.NORTHEAST){
+			else if (q == Quadrant.NORTHEAST)
+			{
 				FindPathNorthEast ();
 			}
-			else if (q == Quadrant.SOUTHEAST) {
+			else if (q == Quadrant.SOUTHEAST) 
+			{
 				FindPathSouthEast ();
 			} 
-			else {
+			else 
+			{
 				FindPathSouthWest ();
 			}
-			addRandomWalls();
+			AddRandomWalls();
 		}
 		/// <summary>
 		/// Marks all the vertices on the same row from the start column
@@ -105,13 +124,17 @@ namespace RandomLevel{
 		/// <param name="initcol">The initial column index.</param>
 		/// <param name="endcol">The final column index.</param>
 		private void PathFromToCol(int row, int initcol, int endcol) {
-			if(initcol < endcol) {
-				for(int i = initcol; i <= endcol; i++) {
+			if(initcol < endcol) 
+			{
+				for(int i = initcol; i <= endcol; i++) 
+				{
 					sg.GetVertexAtCoords (new Coordinate (row, i)).prop = Property.PARTOFPATH;
 				}
 			}
-			else {
-				for(int i = endcol; i <= initcol; i++) {
+			else 
+			{
+				for(int i = endcol; i <= initcol; i++) 
+				{
 					sg.GetVertexAtCoords(new Coordinate(row,i)).prop = Property.PARTOFPATH;
 				}
 			}
@@ -123,13 +146,19 @@ namespace RandomLevel{
 		/// <param name="initrow">The initial row index.</param>
 		/// <param name="endrow">The final row index.</param>
 		/// <param name="col">The column index.</param>
-		private void PathFromToRow(int initrow, int endrow, int col) {
-			if(initrow < endrow) {
-				for(int i = initrow; i <= endrow; i++) {
+		private void PathFromToRow(int initrow, int endrow, int col) 
+		{
+			if(initrow < endrow) 
+			{
+				for(int i = initrow; i <= endrow; i++) 
+				{
 					sg.GetVertexAtCoords(new Coordinate(i,col)).prop = Property.PARTOFPATH;
 				}
-			} else {
-				for(int i = endrow; i <= initrow; i++) {
+			} 
+			else 
+			{
+				for(int i = endrow; i <= initrow; i++) 
+				{
 					sg.GetVertexAtCoords(new Coordinate(i,col)).prop = Property.PARTOFPATH;
 				}
 			}
@@ -138,12 +167,15 @@ namespace RandomLevel{
 		/// Adds walls randomly to the map. The amount of added walls is less
 		/// than half the amount of vertices in the map.
 		/// </summary>
-		private void addRandomWalls() {
+		private void AddRandomWalls() 
+		{
 			int max = (int) (sg.maxrow*sg.maxcol*4)/10;
-			for(int i = 0; i < max; i++) {
+			for(int i = 0; i < max; i++) 
+			{
 				int randRow = RandInt(0,sg.maxrow);
 				int randCol = RandInt(0,sg.maxcol);
-				if(IsNotYetOccupied(sg.GetVertexAtCoords(new Coordinate(randRow, randCol)))){
+				if(IsNotYetOccupied(sg.GetVertexAtCoords(new Coordinate(randRow, randCol))))
+				{
 					sg.GetVertexAtCoords (new Coordinate (randRow, randCol)).prop = Property.WALL;
 				}
 			}
@@ -154,29 +186,47 @@ namespace RandomLevel{
 		/// <returns><c>true</c>, if the vertex has the EMPTY property,
 		/// <c>false</c> otherwise.</returns>
 		/// <param name="v">The vertex.</param>
-		private bool IsNotYetOccupied(Vertex v) {
+		private static bool IsNotYetOccupied(Vertex v) 
+		{
 			return v.prop == Property.EMPTY;
 		}
 		/// <summary>
 		/// Prints the randomly generated map. Useful for debugging.
 		/// </summary>
-		public void PrintGraph() {
-			for(int i = 0; i < sg.maxrow; i++) {
-				for(int j = 0; j < sg.maxcol; j++) {
+		public void PrintGraph() 
+		{
+			string target = "@";
+			string laser = "L";
+			string pop = "#";
+			string wall = "!";
+			string empty = ".";
+			for(int i = 0; i < sg.maxrow; i++) 
+			{
+				for(int j = 0; j < sg.maxcol; j++) 
+				{
 					Vertex v = sg.GetVertexAtCoords(new Coordinate(i,j));
-					if(v.prop == Property.TARGET){
-						Console.Write("@");
-					} else if (v.prop == Property.LASER) {
-						Console.Write("L");
-					} else if (v.prop == Property.PARTOFPATH) {
-						Console.Write("#");
-					} else if(v.prop == Property.WALL) {
-						Console.Write("!");
-					} else {
-						Console.Write(".");
+					if(v.prop == Property.TARGET)
+					{
+						Console.Write(target);
+					} 
+					else if (v.prop == Property.LASER) 
+					{
+						Console.Write(laser);
+					} 
+					else if (v.prop == Property.PARTOFPATH) 
+					{
+						Console.Write(pop);
+					} 
+					else if(v.prop == Property.WALL) 
+					{
+						Console.Write(wall);
+					} 
+					else 
+					{
+						Console.Write(empty);
 					}
 				}
-				Console.Write("\n");
+				Console.WriteLine();
 			}
 		}
 		/// <summary>
