@@ -56,11 +56,11 @@ namespace RandomLevel
 				Instantiate (targetPrefab, spawnVec, Quaternion.identity);
 			}
 		}
-		void Start() {
+		public void Start() {
 			RandomLevelGenerator rlg = new RandomLevelGenerator (rows, cols);
 			quad = rlg.q;
 			sg = rlg.ReturnRandomMap ();
-			targetVec = CoordToVector (rlg.GetTargetCoord ());
+			targetVec = CoordToVector (rlg.targetCoord);
 			Render ();
 		}
 		int DetermineQuadRotation(Quadrant q) {
