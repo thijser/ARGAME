@@ -25,6 +25,34 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 		public void PathBuilderConstructionNullCoordTest() {
 			new PathBuilder (new SquareGraph(1,1), null);
 		}
+		[Test]
+		public void PathBuilderNWFirstTest(){
+			SquareGraph square = new SquareGraph (20, 20);
+			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));
+			pb.BuildPath (Quadrant.NORTHWEST);
+			Assert.IsTrue (square.GetVertexAtCoords (new Coordinate (10, 9)).prop == Property.PARTOFPATH);
+		}
+		[Test]
+		public void PathBuilderNEFirstTest(){
+			SquareGraph square = new SquareGraph (20, 20);
+			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));
+			pb.BuildPath (Quadrant.NORTHEAST);
+			Assert.IsTrue (square.GetVertexAtCoords (new Coordinate (9, 10)).prop == Property.PARTOFPATH);
+		}
+		[Test]
+		public void PathBuilderSEFirstTest(){
+			SquareGraph square = new SquareGraph (20, 20);
+			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));
+			pb.BuildPath (Quadrant.SOUTHEAST);
+			Assert.IsTrue (square.GetVertexAtCoords (new Coordinate (10, 11)).prop == Property.PARTOFPATH);
+		}
+		[Test]
+		public void PathBuilderSWFirstTest(){
+			SquareGraph square = new SquareGraph (20, 20);
+			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));
+			pb.BuildPath (Quadrant.SOUTHWEST);
+			Assert.IsTrue (square.GetVertexAtCoords (new Coordinate (11, 10)).prop == Property.PARTOFPATH);
+		}
 	}
 }
 

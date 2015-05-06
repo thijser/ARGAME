@@ -12,7 +12,7 @@ namespace RandomLevel
 {
 	public class PathBuilder
 	{
-		private Coordinate targetCoord;
+		public Coordinate targetCoord { get; private set; }
 		private SquareGraph sg;
 		private Random random;
 		public PathBuilder (SquareGraph graph, Coordinate target)
@@ -36,21 +36,16 @@ namespace RandomLevel
 		/// <param name="q"> The first quadrant.</param>
 		public void BuildPath(Quadrant q) 
 		{
-			if(q == Quadrant.NORTHWEST) 
-			{
-				FindPathNorthWest ();
-			}
-			else if (q == Quadrant.NORTHEAST)
-			{
-				FindPathNorthEast ();
-			}
-			else if (q == Quadrant.SOUTHEAST) 
-			{
-				FindPathSouthEast ();
-			} 
-			else 
-			{
-				FindPathSouthWest ();
+			switch (q) {
+			case Quadrant.NORTHWEST: FindPathNorthWest ();
+				break;
+			case Quadrant.NORTHEAST: FindPathNorthEast ();
+				break;
+			case Quadrant.SOUTHEAST: FindPathSouthEast ();
+				break;
+			case Quadrant.SOUTHWEST: FindPathSouthWest ();
+				break;
+			default: throw new ArgumentException("The specified quadrant was not valid.");
 			}
 			WallBuilder wallbuild = new WallBuilder ();
 			wallbuild.AddRandomWalls(sg);
