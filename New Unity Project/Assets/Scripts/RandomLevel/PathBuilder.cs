@@ -17,6 +17,14 @@ namespace RandomLevel
 		private Random random;
 		public PathBuilder (SquareGraph graph, Coordinate target)
 		{
+			if (graph == null) 
+			{
+				throw new ArgumentNullException("The square graph provided should not be null.");
+			}
+			if (target == null) 
+			{
+				throw new ArgumentNullException("The target coordinate provided should not be null.");
+			}
 			sg = graph;
 			targetCoord = target;
 			random = new Random (Environment.TickCount);
