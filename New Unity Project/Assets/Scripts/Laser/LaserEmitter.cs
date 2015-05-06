@@ -28,6 +28,13 @@ namespace Laser
         /// A List of segments that make up the whole Laser beam this LaserEmitter emits.
         /// </summary>
         private List<Laser> segments = new List<Laser>();
+        public ReadOnlyCollection<Laser> Segments
+        {
+            get
+            {
+                return segments.AsReadOnly();
+            }
+        }
 
         /// <summary>
         /// Updates the path of the Lasers and redraws the scene.
@@ -81,15 +88,6 @@ namespace Laser
         public void AddLaser(Laser laser) 
         {
             this.segments.Add(laser);
-        }
-
-        /// <summary>
-        /// Returns a read-only view of the Collection of Laser segments.
-        /// </summary>
-        /// <returns>The Laser beams</returns>
-        public ReadOnlyCollection<Laser> GetLasers() 
-        {
-            return this.segments.AsReadOnly();
         }
     }
 }

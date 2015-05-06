@@ -18,6 +18,23 @@ namespace Laser
     public class Mirror : MonoBehaviour, ILaserReceiver 
     {
         /// <summary>
+        /// Creates a reflection of the specified Laser beam.
+        /// </summary>
+        /// <returns>The reflected Laser beam segment.</returns>
+        /// <param name="laser">The Laser beam.</param>
+        /// <param name="surfaceNormal">The surface normal.</param>
+        public static Laser CreateReflection(Laser laser, Vector3 surfaceNormal)
+        {
+            if (laser == null)
+            {
+                throw new ArgumentNullException("laser");
+            }
+
+            Vector3 reflection = Vector3.Reflect(laser.Direction, surfaceNormal);
+            return laser.Extend(laser.Endpoint, reflection);
+        }
+
+        /// <summary>
         /// Reflects the argument Laser beam and creates a new Laser beam
         /// in the reflected direction.
         /// </summary>
@@ -30,24 +47,7 @@ namespace Laser
                 throw new ArgumentNullException("args");
             }
 
-            this.CreateReflection(args.Laser, args.Normal);
-        }
-
-        /// <summary>
-        /// Creates a reflection of the specified Laser beam.
-        /// </summary>
-        /// <returns>The reflected Laser beam segment.</returns>
-        /// <param name="laser">The Laser beam.</param>
-        /// <param name="surfaceNormal">The surface normal.</param>
-        public Laser CreateReflection(Laser laser, Vector3 surfaceNormal)
-        {
-            if (laser == null)
-            {
-                throw new ArgumentNullException("laser");
-            }
-
-            Vector3 reflection = Vector3.Reflect(laser.Direction, surfaceNormal);
-            return laser.Extend(laser.Endpoint, reflection);
+            CreateReflection(args.Laser, args.Normal);
         }
     }
 }

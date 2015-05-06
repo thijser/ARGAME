@@ -1,7 +1,16 @@
+//----------------------------------------------------------------------------
+// <copyright file="NetworkManager.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//     
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not, 
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
 namespace Network
 {
     using System;
-	using System.Collections.ObjectModel;
+    using System.Collections.ObjectModel;
     using UnityEngine;
 
     /// <summary>
@@ -36,6 +45,11 @@ namespace Network
         public const int MaxPlayers = 4;
 
         /// <summary>
+        /// The available hosts.
+        /// </summary>
+        private HostData[] hosts;
+
+        /// <summary>
         /// <para>
         /// Gets a value indicating the available hosts.
         /// This will be retrieved from the master server.
@@ -45,16 +59,11 @@ namespace Network
         /// value of this field is an empty array.
         /// </para>
         /// </summary>
-        private HostData[] hosts;
         public ReadOnlyCollection<HostData> Hosts
         {
             get
             {
-                return Array.AsReadOnly<HostData>(hosts);
-            }
-            private set
-            {
-                // This value is read-only, so the setter does nothing.
+                return Array.AsReadOnly<HostData>(this.hosts);
             }
         }
 
@@ -101,6 +110,7 @@ namespace Network
             {
                 throw new ArgumentNullException("host");
             }
+
             if (!Network.isServer && !Network.isClient)
             {
                 Network.Connect(host);
@@ -120,7 +130,8 @@ namespace Network
             {
                 MasterServer.ipAddress = ServerAddress;
             }
-            hosts = new HostData[0];
+
+            this.hosts = new HostData[0];
         }
 
         /// <summary>
@@ -137,7 +148,7 @@ namespace Network
         {
             if (serverEvent == MasterServerEvent.HostListReceived)
             {
-                hosts = MasterServer.PollHostList();
+                this.hosts = MasterServer.PollHostList();
             }
         }
     }
