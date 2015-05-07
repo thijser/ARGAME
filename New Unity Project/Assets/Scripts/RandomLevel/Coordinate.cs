@@ -10,12 +10,12 @@ namespace RandomLevel
 		/// <summary>
 		/// Gets or sets the row coordinate.
 		/// </summary>
-		public int row { get; set;}
+		public int row { get; private set;}
 
 		/// <summary>
 		/// Gets or sets the column coordinate.
 		/// </summary>
-		public int col { get; set;}
+		public int col { get; private set;}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RandomLevel.Coordinate"/> class.
