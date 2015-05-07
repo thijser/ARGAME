@@ -43,7 +43,7 @@ namespace RandomLevel
 			SquareGraph square = new SquareGraph (20, 20);
 			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));
 			pb.BuildPath (Quadrant.NORTHWEST);
-			Assert.IsTrue (square.GetVertexAtCoordinate (new Coordinate (10, 9)).prop == Property.PARTOFPATH);
+			Assert.IsTrue (square.GetVertexAtCoordinate (new Coordinate (10, 9)).Prop == Property.PARTOFPATH);
 		}
 		[Test]
 		/// <summary>
@@ -54,7 +54,7 @@ namespace RandomLevel
 			SquareGraph square = new SquareGraph (20, 20);
 			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));
 			pb.BuildPath (Quadrant.NORTHEAST);
-			Assert.IsTrue (square.GetVertexAtCoordinate (new Coordinate (9, 10)).prop == Property.PARTOFPATH);
+			Assert.IsTrue (square.GetVertexAtCoordinate (new Coordinate (9, 10)).Prop == Property.PARTOFPATH);
 		}
 		[Test]
 		/// <summary>
@@ -65,7 +65,7 @@ namespace RandomLevel
 			SquareGraph square = new SquareGraph (20, 20);
 			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));
 			pb.BuildPath (Quadrant.SOUTHEAST);
-			Assert.IsTrue (square.GetVertexAtCoordinate (new Coordinate (10, 11)).prop == Property.PARTOFPATH);
+			Assert.IsTrue (square.GetVertexAtCoordinate (new Coordinate (10, 11)).Prop == Property.PARTOFPATH);
 		}
 		[Test]
 		/// <summary>
@@ -76,7 +76,7 @@ namespace RandomLevel
 			SquareGraph square = new SquareGraph (20, 20);
 			PathBuilder pb = new PathBuilder (square, new Coordinate (10, 10));
 			pb.BuildPath (Quadrant.SOUTHWEST);
-			Assert.IsTrue (square.GetVertexAtCoordinate (new Coordinate (11, 10)).prop == Property.PARTOFPATH);
+			Assert.IsTrue (square.GetVertexAtCoordinate (new Coordinate (11, 10)).Prop == Property.PARTOFPATH);
 		}
 	}
 }

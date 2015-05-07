@@ -26,9 +26,9 @@ namespace RandomLevel
 		public const float ScaleFact = 15f;
 		private void Render() 
 		{
-			for (int i = 0; i < sg.maxrow; i++) 
+			for (int i = 0; i < sg.Maxrow; i++) 
 			{
-				for (int j = 0; j < sg.maxcol; j++) 
+				for (int j = 0; j < sg.Maxcol; j++) 
 				{
 					Coordinate c = new Coordinate(i,j);
 					Vertex v = sg.GetVertexAtCoordinate(c);
@@ -39,23 +39,23 @@ namespace RandomLevel
 		}
 		private static Vector3 CoordToVector(Coordinate c) 
 		{
-			return new Vector3 (c.col*ScaleFact, 0f, c.row*-ScaleFact);
+			return new Vector3 (c.Col*ScaleFact, 0f, c.Row*-ScaleFact);
 		}
 		private void InstantiateObject(Vertex v, Vector3 spawnVec)
 		{
 
-			if (v.prop == Property.LASER) 
+			if (v.Prop == Property.LASER) 
 			{
 				int i = DetermineQuadRotation (quad);
 				Quaternion q = Quaternion.Euler(0, i*90, 0);
 				Instantiate (emitterPrefab, spawnVec, q);
 			} 
-			else if (v.prop == Property.WALL) 
+			else if (v.Prop == Property.WALL) 
 			{
 				Quaternion q = Quaternion.Euler(0, UnityEngine.Random.Range(0,4)*90, 0);
 				Instantiate (wallPrefab, spawnVec, q);
 			} 
-			else if (v.prop == Property.TARGET) 
+			else if (v.Prop == Property.TARGET) 
 			{
 				Instantiate (targetPrefab, spawnVec, Quaternion.identity);
 			}
@@ -63,9 +63,9 @@ namespace RandomLevel
 		public void Start() 
 		{
 			RandomLevelGenerator rlg = new RandomLevelGenerator (rows, cols);
-			quad = rlg.q;
+			quad = rlg.Quad;
 			sg = rlg.ReturnRandomMap ();
-			targetVec = CoordToVector (rlg.targetCoord);
+			targetVec = CoordToVector (rlg.TargetCoord);
 			Render ();
 		}
 		private static int DetermineQuadRotation(Quadrant q) 

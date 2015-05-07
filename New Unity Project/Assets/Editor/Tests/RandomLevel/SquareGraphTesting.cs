@@ -62,8 +62,8 @@ namespace RandomLevel
 		public void SqGraphTestValid() {
 			SquareGraph sg = new SquareGraph (20, 20);
 			Assert.AreNotEqual (sg, null);
-			Assert.AreEqual (sg.maxrow, 20);
-			Assert.AreEqual (sg.maxcol, 20);
+			Assert.AreEqual (sg.Maxrow, 20);
+			Assert.AreEqual (sg.Maxcol, 20);
 		}
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
