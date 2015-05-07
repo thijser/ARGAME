@@ -76,7 +76,7 @@ namespace Laser
                 this.Endpoint = hit.point;
                 this.emitter.AddLaser(this);
                 Collider target = hit.collider;
-                Receiver receiver = target.GetComponent<Receiver>();
+                ILaserReceiver receiver = target.GetComponent<ILaserReceiver>();
                 
                 // If the Receiver is null, the gameObject simply blocks the laser beam.
                 if (receiver != null) 

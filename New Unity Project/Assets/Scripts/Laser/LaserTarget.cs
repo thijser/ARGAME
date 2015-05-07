@@ -23,9 +23,9 @@ namespace Laser
         public bool FullyOpened { get; private set; }
 
 		/// <summary>
-		/// The name of the next level.
+		/// The index of the next level.
 		/// </summary>
-		public string NextLevelName;
+		public int NextLevelIndex;
 
         /// <summary>
         /// Consumes the Laser beam and opens the target one step.
@@ -55,7 +55,16 @@ namespace Laser
         /// </summary>
         public void LoadNextLevel()
         {
-			Application.LoadLevel(this.NextLevelName);
+			int levelCount = Application.levelCount;
+			if (NextLevelIndex < levelCount) 
+			{
+				Application.LoadLevel (NextLevelIndex);
+			} 
+			else
+			{
+				Debug.LogError("Tried to load level #" + NextLevelIndex + 
+				               ", but only have " + levelCount + " levels");
+			}
         }
     }
 }
