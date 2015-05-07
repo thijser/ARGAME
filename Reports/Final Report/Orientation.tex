@@ -1,0 +1,118 @@
+\chapter{Orientation} \label{cha:orientation}
+
+  This chapter provides an overview of the orientation phase of the project.
+  It shows an analysis of the project requirements, and the decisions that
+  have been made during the project regarding choices of frameworks and
+  libraries as well as gameplay elements.
+
+  For a more in-depth view on the research that has been done leading to
+  these decisions, please refer to the Research Report in appendix
+  \ref{app:researchreport}.
+
+  \section{Project Description} \label{sec:projectdescription}
+    While augmented reality research has grown into a mature field over the
+    last years, the aspects of situational awareness and presence of
+    augmented reality (AR) are still quite open research topics. This
+    project is about designing and implementing a collaborative game to
+    explore the different perception of situational awareness, presence and
+    workload in a physical and an AR environment. The game is to be employed
+    as an approximation of collaboratively solving complex problems, as they
+    occur in crime scene investigation when using virtual co-location, i.e.
+    expert remote crime scene investigators to guide local investigators in
+    AR to collaboratively analyse the crime scene.
+
+  \section{Final Product} \label{sec:finalproduct}
+    The goal of the game is to solve a puzzle by controlling laser beams
+    using mirrors in such a way that a predefined target is hit. The game
+    can be played by one or more local players and one or more remote players.
+
+    There are cards present for the local players that represent mirror
+    bases. These must be placed on the table, which will be the locations
+    for the mirrors. The local players will be able to see the mirrors they
+    place through the use of AR technology. Each of the local players will
+    only be given a few of the mirror bases needed to solve the puzzle, and
+    as such solving the puzzle requires cooperation from all local players.
+
+    The remote players can also see the placed mirrors, and can rotate them
+    to influence the path of the laser beam(s). Only by cooperation between
+    local players (who can only move the mirror bases) and remote players
+    (who can only rotate them) it becomes possible to hit the target and as
+    such solve the puzzle.
+
+    The game provides various different types of mirrors with different
+    properties, allowing for more complex puzzles. One example of such a
+    mirror is a colored mirror, and then require the target is hit with the
+    right (combination of) colors. Another way to make puzzles more complex
+    is requiring that the players combine beams together to create more
+    powerful beams. Other optical components like beam splitters can also be
+    introduced.
+
+    The game is designed to stimulate cooperation between the physically
+    co-located players and the physically remote player(s). It does so by
+    dividing abilities required for solving the puzzles amongst all players
+    as follows:
+
+    \begin{itemize}
+      \item Physically co-located players each get only a part of the
+            mirror bases required to solve the puzzle, requiring input
+            from all of these players.
+      \item If there are multiple physically remote players, each of
+            these players can only rotate a subset of the mirrors, and
+            as such input from all physically remote players is
+            required for solving the puzzle.
+      \item Physically remote players have the ability to rotate
+            mirrors while the physically co-located players do not have
+            this ability, requiring input from both physically co-located
+            as well as physically remote players.
+    \end{itemize}
+
+  \section{Software Design Methods} \label{sec:designmethods}
+    This section describes the design methods that were used during the
+    project. It illustrates the methods that were used to develop and
+    coordinate the project during the development phase.
+
+    \subsection{Design Process} \label{ssec:designprocess}
+      In designing and implementing the product, it is important that
+      requirements can be changed quickly and without much problems. This is
+      not because the requirements are likely to change from the client
+      side, but because the choice of AR technology may change over the
+      course of the project because of technical issues. The available Virtual
+      and Augmented Reality glasses are mostly still in development, and as
+      such this may affect the technical viability of each device.
+
+      To deal with such changes, we use the Scrum methodology. The Scrum
+      methodology describes a set of rules that, amongst others, makes it
+      easier to deal with various changes during the development process.
+      For a complete description of the rules that the Scrum methodology
+      describes, please refer to the Scrum guide, available at
+      \url{http://www.scrumguides.org/scrum-guide.html}.
+
+    \subsection{Organization} \label{ssec:organization}
+      To be able to simulaneously work on the project without conflicts, we
+      use Git as a version control system. The project is stored remotely on
+      Github, ensuring the work is efficiently shared between all team members.
+
+      To coordinate and divide the tasks, as well as to maintain the items in
+      the Scrum backlog, we use Trello. Trello is an online service that
+      provides a dynamic way to organize items in various lists. We created
+      lists to keep track of which items were in the backlog, which items were
+      being worked on and which items were already done.
+
+      The project is licensed under the terms of the MIT license. We chose
+      this license because it allows other developers to learn from this
+      project. Additionally, since this project is done as a part of a
+      research project, we believe making this project open source may
+      help future researchers in the same field. The full terms of the MIT
+      license can be found at \url{http://opensource.org/licenses/mit-license.html}
+
+    \subsection{Design Architecture} \label{ssec:designarchitecture}
+      Because the product is a game and the goal of the project is more
+      focused on the game mechanics rather than the underlying engine, we chose
+      to use Unity as a starting point. Unity provides a platform-independant
+      IDE for developing games, and offers many features commonly used in
+      games.
+
+      Using Unity means that the project architecture is bound to the
+      loosely coupled component-based architecture that Unity provides,
+      although it is possible to include principles from object-oriented
+      programming to some extent.
