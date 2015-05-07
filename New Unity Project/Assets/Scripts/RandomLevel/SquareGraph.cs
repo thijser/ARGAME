@@ -6,22 +6,32 @@ namespace RandomLevel{
 	/// Represents a grid-shaped graph with connections
 	/// in the four cardinal directions.
 	/// </summary>
-	public class SquareGraph {
+	public class SquareGraph 
+	{
 		private Vertex[,] squareMap;
-		public int maxrow { get; set;}
-		public int maxcol { get; set;}
+		public int maxrow { get; private set; }
+		public int maxcol { get; private set; }
 		
 		/// <summary>
 		/// Creates a new SquareGraph instance of the specified size.
 		/// </summary>
-		/// <param name="rows">The amount of rows.</param>
-		/// <param name="cols">The amount of columns.</param>
-		public SquareGraph(int rows, int cols){
+		/// <param name="rows">The amount of rows, a positive nonzero integer.</param>
+		/// <param name="cols">The amount of columns, a positive nonzero integer.</param>
+		public SquareGraph(int rows, int cols)
+		{
+			if (rows <= 0) {
+				throw new ArgumentException("The amount of rows should be more than 0.");
+			}
+			if (cols <= 0) {
+				throw new ArgumentException("The amount of cols should be more than 0.");
+			}
 			maxrow = rows;
 			maxcol = cols;
 			squareMap = new Vertex[rows,cols];
-			for(int i = 0; i < rows; i++){
-				for(int j = 0; j < cols; j++){
+			for(int i = 0; i < rows; i++)
+			{
+				for(int j = 0; j < cols; j++)
+				{
 					squareMap[i,j] = new Vertex();
 				}
 			}
@@ -33,10 +43,11 @@ namespace RandomLevel{
 		/// </summary>
 		/// <returns>The vertex at coords.</returns>
 		/// <param name="coord">The coordinate of the vertex.</param>
-		internal Vertex GetVertexAtCoords(Coordinate coord)
+		public Vertex GetVertexAtCoords(Coordinate coord)
 		{
-			if (!IsValid (coord)) {
-				throw new ArgumentException ();
+			if (!IsValid (coord)) 
+			{
+				throw new ArgumentException ("Invalid row-column pair.");
 			}
 			return squareMap [coord.row, coord.col];
 		}
@@ -47,7 +58,11 @@ namespace RandomLevel{
 		/// <returns><c>true</c> if the coordinate is within bounds,
 		/// <c>false</c> otherwise.
 		/// <param name="c">The coordinate to be checked</param>
-		bool IsValid(Coordinate c){
+		public bool IsValid(Coordinate c)
+		{
+			if (c == null) {
+				throw new ArgumentNullException("The provided coordinate should not be null.");
+			}
 			return !(c.row < 0 || c.row >= maxrow || c.col < 0 || c.col >= maxcol);
 		}
 	}

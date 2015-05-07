@@ -25,6 +25,7 @@ public class projectioncode : MonoBehaviour {
 	public void rotate(Transform t){
 		transform.rotation = Quaternion.FromToRotation(Vector3.right, normal);
 	}
+
 	public void setPlaneByPoints(Vector3 point1,Vector3 point2, Vector3 point3){
 		p1 = point1;
 		p2 = point2;
@@ -35,8 +36,8 @@ public class projectioncode : MonoBehaviour {
 		normal=getNormal(v1,v2);
 	}
 
-	public Transform projectTransform(Transform input){
-		input.position = projectPoint (input.position);
+	public Transform projectTransform(Transform input, Transform home){
+		input.position = projectPoint (home.position);
 		return input;
 	}
 	/*
