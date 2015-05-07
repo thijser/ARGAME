@@ -34,6 +34,9 @@ namespace Laser
         /// </summary>
         public MonoBehaviour laserBehavior;
 
+		/// <summary>
+		/// Initializes this script. Automatically called by Unity.
+		/// </summary>
         public void Start() {
             if (laserBehavior == null) {
                 laserBehavior = GetComponent<Mirror>();

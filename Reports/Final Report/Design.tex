@@ -21,14 +21,26 @@
 
 		\subsection{Physically remote user wants to join a started game}
 				\label{ssec:remotejoingame}
-			A physically remote player wants to join an active game. Before
-			this can happen, a game has to be started first. As mentioned
-			before, both physically co-located players and physically remote
-			players can start a game session which other players can join.
+			A physically remote player wants to join an active game. Before this can
+			happen, a game has to be started first. As mentioned before, both physically
+			co-located players and physically remote players can start a game session
+			which other players can join.
 
 	\section{Back-end design} \label{sec:backenddesign}
-		% TODO Unity, C#, MonoDevelop (maybe?)
+		The system is composed of three main parts: The Laser mechanics, the network
+		functionality and the projection to 3D glasses. For this purpose, we divided
+		the code over three namespaces, named \"Laser\", \"Network\" and
+		\"Projection\", respectively.
 
+		The \"Laser\" namespace is responsible for drawing the Laser beams and
+		providing the interactions of laser beams with the other game objects.
+
+		The \"Network\" namespace is responsible for synchronizing the game state
+		between all connected players.
+
+		The \"Projection\" namespace is responsible for providing the projection to
+		the VR glasses. This namespace provides the functionality required to project
+		the game world to the VR glasses.
 
 	\section{Graphical design} \label{sec:graphicaldesign}
 		For designing the 3D models, we used Blender. Blender is a free application
