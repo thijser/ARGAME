@@ -84,10 +84,10 @@ namespace RandomLevel
         /// Determines the quadrant from the given integer.
         /// </summary>
         /// <returns>The corresponding quadrant.</returns>
-        /// <param name="integer">The integer.</param>
-        public static Quadrant DetermineQuad(int integer)
+        /// <param name="determine">The given integer.</param>
+        public static Quadrant DetermineQuad(int determine)
         {
-            switch (integer)
+            switch (determine)
             {
                 case 0: return Quadrant.NORTHWEST;
                 case 1: return Quadrant.NORTHEAST;
