@@ -112,7 +112,7 @@ namespace RandomLevel
         /// </summary>
         private void Run()
         {
-            ////Specify row and column coordinate of target.
+            ////Specify Row and column coordinate of target.
             int targetRowCoord = this.sg.Maxrow / 2;
             int targetColCoord = this.sg.Maxcol / 2;
             this.TargetCoord = new Coordinate(targetRowCoord, targetColCoord);

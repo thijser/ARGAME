@@ -63,7 +63,7 @@ namespace RandomLevel
         public int Maxcol { get; private set; }
 
         /// <summary>
-        /// Returns the vertex at the specified coordinate (a (row, column)
+        /// Returns the vertex at the specified coordinate (a (Row, column)
         /// pair of integers). Throws an exception if the coordinate is out
         /// of bounds.
         /// </summary>
@@ -73,10 +73,10 @@ namespace RandomLevel
         {
             if (!this.IsValid(coordinate))
             {
-                throw new ArgumentException("Invalid row-column pair.");
+                throw new ArgumentException("Invalid Row-column pair.");
             }
 
-            return this.squareMap[coordinate.row, coordinate.col];
+            return this.squareMap[coordinate.Row, coordinate.Col];
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace RandomLevel
                 throw new ArgumentNullException("coordinate");
             }
 
-            return !(coordinate.row < 0 || coordinate.row >= this.Maxrow || coordinate.col < 0 || coordinate.col >= this.Maxcol);
+            return !(coordinate.Row < 0 || coordinate.Row >= this.Maxrow || coordinate.Col < 0 || coordinate.Col >= this.Maxcol);
         }
     }
 }

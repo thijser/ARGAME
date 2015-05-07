@@ -56,16 +56,16 @@ namespace RandomLevel
 		/// </summary>
 		private void FindPathNorthWest() 
 		{
-			int randRow = RandInt(0,targetCoord.row);
-			int randCol = RandInt(0,targetCoord.col);
+			int randRow = RandInt(0,targetCoord.Row);
+			int randCol = RandInt(0,targetCoord.Col);
 			int spare;
-			PathFromToCol(targetCoord.row, targetCoord.col - 1, randCol);
-			PathFromToRow(targetCoord.row, randRow, randCol);
+			PathFromToCol(targetCoord.Row, targetCoord.Col - 1, randCol);
+			PathFromToRow(targetCoord.Row, randRow, randCol);
 			spare = randCol;
-			randCol = RandInt(targetCoord.col + 1, sg.Maxcol);
+			randCol = RandInt(targetCoord.Col + 1, sg.Maxcol);
 			PathFromToCol(randRow, spare, randCol);
 			spare = randRow;
-			randRow = RandInt(targetCoord.row+1, sg.Maxrow);
+			randRow = RandInt(targetCoord.Row+1, sg.Maxrow);
 			PathFromToRow(spare, randRow, randCol);
 			sg.GetVertexAtCoordinate (new Coordinate (randRow, 0)).Prop = Property.LASER;
 			PathFromToCol(randRow, randCol, 1);
@@ -76,16 +76,16 @@ namespace RandomLevel
 		/// </summary>
 		private void FindPathNorthEast() 
 		{
-			int randRow = RandInt(0,targetCoord.row);
-			int randCol = RandInt(targetCoord.col + 1, sg.Maxcol);
+			int randRow = RandInt(0,targetCoord.Row);
+			int randCol = RandInt(targetCoord.Col + 1, sg.Maxcol);
 			int spare;
-			PathFromToRow(targetCoord.row - 1, randRow, targetCoord.col);
-			PathFromToCol(randRow, targetCoord.col, randCol);
+			PathFromToRow(targetCoord.Row - 1, randRow, targetCoord.Col);
+			PathFromToCol(randRow, targetCoord.Col, randCol);
 			spare = randRow;
-			randRow = RandInt(targetCoord.row+1, sg.Maxrow);
+			randRow = RandInt(targetCoord.Row+1, sg.Maxrow);
 			PathFromToRow(spare,randRow,randCol);
 			spare = randCol;
-			randCol = RandInt(0,targetCoord.col);
+			randCol = RandInt(0,targetCoord.Col);
 			PathFromToCol(randRow,spare,randCol);
 			sg.GetVertexAtCoordinate(new Coordinate(0,randCol)).Prop = Property.LASER;
 			PathFromToRow(randRow,1,randCol);
@@ -96,16 +96,16 @@ namespace RandomLevel
 		/// </summary>
 		private void FindPathSouthEast() 
 		{
-			int randRow = RandInt(targetCoord.row + 1, sg.Maxrow);
-			int randCol = RandInt(targetCoord.col + 1, sg.Maxcol);
+			int randRow = RandInt(targetCoord.Row + 1, sg.Maxrow);
+			int randCol = RandInt(targetCoord.Col + 1, sg.Maxcol);
 			int spare;
-			PathFromToCol(targetCoord.row, targetCoord.col + 1, randCol);
-			PathFromToRow(targetCoord.row, randRow, randCol);
+			PathFromToCol(targetCoord.Row, targetCoord.Col + 1, randCol);
+			PathFromToRow(targetCoord.Row, randRow, randCol);
 			spare = randCol;
-			randCol = RandInt(0,targetCoord.col);
+			randCol = RandInt(0,targetCoord.Col);
 			PathFromToCol(randRow,spare,randCol);
 			spare = randRow;
-			randRow = RandInt(0,targetCoord.row);
+			randRow = RandInt(0,targetCoord.Row);
 			PathFromToRow(randRow,spare,randCol);
 			sg.GetVertexAtCoordinate(new Coordinate(randRow,sg.Maxcol-1)).Prop = Property.LASER;
 			PathFromToCol(randRow, randCol, sg.Maxcol - 2);
@@ -116,16 +116,16 @@ namespace RandomLevel
 		/// </summary>
 		private void FindPathSouthWest() 
 		{
-			int randRow = RandInt(targetCoord.row + 1, sg.Maxrow);
-			int randCol = RandInt(0,targetCoord.col);
+			int randRow = RandInt(targetCoord.Row + 1, sg.Maxrow);
+			int randCol = RandInt(0,targetCoord.Col);
 			int spare;
-			PathFromToRow(targetCoord.row + 1, randRow, targetCoord.col);
-			PathFromToCol(randRow, randCol, targetCoord.col);
+			PathFromToRow(targetCoord.Row + 1, randRow, targetCoord.Col);
+			PathFromToCol(randRow, randCol, targetCoord.Col);
 			spare = randRow;
-			randRow = RandInt(0,targetCoord.row);
+			randRow = RandInt(0,targetCoord.Row);
 			PathFromToRow(randRow,spare,randCol);
 			spare = randCol;
-			randCol = RandInt(targetCoord.col + 1, sg.Maxcol);
+			randCol = RandInt(targetCoord.Col + 1, sg.Maxcol);
 			PathFromToCol(randRow, spare, randCol);
 			sg.GetVertexAtCoordinate(new Coordinate(sg.Maxrow-1,randCol)).Prop = Property.LASER;
 			PathFromToRow(randRow, sg.Maxrow-2, randCol);
@@ -142,10 +142,10 @@ namespace RandomLevel
 			return random.Next (min, max);
 		}
 		/// <summary>
-		/// Marks all the vertices on the same row from the start column
+		/// Marks all the vertices on the same Row from the start column
 		/// to the end column as part of the critical path.
 		/// </summary>
-		/// <param name="row">The row index.</param>
+		/// <param name="Row">The Row index.</param>
 		/// <param name="initcol">The initial column index.</param>
 		/// <param name="endcol">The final column index.</param>
 		private void PathFromToCol(int row, int initcol, int endcol) {
@@ -158,12 +158,12 @@ namespace RandomLevel
 		}
 
 		/// <summary>
-		/// Marks all the vertices on the same column from the start row
-		/// to the end row as part of the critical path.
+		/// Marks all the vertices on the same column from the start Row
+		/// to the end Row as part of the critical path.
 		/// </summary>
-		/// <param name="initrow">The initial row index.</param>
-		/// <param name="endrow">The final row index.</param>
-		/// <param name="col">The column index.</param>
+		/// <param name="initrow">The initial Row index.</param>
+		/// <param name="endrow">The final Row index.</param>
+		/// <param name="Col">The column index.</param>
 		private void PathFromToRow(int initrow, int endrow, int col) 
 		{
 			int start = Math.Min (initrow, endrow);

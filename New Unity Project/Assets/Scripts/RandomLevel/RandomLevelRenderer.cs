@@ -39,7 +39,7 @@ namespace RandomLevel
 		}
 		private static Vector3 CoordToVector(Coordinate c) 
 		{
-			return new Vector3 (c.col*ScaleFact, 0f, c.row*-ScaleFact);
+			return new Vector3 (c.Col*ScaleFact, 0f, c.Row*-ScaleFact);
 		}
 		private void InstantiateObject(Vertex v, Vector3 spawnVec)
 		{
