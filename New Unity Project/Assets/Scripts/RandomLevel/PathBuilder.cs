@@ -62,12 +62,12 @@ namespace RandomLevel
 			PathFromToCol(targetCoord.row, targetCoord.col - 1, randCol);
 			PathFromToRow(targetCoord.row, randRow, randCol);
 			spare = randCol;
-			randCol = RandInt(targetCoord.col + 1, sg.maxcol);
+			randCol = RandInt(targetCoord.col + 1, sg.Maxcol);
 			PathFromToCol(randRow, spare, randCol);
 			spare = randRow;
-			randRow = RandInt(targetCoord.row+1, sg.maxrow);
+			randRow = RandInt(targetCoord.row+1, sg.Maxrow);
 			PathFromToRow(spare, randRow, randCol);
-			sg.GetVertexAtCoordinate (new Coordinate (randRow, 0)).prop = Property.LASER;
+			sg.GetVertexAtCoordinate (new Coordinate (randRow, 0)).Prop = Property.LASER;
 			PathFromToCol(randRow, randCol, 1);
 		}
 
@@ -77,17 +77,17 @@ namespace RandomLevel
 		private void FindPathNorthEast() 
 		{
 			int randRow = RandInt(0,targetCoord.row);
-			int randCol = RandInt(targetCoord.col + 1, sg.maxcol);
+			int randCol = RandInt(targetCoord.col + 1, sg.Maxcol);
 			int spare;
 			PathFromToRow(targetCoord.row - 1, randRow, targetCoord.col);
 			PathFromToCol(randRow, targetCoord.col, randCol);
 			spare = randRow;
-			randRow = RandInt(targetCoord.row+1, sg.maxrow);
+			randRow = RandInt(targetCoord.row+1, sg.Maxrow);
 			PathFromToRow(spare,randRow,randCol);
 			spare = randCol;
 			randCol = RandInt(0,targetCoord.col);
 			PathFromToCol(randRow,spare,randCol);
-			sg.GetVertexAtCoordinate(new Coordinate(0,randCol)).prop = Property.LASER;
+			sg.GetVertexAtCoordinate(new Coordinate(0,randCol)).Prop = Property.LASER;
 			PathFromToRow(randRow,1,randCol);
 		}
 
@@ -96,8 +96,8 @@ namespace RandomLevel
 		/// </summary>
 		private void FindPathSouthEast() 
 		{
-			int randRow = RandInt(targetCoord.row + 1, sg.maxrow);
-			int randCol = RandInt(targetCoord.col + 1, sg.maxcol);
+			int randRow = RandInt(targetCoord.row + 1, sg.Maxrow);
+			int randCol = RandInt(targetCoord.col + 1, sg.Maxcol);
 			int spare;
 			PathFromToCol(targetCoord.row, targetCoord.col + 1, randCol);
 			PathFromToRow(targetCoord.row, randRow, randCol);
@@ -107,8 +107,8 @@ namespace RandomLevel
 			spare = randRow;
 			randRow = RandInt(0,targetCoord.row);
 			PathFromToRow(randRow,spare,randCol);
-			sg.GetVertexAtCoordinate(new Coordinate(randRow,sg.maxcol-1)).prop = Property.LASER;
-			PathFromToCol(randRow, randCol, sg.maxcol - 2);
+			sg.GetVertexAtCoordinate(new Coordinate(randRow,sg.Maxcol-1)).Prop = Property.LASER;
+			PathFromToCol(randRow, randCol, sg.Maxcol - 2);
 		}
 
 		/// <summary>
@@ -116,7 +116,7 @@ namespace RandomLevel
 		/// </summary>
 		private void FindPathSouthWest() 
 		{
-			int randRow = RandInt(targetCoord.row + 1, sg.maxrow);
+			int randRow = RandInt(targetCoord.row + 1, sg.Maxrow);
 			int randCol = RandInt(0,targetCoord.col);
 			int spare;
 			PathFromToRow(targetCoord.row + 1, randRow, targetCoord.col);
@@ -125,10 +125,10 @@ namespace RandomLevel
 			randRow = RandInt(0,targetCoord.row);
 			PathFromToRow(randRow,spare,randCol);
 			spare = randCol;
-			randCol = RandInt(targetCoord.col + 1, sg.maxcol);
+			randCol = RandInt(targetCoord.col + 1, sg.Maxcol);
 			PathFromToCol(randRow, spare, randCol);
-			sg.GetVertexAtCoordinate(new Coordinate(sg.maxrow-1,randCol)).prop = Property.LASER;
-			PathFromToRow(randRow, sg.maxrow-2, randCol);
+			sg.GetVertexAtCoordinate(new Coordinate(sg.Maxrow-1,randCol)).Prop = Property.LASER;
+			PathFromToRow(randRow, sg.Maxrow-2, randCol);
 		}
 
 		/// <summary>
@@ -153,7 +153,7 @@ namespace RandomLevel
 			int end = Math.Max (initcol, endcol);
 			for(int i = start; i <= end; i++) 
 			{
-				sg.GetVertexAtCoordinate (new Coordinate (row, i)).prop = Property.PARTOFPATH;
+				sg.GetVertexAtCoordinate (new Coordinate (row, i)).Prop = Property.PARTOFPATH;
 			}
 		}
 
@@ -170,7 +170,7 @@ namespace RandomLevel
 			int end = Math.Max (initrow, endrow);
 			for(int i = start; i <= end; i++) 
 			{
-				sg.GetVertexAtCoordinate(new Coordinate(i,col)).prop = Property.PARTOFPATH;
+				sg.GetVertexAtCoordinate(new Coordinate(i,col)).Prop = Property.PARTOFPATH;
 			}
 		}
 	}

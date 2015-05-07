@@ -27,14 +27,14 @@ namespace RandomLevel
 			if (graph == null) {
 				throw new ArgumentNullException("graph");
 			}
-			int max = (int) (graph.maxrow*graph.maxcol*4)/10;
+			int max = (int) (graph.Maxrow*graph.Maxcol*4)/10;
 			for(int i = 0; i < max; i++) 
 			{
-				int randRow = RandInt(0,graph.maxrow);
-				int randCol = RandInt(0,graph.maxcol);
-				if(graph.GetVertexAtCoordinate(new Coordinate(randRow, randCol)).prop == Property.EMPTY)
+				int randRow = RandInt(0,graph.Maxrow);
+				int randCol = RandInt(0,graph.Maxcol);
+				if(graph.GetVertexAtCoordinate(new Coordinate(randRow, randCol)).Prop == Property.EMPTY)
 				{
-					graph.GetVertexAtCoordinate (new Coordinate (randRow, randCol)).prop = Property.WALL;
+					graph.GetVertexAtCoordinate (new Coordinate (randRow, randCol)).Prop = Property.WALL;
 				}
 			}
 		}

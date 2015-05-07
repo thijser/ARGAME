@@ -43,7 +43,7 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 			{
 				for(int j = 0; j < 20; j++) 
 				{
-					if(sg.GetVertexAtCoordinate(new Coordinate(i,j)).prop == Property.WALL) 
+					if(sg.GetVertexAtCoordinate(new Coordinate(i,j)).Prop == Property.WALL) 
 					{
 						check = true;
 					}
@@ -65,7 +65,7 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 			{
 				for(int j = 0; j < 20; j++) 
 				{
-					if(sg.GetVertexAtCoordinate(new Coordinate(i,j)).prop == Property.EMPTY) 
+					if(sg.GetVertexAtCoordinate(new Coordinate(i,j)).Prop == Property.EMPTY) 
 					{
 						check = true;
 					}
