@@ -15,9 +15,9 @@ namespace RandomLevel
 	/// </summary>
 	public enum Property
 	{
+		EMPTY = 0,
 		WALL,
 		LASER,
-		EMPTY,
 		TARGET,
 		PARTOFPATH
 	}

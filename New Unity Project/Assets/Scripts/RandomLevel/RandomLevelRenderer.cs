@@ -12,6 +12,10 @@ using System.Collections;
 using UnityEngine;
 namespace RandomLevel
 {
+	/// <summary>
+	/// This class forms te bridge between a randomly created level and a randomly rendered level.
+	/// It creates a randomly generated level, and then renders that level in the game world.
+	/// </summary>
 	public class RandomLevelRenderer : MonoBehaviour
 	{
 		private SquareGraph sg;
@@ -22,36 +26,36 @@ namespace RandomLevel
 		public const float ScaleFact = 15f;
 		private void Render() 
 		{
-			for (int i = 0; i < sg.maxrow; i++) 
+			for (int i = 0; i < sg.Maxrow; i++) 
 			{
-				for (int j = 0; j < sg.maxcol; j++) 
+				for (int j = 0; j < sg.Maxcol; j++) 
 				{
 					Coordinate c = new Coordinate(i,j);
-					Vertex v = sg.GetVertexAtCoords(c);
+					Vertex v = sg.GetVertexAtCoordinate(c);
 					Vector3 spawnVec = CoordToVector(c) - targetVec;
 					InstantiateObject(v,spawnVec);
 				}
 			}
 		}
-		static Vector3 CoordToVector(Coordinate c) 
+		private static Vector3 CoordToVector(Coordinate c) 
 		{
-			return new Vector3 (c.col*ScaleFact, 0f, c.row*-ScaleFact);
+			return new Vector3 (c.Col*ScaleFact, 0f, c.Row*-ScaleFact);
 		}
-		void InstantiateObject(Vertex v, Vector3 spawnVec)
+		private void InstantiateObject(Vertex v, Vector3 spawnVec)
 		{
 
-			if (v.prop == Property.LASER) 
+			if (v.Prop == Property.LASER) 
 			{
 				int i = DetermineQuadRotation (quad);
 				Quaternion q = Quaternion.Euler(0, i*90, 0);
 				Instantiate (emitterPrefab, spawnVec, q);
 			} 
-			else if (v.prop == Property.WALL) 
+			else if (v.Prop == Property.WALL) 
 			{
 				Quaternion q = Quaternion.Euler(0, UnityEngine.Random.Range(0,4)*90, 0);
 				Instantiate (wallPrefab, spawnVec, q);
 			} 
-			else if (v.prop == Property.TARGET) 
+			else if (v.Prop == Property.TARGET) 
 			{
 				Instantiate (targetPrefab, spawnVec, Quaternion.identity);
 			}
@@ -59,12 +63,12 @@ namespace RandomLevel
 		public void Start() 
 		{
 			RandomLevelGenerator rlg = new RandomLevelGenerator (rows, cols);
-			quad = rlg.q;
+			quad = rlg.Quad;
 			sg = rlg.ReturnRandomMap ();
-			targetVec = CoordToVector (rlg.targetCoord);
+			targetVec = CoordToVector (rlg.TargetCoord);
 			Render ();
 		}
-		static int DetermineQuadRotation(Quadrant q) 
+		private static int DetermineQuadRotation(Quadrant q) 
 		{
 			switch (q) 
 			{
