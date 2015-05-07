@@ -42,14 +42,14 @@ namespace RandomLevel{
 		/// of bounds.
 		/// </summary>
 		/// <returns>The vertex at coords.</returns>
-		/// <param name="coord">The coordinate of the vertex.</param>
-		public Vertex GetVertexAtCoords(Coordinate coord)
+		/// <param name="coordinate">The coordinate of the vertex.</param>
+		public Vertex GetVertexAtCoordinate(Coordinate coordinate)
 		{
-			if (!IsValid (coord)) 
+			if (!IsValid (coordinate)) 
 			{
 				throw new ArgumentException ("Invalid row-column pair.");
 			}
-			return squareMap [coord.row, coord.col];
+			return squareMap [coordinate.row, coordinate.col];
 		}
 		/// <summary>
 		/// Determines whether this coordinate is a valid location in
@@ -57,13 +57,13 @@ namespace RandomLevel{
 		/// </summary>
 		/// <returns><c>true</c> if the coordinate is within bounds,
 		/// <c>false</c> otherwise.
-		/// <param name="c">The coordinate to be checked</param>
-		public bool IsValid(Coordinate c)
+		/// <param name="coordinate">The coordinate to be checked</param>
+		public bool IsValid(Coordinate coordinate)
 		{
-			if (c == null) {
-				throw new ArgumentNullException("The provided coordinate should not be null.");
+			if (coordinate == null) {
+				throw new ArgumentNullException("coordinate");
 			}
-			return !(c.row < 0 || c.row >= maxrow || c.col < 0 || c.col >= maxcol);
+			return !(coordinate.row < 0 || coordinate.row >= maxrow || coordinate.col < 0 || coordinate.col >= maxcol);
 		}
 	}
 }

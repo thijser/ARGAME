@@ -105,7 +105,7 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 		/// </summary>
 		public void SqGraphTestCoordIsNullv2() {
 			SquareGraph sg = new SquareGraph (20, 20);
-			sg.GetVertexAtCoords (null);
+			sg.GetVertexAtCoordinate (null);
 		}
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
@@ -115,7 +115,7 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 		/// </summary>
 		public void SqGraphTestInvalidCoord() {
 			SquareGraph sg = new SquareGraph (20, 20);
-			sg.GetVertexAtCoords (new Coordinate(21,21));
+			sg.GetVertexAtCoordinate (new Coordinate(21,21));
 		}
 		[Test]
 		/// <summary>
@@ -124,7 +124,7 @@ namespace AssemblyCSharpEditor.Tests.RandomLevels
 		/// </summary>
 		public void SqGraphTestValidCoord() {
 			SquareGraph sg = new SquareGraph (20, 20);
-			Assert.NotNull(sg.GetVertexAtCoords (new Coordinate(9,9)));
+			Assert.NotNull(sg.GetVertexAtCoordinate (new Coordinate(9,9)));
 		}
 	}
 }

@@ -31,7 +31,7 @@ namespace RandomLevel
 				for (int j = 0; j < sg.maxcol; j++) 
 				{
 					Coordinate c = new Coordinate(i,j);
-					Vertex v = sg.GetVertexAtCoords(c);
+					Vertex v = sg.GetVertexAtCoordinate(c);
 					Vector3 spawnVec = CoordToVector(c) - targetVec;
 					InstantiateObject(v,spawnVec);
 				}

@@ -21,19 +21,20 @@ namespace RandomLevel
 		/// Adds walls randomly to the map. The amount of added walls is less
 		/// than half the amount of vertices in the map.
 		/// </summary>
-		public void AddRandomWalls(SquareGraph sg) 
+		/// <param name = "graph">The SquareGraph object.</param>
+		public void AddRandomWalls(SquareGraph graph) 
 		{
-			if (sg == null) {
-				throw new ArgumentNullException("The supplied argument should not be null.");
+			if (graph == null) {
+				throw new ArgumentNullException("graph");
 			}
-			int max = (int) (sg.maxrow*sg.maxcol*4)/10;
+			int max = (int) (graph.maxrow*graph.maxcol*4)/10;
 			for(int i = 0; i < max; i++) 
 			{
-				int randRow = RandInt(0,sg.maxrow);
-				int randCol = RandInt(0,sg.maxcol);
-				if(sg.GetVertexAtCoords(new Coordinate(randRow, randCol)).prop == Property.EMPTY)
+				int randRow = RandInt(0,graph.maxrow);
+				int randCol = RandInt(0,graph.maxcol);
+				if(graph.GetVertexAtCoordinate(new Coordinate(randRow, randCol)).prop == Property.EMPTY)
 				{
-					sg.GetVertexAtCoords (new Coordinate (randRow, randCol)).prop = Property.WALL;
+					graph.GetVertexAtCoordinate (new Coordinate (randRow, randCol)).prop = Property.WALL;
 				}
 			}
 		}
