@@ -1,17 +1,30 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿//----------------------------------------------------------------------------
+// <copyright file="ImageLinker.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//     
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not, 
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
+namespace Projection
+{
+    using UnityEngine;
 
-public class ImageLinker : MonoBehaviour {
-	public projectioncode Projector; 
-	public Transform linkedTo; 
-	void Start(){
+    public class ImageLinker : MonoBehaviour
+    {
+        public PlaneProjector Projector;
+        public Transform LinkedTo;
 
-		Projector.addPosition (transform);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		Projector.projectTransform(linkedTo,transform);
-		Projector.rotate (linkedTo);
-	}
+        public void Start()
+        {
+            Projector.AddPosition(transform);
+        }
+
+        void Update()
+        {
+            Projector.ProjectTransform(LinkedTo, transform);
+            Projector.Rotate(LinkedTo);
+        }
+    }
 }

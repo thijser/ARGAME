@@ -19,14 +19,14 @@ namespace Projection
         /// <summary>
         /// The Projector.
         /// </summary>
-        public projectioncode Projector;
+        public PlaneProjector Projector;
 
         /// <summary>
         /// Initializes this instance.
         /// </summary>
         public void Start()
         {
-            // Projector.addPosition (transform);
+            // this.Projector.AddPosition(transform);
         }
 
         /// <summary>
@@ -34,8 +34,8 @@ namespace Projection
         /// </summary>
         public void Update()
         {
-            // Projector.projectTransform(transform);
-            // Projector.rotate (transform);
+            // this.Projector.ProjectTransform(transform);
+            // this.Projector.Rotate(transform);
         }
     }
 }
