@@ -32,7 +32,7 @@ namespace Laser
         /// <summary>
         /// The ILaserReceiver to call when this object is hit by a Laser beam.
         /// </summary>
-        public MonoBehaviour LaserBehavior { get; set; }
+        public ILaserReceiver LaserBehavior { get; set; }
 
 		/// <summary>
 		/// Initializes this script. Automatically called by Unity.
@@ -41,7 +41,7 @@ namespace Laser
             // Automatically find suitable behavior
             foreach (ILaserReceiver behavior in GetComponents<ILaserReceiver>()) {
                 if ((object) behavior != this) {
-                    LaserBehavior = (MonoBehaviour) behavior;
+                    LaserBehavior = behavior;
                 }
             }
         }
