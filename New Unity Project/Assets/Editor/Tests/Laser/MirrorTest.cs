@@ -40,7 +40,7 @@
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void NullLaserBeamTest() 
 		{
-			CreateMirror().CreateReflection(null, Vector3.zero);
+			Mirror.CreateReflection(null, Vector3.zero);
 		}
     }
 }

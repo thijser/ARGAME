@@ -11,10 +11,10 @@ namespace RandomLevel{
 	///Generates randomized levels.
 	///</summary>
 	public class RandomLevelGenerator {
-		internal Coordinate targetCoord { get; set;}
+		public Coordinate targetCoord { get; private set;}
 		private Random r;
 		private SquareGraph sg;
-		public Quadrant q { get; set; }
+		public Quadrant q { get; private set; }
 		///<summary>
 		///Creates a new RandomLevelGenerator with the given
 		///size of the playing field.
@@ -36,13 +36,13 @@ namespace RandomLevel{
 		/// Runs the map creation procedure. Called during construction
 		/// of the object.
 		/// </summary>
-		public void Run() 
+		private void Run() 
 		{
 			//Specify row and column coordinate of target.
 			int targetRowCoord = sg.maxrow/2;
 			int targetColCoord = sg.maxcol/2;
 			targetCoord = new Coordinate(targetRowCoord, targetColCoord);
-			sg.GetVertexAtCoords(targetCoord).prop = Property.TARGET;
+			sg.GetVertexAtCoordinate(targetCoord).prop = Property.TARGET;
 			//Determine first quadrant to plan a route to.
 			int firstQuad = RandInt(0,4);
 			q = DetermineQuad (firstQuad);
@@ -71,10 +71,10 @@ namespace RandomLevel{
 		/// Determines the quadrant from the given integer.
 		/// </summary>
 		/// <returns>The corresponding quadrant.</returns>
-		/// <param name="i">The integer.</param>
-		static Quadrant DetermineQuad(int i)
+		/// <param name="integer">The integer.</param>
+		public static Quadrant DetermineQuad(int integer)
 		{
-			switch (i) 
+			switch (integer) 
 			{
 				case 0: return Quadrant.NORTHWEST;
 				case 1: return Quadrant.NORTHEAST;
