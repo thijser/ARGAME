@@ -29,7 +29,7 @@ namespace Vuforia
                 unityPlayer = new IOSUnityPlayer();
             else if (QCARRuntimeUtilities.IsPlayMode())
                 unityPlayer = new PlayModeUnityPlayer();
-
+			unityPlayer = new PlayModeUnityPlayer();
             SetUnityPlayerImplementation(unityPlayer);
 
             gameObject.AddComponent<ComponentFactoryStarterBehaviour>();

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 public class projectioncode : MonoBehaviour {
 	Vector3 p1;
 	Vector3 p2;
@@ -9,10 +9,22 @@ public class projectioncode : MonoBehaviour {
 	Vector3 v2;
 	Vector3 normal;
 
+	public List<Transform> positions;
 
+	void Update () {
+		setPlaneByPoints (positions [0].position,positions [1].position,positions [2].position);
+	}
+
+	public void addPosition(Transform t){
+		positions.Add (t);
+	}
 	/*
 	 *use a plane with the following 3 coordinates 
 	 */ 
+
+	public void rotate(Transform t){
+		transform.rotation = Quaternion.FromToRotation(Vector3.right, normal);
+	}
 	public void setPlaneByPoints(Vector3 point1,Vector3 point2, Vector3 point3){
 		p1 = point1;
 		p2 = point2;
