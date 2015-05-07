@@ -20,21 +20,33 @@ namespace Laser
     public class LaserEmitter : MonoBehaviour 
     {
         /// <summary>
-        /// The LineRenderer used for drawing the Laser beams.
+        /// The LineRenderer used for drawing the Laser beams (optional).
         /// </summary>
-        public LineRenderer LineRenderer;
+        public LineRenderer lineRenderer;
 
         /// <summary>
         /// A List of segments that make up the whole Laser beam this LaserEmitter emits.
         /// </summary>
         private List<Laser> segments = new List<Laser>();
+
+        /// <summary>
+        /// Gets all the segments of the laser beam as a read-only variable.
+        /// </summary>
         public ReadOnlyCollection<Laser> Segments
         {
             get
             {
-                return segments.AsReadOnly();
+                return this.segments.AsReadOnly();
             }
         }
+
+		public void Start()
+		{
+			if (this.lineRenderer == null)
+			{
+				this.lineRenderer = GetComponent<LineRenderer> ();
+			}
+		}
 
         /// <summary>
         /// Updates the path of the Lasers and redraws the scene.
@@ -70,12 +82,12 @@ namespace Laser
         /// </summary>
         public void Render() 
         {
-            this.LineRenderer.SetVertexCount(this.segments.Count + 1);
+			this.lineRenderer.SetVertexCount(this.segments.Count + 1);
             Vector3 renderOrigin = this.segments[0].Origin;
-            this.LineRenderer.SetPosition(0, renderOrigin);
+			this.lineRenderer.SetPosition(0, renderOrigin);
             for (int i = 0; i < this.segments.Count; i++) 
             {
-                this.LineRenderer.SetPosition(i + 1, this.segments[i].Endpoint);
+				this.lineRenderer.SetPosition(i + 1, this.segments[i].Endpoint);
             }
         }
 
