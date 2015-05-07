@@ -105,6 +105,16 @@
       help future researchers in the same field. The full terms of the MIT
       license can be found at \url{http://opensource.org/licenses/mit-license.html}
 
+      To ensure the C# source code in the project meets common coding standards
+      (as set by Microsoft), we use the code analysis tools FxCop and StyleCop
+      in combination with SonarQube. FxCop performs static code analysis, like
+      code complexity and some naming conventions. StyleCop, on the other hand,
+      focuses more on code style which includes use of spacing and
+      documentation as well as other factors. SonarQube is a platform that
+      unifies the reports from these tools and provides a clean overview of the
+      combined issues found by FxCop and StyleCop, as well as some simple metrics
+      SonarQube has built-in.
+
     \subsection{Design Architecture} \label{ssec:designarchitecture}
       Because the product is a game and the goal of the project is more
       focused on the game mechanics rather than the underlying engine, we chose

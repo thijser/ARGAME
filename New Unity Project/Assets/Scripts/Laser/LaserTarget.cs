@@ -22,6 +22,11 @@ namespace Laser
         /// </summary>
         public bool FullyOpened { get; private set; }
 
+		/// <summary>
+		/// The name of the next level.
+		/// </summary>
+		public string NextLevelName;
+
         /// <summary>
         /// Consumes the Laser beam and opens the target one step.
         /// </summary>
@@ -50,8 +55,7 @@ namespace Laser
         /// </summary>
         public void LoadNextLevel()
         {
-            // TODO: Load the next Level
-            Debug.LogError("Loading next level is not yet implemented");
+			Application.LoadLevel(this.NextLevelName);
         }
     }
 }

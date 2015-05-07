@@ -30,9 +30,18 @@ namespace Laser
     public class Receiver : MonoBehaviour, ILaserReceiver 
     {
         /// <summary>
-        /// The ILaserReceiver to call when this object is hit by a Laser beam.
+        /// The ILaserReceiver to call when this object is hit by a Laser beam (optional for mirrors).
         /// </summary>
-        public MonoBehaviour LaserBehavior;
+        public MonoBehaviour laserBehavior;
+
+		/// <summary>
+		/// Initializes this script. Automatically called by Unity.
+		/// </summary>
+        public void Start() {
+            if (laserBehavior == null) {
+                laserBehavior = GetComponent<Mirror>();
+            }
+        }
 
         /// <summary>
         /// Calls the delegate LaserBehavior object if it is a valid
@@ -42,7 +51,7 @@ namespace Laser
         /// <param name="args">The HitEventArgs describing the event</param>
         public void OnLaserHit(object sender, HitEventArgs args) 
         {
-            ILaserReceiver receiver = this.LaserBehavior as ILaserReceiver;
+            ILaserReceiver receiver = this.laserBehavior as ILaserReceiver;
             if (receiver != null) 
             {
                 receiver.OnLaserHit(this, args);
