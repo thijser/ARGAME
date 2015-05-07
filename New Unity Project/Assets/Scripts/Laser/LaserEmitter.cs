@@ -28,11 +28,15 @@ namespace Laser
         /// A List of segments that make up the whole Laser beam this LaserEmitter emits.
         /// </summary>
         private List<Laser> segments = new List<Laser>();
+
+        /// <summary>
+        /// Gets all the segments of the laser beam as a read-only variable.
+        /// </summary>
         public ReadOnlyCollection<Laser> Segments
         {
             get
             {
-                return segments.AsReadOnly();
+                return this.segments.AsReadOnly();
             }
         }
 
