@@ -18,15 +18,15 @@ namespace Laser
     public class LaserTarget : MonoBehaviour, ILaserReceiver
     {
         /// <summary>
+        /// The index of the next level.
+        /// </summary>
+        public int NextLevelIndex;
+
+        /// <summary>
         /// Gets a value indicating whether the target is fully opened.
         /// </summary>
         public bool FullyOpened { get; private set; }
-
-		/// <summary>
-		/// The index of the next level.
-		/// </summary>
-		public int NextLevelIndex;
-
+        
         /// <summary>
         /// Consumes the Laser beam and opens the target one step.
         /// </summary>
@@ -55,16 +55,16 @@ namespace Laser
         /// </summary>
         public void LoadNextLevel()
         {
-			int levelCount = Application.levelCount;
-			if (NextLevelIndex < levelCount) 
-			{
-				Application.LoadLevel (NextLevelIndex);
-			} 
-			else
-			{
-				Debug.LogError("Tried to load level #" + NextLevelIndex + 
-				               ", but only have " + levelCount + " levels");
-			}
+            int levelCount = Application.levelCount;
+            if (this.NextLevelIndex < levelCount) 
+            {
+                Application.LoadLevel(this.NextLevelIndex);
+            } 
+            else
+            {
+                Debug.LogError("Tried to load level #" + this.NextLevelIndex + 
+                               ", but only have " + levelCount + " levels");
+            }
         }
     }
 }

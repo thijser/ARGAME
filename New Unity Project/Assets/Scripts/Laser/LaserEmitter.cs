@@ -22,7 +22,7 @@ namespace Laser
         /// <summary>
         /// The LineRenderer used for drawing the Laser beams (optional).
         /// </summary>
-        public LineRenderer lineRenderer;
+        public LineRenderer LineRenderer;
 
         /// <summary>
         /// A List of segments that make up the whole Laser beam this LaserEmitter emits.
@@ -40,13 +40,16 @@ namespace Laser
             }
         }
 
-		public void Start()
-		{
-			if (this.lineRenderer == null)
-			{
-				this.lineRenderer = GetComponent<LineRenderer> ();
-			}
-		}
+        /// <summary>
+        /// Starts the LaserEmitter and initializes the LineRenderer.
+        /// </summary>
+        public void Start()
+        {
+            if (this.LineRenderer == null)
+            {
+                this.LineRenderer = this.GetComponent<LineRenderer>();
+            }
+        }
 
         /// <summary>
         /// Updates the path of the Lasers and redraws the scene.
@@ -82,12 +85,12 @@ namespace Laser
         /// </summary>
         public void Render() 
         {
-			this.lineRenderer.SetVertexCount(this.segments.Count + 1);
+            this.LineRenderer.SetVertexCount(this.segments.Count + 1);
             Vector3 renderOrigin = this.segments[0].Origin;
-			this.lineRenderer.SetPosition(0, renderOrigin);
+            this.LineRenderer.SetPosition(0, renderOrigin);
             for (int i = 0; i < this.segments.Count; i++) 
             {
-				this.lineRenderer.SetPosition(i + 1, this.segments[i].Endpoint);
+                this.LineRenderer.SetPosition(i + 1, this.segments[i].Endpoint);
             }
         }
 
