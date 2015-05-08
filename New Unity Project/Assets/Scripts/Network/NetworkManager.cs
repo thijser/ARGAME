@@ -7,7 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Network
+namespace NSNetwork
 {
     using System;
     using System.Collections.ObjectModel;
