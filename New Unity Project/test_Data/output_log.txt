@@ -4,8 +4,9 @@ Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
     Renderer: NVIDIA Quadro K1000M  (ID=0xffc)
     Vendor:   NVIDIA
-    VRAM:     1990 MB
+    VRAM:     1995 MB
 Begin MonoManager ReloadAssembly
+<<<<<<< HEAD
 Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.dll (this message is harmless)
 Loading C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.dll into Unity Child Domain
 Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
@@ -23,10 +24,30 @@ Loading C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Qualco
 Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.dll (this message is harmless)
 Loading C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.dll into Unity Child Domain
 - Completed reload, in  0.078 seconds
+=======
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.Eyewear.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.Eyewear.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Vectrosity.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Vectrosity.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Meta.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Meta.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\MetaPackages.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\MetaPackages.dll into Unity Child Domain
+- Completed reload, in  0.139 seconds
+>>>>>>> 1cb3c689533d7d736f43a70ed0c2b46ac8bf727e
 <RI> Initializing input.
 <RI> Input initialized.
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initialized touch support.
+<<<<<<< HEAD
 Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\System.dll (this message is harmless)
 Crash!!!
@@ -150,6 +171,24 @@ C:\Windows\System32\fwpuclnt.dll:fwpuclnt.dll (716F0000), size: 229376 (result: 
 C:\Windows\system32\rasadhlp.dll:rasadhlp.dll (716E0000), size: 24576 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\rasadhlp.dll', fileVersion: 6.1.7600.16385
 C:\Windows\system32\apphelp.dll:apphelp.dll (71BC0000), size: 311296 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\apphelp.dll', fileVersion: 6.1.7601.17514
 C:\Windows\system32\dbghelp.dll:dbghelp.dll (6FC80000), size: 962560 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\dbghelp.dll', fileVersion: 6.1.7601.17514
+=======
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\System.dll (this message is harmless)
+Local user ID not found, loading the MetaUser profile.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+JSON user profile not found for user MetaUser.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Meta.MetaUI.ToggleIMUCalibratingIndicator (Boolean show) [0x00000] in <filename unknown>:0 
+  at Meta.MetaCore.CheckLocalizationType () [0x00000] in <filename unknown>:0 
+  at Meta.MetaCore.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+>>>>>>> 1cb3c689533d7d736f43a70ed0c2b46ac8bf727e
 
 ========== OUTPUTING STACK TRACE ==================
 
