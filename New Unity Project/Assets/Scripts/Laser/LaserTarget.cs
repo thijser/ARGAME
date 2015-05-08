@@ -10,6 +10,7 @@
 namespace Laser
 {
     using System;
+	using System.Collections;
     using UnityEngine;
 
     /// <summary>
@@ -18,9 +19,14 @@ namespace Laser
     public class LaserTarget : MonoBehaviour, ILaserReceiver
     {
         /// <summary>
-        /// Gets a value indicating whether the target is fully opened.
+        /// The name of the opening animation clip.
         /// </summary>
-        public bool FullyOpened { get; private set; }
+        public const string OpenClipName = "Open";
+
+		/// <summary>
+		/// The name of the opening animation state.
+		/// </summary>
+		public const string OpenedStateName = "Opened";
 
 		/// <summary>
 		/// The index of the next level.
@@ -28,43 +34,57 @@ namespace Laser
 		public int NextLevelIndex;
 
         /// <summary>
-        /// Consumes the Laser beam and opens the target one step.
+        /// Gets or sets a value indicating whether the target is opening.
+        /// </summary>
+        /// <value><c>true</c> if the target is opening; otherwise, <c>false</c>.</value>
+        public bool IsOpening { get; set; }
+
+		/// <summary>
+		/// Initializes this instance.
+		/// </summary>
+		public void Start()
+		{
+            this.IsOpening = false;
+			if (this.NextLevelIndex < 0 || this.NextLevelIndex >= Application.levelCount) 
+			{
+				Debug.LogError("NextLevelIndex is set to " + this.NextLevelIndex + 
+					", but should be between 0 and " + Application.levelCount);
+			}
+		}
+
+        /// <summary>
+        /// Updates the animation properties.
+        /// </summary>
+        public void LateUpdate()
+        {
+            GetComponent<Animator>().SetBool("LaserHit", this.IsOpening);
+            StartCoroutine(ResetState());
+        }
+
+        /// <summary>
+        /// Resets the shadowed animation state at the end of the current frame.
+        /// </summary>
+        /// <returns>The IEnumerator instance used for waiting.</returns>
+        private IEnumerator ResetState()
+        {
+            yield return new WaitForEndOfFrame();
+            this.IsOpening = false;
+        }
+
+        /// <summary>
+        /// Consumes the Laser beam and loads the next level if the target is fully opened.
         /// </summary>
         /// <param name="sender">The object that sent this event</param>
         /// <param name="args">The arguments that describe the event</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
-            this.AnimateStep();
-            if (this.FullyOpened)
-            {
-                this.LoadNextLevel();
-            }
-        }
+			Animator animator = GetComponent<Animator>();
+			animator.SetBool("LaserHit", true);
 
-        /// <summary>
-        /// Animates the laser target one step.
-        /// </summary>
-        public void AnimateStep()
-        {
-            // TODO: Animate the laser target
-            Debug.LogError("Animation is not yet supported");
-        }
-
-        /// <summary>
-        /// Loads the next level.
-        /// </summary>
-        public void LoadNextLevel()
-        {
-			int levelCount = Application.levelCount;
-			if (NextLevelIndex < levelCount) 
+			if (animator.GetCurrentAnimatorStateInfo(0).IsName(OpenedStateName)) 
 			{
-				Application.LoadLevel (NextLevelIndex);
-			} 
-			else
-			{
-				Debug.LogError("Tried to load level #" + NextLevelIndex + 
-				               ", but only have " + levelCount + " levels");
+				Application.LoadLevel(NextLevelIndex);
 			}
         }
-    }
+	}
 }
