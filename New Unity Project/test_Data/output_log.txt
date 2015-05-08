@@ -4,31 +4,39 @@ Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
     Renderer: NVIDIA Quadro K1000M  (ID=0xffc)
     Vendor:   NVIDIA
-    VRAM:     1990 MB
+    VRAM:     1995 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Meta.dll (this message is harmless)
-Loading C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Meta.dll into Unity Child Domain
-Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\MetaPackages.dll (this message is harmless)
-Loading C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\MetaPackages.dll into Unity Child Domain
-Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Vectrosity.dll (this message is harmless)
-Loading C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Vectrosity.dll into Unity Child Domain
-Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.Eyewear.dll (this message is harmless)
-Loading C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.Eyewear.dll into Unity Child Domain
-Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.dll (this message is harmless)
-Loading C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.dll into Unity Child Domain
-- Completed reload, in  0.082 seconds
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.Eyewear.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.Eyewear.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Qualcomm.Vuforia.UnityExtensions.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Vectrosity.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Vectrosity.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Meta.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\Meta.dll into Unity Child Domain
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\MetaPackages.dll (this message is harmless)
+Loading C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\MetaPackages.dll into Unity Child Domain
+- Completed reload, in  0.139 seconds
 <RI> Initializing input.
 <RI> Input initialized.
 desktop: 1280x720 60Hz; virtual: 1280x720 at 0,0
 <RI> Initialized touch support.
-Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\thijs\Desktop\ARGAME\New Unity Project\test_Data\Managed\System.dll (this message is harmless)
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Tim\ARGAME\New Unity Project\test_Data\Managed\System.dll (this message is harmless)
+Local user ID not found, loading the MetaUser profile.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+JSON user profile not found for user MetaUser.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
 NullReferenceException: Object reference not set to an instance of an object
   at Meta.MetaUI.ToggleIMUCalibratingIndicator (Boolean show) [0x00000] in <filename unknown>:0 
   at Meta.MetaCore.CheckLocalizationType () [0x00000] in <filename unknown>:0 
