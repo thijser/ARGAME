@@ -1,9 +1,7 @@
 fileFormatVersion: 2
-guid: 66456b8d3c8924ba99355c25dd38471a
-labels:
-- Vectrosity
-- line
-- vector
+guid: bb16da8eebdf0f84f9c579ade1ab46e7
+timeCreated: 1431074996
+licenseType: Free
 DefaultImporter:
   userData: 
   assetBundleName: 
