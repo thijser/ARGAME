@@ -11,6 +11,9 @@ namespace RandomLevel
 {
     using System;
 
+    /// <summary>
+    /// Builds randomized walls in a level.
+    /// </summary>
     public class WallBuilder
     {
         /// <summary>
@@ -19,11 +22,11 @@ namespace RandomLevel
         private Random random;
 
         /// <summary>
-        /// Instantiates a new instance of the <see cref="WallBuilder"/> class.
+        /// Initializes a new instance of the <see cref="WallBuilder"/> class.
         /// </summary>
         public WallBuilder()
         {
-            random = new Random(Environment.TickCount);
+            this.random = new Random(Environment.TickCount);
         }
 
         /// <summary>
@@ -38,11 +41,11 @@ namespace RandomLevel
                 throw new ArgumentNullException("graph");
             }
 
-            int max = (int)(graph.Maxrow * graph.Maxcol * 4) / 10;
+            int max = graph.Maxrow * graph.Maxcol * 4 / 10;
             for (int i = 0; i < max; i++)
             {
-                int randRow = random.Next(0, graph.Maxrow);
-                int randCol = random.Next(0, graph.Maxcol);
+                int randRow = this.random.Next(0, graph.Maxrow);
+                int randCol = this.random.Next(0, graph.Maxcol);
                 Coordinate coordinate = new Coordinate(randRow, randCol);
                 if (graph.GetVertexAtCoordinate(coordinate).Prop == Property.EMPTY)
                 {
@@ -52,4 +55,3 @@ namespace RandomLevel
         }
     }
 }
-
