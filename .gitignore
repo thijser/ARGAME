@@ -6,6 +6,7 @@
 
 # Blender backup files
 *.blend?
+*.blend?.meta
 
 # Analysis reports
 .sonar/
