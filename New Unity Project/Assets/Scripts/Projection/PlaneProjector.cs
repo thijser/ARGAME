@@ -10,6 +10,7 @@
 namespace Projection
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
     
     /// <summary>
@@ -20,6 +21,7 @@ namespace Projection
         /// <summary>
         /// The List of positions on the plane.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public List<Transform> Positions;
         
         /// <summary>

@@ -12,6 +12,7 @@ namespace Laser
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 
     /// <summary>
@@ -22,6 +23,7 @@ namespace Laser
         /// <summary>
         /// The LineRenderer used for drawing the Laser beams (optional).
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public LineRenderer LineRenderer;
 
         /// <summary>

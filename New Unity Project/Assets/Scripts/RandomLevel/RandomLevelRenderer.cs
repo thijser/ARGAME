@@ -10,6 +10,7 @@
 namespace RandomLevel
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 
     /// <summary>
@@ -26,26 +27,31 @@ namespace RandomLevel
         /// <summary>
         /// Prefab object for the Emitter.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public GameObject EmitterPrefab;
         
         /// <summary>
         /// Prefab object for the Wall.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public GameObject WallPrefab;
         
         /// <summary>
         /// Prefab object for the Laser Target.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public GameObject TargetPrefab;
 
         /// <summary>
         /// The amount of rows in the level.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public int RowCount;
         
         /// <summary>
         /// The amount of columns in the level.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public int ColumnCount;
 
         /// <summary>

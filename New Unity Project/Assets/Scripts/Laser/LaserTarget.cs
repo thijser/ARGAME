@@ -11,6 +11,7 @@ namespace Laser
 {
     using System;
     using System.Collections;
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 
     /// <summary>
@@ -31,6 +32,7 @@ namespace Laser
         /// <summary>
         /// The index of the next level.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public int NextLevelIndex;
 
         /// <summary>

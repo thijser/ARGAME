@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Projection 
 {
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 
     /// <summary>
@@ -19,6 +20,7 @@ namespace Projection
         /// <summary>
         /// The Projector.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public PlaneProjector Projector;
 
         /// <summary>

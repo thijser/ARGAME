@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 
     /// <summary>
@@ -19,11 +20,13 @@ namespace Projection
         /// <summary>
         /// The PlaneProjector to use.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public PlaneProjector Projector;
 
         /// <summary>
         /// The Transform to link to.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public Transform LinkedTo;
 
         /// <summary>

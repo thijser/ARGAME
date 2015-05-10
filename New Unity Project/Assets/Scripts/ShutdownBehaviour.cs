@@ -7,6 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 /// <summary>
@@ -18,6 +19,7 @@ public class ShutdownBehaviour : MonoBehaviour
     /// <summary>
     /// The key to press in order to quit the application.
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
     public KeyCode QuitKey = KeyCode.Escape;
 
     /// <summary>
