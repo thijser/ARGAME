@@ -10,17 +10,22 @@
 using UnityEngine;
 
 /// <summary>
-/// Behavior class that shuts down the application if the escape key is
+/// Behavior class that shuts down the application if a certain key is
 /// pressed. Add this to any game object to make it work.
 /// </summary>
 public class ShutdownBehaviour : MonoBehaviour
 {
     /// <summary>
-    /// Shuts down the application if the escape key is pressed.
+    /// The key to press in order to quit the application.
+    /// </summary>
+    public KeyCode QuitKey = KeyCode.Escape;
+
+    /// <summary>
+    /// Shuts down the application if the <c>QuitKey</c> is pressed.
     /// </summary>
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(this.QuitKey))
         {
             Application.Quit();
         }
