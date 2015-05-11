@@ -10,7 +10,8 @@
 namespace Laser
 {
     using System;
-	using System.Collections;
+    using System.Collections;
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 
     /// <summary>
@@ -23,15 +24,16 @@ namespace Laser
         /// </summary>
         public const string OpenClipName = "Open";
 
-		/// <summary>
-		/// The name of the opening animation state.
-		/// </summary>
-		public const string OpenedStateName = "Opened";
+        /// <summary>
+        /// The name of the opening animation state.
+        /// </summary>
+        public const string OpenedStateName = "Opened";
 
-		/// <summary>
-		/// The index of the next level.
-		/// </summary>
-		public int NextLevelIndex;
+        /// <summary>
+        /// The index of the next level.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public int NextLevelIndex;
 
         /// <summary>
         /// Gets or sets a value indicating whether the target is opening.
@@ -39,18 +41,18 @@ namespace Laser
         /// <value><c>true</c> if the target is opening; otherwise, <c>false</c>.</value>
         public bool IsOpening { get; set; }
 
-		/// <summary>
-		/// Initializes this instance.
-		/// </summary>
-		public void Start()
-		{
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        public void Start()
+        {
             this.IsOpening = false;
-			if (this.NextLevelIndex < 0 || this.NextLevelIndex >= Application.levelCount) 
-			{
-				Debug.LogError("NextLevelIndex is set to " + this.NextLevelIndex + 
-					", but should be between 0 and " + Application.levelCount);
-			}
-		}
+            if (this.NextLevelIndex < 0 || this.NextLevelIndex >= Application.levelCount)
+            {
+                Debug.LogError("NextLevelIndex is set to " + this.NextLevelIndex +
+                    ", but should be between 0 and " + Application.levelCount);
+            }
+        }
 
         /// <summary>
         /// Updates the animation properties.
@@ -58,7 +60,23 @@ namespace Laser
         public void LateUpdate()
         {
             GetComponent<Animator>().SetBool("LaserHit", this.IsOpening);
-            StartCoroutine(ResetState());
+            this.StartCoroutine(this.ResetState());
+        }
+
+        /// <summary>
+        /// Consumes the Laser beam and loads the next level if the target is fully opened.
+        /// </summary>
+        /// <param name="sender">The object that sent this event</param>
+        /// <param name="args">The arguments that describe the event</param>
+        public void OnLaserHit(object sender, HitEventArgs args)
+        {
+            Animator animator = GetComponent<Animator>();
+            animator.SetBool("LaserHit", true);
+
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(OpenedStateName))
+            {
+                Application.LoadLevel(this.NextLevelIndex);
+            }
         }
 
         /// <summary>
@@ -70,21 +88,5 @@ namespace Laser
             yield return new WaitForEndOfFrame();
             this.IsOpening = false;
         }
-
-        /// <summary>
-        /// Consumes the Laser beam and loads the next level if the target is fully opened.
-        /// </summary>
-        /// <param name="sender">The object that sent this event</param>
-        /// <param name="args">The arguments that describe the event</param>
-        public void OnLaserHit(object sender, HitEventArgs args)
-        {
-			Animator animator = GetComponent<Animator>();
-			animator.SetBool("LaserHit", true);
-
-			if (animator.GetCurrentAnimatorStateInfo(0).IsName(OpenedStateName)) 
-			{
-				Application.LoadLevel(NextLevelIndex);
-			}
-        }
-	}
+    }
 }

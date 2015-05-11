@@ -9,22 +9,41 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 
+    /// <summary>
+    /// Projects this game object using a PlaneProjector instance.
+    /// </summary>
     public class ImageLinker : MonoBehaviour
     {
+        /// <summary>
+        /// The PlaneProjector to use.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public PlaneProjector Projector;
+
+        /// <summary>
+        /// The Transform to link to.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public Transform LinkedTo;
 
+        /// <summary>
+        /// Adds this ImageLinker's Transform to the PlaneProjector.
+        /// </summary>
         public void Start()
         {
-            Projector.AddPosition(transform);
+            this.Projector.AddPosition(this.transform);
         }
 
-        void Update()
+        /// <summary>
+        /// Projects the Transform instance using the PlaneProjector.
+        /// </summary>
+        public void Update()
         {
-            Projector.ProjectTransform(LinkedTo, transform);
-            Projector.Rotate(LinkedTo);
+            this.Projector.ProjectTransform(this.LinkedTo, this.transform);
+            this.Projector.Rotate(this.LinkedTo);
         }
     }
 }
