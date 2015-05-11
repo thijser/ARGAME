@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// <copyright file="AndGate.cs" company="Delft University of Technology">
+// <copyright file="OrGate.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //     
 //     This software is licensed under the terms of the MIT License.
@@ -10,25 +10,20 @@
 namespace Laser 
 {	
 	/// <summary>
-	/// An AND-gate that outputs a laser beam if two other beams hit it.
+	/// An OR-gate that outputs a laser beam if another beam hits it.
 	/// </summary>
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
 	using UnityEngine;
-	public class AndGate : MonoBehaviour, ILaserReceiver 
+	public class OrGate : MonoBehaviour, ILaserReceiver 
 	{
-		/// <summary>
-		/// A variable storing whether or not a previous laser hit the gate.
-		/// </summary>
-		private bool hit = false;
-
 		/// <summary>
 		/// A variable storing whether or not a beam has already been
 		/// created this tick.
 		/// </summary>
 		private bool beamcreated = false;
-
+		
 		/// <summary>
 		/// Creates the resulting beam.
 		/// </summary>
@@ -45,7 +40,7 @@ namespace Laser
 		}
 		
 		/// <summary>
-		/// Creates a new laser beam if two existing laser beams hit  
+		/// Creates a new laser beam if a different beam hits  
 		/// the gate.
 		/// </summary>
 		/// <param name="sender">The sender of the event, ignored here.</param>
@@ -57,24 +52,18 @@ namespace Laser
 				throw new ArgumentNullException("args");
 			}
 
-			if (!hit) 
-			{
-				hit = true;
-			}
-
-			if (hit && !beamcreated) 
+			if (!beamcreated) 
 			{
 				CreateBeam(args.Laser);
 				beamcreated = true;
 			}
 		}
-
+		
 		/// <summary>
 		/// Resets the variables for use in the next tick.
 		/// </summary>
 		public void LateUpdate() 
 		{
-			hit = false;
 			beamcreated = false;
 		}
 	}
