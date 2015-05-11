@@ -71,15 +71,37 @@ namespace Laser
             Assert.AreEqual(direction, laser.Direction);
         }
 
+        /// <summary>
+        /// Tests if the <c>FindReceiver</c> method returns null if 
+        /// no object is in range.
+        /// </summary>
         [Test]
-        public void FindReceiverWithNoReceiverTest()
+        public void FindReceiverWithoutObjectTest()
         {
             HitEventArgs args;
             Laser laser = CreateLaser(Vector3.zero, Vector3.forward);
             ILaserReceiver receiver = laser.FindReceiver(out args);
 
             Assert.IsNull(receiver);
-            Assert.IsNull(args);
+            Assert.False(args.IsValid);
+        }
+
+        /// <summary>
+        /// Tests if the <c>FindReceiver</c> method returns null if 
+        /// the collider is no Laser receiver.
+        /// </summary>
+        [Test]
+        public void FindReceiverWithoutLaserReceiverTest()
+        {
+            HitEventArgs args;
+            BoxCollider collider = CreateCollider(Vector3.forward, 0.5f);
+            Laser laser = CreateLaser(Vector3.zero, Vector3.forward);
+            ILaserReceiver receiver = laser.FindReceiver(out args);
+
+            Assert.IsNull(receiver);
+            Assert.False(args.IsValid);
+
+            GameObject.Destroy(collider);
         }
 
         /// <summary>
