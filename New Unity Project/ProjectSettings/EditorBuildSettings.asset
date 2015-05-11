@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/demo.unity
   - enabled: 0
-    path: Assets/metaonescene.unity
+    path: Assets/Scenes/metaonescene.unity
   - enabled: 0
     path: Assets/Meta/Examples/Scenes/MarkerTrackerExample.unity
   - enabled: 0
@@ -23,6 +23,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/level4.unity
   - enabled: 0
     path: Assets/Scenes/Levels/level5.unity
+  - enabled: 0
+    path: Assets/Meta/Examples/Scenes/MarkerTrackerExample.unity
   - enabled: 0
     path: Assets/Scenes/Levels/level6.unity
   - enabled: 1
