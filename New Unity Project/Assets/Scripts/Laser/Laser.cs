@@ -82,25 +82,35 @@ namespace Laser
         /// </summary>
         public void Create() 
         {
+            HitEventArgs args;
+            ILaserReceiver receiver = FindReceiver(out args);
+            if (receiver != null) 
+            {
+                receiver.OnLaserHit(this, args);
+            }
+        }
+
+        /// <summary>
+        /// Finds the Receiver this Laser collided with.
+        /// </summary>
+        /// <param name="args">The HitEventArgs object describing the collision.</param>
+        /// <returns>The ILaserReceiver, or null if no Receiver was found.</returns>
+        public ILaserReceiver FindReceiver(out HitEventArgs args)
+        {
             RaycastHit hit;
             if (Physics.Raycast(this.Origin, this.Direction, out hit, MaxRaycastDist))
             {
                 this.Endpoint = hit.point;
                 this.emitter.AddLaser(this);
-                Collider target = hit.collider;
-                ILaserReceiver receiver = target.GetComponent<ILaserReceiver>();
-                
-                // If the Receiver is null, the gameObject simply blocks the laser beam.
-                if (receiver != null) 
-                {
-                    HitEventArgs args = new HitEventArgs(this, hit.normal);
-                    receiver.OnLaserHit(this, args);
-                }
-            } 
+                args = new HitEventArgs(this, hit.normal);
+                return hit.collider.GetComponent<ILaserReceiver>();
+            }
             else
             {
                 this.Endpoint = this.Origin + (this.Direction * MaxLaserLength);
                 this.emitter.AddLaser(this);
+                args = null;
+                return null;
             }
         }
 
