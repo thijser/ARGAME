@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
@@ -55,6 +56,19 @@ namespace Projection
         private Vector3 normal;
 
         /// <summary>
+        /// Computes the Normal of two Vectors in 3D space.
+        /// </summary>
+        /// <param name="vector1">The first Vector3</param>
+        /// <param name="vector2">The second Vector3</param>
+        /// <returns>The normal of the plane given by the span of <c>vector1</c> and <c>vector2</c>.</returns>
+        public static Vector3 ComputeNormal(Vector3 vector1, Vector3 vector2)
+        {
+            Vector3 res = Vector3.Cross(vector1, vector2);
+            res.Normalize();
+            return res;
+        }
+
+        /// <summary>
         /// Updates the plane of points.
         /// </summary>
         public void Update()
@@ -83,6 +97,11 @@ namespace Projection
         /// <param name="transform">The Transform</param>
         public void Rotate(Transform transform)
         {
+            if (transform == null)
+            {
+                throw new ArgumentNullException("transform");
+            }
+
             transform.rotation = Quaternion.FromToRotation(Vector3.right, this.normal);
         }
 
@@ -111,6 +130,16 @@ namespace Projection
         /// <returns>The translated input Transform</returns>
         public Transform ProjectTransform(Transform input, Transform home)
         {
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
+            if (home == null)
+            {
+                throw new ArgumentNullException("home");
+            }
+
             input.position = this.ProjectPoint(home.position);
             return input;
         }
@@ -126,19 +155,6 @@ namespace Projection
             Vector3 relativePoint = point - this.p1;
             float dist = Vector3.Dot(relativePoint, this.normal); // distance plane to point 
             return point - (dist * this.normal);
-        }
-
-        /// <summary>
-        /// Computes the Normal of two Vectors in 3D space.
-        /// </summary>
-        /// <param name="v1">The first Vector3</param>
-        /// <param name="v2">The second Vector3</param>
-        /// <returns>The normal of the plane given by the span of <c>v1</c> and <c>v2</c>.</returns>
-        public Vector3 ComputeNormal(Vector3 v1, Vector3 v2)
-        {
-            Vector3 res = Vector3.Cross(v1, v2);
-            res.Normalize();
-            return res;
         }
     }
 }

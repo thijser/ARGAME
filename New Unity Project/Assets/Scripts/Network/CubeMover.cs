@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Network
 {
+    using System;
     using System.Collections;
     using UnityEngine;
 
@@ -36,6 +37,11 @@ namespace Network
         /// <param name="info">The NetworkMessageInfo describing the connection.</param>
         public void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
         {
+            if (stream == null)
+            {
+                throw new ArgumentNullException("stream");
+            }
+
             if (stream.isWriting)
             {
                 Vector3 pos = transform.position;

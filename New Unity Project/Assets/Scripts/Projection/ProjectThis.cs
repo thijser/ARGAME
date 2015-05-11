@@ -22,22 +22,5 @@ namespace Projection
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public PlaneProjector Projector;
-
-        /// <summary>
-        /// Initializes this instance.
-        /// </summary>
-        public void Start()
-        {
-            // this.Projector.AddPosition(transform);
-        }
-
-        /// <summary>
-        /// Updates this instance.
-        /// </summary>
-        public void Update()
-        {
-            // this.Projector.ProjectTransform(transform);
-            // this.Projector.Rotate(transform);
-        }
     }
 }

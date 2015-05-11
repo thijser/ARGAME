@@ -7,6 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
+using System;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
@@ -83,6 +84,8 @@ public class PositionLinker : MonoBehaviour
             case LinkingMode.FollowLevel:
                 this.LinkedTo.rotation = this.LevelMarker.rotation;
                 break;
+            default:
+                throw new ArgumentException("Invalid LinkingMode");
         }
     }
 }
