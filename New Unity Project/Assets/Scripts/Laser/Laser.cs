@@ -46,6 +46,18 @@ namespace Laser
         }
 
         /// <summary>
+        /// Gets the LaserEmitter that (possibly indirectly) emitted this Laser beam.
+        /// </summary>
+        /// <value>The LaserEmitter.</value>
+        public LaserEmitter Emitter
+        {
+            get
+            {
+                return this.emitter;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the origin point of this Laser beam.
         /// </summary>
         public Vector3 Origin { get; set; }

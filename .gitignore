@@ -46,7 +46,8 @@ thumbs.db
 *.out
 *.aux
 *.synctex.gz
-*.pdf
+Reports/**/*.pdf
+
 # LaTeXmk intermediate files
 *.dvi
 *.fdb_latexmk
