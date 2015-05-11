@@ -17,7 +17,6 @@ namespace Network
     /// </summary>
     public class ServerManager : MonoBehaviour
     {
-
         /// <summary>
         /// The name of this game.
         /// </summary>
