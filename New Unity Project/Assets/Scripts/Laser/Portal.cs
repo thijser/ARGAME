@@ -26,6 +26,9 @@ namespace Laser
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public Portal LinkedPortal;
 
+        /// <summary>
+        /// Gets or sets the LaserEmitter used for creating new Laser beam segments.
+        /// </summary>
         public LaserEmitter PortalEmitter { get; set; }
 
         /// <summary>
@@ -79,11 +82,11 @@ namespace Laser
                 throw new ArgumentException("The HitEventArgs object is invalid.");
             }
 
-            if (LinkedPortal != null)
+            if (this.LinkedPortal != null)
             {
                 Vector3 relativePosition = args.Point - this.transform.position;
                 Vector3 relativeRotation = args.Normal - args.Laser.Direction;
-                LinkedPortal.EmitLaserBeam(args.Laser, relativePosition, relativeRotation);
+                this.LinkedPortal.EmitLaserBeam(args.Laser, relativePosition, relativeRotation);
             }
         }
     }
