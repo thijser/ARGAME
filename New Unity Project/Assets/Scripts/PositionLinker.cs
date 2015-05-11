@@ -5,7 +5,8 @@ public class PositionLinker : MonoBehaviour {
 
 	// Use this for initialization
 	public Transform LinkedTo;
-	public int linkedMode = 1;
+	public int linkedMode = 3;
+	public Transform levelMarker;
 	// Update is called once per frame
 	void Update () {
 		LinkedTo.position = transform.position;
@@ -19,7 +20,10 @@ public class PositionLinker : MonoBehaviour {
 			EA.z=LinkedTo.eulerAngles.z;
 			LinkedTo.rotation=Quaternion.Euler(EA);
 			break;
-		case 2: break; //ignore position of card and keep default 
+		case 2: break; //ignore position of card and keep default
+		case 3: //follow rotation of the level marker
+			LinkedTo.rotation=levelMarker.rotation;
+			break;
 		}
 	}
 }
