@@ -119,7 +119,7 @@ namespace Projection
 
             this.v1 = this.p2 - this.p1;
             this.v2 = this.p3 - this.p1;
-            this.normal = this.ComputeNormal(this.v1, this.v2);
+            this.normal = ComputeNormal(this.v1, this.v2);
         }
 
         /// <summary>

@@ -19,6 +19,20 @@ namespace Laser
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HitEventArgs"/> class.
+        /// <para>
+        /// The created HitEventArgs is not valid. To create a valid instance, 
+        /// either use the alternative constructor, or assign a Laser instance to 
+        /// the Laser property of this HitEventArgs.
+        /// </para>
+        /// </summary>
+        public HitEventArgs()
+        {
+            this.Laser = null;
+            this.Normal = Vector3.zero;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HitEventArgs"/> class.
         /// </summary>
         /// <param name="laser">The Laser beam that hit the object</param>
         /// <param name="normal">The normal of the surface that the Laser beam hit</param>
@@ -37,5 +51,17 @@ namespace Laser
         /// Gets or sets the normal of the surface that the Laser beam hit.
         /// </summary>
         public Vector3 Normal { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this HitEventArgs represents a 
+        /// valid hit event.
+        /// </summary>
+        public bool IsValid
+        {
+            get
+            {
+                return Laser != null;
+            }
+        }
     }
 }

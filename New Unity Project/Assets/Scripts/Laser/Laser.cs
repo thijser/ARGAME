@@ -83,7 +83,7 @@ namespace Laser
         public void Create() 
         {
             HitEventArgs args;
-            ILaserReceiver receiver = FindReceiver(out args);
+            ILaserReceiver receiver = this.FindReceiver(out args);
             if (receiver != null) 
             {
                 receiver.OnLaserHit(this, args);
@@ -109,7 +109,7 @@ namespace Laser
             {
                 this.Endpoint = this.Origin + (this.Direction * MaxLaserLength);
                 this.emitter.AddLaser(this);
-                args = null;
+                args = new HitEventArgs();
                 return null;
             }
         }
