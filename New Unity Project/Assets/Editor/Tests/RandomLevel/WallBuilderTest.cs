@@ -59,15 +59,15 @@ namespace RandomLevel
 		[Test]
 		public void WallBuildTestAtLeastOneEmptySpace() 
 		{
-			WallBuilder wb = new WallBuilder ();
-			SquareGraph sg = new SquareGraph (20, 20);
-			wb.AddRandomWalls (sg);
+			WallBuilder builder = new WallBuilder ();
+			SquareGraph graph = new SquareGraph (20, 20);
+			builder.AddRandomWalls (graph);
 			bool check = false;
 			for (int i = 0; i < 20; i++) 
 			{
 				for(int j = 0; j < 20; j++) 
 				{
-					if(sg.GetVertexAtCoordinate(new Coordinate(i,j)).Prop == Property.EMPTY) 
+					if(graph.GetVertexAtCoordinate(new Coordinate(i,j)).Prop == Property.EMPTY) 
 					{
 						check = true;
 					}

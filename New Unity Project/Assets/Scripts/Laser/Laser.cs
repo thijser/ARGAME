@@ -32,19 +32,6 @@ namespace Laser
         /// </summary>
         private LaserEmitter emitter;
 
-		/// <summary>
-		/// Gets the LaserEmitter that (possibly indirectly) emitted this Laser beam.
-		/// </summary>
-		/// <value>The LaserEmitter.</value>
-		public LaserEmitter Emitter 
-		{ 
-			get 
-			{
-				return emitter;
-			}
-		}
-				
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Laser"/> class.
         /// </summary>
@@ -56,6 +43,18 @@ namespace Laser
             this.Origin = origin;
             this.Direction = direction;
             this.emitter = emitter;
+        }
+
+        /// <summary>
+        /// Gets the LaserEmitter that (possibly indirectly) emitted this Laser beam.
+        /// </summary>
+        /// <value>The LaserEmitter.</value>
+        public LaserEmitter Emitter
+        {
+            get
+            {
+                return this.emitter;
+            }
         }
 
         /// <summary>
