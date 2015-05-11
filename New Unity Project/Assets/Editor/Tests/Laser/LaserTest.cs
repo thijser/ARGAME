@@ -43,6 +43,20 @@ namespace Laser
         }
 
         /// <summary>
+        /// Creates a GameObject with a BoxCollider at the given position.
+        /// </summary>
+        /// <param name="position">The position of the BoxCollider.</param>
+        /// <param name="size">The size of the BoxCollider.</param>
+        /// <returns>The created BoxCollider.</returns>
+        public static BoxCollider CreateCollider(Vector3 position, float size)
+        {
+            GameObject gameObject = new GameObject("Collider", typeof(BoxCollider));
+            gameObject.transform.position = position;
+            gameObject.GetComponent<BoxCollider>().size = new Vector3(size, size, size);
+            return gameObject.GetComponent<BoxCollider>();
+        }
+
+        /// <summary>
         /// Tests the basic properties of the Laser and the <c>CreateLaser</c> method
         /// used by other test cases.
         /// </summary>
@@ -55,6 +69,17 @@ namespace Laser
 
             Assert.AreEqual(origin, laser.Origin);
             Assert.AreEqual(direction, laser.Direction);
+        }
+
+        [Test]
+        public void FindReceiverWithNoReceiverTest()
+        {
+            HitEventArgs args;
+            Laser laser = CreateLaser(Vector3.zero, Vector3.forward);
+            ILaserReceiver receiver = laser.FindReceiver(out args);
+
+            Assert.IsNull(receiver);
+            Assert.IsNull(args);
         }
 
         /// <summary>
