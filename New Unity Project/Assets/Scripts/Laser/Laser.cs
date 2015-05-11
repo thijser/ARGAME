@@ -102,7 +102,7 @@ namespace Laser
             {
                 this.Endpoint = hit.point;
                 this.emitter.AddLaser(this);
-                args = new HitEventArgs(this, hit.normal);
+                args = new HitEventArgs(this, hit.point, hit.normal);
                 return hit.collider.GetComponent<ILaserReceiver>();
             }
             else
