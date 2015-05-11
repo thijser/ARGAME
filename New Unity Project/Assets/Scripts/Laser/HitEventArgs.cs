@@ -50,6 +50,7 @@ namespace Laser {
         /// </summary>
         public Vector3 Normal { get; set; }
 
+        /// <summary>
         /// Gets or sets the position on the surface that the Laser beam hit.
         /// </summary>
         public Vector3 Point { get; set; }
