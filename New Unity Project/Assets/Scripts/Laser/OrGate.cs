@@ -30,7 +30,7 @@ namespace Laser
 		/// <returns>The reflected Laser beam segment.</returns>
 		/// <param name="laser">The Laser beam.</param>
 		/// <param name="surfaceNormal">The surface normal.</param>
-		public static Laser CreateBeam(Laser laser)
+		public Laser CreateBeam(Laser laser)
 		{
 			if (laser == null) 
 			{

@@ -29,19 +29,33 @@ namespace Laser
 		/// </summary>
 		private bool beamcreated = false;
 
+
+		/// <summary>
+		/// The lasers that hit the gate.
+		/// </summary>
+		private IList<Laser> lasers = new List<Laser>();
+
 		/// <summary>
 		/// Creates the resulting beam.
 		/// </summary>
 		/// <returns>The reflected Laser beam segment.</returns>
 		/// <param name="laser">The Laser beam.</param>
 		/// <param name="surfaceNormal">The surface normal.</param>
-		public static Laser CreateBeam(Laser laser)
+		public Laser CreateBeam(Laser laser)
 		{
 			if (laser == null) 
 			{
 				throw new ArgumentNullException ("laser");
 			}
-			return laser.Extend (this.transform.position, laser.Direction); 
+
+			Vector3 newDir = new Vector3 (0, 0, 0);
+			Vector3 newOrig = new Vector3 (0, 0, 0);
+			foreach(Laser l in lasers) 
+			{
+				newDir = newDir + l.Direction;
+				newOrig = newOrig + l.Endpoint;
+			}
+			return laser.Extend (this.transform.position, newDir/lasers.Count); 
 		}
 		
 		/// <summary>
@@ -57,15 +71,16 @@ namespace Laser
 				throw new ArgumentNullException("args");
 			}
 
-			if (!hit) 
-			{
-				hit = true;
-			}
-
+			lasers.Add(args.Laser);
 			if (hit && !beamcreated) 
 			{
 				CreateBeam(args.Laser);
 				beamcreated = true;
+			}
+
+			if (!hit) 
+			{
+				hit = true;
 			}
 		}
 
@@ -76,6 +91,7 @@ namespace Laser
 		{
 			hit = false;
 			beamcreated = false;
+			lasers.Clear();
 		}
 	}
 }
