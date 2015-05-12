@@ -98,8 +98,8 @@ GameObject:
   - 33: {fileID: 2516572}
   - 65: {fileID: 2516571}
   - 23: {fileID: 2516570}
-  - 114: {fileID: 2516574}
   - 148: {fileID: 2516575}
+  - 114: {fileID: 2516574}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2516569}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bea267e0af6f0fa48b63084b538684ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 3008fb2bef3f2fd4f81eefc915daadb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!148 &2516575
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1815562338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 386ee89e2b6531b458a2f2b2fd629983, type: 3}
+  m_Script: {fileID: 11500000, guid: 0197bad4504596a4bb9dee503777b4e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!81 &1815562340
