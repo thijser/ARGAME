@@ -39,10 +39,10 @@ namespace Projection
         /// </summary>
         FollowLevel = 3,
 
-    	/// <summary>
-    	/// Project position to plane of level.
-    	/// </summary>
-    	Project = 4
+        /// <summary>
+        /// Project position to plane of level.
+        /// </summary>
+        Project = 4
     }
 
     /// <summary>
@@ -73,28 +73,31 @@ namespace Projection
         /// </summary>
         public void Update()
         {
-    		if (this.Mode == LinkingMode.Project) {
-    			Vector3 v1 = transform.position - this.LevelMarker.position;
-    			Vector3 n = this.LevelMarker.up;
+            if (this.Mode == LinkingMode.Project)
+            {
+                Vector3 v1 = transform.position - this.LevelMarker.position;
+                Vector3 n = this.LevelMarker.up;
 
-    			Vector3 proj = v1 - Vector3.Dot (v1, n) * n;
-    			proj += this.LevelMarker.position;
+                Vector3 proj = v1 - (Vector3.Dot(v1, n) * n);
+                proj += this.LevelMarker.position;
 
-    			this.LinkedTo.position = proj;
-    		} else {
-    			this.LinkedTo.position = transform.position;
-    		}
+                this.LinkedTo.position = proj;
+            }
+            else
+            {
+                this.LinkedTo.position = transform.position;
+            }
 
             switch (this.Mode)
             {
                 case LinkingMode.Exact:
-    			case LinkingMode.Project:
+                case LinkingMode.Project:
                     this.LinkedTo.rotation = transform.rotation;
                     break;
                 case LinkingMode.IgnoreHeight:
                     Vector3 angles = transform.rotation.eulerAngles;
                     angles.x = this.LinkedTo.eulerAngles.x;
-    				angles.y = this.LinkedTo.eulerAngles.y;
+                    angles.y = this.LinkedTo.eulerAngles.y;
                     angles.z = this.LinkedTo.eulerAngles.z;
                     this.LinkedTo.rotation = Quaternion.Euler(angles);
                     break;

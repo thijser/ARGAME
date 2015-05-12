@@ -32,7 +32,6 @@ namespace Laser
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public bool Enabled = true;
 
-
         /// <summary>
         /// A List of segments that make up the whole Laser beam this LaserEmitter emits.
         /// </summary>
@@ -58,6 +57,7 @@ namespace Laser
             {
                 this.LineRenderer = this.GetComponent<LineRenderer>();
             }
+
             this.Enabled = true;
         }
 

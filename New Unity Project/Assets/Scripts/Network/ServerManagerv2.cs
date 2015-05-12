@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="ServerManager.cs" company="Delft University of Technology">
+// <copyright file="ServerManagerv2.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //     
 //     This software is licensed under the terms of the MIT License.
@@ -9,7 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Network
 {
-	using System;
+    using System;
     using System.Collections;
     using UnityEngine;
 
@@ -34,15 +34,7 @@ namespace Network
         public void Start()
         {
             Network.sendRate = 60;
-			MasterServer.RequestHostList(GameName);
-        }
-
-        /// <summary>
-        /// Does nothing. Called by Unity once the server is initialized.
-        /// </summary>
-        public void OnServerInitialized()
-        {
-
+            MasterServer.RequestHostList(GameName);
         }
 
         /// <summary>
@@ -65,11 +57,11 @@ namespace Network
                 {
                     Network.Connect(hostList[0]);
                 }
-				else 
-				{
-					Network.InitializeServer(4, 25000, !Network.HavePublicAddress());
-					MasterServer.RegisterHost(GameName, GameSubName);
-				}
+                else 
+                {
+                    Network.InitializeServer(4, 25000, !Network.HavePublicAddress());
+                    MasterServer.RegisterHost(GameName, GameSubName);
+                }
             }
         }
 

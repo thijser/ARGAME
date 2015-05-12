@@ -67,7 +67,6 @@ namespace Laser
         /// <param name="laser">The Laser beam to copy.</param>
         /// <param name="offset">The offset of the Laser beam.</param>
         /// <param name="angle">The angle from the normal of this Portal's plane.</param>
-        /// <returns>The created Laser beam.</returns>
         public void EmitLaserBeam(Laser laser, Vector3 offset, Vector3 angle)
         {
             LaserEmitter emitter = this.PortalEmitter.GetEmitter(laser);

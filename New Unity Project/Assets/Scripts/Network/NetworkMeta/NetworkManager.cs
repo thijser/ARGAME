@@ -126,39 +126,40 @@ namespace NetworkMeta
         /// </summary>
         public void Start()
         {
-			Console.WriteLine ("Polled");
-			if (ServerAddress.Length > 0) {
-				MasterServer.ipAddress = ServerAddress;
-			}
+            Console.WriteLine("Polled");
+            if (ServerAddress.Length > 0) 
+            {
+                MasterServer.ipAddress = ServerAddress;
+            }
 
-			MasterServer.RequestHostList(TypeName);
-			if (hosts.Length <= 0) 
-			{
-				InitializeServer(TypeName);
-			} 
-			else 
-			{
-				HostData host = hosts[0];
-				InitializeClient(host);
-			}
-		}
+            MasterServer.RequestHostList(TypeName);
+            if (this.hosts.Length <= 0) 
+            {
+                InitializeServer(TypeName);
+            } 
+            else 
+            {
+                HostData host = this.hosts[0];
+                InitializeClient(host);
+            }
+        }
 
-		/// <summary>
-		/// <para>
-		/// Processes a master server event.
-		/// </para>
-		/// <para>
-		/// This method updates the hosts list when the server event
-		/// is equal to <c>MasterServer.HostListReceived</c>.
-		/// </para>
-		/// </summary>
-		/// <param name="serverEvent">The event that occurred</param>
-		public void OnMasterServerEvent(MasterServerEvent serverEvent)
-		{
-			if (serverEvent == MasterServerEvent.HostListReceived)
-			{
-				this.hosts = MasterServer.PollHostList();
-			}
-		}
+        /// <summary>
+        /// <para>
+        /// Processes a master server event.
+        /// </para>
+        /// <para>
+        /// This method updates the hosts list when the server event
+        /// is equal to <c>MasterServer.HostListReceived</c>.
+        /// </para>
+        /// </summary>
+        /// <param name="serverEvent">The event that occurred</param>
+        public void OnMasterServerEvent(MasterServerEvent serverEvent)
+        {
+            if (serverEvent == MasterServerEvent.HostListReceived)
+            {
+                this.hosts = MasterServer.PollHostList();
+            }
+        }
     }
 }

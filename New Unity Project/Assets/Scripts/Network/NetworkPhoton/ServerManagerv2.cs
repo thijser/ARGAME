@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="ServerManager.cs" company="Delft University of Technology">
+// <copyright file="ServerManagerv2.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //     
 //     This software is licensed under the terms of the MIT License.

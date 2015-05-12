@@ -9,7 +9,6 @@
 //----------------------------------------------------------------------------
 namespace Laser
 {
-    using System;
     using System.Collections;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
@@ -19,15 +18,6 @@ namespace Laser
     /// </summary>
     public class LaserTarget : MonoBehaviour, ILaserReceiver
     {
-		public float minStrength;
-		/// <summary>
-		/// which part of the model is the crystal 
-		/// </summary>
-		public MeshRenderer crystal;
-		/// <summary>
-		/// The color of this target 
-		/// </summary>
-		public Color targetColor;
         /// <summary>
         /// The name of the opening animation clip.
         /// </summary>
@@ -37,6 +27,24 @@ namespace Laser
         /// The name of the opening animation state.
         /// </summary>
         public const string OpenedStateName = "Opened";
+
+        /// <summary>
+        /// The minimal strength required to make the crystal open.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public float MinimumStrength;
+
+        /// <summary>
+        /// The model that defines the crystal.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public MeshRenderer Crystal;
+
+        /// <summary>
+        /// The required laser color of this target.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public Color TargetColor;
 
         /// <summary>
         /// The index of the next level.
@@ -79,7 +87,6 @@ namespace Laser
         /// <param name="args">The arguments that describe the event</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
-			
             Animator animator = GetComponent<Animator>();
             animator.SetBool("LaserHit", true);
 
@@ -87,6 +94,22 @@ namespace Laser
             {
                 Application.LoadLevel(this.NextLevelIndex);
             }
+        }
+
+        /// <summary>
+        /// Ensures the color of the crystal is correct.
+        /// </summary>
+        public void Update()
+        {
+            this.EnsureCrystalColor();
+        }
+
+        /// <summary>
+        /// Ensures the color of the crystal is correct.
+        /// </summary>
+        private void EnsureCrystalColor()
+        {
+            this.Crystal.material.SetColor("_Color", this.TargetColor);
         }
 
         /// <summary>
@@ -98,13 +121,5 @@ namespace Laser
             yield return new WaitForEndOfFrame();
             this.IsOpening = false;
         }
-
-		void Update(){
-			EnsureCrystalColor();
-		}
-
-		private void EnsureCrystalColor(){
-			crystal.material.SetColor("_Color",targetColor);
-		}
     }
 }

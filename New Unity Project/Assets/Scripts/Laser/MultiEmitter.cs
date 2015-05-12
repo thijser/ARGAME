@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Laser
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
@@ -67,7 +68,7 @@ namespace Laser
         /// </summary>
         public void DeleteAll()
         {
-            foreach(LaserEmitter emitter in this.Emitters)
+            foreach (LaserEmitter emitter in this.Emitters)
             {
                 GameObject.Destroy(emitter.gameObject);
             }
@@ -76,6 +77,8 @@ namespace Laser
         /// <summary>
         /// Returns a LaserEmitter for the given Laser beam.
         /// </summary>
+        /// <param name="laser">The Laser beam to return a LaserEmitter for.</param>
+        /// <returns>The LaserEmitter.</returns>
         public LaserEmitter GetEmitter(Laser laser)
         {
             foreach (LaserEmitter emitter in this.Emitters)
@@ -83,19 +86,32 @@ namespace Laser
                 if (!emitter.Enabled)
                 {
                     emitter.Enabled = true;
-                    ApplyProperties(emitter.LineRenderer, laser);
+                    this.ApplyProperties(emitter.LineRenderer, laser);
                     return emitter;
                 }
             }
-            return CreateEmitter(laser);
+
+            return this.CreateEmitter(laser);
         }
 
         /// <summary>
         /// Applies the properties from the given Laser to the LineRenderer.
         /// </summary>
+        /// <param name="renderer">The LineRenderer to configure.</param>
+        /// <param name="laser">The Laser beam to use as template.</param>
         /// <returns>The configured LineRenderer.</returns>
         public LineRenderer ApplyProperties(LineRenderer renderer, Laser laser)
         {
+            if (renderer == null)
+            {
+                throw new ArgumentNullException("renderer");
+            }
+
+            if (laser == null)
+            {
+                throw new ArgumentNullException("laser");
+            }
+
             renderer.useWorldSpace = true;
             renderer.materials = laser.Emitter.LineRenderer.materials;
             renderer.receiveShadows = false;
@@ -120,7 +136,7 @@ namespace Laser
             LineRenderer renderer = emitterObject.AddComponent<LineRenderer>();
             LaserEmitter emitter = emitterObject.AddComponent<LaserEmitter>();
 
-            ApplyProperties(renderer, laser);
+            this.ApplyProperties(renderer, laser);
             return emitter;
         }
     }

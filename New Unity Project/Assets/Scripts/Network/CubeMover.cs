@@ -10,7 +10,7 @@
 namespace Network
 {
     using System;
-    using System.Collections;
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 
     /// <summary>
@@ -18,7 +18,12 @@ namespace Network
     /// </summary>
     public class CubeMover : MonoBehaviour
     {
-		public float factor = 90;
+        /// <summary>
+        /// The angular speed with which the cube moves.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public float SpeedFactor = 90;
+
         /// <summary>
         /// Updates the location of the cube.
         /// </summary>
@@ -26,23 +31,24 @@ namespace Network
         {
             if (Network.isServer)
             {
-                float t = Time.deltaTime * factor;
+                float t = Time.deltaTime * this.SpeedFactor;
                 transform.Rotate(0, t, 0);
             }
-			if (Input.GetMouseButtonDown(0))
-			{
-				RaycastHit hitInfo = new RaycastHit();
-				bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
 
-				if (hit) 
-				{
-					Debug.Log("Hit " + hitInfo.transform.gameObject.name);
-					if (hitInfo.transform.gameObject.name.StartsWith("Mirror"))
-					{
-						factor = 90 - factor;
-					}
-				}
-			}
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hitInfo = new RaycastHit();
+                bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
+
+                if (hit)
+                {
+                    Debug.Log("Hit " + hitInfo.transform.gameObject.name);
+                    if (hitInfo.transform.gameObject.name.StartsWith("Mirror"))
+                    {
+                        this.SpeedFactor = 90 - this.SpeedFactor;
+                    }
+                }
+            }
         }
 
         /// <summary>

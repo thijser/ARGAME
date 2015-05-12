@@ -25,6 +25,7 @@ namespace Laser
         /// <summary>
         /// Initializes a new instance of the <see cref="LaserType"/> class.
         /// </summary>
+        /// <param name="typeName">The name of this LaserType, not null and not empty.</param>
         /// <param name="material">The Material for the Laser beam, not null.</param>
         public LaserType(string typeName, Material material)
         {
@@ -33,7 +34,7 @@ namespace Laser
                 throw new ArgumentNullException("material");
             }
 
-            if (String.IsNullOrEmpty(typeName))
+            if (string.IsNullOrEmpty(typeName))
             {
                 throw new ArgumentException("Type name must be non-empty");
             }
@@ -48,14 +49,13 @@ namespace Laser
         public Material LaserMaterial { get; private set; }
 
         /// <summary>
-        /// An unique name for the LaserType.
+        /// Gets a unique name for the LaserType.
         /// <para>
         /// LaserType instances with the same name are considered equal,
         /// even if their Materials differ.
         /// </para>
         /// </summary>
         public string TypeName { get; private set; }
-
 
         /// <summary>
         /// Applies this Laser type to the given LineRenderer.

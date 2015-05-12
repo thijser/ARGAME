@@ -9,13 +9,14 @@
 //----------------------------------------------------------------------------
 namespace Laser
 {
-    /// <summary>
-    /// An AND-gate that outputs a laser beam if two other beams hit it.
-    /// </summary>
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+
+    /// <summary>
+    /// An AND-gate that outputs a laser beam if two other beams hit it.
+    /// </summary>
     public class AndGate : MonoBehaviour, ILaserReceiver
     {
         /// <summary>
@@ -29,7 +30,6 @@ namespace Laser
         /// </summary>
         private bool beamcreated = false;
 
-
         /// <summary>
         /// The lasers that hit the gate.
         /// </summary>
@@ -38,24 +38,24 @@ namespace Laser
         /// <summary>
         /// Creates the resulting beam.
         /// </summary>
-        /// <returns>The reflected Laser beam segment.</returns>
         /// <param name="laser">The Laser beam.</param>
-        /// <param name="surfaceNormal">The surface normal.</param>
+        /// <returns>The reflected Laser beam segment.</returns>
         public Laser CreateBeam(Laser laser)
         {
             if (laser == null)
             {
-                throw new ArgumentNullException ("laser");
+                throw new ArgumentNullException("laser");
             }
 
-            Vector3 newDir = new Vector3 (0, 0, 0);
-            Vector3 newOrig = new Vector3 (0, 0, 0);
-            foreach(Laser l in lasers) 
+            Vector3 newDir = new Vector3(0, 0, 0);
+            Vector3 newOrig = new Vector3(0, 0, 0);
+            foreach (Laser l in this.lasers)
             {
                 newDir = newDir + l.Direction;
                 newOrig = newOrig + l.Endpoint;
             }
-            return laser.Extend (this.transform.position, newDir/lasers.Count); 
+
+            return laser.Extend(this.transform.position, newDir / this.lasers.Count);
         }
 
         /// <summary>
@@ -71,16 +71,16 @@ namespace Laser
                 throw new ArgumentNullException("args");
             }
 
-            lasers.Add(args.Laser);
-            if (hit && !beamcreated)
+            this.lasers.Add(args.Laser);
+            if (this.hit && !this.beamcreated)
             {
-                CreateBeam(args.Laser);
-                beamcreated = true;
+                this.CreateBeam(args.Laser);
+                this.beamcreated = true;
             }
 
-            if (!hit) 
+            if (!this.hit)
             {
-                hit = true;
+                this.hit = true;
             }
         }
 
@@ -89,9 +89,9 @@ namespace Laser
         /// </summary>
         public void LateUpdate()
         {
-            hit = false;
-            beamcreated = false;
-            lasers.Clear();
+            this.hit = false;
+            this.beamcreated = false;
+            this.lasers.Clear();
         }
     }
 }
