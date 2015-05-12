@@ -28,6 +28,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 489386}
+  - 148: {fileID: 14805644}
   m_Layer: 0
   m_Name: Mirror
   m_TagString: Untagged
@@ -429,6 +430,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e6936beb43c4cf6b9fe81137b571c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!148 &14805644
+NetworkView:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 142618}
+  m_Enabled: 1
+  m_StateSynchronization: 1
+  m_Observed: {fileID: 489386}
+  m_ViewID:
+    m_ID: 0
+    m_Type: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

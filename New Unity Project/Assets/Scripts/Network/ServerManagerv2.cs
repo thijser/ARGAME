@@ -42,7 +42,7 @@ namespace Network
         /// </summary>
         public void OnServerInitialized()
         {
-            Debug.Log("Server initialised");
+
         }
 
         /// <summary>
@@ -70,8 +70,6 @@ namespace Network
 					Network.InitializeServer(4, 25000, !Network.HavePublicAddress());
 					MasterServer.RegisterHost(GameName, GameSubName);
 				}
-
-                Debug.Log(hostList.Length);
             }
         }
 
