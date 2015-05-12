@@ -54,6 +54,8 @@ public class PositionLinker : MonoBehaviour
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
     public Transform LinkedTo;
 
+	public Transform LinkedToEmbedded;
+
     /// <summary>
     /// The LinkingMode to use.
     /// </summary>
@@ -66,11 +68,19 @@ public class PositionLinker : MonoBehaviour
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
     public Transform LevelMarker;
 
+	private float angle = 0;
+
     /// <summary>
     /// Updates the position and/or rotation of the LinkedTo Transform.
     /// </summary>
     public void Update()
     {
+		if (Input.GetKey (KeyCode.W))
+			angle += 1.0f;
+
+		if (Input.GetKey (KeyCode.S))
+			angle -= 1.0f;
+
 		if (this.Mode == LinkingMode.Project) {
 			Vector3 v1 = transform.position - this.LevelMarker.position;
 			Vector3 n = this.LevelMarker.up;
@@ -79,6 +89,8 @@ public class PositionLinker : MonoBehaviour
 			proj += this.LevelMarker.position;
 
 			this.LinkedTo.position = proj;
+
+			this.LinkedToEmbedded.localRotation = Quaternion.Euler(0, angle, 0);
 		} else {
 			this.LinkedTo.position = transform.position;
 		}
@@ -86,20 +98,19 @@ public class PositionLinker : MonoBehaviour
         switch (this.Mode)
         {
             case LinkingMode.Exact:
-			case LinkingMode.Project:
                 this.LinkedTo.rotation = transform.rotation;
                 break;
             case LinkingMode.IgnoreHeight:
                 Vector3 angles = transform.rotation.eulerAngles;
                 angles.x = this.LinkedTo.eulerAngles.x;
-				angles.y = this.LinkedTo.eulerAngles.y;
                 angles.z = this.LinkedTo.eulerAngles.z;
                 this.LinkedTo.rotation = Quaternion.Euler(angles);
                 break;
             case LinkingMode.PositionOnly:
                 break;
             case LinkingMode.FollowLevel:
-                this.LinkedTo.rotation = this.LevelMarker.rotation;
+			case LinkingMode.Project:
+				this.LinkedTo.rotation = this.LevelMarker.rotation;
                 break;
             default:
                 throw new ArgumentException("Invalid LinkingMode");

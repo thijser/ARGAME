@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LinkedTo: {fileID: 888909728}
+  LinkedToEmbedded: {fileID: 0}
   Mode: 0
   LevelMarker: {fileID: 0}
 --- !u!114 &44118511
@@ -1530,6 +1531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LinkedTo: {fileID: 190535874}
+  LinkedToEmbedded: {fileID: 0}
   Mode: 4
   LevelMarker: {fileID: 888909728}
 --- !u!114 &604579342
@@ -2215,6 +2217,10 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 5
+--- !u!4 &826535062 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+  m_PrefabInternal: {fileID: 1963913739}
 --- !u!1 &839292736
 GameObject:
   m_ObjectHideFlags: 0
@@ -6043,6 +6049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LinkedTo: {fileID: 1766337352}
+  LinkedToEmbedded: {fileID: 826535062}
   Mode: 4
   LevelMarker: {fileID: 44118512}
 --- !u!114 &1967517470
