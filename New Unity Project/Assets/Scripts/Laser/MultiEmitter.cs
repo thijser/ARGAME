@@ -20,38 +20,14 @@ namespace Laser
     public class MultiEmitter : MonoBehaviour
     {
         /// <summary>
-        /// A List with the LaserEmitters in this MultiEmitter.
+        /// Removes all attached emitters.
         /// </summary>
-        private List<LaserEmitter> emitters;
-
-        /// <summary>
-        /// Gets a read-only version of the LaserEmitters in this MultiEmitter.
-        /// </summary>
-        public ReadOnlyCollection<LaserEmitter> Emitters
+        public void DisableAll()
         {
-            get
+            foreach (var emitter in this.gameObject.GetComponentsInChildren<LaserEmitter>())
             {
-                return this.emitters.AsReadOnly();
+                GameObject.Destroy(emitter.gameObject);
             }
-        }
-
-        /// <summary>
-        /// Returns a LaserEmitter that produces a Laser beam with the same 
-        /// properties as the provided Laser beam.
-        /// </summary>
-        /// <param name="laser">The Laser beam.</param>
-        /// <returns>A LaserEmitter for the same Laser type.</returns>
-        public LaserEmitter GetEmitter(Laser laser)
-        {
-            LineRenderer renderer = laser.Emitter.LineRenderer;
-            LaserEmitter emitter = this.emitters.Find(e => e.LineRenderer == renderer);
-            
-            if (emitter == null)
-            {
-                emitter = this.CreateEmitter(laser);
-            }
-
-            return emitter;
         }
 
         /// <summary>
@@ -66,15 +42,16 @@ namespace Laser
         /// <returns>The created LaserEmitter.</returns>
         public LaserEmitter CreateEmitter(Laser laser)
         {
-            GameObject emitterObject = new GameObject("Emitter_" + this.emitters.Count);
+            GameObject emitterObject = new GameObject("Emitter");
             emitterObject.transform.parent = this.gameObject.transform;
-            LineRenderer renderer = emitterObject.AddComponentAsCopy(laser.Emitter.LineRenderer);
+            LineRenderer renderer = emitterObject.AddComponent<LineRenderer>();
             LaserEmitter emitter = emitterObject.AddComponent<LaserEmitter>();
 
-            // Reset the vertex count to prevent the newly created LineRenderer from drawing the 
-            // same path as the original.
+            renderer.useWorldSpace = true;
+            renderer.materials = laser.Emitter.LineRenderer.materials;
+            renderer.receiveShadows = false;
             renderer.SetVertexCount(0);
-            this.emitters.Add(emitter);
+
             return emitter;
         }
     }

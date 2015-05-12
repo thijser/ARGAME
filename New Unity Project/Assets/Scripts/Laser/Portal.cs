@@ -29,7 +29,21 @@ namespace Laser
         /// <summary>
         /// Gets or sets the LaserEmitter used for creating new Laser beam segments.
         /// </summary>
-        public LaserEmitter PortalEmitter { get; set; }
+        public MultiEmitter PortalEmitter { get; set; }
+
+        /// <summary>
+        /// Gets the surface normal of this Portal.
+        /// <para>
+        /// The Vector3 points out from the active side of the Portal.
+        /// </para>
+        /// </summary>
+        public Vector3 SurfaceNormal
+        {
+            get
+            {
+                return this.transform.rotation * new Vector3(1, 0, 0);
+            }
+        }
 
         /// <summary>
         /// Verifies the LinkedPortal property. Called by Unity when the Portal
@@ -42,10 +56,15 @@ namespace Laser
                 Debug.LogError("No Linked Portal set.");
             }
 
-            // FIXME: Should be replaced with a scalable solution.
-            //        This solution only supports one Laser type at a time.
-            this.PortalEmitter = this.gameObject.AddComponent<LaserEmitter>();
-            this.PortalEmitter.LineRenderer = this.gameObject.AddComponent<LineRenderer>();
+            this.PortalEmitter = gameObject.AddComponent<MultiEmitter>();
+        }
+
+        /// <summary>
+        /// Schedules removal of the LaserEmitters.
+        /// </summary>
+        public void Update()
+        {
+            StartCoroutine(ResetEmitters());
         }
 
         /// <summary>
@@ -56,13 +75,13 @@ namespace Laser
         /// <param name="offset">The offset of the Laser beam.</param>
         /// <param name="angle">The angle from the normal of this Portal's plane.</param>
         /// <returns>The created Laser beam.</returns>
-        public Laser EmitLaserBeam(Laser laser, Vector3 offset, Vector3 angle)
+        public void EmitLaserBeam(Laser laser, Vector3 offset, Vector3 angle)
         {
-            Vector3 position = transform.position + offset;
-            Vector3 direction = transform.eulerAngles + angle;
-            Laser copy = new Laser(position, direction, null);
-            copy.Create();
-            return copy;
+            LaserEmitter emitter = this.PortalEmitter.CreateEmitter(laser);
+            emitter.transform.position = offset;
+            Quaternion rotation = new Quaternion();
+            rotation.SetFromToRotation(Vector3.forward, angle);
+            emitter.transform.rotation = rotation;
         }
 
         /// <summary>
@@ -84,10 +103,18 @@ namespace Laser
 
             if (this.LinkedPortal != null)
             {
-                Vector3 relativePosition = args.Point - this.transform.position;
-                Vector3 relativeRotation = args.Normal - args.Laser.Direction;
-                this.LinkedPortal.EmitLaserBeam(args.Laser, relativePosition, relativeRotation);
+                Vector3 translation = this.LinkedPortal.transform.position - this.transform.position;
+                Quaternion rotation = new Quaternion();
+                rotation.SetFromToRotation(-1 * this.SurfaceNormal, this.LinkedPortal.SurfaceNormal);
+                Vector3 direction = args.Point - args.Laser.Origin;
+                this.LinkedPortal.EmitLaserBeam(args.Laser, translation + args.Point, rotation * -direction.normalized);
             }
+        }
+
+        public IEnumerator ResetEmitters()
+        {
+            yield return new WaitForEndOfFrame();
+            this.PortalEmitter.DisableAll();
         }
     }
 }
