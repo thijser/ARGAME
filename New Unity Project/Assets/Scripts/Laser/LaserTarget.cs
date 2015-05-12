@@ -19,6 +19,11 @@ namespace Laser
     /// </summary>
     public class LaserTarget : MonoBehaviour, ILaserReceiver
     {
+		/// <summary>
+		/// The color of this target 
+		/// </summary>
+
+		public Color targetColor;
         /// <summary>
         /// The name of the opening animation clip.
         /// </summary>

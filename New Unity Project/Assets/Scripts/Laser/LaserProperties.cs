@@ -3,7 +3,11 @@ using System.Collections;
 
 public class LaserProperties : MonoBehaviour {
 	public Vector3 RGBStrengths;
-	public LineRenderer lineRenderer;
+	 LineRenderer lineRenderer;
+
+	void Start() {
+		lineRenderer = gameObject.GetComponent<LineRenderer>();
+	}
 
 	/*
 	 * returns the color in RGB.
@@ -24,13 +28,15 @@ public class LaserProperties : MonoBehaviour {
 	}
 	void Update(){
 		updateBeam ();
-		Debug.Log (getColor());
 	}
+	/*
+	 * set color of the beam to the color of the laser 
+	 */
 	public void updateBeam(){
 		lineRenderer.SetWidth (getStrength (), getStrength());
 		lineRenderer.material.color = getColor ();
 		lineRenderer.material.SetColor ("_Albedo", getColor ());
 		lineRenderer.material.SetColor ("_Emission", getColor ());
-
+		lineRenderer.material.SetColor ("Main Color", getColor ());
 	}
 }
