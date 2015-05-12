@@ -42,6 +42,31 @@ namespace Laser
         }
 
         /// <summary>
+        /// Applies the properties from the given Laser to the LineRenderer.
+        /// </summary>
+        /// <param name="renderer">The LineRenderer to configure.</param>
+        /// <param name="laser">The Laser beam to use as template.</param>
+        /// <returns>The configured LineRenderer.</returns>
+        public static LineRenderer ApplyProperties(LineRenderer renderer, Laser laser)
+        {
+            if (renderer == null)
+            {
+                throw new ArgumentNullException("renderer");
+            }
+
+            if (laser == null)
+            {
+                throw new ArgumentNullException("laser");
+            }
+
+            renderer.useWorldSpace = true;
+            renderer.materials = laser.Emitter.LineRenderer.materials;
+            renderer.receiveShadows = false;
+            renderer.SetVertexCount(0);
+            return renderer;
+        }
+
+        /// <summary>
         /// Disables all Emitters by default.
         /// </summary>
         public void LateUpdate()
@@ -92,31 +117,6 @@ namespace Laser
             }
 
             return this.CreateEmitter(laser);
-        }
-
-        /// <summary>
-        /// Applies the properties from the given Laser to the LineRenderer.
-        /// </summary>
-        /// <param name="renderer">The LineRenderer to configure.</param>
-        /// <param name="laser">The Laser beam to use as template.</param>
-        /// <returns>The configured LineRenderer.</returns>
-        public static LineRenderer ApplyProperties(LineRenderer renderer, Laser laser)
-        {
-            if (renderer == null)
-            {
-                throw new ArgumentNullException("renderer");
-            }
-
-            if (laser == null)
-            {
-                throw new ArgumentNullException("laser");
-            }
-
-            renderer.useWorldSpace = true;
-            renderer.materials = laser.Emitter.LineRenderer.materials;
-            renderer.receiveShadows = false;
-            renderer.SetVertexCount(0);
-            return renderer;
         }
 
         /// <summary>

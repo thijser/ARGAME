@@ -43,7 +43,7 @@ namespace Network
                 if (hit)
                 {
                     Debug.Log("Hit " + hitInfo.transform.gameObject.name);
-                    if (hitInfo.transform.gameObject.name.StartsWith("Mirror"))
+                    if (hitInfo.transform.gameObject.name.StartsWith("Mirror", StringComparison.Ordinal))
                     {
                         this.SpeedFactor = 90 - this.SpeedFactor;
                     }

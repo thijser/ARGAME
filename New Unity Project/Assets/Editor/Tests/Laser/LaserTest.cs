@@ -78,11 +78,12 @@ namespace Laser
         [Test]
         public void FindReceiverWithoutObjectTest()
         {
-            HitEventArgs args;
             Laser laser = CreateLaser(Vector3.zero, Vector3.forward);
-            ILaserReceiver receiver = laser.FindReceiver(out args);
+            HitEventArgs args = laser.FindReceiver();
 
-            Assert.IsNull(receiver);
+            Assert.IsNull(args.Receiver);
+            Assert.IsNull(args.Laser);
+
             Assert.False(args.IsValid);
         }
 
@@ -93,12 +94,12 @@ namespace Laser
         [Test]
         public void FindReceiverWithoutLaserReceiverTest()
         {
-            HitEventArgs args;
             BoxCollider collider = CreateCollider(Vector3.forward, 0.5f);
             Laser laser = CreateLaser(Vector3.zero, Vector3.forward);
-            ILaserReceiver receiver = laser.FindReceiver(out args);
+            HitEventArgs args = laser.FindReceiver();
 
-            Assert.IsNull(receiver);
+            Assert.IsNull(args.Receiver);
+            Assert.IsNull(args.Laser);
             Assert.False(args.IsValid);
 
             GameObject.Destroy(collider);

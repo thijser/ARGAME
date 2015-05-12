@@ -44,15 +44,16 @@ namespace Network
         {
             if (transform == null)
             {
-                throw new ArgumentNullException("trans");
+                throw new ArgumentNullException("transform");
             }
 
-            while (transform.parent != null)
+            Transform current = transform;
+            while (current.parent != null)
             {
-                transform = transform.parent;
+                current = current.parent;
             }
 
-            return transform;
+            return current;
         }
 
         /// <summary>
@@ -82,10 +83,15 @@ namespace Network
         /// <summary>
         /// Serializes the mirror to the given BitStream.
         /// </summary>
-        /// <param name="stream">The BitStream to serialize to.</param>
+        /// <param name="stream">The BitStream to serialize to, not null.</param>
         /// <param name="info">The NetworkMessageInfo object describing the connection.</param>
         public void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
         {
+            if (stream == null)
+            {
+                throw new ArgumentNullException("stream");
+            }
+
             Quaternion syncPosition = Quaternion.identity;
             if (stream.isWriting)
             {
