@@ -18,6 +18,7 @@ namespace Network
     /// </summary>
     public class CubeMover : MonoBehaviour
     {
+		public float factor = 90;
         /// <summary>
         /// Updates the location of the cube.
         /// </summary>
@@ -25,9 +26,23 @@ namespace Network
         {
             if (Network.isServer)
             {
-                float t = Time.time * 3;
-                transform.position = new Vector3(Mathf.Cos(t), 0, Mathf.Sin(t));
+                float t = Time.deltaTime * factor;
+                transform.Rotate(0, t, 0);
             }
+			if (Input.GetMouseButtonDown(0))
+			{
+				RaycastHit hitInfo = new RaycastHit();
+				bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
+
+				if (hit) 
+				{
+					Debug.Log("Hit " + hitInfo.transform.gameObject.name);
+					if (hitInfo.transform.gameObject.name.StartsWith("Mirror"))
+					{
+						factor = 90 - factor;
+					}
+				}
+			}
         }
 
         /// <summary>

@@ -35,7 +35,12 @@ public enum LinkingMode
     /// <summary>
     /// Follow the rotation of the level marker.
     /// </summary>
-    FollowLevel = 3
+    FollowLevel = 3,
+
+	/// <summary>
+	/// Project position to plane of level.
+	/// </summary>
+	Project = 4
 }
 
 /// <summary>
@@ -49,6 +54,8 @@ public class PositionLinker : MonoBehaviour
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
     public Transform LinkedTo;
 
+	public Transform LinkedToEmbedded;
+
     /// <summary>
     /// The LinkingMode to use.
     /// </summary>
@@ -61,12 +68,32 @@ public class PositionLinker : MonoBehaviour
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
     public Transform LevelMarker;
 
+	private float angle = 0;
+
     /// <summary>
     /// Updates the position and/or rotation of the LinkedTo Transform.
     /// </summary>
     public void Update()
     {
-        this.LinkedTo.position = transform.position;
+		if (Input.GetKey (KeyCode.W))
+			angle += 1.0f;
+
+		if (Input.GetKey (KeyCode.S))
+			angle -= 1.0f;
+
+		if (this.Mode == LinkingMode.Project) {
+			Vector3 v1 = transform.position - this.LevelMarker.position;
+			Vector3 n = this.LevelMarker.up;
+			
+			Vector3 proj = v1 - Vector3.Dot (v1, n) * n;
+			proj += this.LevelMarker.position;
+
+			this.LinkedTo.position = proj;
+
+			this.LinkedToEmbedded.localRotation = Quaternion.Euler(0, angle, 0);
+		} else {
+			this.LinkedTo.position = transform.position;
+		}
 
         switch (this.Mode)
         {
@@ -82,7 +109,8 @@ public class PositionLinker : MonoBehaviour
             case LinkingMode.PositionOnly:
                 break;
             case LinkingMode.FollowLevel:
-                this.LinkedTo.rotation = this.LevelMarker.rotation;
+			case LinkingMode.Project:
+				this.LinkedTo.rotation = this.LevelMarker.rotation;
                 break;
             default:
                 throw new ArgumentException("Invalid LinkingMode");

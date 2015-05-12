@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 // <copyright file="LaserProperties.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //     
@@ -76,6 +76,7 @@ namespace Laser
             this.LineRenderer.material.color = this.LaserColor;
             this.LineRenderer.material.SetColor("_Albedo", this.LaserColor);
             this.LineRenderer.material.SetColor("_Emission", this.LaserColor);
+            this.LineRenderer.material.SetColor("Main Color", this.LaserColor);
         }
     }
 }

@@ -50,6 +50,7 @@ namespace Laser {
                 var newEmitter = Instantiate<GameObject>(protoEmitter);
                 newEmitter.SetActive(true);
                 emitterPool.Add(newEmitter);
+
             }
 
             return emitterPool[nextEmitterIndex++];
@@ -72,8 +73,12 @@ namespace Laser {
 
             passThroughEmitter.transform.position = args.Point + args.Laser.Direction * 0.1f;
             passThroughEmitter.transform.forward = -args.Laser.Direction;
+			LaserProperties propertiesPre = args.Laser.Emitter.GetComponent<LaserProperties>();
+			LaserProperties propertiesPost = passThroughEmitter.GetComponent<LaserProperties>();
+			propertiesPost.RGBStrengths=propertiesPre.RGBStrengths/2;
 
-            // Create the second ray, reflecting off surface like a mirror
+
+			// Create the second ray, reflecting off surface like a mirror
             Mirror.CreateReflection(args.Laser, args.Normal);
         }
 
