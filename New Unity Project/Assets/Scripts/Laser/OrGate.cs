@@ -9,62 +9,66 @@
 //----------------------------------------------------------------------------
 namespace Laser
 {
-	/// <summary>
-	/// An OR-gate that outputs a laser beam if another beam hits it.
-	/// </summary>
-	using System;
-	using System.Collections;
-	using System.Collections.Generic;
-	using UnityEngine;
-	public class OrGate : MonoBehaviour, ILaserReceiver
-	{
-		/// <summary>
-		/// A variable storing whether or not a beam has already been
-		/// created this tick.
-		/// </summary>
-		private bool beamcreated = false;
+    /// <summary>
+    /// An OR-gate that outputs a laser beam if another beam hits it.
+    /// </summary>
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-		/// <summary>
-		/// Creates the resulting beam.
-		/// </summary>
-		/// <returns>The reflected Laser beam segment.</returns>
-		/// <param name="laser">The Laser beam.</param>
-		/// <param name="surfaceNormal">The surface normal.</param>
-		public Laser CreateBeam(Laser laser)
-		{
-			if (laser == null)
-			{
-				throw new ArgumentNullException ("laser");
-			}
-			return laser.Extend(transform.position, laser.Direction); 
-		}
+    /// <summary>
+    /// A script designed to implement the functionality of the OR-gate.
+    /// </summary>
+    public class OrGate : MonoBehaviour, ILaserReceiver
+    {
+        /// <summary>
+        /// A variable storing whether or not a beam has already been
+        /// created this tick.
+        /// </summary>
+        private bool beamcreated = false;
 
-		/// <summary>
-		/// Creates a new laser beam if a different beam hits
-		/// the gate.
-		/// </summary>
-		/// <param name="sender">The sender of the event, ignored here.</param>
-		/// <param name="args">The EventArgs object that describes the event.</param>
-		public void OnLaserHit(object sender, HitEventArgs args)
-		{
-			if (args == null)
-			{
-				throw new ArgumentNullException("args");
-			}
+        /// <summary>
+        /// Creates the resulting beam.
+        /// </summary>
+        /// <returns>The resulting Laser beam segment.</returns>
+        /// <param name="laser">The Laser beam.</param>
+        public Laser CreateBeam(Laser laser)
+        {
+            if (laser == null)
+            {
+                throw new ArgumentNullException("laser");
+            }
 
-			if (!beamcreated)
-			{
-				CreateBeam(args.Laser);
-				beamcreated = true;
-			}
-		}
+            return laser.Extend(transform.position, laser.Direction); 
+        }
 
-		/// <summary>
-		/// Resets the variables for use in the next tick.
-		/// </summary>
-		public void LateUpdate()
-		{
-			beamcreated = false;
-		}
-	}
+        /// <summary>
+        /// Creates a new laser beam if a different beam hits
+        /// the gate.
+        /// </summary>
+        /// <param name="sender">The sender of the event, ignored here.</param>
+        /// <param name="args">The EventArgs object that describes the event.</param>
+        public void OnLaserHit(object sender, HitEventArgs args)
+        {
+            if (args == null)
+            {
+                throw new ArgumentNullException("args");
+            }
+
+            if (!this.beamcreated)
+            {
+                this.CreateBeam(args.Laser);
+                this.beamcreated = true;
+            }
+        }
+
+        /// <summary>
+        /// Resets the variables for use in the next tick.
+        /// </summary>
+        public void LateUpdate()
+        {
+            this.beamcreated = false;
+        }
+    }
 }
