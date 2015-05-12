@@ -171,7 +171,7 @@ NetworkView:
   m_StateSynchronization: 2
   m_Observed: {fileID: 2516573}
   m_ViewID:
-    m_ID: 1
+    m_ID: 3
     m_Type: 1
 --- !u!1001 &746704268
 Prefab:
@@ -214,7 +214,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 14805644, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
       propertyPath: m_ViewID.m_ID
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 14805644, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
       propertyPath: m_ViewID.m_Type
@@ -232,6 +232,14 @@ Prefab:
       propertyPath: original
       value: 
       objectReference: {fileID: 2100000, guid: 906606983b1fe4d96b709d9c16b7388f, type: 2}
+    - target: {fileID: 14870136, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_ViewID.m_ID
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 14870136, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_ViewID.m_Type
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
   m_IsPrefabParent: 0
@@ -339,6 +347,14 @@ Prefab:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 14805644, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_ViewID.m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 14870136, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_ViewID.m_ID
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 14870136, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
       propertyPath: m_ViewID.m_Type
       value: 1
       objectReference: {fileID: 0}

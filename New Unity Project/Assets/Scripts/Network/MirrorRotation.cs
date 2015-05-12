@@ -79,6 +79,20 @@ namespace Network
 			MeshRenderer mesh = transform.Find ("MirrorBase").Find("Cube_002").GetComponent<MeshRenderer> ();
 			mesh.material = original;
 		}
+		void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
+		{
+			Quaternion syncPosition = Quaternion.identity;
+			if (stream.isWriting)
+			{
+				syncPosition = transform.rotation;
+				stream.Serialize(ref syncPosition);
+			}
+			else
+			{
+				stream.Serialize(ref syncPosition);
+				transform.rotation = syncPosition;
+			}
+		}
 	}
 }
 
