@@ -1,13 +1,13 @@
 ﻿//----------------------------------------------------------------------------
 // <copyright file="LaserEmitter.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
-//     
+//
 //     This software is licensed under the terms of the MIT License.
-//     A copy of the license should be included with this software. If not, 
+//     A copy of the license should be included with this software. If not,
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser 
+namespace Laser
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -18,13 +18,20 @@ namespace Laser
     /// <summary>
     /// Emitter of Laser beams.
     /// </summary>
-    public class LaserEmitter : MonoBehaviour 
+    public class LaserEmitter : MonoBehaviour
     {
         /// <summary>
         /// The LineRenderer used for drawing the Laser beams (optional).
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public LineRenderer LineRenderer;
+
+        /// <summary>
+        /// Indicates whether this LaserEmitter should emit a Laser beam.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public bool Enabled = true;
+
 
         /// <summary>
         /// A List of segments that make up the whole Laser beam this LaserEmitter emits.
@@ -51,22 +58,26 @@ namespace Laser
             {
                 this.LineRenderer = this.GetComponent<LineRenderer>();
             }
+            this.Enabled = true;
         }
 
         /// <summary>
         /// Updates the path of the Lasers and redraws the scene.
         /// </summary>
-        public void Update() 
+        public void Update()
         {
             this.Clear();
-            this.MakeLaser();
-            this.Render();
+            if (this.Enabled)
+            {
+                this.MakeLaser();
+                this.Render();
+            }
         }
 
         /// <summary>
         /// Creates the Laser beam emitted from this LaserEmitter.
         /// </summary>
-        public void MakeLaser() 
+        public void MakeLaser()
         {
             Vector3 pos = gameObject.transform.position;
             Vector3 dir = -gameObject.transform.forward;
@@ -85,12 +96,12 @@ namespace Laser
         /// <summary>
         /// Renders the Laser beam using the LineRenderer.
         /// </summary>
-        public void Render() 
+        public void Render()
         {
             this.LineRenderer.SetVertexCount(this.segments.Count + 1);
             Vector3 renderOrigin = this.segments[0].Origin;
             this.LineRenderer.SetPosition(0, renderOrigin);
-            for (int i = 0; i < this.segments.Count; i++) 
+            for (int i = 0; i < this.segments.Count; i++)
             {
                 this.LineRenderer.SetPosition(i + 1, this.segments[i].Endpoint);
             }
@@ -102,7 +113,7 @@ namespace Laser
         /// LaserEmitter.
         /// </summary>
         /// <param name="laser">The Laser beam to add.</param>
-        public void AddLaser(Laser laser) 
+        public void AddLaser(Laser laser)
         {
             this.segments.Add(laser);
         }

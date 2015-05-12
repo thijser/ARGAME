@@ -60,14 +60,6 @@ namespace Laser
         }
 
         /// <summary>
-        /// Schedules removal of the LaserEmitters.
-        /// </summary>
-        public void Update()
-        {
-            StartCoroutine(ResetEmitters());
-        }
-
-        /// <summary>
         /// Emits a copy of the given Laser beam at the given offset and angle,
         /// relative to this Portal.
         /// </summary>
@@ -77,7 +69,7 @@ namespace Laser
         /// <returns>The created Laser beam.</returns>
         public void EmitLaserBeam(Laser laser, Vector3 offset, Vector3 angle)
         {
-            LaserEmitter emitter = this.PortalEmitter.CreateEmitter(laser);
+            LaserEmitter emitter = this.PortalEmitter.GetEmitter(laser);
             emitter.transform.position = offset;
             Quaternion rotation = new Quaternion();
             rotation.SetFromToRotation(Vector3.forward, angle);
@@ -109,12 +101,6 @@ namespace Laser
                 Vector3 direction = args.Point - args.Laser.Origin;
                 this.LinkedPortal.EmitLaserBeam(args.Laser, translation + args.Point, rotation * -direction.normalized);
             }
-        }
-
-        public IEnumerator ResetEmitters()
-        {
-            yield return new WaitForEndOfFrame();
-            this.PortalEmitter.DisableAll();
         }
     }
 }

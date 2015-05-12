@@ -1,9 +1,9 @@
 ﻿//----------------------------------------------------------------------------
 // <copyright file="MultiEmitter.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
-//     
+//
 //     This software is licensed under the terms of the MIT License.
-//     A copy of the license should be included with this software. If not, 
+//     A copy of the license should be included with this software. If not,
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
@@ -11,8 +11,9 @@ namespace Laser
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
-    
+
     /// <summary>
     /// Provides functionality to emit Laser beams with varying properties by
     /// maintaining separate LineRenderers for each Laser type.
@@ -20,21 +21,93 @@ namespace Laser
     public class MultiEmitter : MonoBehaviour
     {
         /// <summary>
-        /// Removes all attached emitters.
+        /// Indicates whether the LaserEmitters should be disabled each frame.
+        /// <para>
+        /// The LaserEmitters can be re-used when needed.
+        /// </para>
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public bool DisableEmittersEachFrame = true;
+
+        /// <summary>
+        /// Gets an array with the LaserEmitters under this MultiEmitter.
+        /// </summary>
+        public LaserEmitter[] Emitters
+        {
+            get
+            {
+                return this.gameObject.GetComponentsInChildren<LaserEmitter>();
+            }
+        }
+
+        /// <summary>
+        /// Disables all Emitters by default.
+        /// </summary>
+        public void LateUpdate()
+        {
+            this.DisableAll();
+        }
+
+        /// <summary>
+        /// Removes all attached children.
+        /// <para>
+        /// This method should be called every frame.
+        /// </para>
         /// </summary>
         public void DisableAll()
         {
-            foreach (var emitter in this.gameObject.GetComponentsInChildren<LaserEmitter>())
+            foreach (LaserEmitter emitter in this.Emitters)
+            {
+                emitter.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Deletes all LaserEmitters.
+        /// </summary>
+        public void DeleteAll()
+        {
+            foreach(LaserEmitter emitter in this.Emitters)
             {
                 GameObject.Destroy(emitter.gameObject);
             }
         }
 
         /// <summary>
-        /// Creates a new LaserEmitter that emits the same type of Laser beam 
+        /// Returns a LaserEmitter for the given Laser beam.
+        /// </summary>
+        public LaserEmitter GetEmitter(Laser laser)
+        {
+            foreach (LaserEmitter emitter in this.Emitters)
+            {
+                if (!emitter.Enabled)
+                {
+                    emitter.Enabled = true;
+                    ApplyProperties(emitter.LineRenderer, laser);
+                    return emitter;
+                }
+            }
+            return CreateEmitter(laser);
+        }
+
+        /// <summary>
+        /// Applies the properties from the given Laser to the LineRenderer.
+        /// </summary>
+        /// <returns>The configured LineRenderer.</returns>
+        public LineRenderer ApplyProperties(LineRenderer renderer, Laser laser)
+        {
+            renderer.useWorldSpace = true;
+            renderer.materials = laser.Emitter.LineRenderer.materials;
+            renderer.receiveShadows = false;
+            renderer.SetVertexCount(0);
+            return renderer;
+        }
+
+        /// <summary>
+        /// Creates a new LaserEmitter that emits the same type of Laser beam
         /// as the provided one.
         /// <para>
-        /// The LaserEmitter is created as a separate game object and 
+        /// The LaserEmitter is created as a separate game object and
         /// added as a child of this game object.
         /// </para>
         /// </summary>
@@ -47,11 +120,7 @@ namespace Laser
             LineRenderer renderer = emitterObject.AddComponent<LineRenderer>();
             LaserEmitter emitter = emitterObject.AddComponent<LaserEmitter>();
 
-            renderer.useWorldSpace = true;
-            renderer.materials = laser.Emitter.LineRenderer.materials;
-            renderer.receiveShadows = false;
-            renderer.SetVertexCount(0);
-
+            ApplyProperties(renderer, laser);
             return emitter;
         }
     }
