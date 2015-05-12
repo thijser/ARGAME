@@ -7,7 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Network
+namespace NetworkMeta
 {
     using System;
     using System.Collections;
@@ -25,8 +25,8 @@ namespace Network
         {
             if (Network.isServer)
             {
-                float t = Time.deltaTime * 90;
-                transform.Rotate(0, t, 0);
+                float t = Time.time * 3;
+                transform.position = new Vector3(Mathf.Cos(t), 0, Mathf.Sin(t));
             }
         }
 
