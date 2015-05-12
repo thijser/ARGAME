@@ -86,7 +86,7 @@ namespace Laser
                 if (!emitter.Enabled)
                 {
                     emitter.Enabled = true;
-                    this.ApplyProperties(emitter.LineRenderer, laser);
+                    ApplyProperties(emitter.LineRenderer, laser);
                     return emitter;
                 }
             }
@@ -100,7 +100,7 @@ namespace Laser
         /// <param name="renderer">The LineRenderer to configure.</param>
         /// <param name="laser">The Laser beam to use as template.</param>
         /// <returns>The configured LineRenderer.</returns>
-        public LineRenderer ApplyProperties(LineRenderer renderer, Laser laser)
+        public static LineRenderer ApplyProperties(LineRenderer renderer, Laser laser)
         {
             if (renderer == null)
             {
@@ -136,7 +136,7 @@ namespace Laser
             LineRenderer renderer = emitterObject.AddComponent<LineRenderer>();
             LaserEmitter emitter = emitterObject.AddComponent<LaserEmitter>();
 
-            this.ApplyProperties(renderer, laser);
+            ApplyProperties(renderer, laser);
             return emitter;
         }
     }

@@ -82,8 +82,8 @@ namespace Laser
         /// </summary>
         public void Create() 
         {
-            HitEventArgs args;
-            ILaserReceiver receiver = this.FindReceiver(out args);
+            HitEventArgs args = this.FindReceiver();
+            ILaserReceiver receiver = args.Receiver;
             if (receiver != null) 
             {
                 receiver.OnLaserHit(this, args);
@@ -93,24 +93,22 @@ namespace Laser
         /// <summary>
         /// Finds the Receiver this Laser collided with.
         /// </summary>
-        /// <param name="args">The HitEventArgs object describing the collision.</param>
-        /// <returns>The ILaserReceiver, or null if no Receiver was found.</returns>
-        public ILaserReceiver FindReceiver(out HitEventArgs args)
+        /// <returns>The HitEventArgs containing details about the collision.</returns>
+        public HitEventArgs FindReceiver()
         {
             RaycastHit hit;
             if (Physics.Raycast(this.Origin, this.Direction, out hit, MaxRaycastDist))
             {
                 this.Endpoint = hit.point;
                 this.emitter.AddLaser(this);
-                args = new HitEventArgs(this, hit.point, hit.normal);
-                return hit.collider.GetComponent<ILaserReceiver>();
+                ILaserReceiver receiver = hit.collider.GetComponent<ILaserReceiver>();
+                return new HitEventArgs(this, hit.point, hit.normal, receiver);
             }
             else
             {
                 this.Endpoint = this.Origin + (this.Direction * MaxLaserLength);
                 this.emitter.AddLaser(this);
-                args = new HitEventArgs();
-                return null;
+                return new HitEventArgs();
             }
         }
 

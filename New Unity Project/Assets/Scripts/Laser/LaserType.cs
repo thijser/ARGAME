@@ -58,10 +58,10 @@ namespace Laser
         public string TypeName { get; private set; }
 
         /// <summary>
-        /// Applies this Laser type to the given LineRenderer.
+        /// Applies this Laser type to the given Renderer.
         /// </summary>
-        /// <param name="renderer">The LineRenderer to apply this LaserType to, not null.</param>
-        public void Apply(LineRenderer renderer)
+        /// <param name="renderer">The Renderer to apply this LaserType to, not null.</param>
+        public void Apply(Renderer renderer)
         {
             if (renderer == null)
             {

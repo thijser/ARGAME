@@ -48,7 +48,7 @@ namespace Laser
         /// current laser hit.
         /// </summary>
         /// <returns>Unique emitter object</returns>
-        public GameObject GetEmitter()
+        public GameObject CreateNextEmitter()
         {
             if (this.nextEmitterIndex >= this.emitterPool.Count)
             {
@@ -75,7 +75,7 @@ namespace Laser
 
             // Create a new ray coming out of the other side with the same direction
             // as the original ray. Forward needs to be negative, see LaserEmitter.
-            var passThroughEmitter = this.GetEmitter();
+            var passThroughEmitter = this.CreateNextEmitter();
 
             passThroughEmitter.transform.position = args.Point + (args.Laser.Direction * 0.1f);
             passThroughEmitter.transform.forward = -args.Laser.Direction;
