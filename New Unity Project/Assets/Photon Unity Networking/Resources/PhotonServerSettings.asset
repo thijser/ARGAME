@@ -33,4 +33,7 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupTimes
   - TaggedPlayer
+  - HighlightMirror
+  - ResetHighlight
+  - Rotate
   DisableAutoOpenWizard: 0
