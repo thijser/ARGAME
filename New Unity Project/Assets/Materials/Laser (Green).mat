@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: laser
+  m_Name: Laser (Green)
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _ALPHABLEND_ON _EMISSION
   m_LightmapFlags: 1
@@ -215,11 +215,11 @@ Material:
       data:
         first:
           name: _EmissionColor
-        second: {r: 3.96862769, g: .0627451017, b: .172549024, a: 4}
+        second: {r: .071366787, g: .882352829, b: .0769597515, a: 4}
       data:
         first:
           name: _Color
-        second: {r: .956862807, g: .0745098069, b: .0980392247, a: 1}
+        second: {r: .0745097771, g: .956862807, b: .190128565, a: 1}
       data:
         first:
           name: _SpecColor
@@ -227,7 +227,7 @@ Material:
       data:
         first:
           name: _EmissionColorUI
-        second: {r: .992156923, g: .0156862754, b: .0431372561, a: 1}
+        second: {r: .0178416967, g: .220588207, b: .0192399379, a: 1}
       data:
         first:
           name: _TintColor

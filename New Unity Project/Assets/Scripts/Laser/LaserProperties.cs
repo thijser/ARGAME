@@ -1,42 +1,81 @@
-﻿using UnityEngine;
-using System.Collections;
+//----------------------------------------------------------------------------
+// <copyright file="LaserProperties.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not,
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
+namespace Laser
+{
+    using System.Collections;
+    using System.Diagnostics.CodeAnalysis;
+    using UnityEngine;
 
-public class LaserProperties : MonoBehaviour {
-	public Vector3 RGBStrengths=new Vector3(1,1,1);
-	 LineRenderer lineRenderer;
+    /// <summary>
+    /// Updates the Color of a LineRenderer.
+    /// </summary>
+    public class LaserProperties : MonoBehaviour
+    {
+        /// <summary>
+        /// The strengths of the RGB components as a Vector3.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public Vector3 RGBStrengths;
 
-	void Start() {
-		lineRenderer = gameObject.GetComponent<LineRenderer>();
-	}
+        /// <summary>
+        /// The LineRenderer.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public LineRenderer LineRenderer;
 
-	/*
-	 * returns the color in RGB.
-	 */
-	Color getColor(){
-		Color c = new Color (0, 0, 0, 1);
-		float highest = Mathf.Max (RGBStrengths.x, RGBStrengths.y, RGBStrengths.z);
-		c.r = RGBStrengths.x / highest;
-		c.g = RGBStrengths.y / highest;
-		c.b = RGBStrengths.z / highest;
-		return c;
-	}
-	/*
-	 * returns the total amount of energy in the beam 
-	 */
-	float getStrength(){
-		return RGBStrengths.magnitude;
-	}
-	void Update(){
-		updateBeam ();
-	}
-	/*
-	 * set color of the beam to the color of the laser 
-	 */
-	public void updateBeam(){
-		lineRenderer.SetWidth (getStrength (), getStrength());
-		lineRenderer.material.color = getColor ();
-		lineRenderer.material.SetColor ("_Albedo", getColor ());
-		lineRenderer.material.SetColor ("_Emission", getColor ());
-		lineRenderer.material.SetColor ("Main Color", getColor ());
-	}
+        /// <summary>
+        /// Gets the color of the Laser beam.
+        /// </summary>
+        public Color LaserColor
+        {
+            get
+            {
+                Color c = new Color(0, 0, 0, 1);
+                float highest = Mathf.Max(this.RGBStrengths.x, this.RGBStrengths.y, this.RGBStrengths.z);
+                c.r = this.RGBStrengths.x / highest;
+                c.g = this.RGBStrengths.y / highest;
+                c.b = this.RGBStrengths.z / highest;
+                return c;
+            }
+        }
+
+        /// <summary>
+        /// Gets the magnitude of the Laser beam.
+        /// </summary>
+        public float Strength
+        {
+            get
+            {
+                return this.RGBStrengths.magnitude;
+            }
+        }
+
+        /// <summary>
+        /// Updates the Laser beam indicated by the LineRenderer.
+        /// Called by Unity every step.
+        /// </summary>
+        public void Update()
+        {
+            this.UpdateBeam();
+        }
+
+        /// <summary>
+        /// Updates the Laser beam indicated by the LineRenderer.
+        /// </summary>
+        public void UpdateBeam()
+        {
+            this.LineRenderer.SetWidth(this.Strength, this.Strength);
+            this.LineRenderer.material.color = this.LaserColor;
+            this.LineRenderer.material.SetColor("_Albedo", this.LaserColor);
+            this.LineRenderer.material.SetColor("_Emission", this.LaserColor);
+            this.LineRenderer.material.SetColor("Main Color", this.LaserColor);
+        }
+    }
 }
