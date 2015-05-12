@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class LaserProperties : MonoBehaviour {
-	public Vector3 RGBStrengths;
+	public Vector3 RGBStrengths=new Vector3(1,1,1);
 	 LineRenderer lineRenderer;
 
 	void Start() {
