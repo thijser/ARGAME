@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: laser
-  m_Shader: {fileID: 10755, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _ALPHABLEND_ON _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: 3000
@@ -161,6 +161,14 @@ Material:
         second: 3
       data:
         first:
+          name: _Inside
+        second: 0
+      data:
+        first:
+          name: _Rim
+        second: 1.20000005
+      data:
+        first:
           name: _LineWidth
         second: 1.29999995
       data:
@@ -191,14 +199,6 @@ Material:
         first:
           name: _ColorMask
         second: 15
-      data:
-        first:
-          name: _Inside
-        second: 0
-      data:
-        first:
-          name: _Rim
-        second: 1.20000005
       data:
         first:
           name: _Speed
