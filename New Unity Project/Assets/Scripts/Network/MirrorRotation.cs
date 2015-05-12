@@ -14,8 +14,9 @@ namespace Network
 	using UnityEngine;
 	public class MirrorRotation : MonoBehaviour
 	{
+		public Material highlight;
+		public Material original;
 		private bool selected = false;
-		public float factor = 0;
 		/// <summary>
 		/// Updates the location of the cube.
 		/// </summary>
@@ -24,6 +25,8 @@ namespace Network
 			Rotate();
 			if (Input.GetMouseButtonDown(0))
 			{
+				ResetHighlight();
+				selected = false;
 				RaycastHit hitInfo = new RaycastHit();
 				bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
 				
@@ -31,7 +34,8 @@ namespace Network
 				{
 					if (GetHighestParent (hitInfo.transform) == this.transform)
 					{
-						ResetSelected();
+						selected = true;
+						HighlightMirror();
 					}
 				}
 			}
@@ -49,25 +53,31 @@ namespace Network
 			}
 			return trans;
 		}
-		public void ResetSelected() 
-		{
-			selected = !selected;
-		}
 		private void Rotate() 
 		{
 			if (selected) 
 			{
 				if(Input.GetKey("right")) 
 				{
-					float t = Time.deltaTime * 90f;
+					float t = Time.deltaTime * -90f;
 					transform.Rotate(0, t, 0);
 				}
 				else if(Input.GetKey("left"))
 				{
-					float t = Time.deltaTime * -90f;
+					float t = Time.deltaTime * 90f;
 					transform.Rotate(0, t, 0);
 				}
 			}
+		}
+		private void HighlightMirror() 
+		{
+			MeshRenderer mesh = transform.Find ("MirrorBase").Find("Cube_002").GetComponent<MeshRenderer> ();
+			mesh.material = highlight;
+		}
+		private void ResetHighlight() 
+		{
+			MeshRenderer mesh = transform.Find ("MirrorBase").Find("Cube_002").GetComponent<MeshRenderer> ();
+			mesh.material = original;
 		}
 	}
 }

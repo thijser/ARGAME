@@ -160,7 +160,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!148 &2516575
 NetworkView:
   m_ObjectHideFlags: 0
@@ -173,6 +173,68 @@ NetworkView:
   m_ViewID:
     m_ID: 1
     m_Type: 1
+--- !u!1001 &746704268
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -10.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: .707106829
+      objectReference: {fileID: 0}
+    - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: .707106829
+      objectReference: {fileID: 0}
+    - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 14805644, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_ViewID.m_ID
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 14805644, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_ViewID.m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 142618, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: m_Name
+      value: Mirror 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11492218, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: highlight
+      value: 
+      objectReference: {fileID: 2100000, guid: 46a24b2eb276c3149aa0eeeaa9e44f7a, type: 2}
+    - target: {fileID: 11492218, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+      propertyPath: original
+      value: 
+      objectReference: {fileID: 2100000, guid: 906606983b1fe4d96b709d9c16b7388f, type: 2}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &789527917
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,7 +294,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1001 &1452880973
 Prefab:
   m_ObjectHideFlags: 0
@@ -280,7 +342,8 @@ Prefab:
       propertyPath: m_ViewID.m_Type
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11492218, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1452880974 stripped
@@ -298,7 +361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bfb278425c763748b23a0ae092df470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  factor: 0
+  highlight: {fileID: 2100000, guid: 46a24b2eb276c3149aa0eeeaa9e44f7a, type: 2}
+  original: {fileID: 2100000, guid: 906606983b1fe4d96b709d9c16b7388f, type: 2}
 --- !u!1 &1815562338
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,4 +458,4 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
