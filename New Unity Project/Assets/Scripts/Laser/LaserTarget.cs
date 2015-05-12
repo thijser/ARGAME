@@ -19,10 +19,14 @@ namespace Laser
     /// </summary>
     public class LaserTarget : MonoBehaviour, ILaserReceiver
     {
+		public float minStrength;
+		/// <summary>
+		/// which part of the model is the crystal 
+		/// </summary>
+		public MeshRenderer crystal;
 		/// <summary>
 		/// The color of this target 
 		/// </summary>
-
 		public Color targetColor;
         /// <summary>
         /// The name of the opening animation clip.
@@ -75,6 +79,7 @@ namespace Laser
         /// <param name="args">The arguments that describe the event</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
+			
             Animator animator = GetComponent<Animator>();
             animator.SetBool("LaserHit", true);
 
@@ -93,5 +98,13 @@ namespace Laser
             yield return new WaitForEndOfFrame();
             this.IsOpening = false;
         }
+
+		void Update(){
+			EnsureCrystalColor();
+		}
+
+		private void EnsureCrystalColor(){
+			crystal.material.SetColor("_Color",targetColor);
+		}
     }
 }
