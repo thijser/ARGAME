@@ -258,9 +258,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 169926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e6936beb43c4cf6b9fe81137b571c8, type: 3}
+  m_Script: {fileID: 11500000, guid: eef40545907605b408a6b157bef91120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LinkedPortal: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
