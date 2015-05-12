@@ -99,7 +99,6 @@ GameObject:
   - 65: {fileID: 2516571}
   - 23: {fileID: 2516570}
   - 148: {fileID: 2516575}
-  - 114: {fileID: 2516574}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -162,17 +161,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
---- !u!114 &2516574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2516569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bea267e0af6f0fa48b63084b538684ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!148 &2516575
 NetworkView:
   m_ObjectHideFlags: 0
@@ -307,9 +295,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1452880974}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bea267e0af6f0fa48b63084b538684ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 7bfb278425c763748b23a0ae092df470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  factor: 0
 --- !u!1 &1815562338
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,7 +390,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1815562338}
   m_LocalRotation: {x: .30070582, y: 0, z: 0, w: .953716993}
-  m_LocalPosition: {x: 0, y: 2, z: -3}
+  m_LocalPosition: {x: 0, y: 3.38000011, z: -10.2799997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
