@@ -72,6 +72,10 @@ namespace Laser
                 this.MakeLaser();
                 this.Render();
             }
+            else
+            {
+                this.LineRenderer.SetVertexCount(0);
+            }
         }
 
         /// <summary>

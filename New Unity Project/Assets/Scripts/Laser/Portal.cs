@@ -51,9 +51,10 @@ namespace Laser
         /// </summary>
         public void Start()
         {
-            if (this.LinkedPortal == null)
+            // Make sure the LinkedPortal is also linked to this Portal.
+            if (this.LinkedPortal != null)
             {
-                Debug.LogError("No Linked Portal set.");
+                this.LinkedPortal.LinkedPortal = this;
             }
 
             this.PortalEmitter = gameObject.AddComponent<MultiEmitter>();
