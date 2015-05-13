@@ -20,7 +20,7 @@ namespace RandomLevel
         /// Initializes a new instance of the <see cref="RandomLevel.Coordinate"/> class.
         /// </summary>
         /// <param name="row"> The row coordinate.</param>
-        /// <param name="col"> The column coordinate.</param>
+        /// <param name="column"> The column coordinate.</param>
         public Coordinate(int row, int col)
         {
             this.Row = row;
