@@ -33,7 +33,7 @@ namespace Network
         /// <summary>
         /// Indicates whether this mirror is currently selected.
         /// </summary>
-        private bool selected = false;
+        private bool selected = true;
 
         /// <summary>
         /// Returns the top parent in the hierarchy.
@@ -61,8 +61,8 @@ namespace Network
         /// </summary>
         public void Update()
         {
-			if(Network.isServer)
-			{
+			//if(Network.isServer)
+			//{
 				this.Rotate();
 				if (Input.GetMouseButtonDown(0))
 				{
@@ -80,7 +80,7 @@ namespace Network
 						}
 					}
 				}
-			}
+			//}
         }
 
         /// <summary>
