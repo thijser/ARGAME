@@ -115,13 +115,23 @@ namespace RandomLevel
         {
             for (int i = 0; i < this.sg.Maxrow; i++)
             {
-                for (int j = 0; j < this.sg.Maxcol; j++)
-                {
-                    Coordinate c = new Coordinate(i, j);
-                    Vertex v = this.sg.GetVertexAtCoordinate(c);
-                    Vector3 spawnVec = CoordToVector(c) - this.targetVec;
-                    this.InstantiateObject(v, spawnVec);
-                }
+                RenderInnerLoop(i);
+            }
+        }
+
+        /// <summary>
+        /// Renders the generated map, creating the game object in the level
+        /// (this is the original inner loop, put in a new method to reduce complexity)
+        /// <param name="row">The row index</param>
+        /// </summary>
+        private void RenderInnerLoop(int row) 
+        {
+            for (int j = 0; j < this.sg.Maxcol; j++)
+            {
+                Coordinate c = new Coordinate(row, j);
+                Vertex v = this.sg.GetVertexAtCoordinate(c);
+                Vector3 spawnVec = CoordToVector(c) - this.targetVec;
+                this.InstantiateObject(v, spawnVec);
             }
         }
 
