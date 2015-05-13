@@ -116,9 +116,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LinkedTo: {fileID: 888909728}
-  LinkedToEmbedded: {fileID: 0}
+  LinkedToEmbedded: {fileID: 1246681872}
   Mode: 0
-  LevelMarker: {fileID: 0}
+  LevelMarker: {fileID: 888909728}
 --- !u!114 &44118511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +214,10 @@ Prefab:
       propertyPath: RGBStrengths.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11465754, guid: b5d778426b37345fcbb6758530dcada0, type: 2}
+      propertyPath: LineRenderer
+      value: 
+      objectReference: {fileID: 1488971287}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b5d778426b37345fcbb6758530dcada0, type: 2}
   m_IsPrefabParent: 0
@@ -1662,7 +1666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LinkedTo: {fileID: 190535874}
-  LinkedToEmbedded: {fileID: 0}
+  LinkedToEmbedded: {fileID: 1356956753}
   Mode: 4
   LevelMarker: {fileID: 888909728}
 --- !u!114 &604579342
@@ -6008,6 +6012,11 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 451684, guid: 05354e2f2b78a4249831ec0a2400b008, type: 2}
   m_PrefabInternal: {fileID: 1433946907}
+--- !u!120 &1488971287 stripped
+LineRenderer:
+  m_PrefabParentObject: {fileID: 12032728, guid: b5d778426b37345fcbb6758530dcada0,
+    type: 2}
+  m_PrefabInternal: {fileID: 54578190}
 --- !u!1 &1544700478 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 4a92d471d38b849b3b91c5641d1df91c, type: 2}
