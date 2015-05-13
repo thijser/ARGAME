@@ -9,9 +9,9 @@
 //----------------------------------------------------------------------------
 namespace Core.Receiver
 {
-    using Core.Emitter;
     using System;
     using System.Collections.Generic;
+    using Core.Emitter;
     using UnityEngine;
 
     /// <summary>

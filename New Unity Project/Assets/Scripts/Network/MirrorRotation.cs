@@ -23,7 +23,7 @@ namespace Network
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public Material Highlight;
-        
+
         /// <summary>
         /// The original Material of the Mirror.
         /// </summary>
@@ -61,26 +61,23 @@ namespace Network
         /// </summary>
         public void Update()
         {
-			//if(Network.isServer)
-			//{
-				this.Rotate();
-				if (Input.GetMouseButtonDown(0))
-				{
-					this.ResetHighlight();
-					this.selected = false;
-					RaycastHit hitInfo;
-					bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
-					
-					if (hit)
-					{
-						if (GetHighestParent(hitInfo.transform) == this.transform)
-						{
-							this.selected = true;
-							this.HighlightMirror();
-						}
-					}
-				}
-			//}
+            this.Rotate();
+            if (Input.GetMouseButtonDown(0))
+            {
+                this.ResetHighlight();
+                this.selected = false;
+                RaycastHit hitInfo;
+                bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
+
+                if (hit)
+                {
+                    if (GetHighestParent(hitInfo.transform) == this.transform)
+                    {
+                        this.selected = true;
+                        this.HighlightMirror();
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -140,7 +137,7 @@ namespace Network
         /// <summary>
         /// Resets the Highlight.
         /// </summary>
-		private void ResetHighlight()
+        private void ResetHighlight()
         {
             MeshRenderer mesh = transform.Find("MirrorBase").Find("Cube_002").GetComponent<MeshRenderer>();
             mesh.material = this.Original;

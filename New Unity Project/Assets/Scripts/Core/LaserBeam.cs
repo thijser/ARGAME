@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="Laser.cs" company="Delft University of Technology">
+// <copyright file="LaserBeam.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //     
 //     This software is licensed under the terms of the MIT License.
@@ -9,8 +9,8 @@
 //----------------------------------------------------------------------------
 namespace Core 
 {
-    using Core.Emitter;
     using System.Collections;
+    using Core.Emitter;
     using UnityEngine;
 
     /// <summary>

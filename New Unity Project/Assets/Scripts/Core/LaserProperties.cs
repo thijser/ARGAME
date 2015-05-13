@@ -25,7 +25,7 @@ namespace Core
         public Vector3 RGBStrengths;
 
         /// <summary>
-        /// LineRenderer to use for laser.
+        /// Gets or sets the LineRenderer to use for the laser.
         /// </summary>
         public LineRenderer LineRenderer { get; set; }
 
@@ -44,6 +44,7 @@ namespace Core
                     c.g = this.RGBStrengths.y / highest;
                     c.b = this.RGBStrengths.z / highest;
                 }
+
                 return c;
             }
         }
@@ -59,9 +60,14 @@ namespace Core
             }
         }
 
-        public void Start() {
-            if (LineRenderer == null) {
-                LineRenderer = GetComponent<LineRenderer>();
+        /// <summary>
+        /// Initializes the LineRenderer in this LaserProperties.
+        /// </summary>
+        public void Start() 
+        {
+            if (LineRenderer == null) 
+            {
+                LineRenderer = this.GetComponent<LineRenderer>();
             }
         }
 
