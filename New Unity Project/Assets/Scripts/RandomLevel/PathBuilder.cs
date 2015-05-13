@@ -95,16 +95,16 @@ namespace RandomLevel
             int randRow = this.RandInt(0, this.TargetCoordinate.Row);
             int randCol = this.RandInt(0, this.TargetCoordinate.Col);
             int spare;
-            spb.PathFromToCol(this.TargetCoordinate.Row, this.TargetCoordinate.Col - 1, randCol);
-            spb.PathFromToRow(this.TargetCoordinate.Row, randRow, randCol);
+            this.spb.PathFromToCol(this.TargetCoordinate.Row, this.TargetCoordinate.Col - 1, randCol);
+            this.spb.PathFromToRow(this.TargetCoordinate.Row, randRow, randCol);
             spare = randCol;
             randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.graph.Maxcol);
-            spb.PathFromToCol(randRow, spare, randCol);
+            this.spb.PathFromToCol(randRow, spare, randCol);
             spare = randRow;
             randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.graph.Maxrow);
-            spb.PathFromToRow(spare, randRow, randCol);
+            this.spb.PathFromToRow(spare, randRow, randCol);
             this.graph.GetVertexAtCoordinate(new Coordinate(randRow, 0)).Property = Property.LASER;
-            spb.PathFromToCol(randRow, randCol, 1);
+            this.spb.PathFromToCol(randRow, randCol, 1);
         }
 
         /// <summary>
@@ -115,16 +115,16 @@ namespace RandomLevel
             int randRow = this.RandInt(0, this.TargetCoordinate.Row);
             int randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.graph.Maxcol);
             int spare;
-            spb.PathFromToRow(this.TargetCoordinate.Row - 1, randRow, this.TargetCoordinate.Col);
-            spb.PathFromToCol(randRow, this.TargetCoordinate.Col, randCol);
+            this.spb.PathFromToRow(this.TargetCoordinate.Row - 1, randRow, this.TargetCoordinate.Col);
+            this.spb.PathFromToCol(randRow, this.TargetCoordinate.Col, randCol);
             spare = randRow;
             randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.graph.Maxrow);
-            spb.PathFromToRow(spare, randRow, randCol);
+            this.spb.PathFromToRow(spare, randRow, randCol);
             spare = randCol;
             randCol = this.RandInt(0, this.TargetCoordinate.Col);
-            spb.PathFromToCol(randRow, spare, randCol);
+            this.spb.PathFromToCol(randRow, spare, randCol);
             this.graph.GetVertexAtCoordinate(new Coordinate(0, randCol)).Property = Property.LASER;
-            spb.PathFromToRow(randRow, 1, randCol);
+            this.spb.PathFromToRow(randRow, 1, randCol);
         }
 
         /// <summary>
@@ -135,16 +135,16 @@ namespace RandomLevel
             int randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.graph.Maxrow);
             int randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.graph.Maxcol);
             int spare;
-            spb.PathFromToCol(this.TargetCoordinate.Row, this.TargetCoordinate.Col + 1, randCol);
-            spb.PathFromToRow(this.TargetCoordinate.Row, randRow, randCol);
+            this.spb.PathFromToCol(this.TargetCoordinate.Row, this.TargetCoordinate.Col + 1, randCol);
+            this.spb.PathFromToRow(this.TargetCoordinate.Row, randRow, randCol);
             spare = randCol;
             randCol = this.RandInt(0, this.TargetCoordinate.Col);
-            spb.PathFromToCol(randRow, spare, randCol);
+            this.spb.PathFromToCol(randRow, spare, randCol);
             spare = randRow;
             randRow = this.RandInt(0, this.TargetCoordinate.Row);
-            spb.PathFromToRow(randRow, spare, randCol);
+            this.spb.PathFromToRow(randRow, spare, randCol);
             this.graph.GetVertexAtCoordinate(new Coordinate(randRow, this.graph.Maxcol - 1)).Property = Property.LASER;
-            spb.PathFromToCol(randRow, randCol, this.graph.Maxcol - 2);
+            this.spb.PathFromToCol(randRow, randCol, this.graph.Maxcol - 2);
         }
 
         /// <summary>
@@ -155,16 +155,16 @@ namespace RandomLevel
             int randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.graph.Maxrow);
             int randCol = this.RandInt(0, this.TargetCoordinate.Col);
             int spare;
-            spb.PathFromToRow(this.TargetCoordinate.Row + 1, randRow, this.TargetCoordinate.Col);
-            spb.PathFromToCol(randRow, randCol, this.TargetCoordinate.Col);
+            this.spb.PathFromToRow(this.TargetCoordinate.Row + 1, randRow, this.TargetCoordinate.Col);
+            this.spb.PathFromToCol(randRow, randCol, this.TargetCoordinate.Col);
             spare = randRow;
             randRow = this.RandInt(0, this.TargetCoordinate.Row);
-            spb.PathFromToRow(randRow, spare, randCol);
+            this.spb.PathFromToRow(randRow, spare, randCol);
             spare = randCol;
             randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.graph.Maxcol);
-            spb.PathFromToCol(randRow, spare, randCol);
+            this.spb.PathFromToCol(randRow, spare, randCol);
             this.graph.GetVertexAtCoordinate(new Coordinate(this.graph.Maxrow - 1, randCol)).Property = Property.LASER;
-            spb.PathFromToRow(randRow, this.graph.Maxrow - 2, randCol);
+            this.spb.PathFromToRow(randRow, this.graph.Maxrow - 2, randCol);
         }
 
         /// <summary>

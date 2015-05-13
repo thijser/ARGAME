@@ -47,7 +47,7 @@ namespace RandomLevel
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    this.squareMap[i, j] = new Vertex(new Coordinate(i,j));
+                    this.squareMap[i, j] = new Vertex(new Coordinate(i, j));
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace RandomLevel
                 throw new ArgumentNullException("action");
             }
 
-            foreach (var vertex in squareMap)
+            foreach (var vertex in this.squareMap)
             {
                 action.Invoke(vertex);
             }

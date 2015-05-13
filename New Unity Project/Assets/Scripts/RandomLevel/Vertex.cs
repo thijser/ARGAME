@@ -21,6 +21,7 @@ namespace RandomLevel
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomLevel.Vertex"/> class.
         /// </summary>
+        /// <param name="coordinate">The Coordinate of this Vertex.</param>
         public Vertex(Coordinate coordinate) 
         {
             if (coordinate == null)
