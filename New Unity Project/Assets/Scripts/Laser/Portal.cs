@@ -41,7 +41,7 @@ namespace Laser
         {
             get
             {
-                return this.transform.rotation * new Vector3(1, 0, 0);
+                return this.transform.forward;
             }
         }
 
@@ -71,9 +71,7 @@ namespace Laser
         {
             LaserEmitter emitter = this.PortalEmitter.GetEmitter(laser);
             emitter.transform.position = offset;
-            Quaternion rotation = new Quaternion();
-            rotation.SetFromToRotation(Vector3.forward, angle);
-            emitter.transform.rotation = rotation;
+            emitter.transform.rotation = Quaternion.FromToRotation(Vector3.forward, angle);
         }
 
         /// <summary>
@@ -95,11 +93,17 @@ namespace Laser
 
             if (this.LinkedPortal != null)
             {
-                Vector3 translation = this.LinkedPortal.transform.position - this.transform.position;
-                Quaternion rotation = new Quaternion();
-                rotation.SetFromToRotation(-1 * this.SurfaceNormal, this.LinkedPortal.SurfaceNormal);
+                Quaternion rotation = Quaternion.FromToRotation(-1 * this.SurfaceNormal, this.LinkedPortal.SurfaceNormal);
                 Vector3 direction = args.Point - args.Laser.Origin;
-                this.LinkedPortal.EmitLaserBeam(args.Laser, translation + args.Point, rotation * -direction.normalized);
+
+                // Determine hit position relative to surface origin and transform
+                // it to the orientation of the other surface
+                Vector3 position = args.Point - this.transform.position;
+                position = Quaternion.Inverse(this.transform.rotation) * position;
+                position = this.LinkedPortal.transform.rotation * position;
+                position += this.LinkedPortal.transform.position;
+
+                this.LinkedPortal.EmitLaserBeam(args.Laser, position, rotation * -direction.normalized);
             }
         }
     }
