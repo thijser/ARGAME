@@ -177,7 +177,7 @@ m2= 1</panel_attributes>
       <w>539</w>
       <h>357</h>
     </coordinates>
-    <panel_attributes>Laser</panel_attributes>
+    <panel_attributes>Core</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -188,7 +188,7 @@ m2= 1</panel_attributes>
       <w>917</w>
       <h>252</h>
     </coordinates>
-    <panel_attributes>Laser.Receiver</panel_attributes>
+    <panel_attributes>Core.Receiver</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -220,7 +220,7 @@ elementstyle=autoresize
       <w>315</w>
       <h>357</h>
     </coordinates>
-    <panel_attributes>Laser.Emitter</panel_attributes>
+    <panel_attributes>Core.Emitter</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
