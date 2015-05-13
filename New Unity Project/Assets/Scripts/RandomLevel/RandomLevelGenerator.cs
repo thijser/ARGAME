@@ -116,7 +116,7 @@ namespace RandomLevel
             int targetRowCoord = this.sg.Maxrow / 2;
             int targetColCoord = this.sg.Maxcol / 2;
             this.TargetCoord = new Coordinate(targetRowCoord, targetColCoord);
-            this.sg.GetVertexAtCoordinate(this.TargetCoord).Prop = Property.TARGET;
+            this.sg.GetVertexAtCoordinate(this.TargetCoord).Property = Property.TARGET;
 
             ////Determine first quadrant to plan a route to.
             int firstQuad = this.RandInt(0, 4);

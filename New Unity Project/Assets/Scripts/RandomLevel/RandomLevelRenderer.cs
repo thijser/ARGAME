@@ -142,18 +142,18 @@ namespace RandomLevel
         /// <param name="spawnVec">The position to create the object</param>
         private void InstantiateObject(Vertex v, Vector3 spawnVec)
         {
-            if (v.Prop == Property.LASER)
+            if (v.Property == Property.LASER)
             {
                 int i = DetermineQuadRotation(this.quad);
                 Quaternion q = Quaternion.Euler(0, i * 90, 0);
                 UnityEngine.Object.Instantiate(this.EmitterPrefab, spawnVec, q);
             }
-            else if (v.Prop == Property.WALL)
+            else if (v.Property == Property.WALL)
             {
                 Quaternion q = Quaternion.Euler(0, UnityEngine.Random.Range(0, 4) * 90, 0);
                 UnityEngine.Object.Instantiate(this.WallPrefab, spawnVec, q);
             }
-            else if (v.Prop == Property.TARGET)
+            else if (v.Property == Property.TARGET)
             {
                 UnityEngine.Object.Instantiate(this.TargetPrefab, spawnVec, Quaternion.identity);
             }

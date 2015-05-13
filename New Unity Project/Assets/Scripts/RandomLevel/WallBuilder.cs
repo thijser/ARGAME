@@ -47,9 +47,9 @@ namespace RandomLevel
                 int randRow = this.random.Next(0, graph.Maxrow);
                 int randCol = this.random.Next(0, graph.Maxcol);
                 Coordinate coordinate = new Coordinate(randRow, randCol);
-                if (graph.GetVertexAtCoordinate(coordinate).Prop == Property.EMPTY)
+                if (graph.GetVertexAtCoordinate(coordinate).Property == Property.EMPTY)
                 {
-                    graph.GetVertexAtCoordinate(coordinate).Prop = Property.WALL;
+                    graph.GetVertexAtCoordinate(coordinate).Property = Property.WALL;
                 }
             }
         }

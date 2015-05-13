@@ -23,12 +23,12 @@ namespace RandomLevel
         /// </summary>
         public Vertex() 
         {
-            this.Prop = Property.EMPTY;
+            this.Property = Property.EMPTY;
         }
         
         /// <summary>
         /// Gets or sets a value indicating the property of this point on the map.
         /// </summary>
-        public Property Prop { get; set; } 
+        public Property Property { get; set; } 
     }
 }

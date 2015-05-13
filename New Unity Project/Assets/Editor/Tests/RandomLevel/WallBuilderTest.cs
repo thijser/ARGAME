@@ -44,7 +44,7 @@ namespace RandomLevel
             {
                 for (int j = 0; j < 20; j++)
                 {
-                    if (sg.GetVertexAtCoordinate(new Coordinate(i, j)).Prop == Property.WALL)
+                    if (sg.GetVertexAtCoordinate(new Coordinate(i, j)).Property == Property.WALL)
                     {
                         check = true;
                     }
@@ -68,7 +68,7 @@ namespace RandomLevel
             {
                 for (int j = 0; j < 20; j++)
                 {
-                    if (graph.GetVertexAtCoordinate(new Coordinate(i, j)).Prop == Property.EMPTY)
+                    if (graph.GetVertexAtCoordinate(new Coordinate(i, j)).Property == Property.EMPTY)
                     {
                         check = true;
                     }
