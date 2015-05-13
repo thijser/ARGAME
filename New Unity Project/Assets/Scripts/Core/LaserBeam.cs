@@ -127,14 +127,5 @@ namespace Core
             laser.Create();
             return laser;
         }
-
-        /// <summary>
-        /// Extends this Laser beam towards the specified target.
-        /// </summary>
-        /// <param name="target">Point to approach.</param>
-        /// <returns></returns>
-        public LaserBeam ExtendTo(Vector3 target) {
-            return Extend(Endpoint, target - Endpoint);
-        }
     }
 }

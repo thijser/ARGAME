@@ -9,7 +9,7 @@ public class LensSplitter : MonoBehaviour, ILaserReceiver {
     /// <summary>
     /// Transform of crystal part.
     /// </summary>
-    private Transform crystal;
+    private Transform focusPoint;
 
     /// <summary>
     /// GameObject of the left output part.
@@ -35,7 +35,7 @@ public class LensSplitter : MonoBehaviour, ILaserReceiver {
     /// Find references to the LensSplitter parts during initialization.
     /// </summary>
     public void Start() {
-        crystal = transform.parent.Find("crystal");
+        focusPoint = transform.parent.Find("focusPoint");
         outLeft = transform.parent.Find("outLeft").gameObject;
         outRight = transform.parent.Find("outRight").gameObject;
     }
@@ -53,7 +53,9 @@ public class LensSplitter : MonoBehaviour, ILaserReceiver {
         hit = true;
         rgbStrengths = args.Laser.Emitter.GetComponent<LaserProperties>().RGBStrengths;
 
-        args.Laser.ExtendTo(crystal.position);
+        // Slight offset to make sure the laser passes through the surface
+        Vector3 dir = focusPoint.position - args.Point;
+        args.Laser.Extend(args.Point + dir.normalized * 0.1f, dir);
     }
 
     public void LateUpdate() {

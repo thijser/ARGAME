@@ -183,6 +183,9 @@ Prefab:
     m_RemovedComponents:
     - {fileID: 6439546, guid: a755479adfaf93544af7183bac80b86d, type: 2}
     - {fileID: 6418794, guid: a755479adfaf93544af7183bac80b86d, type: 2}
+    - {fileID: 6475740, guid: a755479adfaf93544af7183bac80b86d, type: 2}
+    - {fileID: 6456052, guid: a755479adfaf93544af7183bac80b86d, type: 2}
+    - {fileID: 6461794, guid: a755479adfaf93544af7183bac80b86d, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: a755479adfaf93544af7183bac80b86d, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &455163170
@@ -336,15 +339,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -4.21999979
+      value: 18.2999992
       objectReference: {fileID: 0}
     - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -18.4699993
+      value: -41
       objectReference: {fileID: 0}
     - target: {fileID: 489386, guid: e46bff56c29df5b45b90f41342fd8a67, type: 2}
       propertyPath: m_LocalRotation.x
@@ -394,7 +397,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 471880, guid: b5d778426b37345fcbb6758530dcada0, type: 2}
       propertyPath: m_LocalRotation.y
-      value: .589746237
+      value: .593893349
       objectReference: {fileID: 0}
     - target: {fileID: 471880, guid: b5d778426b37345fcbb6758530dcada0, type: 2}
       propertyPath: m_LocalRotation.z
@@ -402,7 +405,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 471880, guid: b5d778426b37345fcbb6758530dcada0, type: 2}
       propertyPath: m_LocalRotation.w
-      value: .807588637
+      value: .804543793
       objectReference: {fileID: 0}
     - target: {fileID: 471880, guid: b5d778426b37345fcbb6758530dcada0, type: 2}
       propertyPath: m_RootOrder
@@ -537,7 +540,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 451684, guid: 05354e2f2b78a4249831ec0a2400b008, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -12.6999998
+      value: 26.8999996
       objectReference: {fileID: 0}
     - target: {fileID: 451684, guid: 05354e2f2b78a4249831ec0a2400b008, type: 2}
       propertyPath: m_LocalPosition.y
@@ -545,7 +548,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 451684, guid: 05354e2f2b78a4249831ec0a2400b008, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -19.6000004
+      value: -37.9000015
       objectReference: {fileID: 0}
     - target: {fileID: 451684, guid: 05354e2f2b78a4249831ec0a2400b008, type: 2}
       propertyPath: m_LocalRotation.x
@@ -715,7 +718,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1607336652}
   m_LocalRotation: {x: .408217967, y: -.234569743, z: .109381683, w: .875426114}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 16.1299992, y: 3, z: -21.3199997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -724,3 +727,30 @@ Transform:
 Transform:
   m_PrefabParentObject: {fileID: 408366, guid: a755479adfaf93544af7183bac80b86d, type: 2}
   m_PrefabInternal: {fileID: 436624636}
+--- !u!1 &1984343102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1984343103}
+  m_Layer: 0
+  m_Name: focusPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1984343103
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1984343102}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.80999994, y: 4.11199999, z: -.657000005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1868411588}
+  m_RootOrder: 18
