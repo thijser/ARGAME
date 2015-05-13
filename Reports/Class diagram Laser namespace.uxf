@@ -4,55 +4,57 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>300</y>
-      <w>300</w>
-      <h>170</h>
+      <x>530</x>
+      <y>20</y>
+      <w>320</w>
+      <h>200</h>
     </coordinates>
-    <panel_attributes>Laser
+    <panel_attributes>LaserBeam
 elementstyle=autoresize
 --
-+ origin: Vector3
-+ direction: Quaternion
-+ endpoint: Vector3
-- emitter: LaserEmitter
+- emitter : LaserEmitter
 --
-+ Laser(Vector3, Quaternion, LaserEmitter)
++ LaserBeam(Vector3, Vector3, LaserEmitter)
+
++ Origin : Vector3
++ Direction : Quaternion
++ Endpoint : Vector3
 
 + Create()
-+ Extend(Vector3, Quaternion): Laser</panel_attributes>
++ FindReceiver() : HitEventArgs
++ Extend(Vector3, Quaternion) : LaserBeam</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>350</x>
-      <y>390</y>
-      <w>200</w>
+      <x>250</x>
+      <y>370</y>
+      <w>260</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>Mirror :: MonoBehaviour
 /implements ILaserReceiver/
 elementstyle=autoresize
 --
-+ OnLaserHit(Laser) 
++ OnLaserHit(object, HitEventArgs) 
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>90</y>
+      <x>270</x>
+      <y>20</y>
       <w>220</w>
       <h>180</h>
     </coordinates>
     <panel_attributes>LaserEmitter :: MonoBehaviour
 elementstyle=autoresize
 --
-+ lineRenderer: LineRenderer
 - segments: List&lt;Laser&gt;
 --
++ LineRenderer : LineRenderer
 + Update()
 
 + Clear()
@@ -65,41 +67,39 @@ elementstyle=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>500</x>
-      <y>270</y>
-      <w>160</w>
+      <x>390</x>
+      <y>250</y>
+      <w>260</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>/ILaserReceiver/
 elementstyle=autoresize
 --
-+ OnLaserHit(Laser) 
++ OnLaserHit(object, HitEventArgs) 
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>580</x>
-      <y>390</y>
-      <w>240</w>
-      <h>90</h>
+      <x>570</x>
+      <y>370</y>
+      <w>260</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>Receiver :: MonoBehaviour
+    <panel_attributes>LaserTarget :: MonoBehaviour
 /implements ILaserReceiver/
 elementstyle=autoresize
 --
-+ laserBehaviour : ILaserReceiver
---
-+ OnLaserHit(Laser) 
++ OnLaserHit(object, HitEventArgs) 
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>550</x>
-      <y>290</y>
+      <x>490</x>
+      <y>270</y>
       <w>150</w>
       <h>120</h>
     </coordinates>
@@ -109,12 +109,45 @@ elementstyle=autoresize
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>470</x>
-      <y>290</y>
+      <x>410</x>
+      <y>270</y>
       <w>130</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>110;30;110;60;30;60;30;100</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>460</x>
+      <y>20</y>
+      <w>90</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;70;30</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>250</x>
+      <y>460</y>
+      <w>420</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>HitEventArgs :: EventArgs
+elementstyle=autoresize
+--
++ HitEventArgs()
++ HitEventArgs(LaserBeam, Vector3, Vector3, ILaserReceiver)
+
++ Laser : LaserBeam
++ Normal : Vector3
++ Point : Vector3
++ Receiver : ILaserReceiver
+
++ IsValid : bool</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

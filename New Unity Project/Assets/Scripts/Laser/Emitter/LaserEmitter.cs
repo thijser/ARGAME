@@ -7,7 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser
+namespace Laser.Emitter
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -35,12 +35,12 @@ namespace Laser
         /// <summary>
         /// A List of segments that make up the whole Laser beam this LaserEmitter emits.
         /// </summary>
-        private List<Laser> segments = new List<Laser>();
+        private List<LaserBeam> segments = new List<LaserBeam>();
 
         /// <summary>
         /// Gets all the segments of the laser beam as a read-only variable.
         /// </summary>
-        public ReadOnlyCollection<Laser> Segments
+        public ReadOnlyCollection<LaserBeam> Segments
         {
             get
             {
@@ -85,7 +85,7 @@ namespace Laser
         {
             Vector3 pos = gameObject.transform.position;
             Vector3 dir = -gameObject.transform.forward;
-            Laser l = new Laser(pos, dir, this);
+            LaserBeam l = new LaserBeam(pos, dir, this);
             l.Create();
         }
 
@@ -117,7 +117,7 @@ namespace Laser
         /// LaserEmitter.
         /// </summary>
         /// <param name="laser">The Laser beam to add.</param>
-        public void AddLaser(Laser laser)
+        public void AddLaser(LaserBeam laser)
         {
             this.segments.Add(laser);
         }

@@ -7,11 +7,12 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser
+namespace Laser.Receiver
 {
     using System;
     using System.Collections;
     using System.Diagnostics.CodeAnalysis;
+    using Laser.Emitter;
     using UnityEngine;
 
     /// <summary>
@@ -67,7 +68,7 @@ namespace Laser
         /// <param name="laser">The Laser beam to copy.</param>
         /// <param name="offset">The offset of the Laser beam.</param>
         /// <param name="angle">The angle from the normal of this Portal's plane.</param>
-        public void EmitLaserBeam(Laser laser, Vector3 offset, Vector3 angle)
+        public void EmitLaserBeam(LaserBeam laser, Vector3 offset, Vector3 angle)
         {
             LaserEmitter emitter = this.PortalEmitter.GetEmitter(laser);
             emitter.transform.position = offset;

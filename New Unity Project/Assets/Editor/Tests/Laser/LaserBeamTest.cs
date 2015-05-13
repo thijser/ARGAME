@@ -12,12 +12,13 @@ namespace Laser
     using System;
     using NUnit.Framework;
     using UnityEngine;
+    using Laser.Emitter;
 
     /// <summary>
-    /// Unit test for the <see cref="Laser.Laser"/> class.
+    /// Unit test for the <see cref="LaserBeam.LaserBeam"/> class.
     /// </summary>
     [TestFixture]
-    public class LaserTest
+    public class LaserBeamTest
     {
         /// <summary>
         /// Creates a LaserEmitter instance to create Laser segments with.
@@ -35,9 +36,9 @@ namespace Laser
         /// <returns>The created Laser.</returns>
         /// <param name="origin">The origin.</param>
         /// <param name="direction">The direction.</param>
-        public static Laser CreateLaser(Vector3 origin, Vector3 direction)
+        public static LaserBeam CreateLaser(Vector3 origin, Vector3 direction)
         {
-            Laser laser = new Laser(origin, direction, CreateEmitter());
+            LaserBeam laser = new LaserBeam(origin, direction, CreateEmitter());
             laser.Create();
             return laser;
         }
@@ -65,7 +66,7 @@ namespace Laser
         {
             Vector3 origin = new Vector3(0, 1, 2);
             Vector3 direction = new Vector3(3, 4, 5);
-            Laser laser = CreateLaser(origin, direction);
+            LaserBeam laser = CreateLaser(origin, direction);
 
             Assert.AreEqual(origin, laser.Origin);
             Assert.AreEqual(direction, laser.Direction);
@@ -78,7 +79,7 @@ namespace Laser
         [Test]
         public void FindReceiverWithoutObjectTest()
         {
-            Laser laser = CreateLaser(Vector3.zero, Vector3.forward);
+            LaserBeam laser = CreateLaser(Vector3.zero, Vector3.forward);
             HitEventArgs args = laser.FindReceiver();
 
             Assert.IsNull(args.Receiver);
@@ -95,7 +96,7 @@ namespace Laser
         public void FindReceiverWithoutLaserReceiverTest()
         {
             BoxCollider collider = CreateCollider(Vector3.forward, 0.5f);
-            Laser laser = CreateLaser(Vector3.zero, Vector3.forward);
+            LaserBeam laser = CreateLaser(Vector3.zero, Vector3.forward);
             HitEventArgs args = laser.FindReceiver();
 
             Assert.IsNull(args.Receiver);
@@ -112,8 +113,8 @@ namespace Laser
         [Test]
         public void ExtendTest()
         {
-            Laser laser = CreateLaser(Vector3.zero, Vector3.forward);
-            Laser extension = laser.Extend(Vector3.zero, Vector3.left);
+            LaserBeam laser = CreateLaser(Vector3.zero, Vector3.forward);
+            LaserBeam extension = laser.Extend(Vector3.zero, Vector3.left);
 
             Assert.AreEqual(Vector3.zero, extension.Origin);
             Assert.AreEqual(Vector3.left, extension.Direction);

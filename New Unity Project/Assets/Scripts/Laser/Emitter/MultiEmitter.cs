@@ -7,7 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser
+namespace Laser.Emitter
 {
     using System;
     using System.Collections.Generic;
@@ -47,7 +47,7 @@ namespace Laser
         /// <param name="renderer">The LineRenderer to configure.</param>
         /// <param name="laser">The Laser beam to use as template.</param>
         /// <returns>The configured LineRenderer.</returns>
-        public static LineRenderer ApplyProperties(LineRenderer renderer, Laser laser)
+        public static LineRenderer ApplyProperties(LineRenderer renderer, LaserBeam laser)
         {
             if (renderer == null)
             {
@@ -104,7 +104,7 @@ namespace Laser
         /// </summary>
         /// <param name="laser">The Laser beam to return a LaserEmitter for.</param>
         /// <returns>The LaserEmitter.</returns>
-        public LaserEmitter GetEmitter(Laser laser)
+        public LaserEmitter GetEmitter(LaserBeam laser)
         {
             foreach (LaserEmitter emitter in this.Emitters)
             {
@@ -129,7 +129,7 @@ namespace Laser
         /// </summary>
         /// <param name="laser">The original Laser beam.</param>
         /// <returns>The created LaserEmitter.</returns>
-        public LaserEmitter CreateEmitter(Laser laser)
+        public LaserEmitter CreateEmitter(LaserBeam laser)
         {
             GameObject emitterObject = new GameObject("Emitter");
             emitterObject.transform.parent = this.gameObject.transform;
