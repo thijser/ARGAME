@@ -95,8 +95,6 @@ public class PositionLinker : MonoBehaviour
             proj += this.LevelMarker.position;
 
             this.LinkedTo.position = proj;
-
-            //this.LinkedToEmbedded.localRotation = Quaternion.Euler(0, this.angle, 0);
         }
         else
         {
