@@ -21,14 +21,25 @@ namespace RandomLevel
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomLevel.Vertex"/> class.
         /// </summary>
-        public Vertex() 
+        public Vertex(Coordinate coordinate) 
         {
-            this.Prop = Property.EMPTY;
+            if (coordinate == null)
+            {
+                throw new ArgumentNullException("coordinate");
+            }
+
+            this.Property = Property.EMPTY;
+            this.Coordinate = coordinate;
         }
         
         /// <summary>
         /// Gets or sets a value indicating the property of this point on the map.
         /// </summary>
-        public Property Prop { get; set; } 
+        public Property Property { get; set; }
+        
+        /// <summary>
+        /// Gets the Coordinate of this Vertex.
+        /// </summary>
+        public Coordinate Coordinate { get; private set; }
     }
 }

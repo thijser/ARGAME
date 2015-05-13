@@ -97,7 +97,7 @@ namespace RandomLevel
             spare = randRow;
             randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.graph.Maxrow);
             this.PathFromToRow(spare, randRow, randCol);
-            this.graph.GetVertexAtCoordinate(new Coordinate(randRow, 0)).Prop = Property.LASER;
+            this.graph.GetVertexAtCoordinate(new Coordinate(randRow, 0)).Property = Property.LASER;
             this.PathFromToCol(randRow, randCol, 1);
         }
 
@@ -117,7 +117,7 @@ namespace RandomLevel
             spare = randCol;
             randCol = this.RandInt(0, this.TargetCoordinate.Col);
             this.PathFromToCol(randRow, spare, randCol);
-            this.graph.GetVertexAtCoordinate(new Coordinate(0, randCol)).Prop = Property.LASER;
+            this.graph.GetVertexAtCoordinate(new Coordinate(0, randCol)).Property = Property.LASER;
             this.PathFromToRow(randRow, 1, randCol);
         }
 
@@ -137,7 +137,7 @@ namespace RandomLevel
             spare = randRow;
             randRow = this.RandInt(0, this.TargetCoordinate.Row);
             this.PathFromToRow(randRow, spare, randCol);
-            this.graph.GetVertexAtCoordinate(new Coordinate(randRow, this.graph.Maxcol - 1)).Prop = Property.LASER;
+            this.graph.GetVertexAtCoordinate(new Coordinate(randRow, this.graph.Maxcol - 1)).Property = Property.LASER;
             this.PathFromToCol(randRow, randCol, this.graph.Maxcol - 2);
         }
 
@@ -157,7 +157,7 @@ namespace RandomLevel
             spare = randCol;
             randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.graph.Maxcol);
             this.PathFromToCol(randRow, spare, randCol);
-            this.graph.GetVertexAtCoordinate(new Coordinate(this.graph.Maxrow - 1, randCol)).Prop = Property.LASER;
+            this.graph.GetVertexAtCoordinate(new Coordinate(this.graph.Maxrow - 1, randCol)).Property = Property.LASER;
             this.PathFromToRow(randRow, this.graph.Maxrow - 2, randCol);
         }
 
@@ -185,7 +185,7 @@ namespace RandomLevel
             int end = Math.Max(initcol, endcol);
             for (int i = start; i <= end; i++) 
             {
-                this.graph.GetVertexAtCoordinate(new Coordinate(row, i)).Prop = Property.PARTOFPATH;
+                this.graph.GetVertexAtCoordinate(new Coordinate(row, i)).Property = Property.PARTOFPATH;
             }
         }
 
@@ -202,7 +202,7 @@ namespace RandomLevel
             int end = Math.Max(initrow, endrow);
             for (int i = start; i <= end; i++) 
             {
-                this.graph.GetVertexAtCoordinate(new Coordinate(i, col)).Prop = Property.PARTOFPATH;
+                this.graph.GetVertexAtCoordinate(new Coordinate(i, col)).Property = Property.PARTOFPATH;
             }
         }
     }

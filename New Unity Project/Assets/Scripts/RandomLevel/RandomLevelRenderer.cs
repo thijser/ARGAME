@@ -113,16 +113,12 @@ namespace RandomLevel
         /// </summary>
         private void Render()
         {
-            for (int i = 0; i < this.sg.Maxrow; i++)
+            this.sg.ForEach(vertex =>
             {
-                for (int j = 0; j < this.sg.Maxcol; j++)
-                {
-                    Coordinate c = new Coordinate(i, j);
-                    Vertex v = this.sg.GetVertexAtCoordinate(c);
-                    Vector3 spawnVec = CoordToVector(c) - this.targetVec;
-                    this.InstantiateObject(v, spawnVec);
-                }
-            }
+                Coordinate c = vertex.Coordinate;
+                Vector3 spawnVec = CoordToVector(c) - this.targetVec;
+                this.InstantiateObject(vertex, spawnVec);
+            });
         }
 
         /// <summary>
@@ -132,18 +128,18 @@ namespace RandomLevel
         /// <param name="spawnVec">The position to create the object</param>
         private void InstantiateObject(Vertex v, Vector3 spawnVec)
         {
-            if (v.Prop == Property.LASER)
+            if (v.Property == Property.LASER)
             {
                 int i = DetermineQuadRotation(this.quad);
                 Quaternion q = Quaternion.Euler(0, i * 90, 0);
                 UnityEngine.Object.Instantiate(this.EmitterPrefab, spawnVec, q);
             }
-            else if (v.Prop == Property.WALL)
+            else if (v.Property == Property.WALL)
             {
                 Quaternion q = Quaternion.Euler(0, UnityEngine.Random.Range(0, 4) * 90, 0);
                 UnityEngine.Object.Instantiate(this.WallPrefab, spawnVec, q);
             }
-            else if (v.Prop == Property.TARGET)
+            else if (v.Property == Property.TARGET)
             {
                 UnityEngine.Object.Instantiate(this.TargetPrefab, spawnVec, Quaternion.identity);
             }
