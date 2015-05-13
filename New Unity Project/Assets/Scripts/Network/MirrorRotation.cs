@@ -84,7 +84,8 @@ namespace Network
         /// Serializes the mirror to the given BitStream.
         /// </summary>
         /// <param name="stream">The BitStream to serialize to, not null.</param>
-        public void OnSerializeNetworkView(BitStream stream)
+        /// <param name="info">The NetworkMessageInfo object describing the connection.</param>
+        public void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
         {
             if (stream == null)
             {
