@@ -2327,9 +2327,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e79d2419d6544045b4ed9afd1c68ada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minStrength: 0
-  crystal: {fileID: 2329964}
-  targetColor: {r: 0, g: 0, b: 0, a: 0}
+  MinimumStrength: 0
+  Crystal: {fileID: 2329964}
+  TargetColor: {r: 0, g: 0, b: 0, a: 0}
   NextLevelIndex: 0
 --- !u!1001 &100100000
 Prefab:
