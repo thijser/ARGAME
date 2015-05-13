@@ -67,11 +67,14 @@ namespace Laser.Emitter
         }
 
         /// <summary>
-        /// Disables all Emitters by default.
+        /// Disables all Emitters by default if <see cref="MultiEmitter.DisableEmittersEachFrame"/> is true.
         /// </summary>
         public void LateUpdate()
         {
-            this.DisableAll();
+            if (this.DisableEmittersEachFrame)
+            {
+                this.DisableAll();
+            }
         }
 
         /// <summary>
@@ -125,6 +128,11 @@ namespace Laser.Emitter
         /// <para>
         /// The LaserEmitter is created as a separate game object and
         /// added as a child of this game object.
+        /// </para>
+        /// <para>
+        /// To save resources, it is recommended to call <see cref="MultiEmitter.GetEmitter"/>
+        /// instead, which re-uses existing LaserEmitters. However, this method can be called 
+        /// to create LaserEmitters beforehand.
         /// </para>
         /// </summary>
         /// <param name="laser">The original Laser beam.</param>

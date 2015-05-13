@@ -39,9 +39,12 @@ namespace Laser
             {
                 Color c = new Color(0, 0, 0, 1);
                 float highest = Mathf.Max(this.RGBStrengths.x, this.RGBStrengths.y, this.RGBStrengths.z);
-                c.r = this.RGBStrengths.x / highest;
-                c.g = this.RGBStrengths.y / highest;
-                c.b = this.RGBStrengths.z / highest;
+                if (highest > 0)
+                {
+                    c.r = this.RGBStrengths.x / highest;
+                    c.g = this.RGBStrengths.y / highest;
+                    c.b = this.RGBStrengths.z / highest;
+                }
                 return c;
             }
         }
@@ -71,11 +74,12 @@ namespace Laser
         /// </summary>
         public void UpdateBeam()
         {
+            Color color = this.LaserColor;
             this.LineRenderer.SetWidth(this.Strength, this.Strength);
-            this.LineRenderer.material.color = this.LaserColor;
-            this.LineRenderer.material.SetColor("_Albedo", this.LaserColor);
-            this.LineRenderer.material.SetColor("_Emission", this.LaserColor);
-            this.LineRenderer.material.SetColor("Main Color", this.LaserColor);
+            this.LineRenderer.material.color = color;
+            this.LineRenderer.material.SetColor("_Albedo", color);
+            this.LineRenderer.material.SetColor("_Emission", color);
+            this.LineRenderer.material.SetColor("Main Color", color);
         }
     }
 }
