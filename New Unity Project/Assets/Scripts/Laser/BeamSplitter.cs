@@ -19,45 +19,16 @@ namespace Laser
     public class BeamSplitter : MonoBehaviour, ILaserReceiver
     {
         /// <summary>
-        /// Emitter object that is cloned for each incoming Laser to produce the
-        /// pass-through ray.
+        /// Gets or sets the LaserEmitter used for creating new Laser beam segments.
         /// </summary>
-        private GameObject protoEmitter;
+        public MultiEmitter PassThroughEmitter { get; set; }
 
         /// <summary>
-        /// Emitter objects that are currently being used for pass-through rays.
-        /// </summary>
-        private List<GameObject> emitterPool = new List<GameObject>();
-
-        /// <summary>
-        /// Index of emitter object in pool that will be used for the next
-        /// incoming ray (OnLaserHit call).
-        /// </summary>
-        private int nextEmitterIndex = 0;
-
-        /// <summary>
-        /// Initialize by finding reference emitter object.
+        /// Initialize by creating emitter object.
         /// </summary>
         public void Start()
         {
-            this.protoEmitter = transform.Find("ProtoEmitter").gameObject;
-        }
-
-        /// <summary>
-        /// Get an emitter object to produce the pass-through ray for the
-        /// current laser hit.
-        /// </summary>
-        /// <returns>Unique emitter object</returns>
-        public GameObject CreateNextEmitter()
-        {
-            if (this.nextEmitterIndex >= this.emitterPool.Count)
-            {
-                var newEmitter = Instantiate<GameObject>(this.protoEmitter);
-                newEmitter.SetActive(true);
-                this.emitterPool.Add(newEmitter);
-            }
-
-            return this.emitterPool[this.nextEmitterIndex++];
+            this.PassThroughEmitter = gameObject.AddComponent<MultiEmitter>();
         }
 
         /// <summary>
@@ -75,38 +46,16 @@ namespace Laser
 
             // Create a new ray coming out of the other side with the same direction
             // as the original ray. Forward needs to be negative, see LaserEmitter.
-            var passThroughEmitter = this.CreateNextEmitter();
+            var passThroughEmitter = this.PassThroughEmitter.GetEmitter(args.Laser);
 
             passThroughEmitter.transform.position = args.Point + (args.Laser.Direction * 0.1f);
             passThroughEmitter.transform.forward = -args.Laser.Direction;
-            LaserProperties propertiesPre = args.Laser.Emitter.GetComponent<LaserProperties>();
+            /*LaserProperties propertiesPre = args.Laser.Emitter.GetComponent<LaserProperties>();
             LaserProperties propertiesPost = passThroughEmitter.GetComponent<LaserProperties>();
-            propertiesPost.RGBStrengths = propertiesPre.RGBStrengths / 2;
+            propertiesPost.RGBStrengths = propertiesPre.RGBStrengths / 2;*/
 
             // Create the second ray, reflecting off surface like a mirror
             Mirror.CreateReflection(args.Laser, args.Normal);
-        }
-
-        /// <summary>
-        /// Remove any emitters from the pool that aren't needed anymore, generally
-        /// because less lasers hit the beam splitter since this frame. Because the
-        /// LaserEmitter objects use Update(), LateUpdate() is guaranteed to be called
-        /// after all lasers have been created.
-        /// </summary>
-        public void LateUpdate()
-        {
-            if (this.nextEmitterIndex < this.emitterPool.Count)
-            {
-                for (int i = this.nextEmitterIndex; i < this.emitterPool.Count; i++)
-                {
-                    GameObject.Destroy(this.emitterPool[i]);
-                }
-
-                this.emitterPool.RemoveRange(this.nextEmitterIndex, this.emitterPool.Count - this.nextEmitterIndex);
-            }
-
-            // Start at the first emitter for the first hit again next frame
-            this.nextEmitterIndex = 0;
         }
     }
 }
