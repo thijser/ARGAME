@@ -136,6 +136,8 @@ namespace Laser
             LineRenderer renderer = emitterObject.AddComponent<LineRenderer>();
             LaserEmitter emitter = emitterObject.AddComponent<LaserEmitter>();
 
+            emitterObject.AddComponent<LaserProperties>();
+
             ApplyProperties(renderer, laser);
             return emitter;
         }
