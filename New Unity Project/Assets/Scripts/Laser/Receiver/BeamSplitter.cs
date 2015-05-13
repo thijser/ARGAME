@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Laser.Receiver
 {
+    using Laser.Emitter;
     using System;
     using System.Collections.Generic;
     using UnityEngine;
