@@ -132,9 +132,10 @@ namespace Core
         /// Extends this Laser beam towards the specified target.
         /// </summary>
         /// <param name="target">Point to approach.</param>
-        /// <returns></returns>
-        public LaserBeam ExtendTo(Vector3 target) {
-            return Extend(Endpoint, target - Endpoint);
+        /// <returns>A new extended laser beam.</returns>
+        public LaserBeam ExtendTo(Vector3 target) 
+        {
+            return this.Extend(this.Endpoint, target - this.Endpoint);
         }
     }
 }

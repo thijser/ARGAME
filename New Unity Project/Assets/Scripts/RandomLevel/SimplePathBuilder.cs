@@ -1,11 +1,20 @@
-﻿namespace RandomLevel
+﻿//----------------------------------------------------------------------------
+// <copyright file="SimplePathBuilder.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//     
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not, 
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
+namespace RandomLevel
 {
     using System;
 
     /// <summary>
     /// Builds paths that go in a straight line.
     /// </summary>
-    class SimplePathBuilder
+    public class SimplePathBuilder
     {
         /// <summary>
         /// The SquareGraph this PathBuilder builds a path in.
@@ -13,7 +22,7 @@
         private SquareGraph graph;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PathBuilder"/> class.
+        /// Initializes a new instance of the <see cref="SimplePathBuilder"/> class.
         /// </summary>
         /// <param name="graph">The SquareGraph.</param>
         public SimplePathBuilder(SquareGraph graph)
@@ -35,7 +44,7 @@
         /// <param name="endcol">The final column index.</param>
         public void PathFromToCol(int row, int initcol, int endcol)
         {
-            if (!(IsValidRowIndex(row) && IsValidColIndex(initcol) && IsValidColIndex(endcol)))
+            if (!(this.IsValidRowIndex(row) && this.IsValidColIndex(initcol) && this.IsValidColIndex(endcol)))
             {
                 throw new ArgumentException("At least one of the indices supplied is invalid, given the square graph used.");
             }
@@ -57,7 +66,7 @@
         /// <param name="col">The column index.</param>
         public void PathFromToRow(int initrow, int endrow, int col)
         {
-            if(!(IsValidRowIndex(initrow) && IsValidRowIndex(endrow) && IsValidColIndex(col)))
+            if (!(this.IsValidRowIndex(initrow) && this.IsValidRowIndex(endrow) && this.IsValidColIndex(col)))
             {
                 throw new ArgumentException("At least one of the indices supplied is invalid, given the square graph used.");
             }
@@ -77,7 +86,7 @@
         /// <returns>True if the row index supplied is within bounds, false otherwise.</returns>
         public bool IsValidRowIndex(int rowind)
         {
-            return !(rowind < 0 || rowind >= graph.Maxrow);
+            return !(rowind < 0 || rowind >= this.graph.Maxrow);
         }
 
         /// <summary>
@@ -87,7 +96,7 @@
         /// <returns>True if the column index supplied is within bounds, false otherwise.</returns>
         public bool IsValidColIndex(int colind)
         {
-            return !(colind < 0 || colind >= graph.Maxcol);
+            return !(colind < 0 || colind >= this.graph.Maxcol);
         }
     }
 }
