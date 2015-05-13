@@ -47,7 +47,7 @@ namespace RandomLevel
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    this.squareMap[i, j] = new Vertex();
+                    this.squareMap[i, j] = new Vertex(new Coordinate(i,j));
                 }
             }
         }
@@ -61,6 +61,23 @@ namespace RandomLevel
         /// Gets a value indicating the maximum amount of columns in the square graph.
         /// </summary>
         public int Maxcol { get; private set; }
+
+        /// <summary>
+        /// Invokes the given Action for each Vertex on the graph.
+        /// </summary>
+        /// <param name="action">The Action to invoke, not null.</param>
+        public void ForEach(Action<Vertex> action)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
+            foreach (var vertex in squareMap)
+            {
+                action.Invoke(vertex);
+            }
+        }
 
         /// <summary>
         /// Returns the vertex at the specified coordinate (a (Row, column)

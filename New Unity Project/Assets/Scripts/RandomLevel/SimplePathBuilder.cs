@@ -13,11 +13,6 @@
         private SquareGraph graph;
 
         /// <summary>
-        /// The Random instance used for generating random numbers.
-        /// </summary>
-        private Random random;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="PathBuilder"/> class.
         /// </summary>
         /// <param name="graph">The SquareGraph.</param>
@@ -29,7 +24,6 @@
             }
 
             this.graph = graph;
-            this.random = new Random(Environment.TickCount);
         }
         
         /// <summary>
