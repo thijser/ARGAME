@@ -119,7 +119,7 @@ public class PositionLinker : MonoBehaviour
                 break;
             case LinkingMode.Project:
                 this.LinkedTo.rotation = this.LevelMarker.rotation;
-                this.LinkedTo.rotation *= Quaternion.AngleAxis(angle, this.LinkedTo.up);
+                this.LinkedTo.rotation *= Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
                 break;
             default:
                 throw new ArgumentException("Invalid LinkingMode");
