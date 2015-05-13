@@ -9,13 +9,14 @@
 //----------------------------------------------------------------------------
 namespace Laser 
 {
+    using Laser.Emitter;
     using System.Collections;
     using UnityEngine;
 
     /// <summary>
     /// A Laser beam that is emitted into the world.
     /// </summary>
-    public class Laser 
+    public class LaserBeam
     {
         /// <summary>
         /// The maximum distance a laser beam travels.
@@ -33,12 +34,12 @@ namespace Laser
         private LaserEmitter emitter;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Laser"/> class.
+        /// Initializes a new instance of the <see cref="LaserBeam"/> class.
         /// </summary>
         /// <param name="origin">The origin of this Laser beam.</param>
         /// <param name="direction">The direction vector of this Laser beam.</param>
         /// <param name="emitter">The LaserEmitter that caused this Laser beam.</param>
-        public Laser(Vector3 origin, Vector3 direction, LaserEmitter emitter) 
+        public LaserBeam(Vector3 origin, Vector3 direction, LaserEmitter emitter) 
         {
             this.Origin = origin;
             this.Direction = direction;
@@ -120,9 +121,9 @@ namespace Laser
         /// <param name="newOrigin">The origin of the new Laser beam.</param>
         /// <param name="newDirection">The direction of the new Laser beam.</param>
         /// <returns>The created Laser instance.</returns>
-        public Laser Extend(Vector3 newOrigin, Vector3 newDirection) 
+        public LaserBeam Extend(Vector3 newOrigin, Vector3 newDirection) 
         {
-            Laser laser = new Laser(newOrigin, newDirection, this.emitter);
+            LaserBeam laser = new LaserBeam(newOrigin, newDirection, this.emitter);
             laser.Create();
             return laser;
         }

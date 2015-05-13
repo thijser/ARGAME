@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>210</x>
+      <y>90</y>
+      <w>120</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>LinkingMode
+/enum/
+elementstyle=autoresize
+--
++ Exact
++ IgnoreHeight
++ PositionOnly
++ FollowLevel
++ Project</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>110</y>
+      <w>240</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>PositionLinker :: MonoBehaviour
+elementstyle=autoresize
+--
++ LinkedTo : Transform
++ Mode : LinkingMode
++ LevelMarker : Transform
+--
++ Update()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>300</x>
+      <y>120</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;160;30</additional_attributes>
+  </element>
+</diagram>

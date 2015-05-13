@@ -7,7 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser 
+namespace Laser.Receiver
 {
     using System;
     using UnityEngine;
@@ -23,7 +23,7 @@ namespace Laser
         /// <returns>The reflected Laser beam segment.</returns>
         /// <param name="laser">The Laser beam.</param>
         /// <param name="surfaceNormal">The surface normal.</param>
-        public static Laser CreateReflection(Laser laser, Vector3 surfaceNormal)
+        public static LaserBeam CreateReflection(LaserBeam laser, Vector3 surfaceNormal)
         {
             if (laser == null)
             {

@@ -7,7 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser
+namespace Laser.Receiver
 {
     using System.Collections;
     using System.Diagnostics.CodeAnalysis;

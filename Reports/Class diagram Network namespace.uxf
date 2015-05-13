@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>510</x>
+      <y>80</y>
+      <w>300</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>NetworkManager :: MonoBehaviour
+elementstyle=autoresize
+--
+_+ ServerAddress : string_
+_+ ServerPort : int_
+_+ TypeName : string_
+_+ MaxPlayers : int_
+
+- hosts : HostData[]
+--
++ Hosts : ReadOnlyCollection&lt;HostData&gt;
+
+_+ InitializeServer(string)_
+_+ InitializeClient(HostData)_
+
++ Start()
++ OnMasterServerEvent(MasterServerEvent)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>180</y>
+      <w>420</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>MirrorRotation :: MonoBehaviour
+elementstyle=autoresize
+--
++ Highlight : Material
++ Original : Material
+- selected : bool
+--
+_+ GetHighestParent(Transform) : Transform_
+
++ Update()
++ OnSerializeNetworkView(BitStream, NetworkMessageInfo)
+
+- Rotate()
+- HighlightMirror()
+- ResetHighlight()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>80</y>
+      <w>420</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>CubeMover :: MonoBehaviour
+elementstyle=autoresize
+--
++ SpeedFactor : float
+--
++ Update()
++ OnSerializeNetworkView(BitStream, NetworkMessageInfo)</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

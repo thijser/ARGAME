@@ -12,7 +12,7 @@ namespace Laser
     /// <summary>
     /// An object that is manipulated by a Laser beam.
     /// </summary>
-    /// <seealso cref="Laser.Laser" />
+    /// <seealso cref="LaserBeam.LaserBeam" />
     public interface ILaserReceiver 
     {
         /// <summary>

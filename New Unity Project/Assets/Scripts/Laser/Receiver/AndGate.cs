@@ -7,7 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser
+namespace Laser.Receiver
 {
     using System;
     using System.Collections;
@@ -33,14 +33,14 @@ namespace Laser
         /// <summary>
         /// The lasers that hit the gate.
         /// </summary>
-        private IList<Laser> lasers = new List<Laser>();
+        private IList<LaserBeam> lasers = new List<LaserBeam>();
 
         /// <summary>
         /// Creates the resulting beam.
         /// </summary>
         /// <param name="laser">The Laser beam.</param>
         /// <returns>The reflected Laser beam segment.</returns>
-        public Laser CreateBeam(Laser laser)
+        public LaserBeam CreateBeam(LaserBeam laser)
         {
             if (laser == null)
             {
@@ -49,7 +49,7 @@ namespace Laser
 
             Vector3 newDir = new Vector3(0, 0, 0);
             Vector3 newOrig = new Vector3(0, 0, 0);
-            foreach (Laser l in this.lasers)
+            foreach (LaserBeam l in this.lasers)
             {
                 newDir = newDir + l.Direction;
                 newOrig = newOrig + l.Endpoint;

@@ -40,7 +40,7 @@ namespace Laser
         /// <param name="point">The position where the Laser hit the object.</param>
         /// <param name="normal">The normal of the surface that the Laser beam hit.</param>
         /// <param name="receiver">The ILaserReceiver that got hit.</param>
-        public HitEventArgs(Laser laser, Vector3 point, Vector3 normal, ILaserReceiver receiver)
+        public HitEventArgs(LaserBeam laser, Vector3 point, Vector3 normal, ILaserReceiver receiver)
         {
             this.Laser = laser;
             this.Point = point;
@@ -51,7 +51,7 @@ namespace Laser
         /// <summary>
         /// Gets or sets the Laser beam that hit the object.
         /// </summary>
-        public Laser Laser { get; set; }
+        public LaserBeam Laser { get; set; }
 
         /// <summary>
         /// Gets or sets the normal of the surface that the Laser beam hit.
