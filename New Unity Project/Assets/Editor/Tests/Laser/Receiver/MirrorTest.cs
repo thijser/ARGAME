@@ -7,13 +7,13 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser.Receiver
+namespace Core.Receiver
 {
     using System;
     using System.Collections.ObjectModel;
     using NUnit.Framework;
     using UnityEngine;
-    using Laser.Emitter;
+    using Core.Emitter;
 
     /// <summary>
     /// Unit test class for the <see cref="Mirror"/> class.

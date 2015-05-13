@@ -7,12 +7,12 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser.Receiver
+namespace Core.Receiver
 {
     using System;
     using System.Collections;
     using System.Diagnostics.CodeAnalysis;
-    using Laser.Emitter;
+    using Core.Emitter;
     using UnityEngine;
 
     /// <summary>

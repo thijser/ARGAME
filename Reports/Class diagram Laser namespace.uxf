@@ -374,4 +374,20 @@ elementstyle=autoresize
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>231;21;231;168;21;168;21;175</additional_attributes>
   </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>420</x>
+      <y>210</y>
+      <w>175</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>TargetColorPicker :: MonoBehaviour
+elementstyle=autoresize
+--
++ Color : Color
+--
++ Update()</panel_attributes>
+    <additional_attributes/>
+  </element>
 </diagram>

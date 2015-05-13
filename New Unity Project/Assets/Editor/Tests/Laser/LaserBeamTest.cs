@@ -7,12 +7,12 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser
+namespace Core
 {
     using System;
     using NUnit.Framework;
     using UnityEngine;
-    using Laser.Emitter;
+    using Core.Emitter;
 
     /// <summary>
     /// Unit test for the <see cref="LaserBeam.LaserBeam"/> class.

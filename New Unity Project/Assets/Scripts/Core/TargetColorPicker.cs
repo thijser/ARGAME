@@ -7,7 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Mirrors
+namespace Core
 {
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;

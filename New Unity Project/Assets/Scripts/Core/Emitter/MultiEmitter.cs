@@ -7,7 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser.Emitter
+namespace Core.Emitter
 {
     using System;
     using System.Collections.Generic;

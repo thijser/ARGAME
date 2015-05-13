@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// <copyright file="AndGate.cs" company="Delft University of Technology">
+// <copyright file="OrGate.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -7,23 +7,21 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser.Receiver
+namespace Core.Receiver
 {
+    /// <summary>
+    /// An OR-gate that outputs a laser beam if another beam hits it.
+    /// </summary>
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
 
     /// <summary>
-    /// An AND-gate that outputs a laser beam if two other beams hit it.
+    /// A script designed to implement the functionality of the OR-gate.
     /// </summary>
-    public class AndGate : MonoBehaviour, ILaserReceiver
+    public class OrGate : MonoBehaviour, ILaserReceiver
     {
-        /// <summary>
-        /// A variable storing whether or not a previous laser hit the gate.
-        /// </summary>
-        private bool hit = false;
-
         /// <summary>
         /// A variable storing whether or not a beam has already been
         /// created this tick.
@@ -31,15 +29,10 @@ namespace Laser.Receiver
         private bool beamcreated = false;
 
         /// <summary>
-        /// The lasers that hit the gate.
-        /// </summary>
-        private IList<LaserBeam> lasers = new List<LaserBeam>();
-
-        /// <summary>
         /// Creates the resulting beam.
         /// </summary>
+        /// <returns>The resulting Laser beam segment.</returns>
         /// <param name="laser">The Laser beam.</param>
-        /// <returns>The reflected Laser beam segment.</returns>
         public LaserBeam CreateBeam(LaserBeam laser)
         {
             if (laser == null)
@@ -47,19 +40,11 @@ namespace Laser.Receiver
                 throw new ArgumentNullException("laser");
             }
 
-            Vector3 newDir = new Vector3(0, 0, 0);
-            Vector3 newOrig = new Vector3(0, 0, 0);
-            foreach (LaserBeam l in this.lasers)
-            {
-                newDir = newDir + l.Direction;
-                newOrig = newOrig + l.Endpoint;
-            }
-
-            return laser.Extend(this.transform.position, newDir / this.lasers.Count);
+            return laser.Extend(transform.position, laser.Direction); 
         }
 
         /// <summary>
-        /// Creates a new laser beam if two existing laser beams hit
+        /// Creates a new laser beam if a different beam hits
         /// the gate.
         /// </summary>
         /// <param name="sender">The sender of the event, ignored here.</param>
@@ -71,16 +56,10 @@ namespace Laser.Receiver
                 throw new ArgumentNullException("args");
             }
 
-            this.lasers.Add(args.Laser);
-            if (this.hit && !this.beamcreated)
+            if (!this.beamcreated)
             {
                 this.CreateBeam(args.Laser);
                 this.beamcreated = true;
-            }
-
-            if (!this.hit)
-            {
-                this.hit = true;
             }
         }
 
@@ -89,9 +68,7 @@ namespace Laser.Receiver
         /// </summary>
         public void LateUpdate()
         {
-            this.hit = false;
             this.beamcreated = false;
-            this.lasers.Clear();
         }
     }
 }

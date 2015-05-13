@@ -7,9 +7,9 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Laser 
+namespace Core 
 {
-    using Laser.Emitter;
+    using Core.Emitter;
     using System.Collections;
     using UnityEngine;
 
