@@ -25,10 +25,9 @@ namespace Laser
         public Vector3 RGBStrengths;
 
         /// <summary>
-        /// The LineRenderer.
+        /// LineRenderer to use for laser.
         /// </summary>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public LineRenderer LineRenderer;
+        public LineRenderer LineRenderer { get; set; }
 
         /// <summary>
         /// Gets the color of the Laser beam.
@@ -54,6 +53,12 @@ namespace Laser
             get
             {
                 return this.RGBStrengths.magnitude;
+            }
+        }
+
+        public void Start() {
+            if (LineRenderer == null) {
+                LineRenderer = GetComponent<LineRenderer>();
             }
         }
 
