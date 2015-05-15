@@ -22,15 +22,15 @@ namespace Core.Receiver
     public class AndGate : MonoBehaviour, ILaserReceiver
     {
         /// <summary>
-        /// A variable storing whether or not a previous laser hit the gate.
-        /// </summary>
-        private bool hit = false;
-
-        /// <summary>
         /// The minimal strength required to make the crystal open.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public float MinimumStrength;
+
+        /// <summary>
+        /// A variable storing whether or not a previous laser hit the gate.
+        /// </summary>
+        private bool hit = false;
 
         /// <summary>
         /// A variable storing whether or not a beam has already been

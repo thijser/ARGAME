@@ -42,6 +42,26 @@ namespace Core
         /// <param name="receiver">The ILaserReceiver that got hit.</param>
         public HitEventArgs(LaserBeam laser, Vector3 point, Vector3 normal, ILaserReceiver receiver)
         {
+            if (laser == null)
+            {
+                throw new ArgumentNullException("laser");
+            }
+
+            if (point == null)
+            {
+                throw new ArgumentNullException("point");
+            }
+
+            if (normal == null)
+            {
+                throw new ArgumentNullException("normal");
+            }
+
+            if (receiver == null)
+            {
+                throw new ArgumentNullException("receiver");
+            }
+
             this.Laser = laser;
             this.Point = point;
             this.Normal = normal;
@@ -49,24 +69,24 @@ namespace Core
         }
 
         /// <summary>
-        /// Gets or sets the Laser beam that hit the object.
+        /// Gets the Laser beam that hit the object.
         /// </summary>
-        public LaserBeam Laser { get; set; }
+        public LaserBeam Laser { get; private set; }
 
         /// <summary>
-        /// Gets or sets the normal of the surface that the Laser beam hit.
+        /// Gets the normal of the surface that the Laser beam hit.
         /// </summary>
-        public Vector3 Normal { get; set; }
+        public Vector3 Normal { get; private set; }
 
         /// <summary>
-        /// Gets or sets the position on the surface that the Laser beam hit.
+        /// Gets the position on the surface that the Laser beam hit.
         /// </summary>
-        public Vector3 Point { get; set; }
+        public Vector3 Point { get; private set; }
 
         /// <summary>
-        /// Gets or sets the ILaserReceiver that was hit.
+        /// Gets the ILaserReceiver that was hit.
         /// </summary>
-        public ILaserReceiver Receiver { get; set; }
+        public ILaserReceiver Receiver { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether this HitEventArgs represents a 
@@ -78,6 +98,8 @@ namespace Core
             {
                 return this.Laser != null && this.Receiver != null;
             }
+
+            private set;
         }
     }
 }

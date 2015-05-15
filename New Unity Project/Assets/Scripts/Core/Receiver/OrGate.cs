@@ -25,16 +25,16 @@ namespace Core.Receiver
     public class OrGate : MonoBehaviour, ILaserReceiver
     {
         /// <summary>
-        /// A variable storing whether or not a beam has already been
-        /// created this tick.
-        /// </summary>
-        private bool beamcreated = false;
-
-        /// <summary>
         /// The minimal strength required to make the crystal open.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public float MinimumStrength;
+
+        /// <summary>
+        /// A variable storing whether or not a beam has already been
+        /// created this tick.
+        /// </summary>
+        private bool beamcreated = false;
 
         /// <summary>
         /// Gets or sets the LaserEmitter used for creating new Laser beam segments.
