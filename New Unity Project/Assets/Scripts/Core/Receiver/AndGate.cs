@@ -12,6 +12,7 @@ namespace Core.Receiver
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using Core.Emitter;
     using UnityEngine;
 
     /// <summary>
@@ -31,31 +32,16 @@ namespace Core.Receiver
         private bool beamcreated = false;
 
         /// <summary>
-        /// The lasers that hit the gate.
+        /// Gets or sets the LaserEmitter used for creating new Laser beam segments.
         /// </summary>
-        private IList<LaserBeam> lasers = new List<LaserBeam>();
+        public MultiEmitter PassThroughEmitter { get; set; }
 
         /// <summary>
-        /// Creates the resulting beam.
+        /// The Start method, invoked when the scene is running.
         /// </summary>
-        /// <param name="laser">The Laser beam.</param>
-        /// <returns>The reflected Laser beam segment.</returns>
-        public LaserBeam CreateBeam(LaserBeam laser)
+        public void Start()
         {
-            if (laser == null)
-            {
-                throw new ArgumentNullException("laser");
-            }
-
-            Vector3 newDir = new Vector3(0, 0, 0);
-            Vector3 newOrig = new Vector3(0, 0, 0);
-            foreach (LaserBeam l in this.lasers)
-            {
-                newDir = newDir + l.Direction;
-                newOrig = newOrig + l.Endpoint;
-            }
-
-            return laser.Extend(this.transform.position, newDir / this.lasers.Count);
+            this.PassThroughEmitter = gameObject.AddComponent<MultiEmitter>();
         }
 
         /// <summary>
@@ -71,10 +57,17 @@ namespace Core.Receiver
                 throw new ArgumentNullException("args");
             }
 
-            this.lasers.Add(args.Laser);
             if (this.hit && !this.beamcreated)
             {
-                this.CreateBeam(args.Laser);
+                // Create a new ray coming out of the other side with the same direction
+                // as the original ray. Forward needs to be negative, see LaserEmitter.
+                var passThroughEmitter = this.PassThroughEmitter.GetEmitter(args.Laser);
+
+                passThroughEmitter.transform.position = args.Point + (args.Laser.Direction * 0.1f);
+                passThroughEmitter.transform.forward = -args.Laser.Direction;
+                LaserProperties propertiesPre = args.Laser.Emitter.GetComponent<LaserProperties>();
+                LaserProperties propertiesPost = passThroughEmitter.GetComponent<LaserProperties>();
+                propertiesPost.RGBStrengths = propertiesPre.RGBStrengths;
                 this.beamcreated = true;
             }
 
@@ -91,7 +84,6 @@ namespace Core.Receiver
         {
             this.hit = false;
             this.beamcreated = false;
-            this.lasers.Clear();
         }
     }
 }
