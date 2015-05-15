@@ -48,5 +48,10 @@ namespace RandomLevel
                 this.Row + direction.GetVerticalComponent().GetAxisSign(),
                 this.Col + direction.GetHorizontalComponent().GetAxisSign());
         }
+
+        public override string ToString()
+        {
+            return "(" + this.Row + ", " + this.Col + ")";
+        }
     }
 }

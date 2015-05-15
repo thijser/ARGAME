@@ -76,7 +76,9 @@ namespace RandomLevel
         public void Start()
         {
             RandomLevelGenerator rlg = new RandomLevelGenerator(this.RowCount, this.ColumnCount);
-            this.quad = rlg.Quad;
+            rlg.Run();
+
+            this.quad = rlg.EmitterDirection;
             this.sg = rlg.Graph;
             this.targetVec = CoordToVector(rlg.TargetCoordinate);
             this.Render();

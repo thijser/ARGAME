@@ -10,6 +10,7 @@
 namespace RandomLevel
 {
     using System;
+    using UnityEngine;
 
     /// <summary>
     /// Builds paths that go in a straight line.
@@ -138,6 +139,7 @@ namespace RandomLevel
         /// <returns>True if the Coordinate is free, false otherwise.</returns>
         public bool IsFree(Coordinate coordinate)
         {
+            Debug.Log("Content of " + coordinate + ": " + this.Graph.GetVertexAtCoordinate(coordinate).Property);
             return this.Graph.GetVertexAtCoordinate(coordinate).Property == Property.EMPTY;
         }
 

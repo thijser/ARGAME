@@ -172,5 +172,23 @@ namespace RandomLevel
         {
             return direction ^ (Direction.NorthWest | Direction.SouthEast);
         }
+
+        /// <summary>
+        /// Returns the opposite of the non-combined Direction.
+        /// </summary>
+        /// <param name="direction">The Direction.</param>
+        /// <returns>The opposite Direction.</returns>
+        public static Direction Opposite(this Direction direction)
+        {
+            Direction complement = direction.Complement();
+            if (complement.GetHorizontalComponent().IsValid())
+            {
+                return complement.GetHorizontalComponent();
+            }
+            else
+            {
+                return complement.GetVerticalComponent();
+            }
+        }
     }
 }

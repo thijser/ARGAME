@@ -90,7 +90,7 @@ namespace RandomLevel
         {
             if (!this.IsValid(coordinate))
             {
-                throw new ArgumentException("Invalid Row-column pair.");
+                throw new ArgumentException("Invalid Row-column pair: " + coordinate);
             }
 
             return this.squareMap[coordinate.Row, coordinate.Col];

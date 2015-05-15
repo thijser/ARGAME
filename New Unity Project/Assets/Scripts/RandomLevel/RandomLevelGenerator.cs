@@ -40,7 +40,7 @@ namespace RandomLevel
         /// <summary>
         /// Gets the first quadrant selected.
         /// </summary>
-        public Direction Quad { get; private set; }
+        public Direction EmitterDirection { get; private set; }
 
         /// <summary>
         /// Gets the randomly generated map.
@@ -56,7 +56,6 @@ namespace RandomLevel
             int targetRowCoord = this.Graph.Maxrow / 2;
             int targetColCoord = this.Graph.Maxcol / 2;
             this.TargetCoordinate = new Coordinate(targetRowCoord, targetColCoord);
-            this.Graph.GetVertexAtCoordinate(this.TargetCoordinate).Property = Property.TARGET;
             this.BuildPath(4);
             this.CreateWalls();
         }
@@ -79,6 +78,13 @@ namespace RandomLevel
             {
                 target = builder.FindPathSegment(target);
             }
+            
+            // The variable 'target' now contains the location of the Laser beam.
+            this.EmitterDirection = FindLaserBeam(target, Direction.East, Direction.West, Direction.North, Direction.South);
+            this.Graph.GetVertexAtCoordinate(target).Property = Property.LASER;
+
+            // The Property 'TargetCoordinate' contains the LaserTarget position.
+            this.Graph.GetVertexAtCoordinate(this.TargetCoordinate).Property = Property.TARGET;
         }
 
         /// <summary>
@@ -88,6 +94,17 @@ namespace RandomLevel
         {
             WallBuilder builder = new WallBuilder();
             builder.AddRandomWalls(this.Graph);
+        }
+        
+        /// <summary>
+        /// Finds the Direction in which a Laser Beam is placed.
+        /// </summary>
+        /// <param name="coordinate">The Coordinate</param>
+        /// <param name="directions">The Directions to consider.</param>
+        /// <returns>The Direction, or <c>Direction.None</c> if it was not found.</returns>
+        private Direction FindLaserBeam(Coordinate coordinate, params Direction[] directions)
+        {
+            return Array.Find(directions, c => this.Graph.GetVertexAtCoordinate(coordinate.StepTo(c)).Property == Property.PARTOFPATH);
         }
     }
 }

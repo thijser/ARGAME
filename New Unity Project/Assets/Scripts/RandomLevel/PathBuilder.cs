@@ -10,6 +10,7 @@
 namespace RandomLevel
 {
     using System;
+    using Debug = UnityEngine.Debug;
     
     /// <summary>
     /// Builds a path in a graph leading to a predefined target.
@@ -70,12 +71,12 @@ namespace RandomLevel
         /// <returns>The distance to the edge of the graph.</returns>
         public int GetHorizontalLength(Direction direction, int column)
         {
-            int distance = direction.GetHorizontalComponent().GetAxisSign() * column;
+            int distance = direction.GetHorizontalComponent().Opposite().GetAxisSign() * column;
             if (distance < 0)
             {
                 distance += this.Graph.Maxcol;
             }
-
+            Debug.Log("Horizontal Length: " + column + " (" + direction + ") => " + distance);
             return distance;
         }
 
@@ -88,12 +89,12 @@ namespace RandomLevel
         /// <returns>The distance to the edge of the graph.</returns>
         public int GetVerticalLength(Direction direction, int row)
         {
-            int distance = direction.GetVerticalComponent().GetAxisSign() * row;
+            int distance = direction.GetVerticalComponent().Opposite().GetAxisSign() * row;
             if (distance < 0)
             {
                 distance += this.Graph.Maxrow;
             }
-
+            Debug.Log("Vertical Length: " + row + " (" + direction + ") => " + distance);
             return distance;
         }
 
@@ -120,9 +121,11 @@ namespace RandomLevel
                 this.RandInt(0, this.GetHorizontalLength(horizontal, target.Col));
             int verticalOffset = vertical.GetAxisSign() * 
                 this.RandInt(0, this.GetVerticalLength(vertical, target.Row));
+            Debug.Log("Trying relative point: " + new Coordinate(verticalOffset, horizontalOffset) + " from " + target);
             Coordinate nextTarget = new Coordinate(
-                target.Col + this.RandInt(0, horizontalOffset),
-                target.Row + this.RandInt(0, verticalOffset));
+                target.Row + verticalOffset,
+                target.Col + horizontalOffset);
+            Debug.Log("Trying next target: " + nextTarget);
             Coordinate cornerA = new Coordinate(target.Row, nextTarget.Col);
             Coordinate cornerB = new Coordinate(nextTarget.Row, target.Col);
 
@@ -145,6 +148,7 @@ namespace RandomLevel
             // We failed to find a valid next target.
             // We return the original target without modifications so that the next step can take 
             // a different potential next target.
+            Debug.Log("Failed to find next target from " + target + "(tried Coordinate " + nextTarget + ")");
             return target;
         }
 
