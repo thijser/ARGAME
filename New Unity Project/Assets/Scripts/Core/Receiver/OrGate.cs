@@ -15,6 +15,7 @@ namespace Core.Receiver
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using Core.Emitter;
     using UnityEngine;
 
     /// <summary>
@@ -27,6 +28,19 @@ namespace Core.Receiver
         /// created this tick.
         /// </summary>
         private bool beamcreated = false;
+
+        /// <summary>
+        /// Gets or sets the LaserEmitter used for creating new Laser beam segments.
+        /// </summary>
+        public MultiEmitter PassThroughEmitter { get; set; }
+
+        /// <summary>
+        /// The Start method, invoked when the scene is running.
+        /// </summary>
+        public void Start()
+        {
+            this.PassThroughEmitter = gameObject.AddComponent<MultiEmitter>();
+        }
 
         /// <summary>
         /// Creates the resulting beam.
@@ -58,6 +72,15 @@ namespace Core.Receiver
 
             if (!this.beamcreated)
             {
+                // Create a new ray coming out of the other side with the same direction
+                // as the original ray. Forward needs to be negative, see LaserEmitter.
+                var passThroughEmitter = this.PassThroughEmitter.GetEmitter(args.Laser);
+
+                passThroughEmitter.transform.position = args.Point + (args.Laser.Direction * 0.1f);
+                passThroughEmitter.transform.forward = -args.Laser.Direction;
+                LaserProperties propertiesPre = args.Laser.Emitter.GetComponent<LaserProperties>();
+                LaserProperties propertiesPost = passThroughEmitter.GetComponent<LaserProperties>();
+                propertiesPost.RGBStrengths = propertiesPre.RGBStrengths;
                 this.CreateBeam(args.Laser);
                 this.beamcreated = true;
             }
