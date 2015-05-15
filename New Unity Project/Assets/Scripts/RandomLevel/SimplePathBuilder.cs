@@ -17,11 +17,6 @@ namespace RandomLevel
     public class SimplePathBuilder
     {
         /// <summary>
-        /// The SquareGraph this PathBuilder builds a path in.
-        /// </summary>
-        private SquareGraph graph;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SimplePathBuilder"/> class.
         /// </summary>
         /// <param name="graph">The SquareGraph.</param>
@@ -32,8 +27,13 @@ namespace RandomLevel
                 throw new ArgumentNullException("graph");
             }
 
-            this.graph = graph;
+            this.Graph = graph;
         }
+
+        /// <summary>
+        /// Gets the SquareGraph this PathBuilder builds a path in.
+        /// </summary>
+        public SquareGraph Graph { get; private set; }
         
         /// <summary>
         /// Marks all the vertices on the same Row from the start column
@@ -44,7 +44,7 @@ namespace RandomLevel
         /// <param name="endColumn">The final column index.</param>
         public void PathFromToCol(int row, int initialColumn, int endColumn)
         {
-            if (!(this.IsValidRowIndex(row) && this.IsValidColIndex(initialColumn) && this.IsValidColIndex(endColumn)))
+            if (!this.Graph.IsValid(row, initialColumn) || !this.Graph.IsValid(row, endColumn))
             {
                 throw new ArgumentException("At least one of the indices supplied is invalid, given the square graph used.");
             }
@@ -53,7 +53,7 @@ namespace RandomLevel
             int end = Math.Max(initialColumn, endColumn);
             for (int i = start; i <= end; i++)
             {
-                this.graph.GetVertexAtCoordinate(new Coordinate(row, i)).Property = Property.PARTOFPATH;
+                this.Graph.GetVertexAtPosition(row, i).Property = Property.PARTOFPATH;
             }
         }
         
@@ -61,12 +61,12 @@ namespace RandomLevel
         /// Marks all the vertices on the same column from the start Row
         /// to the end Row as part of the critical path.
         /// </summary>
-        /// <param name="initialRow">The initial Row index.</param>
-        /// <param name="endRow">The final Row index.</param>
+        /// <param name="initialRow">The initial row index.</param>
+        /// <param name="endRow">The final row index.</param>
         /// <param name="column">The column index.</param>
         public void PathFromToRow(int initialRow, int endRow, int column)
         {
-            if (!(this.IsValidRowIndex(initialRow) && this.IsValidRowIndex(endRow) && this.IsValidColIndex(column)))
+            if (!this.Graph.IsValid(initialRow, column) || !this.Graph.IsValid(endRow, column))
             {
                 throw new ArgumentException("At least one of the indices supplied is invalid, given the square graph used.");
             }
@@ -75,28 +75,8 @@ namespace RandomLevel
             int end = Math.Max(initialRow, endRow);
             for (int i = start; i <= end; i++)
             {
-                this.graph.GetVertexAtCoordinate(new Coordinate(i, column)).Property = Property.PARTOFPATH;
+                this.Graph.GetVertexAtPosition(i, column).Property = Property.PARTOFPATH;
             }
-        }
-
-        /// <summary>
-        /// Checks if supplied parameter is a valid row index.
-        /// </summary>
-        /// <param name="rowIndex">The row index supplied.</param>
-        /// <returns>True if the row index supplied is within bounds, false otherwise.</returns>
-        public bool IsValidRowIndex(int rowIndex)
-        {
-            return !(rowIndex < 0 || rowIndex >= this.graph.Maxrow);
-        }
-
-        /// <summary>
-        /// Checks is supplied parameter is a valid column index.
-        /// </summary>
-        /// <param name="columnIndex">The column index supplied.</param>
-        /// <returns>True if the column index supplied is within bounds, false otherwise.</returns>
-        public bool IsValidColIndex(int columnIndex)
-        {
-            return !(columnIndex < 0 || columnIndex >= this.graph.Maxcol);
         }
     }
 }

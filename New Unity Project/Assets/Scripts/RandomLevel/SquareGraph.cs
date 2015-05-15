@@ -97,6 +97,48 @@ namespace RandomLevel
         }
 
         /// <summary>
+        /// Returns the vertex at the specified coordinates. Throws an 
+        /// exception if the Coordinates are out of bounds.
+        /// <para>
+        /// This method is equivalent to calling 
+        /// <c>GetVertexAtCoordinate(new Coordinate(row, column))</c>.
+        /// </para>
+        /// </summary>
+        /// <param name="row">The row index, between 0 and <c>Maxrow</c>.</param>
+        /// <param name="column">The column index, between 0 and <c>Maxcol</c>.</param>
+        /// <returns>The Vertex at the given coordinates.</returns>
+        /// <exception cref="ArgumentException">If the coordinates are out of range.</exception>
+        public Vertex GetVertexAtPosition(int row, int column)
+        {
+            if (!this.IsValid(row, column))
+            {
+                throw new ArgumentException("Invalid coordinates: (" + row + ", " + column + ")");
+            }
+
+            return this.squareMap[row, column];
+        }
+
+        /// <summary>
+        /// Tests whether the given row index is valid for this SquareGraph.
+        /// </summary>
+        /// <param name="row">The row index.</param>
+        /// <returns>True if the index is valid, false otherwise.</returns>
+        public bool IsValidRowIndex(int row)
+        {
+            return row >= 0 && row < this.Maxrow;
+        }
+
+        /// <summary>
+        /// Tests whether the given column index is valid for this SquareGraph.
+        /// </summary>
+        /// <param name="column">The column index.</param>
+        /// <returns>True if the index is valid, false otherwise.</returns>
+        public bool IsValidColumnIndex(int column)
+        {
+            return column >= 0 && column < this.Maxcol;
+        }
+
+        /// <summary>
         /// Determines whether this coordinate is a valid location in
         /// the square graph.
         /// </summary>
@@ -110,7 +152,18 @@ namespace RandomLevel
                 throw new ArgumentNullException("coordinate");
             }
 
-            return !(coordinate.Row < 0 || coordinate.Row >= this.Maxrow || coordinate.Col < 0 || coordinate.Col >= this.Maxcol);
+            return this.IsValid(coordinate.Row, coordinate.Col);
+        }
+
+        /// <summary>
+        /// Tests whether the given coordinates are valid in this SquareGraph.
+        /// </summary>
+        /// <param name="row">The row index.</param>
+        /// <param name="column">The column index.</param>
+        /// <returns>True if the coordinates are valid, false otherwise.</returns>
+        public bool IsValid(int row, int column)
+        {
+            return this.IsValidRowIndex(row) && this.IsValidColumnIndex(column);
         }
     }
 }

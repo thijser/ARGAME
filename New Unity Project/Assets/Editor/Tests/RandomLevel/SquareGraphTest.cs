@@ -90,18 +90,58 @@ namespace RandomLevel
         }
 
         /// <summary>
-        /// Tests for invalidity of several invalid coordinates
-        /// (these coordinates have been designed to test every single
-        /// possibility of invalidity).
+        /// Tests if the <c>IsValidRowIndex(int)</c> method has the correct bounds.
+        /// <para>
+        /// This test covers 5 cases: The value below the lower boundary; the 
+        /// lower boundary; a typical value within boundaries; the upper 
+        /// boundary; and the value above the upper boundary.
+        /// </para>
         /// </summary>
         [Test]
-        public void SqGraphTestCoordIsInValid()
+        public void TestValidRowIndex()
         {
-            SquareGraph sg = new SquareGraph(20, 20);
-            Assert.False(sg.IsValid(new Coordinate(20, 9)));
-            Assert.False(sg.IsValid(new Coordinate(-1, 9)));
-            Assert.False(sg.IsValid(new Coordinate(4, 26)));
-            Assert.False(sg.IsValid(new Coordinate(4, -1)));
+            SquareGraph graph = new SquareGraph(10, 5);
+
+            Assert.False(graph.IsValidRowIndex(-1));
+            Assert.True(graph.IsValidRowIndex(0));
+            Assert.True(graph.IsValidRowIndex(7));
+            Assert.True(graph.IsValidRowIndex(9));
+            Assert.False(graph.IsValidRowIndex(10));
+        }
+
+        /// <summary>
+        /// Tests if the <c>IsValidColIndex(int)</c> method has the correct bounds.
+        /// <para>
+        /// This test covers 5 cases: The value below the lower boundary; the 
+        /// lower boundary; a typical value within boundaries; the upper 
+        /// boundary; and the value above the upper boundary.
+        /// </para>
+        /// </summary>
+        [Test]
+        public void TestValidColumnIndex()
+        {
+            SquareGraph graph = new SquareGraph(10, 5);
+
+            Assert.False(graph.IsValidColumnIndex(-1));
+            Assert.True(graph.IsValidColumnIndex(0));
+            Assert.True(graph.IsValidColumnIndex(2));
+            Assert.True(graph.IsValidColumnIndex(4));
+            Assert.False(graph.IsValidColumnIndex(5));
+        }
+
+        /// <summary>
+        /// Tests if <c>IsValid(Coordinate)</c> gives the proper results
+        /// for various cases.
+        /// </summary>
+        [Test]
+        public void TestIsValidForRow()
+        {
+            SquareGraph sg = new SquareGraph(20, 10);
+            Assert.False(sg.IsValid(new Coordinate(-1, 5)));
+            Assert.True(sg.IsValid(new Coordinate(0, 5)));
+            Assert.True(sg.IsValid(new Coordinate(12, 5)));
+            Assert.True(sg.IsValid(new Coordinate(19, 5)));
+            Assert.False(sg.IsValid(new Coordinate(20, 5)));
         }
 
         /// <summary>

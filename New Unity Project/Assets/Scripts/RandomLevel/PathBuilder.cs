@@ -14,29 +14,19 @@ namespace RandomLevel
     /// <summary>
     /// Builds a path in a graph leading to a predefined target.
     /// </summary>
-    public class PathBuilder
+    public class PathBuilder : SimplePathBuilder
     {
-        /// <summary>
-        /// The SquareGraph this PathBuilder builds a path in.
-        /// </summary>
-        private SquareGraph graph;
-
         /// <summary>
         /// The Random instance used for generating random numbers.
         /// </summary>
         private Random random;
 
         /// <summary>
-        /// The SimplePathBuilder instance that builds straight paths.
-        /// </summary>
-        private SimplePathBuilder spb;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="PathBuilder"/> class.
         /// </summary>
         /// <param name="graph">The SquareGraph.</param>
         /// <param name="target">The target Coordinate.</param>
-        public PathBuilder(SquareGraph graph, Coordinate target)
+        public PathBuilder(SquareGraph graph, Coordinate target) : base(graph)
         {
             if (graph == null) 
             {
@@ -48,8 +38,6 @@ namespace RandomLevel
                 throw new ArgumentNullException("target");
             }
 
-            this.spb = new SimplePathBuilder(graph);
-            this.graph = graph;
             this.TargetCoordinate = target;
             this.random = new Random(Environment.TickCount);
         }
@@ -84,7 +72,7 @@ namespace RandomLevel
             }
 
             WallBuilder wallbuild = new WallBuilder();
-            wallbuild.AddRandomWalls(this.graph);
+            wallbuild.AddRandomWalls(this.Graph);
         }
 
         /// <summary>
@@ -95,16 +83,16 @@ namespace RandomLevel
             int randRow = this.RandInt(0, this.TargetCoordinate.Row);
             int randCol = this.RandInt(0, this.TargetCoordinate.Col);
             int spare;
-            this.spb.PathFromToCol(this.TargetCoordinate.Row, this.TargetCoordinate.Col - 1, randCol);
-            this.spb.PathFromToRow(this.TargetCoordinate.Row, randRow, randCol);
+            this.PathFromToCol(this.TargetCoordinate.Row, this.TargetCoordinate.Col - 1, randCol);
+            this.PathFromToRow(this.TargetCoordinate.Row, randRow, randCol);
             spare = randCol;
-            randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.graph.Maxcol);
-            this.spb.PathFromToCol(randRow, spare, randCol);
+            randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.Graph.Maxcol);
+            this.PathFromToCol(randRow, spare, randCol);
             spare = randRow;
-            randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.graph.Maxrow);
-            this.spb.PathFromToRow(spare, randRow, randCol);
-            this.graph.GetVertexAtCoordinate(new Coordinate(randRow, 0)).Property = Property.LASER;
-            this.spb.PathFromToCol(randRow, randCol, 1);
+            randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.Graph.Maxrow);
+            this.PathFromToRow(spare, randRow, randCol);
+            this.Graph.GetVertexAtPosition(randRow, 0).Property = Property.LASER;
+            this.PathFromToCol(randRow, randCol, 1);
         }
 
         /// <summary>
@@ -113,18 +101,18 @@ namespace RandomLevel
         private void FindPathNorthEast() 
         {
             int randRow = this.RandInt(0, this.TargetCoordinate.Row);
-            int randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.graph.Maxcol);
+            int randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.Graph.Maxcol);
             int spare;
-            this.spb.PathFromToRow(this.TargetCoordinate.Row - 1, randRow, this.TargetCoordinate.Col);
-            this.spb.PathFromToCol(randRow, this.TargetCoordinate.Col, randCol);
+            this.PathFromToRow(this.TargetCoordinate.Row - 1, randRow, this.TargetCoordinate.Col);
+            this.PathFromToCol(randRow, this.TargetCoordinate.Col, randCol);
             spare = randRow;
-            randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.graph.Maxrow);
-            this.spb.PathFromToRow(spare, randRow, randCol);
+            randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.Graph.Maxrow);
+            this.PathFromToRow(spare, randRow, randCol);
             spare = randCol;
             randCol = this.RandInt(0, this.TargetCoordinate.Col);
-            this.spb.PathFromToCol(randRow, spare, randCol);
-            this.graph.GetVertexAtCoordinate(new Coordinate(0, randCol)).Property = Property.LASER;
-            this.spb.PathFromToRow(randRow, 1, randCol);
+            this.PathFromToCol(randRow, spare, randCol);
+            this.Graph.GetVertexAtPosition(0, randCol).Property = Property.LASER;
+            this.PathFromToRow(randRow, 1, randCol);
         }
 
         /// <summary>
@@ -132,19 +120,19 @@ namespace RandomLevel
         /// </summary>
         private void FindPathSouthEast() 
         {
-            int randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.graph.Maxrow);
-            int randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.graph.Maxcol);
+            int randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.Graph.Maxrow);
+            int randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.Graph.Maxcol);
             int spare;
-            this.spb.PathFromToCol(this.TargetCoordinate.Row, this.TargetCoordinate.Col + 1, randCol);
-            this.spb.PathFromToRow(this.TargetCoordinate.Row, randRow, randCol);
+            this.PathFromToCol(this.TargetCoordinate.Row, this.TargetCoordinate.Col + 1, randCol);
+            this.PathFromToRow(this.TargetCoordinate.Row, randRow, randCol);
             spare = randCol;
             randCol = this.RandInt(0, this.TargetCoordinate.Col);
-            this.spb.PathFromToCol(randRow, spare, randCol);
+            this.PathFromToCol(randRow, spare, randCol);
             spare = randRow;
             randRow = this.RandInt(0, this.TargetCoordinate.Row);
-            this.spb.PathFromToRow(randRow, spare, randCol);
-            this.graph.GetVertexAtCoordinate(new Coordinate(randRow, this.graph.Maxcol - 1)).Property = Property.LASER;
-            this.spb.PathFromToCol(randRow, randCol, this.graph.Maxcol - 2);
+            this.PathFromToRow(randRow, spare, randCol);
+            this.Graph.GetVertexAtPosition(randRow, this.Graph.Maxcol - 1).Property = Property.LASER;
+            this.PathFromToCol(randRow, randCol, this.Graph.Maxcol - 2);
         }
 
         /// <summary>
@@ -152,19 +140,19 @@ namespace RandomLevel
         /// </summary>
         private void FindPathSouthWest() 
         {
-            int randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.graph.Maxrow);
+            int randRow = this.RandInt(this.TargetCoordinate.Row + 1, this.Graph.Maxrow);
             int randCol = this.RandInt(0, this.TargetCoordinate.Col);
             int spare;
-            this.spb.PathFromToRow(this.TargetCoordinate.Row + 1, randRow, this.TargetCoordinate.Col);
-            this.spb.PathFromToCol(randRow, randCol, this.TargetCoordinate.Col);
+            this.PathFromToRow(this.TargetCoordinate.Row + 1, randRow, this.TargetCoordinate.Col);
+            this.PathFromToCol(randRow, randCol, this.TargetCoordinate.Col);
             spare = randRow;
             randRow = this.RandInt(0, this.TargetCoordinate.Row);
-            this.spb.PathFromToRow(randRow, spare, randCol);
+            this.PathFromToRow(randRow, spare, randCol);
             spare = randCol;
-            randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.graph.Maxcol);
-            this.spb.PathFromToCol(randRow, spare, randCol);
-            this.graph.GetVertexAtCoordinate(new Coordinate(this.graph.Maxrow - 1, randCol)).Property = Property.LASER;
-            this.spb.PathFromToRow(randRow, this.graph.Maxrow - 2, randCol);
+            randCol = this.RandInt(this.TargetCoordinate.Col + 1, this.Graph.Maxcol);
+            this.PathFromToCol(randRow, spare, randCol);
+            this.Graph.GetVertexAtPosition(this.Graph.Maxrow - 1, randCol).Property = Property.LASER;
+            this.PathFromToRow(randRow, this.Graph.Maxrow - 2, randCol);
         }
 
         /// <summary>
