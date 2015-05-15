@@ -10,6 +10,7 @@
 namespace TestUtilities
 {
     using System;
+    using Core.Emitter;
     using NUnit.Framework;
     using UnityEngine;
     using UnityObject = UnityEngine.Object;
@@ -50,6 +51,16 @@ namespace TestUtilities
             }
 
             return obj.name == "Main Camera" || obj.name == "Directional Light";
+        }
+
+        /// <summary>
+        /// Creates an emitter.
+        /// </summary>
+        /// <returns>The emitter.</returns>
+        public static LaserEmitter CreateEmitter()
+        {
+            GameObject gameObject = new GameObject("Emitter", typeof(LaserEmitter));
+            return gameObject.GetComponent<LaserEmitter>();
         }
 
         /// <summary>

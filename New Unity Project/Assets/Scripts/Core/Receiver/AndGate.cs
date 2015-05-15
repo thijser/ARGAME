@@ -12,6 +12,7 @@ namespace Core.Receiver
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Core.Emitter;
     using UnityEngine;
 
@@ -24,6 +25,12 @@ namespace Core.Receiver
         /// A variable storing whether or not a previous laser hit the gate.
         /// </summary>
         private bool hit = false;
+
+        /// <summary>
+        /// The minimal strength required to make the crystal open.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public float MinimumStrength;
 
         /// <summary>
         /// A variable storing whether or not a beam has already been

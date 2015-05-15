@@ -22,16 +22,6 @@ namespace Core.Receiver
     public class MirrorTest : MirrorsUnitTest
     {
         /// <summary>
-        /// Creates an emitter.
-        /// </summary>
-        /// <returns>The emitter.</returns>
-        public static LaserEmitter CreateEmitter()
-        {
-            GameObject gameObject = new GameObject("Emitter", typeof(LaserEmitter));
-            return gameObject.GetComponent<LaserEmitter>();
-        }
-
-        /// <summary>
         /// Creates a Mirror GameObject.
         /// </summary>
         /// <returns>The created Mirror</returns>
@@ -49,6 +39,21 @@ namespace Core.Receiver
         /// <param name="margin">The margin for rounding errors.</param>
         public static void AreEqual(Vector3 expected, Vector3 actual, float margin)
         {
+            if(expected == null)
+            {
+                throw new ArgumentNullException("expected");
+            }
+
+            if(actual == null)
+            {
+                throw new ArgumentNullException("actual");
+            }
+
+            if(margin < 0)
+            {
+                throw new ArgumentException("margin");
+            }
+
             Assert.AreEqual(expected.x, actual.x, margin);
             Assert.AreEqual(expected.y, actual.y, margin);
             Assert.AreEqual(expected.z, actual.z, margin);

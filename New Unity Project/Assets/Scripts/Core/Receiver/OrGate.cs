@@ -15,6 +15,7 @@ namespace Core.Receiver
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Core.Emitter;
     using UnityEngine;
 
@@ -28,6 +29,12 @@ namespace Core.Receiver
         /// created this tick.
         /// </summary>
         private bool beamcreated = false;
+
+        /// <summary>
+        /// The minimal strength required to make the crystal open.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public float MinimumStrength;
 
         /// <summary>
         /// Gets or sets the LaserEmitter used for creating new Laser beam segments.
