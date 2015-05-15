@@ -40,57 +40,5 @@ namespace RandomLevel
         {
             new PathBuilder(new SquareGraph(1, 1), null);
         }
-
-        /// <summary>
-        /// Tests if the first vertex labeled as part of the critical
-        /// path is positioned correctly, given the first quadrant is NW.
-        /// </summary>
-        [Test]
-        public void PathBuilderNWFirstTest()
-        {
-            SquareGraph square = new SquareGraph(20, 20);
-            PathBuilder pb = new PathBuilder(square, new Coordinate(10, 10));
-            pb.BuildPath(Quadrant.NORTHWEST);
-            Assert.IsTrue(square.GetVertexAtCoordinate(new Coordinate(10, 9)).Property == Property.PARTOFPATH);
-        }
-
-        /// <summary>
-        /// Tests if the first vertex labeled as part of the critical
-        /// path is positioned correctly, given the first quadrant is NE.
-        /// </summary>
-        [Test]
-        public void PathBuilderNEFirstTest()
-        {
-            SquareGraph square = new SquareGraph(20, 20);
-            PathBuilder pb = new PathBuilder(square, new Coordinate(10, 10));
-            pb.BuildPath(Quadrant.NORTHEAST);
-            Assert.IsTrue(square.GetVertexAtCoordinate(new Coordinate(9, 10)).Property == Property.PARTOFPATH);
-        }
-
-        /// <summary>
-        /// Tests if the first vertex labeled as part of the critical
-        /// path is positioned correctly, given the first quadrant is SE.
-        /// </summary>
-        [Test]
-        public void PathBuilderSEFirstTest()
-        {
-            SquareGraph square = new SquareGraph(20, 20);
-            PathBuilder pb = new PathBuilder(square, new Coordinate(10, 10));
-            pb.BuildPath(Quadrant.SOUTHEAST);
-            Assert.IsTrue(square.GetVertexAtCoordinate(new Coordinate(10, 11)).Property == Property.PARTOFPATH);
-        }
-
-        /// <summary>
-        /// Tests if the first vertex labeled as part of the critical
-        /// path is positioned correctly, given the first quadrant is SW.
-        /// </summary>
-        [Test]
-        public void PathBuilderSWFirstTest()
-        {
-            SquareGraph square = new SquareGraph(20, 20);
-            PathBuilder pb = new PathBuilder(square, new Coordinate(10, 10));
-            pb.BuildPath(Quadrant.SOUTHWEST);
-            Assert.IsTrue(square.GetVertexAtCoordinate(new Coordinate(11, 10)).Property == Property.PARTOFPATH);
-        }
     }
 }

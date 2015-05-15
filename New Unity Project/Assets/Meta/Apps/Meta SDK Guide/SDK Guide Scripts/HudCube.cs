@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Meta.Apps.MetaSDKGuide
 {
@@ -11,19 +12,9 @@ namespace Meta.Apps.MetaSDKGuide
     {
 
         [SerializeField]
-        private GameObject _hudCube;
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public GameObject _hudCube;
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
 
         /// <summary>
         /// Sets the cube's position to the centre of the hud so that it is not cropped off

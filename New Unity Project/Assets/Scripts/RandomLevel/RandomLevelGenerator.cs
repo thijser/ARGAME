@@ -12,51 +12,15 @@ namespace RandomLevel
     using System;
 
     /// <summary>
-    /// A construct useful for describing the first quadrant.
-    /// </summary>
-    public enum Quadrant 
-    {
-        /// <summary>
-        /// A value describing the northwest quadrant.
-        /// </summary>
-        NORTHWEST,
-
-        /// <summary>
-        /// A value describing the northeast quadrant.
-        /// </summary>
-        NORTHEAST,
-
-        /// <summary>
-        /// A value describing the southeast quadrant.
-        /// </summary>
-        SOUTHEAST,
-
-        /// <summary>
-        /// A value describing the southwest quadrant.
-        /// </summary>
-        SOUTHWEST
-    }
-
-    /// <summary>
     /// Generates randomized levels.
     /// </summary>
     public class RandomLevelGenerator 
     {
         /// <summary>
-        /// A random number generator.
-        /// </summary>
-        private Random r;
-
-        /// <summary>
-        /// The square graph, representing the map.
-        /// </summary>
-        private SquareGraph sg;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="RandomLevelGenerator"/> class.
         /// </summary>
-        /// <param name="rows">The amount of rows</param>
-        /// <param name="cols">The amount of columns</param>
+        /// <param name="rows">The amount of rows.</param>
+        /// <param name="cols">The amount of columns.</param>
         public RandomLevelGenerator(int rows, int cols)
         {
             if (rows < 10 || cols < 10) 
@@ -65,75 +29,65 @@ namespace RandomLevel
                     "should both be at least 10.");
             }
 
-            this.sg = new SquareGraph(rows, cols);
-            this.r = new Random(Environment.TickCount);
-            this.Run();
+            this.Graph = new SquareGraph(rows, cols);
         }
 
         /// <summary>
         /// Gets the coordinate of the target on the map.
         /// </summary>
-        public Coordinate TargetCoord { get; private set; }
+        public Coordinate TargetCoordinate { get; private set; }
 
         /// <summary>
         /// Gets the first quadrant selected.
         /// </summary>
-        public Quadrant Quad { get; private set; }
+        public Direction Quad { get; private set; }
 
         /// <summary>
-        /// Determines the quadrant from the given integer.
+        /// Gets the randomly generated map.
         /// </summary>
-        /// <returns>The corresponding quadrant.</returns>
-        /// <param name="determine">The given integer.</param>
-        public static Quadrant DetermineQuad(int determine)
+        public SquareGraph Graph { get; private set; }
+
+        /// <summary>
+        /// Runs the map creation procedure.
+        /// </summary>
+        public void Run()
         {
-            switch (determine)
+            // Specify Row and column coordinate of target.
+            int targetRowCoord = this.Graph.Maxrow / 2;
+            int targetColCoord = this.Graph.Maxcol / 2;
+            this.TargetCoordinate = new Coordinate(targetRowCoord, targetColCoord);
+            this.Graph.GetVertexAtCoordinate(this.TargetCoordinate).Property = Property.TARGET;
+            this.BuildPath(4);
+            this.CreateWalls();
+        }
+
+        /// <summary>
+        /// Constructs a path from target to laser.
+        /// </summary>
+        /// <param name="iterations">The amount of iterations of the path builder.</param>
+        /// <exception cref="ArgumentException">If <c>iterations</c> is not positive.</exception>
+        public void BuildPath(int iterations)
+        {
+            if (iterations <= 0)
             {
-                case 0: return Quadrant.NORTHWEST;
-                case 1: return Quadrant.NORTHEAST;
-                case 2: return Quadrant.SOUTHEAST;
-                case 3: return Quadrant.SOUTHWEST;
-                default: throw new ArgumentException("The parameter should be an integer between 0 and 3.");
+                throw new ArgumentException("Number of iterations should be positive", "iterations");
+            }
+
+            PathBuilder builder = new PathBuilder(this.Graph, this.TargetCoordinate);
+            Coordinate target = this.TargetCoordinate;
+            for (int step = iterations; step > 0; step--)
+            {
+                target = builder.FindPathSegment(target);
             }
         }
 
         /// <summary>
-        /// Returns the randomly generated map, in SquareGraph form.
+        /// Adds randomized walls to the map.
         /// </summary>
-        /// <returns>The randomly generated map.</returns>
-        public SquareGraph ReturnRandomMap()
+        public void CreateWalls()
         {
-            return this.sg;
-        }
-
-        /// <summary>
-        /// Runs the map creation procedure. Called during construction
-        /// of the object.
-        /// </summary>
-        private void Run()
-        {
-            ////Specify Row and column coordinate of target.
-            int targetRowCoord = this.sg.Maxrow / 2;
-            int targetColCoord = this.sg.Maxcol / 2;
-            this.TargetCoord = new Coordinate(targetRowCoord, targetColCoord);
-            this.sg.GetVertexAtCoordinate(this.TargetCoord).Property = Property.TARGET;
-
-            ////Determine first quadrant to plan a route to.
-            int firstQuad = this.RandInt(0, 4);
-            this.Quad = DetermineQuad(firstQuad);
-            PathBuilder pathbuild = new PathBuilder(this.sg, this.TargetCoord);
-            pathbuild.BuildPath(this.Quad);
-        }
-
-        /// <summary>
-        /// Generates a random integer between min and max - 1.
-        /// </summary>
-        /// <returns>The random integer.</returns>
-        /// <param name="min">The minimum value, inclusionary.</param>
-        /// <param name="max">The maximum value, exclusionary.</param>
-        private int RandInt(int min, int max)
-        {
-            return this.r.Next(min, max);
+            WallBuilder builder = new WallBuilder();
+            builder.AddRandomWalls(this.Graph);
         }
     }
 }
