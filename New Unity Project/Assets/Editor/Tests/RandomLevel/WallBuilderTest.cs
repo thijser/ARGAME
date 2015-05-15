@@ -11,12 +11,13 @@ namespace RandomLevel
 {
     using System;
     using NUnit.Framework;
+    using TestUtilities;
 
     /// <summary>
     /// Unit tests for the WallBuilder class.
     /// </summary>
     [TestFixture]
-    public class WallBuilderTest
+    public class WallBuilderTest : MirrorsUnitTest
     {
         /// <summary>
         /// Tests if the correct exception is thrown

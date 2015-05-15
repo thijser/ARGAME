@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="LaserTest.cs" company="Delft University of Technology">
+// <copyright file="LaserBeamTest.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //     
 //     This software is licensed under the terms of the MIT License.
@@ -9,16 +9,16 @@
 //----------------------------------------------------------------------------
 namespace Core
 {
-    using System;
-    using NUnit.Framework;
-    using UnityEngine;
     using Core.Emitter;
+    using NUnit.Framework;
+    using TestUtilities;
+    using UnityEngine;
 
     /// <summary>
     /// Unit test for the <see cref="LaserBeam.LaserBeam"/> class.
     /// </summary>
     [TestFixture]
-    public class LaserBeamTest
+    public class LaserBeamTest : MirrorsUnitTest
     {
         /// <summary>
         /// Creates a LaserEmitter instance to create Laser segments with.

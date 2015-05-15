@@ -11,12 +11,13 @@ namespace RandomLevel
 {
     using System;
     using NUnit.Framework;
+    using TestUtilities;
 
     /// <summary>
     /// Unit tests for the RandomLevelGenerator class.
     /// </summary>
     [TestFixture]
-    public class RandomLevelGeneratorTest
+    public class RandomLevelGeneratorTest : MirrorsUnitTest
     {
         /// <summary>
         /// Tests if the correct exception is thrown once the constructor

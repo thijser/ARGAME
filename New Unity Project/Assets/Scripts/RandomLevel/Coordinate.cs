@@ -21,10 +21,10 @@ namespace RandomLevel
         /// </summary>
         /// <param name="row"> The row coordinate.</param>
         /// <param name="column"> The column coordinate.</param>
-        public Coordinate(int row, int col)
+        public Coordinate(int row, int column)
         {
             this.Row = row;
-            this.Col = col;
+            this.Col = column;
         }
 
         /// <summary>

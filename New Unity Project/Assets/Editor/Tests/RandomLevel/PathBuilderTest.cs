@@ -11,12 +11,13 @@ namespace RandomLevel
 {
     using System;
     using NUnit.Framework;
+    using TestUtilities;
 
     /// <summary>
     /// Unit test for the <see cref="RandomLevel.PathBuilder"/> class.
     /// </summary>
     [TestFixture]
-    public class PathBuilderTest
+    public class PathBuilderTest : MirrorsUnitTest
     {
         /// <summary>
         /// Tests if the correct exception is thrown when a null reference

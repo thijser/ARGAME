@@ -10,16 +10,16 @@
 namespace Core.Receiver
 {
     using System;
-    using System.Collections.ObjectModel;
-    using NUnit.Framework;
-    using UnityEngine;
     using Core.Emitter;
+    using NUnit.Framework;
+    using TestUtilities;
+    using UnityEngine;
 
     /// <summary>
     /// Unit test class for the <see cref="Mirror"/> class.
     /// </summary>
     [TestFixture]
-    internal class MirrorTest
+    public class MirrorTest : MirrorsUnitTest
     {
         /// <summary>
         /// Creates an emitter.

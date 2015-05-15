@@ -11,13 +11,14 @@ namespace RandomLevel
 {
     using System;
     using NUnit.Framework;
+    using TestUtilities;
 
     /// <summary>
     /// Test class for the SquareGraph-class. All the options of all externally available
     /// methods are tested to maximize the amount of tested code.
     /// </summary>
     [TestFixture]
-    public class SquareGraphTest
+    public class SquareGraphTest : MirrorsUnitTest
     {
         /// <summary>
         /// Tests if the correct exception is thrown when
