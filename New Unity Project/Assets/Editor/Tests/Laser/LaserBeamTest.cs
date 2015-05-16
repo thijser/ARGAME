@@ -20,15 +20,6 @@ namespace Core
     [TestFixture]
     public class LaserBeamTest : MirrorsUnitTest
     {
-        /// <summary>
-        /// Creates a LaserEmitter instance to create Laser segments with.
-        /// </summary>
-        /// <returns>The LaserEmitter.</returns>
-        public static LaserEmitter CreateEmitter()
-        {
-            GameObject gameObject = new GameObject("Emitter", typeof(LaserEmitter));
-            return gameObject.GetComponent<LaserEmitter>();
-        }
 
         /// <summary>
         /// Creates a Laser beam with the given properties.

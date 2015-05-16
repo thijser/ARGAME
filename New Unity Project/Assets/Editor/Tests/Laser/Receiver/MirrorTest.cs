@@ -39,16 +39,6 @@ namespace Core.Receiver
         /// <param name="margin">The margin for rounding errors.</param>
         public static void AreEqual(Vector3 expected, Vector3 actual, float margin)
         {
-            if(expected == null)
-            {
-                throw new ArgumentNullException("expected");
-            }
-
-            if(actual == null)
-            {
-                throw new ArgumentNullException("actual");
-            }
-
             if(margin < 0)
             {
                 throw new ArgumentException("margin");
