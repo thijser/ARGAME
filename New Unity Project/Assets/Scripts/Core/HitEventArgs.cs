@@ -47,16 +47,6 @@ namespace Core
                 throw new ArgumentNullException("laser");
             }
 
-            if (point == null)
-            {
-                throw new ArgumentNullException("point");
-            }
-
-            if (normal == null)
-            {
-                throw new ArgumentNullException("normal");
-            }
-
             if (receiver == null)
             {
                 throw new ArgumentNullException("receiver");
@@ -98,8 +88,6 @@ namespace Core
             {
                 return this.Laser != null && this.Receiver != null;
             }
-
-            private set;
         }
     }
 }
