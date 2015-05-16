@@ -14,76 +14,72 @@ namespace RandomLevel
     using TestUtilities;
 
     /// <summary>
-    /// Test class for the SquareGraph-class. All the options of all externally available
-    /// methods are tested to maximize the amount of tested code.
+    /// Unit test for the <see cref="SquareGraph"/> class. 
     /// </summary>
     [TestFixture]
     public class SquareGraphTest : MirrorsUnitTest
     {
         /// <summary>
-        /// Tests if the correct exception is thrown when
-        /// the amount of rows is 0.
+        /// Tests if creating a graph without any rows causes 
+        /// an <c>ArgumentOutOfRangeException</c> to be thrown.
         /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SqGraphTestRowsIsZero()
+        public void TestConstructorZeroRows()
         {
             new SquareGraph(0, 20);
         }
 
         /// <summary>
-        /// Tests if the correct exception is thrown when
-        /// the amount of rows is negative.
+        /// Tests if a graph with a single row is valid.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SqGraphTestRowsIsNegative()
+        public void TestConstructorMinimalRows()
         {
-            new SquareGraph(-1, 20);
+            SquareGraph graph = new SquareGraph(1, 20);
+            Assert.AreEqual(1, graph.Maxrow);
         }
 
         /// <summary>
-        /// Tests if the correct exception is thrown when
-        /// the amount of cols is 0.
+        /// Tests if creating a graph without any columns causes 
+        /// an <c>ArgumentOutOfRangeException</c> to be thrown.
         /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SqGraphTestColsIsZero()
+        public void TestConstructorZeroColumns()
         {
             new SquareGraph(20, 0);
         }
 
         /// <summary>
-        /// Tests if the correct exception is thrown when
-        /// the amount of cols is negative.
+        /// Tests if a graph with a single column is valid.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SqGraphTestColsIsNegative()
+        public void TestConstructorMinimalColumns()
         {
-            new SquareGraph(20, -1);
+            SquareGraph graph = new SquareGraph(20, 1);
+            Assert.AreEqual(1, graph.Maxcol);
         }
 
         /// <summary>
-        /// Tests some SquareGraph behavior if the given parameters 
-        /// are valid.
+        /// Tests if creating a graph with typical values for rows and columns
+        /// results in a correctly sized graph.
         /// </summary>
         [Test]
-        public void SqGraphTestValid()
+        public void TestConstructorTypicalCase()
         {
-            SquareGraph sg = new SquareGraph(20, 20);
-            Assert.AreNotEqual(sg, null);
-            Assert.AreEqual(sg.Maxrow, 20);
-            Assert.AreEqual(sg.Maxcol, 20);
+            SquareGraph sg = new SquareGraph(10, 20);
+            Assert.AreEqual(10, sg.Maxrow);
+            Assert.AreEqual(20, sg.Maxcol);
         }
 
         /// <summary>
-        /// Tests if the correct exception is thrown when a null
+        /// Tests if an <c>ArgumentNullException</c> is thrown when a null
         /// coordinate is passed as a parameter in the IsValid-method.
         /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void SqGraphTestCoordIsNull()
+        public void TestIsValidWithNullArgument()
         {
             SquareGraph sg = new SquareGraph(20, 20);
             sg.IsValid(null);
@@ -98,7 +94,7 @@ namespace RandomLevel
         /// </para>
         /// </summary>
         [Test]
-        public void TestValidRowIndex()
+        public void TestIsValidRowIndex()
         {
             SquareGraph graph = new SquareGraph(10, 5);
 
@@ -118,7 +114,7 @@ namespace RandomLevel
         /// </para>
         /// </summary>
         [Test]
-        public void TestValidColumnIndex()
+        public void TestIsValidColumnIndex()
         {
             SquareGraph graph = new SquareGraph(10, 5);
 
@@ -131,27 +127,42 @@ namespace RandomLevel
 
         /// <summary>
         /// Tests if <c>IsValid(Coordinate)</c> gives the proper results
-        /// for various cases.
+        /// for various row values.
+        /// <para>
+        /// This test covers 5 cases: The value below the lower boundary; the 
+        /// lower boundary; a typical value within boundaries; the upper 
+        /// boundary; and the value above the upper boundary.
+        /// </para>
         /// </summary>
         [Test]
         public void TestIsValidForRow()
         {
-            SquareGraph sg = new SquareGraph(20, 10);
-            Assert.False(sg.IsValid(new Coordinate(-1, 5)));
-            Assert.True(sg.IsValid(new Coordinate(0, 5)));
-            Assert.True(sg.IsValid(new Coordinate(12, 5)));
-            Assert.True(sg.IsValid(new Coordinate(19, 5)));
-            Assert.False(sg.IsValid(new Coordinate(20, 5)));
+            SquareGraph graph = new SquareGraph(20, 10);
+            Assert.False(graph.IsValid(new Coordinate(-1, 5)));
+            Assert.True(graph.IsValid(new Coordinate(0, 5)));
+            Assert.True(graph.IsValid(new Coordinate(12, 5)));
+            Assert.True(graph.IsValid(new Coordinate(19, 5)));
+            Assert.False(graph.IsValid(new Coordinate(20, 5)));
         }
 
         /// <summary>
-        /// Tests for validity of a valid coordinate.
+        /// Tests if <c>IsValid(Coordinate)</c> gives the proper results
+        /// for various column values.
+        /// <para>
+        /// This test covers 5 cases: The value below the lower boundary; the 
+        /// lower boundary; a typical value within boundaries; the upper 
+        /// boundary; and the value above the upper boundary.
+        /// </para>
         /// </summary>
         [Test]
-        public void SqGraphTestCoordIsValid()
+        public void TestIsValidForColumn()
         {
-            SquareGraph sg = new SquareGraph(20, 20);
-            Assert.True(sg.IsValid(new Coordinate(12, 9)));
+            SquareGraph graph = new SquareGraph(20, 10);
+            Assert.False(graph.IsValid(new Coordinate(5, -1)));
+            Assert.True(graph.IsValid(new Coordinate(5, 0)));
+            Assert.True(graph.IsValid(new Coordinate(5, 4)));
+            Assert.True(graph.IsValid(new Coordinate(5, 9)));
+            Assert.False(graph.IsValid(new Coordinate(5, 10)));
         }
 
         /// <summary>
@@ -160,10 +171,10 @@ namespace RandomLevel
         /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void SqGraphTestCoordIsNullv2()
+        public void TestGetVertexAtCoordinateWithNullArgument()
         {
-            SquareGraph sg = new SquareGraph(20, 20);
-            sg.GetVertexAtCoordinate(null);
+            SquareGraph graph = new SquareGraph(20, 20);
+            graph.GetVertexAtCoordinate(null);
         }
 
         /// <summary>
@@ -171,22 +182,40 @@ namespace RandomLevel
         /// an invalid coordinate is used in the <c>GetVertexAtCoords</c> method.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void SqGraphTestInvalidCoord()
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestGetVertexAtCoordinateWithCoordinateOutOfRange()
         {
-            SquareGraph sg = new SquareGraph(20, 20);
-            sg.GetVertexAtCoordinate(new Coordinate(21, 21));
+            SquareGraph graph = new SquareGraph(20, 20);
+            graph.GetVertexAtCoordinate(new Coordinate(21, 21));
         }
 
         /// <summary>
-        /// Tests if a non-null vertex is returned when a valid coordinate
-        /// is used as a method argument.
+        /// Tests if a correctly initialized Vertex is returned when a valid 
+        /// Coordinate is used as a method argument.
         /// </summary>
         [Test]
-        public void SqGraphTestValidCoord()
+        public void TestGetVertexAtCoordinateTypicalCase()
         {
-            SquareGraph sg = new SquareGraph(20, 20);
-            Assert.NotNull(sg.GetVertexAtCoordinate(new Coordinate(9, 9)));
+            SquareGraph graph = new SquareGraph(20, 20);
+            Coordinate coordinate = new Coordinate(9, 9);
+            Vertex vertex = graph.GetVertexAtCoordinate(coordinate);
+            
+            Assert.AreEqual(coordinate, vertex.Coordinate);
+            Assert.AreEqual(Property.EMPTY, vertex.Property);
+        }
+
+        /// <summary>
+        /// Tests if manipulating the Vertex object returned by <c>GetVertexAtPosition</c>
+        /// can be edited so that the state of the SquareGraph reflects the edit.
+        /// </summary>
+        [Test]
+        public void TestGetVertexAtPositionAllowsEditing()
+        {
+            SquareGraph graph = new SquareGraph(4, 4);
+            Assert.AreEqual(Property.EMPTY, graph.GetVertexAtPosition(2, 3).Property);
+
+            graph.GetVertexAtPosition(2, 3).Property = Property.WALL;
+            Assert.AreEqual(Property.WALL, graph.GetVertexAtPosition(2, 3).Property);
         }
     }
 }

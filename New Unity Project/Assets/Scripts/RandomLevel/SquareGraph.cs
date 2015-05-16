@@ -91,7 +91,7 @@ namespace RandomLevel
         {
             if (!this.IsValid(coordinate))
             {
-                throw new ArgumentException("Invalid Row-column pair: " + coordinate);
+                throw new ArgumentOutOfRangeException("coordinate", coordinate, "Coordinate out of range");
             }
 
             return this.squareMap[coordinate.Row, coordinate.Col];
@@ -111,11 +111,16 @@ namespace RandomLevel
         /// <exception cref="ArgumentException">If the coordinates are out of range.</exception>
         public Vertex GetVertexAtPosition(int row, int column)
         {
-            if (!this.IsValid(row, column))
+            if (!this.IsValidRowIndex(row))
             {
-                throw new ArgumentException("Invalid coordinates: (" + row + ", " + column + ")");
+                throw new ArgumentOutOfRangeException("row", row, "Row must be between 0 and " + this.Maxrow);
             }
 
+            if (!this.IsValidColumnIndex(column))
+            {
+                throw new ArgumentOutOfRangeException("column", column, "Column must be between 0 and " + this.Maxcol);
+            }
+            
             return this.squareMap[row, column];
         }
 
