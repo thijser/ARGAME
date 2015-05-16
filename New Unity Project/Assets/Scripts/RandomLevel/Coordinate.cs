@@ -49,6 +49,10 @@ namespace RandomLevel
                 this.Col + direction.GetHorizontalComponent().GetAxisSign());
         }
 
+        /// <summary>
+        /// Returns a string representation of this Coordinate.
+        /// </summary>
+        /// <returns>A string representation of this Coordinate.</returns>
         public override string ToString()
         {
             return "(" + this.Row + ", " + this.Col + ")";

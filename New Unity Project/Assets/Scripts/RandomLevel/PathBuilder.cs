@@ -76,6 +76,7 @@ namespace RandomLevel
             {
                 distance += this.Graph.Maxcol;
             }
+
             Debug.Log("Horizontal Length: " + column + " (" + direction + ") => " + distance);
             return distance;
         }
@@ -94,6 +95,7 @@ namespace RandomLevel
             {
                 distance += this.Graph.Maxrow;
             }
+
             Debug.Log("Vertical Length: " + row + " (" + direction + ") => " + distance);
             return distance;
         }

@@ -80,7 +80,7 @@ namespace RandomLevel
             }
             
             // The variable 'target' now contains the location of the Laser beam.
-            this.EmitterDirection = FindLaserBeam(target, Direction.East, Direction.West, Direction.North, Direction.South);
+            this.EmitterDirection = this.FindLaserBeam(target, Direction.East, Direction.West, Direction.North, Direction.South);
             this.Graph.GetVertexAtCoordinate(target).Property = Property.LASER;
 
             // The Property 'TargetCoordinate' contains the LaserTarget position.
