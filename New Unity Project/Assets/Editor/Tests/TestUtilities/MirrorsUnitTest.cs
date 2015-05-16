@@ -23,7 +23,7 @@ namespace TestUtilities
     /// test outcome, depending on the contents of the scene).
     /// </para>
     /// </summary>
-    public class MirrorsUnitTest
+    public class MirrorsUnitTest : GameObjectFactory
     {
         /// <summary>
         /// Tests whether the object is non-interfering. That is, whether the object 
@@ -51,16 +51,6 @@ namespace TestUtilities
             }
 
             return obj.name == "Main Camera" || obj.name == "Directional Light";
-        }
-
-        /// <summary>
-        /// Creates an emitter.
-        /// </summary>
-        /// <returns>The emitter.</returns>
-        public static LaserEmitter CreateEmitter()
-        {
-            GameObject gameObject = new GameObject("Emitter", typeof(LaserEmitter));
-            return gameObject.GetComponent<LaserEmitter>();
         }
 
         /// <summary>
