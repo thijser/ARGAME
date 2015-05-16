@@ -100,10 +100,19 @@ namespace Core
             RaycastHit hit;
             if (Physics.Raycast(this.Origin, this.Direction, out hit, MaxRaycastDist))
             {
-                this.Endpoint = hit.point;
-                this.emitter.AddLaser(this);
                 ILaserReceiver receiver = hit.collider.GetComponent<ILaserReceiver>();
-                return new HitEventArgs(this, hit.point, hit.normal, receiver);
+                if(receiver == null)
+                {
+                    this.Endpoint = this.Origin + (this.Direction * MaxLaserLength);
+                    this.emitter.AddLaser(this);
+                    return new HitEventArgs();
+                }
+                else
+                {
+                    this.Endpoint = hit.point;
+                    this.emitter.AddLaser(this);
+                    return new HitEventArgs(this, hit.point, hit.normal, receiver);
+                }
             }
             else
             {

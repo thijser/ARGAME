@@ -94,7 +94,7 @@ namespace Core
             Assert.IsNull(args.Laser);
             Assert.False(args.IsValid);
 
-            GameObject.Destroy(collider);
+            GameObject.DestroyImmediate(collider);
         }
 
         /// <summary>

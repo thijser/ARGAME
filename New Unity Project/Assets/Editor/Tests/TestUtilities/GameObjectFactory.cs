@@ -42,15 +42,5 @@
             GameObject gameObject = new GameObject("Emitter", typeof(LaserEmitter));
             return gameObject.GetComponent<LaserEmitter>();
         }
-
-        /// <summary>
-        /// Creates and returns a laser beam
-        /// </summary>
-        /// <returns>The beam.</returns>
-        public static LaserBeam CreateLaserBeam()
-        {
-            GameObject gameObject = new GameObject("Beam", typeof(LaserBeam));
-            return gameObject.GetComponent<LaserBeam>();
-        }
     }
 }

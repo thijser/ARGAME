@@ -42,7 +42,36 @@ namespace Core
         [ExpectedException(typeof(ArgumentNullException))]
         public static void ConstructorLastArgNull()
         {
-            new HitEventArgs(CreateLaserBeam(), Vector3.zero, Vector3.zero, null);
+            new HitEventArgs(new LaserBeam(Vector3.zero, Vector3.zero, CreateEmitter()), Vector3.zero, Vector3.zero, null);
+        }
+
+        /// <summary>
+        /// Tests if the constructor is functioning correctly
+        /// when the parameters are non-null.
+        /// </summary>
+        [Test]
+        public static void ConstructorNoArgNull()
+        {
+            LaserBeam lb = new LaserBeam(Vector3.zero, Vector3.zero, CreateEmitter());
+            ILaserReceiver ilr = CreateOrGate();
+            Vector3 zero1 = Vector3.zero;
+            Vector3 zero2 = Vector3.zero;
+            HitEventArgs hea = new HitEventArgs(lb, zero1, zero2, ilr);
+            Assert.True(hea.IsValid);
+            Assert.True(lb == hea.Laser);
+            Assert.True(ilr == hea.Receiver);
+            Assert.True(hea.Point == zero1);
+            Assert.True(hea.Normal == zero2);
+        }
+
+        /// <summary>
+        /// Tests if the invalid constructor is functioning correctly.
+        /// </summary>
+        [Test]
+        public static void ConstructorInvalid()
+        {
+            HitEventArgs hea = new HitEventArgs();
+            Assert.False(hea.IsValid);
         }
     }
 }
