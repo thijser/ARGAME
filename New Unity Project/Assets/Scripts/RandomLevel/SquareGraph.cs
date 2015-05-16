@@ -26,18 +26,19 @@ namespace RandomLevel
         /// <summary>
         /// Initializes a new instance of the <see cref="SquareGraph" /> class.
         /// </summary>
-        /// <param name="rows">The amount of rows, a positive nonzero integer.</param>
-        /// <param name="cols">The amount of columns, a positive nonzero integer.</param>
+        /// <param name="rows">The amount of rows, a positive integer.</param>
+        /// <param name="cols">The amount of columns, a positive integer.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If <c>rows</c> or <c>cols</c> is not positive.</exception>
         public SquareGraph(int rows, int cols)
         {
             if (rows <= 0) 
             {
-                throw new ArgumentException("The amount of rows should be more than 0.");
+                throw new ArgumentOutOfRangeException("rows", rows, "Amount of rows must be positive");
             }
 
             if (cols <= 0) 
             {
-                throw new ArgumentException("The amount of cols should be more than 0.");
+                throw new ArgumentOutOfRangeException("cols", cols, "The amount of columns must be positive");
             }
 
             this.Maxrow = rows;

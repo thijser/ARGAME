@@ -25,7 +25,7 @@ namespace RandomLevel
         /// the amount of rows is 0.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SqGraphTestRowsIsZero()
         {
             new SquareGraph(0, 20);
@@ -36,7 +36,7 @@ namespace RandomLevel
         /// the amount of rows is negative.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SqGraphTestRowsIsNegative()
         {
             new SquareGraph(-1, 20);
@@ -47,7 +47,7 @@ namespace RandomLevel
         /// the amount of cols is 0.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SqGraphTestColsIsZero()
         {
             new SquareGraph(20, 0);
@@ -58,7 +58,7 @@ namespace RandomLevel
         /// the amount of cols is negative.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SqGraphTestColsIsNegative()
         {
             new SquareGraph(20, -1);
