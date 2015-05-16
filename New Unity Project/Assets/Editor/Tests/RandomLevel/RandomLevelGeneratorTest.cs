@@ -49,19 +49,7 @@ namespace RandomLevel
         public void CreateRLGResultNonZeroTest()
         {
             RandomLevelGenerator generator = new RandomLevelGenerator(10, 10);
-            Assert.NotNull(generator.ReturnRandomMap());
-        }
-
-        /// <summary>
-        /// Tests the determineQuadrant-method completely.
-        /// </summary>
-        [Test]
-        public void DetermineQuadrantTest()
-        {
-            Assert.IsTrue(RandomLevelGenerator.DetermineQuad(0) == Quadrant.NORTHWEST);
-            Assert.IsTrue(RandomLevelGenerator.DetermineQuad(1) == Quadrant.NORTHEAST);
-            Assert.IsTrue(RandomLevelGenerator.DetermineQuad(2) == Quadrant.SOUTHEAST);
-            Assert.IsTrue(RandomLevelGenerator.DetermineQuad(3) == Quadrant.SOUTHWEST);
+            Assert.NotNull(generator.Graph);
         }
     }
 }

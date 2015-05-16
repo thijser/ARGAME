@@ -12,6 +12,7 @@ namespace RandomLevel
     using System;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
+    using UnityObject = UnityEngine.Object;
 
     /// <summary>
     /// This class forms the bridge between a randomly created level and a randomly rendered level.
@@ -57,7 +58,7 @@ namespace RandomLevel
         /// <summary>
         /// The current Quadrant of the grid.
         /// </summary>
-        private Quadrant quad;
+        private Direction quad;
 
         /// <summary>
         /// The SquareGraph acting as the playing field.
@@ -75,9 +76,11 @@ namespace RandomLevel
         public void Start()
         {
             RandomLevelGenerator rlg = new RandomLevelGenerator(this.RowCount, this.ColumnCount);
-            this.quad = rlg.Quad;
-            this.sg = rlg.ReturnRandomMap();
-            this.targetVec = CoordToVector(rlg.TargetCoord);
+            rlg.Run();
+
+            this.quad = rlg.EmitterDirection;
+            this.sg = rlg.Graph;
+            this.targetVec = CoordToVector(rlg.TargetCoordinate);
             this.Render();
         }
 
@@ -92,20 +95,15 @@ namespace RandomLevel
         }
 
         /// <summary>
-        /// Determines the rotation of the Quadrant.
+        /// Determines the rotation of the Direction in degrees.
         /// </summary>
-        /// <param name="q">The Quadrant</param>
-        /// <returns>The rotation, as an integer between 0 and 3.</returns>
-        private static int DetermineQuadRotation(Quadrant q)
+        /// <param name="direction">The Direction</param>
+        /// <returns>The rotation in degrees.</returns>
+        private static float GetRotation(Direction direction)
         {
-            switch (q)
-            {
-                case Quadrant.NORTHWEST: return 3;
-                case Quadrant.SOUTHWEST: return 0;
-                case Quadrant.SOUTHEAST: return 1;
-                case Quadrant.NORTHEAST: return 2;
-                default: throw new ArgumentException("The parameter should be a valid quadrant value.");
-            }
+            return Mathf.Atan2(
+                direction.GetVerticalComponent().GetAxisSign(),
+                direction.GetHorizontalComponent().GetAxisSign());
         }
         
         /// <summary>
@@ -130,18 +128,17 @@ namespace RandomLevel
         {
             if (v.Property == Property.LASER)
             {
-                int i = DetermineQuadRotation(this.quad);
-                Quaternion q = Quaternion.Euler(0, i * 90, 0);
-                UnityEngine.Object.Instantiate(this.EmitterPrefab, spawnVec, q);
+                Quaternion q = Quaternion.Euler(0, GetRotation(this.quad), 0);
+                UnityObject.Instantiate(this.EmitterPrefab, spawnVec, q);
             }
             else if (v.Property == Property.WALL)
             {
                 Quaternion q = Quaternion.Euler(0, UnityEngine.Random.Range(0, 4) * 90, 0);
-                UnityEngine.Object.Instantiate(this.WallPrefab, spawnVec, q);
+                UnityObject.Instantiate(this.WallPrefab, spawnVec, q);
             }
             else if (v.Property == Property.TARGET)
             {
-                UnityEngine.Object.Instantiate(this.TargetPrefab, spawnVec, Quaternion.identity);
+                UnityObject.Instantiate(this.TargetPrefab, spawnVec, Quaternion.identity);
             }
         }
     }

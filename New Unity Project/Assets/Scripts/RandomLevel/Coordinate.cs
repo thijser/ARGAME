@@ -36,5 +36,26 @@ namespace RandomLevel
         /// Gets the column coordinate.
         /// </summary>
         public int Col { get; private set; }
+
+        /// <summary>
+        /// Adds a step in the given Direction.
+        /// </summary>
+        /// <param name="direction">The Direction towards which to step.</param>
+        /// <returns>The translated Coordinate.</returns>
+        public Coordinate StepTo(Direction direction)
+        {
+            return new Coordinate(
+                this.Row + direction.GetVerticalComponent().GetAxisSign(),
+                this.Col + direction.GetHorizontalComponent().GetAxisSign());
+        }
+
+        /// <summary>
+        /// Returns a string representation of this Coordinate.
+        /// </summary>
+        /// <returns>A string representation of this Coordinate.</returns>
+        public override string ToString()
+        {
+            return "(" + this.Row + ", " + this.Col + ")";
+        }
     }
 }
