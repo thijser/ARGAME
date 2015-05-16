@@ -29,26 +29,61 @@
 	\section{Back-end design} \label{sec:backenddesign}
 		The system is composed of three main parts: The Laser mechanics, the network
 		functionality and the projection to 3D glasses. For this purpose, we divided
-		the code over three namespaces, named \"Laser\", \"Network\" and
-		\"Projection\", respectively.
+		the code over three namespaces, named "Laser", "Network" and
+		"Projection", respectively.
 
-		The \"Laser\" namespace is responsible for drawing the Laser beams and
+		The "Laser" namespace is responsible for drawing the Laser beams and
 		providing the interactions of laser beams with the other game objects.
 
-		The \"Network\" namespace is responsible for synchronizing the game state
+		The "Network" namespace is responsible for synchronizing the game state
 		between all connected players.
 
-		The \"Projection\" namespace is responsible for providing the projection to
+		The "Projection" namespace is responsible for providing the projection to
 		the VR glasses. This namespace provides the functionality required to project
 		the game world to the VR glasses.
 
-	\section{Graphical design} \label{sec:graphicaldesign}
+	\section{Game elements} \label{sec:graphicaldesign}
 		For designing the 3D models, we used Blender. Blender is a free application
 		for 3D modeling, and Unity natively support Blender models (provided Blender
 		is installed on the system). We have chosen for a light looking style featuring 
 		nature inspired modeling and gold and crystal based materials. The light modeling 
 		style causes slight miss alignments with the ground to be less noticeable and
 		makes the lack of feedback from moving a card feel less odd. The crystals and gold 
-		just feels good with the combination of beams of light. 
-
+		just feels good in combination with the beams of light.
+		The following sections display and describe the graphics used in
+		the gameplay elements, as well as the function of
+		these elements
 		% TODO Explain why we chose this graphics style
+			\subsection{Laser target}\label{ssec:lasertarget}
+			The laser target is the main target of the game. It consists of
+			a small container, which contains a crystal. The point of the
+			game is to direct a laser beam from an emitter to this target.
+			When the target is hit by a laser beam, the outer columns around
+			the crystal inside will rotate and spread out, indicating that
+			the target has been hit. The game will then proceed to the
+			next level.
+			% TODO image.
+			\subsection{Mirror}\label{ssec:mirror}
+			A mirror is a crucial game element. Its reflective surfaces
+			allow it to reflect any laser beam that hits these surfaces.
+			It is also the only element that players can move and/or rotate.
+			All levels require at least one mirror to move or rotate
+			in order to hit the target. 
+			% TODO image.
+			\subsection{Wall}\label{ssec:wall}
+			The wall is the main obstacle in the game. It blocks incoming
+			laser beams completely. Walls are used in levels to make it 
+			less easy for one player to reflect a laser beam coming from
+			an emitter to the target.
+			\subsection{Emitter}\label{ssec:emitter}
+			The emitter is the most important aspect of the entire game.
+			It is the only "true" source of a laser beam (although game
+			elements like the beam splitter can also create beams, these
+			elements always require input in the form of another laser
+			beam; the emitter does not have that problem, hence it is a "true"
+			source). In the early levels, players only move and rotate mirrors
+			to guide a laser beam from the emitter to the target, while in the
+			later levels beams have to be guided towards other game elements
+			(like the beam splitter, for example) in order to complete the
+			level. It is possible to have multiple emitters in a single level,
+			and later levels use this to create more complex puzzles.
