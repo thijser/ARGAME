@@ -34,6 +34,17 @@
         }
 
         /// <summary>
+        /// Creates and returns a LaserTarget game object.
+        /// </summary>
+        /// <returns>The laser target.</returns>
+        public static ILaserReceiver CreateLaserTarget()
+        {
+            GameObject gameObject = new GameObject("LaserTarget", typeof(LaserTarget));
+            gameObject.AddComponent<Animator>();
+            return gameObject.GetComponent<LaserTarget>();
+        }
+
+        /// <summary>
         /// Creates and returns an emitter.
         /// </summary>
         /// <returns>The emitter.</returns>
@@ -41,6 +52,15 @@
         {
             GameObject gameObject = new GameObject("Emitter", typeof(LaserEmitter));
             return gameObject.GetComponent<LaserEmitter>();
+        }
+
+        /// <summary>
+        /// Creates and returns a laser beam.
+        /// </summary>
+        /// <returns>The laser beam.</returns>
+        public static LaserBeam CreateTestBeam()
+        {
+            return new LaserBeam(Vector3.zero, Vector3.forward, CreateEmitter());
         }
     }
 }

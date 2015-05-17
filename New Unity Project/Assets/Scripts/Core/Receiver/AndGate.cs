@@ -30,13 +30,13 @@ namespace Core.Receiver
         /// <summary>
         /// A variable storing whether or not a previous laser hit the gate.
         /// </summary>
-        private bool hit = false;
+        public bool hit { get; private set; }
 
         /// <summary>
         /// A variable storing whether or not a beam has already been
         /// created this tick.
         /// </summary>
-        private bool beamcreated = false;
+        public bool beamcreated { get; private set; }
 
         /// <summary>
         /// Gets or sets the LaserEmitter used for creating new Laser beam segments.
@@ -48,6 +48,8 @@ namespace Core.Receiver
         /// </summary>
         public void Start()
         {
+            hit = false;
+            beamcreated = false;
             this.PassThroughEmitter = gameObject.AddComponent<MultiEmitter>();
         }
 
@@ -59,9 +61,14 @@ namespace Core.Receiver
         /// <param name="args">The EventArgs object that describes the event.</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
-            if (args == null)
+            if(args == null)
             {
                 throw new ArgumentNullException("args");
+            }
+
+            if(!args.IsValid)
+            {
+                throw new ArgumentException("The HitEventArgs object supplied is invalid.");
             }
 
             if (this.hit && !this.beamcreated)
