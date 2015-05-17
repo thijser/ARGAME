@@ -80,7 +80,7 @@ namespace Core.Receiver
         public void OneLaserHit()
         {
             AndGate ag = CreateAndGate();
-            ag.OnLaserHit(null, CreateTestHit());
+            ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
             Assert.True(ag.Hit);
             Assert.False(ag.BeamCreated);
         }
@@ -94,8 +94,8 @@ namespace Core.Receiver
         public void MoreLaserHit()
         {
             AndGate ag = CreateAndGate();
-            ag.OnLaserHit(null, CreateTestHit());
-            ag.OnLaserHit(null, CreateTestHit());
+            ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
+            ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
             Assert.True(ag.Hit);
             Assert.True(ag.BeamCreated);
         }
