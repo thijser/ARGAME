@@ -48,10 +48,9 @@ namespace RandomLevel
         /// <param name="endColumn">The final column index.</param>
         public void PathFromToCol(int row, int initialColumn, int endColumn)
         {
-            if (!this.Graph.IsValid(row, initialColumn) || !this.Graph.IsValid(row, endColumn))
-            {
-                throw new ArgumentException("At least one of the indices supplied is invalid, given the square graph used.");
-            }
+            this.VerifyRowIndex(row, "row", "The row must be between 0 and " + this.Graph.Maxrow);
+            this.VerifyColumnIndex(initialColumn, "initialColumn", "The initial column must be between 0 and " + this.Graph.Maxcol);
+            this.VerifyColumnIndex(endColumn, "endColumn", "The end column must be between 0 and " + this.Graph.Maxcol);
 
             int start = Math.Min(initialColumn, endColumn);
             int end = Math.Max(initialColumn, endColumn);
@@ -73,11 +72,10 @@ namespace RandomLevel
         /// <param name="column">The column index.</param>
         public void PathFromToRow(int initialRow, int endRow, int column)
         {
-            if (!this.Graph.IsValid(initialRow, column) || !this.Graph.IsValid(endRow, column))
-            {
-                throw new ArgumentException("At least one of the indices supplied is invalid, given the square graph used.");
-            }
-
+            this.VerifyRowIndex(initialRow, "initialRow", "The initial row must be between 0 and " + this.Graph.Maxrow);
+            this.VerifyRowIndex(endRow, "endRow", "The end row must be between 0 and " + this.Graph.Maxrow);
+            this.VerifyColumnIndex(column, "column", "The column must be between 0 and " + this.Graph.Maxcol);
+            
             int start = Math.Min(initialRow, endRow);
             int end = Math.Max(initialRow, endRow);
             for (int i = start + 1; i < end; i++)
@@ -139,7 +137,6 @@ namespace RandomLevel
         /// <returns>True if the Coordinate is free, false otherwise.</returns>
         public bool IsFree(Coordinate coordinate)
         {
-            Debug.Log("Content of " + coordinate + ": " + this.Graph.GetVertexAtCoordinate(coordinate).Property);
             return this.Graph.GetVertexAtCoordinate(coordinate).Property == Property.EMPTY;
         }
 
@@ -152,6 +149,36 @@ namespace RandomLevel
         public bool AllFree(params Coordinate[] coordinates)
         {
             return Array.TrueForAll(coordinates, this.IsFree);
+        }
+
+        /// <summary>
+        /// Verifies if the given row index is valid, throws an 
+        /// <c>ArgumentOutOfRangeException</c> otherwise.
+        /// </summary>
+        /// <param name="row">The row index.</param>
+        /// <param name="argumentName">The name of the argument.</param>
+        /// <param name="message">The exception message.</param>
+        private void VerifyRowIndex(int row, string argumentName, string message)
+        {
+            if (!this.Graph.IsValidRowIndex(row))
+            {
+                throw new ArgumentOutOfRangeException(argumentName, row, message);
+            }
+        }
+
+        /// <summary>
+        /// Verifies if the given column index is valid, throws an 
+        /// <c>ArgumentOutOfRangeException</c> otherwise.
+        /// </summary>
+        /// <param name="column">The column index.</param>
+        /// <param name="argumentName">The name of the argument.</param>
+        /// <param name="message">The exception message.</param>
+        private void VerifyColumnIndex(int column, string argumentName, string message)
+        {
+            if (!this.Graph.IsValidColumnIndex(column))
+            {
+                throw new ArgumentOutOfRangeException(argumentName, column, message);
+            }
         }
     }
 }

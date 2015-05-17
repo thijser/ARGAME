@@ -50,6 +50,31 @@ namespace RandomLevel
         }
 
         /// <summary>
+        /// Tests whether this Coordinate is equal to the given object.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <returns>True if this object is equal to <c>obj</c>, false otherwise.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            Coordinate that = obj as Coordinate;
+            return this.Row == that.Row && this.Col == that.Col;
+        }
+
+        /// <summary>
+        /// Returns a pseudo-unique Hash Code for this Coordinate.
+        /// </summary>
+        /// <returns>The Hash Code.</returns>
+        public override int GetHashCode()
+        {
+            return (this.GetType().GetHashCode() * this.Row) ^ this.Col;
+        }
+
+        /// <summary>
         /// Returns a string representation of this Coordinate.
         /// </summary>
         /// <returns>A string representation of this Coordinate.</returns>
