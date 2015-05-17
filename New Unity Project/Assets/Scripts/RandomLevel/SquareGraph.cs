@@ -44,13 +44,7 @@ namespace RandomLevel
             this.Maxrow = rows;
             this.Maxcol = cols;
             this.squareMap = new Vertex[rows, cols];
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    this.squareMap[i, j] = new Vertex(new Coordinate(i, j));
-                }
-            }
+            this.InitializeSquareMap();
         }
 
         /// <summary>
@@ -170,6 +164,29 @@ namespace RandomLevel
         public bool IsValid(int row, int column)
         {
             return this.IsValidRowIndex(row) && this.IsValidColumnIndex(column);
+        }
+
+        /// <summary>
+        /// Initializes the square map, row by row.
+        /// </summary>
+        private void InitializeSquareMap()
+        {
+            for(int i = 0; i < this.Maxrow; i++)
+            {
+                this.InitializeSquareMapRow(i);
+            }
+        }
+
+        /// <summary>
+        /// Initializes every square in the row at the given row index.
+        /// </summary>
+        /// <param name="row">The given row index.</param>
+        private void InitializeSquareMapRow(int row)
+        {
+            for(int col = 0; col < this.Maxcol; col++)
+            {
+                squareMap[row, col] = new Vertex(new Coordinate(row, col));
+            }
         }
     }
 }

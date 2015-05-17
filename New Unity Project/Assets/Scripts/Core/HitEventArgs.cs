@@ -88,11 +88,6 @@ namespace Core
             {
                 return this.Laser != null && this.Receiver != null;
             }
-
-            private set
-            {
-                this.IsValid = value;
-            }
         }
     }
 }

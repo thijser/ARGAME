@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Core.Receiver
 {
+    using System;
     using System.Collections;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
@@ -87,6 +88,16 @@ namespace Core.Receiver
         /// <param name="args">The arguments that describe the event</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
+            if (args == null)
+            {
+                throw new ArgumentNullException("args");
+            }
+
+            if (!args.IsValid)
+            {
+                throw new ArgumentException("The supplied HitEventArgs object was invalid.");
+            }
+
             Animator animator = GetComponent<Animator>();
             animator.SetBool("LaserHit", true);
 

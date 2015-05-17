@@ -28,7 +28,7 @@ namespace Core.Receiver
         [Test]
         public static void NoLaserHitTest()
         {
-            LaserTarget lt = (LaserTarget)CreateLaserTarget();
+            LaserTarget lt = CreateLaserTarget();
             Assert.False(lt.IsOpening);
         }
 
@@ -43,6 +43,32 @@ namespace Core.Receiver
             gameObject.GetComponent<LaserTarget>().OnLaserHit(null, new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.forward, CreateAndGate()));
             gameObject.GetComponent<LaserTarget>().LateUpdate();
             Assert.True(gameObject.GetComponent<LaserTarget>().IsOpening);
+        }
+        
+        /// <summary>
+        /// Tests if the correct exception is thrown when
+        /// an invalid HitEventArgs object is used in the 
+        /// OnLaserHit object.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public static void LaserHitInvalidTest()
+        {
+            LaserTarget lt = CreateLaserTarget();
+            lt.OnLaserHit(null, new HitEventArgs());
+        }
+
+        /// <summary>
+        /// Tests if the correct exception is thrown when
+        /// a null HitEventArgs object is used in the 
+        /// OnLaserHit object.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public static void LaserHitNullTest()
+        {
+            LaserTarget lt = (LaserTarget)CreateLaserTarget();
+            lt.OnLaserHit(null, null);
         }
     }
 }

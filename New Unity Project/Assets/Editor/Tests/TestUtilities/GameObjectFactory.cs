@@ -26,7 +26,7 @@ namespace TestUtilities
         /// Creates and returns an AND-gate game object.
         /// </summary>
         /// <returns>The AND-gate.</returns>
-        public static ILaserReceiver CreateAndGate()
+        public static AndGate CreateAndGate()
         {
             GameObject gameObject = new GameObject("ANDGate", typeof(AndGate));
             return gameObject.GetComponent<AndGate>();
@@ -36,7 +36,7 @@ namespace TestUtilities
         /// Creates and returns an OR-gate game object.
         /// </summary>
         /// <returns>The OR-gate.</returns>
-        public static ILaserReceiver CreateOrGate()
+        public static OrGate CreateOrGate()
         {
             GameObject gameObject = new GameObject("ORGate", typeof(OrGate));
             return gameObject.GetComponent<OrGate>();
@@ -46,7 +46,7 @@ namespace TestUtilities
         /// Creates and returns a LaserTarget game object.
         /// </summary>
         /// <returns>The laser target.</returns>
-        public static ILaserReceiver CreateLaserTarget()
+        public static LaserTarget CreateLaserTarget()
         {
             GameObject gameObject = new GameObject("LaserTarget", typeof(LaserTarget));
             gameObject.AddComponent<Animator>();
