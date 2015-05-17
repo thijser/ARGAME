@@ -171,7 +171,7 @@ namespace RandomLevel
         /// </summary>
         private void InitializeSquareMap()
         {
-            for(int i = 0; i < this.Maxrow; i++)
+            for (int i = 0; i < this.Maxrow; i++)
             {
                 this.InitializeSquareMapRow(i);
             }
@@ -183,9 +183,9 @@ namespace RandomLevel
         /// <param name="row">The given row index.</param>
         private void InitializeSquareMapRow(int row)
         {
-            for(int col = 0; col < this.Maxcol; col++)
+            for (int col = 0; col < this.Maxcol; col++)
             {
-                squareMap[row, col] = new Vertex(new Coordinate(row, col));
+                this.squareMap[row, col] = new Vertex(new Coordinate(row, col));
             }
         }
     }
