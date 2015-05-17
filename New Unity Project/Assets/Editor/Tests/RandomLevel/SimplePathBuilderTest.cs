@@ -131,7 +131,8 @@ namespace RandomLevel
         public void TestPathFromToColTypicalCase()
         {
             SimplePathBuilder builder = new SimplePathBuilder(new SquareGraph(20, 20));
-            builder.PathFromToCol(5, 5, 6);
+            builder.PathFromToCol(5, 4, 5);
+            Debug.Log(builder.Graph.ToString());
             Assert.AreEqual(Property.PARTOFPATH, builder.Graph.GetVertexAtCoordinate(new Coordinate(5, 5)).Property);
         }
     }
