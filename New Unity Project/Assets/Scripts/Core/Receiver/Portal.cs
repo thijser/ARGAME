@@ -97,7 +97,7 @@ namespace Core.Receiver
                 Quaternion rotation = Quaternion.FromToRotation(-1 * this.SurfaceNormal, this.LinkedPortal.SurfaceNormal);
                 Vector3 direction = args.Point - args.Laser.Origin;
 
-                // Determine hit position relative to surface origin and transform
+                // Determine Hit position relative to surface origin and transform
                 // it to the orientation of the other surface
                 Vector3 position = args.Point - this.transform.position;
                 position = Quaternion.Inverse(this.transform.rotation) * position;

@@ -14,7 +14,7 @@ namespace Core.Receiver
     using UnityEngine;
 
     /// <summary>
-    /// A Laser target that loads the next level when hit with a Laser beam.
+    /// A Laser target that loads the next level when Hit with a Laser beam.
     /// </summary>
     public class LaserTarget : MonoBehaviour, ILaserReceiver
     {

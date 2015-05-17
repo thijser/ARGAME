@@ -36,10 +36,10 @@ namespace Core
         /// <summary>
         /// Initializes a new instance of the <see cref="HitEventArgs"/> class.
         /// </summary>
-        /// <param name="laser">The Laser beam that hit the object.</param>
-        /// <param name="point">The position where the Laser hit the object.</param>
-        /// <param name="normal">The normal of the surface that the Laser beam hit.</param>
-        /// <param name="receiver">The ILaserReceiver that got hit.</param>
+        /// <param name="laser">The Laser beam that Hit the object.</param>
+        /// <param name="point">The position where the Laser Hit the object.</param>
+        /// <param name="normal">The normal of the surface that the Laser beam Hit.</param>
+        /// <param name="receiver">The ILaserReceiver that got Hit.</param>
         public HitEventArgs(LaserBeam laser, Vector3 point, Vector3 normal, ILaserReceiver receiver)
         {
             if (laser == null)
@@ -59,28 +59,28 @@ namespace Core
         }
 
         /// <summary>
-        /// Gets the Laser beam that hit the object.
+        /// Gets the Laser beam that Hit the object.
         /// </summary>
         public LaserBeam Laser { get; private set; }
 
         /// <summary>
-        /// Gets the normal of the surface that the Laser beam hit.
+        /// Gets the normal of the surface that the Laser beam Hit.
         /// </summary>
         public Vector3 Normal { get; private set; }
 
         /// <summary>
-        /// Gets the position on the surface that the Laser beam hit.
+        /// Gets the position on the surface that the Laser beam Hit.
         /// </summary>
         public Vector3 Point { get; private set; }
 
         /// <summary>
-        /// Gets the ILaserReceiver that was hit.
+        /// Gets the ILaserReceiver that was Hit.
         /// </summary>
         public ILaserReceiver Receiver { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether this HitEventArgs represents a 
-        /// valid hit event.
+        /// valid Hit event.
         /// </summary>
         public bool IsValid
         {
@@ -88,9 +88,10 @@ namespace Core
             {
                 return this.Laser != null && this.Receiver != null;
             }
+
             private set
             {
-                IsValid = value;
+                this.IsValid = value;
             }
         }
     }

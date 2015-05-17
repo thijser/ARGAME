@@ -20,7 +20,6 @@ namespace Core
     [TestFixture]
     public class LaserBeamTest : MirrorsUnitTest
     {
-
         /// <summary>
         /// Creates a Laser beam with the given properties.
         /// </summary>

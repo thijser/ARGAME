@@ -101,7 +101,7 @@ namespace Core
             if (Physics.Raycast(this.Origin, this.Direction, out hit, MaxRaycastDist))
             {
                 ILaserReceiver receiver = hit.collider.GetComponent<ILaserReceiver>();
-                if(receiver == null)
+                if (receiver == null)
                 {
                     this.Endpoint = this.Origin + (this.Direction * MaxLaserLength);
                     this.emitter.AddLaser(this);

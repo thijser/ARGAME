@@ -16,7 +16,7 @@ namespace Core
     public interface ILaserReceiver 
     {
         /// <summary>
-        /// Called every time the object is hit by a laser beam.
+        /// Called every time the object is Hit by a laser beam.
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="args">The event arguments.</param>

@@ -22,7 +22,6 @@ namespace Core
     [TestFixture]
     public class HitEventArgsTest : MirrorsUnitTest
     {
-
         /// <summary>
         /// Tests if the correct exception is thrown when the 
         /// first argument is null.

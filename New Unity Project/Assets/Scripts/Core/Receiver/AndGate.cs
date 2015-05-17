@@ -17,7 +17,7 @@ namespace Core.Receiver
     using UnityEngine;
 
     /// <summary>
-    /// An AND-gate that outputs a laser beam if two other beams hit it.
+    /// An AND-gate that outputs a laser beam if two other beams Hit it.
     /// </summary>
     public class AndGate : MonoBehaviour, ILaserReceiver
     {
@@ -28,15 +28,15 @@ namespace Core.Receiver
         public float MinimumStrength;
 
         /// <summary>
-        /// A variable storing whether or not a previous laser hit the gate.
+        /// Gets a value indicating whether or not a previous laser Hit the gate.
         /// </summary>
-        public bool hit { get; private set; }
+        public bool Hit { get; private set; }
 
         /// <summary>
-        /// A variable storing whether or not a beam has already been
+        /// Gets a value indicating whether or not a beam has already been
         /// created this tick.
         /// </summary>
-        public bool beamcreated { get; private set; }
+        public bool BeamCreated { get; private set; }
 
         /// <summary>
         /// Gets or sets the LaserEmitter used for creating new Laser beam segments.
@@ -48,30 +48,30 @@ namespace Core.Receiver
         /// </summary>
         public void Start()
         {
-            hit = false;
-            beamcreated = false;
+            this.Hit = false;
+            this.BeamCreated = false;
             this.PassThroughEmitter = gameObject.AddComponent<MultiEmitter>();
         }
 
         /// <summary>
-        /// Creates a new laser beam if two existing laser beams hit
+        /// Creates a new laser beam if two existing laser beams Hit
         /// the gate.
         /// </summary>
         /// <param name="sender">The sender of the event, ignored here.</param>
         /// <param name="args">The EventArgs object that describes the event.</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
-            if(args == null)
+            if (args == null)
             {
                 throw new ArgumentNullException("args");
             }
 
-            if(!args.IsValid)
+            if (!args.IsValid)
             {
                 throw new ArgumentException("The HitEventArgs object supplied is invalid.");
             }
 
-            if (this.hit && !this.beamcreated)
+            if (this.Hit && !this.BeamCreated)
             {
                 // Create a new ray coming out of the other side with the same direction
                 // as the original ray. Forward needs to be negative, see LaserEmitter.
@@ -82,12 +82,12 @@ namespace Core.Receiver
                 LaserProperties propertiesPre = args.Laser.Emitter.GetComponent<LaserProperties>();
                 LaserProperties propertiesPost = passThroughEmitter.GetComponent<LaserProperties>();
                 propertiesPost.RGBStrengths = propertiesPre.RGBStrengths;
-                this.beamcreated = true;
+                this.BeamCreated = true;
             }
 
-            if (!this.hit)
+            if (!this.Hit)
             {
-                this.hit = true;
+                this.Hit = true;
             }
         }
 
@@ -96,8 +96,8 @@ namespace Core.Receiver
         /// </summary>
         public void LateUpdate()
         {
-            this.hit = false;
-            this.beamcreated = false;
+            this.Hit = false;
+            this.BeamCreated = false;
         }
     }
 }
