@@ -71,5 +71,14 @@ namespace TestUtilities
         {
             return new LaserBeam(Vector3.zero, Vector3.forward, CreateEmitter());
         }
+
+        /// <summary>
+        /// Creates a valid HitEventArgs object for testing purposes.
+        /// </summary>
+        /// <returns>A valid HitEventArgs object.</returns>
+        public static HitEventArgs CreateTestHit()
+        {
+            return new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.forward, CreateAndGate());
+        }
     }
 }
