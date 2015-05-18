@@ -59,8 +59,14 @@ namespace TestUtilities
         /// <returns>The emitter.</returns>
         public static LaserEmitter CreateEmitter()
         {
-            GameObject gameObject = new GameObject("Emitter", typeof(LaserEmitter));
-            return gameObject.GetComponent<LaserEmitter>();
+			GameObject gameObject = new GameObject(
+				"Emitter", 
+				typeof(LaserEmitter), 
+				typeof(LineRenderer),
+				typeof(LaserProperties));
+			LaserEmitter emitter = gameObject.GetComponent<LaserEmitter>();
+			emitter.LineRenderer = gameObject.GetComponent<LineRenderer>();
+			return emitter;
         }
 
         /// <summary>
@@ -69,7 +75,7 @@ namespace TestUtilities
         /// <returns>The emitter.</returns>
         public static MultiEmitter CreateMultiEmitter()
         {
-            GameObject gameObject = new GameObject("MEmitter", typeof(MultiEmitter));
+            GameObject gameObject = new GameObject("MultiEmitter", typeof(MultiEmitter));
             return gameObject.GetComponent<MultiEmitter>();
         }
 

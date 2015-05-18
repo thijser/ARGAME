@@ -98,6 +98,7 @@ namespace Core.Receiver
             ag.Start();
             ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
             ag.OnLaserHit(null, new HitEventArgs(CreateTestBeam(), Vector3.one, Vector3.back, CreateOrGate()));
+
             Assert.True(ag.Hit);
             Assert.True(ag.BeamCreated);
         }
