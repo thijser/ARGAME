@@ -891,6 +891,22 @@ Prefab:
       propertyPath: _localizers.Array.data[2]
       value: 
       objectReference: {fileID: 1101920241}
+    - target: {fileID: 11447852, guid: 8a81883fe8fef4ad9b5e0f77848d7e1d, type: 2}
+      propertyPath: VuforiaLicenseKey
+      value: 735689efdc7d47e5b042487f2b6d2eba
+      objectReference: {fileID: 0}
+    - target: {fileID: 11418442, guid: 8a81883fe8fef4ad9b5e0f77848d7e1d, type: 2}
+      propertyPath: mPlayModeRenderVideo
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11418442, guid: 8a81883fe8fef4ad9b5e0f77848d7e1d, type: 2}
+      propertyPath: mDeviceNameSetInEditor
+      value: DepthSense 325
+      objectReference: {fileID: 0}
+    - target: {fileID: 472344, guid: 8a81883fe8fef4ad9b5e0f77848d7e1d, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a81883fe8fef4ad9b5e0f77848d7e1d, type: 2}
   m_IsPrefabParent: 0
