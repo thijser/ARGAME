@@ -100,6 +100,7 @@ namespace Core.Receiver
 
             Animator animator = GetComponent<Animator>();
             animator.SetBool("LaserHit", true);
+			this.IsOpening = true;
 
             if (animator.GetCurrentAnimatorStateInfo(0).IsName(OpenedStateName))
             {
