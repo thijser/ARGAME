@@ -144,7 +144,6 @@ namespace Network
                 MasterServer.ipAddress = ServerAddress;
             }
 
-            InitializeServer(TypeName);
             this.hosts = new HostData[0];
             foreach (GameObject obj in UnityObject.FindObjectsOfType<GameObject>())
             {
@@ -153,6 +152,44 @@ namespace Network
                     mirrors.Add(obj);
                 }
             }
+        }
+
+        /// <summary>
+        /// Produces a lobby GUI.
+        /// </summary>
+        public void OnGUI()
+        {
+            if (!Network.isClient && !Network.isServer)
+            {
+                if (GUI.Button(new Rect(100, 100, 250, 100), "Start Server"))
+                {
+                    InitializeServer("BEP");
+                }
+
+                if (GUI.Button(new Rect(100, 250, 250, 100), "Refresh Hosts"))
+                {
+                    RefreshHostList();
+                }
+
+                if (hosts != null)
+                {
+                    for (int i = 0; i < hosts.Length; i++)
+                    {
+                        if (GUI.Button(new Rect(400, 100 + (110 * i), 300, 100), hosts[i].gameName))
+                        {
+                            InitializeClient(hosts[i]);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the host list.
+        /// </summary>
+        private void RefreshHostList()
+        {
+            MasterServer.RequestHostList(TypeName);
         }
 
         /// <summary>
