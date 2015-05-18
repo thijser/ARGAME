@@ -55,10 +55,10 @@ namespace Network
         /// <summary>
         /// The mirrors in the scene.
         /// </summary>
-        private IList<MirrorRotation> mirrors = new List<MirrorRotation>();
+        private IList<GameObject> mirrors = new List<GameObject>();
 
         /// <summary>
-        /// The index of 
+        /// The index of the current selected mirror.
         /// </summary>
         private int mirrorIndex = 0;
 
@@ -144,12 +144,13 @@ namespace Network
                 MasterServer.ipAddress = ServerAddress;
             }
 
+            InitializeServer(TypeName);
             this.hosts = new HostData[0];
             foreach (GameObject obj in UnityObject.FindObjectsOfType<GameObject>())
             {
                 if (obj.GetComponent<MirrorRotation>() != null)
                 {
-                    mirrors.Add(obj.GetComponent<MirrorRotation>());
+                    mirrors.Add(obj);
                 }
             }
         }
@@ -174,12 +175,12 @@ namespace Network
 
         public void Update()
         {
-            if (Input.GetKey("M") && mirrors.Count > 0 && Network.isServer)
+            if (Input.GetKeyDown(KeyCode.M) && mirrors.Count > 0 && Network.isServer)
             {
-                mirrors[mirrorIndex].selected = false;
+                mirrors[mirrorIndex].GetComponent<MirrorRotation>().selected = false;
                 mirrorIndex++;
                 mirrorIndex = mirrorIndex % mirrors.Count;
-                mirrors[mirrorIndex].selected = true;
+                mirrors[mirrorIndex].GetComponent<MirrorRotation>().selected = true;
             }
         }
     }
