@@ -30,7 +30,7 @@ namespace Network
         /// An empty string indicates that Unity's default master server is used.
         /// </para>
         /// </summary>
-        public const string ServerAddress = "127.0.0.1";
+        public const string ServerAddress = "";
 
         /// <summary>
         /// The network port of the master server to connect to.
