@@ -79,7 +79,7 @@ namespace RandomLevel
         public void TestPathFromToRowTypicalCase()
         {
             SimplePathBuilder builder = new SimplePathBuilder(new SquareGraph(20, 10));
-            builder.PathFromToRow(5, 5, 6);
+            builder.PathFromToRow(4, 6, 5);
             Assert.AreEqual(Property.PARTOFPATH, builder.Graph.GetVertexAtCoordinate(new Coordinate(5, 5)).Property);
         }
 
@@ -131,8 +131,7 @@ namespace RandomLevel
         public void TestPathFromToColTypicalCase()
         {
             SimplePathBuilder builder = new SimplePathBuilder(new SquareGraph(20, 20));
-            builder.PathFromToCol(5, 4, 5);
-            Debug.Log(builder.Graph.ToString());
+            builder.PathFromToCol(5, 4, 6);
             Assert.AreEqual(Property.PARTOFPATH, builder.Graph.GetVertexAtCoordinate(new Coordinate(5, 5)).Property);
         }
     }
