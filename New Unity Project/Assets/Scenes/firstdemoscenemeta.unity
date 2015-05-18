@@ -4564,6 +4564,14 @@ Prefab:
       propertyPath: m_Name
       value: NetworkObject 1
       objectReference: {fileID: 0}
+    - target: {fileID: 14891478, guid: 1b340b964b9722645b00eb757aa0a38b, type: 2}
+      propertyPath: m_ViewID.m_ID
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 14891478, guid: 1b340b964b9722645b00eb757aa0a38b, type: 2}
+      propertyPath: m_ViewID.m_Type
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1b340b964b9722645b00eb757aa0a38b, type: 2}
   m_IsPrefabParent: 0

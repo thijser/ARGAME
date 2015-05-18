@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 484250}
   - 114: {fileID: 11486426}
   - 114: {fileID: 11445032}
+  - 148: {fileID: 14891478}
   m_Layer: 0
   m_Name: NetworkObject
   m_TagString: Untagged
@@ -53,6 +54,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b82987a032e584fbc8a68d0bafa3c954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!148 &14891478
+NetworkView:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 156098}
+  m_Enabled: 1
+  m_StateSynchronization: 1
+  m_Observed: {fileID: 484250}
+  m_ViewID:
+    m_ID: 0
+    m_Type: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
