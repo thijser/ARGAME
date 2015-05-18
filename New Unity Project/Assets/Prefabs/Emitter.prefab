@@ -40,7 +40,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 423116}
-  - 95: {fileID: 9553548}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -331,23 +330,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 144624}
   m_Mesh: {fileID: 4300006, guid: 4d4625ca4695234498eace03d5e60a41, type: 3}
---- !u!95 &9553548
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134298}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4d4625ca4695234498eace03d5e60a41, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11415210
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -360,6 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LineRenderer: {fileID: 12032728}
+  Enabled: 1
 --- !u!114 &11465754
 MonoBehaviour:
   m_ObjectHideFlags: 1

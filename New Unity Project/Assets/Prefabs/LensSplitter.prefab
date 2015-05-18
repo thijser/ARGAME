@@ -206,7 +206,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 408366}
-  - 95: {fileID: 9519086}
   m_Layer: 0
   m_Name: LensSplitter
   m_TagString: Untagged
@@ -1212,23 +1211,6 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300022, guid: 07a006b085fffb74bbc4d441283bfc7e, type: 3}
---- !u!95 &9519086
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 177150}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 07a006b085fffb74bbc4d441283bfc7e, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -11,7 +11,6 @@ GameObject:
   - 33: {fileID: 3376252}
   - 23: {fileID: 2335352}
   - 64: {fileID: 6484808}
-  - 95: {fileID: 9504928}
   - 114: {fileID: 11438576}
   m_Layer: 0
   m_Name: MirrorSurfaceFront
@@ -49,7 +48,6 @@ GameObject:
   - 33: {fileID: 3359890}
   - 23: {fileID: 2302554}
   - 64: {fileID: 6453954}
-  - 95: {fileID: 9547990}
   - 114: {fileID: 11411772}
   m_Layer: 0
   m_Name: MirrorSurfaceBack
@@ -84,7 +82,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 437704}
-  - 95: {fileID: 9599316}
   m_Layer: 0
   m_Name: MirrorBase
   m_TagString: Untagged
@@ -285,57 +282,6 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300006, guid: 61b29a3741221864a9f062db2f3a4cff, type: 3}
---- !u!95 &9504928
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 104484}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: e648c9b3deded644095755da6493d24b, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &9547990
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 161554}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: e648c9b3deded644095755da6493d24b, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &9599316
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 166896}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 61b29a3741221864a9f062db2f3a4cff, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11411772
 MonoBehaviour:
   m_ObjectHideFlags: 1
