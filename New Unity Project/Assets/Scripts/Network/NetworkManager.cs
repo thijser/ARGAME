@@ -10,8 +10,11 @@
 namespace Network
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using UnityEngine;
+    using UnityObject = UnityEngine.Object;
 
     /// <summary>
     /// Manages network communications and synchronizes
@@ -48,6 +51,16 @@ namespace Network
         /// The available hosts.
         /// </summary>
         private HostData[] hosts;
+
+        /// <summary>
+        /// The mirrors in the scene.
+        /// </summary>
+        private IList<MirrorRotation> mirrors = new List<MirrorRotation>();
+
+        /// <summary>
+        /// The index of 
+        /// </summary>
+        private int mirrorIndex = 0;
 
         /// <summary>
         /// <para>
@@ -132,6 +145,13 @@ namespace Network
             }
 
             this.hosts = new HostData[0];
+            foreach (GameObject obj in UnityObject.FindObjectsOfType<GameObject>())
+            {
+                if (obj.GetComponent<MirrorRotation>() != null)
+                {
+                    mirrors.Add(obj.GetComponent<MirrorRotation>());
+                }
+            }
         }
 
         /// <summary>
@@ -149,6 +169,17 @@ namespace Network
             if (serverEvent == MasterServerEvent.HostListReceived)
             {
                 this.hosts = MasterServer.PollHostList();
+            }
+        }
+
+        public void Update()
+        {
+            if (Input.GetKey("M") && mirrors.Count > 0 && Network.isServer)
+            {
+                mirrors[mirrorIndex].selected = false;
+                mirrorIndex++;
+                mirrorIndex = mirrorIndex % mirrors.Count;
+                mirrors[mirrorIndex].selected = true;
             }
         }
     }

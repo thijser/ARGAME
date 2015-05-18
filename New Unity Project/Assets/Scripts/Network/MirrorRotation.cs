@@ -33,7 +33,7 @@ namespace Network
         /// <summary>
         /// Indicates whether this mirror is currently selected.
         /// </summary>
-        private bool selected = true;
+        public bool selected { get; set; }
 
         /// <summary>
         /// Returns the top parent in the hierarchy.
@@ -62,21 +62,13 @@ namespace Network
         public void Update()
         {
             this.Rotate();
-            if (Input.GetMouseButtonDown(0))
+            if (this.selected)
+            {
+                this.HighlightMirror();
+            }
+            else
             {
                 this.ResetHighlight();
-                this.selected = false;
-                RaycastHit hitInfo;
-                bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
-
-                if (hit)
-                {
-                    if (GetHighestParent(hitInfo.transform) == this.transform)
-                    {
-                        this.selected = true;
-                        this.HighlightMirror();
-                    }
-                }
             }
         }
 
