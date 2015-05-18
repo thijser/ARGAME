@@ -59,14 +59,14 @@ namespace TestUtilities
         /// <returns>The emitter.</returns>
         public static LaserEmitter CreateEmitter()
         {
-			GameObject gameObject = new GameObject(
-				"Emitter", 
-				typeof(LaserEmitter), 
-				typeof(LineRenderer),
-				typeof(LaserProperties));
-			LaserEmitter emitter = gameObject.GetComponent<LaserEmitter>();
-			emitter.LineRenderer = gameObject.GetComponent<LineRenderer>();
-			return emitter;
+            GameObject gameObject = new GameObject(
+                "Emitter", 
+                typeof(LaserEmitter), 
+                typeof(LineRenderer),
+                typeof(LaserProperties));
+            LaserEmitter emitter = gameObject.GetComponent<LaserEmitter>();
+            emitter.LineRenderer = gameObject.GetComponent<LineRenderer>();
+            return emitter;
         }
 
         /// <summary>

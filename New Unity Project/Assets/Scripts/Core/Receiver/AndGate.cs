@@ -75,7 +75,7 @@ namespace Core.Receiver
             {
                 // Create a new ray coming out of the other side with the same direction
                 // as the original ray. Forward needs to be negative, see LaserEmitter.
-				LaserEmitter passThroughEmitter = this.PassThroughEmitter.GetEmitter(args.Laser);
+                LaserEmitter passThroughEmitter = this.PassThroughEmitter.GetEmitter(args.Laser);
 
                 passThroughEmitter.transform.position = args.Point + (args.Laser.Direction * 0.1f);
                 passThroughEmitter.transform.forward = -args.Laser.Direction;
@@ -85,7 +85,7 @@ namespace Core.Receiver
                 this.BeamCreated = true;
             }
 
-			this.Hit = true;
+            this.Hit = true;
         }
 
         /// <summary>

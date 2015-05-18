@@ -151,28 +151,17 @@ namespace Network
 
                 if (GUI.Button(new Rect(100, 250, 250, 100), "Refresh Hosts"))
                 {
-                    RefreshHostList();
+                    this.RefreshHostList();
                 }
 
-                if (hosts != null)
+                for (int i = 0; i < this.hosts.Length; i++)
                 {
-                    for (int i = 0; i < hosts.Length; i++)
+                    if (GUI.Button(new Rect(400, 100 + (110 * i), 300, 100), this.hosts[i].gameName))
                     {
-                        if (GUI.Button(new Rect(400, 100 + (110 * i), 300, 100), hosts[i].gameName))
-                        {
-                            InitializeClient(hosts[i]);
-                        }
+                        InitializeClient(this.hosts[i]);
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Refreshes the host list.
-        /// </summary>
-        private void RefreshHostList()
-        {
-            MasterServer.RequestHostList(TypeName);
         }
 
         /// <summary>
@@ -191,6 +180,14 @@ namespace Network
             {
                 this.hosts = MasterServer.PollHostList();
             }
+        }
+
+        /// <summary>
+        /// Refreshes the host list.
+        /// </summary>
+        private void RefreshHostList()
+        {
+            MasterServer.RequestHostList(TypeName);
         }
     }
 }
