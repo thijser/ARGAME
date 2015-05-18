@@ -1101,6 +1101,8 @@
             Class that provides functionality specific to AR on Eyewear devices.
             </summary>
             <remarks>
+            <br/><b>This API is only supported in the %Vuforia SDK for Digital %Eyewear.</b><br/><br/>
+            
             Digital Eyewear integration provides methods to detect and control an 
             Eyewear device and to retrieve calibration data needed to correctly
             register augmentations with the real world.
@@ -1200,11 +1202,32 @@
             Defines which eye the operation is working on
             </summary>
         </member>
-        <member name="F:Vuforia.InternalEyewear.EyeID.EYEID_LEFT">
+        <member name="F:Vuforia.InternalEyewear.EyeID.EYEID_MONOCULAR">
             <summary>Identifier for a monocular (single) eye</summary>
         </member>
-        <member name="F:Vuforia.InternalEyewear.EyeID.EYEID_RIGHT">
+        <member name="F:Vuforia.InternalEyewear.EyeID.EYEID_LEFT">
             <summary>Identifier for the left eye</summary>
+        </member>
+        <member name="F:Vuforia.InternalEyewear.EyeID.EYEID_RIGHT">
+            <summary> Identifier for the right eye</summary>
+        </member>
+        <member name="T:Vuforia.InternalEyewear.EyewearCalibrationReading">
+            <summary>Structure for an eyewear calibration reading to be used with EyewearUserCalibration</summary>
+        </member>
+        <member name="F:Vuforia.InternalEyewear.EyewearCalibrationReading.pose">
+            <summary>Pose matrix from a TrackableResult</summary>
+        </member>
+        <member name="F:Vuforia.InternalEyewear.EyewearCalibrationReading.scale">
+            <summary>A scale in the range 0.0 - 1.0 that should specify the amount of rendering surface height the calibration shape fills</summary>
+        </member>
+        <member name="F:Vuforia.InternalEyewear.EyewearCalibrationReading.centerX">
+            <summary>A position in the range -1.0 to 1.0 that specifies the horizontal center of the calibration shape on the rendering surface</summary>
+        </member>
+        <member name="F:Vuforia.InternalEyewear.EyewearCalibrationReading.centerY">
+            <summary>A position in the range -1.0 to 1.0 that specifies the vertical center of the calibration shape on the rendering surface</summary>
+        </member>
+        <member name="F:Vuforia.InternalEyewear.EyewearCalibrationReading.unused">
+            <summary>Padding bytes for 64bit compatibility</summary>
         </member>
         <member name="T:Vuforia.SmartTerrainInitializationInfo">
             <summary>
@@ -4196,6 +4219,15 @@
             </summary>
         </member>
         <member name="M:Vuforia.QCARUnity.SetHint(Vuforia.QCARUnity.QCARHint,System.Int32)">
+            <summary>
+            Sets a hint for the QCAR SDK
+            Hints help the SDK to understand the developer's needs.
+            However, depending on the device or SDK version the hints
+            might not be taken into consideration.
+            Returns false if the hint is unknown or deprecated.
+            </summary>
+        </member>
+        <member name="M:Vuforia.QCARUnity.SetHint(System.Int32,System.Int32)">
             <summary>
             Sets a hint for the QCAR SDK
             Hints help the SDK to understand the developer's needs.
