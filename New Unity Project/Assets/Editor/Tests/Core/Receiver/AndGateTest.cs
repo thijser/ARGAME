@@ -26,7 +26,7 @@ namespace Core.Receiver
         /// the object is instantiated in Unity.
         /// </summary>
         [Test]
-        public static void StartTest()
+        public void StartTest()
         {
             AndGate ag = CreateAndGate();
             Assert.True(ag.PassThroughEmitter == null);
@@ -39,7 +39,7 @@ namespace Core.Receiver
         /// are correctly instantiated.
         /// </summary>
         [Test]
-        public static void StartTest2()
+        public void StartTest2()
         {
             AndGate ag = CreateAndGate();
             ag.Start();
@@ -80,6 +80,7 @@ namespace Core.Receiver
         public void OneLaserHit()
         {
             AndGate ag = CreateAndGate();
+            ag.Start();
             ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
             Assert.True(ag.Hit);
             Assert.False(ag.BeamCreated);
@@ -94,8 +95,9 @@ namespace Core.Receiver
         public void MoreLaserHit()
         {
             AndGate ag = CreateAndGate();
+            ag.Start();
             ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
-            ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
+            ag.OnLaserHit(null, new HitEventArgs(CreateTestBeam(), Vector3.one, Vector3.back, CreateOrGate()));
             Assert.True(ag.Hit);
             Assert.True(ag.BeamCreated);
         }

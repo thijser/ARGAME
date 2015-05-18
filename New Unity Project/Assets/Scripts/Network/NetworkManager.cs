@@ -10,8 +10,11 @@
 namespace Network
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using UnityEngine;
+    using UnityObject = UnityEngine.Object;
 
     /// <summary>
     /// Manages network communications and synchronizes
@@ -27,7 +30,7 @@ namespace Network
         /// An empty string indicates that Unity's default master server is used.
         /// </para>
         /// </summary>
-        public const string ServerAddress = "127.0.0.1";
+        public const string ServerAddress = "";
 
         /// <summary>
         /// The network port of the master server to connect to.
@@ -132,6 +135,44 @@ namespace Network
             }
 
             this.hosts = new HostData[0];
+        }
+
+        /// <summary>
+        /// Produces a lobby GUI.
+        /// </summary>
+        public void OnGUI()
+        {
+            if (!Network.isClient && !Network.isServer)
+            {
+                if (GUI.Button(new Rect(100, 100, 250, 100), "Start Server"))
+                {
+                    InitializeServer("BEP");
+                }
+
+                if (GUI.Button(new Rect(100, 250, 250, 100), "Refresh Hosts"))
+                {
+                    RefreshHostList();
+                }
+
+                if (hosts != null)
+                {
+                    for (int i = 0; i < hosts.Length; i++)
+                    {
+                        if (GUI.Button(new Rect(400, 100 + (110 * i), 300, 100), hosts[i].gameName))
+                        {
+                            InitializeClient(hosts[i]);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the host list.
+        /// </summary>
+        private void RefreshHostList()
+        {
+            MasterServer.RequestHostList(TypeName);
         }
 
         /// <summary>

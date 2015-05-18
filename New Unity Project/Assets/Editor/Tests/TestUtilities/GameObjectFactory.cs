@@ -64,6 +64,16 @@ namespace TestUtilities
         }
 
         /// <summary>
+        /// Creates and returns a multi emitter.
+        /// </summary>
+        /// <returns>The emitter.</returns>
+        public static MultiEmitter CreateMultiEmitter()
+        {
+            GameObject gameObject = new GameObject("MEmitter", typeof(MultiEmitter));
+            return gameObject.GetComponent<MultiEmitter>();
+        }
+
+        /// <summary>
         /// Creates and returns a laser beam.
         /// </summary>
         /// <returns>The laser beam.</returns>
