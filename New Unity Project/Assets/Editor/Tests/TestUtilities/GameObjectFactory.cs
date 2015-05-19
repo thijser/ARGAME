@@ -96,5 +96,15 @@ namespace TestUtilities
         {
             return new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.forward, CreateAndGate());
         }
+
+        /// <summary>
+        /// Creates and returns a beam splitter game object.
+        /// </summary>
+        /// <returns>The beam splitter.</returns>
+        public static BeamSplitter CreateBeamSplitter()
+        {
+            GameObject gameObject = new GameObject("Splitter", typeof(BeamSplitter));
+            return gameObject.GetComponent<BeamSplitter>();
+        }
     }
 }
