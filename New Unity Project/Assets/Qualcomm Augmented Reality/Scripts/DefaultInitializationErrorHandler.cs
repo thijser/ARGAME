@@ -119,7 +119,7 @@ namespace Vuforia
                         "by logging into your account at developer.vuforia.com and choosing the "+
                         "right product type during project creation";
                     break;
-    #if UNITY_IPHONE
+    #if (UNITY_IPHONE || UNITY_IOS)
                 case QCARUnity.InitError.INIT_NO_CAMERA_ACCESS:
                     mErrorText = 
                         "Camera Access was denied to this App. \n" + 

@@ -11,7 +11,7 @@ namespace Vuforia
 {
     /// <summary>
     /// A default event handler that handles reconstruction events for a ReconstructionFromTarget
-    /// It uses a single Property template that is used for every newly created prop, 
+    /// It uses a single Prop template that is used for every newly created prop, 
     /// and a surface template that is used for the primary surface
     /// </summary>
     public class DefaultSmartTerrainEventHandler : MonoBehaviour
