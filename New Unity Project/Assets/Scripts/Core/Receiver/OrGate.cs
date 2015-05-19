@@ -34,7 +34,7 @@ namespace Core.Receiver
         /// A variable storing whether or not a beam has already been
         /// created this tick.
         /// </summary>
-        private bool beamcreated = false;
+        public bool BeamCreated { get; private set; }
 
         /// <summary>
         /// Gets or sets the LaserEmitter used for creating new Laser beam segments.
@@ -46,6 +46,7 @@ namespace Core.Receiver
         /// </summary>
         public void Start()
         {
+            this.BeamCreated = false;
             this.PassThroughEmitter = gameObject.AddComponent<MultiEmitter>();
         }
 
@@ -77,7 +78,12 @@ namespace Core.Receiver
                 throw new ArgumentNullException("args");
             }
 
-            if (!this.beamcreated)
+            if (!args.IsValid)
+            {
+                throw new ArgumentException("The HitEventArgs object was not valid.");
+            }
+
+            if (!this.BeamCreated)
             {
                 // Create a new ray coming out of the other side with the same direction
                 // as the original ray. Forward needs to be negative, see LaserEmitter.
@@ -89,7 +95,7 @@ namespace Core.Receiver
                 LaserProperties propertiesPost = passThroughEmitter.GetComponent<LaserProperties>();
                 propertiesPost.RGBStrengths = propertiesPre.RGBStrengths;
                 this.CreateBeam(args.Laser);
-                this.beamcreated = true;
+                this.BeamCreated = true;
             }
         }
 
@@ -98,7 +104,7 @@ namespace Core.Receiver
         /// </summary>
         public void LateUpdate()
         {
-            this.beamcreated = false;
+            this.BeamCreated = false;
         }
     }
 }
