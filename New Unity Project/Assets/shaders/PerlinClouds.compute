@@ -77,5 +77,5 @@ double noise(float xx, float yy, float zz){
 void CSMain (uint3 id : SV_DispatchThreadID)
 {	float res = noise((float)id.x,(float)id.y,0.0f)/255;
    // Result[id.xy] = float4(res,res,res,res);
-	Result[id,xy]=float3(1,0,0)
+	Result[id.xy]=float4(1,0,0,1);
 }
