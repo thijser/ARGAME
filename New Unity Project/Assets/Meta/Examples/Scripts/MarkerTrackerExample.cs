@@ -35,10 +35,14 @@ public class MarkerTrackerExample : MonoBehaviour
 
         Transform newTransform = this.transform;
         if (MarkerDetector.Instance != null)
-        {
-            if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(id))
+        {	
+            if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(id)){
                 MarkerDetector.Instance.GetMarkerTransform(id, ref newTransform);
-        }
+				PositionLinked pl;
+				if( pl = gameObject.GetComponent<PositionLinker>()!=null)
+
+			}
+			}
     }
 
 }
