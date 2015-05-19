@@ -103,7 +103,7 @@ namespace Core
                 ILaserReceiver receiver = hit.collider.GetComponent<ILaserReceiver>();
                 if (receiver == null)
                 {
-                    this.Endpoint = this.Origin + (this.Direction * MaxLaserLength);
+                    this.Endpoint = hit.point;
                     this.emitter.AddLaser(this);
                     return new HitEventArgs();
                 }
