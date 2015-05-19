@@ -2225,7 +2225,6 @@ GameObject:
   - 114: {fileID: 11414388}
   - 114: {fileID: 11418442}
   - 114: {fileID: 11499310}
-  - 114: {fileID: 11416148}
   m_Layer: 0
   m_Name: ARCamera
   m_TagString: Untagged
@@ -3817,7 +3816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &164750
 GameObject:
   m_ObjectHideFlags: 1
@@ -12726,17 +12725,6 @@ MonoBehaviour:
   m_Text: ':
 
     ;'
---- !u!114 &11416148
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 133992}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53da1adc3659e8c45996dbe2fd7113ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11416584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12960,7 +12948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mguiCanvas: {fileID: 100000, guid: a32fc4e15e9dd7249a7fbcb68701184d, type: 2}
-  _enableGrid: 1
+  _enableGrid: 0
   _defaultVectorStyle:
     surfaceColor: {r: 0, g: 1, b: 1, a: 1}
     lineColor: {r: 1, g: 1, b: 1, a: .56078434}
@@ -17762,12 +17750,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _handCloud: 0
-  _fingertipIndicators: 1
-  _hoverIndicators: 1
-  _pressIndicators: 1
-  _pressSounds: 1
-  _dwellIndicators: 1
-  _grabCircles: 1
+  _fingertipIndicators: 0
+  _hoverIndicators: 0
+  _pressIndicators: 0
+  _pressSounds: 0
+  _dwellIndicators: 0
+  _grabCircles: 0
   _grabCirclesAlways: 0
   _handCloudObject: {fileID: 184660}
   _fingertipIndicator: {fileID: 100000, guid: 5ba239eeb9e4c9540aacba43ffadef64, type: 2}
