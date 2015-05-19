@@ -14,14 +14,11 @@ int main(int argc, char** argv) {
     int w = cap.get(CV_CAP_PROP_FRAME_WIDTH);
     int h = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
 
-    //cap.set(CV_CAP_PROP_SETTINGS, 1);
-
-    // 24 x 19
-
     while (true) {
         Mat frame, frame2;
         cap.read(frame);
 
+        // Correct perspective of surface
         Point2f src[] = {Point2f(140, 0), Point2f(520, 0), Point2f(73, 479), Point2f(586, 479)};
         Point2f dst[] = {Point2f(0, 0), Point2f(640, 0), Point2f(0, 480), Point2f(640, 480)};
         Mat m = getPerspectiveTransform(src, dst);
@@ -29,7 +26,7 @@ int main(int argc, char** argv) {
         warpPerspective(frame, frame2, m, cv::Size(w, h));
         resize(frame2, frame, cv::Size(21 * 30, 24 * 30));
 
-        //cvtColor(frame, frame2, CV_BGR2GRAY);
+        // Threshold green markers
         Mat frameParts[3];
         split(frame, frameParts);
 
@@ -45,7 +42,18 @@ int main(int argc, char** argv) {
         auto kernel2 = getStructuringElement(MORPH_RECT, cv::Size(9, 9));
         dilate(result2, result, kernel2);
 
-        imshow("MyVideo", result);
+        // Find edges
+        Canny(result, result2, 4, 8, 3);
+
+        // Find markers
+        vector<vector<Point>> contours;
+
+        findContours(result, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+
+        std::cout << "found " << contours.size() << " markers" << std::endl;
+
+        // Show result
+        imshow("MyVideo", result2);
 
         if (waitKey(10) == 27) {
             break;
