@@ -7,7 +7,7 @@ using namespace NL;
 
 namespace mirrors {
 
-ServerSocket::ServerSocket(unsigned serverPort) :
+ServerSocket::ServerSocket(uint serverPort) :
         sock(new Socket(serverPort)) {
 }
 
@@ -16,7 +16,7 @@ ServerSocket::~ServerSocket() throw() {
 }
 
 void ServerSocket::broadcastMessage(char *buffer, int length) {
-    for (unsigned i = 0; i < clients.size(); i++) {
+    for (uint i = 0; i < clients.size(); i++) {
         clients.get(i)->send(buffer, length);
     }
 }

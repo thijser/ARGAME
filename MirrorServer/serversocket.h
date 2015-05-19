@@ -23,7 +23,7 @@ public:
      * @brief Creates a new server Socket that connects to the given port.
      * @param serverPort - The port of the server Socket.
      */
-    explicit ServerSocket(unsigned serverPort);
+    explicit ServerSocket(uint serverPort);
 
     virtual ~ServerSocket() throw();
 
