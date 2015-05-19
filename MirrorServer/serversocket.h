@@ -1,3 +1,12 @@
+/*
+ * Copyright 2015, Delft University of Technology
+ *
+ * This software is licensed under the terms of the MIT license.
+ * See http://opensource.org/licenses/MIT for the full license.
+ *
+ *
+ */
+
 #ifndef MIRRORS_SERVERSOCKET_H
 #define MIRRORS_SERVERSOCKET_H
 
@@ -16,8 +25,14 @@ namespace mirrors {
  */
 class ServerSocket {
 private:
+    /// The Socket that clients can connect to.
     Socket *sock;
+
+    /// The SocketGroup maintaining the connected clients.
     SocketGroup clients;
+
+    /// Flag indicating if the server should still be running.
+    bool keepGoing;
 public:
     /**
      * @brief Creates a new server Socket that connects to the given port.
@@ -25,19 +40,28 @@ public:
      */
     explicit ServerSocket(uint serverPort);
 
+    /**
+     * @brief Deletes the Socket.
+     */
     virtual ~ServerSocket() throw();
 
     /**
-     * @brief The NetLink server Socket
-     * @return The NetLink Socket being used.
+     * @brief Disconnects the server Socket.
      */
-    Socket* serverSocket() const { return sock; }
+    void disconnect();
 
     /**
-     * @brief The SocketGroup containing all connected clients.
-     * @return The SocketGroup.
+     * @brief Runs the server until disconnected.
+     *
+     * This function will only return after the Socket is disconnected.
      */
-    const SocketGroup* connectedClients() const { return &clients; }
+    void run();
+
+    /**
+     * @brief The amount of connections this Server currently has.
+     * @return The amount of connections.
+     */
+    int connectionCount() const { return clients.size(); }
 
     /**
      * @brief Broadcasts a message to all clients.
@@ -45,7 +69,7 @@ public:
      * @param buffer - The buffer with the data to send.
      * @param length - The length of the data, must be positive.
      */
-    void broadcastMessage(char *buffer, int length);
+    void broadcastMessage(const void *buffer, int length);
 };
 
 } // namespace mirrors
