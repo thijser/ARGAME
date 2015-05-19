@@ -1,13 +1,10 @@
 #ifndef MIRRORS_SERVERSOCKET_H
 #define MIRRORS_SERVERSOCKET_H
 
-#include <vector>
-
 #include "netlink/socket_group.h"
 
 namespace NL {
   class Socket;
-  class SocketGroup;
 }
 
 using namespace NL;
