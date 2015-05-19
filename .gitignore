@@ -3,6 +3,10 @@
 [Oo]bj/
 [Bb]uild/
 *_Data/
+*-build/
+
+# CMakeLists user-specific files
+CMakeLists.txt.user
 
 # Blender backup files
 *.blend?
