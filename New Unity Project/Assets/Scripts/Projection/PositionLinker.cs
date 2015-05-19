@@ -74,6 +74,48 @@ public class PositionLinker : MonoBehaviour
     /// <summary>
     /// Updates the position and/or rotation of the LinkedTo Transform.
     /// </summary>
+
+	public void Linked(){
+		if (this.Mode == LinkingMode.Project)
+		{
+			Vector3 v1 = transform.position - this.LevelMarker.position;
+			Vector3 n = this.LevelMarker.up;
+			
+			Vector3 proj = v1 - (Vector3.Dot(v1, n) * n);
+			proj += this.LevelMarker.position;
+			
+			this.LinkedTo.position = proj;
+		}
+		else
+		{
+			this.LinkedTo.position = transform.position;
+		}
+		
+		switch (this.Mode)
+		{
+		case LinkingMode.Exact:
+			this.LinkedTo.rotation = transform.rotation;
+			break;
+		case LinkingMode.IgnoreHeight:
+			Vector3 angles = transform.rotation.eulerAngles;
+			angles.x = this.LinkedTo.eulerAngles.x;
+			angles.z = this.LinkedTo.eulerAngles.z;
+			this.LinkedTo.rotation = Quaternion.Euler(angles);
+			break;
+		case LinkingMode.PositionOnly:
+			break;
+		case LinkingMode.FollowLevel:
+			this.LinkedTo.rotation = this.LevelMarker.rotation;
+			break;
+		case LinkingMode.Project:
+			this.LinkedTo.rotation = this.LevelMarker.rotation;
+			this.LinkedTo.rotation *= Quaternion.AngleAxis(this.angle, new Vector3(0, 1, 0));
+			break;
+		default:
+			throw new ArgumentException("Invalid LinkingMode");
+		}
+
+	}
     public void Update()
     {
         if (Input.GetKey(KeyCode.W))
@@ -86,43 +128,5 @@ public class PositionLinker : MonoBehaviour
             this.angle -= 1.0f; 
         }
 
-        if (this.Mode == LinkingMode.Project)
-        {
-            Vector3 v1 = transform.position - this.LevelMarker.position;
-            Vector3 n = this.LevelMarker.up;
-
-            Vector3 proj = v1 - (Vector3.Dot(v1, n) * n);
-            proj += this.LevelMarker.position;
-
-            this.LinkedTo.position = proj;
-        }
-        else
-        {
-            this.LinkedTo.position = transform.position;
-        }
-
-        switch (this.Mode)
-        {
-            case LinkingMode.Exact:
-                this.LinkedTo.rotation = transform.rotation;
-                break;
-            case LinkingMode.IgnoreHeight:
-                Vector3 angles = transform.rotation.eulerAngles;
-                angles.x = this.LinkedTo.eulerAngles.x;
-                angles.z = this.LinkedTo.eulerAngles.z;
-                this.LinkedTo.rotation = Quaternion.Euler(angles);
-                break;
-            case LinkingMode.PositionOnly:
-                break;
-            case LinkingMode.FollowLevel:
-                this.LinkedTo.rotation = this.LevelMarker.rotation;
-                break;
-            case LinkingMode.Project:
-                this.LinkedTo.rotation = this.LevelMarker.rotation;
-                this.LinkedTo.rotation *= Quaternion.AngleAxis(this.angle, new Vector3(0, 1, 0));
-                break;
-            default:
-                throw new ArgumentException("Invalid LinkingMode");
-        }
     }
 }
