@@ -60,7 +60,11 @@ namespace Core.Emitter
         [Test]
         public void EnableDisableTest()
         {
-
+            MultiEmitter me = CreateMultiEmitter();
+            LaserEmitter le = me.GetEmitter(CreateTestBeam());
+            Assert.True(le.Enabled);
+            me.DisableAll();
+            Assert.False(le.Enabled);
         }
     }
 }
