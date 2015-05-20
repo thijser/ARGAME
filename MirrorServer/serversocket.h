@@ -33,6 +33,10 @@ private:
 
     /// Flag indicating if the server should still be running.
     bool keepGoing;
+
+    // Disable copying of ServerSockets.
+    ServerSocket(const ServerSocket&) = delete;
+    ServerSocket& operator=(const ServerSocket&) = delete;
 public:
     /**
      * @brief Creates a new server Socket that connects to the given port.
@@ -70,6 +74,16 @@ public:
      * @param length - The length of the data, must be positive.
      */
     void broadcastMessage(const void *buffer, int length);
+
+    /**
+     * @brief Broadcasts a position update to all clients.
+     * @param id        - The id of the object.
+     * @param x         - The x coordinate.
+     * @param y         - The y coordinate.
+     * @param timestamp - The timestamp of the update.
+     */
+    void broadcastPositionUpdate(uint32_t id, float x, float y, uint64_t timestamp);
+
 };
 
 } // namespace mirrors

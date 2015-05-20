@@ -16,6 +16,18 @@ using namespace NL;
 
 namespace mirrors {
 
+namespace {
+    // Helper function that writes arbitrary types
+    // to a char array.
+    template<typename T>
+    void writeValue(T f, char *buf, int offset) {
+        char* bytes = reinterpret_cast<char*>(&f);
+        for (unsigned long i = 0; i < sizeof(T); i++) {
+            buf[offset + i] = bytes[i];
+        }
+    }
+}
+
 ServerSocket::ServerSocket(uint serverPort) :
         sock(new Socket(serverPort)), keepGoing(true) {
 }
@@ -39,6 +51,16 @@ void ServerSocket::broadcastMessage(const void *buffer, int length) {
     for (uint i = 0; i < clients.size(); i++) {
         clients.get(i)->send(buffer, length);
     }
+}
+
+void ServerSocket::broadcastPositionUpdate(uint32_t id, float x, float y, uint64_t timestamp) {
+    char buffer[20];
+    writeValue(x, buffer, 0);
+    writeValue(y, buffer, 4);
+    writeValue(id, buffer, 8);
+    writeValue(timestamp, buffer, 12);
+
+    broadcastMessage(buffer, 20);
 }
 
 } // namespace mirrors

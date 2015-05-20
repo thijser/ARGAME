@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Network;
 
 public class RemoteObjectSyncer : MonoBehaviour {
 	public  Dictionary<int,GameObject> objectTable;
