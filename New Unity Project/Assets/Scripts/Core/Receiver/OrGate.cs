@@ -31,8 +31,8 @@ namespace Core.Receiver
         public float MinimumStrength;
 
         /// <summary>
-        /// A variable storing whether or not a beam has already been
-        /// created this tick.
+        /// Gets a value indicating whether or not 
+        /// a beam has already been created this tick.
         /// </summary>
         public bool BeamCreated { get; private set; }
 

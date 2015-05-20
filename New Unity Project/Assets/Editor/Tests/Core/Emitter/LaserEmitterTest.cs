@@ -43,7 +43,7 @@ namespace Core.Emitter
             LaserEmitter le = CreateEmitter();
             le.Start();
             int i = le.Segments.Count;
-            le.AddLaser(CreateTestBeam());
+            le.AddLaser(GameObjectFactory.CreateTestBeam());
             Assert.True(le.Segments.Count == i + 1);
         }
 
@@ -55,7 +55,7 @@ namespace Core.Emitter
         {
             LaserEmitter le = CreateEmitter();
             le.Start();
-            le.AddLaser(CreateTestBeam());
+            le.AddLaser(GameObjectFactory.CreateTestBeam());
             le.Clear();
             Assert.True(le.Segments.Count == 0);
         }
@@ -68,7 +68,7 @@ namespace Core.Emitter
         {
             LaserEmitter le = CreateEmitter();
             le.Start();
-            le.AddLaser(CreateTestBeam());
+            le.AddLaser(GameObjectFactory.CreateTestBeam());
             le.Update();
             Assert.False(le.Segments.Count == 0);
         }

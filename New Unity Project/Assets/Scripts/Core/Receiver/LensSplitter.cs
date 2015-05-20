@@ -95,13 +95,13 @@ namespace Core.Receiver
         }
 
         /// <summary>
-        /// Returns wheter or not the object is hit by a laser beam.
+        /// Returns whether or not the object is hit by a laser beam.
         /// </summary>
         /// <returns>True if the object is hit by a laser beam in the 
         /// same frame, false otherwise.</returns>
         public bool IsHit()
         {
-            return hit;
+            return this.hit;
         }
     }
 }

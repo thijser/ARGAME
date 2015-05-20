@@ -22,18 +22,18 @@ namespace Core.Emitter
     public class MultiEmitterTest : MirrorsUnitTest
     {
         /// <summary>
-        /// Tests if the correct ecxeption is thrown when 
+        /// Tests if the correct exception is thrown when 
         /// ApplyProperties is called with a null reference.
         /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ApplyTest()
         {
-            MultiEmitter.ApplyProperties(null, CreateTestBeam());
+            MultiEmitter.ApplyProperties(null, GameObjectFactory.CreateTestBeam());
         }
 
         /// <summary>
-        /// Tests if the correct ecxeption is thrown when 
+        /// Tests if the correct exception is thrown when 
         /// ApplyProperties is called with a null reference.
         /// </summary>
         [Test]
@@ -50,7 +50,7 @@ namespace Core.Emitter
         [Test]
         public void ApplyTestValid()
         {
-            Assert.NotNull(MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<LineRenderer>(), CreateTestBeam()));
+            Assert.NotNull(MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<LineRenderer>(), GameObjectFactory.CreateTestBeam()));
         }
     }
 }
