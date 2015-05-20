@@ -5,7 +5,7 @@ public class PositionUpdate : MonoBehaviour {
 	public float X{get;private set;}
 	public float Y{get;private set;}
 	public int ID{get; private set;}
-	public int TimeStamp{get; private set;}
+	public long TimeStamp{get; private set;}
 
 	public override int GetHashCode ()
 	{
@@ -13,6 +13,9 @@ public class PositionUpdate : MonoBehaviour {
 	}
 	public override bool Equals (object o)
 	{
+		if(o==null){
+			return false;
+		}
 		if(o.GetType()==this.GetType()){
 		PositionUpdate pu = (PositionUpdate)o;
 			if(this.X==pu.X&&this.Y==pu.Y&&this.ID==pu.ID&&this.TimeStamp==pu.TimeStamp){
@@ -22,7 +25,7 @@ public class PositionUpdate : MonoBehaviour {
 		return false;
 	}
 
-	public PositionUpdate(float x,float y , int id,int timestamp){
+	public PositionUpdate(float x,float y , int id,long timestamp){
 		X=x;
 		Y=y;
 		ID=id;

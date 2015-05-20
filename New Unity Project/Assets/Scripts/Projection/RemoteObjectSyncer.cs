@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class RemoteObjectSyncer : MonoBehaviour {
-	public Dictionary<int,GameObject> objectTable;
+	public Hashtable objectTable;
 	public void SyncLoc (PositionUpdate P){
 	
 	}
