@@ -52,5 +52,15 @@ namespace Core.Emitter
         {
             Assert.NotNull(MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<LineRenderer>(), GameObjectFactory.CreateTestBeam()));
         }
+
+        /// <summary>
+        /// Tests if the enabling and disabling
+        /// of lasers functions as it should.
+        /// </summary>
+        [Test]
+        public void EnableDisableTest()
+        {
+
+        }
     }
 }
