@@ -24,8 +24,6 @@ int main(int, char**) {
         cv::putText(finalFrame, debugText, Point(10, 30), cv::FONT_HERSHEY_TRIPLEX, 1, cv::Scalar(0, 255, 255), 1);
 
         cv::imshow("Camera", finalFrame);
-
-        cv::waitKey(10);
     });
 
     return 0;

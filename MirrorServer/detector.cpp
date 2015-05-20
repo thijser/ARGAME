@@ -36,7 +36,7 @@ void detector::detect(const detection_callback& callback) {
 }
 
 void detector::loop(const detection_callback& callback) {
-    while (true) {
+    while (cv::waitKey(10) != 27) {
         detect(callback);
     }
 }
@@ -97,7 +97,7 @@ size_t detector::locateMarkers(const Mat& thresholdedFrame) const {
             size_t children = 0;
 
             for (size_t j = 0; j < hierarchy.size(); j++) {
-                if (hierarchy[j][hierarchy_members::PARENT] == i) {
+                if (hierarchy[j][hierarchy_members::PARENT] == static_cast<int>(i)) {
                     children++;
                 }
             }
