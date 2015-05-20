@@ -34,9 +34,9 @@ void detector::detect(const detection_callback& callback) {
     Mat thresholdedFrame = thresholdGreen(correctedFrame);
 
     // Use thresholded image to locate marker candidates
-    int markersFound = locateMarkers(thresholdedFrame);
+    auto markers = locateMarkers(thresholdedFrame);
 
-    callback(correctedFrame, markersFound);
+    callback(correctedFrame, markers);
 }
 
 void detector::loop(const detection_callback& callback) {
@@ -85,7 +85,7 @@ Mat detector::thresholdGreen(const Mat& correctedFrame) const {
     return cleanThreshold;
 }
 
-size_t detector::locateMarkers(const Mat& thresholdedFrame) const {
+vector<Point2f> detector::locateMarkers(const Mat& thresholdedFrame) const {
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
 
@@ -111,5 +111,19 @@ size_t detector::locateMarkers(const Mat& thresholdedFrame) const {
         }
     }
 
-    return potentialMarkers.size();
+    // Find the centers of the potential markers
+    vector<Point2f> centers;
+
+    for (size_t contourId : potentialMarkers) {
+        Point sum(0, 0);
+
+        for (auto& p : contours[contourId]) {
+            sum += p;
+        }
+
+        Point2f center = Point2f(sum) / static_cast<float>(contours[contourId].size());
+        centers.push_back(center);
+    }
+
+    return centers;
 }

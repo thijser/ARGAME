@@ -122,6 +122,9 @@ static void checkReadError(const string& functionName) {
 
 void Socket::initSocket() {
 
+    WSAData wsaData;
+    WSAStartup(0x202, &wsaData);
+
     struct addrinfo conf, *res = NULL;
     memset(&conf, 0, sizeof(conf));
 
@@ -188,9 +191,7 @@ void Socket::initSocket() {
 
         string errorMsg = "Socket::initSocket: Error setting addrInfo: ";
 
-		#ifndef _MSC_VER
-			errorMsg += gai_strerror(status);
-		#endif
+		errorMsg += gai_strerror(status);
 
         throw Exception(Exception::ERROR_SET_ADDR_INFO, errorMsg, getSocketErrorCode());
     }

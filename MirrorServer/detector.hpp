@@ -13,7 +13,9 @@ using cv::Vec4i;
 using cv::Size;
 using cv::VideoCapture;
 
-typedef std::function<void(const Mat&, size_t)> detection_callback;
+using std::vector;
+
+typedef std::function<void(const Mat&, const vector<Point2f>&)> detection_callback;
 
 class detector {
 public:
@@ -34,7 +36,7 @@ private:
     Mat correctPerspective(const Mat& rawFrame) const;
     Mat thresholdGreen(const Mat& correctedFrame) const;
 
-    size_t locateMarkers(const Mat& thresholdedFrame) const;
+    vector<Point2f> locateMarkers(const Mat& thresholdedFrame) const;
 };
 
 #endif
