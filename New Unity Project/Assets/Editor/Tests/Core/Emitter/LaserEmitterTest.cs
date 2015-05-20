@@ -16,7 +16,7 @@ namespace Core.Emitter
     using UnityEngine;
 
     /// <summary>
-    /// A test class for the lens splitter.
+    /// A test class for the laser emitter.
     /// </summary>
     [TestFixture]
     public class LaserEmitterTest : MirrorsUnitTest
