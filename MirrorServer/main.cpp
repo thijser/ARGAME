@@ -8,11 +8,21 @@
  */
 
 #include <iostream>
+#include <thread>
+
 #include <opencv2/highgui/highgui.hpp>
+
 #include "detector.hpp"
+#include "serversocket.h"
+using namespace mirrors;
+
+#define SERVER_PORT 23369
 
 int main(int, char**) {
     cv::namedWindow("Camera", CV_WINDOW_AUTOSIZE);
+
+    ServerSocket server(SERVER_PORT);
+    std::thread serverThread([&](){ server.run(); });
 
     detector cameraDetector;
 
@@ -25,6 +35,10 @@ int main(int, char**) {
 
         cv::imshow("Camera", finalFrame);
     });
+
+    // Disconnect the Socket and wait for the server to stop.
+    server.disconnect();
+    serverThread.join();
 
     return 0;
 }
