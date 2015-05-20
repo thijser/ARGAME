@@ -19,10 +19,11 @@ int main(int, char**) {
     cameraDetector.setSurfaceCorners({Point2f(171, 2), Point2f(518, 2), Point2f(121, 477), Point2f(586, 475)});
 
     cameraDetector.loop([](const Mat& processedFrame, size_t markersFound) {
+        Mat finalFrame(processedFrame);
         std::string debugText = "markers: " + std::to_string(markersFound);
-        cv::putText(processedFrame, debugText, Point(10, 30), cv::FONT_HERSHEY_TRIPLEX, 1, cv::Scalar(0, 255, 255), 1);
+        cv::putText(finalFrame, debugText, Point(10, 30), cv::FONT_HERSHEY_TRIPLEX, 1, cv::Scalar(0, 255, 255), 1);
 
-        cv::imshow("Camera", processedFrame);
+        cv::imshow("Camera", finalFrame);
 
         cv::waitKey(10);
     });
