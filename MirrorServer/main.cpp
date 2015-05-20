@@ -16,6 +16,7 @@ int main(int, char**) {
 
     detector cameraDetector;
 
+    cameraDetector.setSurfaceCorners({Point2f(423, 1), Point2f(944, 1), Point2f(344, 716), Point2f(1041, 719)});
 
     cameraDetector.loop([](const Mat& processedFrame, size_t markersFound) {
         Mat finalFrame(processedFrame);
