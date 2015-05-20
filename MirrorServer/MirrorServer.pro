@@ -18,7 +18,6 @@ CONFIG  -= qt
 # We're building a simple console application, so
 # disable building an application bundle.
 CONFIG  += console c++11
-CONFIG  -= app_bundle
 
 # NetLink also uses .inc as include file extension
 # We tell QMake to treat .inc files as header files.
@@ -54,7 +53,8 @@ HEADERS += \
     netlink/util.h \
     netlink/util.inline.h \
     netlink/exception.code.inc \
-    serversocket.h
+    serversocket.h \
+    detector.hpp
 
 SOURCES += \
     main.cpp \
@@ -63,4 +63,5 @@ SOURCES += \
     netlink/socket_group.cc \
     netlink/socket.cc \
     netlink/util.cc \
-    serversocket.cpp
+    serversocket.cpp \
+    detector.cpp

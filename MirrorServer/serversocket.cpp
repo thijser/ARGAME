@@ -9,9 +9,11 @@
 
 #include "serversocket.h"
 
+#include <iostream>
+using namespace std;
+
 #include "netlink/socket.h"
 #include "netlink/socket_group.h"
-
 using namespace NL;
 
 namespace mirrors {
@@ -42,9 +44,11 @@ void ServerSocket::disconnect() {
 }
 
 void ServerSocket::run() {
+    cout << "Server started (listening on port " << sock->portFrom() << ")" << endl;
     while (keepGoing) {
         clients.listen(2000);
     }
+    cout << "Server stopped" << endl;
 }
 
 void ServerSocket::broadcastMessage(const void *buffer, int length) {
