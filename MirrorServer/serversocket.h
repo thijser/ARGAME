@@ -82,7 +82,7 @@ public:
      * @param y         - The y coordinate.
      * @param timestamp - The timestamp of the update.
      */
-    void broadcastPositionUpdate(int id, float x, float y, long timestamp);
+    void broadcastPositionUpdate(uint32_t id, float x, float y, uint64_t timestamp);
 
 };
 
