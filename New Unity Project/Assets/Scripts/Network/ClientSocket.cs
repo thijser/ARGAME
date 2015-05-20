@@ -1,9 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Network
+﻿namespace Network
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Net.Sockets;
     using UnityEngine;
@@ -37,12 +36,6 @@ namespace Network
         private Socket socket; 
 
         /// <summary>
-        /// The SocketPermission required for making the 
-        /// connection.
-        /// </summary>
-        private SocketPermission permission;
-
-        /// <summary>
         /// The end point of the Socket connection.
         /// </summary>
         private IPEndPoint endPoint;
@@ -58,12 +51,7 @@ namespace Network
         public void Start() 
         {
             this.buffer = new byte[PacketSize];
-            this.permission = new SocketPermission(
-                NetworkAccess.Connect, 
-                TransportType.Tcp, 
-                "",
-                SocketPermission.AllPorts);
-            
+
             IPAddress[] addresses = Dns.GetHostEntry(this.ServerAddress).AddressList;
             if (addresses.Length == 0) 
             {
@@ -73,11 +61,18 @@ namespace Network
 
             IPAddress address = addresses[0];
             this.endPoint = new IPEndPoint(address, this.ServerPort);
-            this.socket = new Socket(address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            this.socket.Connect(this.endPoint);
 
-            // This causes the Socket to wait for enough input. 
+            // Acquires permission to use a Socket for the desired connection.
+            SocketPermission permission = new SocketPermission(
+                NetworkAccess.Connect, 
+                TransportType.Tcp, 
+                address.ToString(),
+                this.ServerPort);
+            permission.Demand();
+
+            this.socket = new Socket(address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             this.socket.NoDelay = false;
+            this.socket.Connect(this.endPoint);
         }
 		
         /// <summary>
