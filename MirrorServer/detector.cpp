@@ -12,9 +12,13 @@ namespace hierarchy_members {
     };
 }
 
-detector::detector(int captureDevice) {
+detector::detector(int captureDevice, int requestedWidth, int requestedHeight) {
     cap.open(captureDevice);
 
+    cap.set(CV_CAP_PROP_FRAME_WIDTH, requestedWidth);
+    cap.set(CV_CAP_PROP_FRAME_HEIGHT, requestedHeight);
+
+    // Get actual resolution
     width = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_WIDTH));
     height = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 }
@@ -48,7 +52,7 @@ Mat detector::capture() {
 }
 
 Mat detector::correctPerspective(const Mat& rawFrame) const {
-    static Point2f dst[] = {Point2f(0, 0), Point2f(640, 0), Point2f(0, 480), Point2f(640, 480)};
+    static Point2f dst[] = {Point2f(0, 0), Point2f(width, 0), Point2f(0, height), Point2f(width, height)};
     Mat m = getPerspectiveTransform(surfaceCorners.data(), dst);
 
     Mat tmp, output;
@@ -67,9 +71,8 @@ Mat detector::thresholdGreen(const Mat& correctedFrame) const {
     // don't contain much blue and have a red component > green
     Mat greenThreshold, blueThreshold;
     inRange(frameParts[1], cv::Scalar(50), cv::Scalar(255), greenThreshold);
-    inRange(frameParts[0], cv::Scalar(60), cv::Scalar(255), blueThreshold);
 
-    Mat rawThreshold = greenThreshold & ~blueThreshold & (frameParts[1] > frameParts[2]);
+    Mat rawThreshold = greenThreshold & (frameParts[1] > frameParts[2]) & (frameParts[1] > frameParts[0] * 1.2);
 
     // Clean up thresholded image by eroding noise and dilating to remove holes
     Mat tmp, cleanThreshold;

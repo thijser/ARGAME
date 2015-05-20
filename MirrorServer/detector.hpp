@@ -17,7 +17,7 @@ typedef std::function<void(const Mat&, size_t)> detection_callback;
 
 class detector {
 public:
-    detector(int captureDevice = 0);
+    detector(int captureDevice = 0, int requestedWidth = 1280, int requestedHeight = 720);
 
     void setSurfaceCorners(const std::vector<Point2f>& corners);
 
