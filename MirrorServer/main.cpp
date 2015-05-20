@@ -1,3 +1,12 @@
+/*
+ * Copyright 2015, Delft University of Technology
+ *
+ * This software is licensed under the terms of the MIT license.
+ * See http://opensource.org/licenses/MIT for the full license.
+ *
+ *
+ */
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -6,15 +15,7 @@
 using namespace cv;
 using namespace std;
 
-static double angle(Point pt1, Point pt2, Point pt0) {
-    double dx1 = pt1.x - pt0.x;
-    double dy1 = pt1.y - pt0.y;
-    double dx2 = pt2.x - pt0.x;
-    double dy2 = pt2.y - pt0.y;
-    return (dx1*dx2 + dy1*dy2) / sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);
-}
-
-int main(int argc, char** argv) {
+int main(int, char**) {
     VideoCapture cap(0);
 
     namedWindow("Master Camera", CV_WINDOW_AUTOSIZE);
