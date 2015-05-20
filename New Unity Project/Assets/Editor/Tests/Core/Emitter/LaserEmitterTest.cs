@@ -7,10 +7,9 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Core.Receiver
+namespace Core.Emitter
 {
     using System;
-    using Core.Emitter;
     using NSubstitute;
     using NUnit.Framework;
     using TestUtilities;
