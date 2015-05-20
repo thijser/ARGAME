@@ -108,6 +108,16 @@ namespace TestUtilities
         }
 
         /// <summary>
+        /// Creates and returns a lens splitter game object.
+        /// </summary>
+        /// <returns>The lens splitter.</returns>
+        public static LensSplitter CreateLensSplitter()
+        {
+            GameObject gameObject = new GameObject("Splitter", typeof(LensSplitter));
+            return gameObject.GetComponent<LensSplitter>();
+        }
+
+        /// <summary>
         /// Creates a portal that is linked to another portal.
         /// </summary>
         /// <returns>A linked portal.</returns>

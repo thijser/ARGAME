@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="BeamSplitterTest.cs" company="Delft University of Technology">
+// <copyright file="LensSplitterTest.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //     
 //     This software is licensed under the terms of the MIT License.
@@ -15,25 +15,22 @@ namespace Core.Receiver
     using NUnit.Framework;
     using TestUtilities;
     using UnityEngine;
-    using UnityObject = UnityEngine.Object;
 
     /// <summary>
-    /// A test class for the beam splitter.
+    /// A test class for the lens splitter.
     /// </summary>
     [TestFixture]
-    public class BeamSplitterTest : MirrorsUnitTest
+    public class LensSplitterTest : MirrorsUnitTest
     {
         /// <summary>
-        /// Tests if a MultiEmitter object is added when 
-        /// the object is instantiated in Unity.
+        /// Tests if the object does not
+        /// raise its hit flag without being hit.
         /// </summary>
         [Test]
         public void StartTest()
         {
-            BeamSplitter bs = CreateBeamSplitter();
-            Assert.Null(bs.PassThroughEmitter);
-            bs.Start();
-            Assert.NotNull(bs.PassThroughEmitter);
+            LensSplitter ls = CreateLensSplitter();
+            Assert.False(ls.IsHit());
         }
 
         /// <summary>
@@ -44,9 +41,8 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullTest()
         {
-            BeamSplitter bs = CreateBeamSplitter();
-            bs.Start();
-            bs.OnLaserHit(null, null);
+            LensSplitter ls = CreateLensSplitter();
+            ls.OnLaserHit(null, null);
         }
 
         /// <summary>
@@ -57,9 +53,8 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentException))]
         public void InvalidTest()
         {
-            BeamSplitter bs = CreateBeamSplitter();
-            bs.Start();
-            bs.OnLaserHit(null, new HitEventArgs());
+            LensSplitter ls = CreateLensSplitter();
+            ls.OnLaserHit(null, new HitEventArgs());
         }
     }
 }

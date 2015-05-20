@@ -66,6 +66,11 @@ namespace Core.Receiver
                 throw new ArgumentNullException("args");
             }
 
+            if (!args.IsValid)
+            {
+                throw new ArgumentException("The supplied HitEventArgs object was invalid.");
+            }
+
             this.hit = true;
             this.rgbStrengths = args.Laser.Emitter.GetComponent<LaserProperties>().RGBStrengths;
 
@@ -87,6 +92,16 @@ namespace Core.Receiver
             this.outRight.GetComponent<LaserProperties>().RGBStrengths = this.rgbStrengths / 2;
 
             this.hit = false;
+        }
+
+        /// <summary>
+        /// Returns wheter or not the object is hit by a laser beam.
+        /// </summary>
+        /// <returns>True if the object is hit by a laser beam in the 
+        /// same frame, false otherwise.</returns>
+        public bool IsHit()
+        {
+            return hit;
         }
     }
 }
