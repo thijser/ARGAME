@@ -42,7 +42,7 @@ public:
      * @brief Creates a new server Socket that connects to the given port.
      * @param serverPort - The port of the server Socket.
      */
-    explicit ServerSocket(uint serverPort);
+    explicit ServerSocket(uint16_t serverPort);
 
     /**
      * @brief Deletes the Socket.

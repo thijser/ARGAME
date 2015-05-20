@@ -30,7 +30,7 @@ namespace {
     }
 }
 
-ServerSocket::ServerSocket(uint serverPort) :
+ServerSocket::ServerSocket(uint16_t serverPort) :
         sock(new Socket(serverPort)), keepGoing(true) {
 }
 
@@ -52,7 +52,7 @@ void ServerSocket::run() {
 }
 
 void ServerSocket::broadcastMessage(const void *buffer, int length) {
-    for (uint i = 0; i < clients.size(); i++) {
+    for (uint16_t i = 0; i < clients.size(); i++) {
         clients.get(i)->send(buffer, length);
     }
 }
