@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="AndGateTest.cs" company="Delft University of Technology">
+// <copyright file="OrGateTest.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //     
 //     This software is licensed under the terms of the MIT License.
@@ -16,10 +16,10 @@ namespace Core.Receiver
     using UnityEngine;
 
     /// <summary>
-    /// A test class for the AndGate object.
+    /// A test class for the OrGate object.
     /// </summary>
     [TestFixture]
-    public class AndGateTest : MirrorsUnitTest
+    public class OrGateTest : MirrorsUnitTest
     {
         /// <summary>
         /// Tests if a MultiEmitter object is added when 
@@ -28,10 +28,10 @@ namespace Core.Receiver
         [Test]
         public void StartTest()
         {
-            AndGate ag = CreateAndGate();
-            Assert.True(ag.PassThroughEmitter == null);
-            ag.Start();
-            Assert.False(ag.PassThroughEmitter == null);
+            OrGate og = CreateOrGate();
+            Assert.True(og.PassThroughEmitter == null);
+            og.Start();
+            Assert.False(og.PassThroughEmitter == null);
         }
 
         /// <summary>
@@ -41,10 +41,9 @@ namespace Core.Receiver
         [Test]
         public void StartTest2()
         {
-            AndGate ag = CreateAndGate();
-            ag.Start();
-            Assert.False(ag.Hit);
-            Assert.False(ag.BeamCreated);
+            OrGate og = CreateOrGate();
+            og.Start();
+            Assert.False(og.BeamCreated);
         }
 
         /// <summary>
@@ -55,8 +54,8 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentException))]
         public void InvalidOnLaserHit()
         {
-            AndGate ag = CreateAndGate();
-            ag.OnLaserHit(null, new HitEventArgs());
+            OrGate og = CreateOrGate();
+            og.OnLaserHit(null, new HitEventArgs());
         }
 
         /// <summary>
@@ -67,40 +66,21 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullOnLaserHit()
         {
-            AndGate ag = CreateAndGate();
-            ag.OnLaserHit(null, null);
+            OrGate og = CreateOrGate();
+            og.OnLaserHit(null, null);
         }
 
         /// <summary>
-        /// Tests if the hit flag is set to true,
-        /// but no beam is created, when one laser hits
+        /// Tests if a beam is created, when one laser hits
         /// the gate.
         /// </summary>
         [Test]
         public void OneLaserHit()
         {
-            AndGate ag = CreateAndGate();
-            ag.Start();
-            ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
-            Assert.True(ag.Hit);
-            Assert.False(ag.BeamCreated);
-        }
-
-        /// <summary>
-        /// Tests if the hit flag is set to true,
-        /// and a beam is created, when more lasers hit
-        /// the gate.
-        /// </summary>
-        [Test]
-        public void MoreLaserHit()
-        {
-            AndGate ag = CreateAndGate();
-            ag.Start();
-            ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
-            ag.OnLaserHit(null, new HitEventArgs(CreateTestBeam(), Vector3.one, Vector3.back, CreateOrGate()));
-
-            Assert.True(ag.Hit);
-            Assert.True(ag.BeamCreated);
+            OrGate og = CreateOrGate();
+            og.Start();
+            og.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
+            Assert.True(og.BeamCreated);
         }
     }
 }

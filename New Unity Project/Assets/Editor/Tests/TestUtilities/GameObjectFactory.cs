@@ -75,7 +75,8 @@ namespace TestUtilities
         /// <returns>The emitter.</returns>
         public static MultiEmitter CreateMultiEmitter()
         {
-            GameObject gameObject = new GameObject("MultiEmitter", typeof(MultiEmitter));
+            GameObject gameObject = new GameObject("MultiEmitter", typeof(MultiEmitter),
+                typeof(LaserEmitter));
             return gameObject.GetComponent<MultiEmitter>();
         }
 
@@ -95,6 +96,49 @@ namespace TestUtilities
         public static HitEventArgs CreateTestHit()
         {
             return new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.forward, CreateAndGate());
+        }
+
+        /// <summary>
+        /// Creates and returns a beam splitter game object.
+        /// </summary>
+        /// <returns>The beam splitter.</returns>
+        public static BeamSplitter CreateBeamSplitter()
+        {
+            GameObject gameObject = new GameObject("Splitter", typeof(BeamSplitter));
+            return gameObject.GetComponent<BeamSplitter>();
+        }
+
+        /// <summary>
+        /// Creates and returns a lens splitter game object.
+        /// </summary>
+        /// <returns>The lens splitter.</returns>
+        public static LensSplitter CreateLensSplitter()
+        {
+            GameObject gameObject = new GameObject("Splitter", typeof(LensSplitter));
+            return gameObject.GetComponent<LensSplitter>();
+        }
+
+        /// <summary>
+        /// Creates a portal that is linked to another portal.
+        /// </summary>
+        /// <returns>A linked portal.</returns>
+        public static Portal CreateLinkedPortal()
+        {
+            GameObject gameObject = new GameObject("Portal", typeof(Portal));
+            GameObject gameObject2 = new GameObject("Portal2", typeof(Portal));
+            Portal portal1 = gameObject.GetComponent<Portal>();
+            portal1.LinkedPortal = gameObject2.GetComponent<Portal>();
+            return portal1;
+        }
+
+        /// <summary>
+        /// Creates a portal that is not linked to another portal.
+        /// </summary>
+        /// <returns>An unlinked portal</returns>
+        public static Portal CreateUnlinkedPortal()
+        {
+            GameObject gameObject = new GameObject("Portal", typeof(Portal));
+            return gameObject.GetComponent<Portal>();
         }
     }
 }

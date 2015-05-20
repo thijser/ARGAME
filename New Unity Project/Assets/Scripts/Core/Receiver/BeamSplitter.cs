@@ -45,6 +45,11 @@ namespace Core.Receiver
                 throw new ArgumentNullException("args");
             }
 
+            if (!args.IsValid)
+            {
+                throw new ArgumentException("The supplied HitEventArgs object is invalid.");
+            }
+
             // Create a new ray coming out of the other side with the same direction
             // as the original ray. Forward needs to be negative, see LaserEmitter.
             var passThroughEmitter = this.PassThroughEmitter.GetEmitter(args.Laser);
