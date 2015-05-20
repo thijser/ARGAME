@@ -43,7 +43,15 @@
                 TransportType.Tcp, 
                 "",
                 SocketPermission.AllPorts);
-            IPAddress address = Dns.GetHostEntry(this.ServerAddress);
+            
+            IPAddress[] addresses = Dns.GetHostEntry(this.ServerAddress).AddressList;
+            if (addresses.Length == 0) 
+            {
+                Debug.LogError("Host is unavailable. No IP addresses found for " + this.ServerAddress);
+                return;
+            }
+
+            IPAddress address = addresses[0];
             this.endPoint = new IPEndPoint(address, this.ServerPort);
             this.socket = new Socket(address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             this.socket.Connect(this.endPoint);
