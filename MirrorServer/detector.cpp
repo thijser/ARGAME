@@ -1,5 +1,7 @@
 #include "detector.hpp"
 #include <vector>
+#include <iostream>
+#include <set>
 
 using std::vector;
 
@@ -12,9 +14,13 @@ namespace hierarchy_members {
     };
 }
 
-detector::detector(int captureDevice) {
+detector::detector(int captureDevice, int requestedWidth, int requestedHeight) {
     cap.open(captureDevice);
 
+    cap.set(CV_CAP_PROP_FRAME_WIDTH, requestedWidth);
+    cap.set(CV_CAP_PROP_FRAME_HEIGHT, requestedHeight);
+
+    // Get actual resolution
     width = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_WIDTH));
     height = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 }
@@ -30,9 +36,64 @@ void detector::detect(const detection_callback& callback) {
     Mat thresholdedFrame = thresholdGreen(correctedFrame);
 
     // Use thresholded image to locate marker candidates
-    int markersFound = locateMarkers(thresholdedFrame);
+    auto data = locateMarkers(thresholdedFrame);
 
-    callback(correctedFrame, markersFound);
+    // Find rotated bounding rect of marker
+    auto brect = cv::boundingRect(data.contours[data.candidates[0]]);
+
+    cv::RotatedRect rect = cv::minAreaRect(data.contours[data.candidates[0]]);
+
+    Mat marker = correctedFrame(brect);
+    marker = rotate(marker, rect.angle);
+
+    // Cut off border
+    int w = rect.size.width - 20;
+    int h = rect.size.height - 20;
+
+    if (w > 7 && h > 7) {
+        cv::Rect roi;
+        roi.x = marker.size[0] / 2 - w / 2;
+        roi.y = marker.size[1] / 2 - h / 2;
+        roi.width = w;
+        roi.height = h;
+
+        marker = marker(roi);
+
+        // Threshold for grayish area to find black/white region
+        Mat markerParts[3];
+        split(marker, markerParts);
+
+        Mat mask = markerParts[0] > 0.8 * markerParts[1] & markerParts[0] < 1.2 * markerParts[1] & markerParts[0] > 0.8 * markerParts[2] & markerParts[0] < 1.2 * markerParts[2];
+
+        vector<vector<Point>> contours;
+        cv::findContours(mask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+
+        if (contours.size() > 0) {
+            int largestPoints = 0;
+            cv::Rect bb;
+
+            for (auto& contour : contours) {
+                if (contour.size() > largestPoints) {
+                    bb = cv::boundingRect(contour);
+                }
+            }
+
+            Mat codeImage = marker(bb);
+
+            // Turn into grayscale and threshold to find black and white code
+            Mat codeImageGray, thresholdedCode, downsizedCode;
+            cv::cvtColor(codeImage, codeImageGray, CV_BGR2GRAY);
+            cv::resize(codeImageGray, downsizedCode, Size(6, 6), 0, 0, cv::INTER_LINEAR);
+            cv::threshold(downsizedCode, thresholdedCode, 80, 255, 0);
+
+            marker = thresholdedCode;
+        }
+    }
+
+    Mat markerBig;
+    cv::resize(marker, markerBig, Size(marker.size[0] * 32, marker.size[1] * 32), 0, 0, cv::INTER_NEAREST);
+
+    callback(markerBig);
 }
 
 void detector::loop(const detection_callback& callback) {
@@ -48,7 +109,7 @@ Mat detector::capture() {
 }
 
 Mat detector::correctPerspective(const Mat& rawFrame) const {
-    static Point2f dst[] = {Point2f(0, 0), Point2f(640, 0), Point2f(0, 480), Point2f(640, 480)};
+    static Point2f dst[] = {Point2f(0, 0), Point2f(width, 0), Point2f(0, height), Point2f(width, height)};
     Mat m = getPerspectiveTransform(surfaceCorners.data(), dst);
 
     Mat tmp, output;
@@ -67,9 +128,8 @@ Mat detector::thresholdGreen(const Mat& correctedFrame) const {
     // don't contain much blue and have a red component > green
     Mat greenThreshold, blueThreshold;
     inRange(frameParts[1], cv::Scalar(50), cv::Scalar(255), greenThreshold);
-    inRange(frameParts[0], cv::Scalar(60), cv::Scalar(255), blueThreshold);
 
-    Mat rawThreshold = greenThreshold & ~blueThreshold & (frameParts[1] > frameParts[2]);
+    Mat rawThreshold = greenThreshold & (frameParts[1] > frameParts[2]) & (frameParts[1] > frameParts[0] * 1.2);
 
     // Clean up thresholded image by eroding noise and dilating to remove holes
     Mat tmp, cleanThreshold;
@@ -82,7 +142,7 @@ Mat detector::thresholdGreen(const Mat& correctedFrame) const {
     return cleanThreshold;
 }
 
-size_t detector::locateMarkers(const Mat& thresholdedFrame) const {
+marker_locations detector::locateMarkers(const Mat& thresholdedFrame) const {
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
 
@@ -108,5 +168,22 @@ size_t detector::locateMarkers(const Mat& thresholdedFrame) const {
         }
     }
 
-    return potentialMarkers.size();
+    marker_locations data;
+    data.contours = contours;
+    data.hierarchy = hierarchy;
+    data.candidates = potentialMarkers;
+
+    return data;
+}
+
+// Source: http://opencv-code.com/quick-tips/how-to-rotate-image-in-opencv/
+Mat detector::rotate(Mat src, double angle) {    
+    int len = std::max(src.cols, src.rows);
+    cv::Point2f pt(len / 2., len / 2.);
+    cv::Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);
+
+    Mat dst;
+    cv::warpAffine(src, dst, r, cv::Size(len, len));
+
+    return dst;
 }

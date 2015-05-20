@@ -13,11 +13,19 @@ using cv::Vec4i;
 using cv::Size;
 using cv::VideoCapture;
 
-typedef std::function<void(const Mat&, size_t)> detection_callback;
+using std::vector;
+
+typedef std::function<void(const Mat&)> detection_callback;
+
+struct marker_locations {
+    vector<vector<Point>> contours;
+    vector<Vec4i> hierarchy;
+    vector<size_t> candidates;
+};
 
 class detector {
 public:
-    detector(int captureDevice = 0);
+    detector(int captureDevice = 0, int requestedWidth = 1280, int requestedHeight = 720);
 
     void setSurfaceCorners(const std::vector<Point2f>& corners);
 
@@ -34,7 +42,9 @@ private:
     Mat correctPerspective(const Mat& rawFrame) const;
     Mat thresholdGreen(const Mat& correctedFrame) const;
 
-    size_t locateMarkers(const Mat& thresholdedFrame) const;
+    marker_locations locateMarkers(const Mat& thresholdedFrame) const;
+
+    static Mat rotate(Mat src, double angle);
 };
 
 #endif

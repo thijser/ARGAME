@@ -21,24 +21,28 @@ using namespace mirrors;
 int main(int, char**) {
     cv::namedWindow("Camera", CV_WINDOW_AUTOSIZE);
 
-    ServerSocket server(SERVER_PORT);
-    std::thread serverThread([&](){ server.run(); });
+    //ServerSocket server(SERVER_PORT);
+    //std::thread serverThread([&](){ server.run(); });
 
     detector cameraDetector;
 
-    cameraDetector.setSurfaceCorners({Point2f(171, 2), Point2f(518, 2), Point2f(121, 477), Point2f(586, 475)});
+    cameraDetector.setSurfaceCorners({Point2f(423, 1), Point2f(944, 1), Point2f(344, 716), Point2f(1041, 719)});
 
-    cameraDetector.loop([](const Mat& processedFrame, size_t markersFound) {
+    cameraDetector.loop([](const Mat& processedFrame) {
         Mat finalFrame(processedFrame);
-        std::string debugText = "markers: " + std::to_string(markersFound);
-        cv::putText(finalFrame, debugText, Point(10, 30), cv::FONT_HERSHEY_TRIPLEX, 1, cv::Scalar(0, 255, 255), 1);
+
+        // Add text next to each marker
+        /*for (size_t i = 0; i < markers.size(); i++) {
+            std::string text = std::to_string(i);
+            cv::putText(finalFrame, text, markers[i], cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(0, 255, 255), 2);
+        }*/
 
         cv::imshow("Camera", finalFrame);
     });
 
     // Disconnect the Socket and wait for the server to stop.
-    server.disconnect();
-    serverThread.join();
+    //server.disconnect();
+    //serverThread.join();
 
     return 0;
 }
