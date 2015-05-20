@@ -15,7 +15,13 @@ using cv::VideoCapture;
 
 using std::vector;
 
-typedef std::function<void(const Mat&, const vector<Point2f>&)> detection_callback;
+typedef std::function<void(const Mat&)> detection_callback;
+
+struct marker_locations {
+    vector<vector<Point>> contours;
+    vector<Vec4i> hierarchy;
+    vector<size_t> candidates;
+};
 
 class detector {
 public:
@@ -36,7 +42,9 @@ private:
     Mat correctPerspective(const Mat& rawFrame) const;
     Mat thresholdGreen(const Mat& correctedFrame) const;
 
-    vector<Point2f> locateMarkers(const Mat& thresholdedFrame) const;
+    marker_locations locateMarkers(const Mat& thresholdedFrame) const;
+
+    static Mat rotate(Mat src, double angle);
 };
 
 #endif
