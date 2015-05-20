@@ -24,14 +24,9 @@ namespace Core.Receiver
     public class BeamSplitterTest : MirrorsUnitTest
     {
         /// <summary>
-        /// A mock emitter, useful for testing purposes.
-        /// </summary>
-        private MultiEmitter mockedEmitter;
-
-        /// <summary>
         /// Verifies the scene is empty before running the test. 
         /// Fails the test otherwise.
-        /// Also sets up the behaviour of the mocked emitter.
+        /// Also sets up the behavior of the mocked emitter.
         /// </summary>
         [SetUp]
         public void SetUpTest()

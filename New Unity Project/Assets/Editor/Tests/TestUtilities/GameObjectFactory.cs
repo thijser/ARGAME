@@ -106,5 +106,28 @@ namespace TestUtilities
             GameObject gameObject = new GameObject("Splitter", typeof(BeamSplitter));
             return gameObject.GetComponent<BeamSplitter>();
         }
+
+        /// <summary>
+        /// Creates a portal that is linked to another portal.
+        /// </summary>
+        /// <returns>A linked portal.</returns>
+        public static Portal CreateLinkedPortal()
+        {
+            GameObject gameObject = new GameObject("Portal", typeof(Portal));
+            GameObject gameObject2 = new GameObject("Portal2", typeof(Portal));
+            Portal portal1 = gameObject.GetComponent<Portal>();
+            portal1.LinkedPortal = gameObject2.GetComponent<Portal>();
+            return portal1;
+        }
+
+        /// <summary>
+        /// Creates a portal that is not linked to another portal.
+        /// </summary>
+        /// <returns>An unlinked portal</returns>
+        public static Portal CreateUnlinkedPortal()
+        {
+            GameObject gameObject = new GameObject("Portal", typeof(Portal));
+            return gameObject.GetComponent<Portal>();
+        }
     }
 }
