@@ -4,7 +4,8 @@ namespace Network
 {
     public class PositionUpdate 
     {
-        public PositionUpdate(float x, float y, int id, long timestamp){
+        public PositionUpdate(float x, float y, int id, long timestamp)
+        {
             this.X = x;
             this.Y = y;
             this.ID = id;

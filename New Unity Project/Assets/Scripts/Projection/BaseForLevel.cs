@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class BaseForLevel : MonoBehaviour {
-	GameObject basepoint;
+	public GameObject basepoint;
 	public long timestamp=0;
 	int PATIENCE=10;
 	public void seen(){

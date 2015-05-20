@@ -63,16 +63,14 @@
             this.endPoint = new IPEndPoint(address, this.ServerPort);
 
             // Acquires permission to use a Socket for the desired connection.
-            SocketPermission permission = new SocketPermission(
-                NetworkAccess.Connect, 
-                TransportType.Tcp, 
-                address.ToString(),
-                this.ServerPort);
+            SocketPermission permission = new SocketPermission(System.Security.Permissions.PermissionState.Unrestricted);
             permission.Demand();
 
-            this.socket = new Socket(address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.socket.NoDelay = false;
+            this.socket.ReceiveTimeout = 10000;
             this.socket.Connect(this.endPoint);
+            Debug.Log("Socket connected to " + this.endPoint.Address);
         }
 		
         /// <summary>
@@ -80,6 +78,7 @@
         /// </summary>
         public void Update() 
         {
+            
             this.ReadAllUpdates();
         }
 
@@ -124,9 +123,11 @@
         /// <returns>The PositionUpdate.</returns>
         public PositionUpdate ReadUpdate() 
         {
+            Debug.Log("Trying to read data");
             int received = this.socket.Receive(buffer, PacketSize, SocketFlags.None);
             if (received < PacketSize) 
             {
+                Debug.Log("Received not enough bytes: " + received);
                 return null;
             }
 
@@ -134,7 +135,10 @@
             float y = BitConverter.ToSingle(buffer, 4);
             int id = BitConverter.ToInt32(buffer, 8);
             int timestamp = BitConverter.ToInt32(buffer, 12);
-            return new PositionUpdate(x, y, id, timestamp);
+
+            PositionUpdate update = new PositionUpdate(x, y, id, timestamp);
+            Debug.Log("Read " + update);
+            return update;
         }
 
     }

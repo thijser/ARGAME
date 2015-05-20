@@ -99,7 +99,7 @@ bool SocketGroup::listen(unsigned milisec, void* reference) {
 
         int status = select(maxHandle + 1, &setSockets, NULL, NULL, &timeout);
 
-        if (status == -1)
+        if (status < 0)
             throw Exception(Exception::ERROR_SELECT, "SocketGroup::listen: could not perform socket select");
 
         unsigned i=0;

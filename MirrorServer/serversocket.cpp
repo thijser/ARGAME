@@ -28,10 +28,20 @@ namespace {
             buf[offset + i] = bytes[i];
         }
     }
+
+    // Command that is called on accept
+    class AcceptCommand : public SocketGroupCmd {
+    public:
+        virtual void exec(Socket *socket, SocketGroup *group, void*) {
+            cout << "Accepted connection from " << socket->hostFrom() << endl;
+            group->add(socket);
+        }
+    };
 }
 
 ServerSocket::ServerSocket(uint serverPort) :
         sock(new Socket(serverPort)), keepGoing(true) {
+
 }
 
 ServerSocket::~ServerSocket() throw() {
@@ -45,8 +55,14 @@ void ServerSocket::disconnect() {
 
 void ServerSocket::run() {
     cout << "Server started (listening on port " << sock->portFrom() << ")" << endl;
+    AcceptCommand accept;
+    clients.setCmdOnAccept(&accept);
     while (keepGoing) {
-        clients.listen(2000);
+
+        Socket *client = sock->accept();
+        clients.add(client);
+
+        broadcastPositionUpdate(1234, 0.25f, 0.75f, 200000);
     }
     cout << "Server stopped" << endl;
 }
