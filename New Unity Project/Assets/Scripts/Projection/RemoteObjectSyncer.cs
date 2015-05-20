@@ -22,8 +22,8 @@ public class RemoteObjectSyncer : MonoBehaviour {
 		foreach(GameObject go in RegisterObjectsOnStartup){
 			i++;
 			objectTable.Add(i,go);
-			Transform transGo = Transform(go);
-			transGo.SetParent(this);
+			Transform transGo = (Transform)(go.GetComponent<Transform>());
+			transGo.SetParent(transform,false);
 		}
 	}
 	
