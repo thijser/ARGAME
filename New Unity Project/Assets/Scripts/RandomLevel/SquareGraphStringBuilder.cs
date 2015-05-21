@@ -20,30 +20,29 @@ namespace RandomLevel
     public class SquareGraphStringBuilder
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SquareGraphStringBuilder" /> class.
+        /// Prevents a default instance of the <see cref="SquareGraphStringBuilder" /> class from being created.
         /// </summary>
         private SquareGraphStringBuilder()
-        {
-
+        { 
         }
 
         /// <summary>
         /// Returns a string representation of this SquareMap.
         /// </summary>
-        /// <param name="maxrow">The max. amount of rows.</param>
-        /// <param name="maxcol">The max. amount of columns.</param>
+        /// <param name="row">The max. amount of rows.</param>
+        /// <param name="column">The max. amount of columns.</param>
         /// <param name="graph">The square graph.</param>
-        /// <returns></returns>
-        public static string ToString(int maxrow, int maxcol, Vertex[,] graph)
+        /// <returns>A string representation of the matrix.</returns>
+        public static string ToString(int row, int column, Vertex[,] graph)
         {
             // The final String length is the amount of vertices (rows * columns) plus the
             // amount of characters in a single newline (max. 2) times the amount of rows.
-            StringBuilder builder = new StringBuilder((maxcol + 2) * maxrow);
-            for (int column = 0; column < maxcol; column++)
+            StringBuilder builder = new StringBuilder((column + 2) * row);
+            for (int i = 0; i < column; i++)
             {
-                for (int row = 0; row < maxrow; row++)
+                for (int j = 0; j < row; j++)
                 {
-                    builder.Append(GetVertexSymbol(graph[row, column]));
+                    builder.Append(GetVertexSymbol(graph[j, i]));
                 }
 
                 builder.AppendLine();
@@ -55,7 +54,7 @@ namespace RandomLevel
         /// <summary>
         /// Returns a representative character for the given vertex.
         /// </summary>
-        /// <param name="v">The row.</param>
+        /// <param name="v">The j.</param>
         /// <returns>The character describing the Vertex.</returns>
         private static char GetVertexSymbol(Vertex v)
         {

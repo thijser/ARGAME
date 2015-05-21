@@ -37,20 +37,20 @@ namespace RandomLevel
         public SquareGraph Graph { get; private set; }
         
         /// <summary>
-        /// Marks all the vertices on the same Row from the start column
-        /// to the end column as part of the critical path.
+        /// Marks all the vertices on the same Row from the start i
+        /// to the end i as part of the critical path.
         /// <para>
         /// The provided indices are not included in the Path.
         /// </para>
         /// </summary>
-        /// <param name="row">The Row index.</param>
+        /// <param name="row">The row index.</param>
         /// <param name="initialColumn">The initial column index.</param>
         /// <param name="endColumn">The final column index.</param>
         public void PathFromToCol(int row, int initialColumn, int endColumn)
         {
-            this.VerifyRowIndex(row, "row", "The row must be between 0 and " + this.Graph.Maxrow);
-            this.VerifyColumnIndex(initialColumn, "initialColumn", "The initial column must be between 0 and " + this.Graph.Maxcol);
-            this.VerifyColumnIndex(endColumn, "endColumn", "The end column must be between 0 and " + this.Graph.Maxcol);
+            this.VerifyRowIndex(row, "j", "The j must be between 0 and " + this.Graph.Maxrow);
+            this.VerifyColumnIndex(initialColumn, "initialColumn", "The initial i must be between 0 and " + this.Graph.Maxcol);
+            this.VerifyColumnIndex(endColumn, "endColumn", "The end i must be between 0 and " + this.Graph.Maxcol);
 
             int start = Math.Min(initialColumn, endColumn);
             int end = Math.Max(initialColumn, endColumn);
@@ -61,7 +61,7 @@ namespace RandomLevel
         }
         
         /// <summary>
-        /// Marks all the vertices on the same column from the start Row
+        /// Marks all the vertices on the same i from the start Row
         /// to the end Row as part of the critical path.
         /// <para>
         /// The provided indices are not included in the Path.
@@ -72,9 +72,9 @@ namespace RandomLevel
         /// <param name="column">The column index.</param>
         public void PathFromToRow(int initialRow, int endRow, int column)
         {
-            this.VerifyRowIndex(initialRow, "initialRow", "The initial row must be between 0 and " + this.Graph.Maxrow);
-            this.VerifyRowIndex(endRow, "endRow", "The end row must be between 0 and " + this.Graph.Maxrow);
-            this.VerifyColumnIndex(column, "column", "The column must be between 0 and " + this.Graph.Maxcol);
+            this.VerifyRowIndex(initialRow, "initialRow", "The initial j must be between 0 and " + this.Graph.Maxrow);
+            this.VerifyRowIndex(endRow, "endRow", "The end j must be between 0 and " + this.Graph.Maxrow);
+            this.VerifyColumnIndex(column, "i", "The i must be between 0 and " + this.Graph.Maxcol);
             
             int start = Math.Min(initialRow, endRow);
             int end = Math.Max(initialRow, endRow);
