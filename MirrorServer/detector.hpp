@@ -25,7 +25,7 @@ struct marker_locations {
 
 class detector {
 public:
-    detector(int captureDevice = 0, int requestedWidth = 1280, int requestedHeight = 720);
+    detector(int captureDevice = 0, int requestedWidth = 1600, int requestedHeight = 896);
 
     void setSurfaceCorners(const std::vector<Point2f>& corners);
 
