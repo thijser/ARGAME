@@ -42,12 +42,7 @@ ServerSocket::~ServerSocket() throw() {
 }
 
 void ServerSocket::disconnect() {
-    socketMutex.lock();
-    if (sock != NULL) {
-        sock->disconnect();
-        keepGoing = false;
-    }
-    socketMutex.unlock();
+    keepGoing = false;
 }
 
 void ServerSocket::run() throw (NL::Exception, std::logic_error) {
@@ -76,23 +71,21 @@ void ServerSocket::run() throw (NL::Exception, std::logic_error) {
     }
 
     socketMutex.lock();
+    delete sock;
     sock = NULL;
     socketMutex.unlock();
     clog << "Server stopped" << endl;
 }
 
 void ServerSocket::broadcastMessage(const void *buffer, int length) {
-    socketMutex.lock();
-    if (sock == NULL) {
-        return;
-    }
-    socketMutex.unlock();
+
     for (uint16_t i = 0; i < clients.size(); i++) {
         try {
             clients.get(i)->send(buffer, length);
         } catch (const NL::Exception &ex) {
             clog << "Exception in send to client: " << ex.what()
                  << " (error code: " << ex.nativeErrorCode() << ")" << endl;
+            clients.remove(i);
         }
     }
 }
