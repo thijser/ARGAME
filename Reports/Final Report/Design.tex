@@ -68,11 +68,7 @@
 
 	\section{Game elements} \label{sec:graphicaldesign}
 		For designing the 3D models, we used Blender. Blender is a free application
-		for 3D modeling, and Unity natively support Blender models (provided Blender
-		is installed on the system). We have chosen for a light looking style featuring 
-		nature inspired modeling and gold and crystal based materials. The light modeling 
-		style causes slight miss alignments with the ground to be less noticeable and
-		makes the lack of feedback from moving a card feel less odd. The crystals and gold 
+		for 3D modeling, under the GPL license, and Unity natively support Blender models (provided Blender is installed on the system). We have chosen for a light looking style featuring nature inspired modeling and gold and crystal based materials. The light modeling style causes slight miss alignments with the ground to be less noticeable and makes the lack of feedback from moving a card feel less odd. The crystals and gold 
 		just feels good in combination with the beams of light.
 		The following sections display and describe the graphics used in
 		the gameplay elements, as well as the function of
@@ -86,22 +82,38 @@
 			When the target is hit by a laser beam, the outer columns around
 			the crystal inside will rotate and spread out, indicating that
 			the target has been hit. The game will then proceed to the
-			next level.
-			% TODO image.
+			next level. An image of the target is shown in figure 
+			\ref{fig:target}.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=\textwidth]{Target}
+				\caption{the target of the game. The gold columns around the inner crystal will open up and rotate once the target is hit, as described earlier. Also, the crystal will change color once the target hits it.}
+				\label{fig:target}
+			\end{figure}
 			
 		\subsection{Mirror} \label{ssec:mirror}
 			A mirror is a crucial game element. Its reflective surfaces
 			allow it to reflect any laser beam that hits these surfaces.
 			It is also the only element that players can move and/or rotate.
 			All levels require at least one mirror to move or rotate
-			in order to hit the target. 
-			% TODO image.
+			in order to hit the target. An image of a mirror in-game is shown
+			in \ref{fig:mirror}.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=\textwidth]{Mirror}
+				\caption{an image of a mirror in-game, with its reflective surfaces.
+				The light blue circles reflect laser beams, the golden outer frame
+				does not.}
+				\label{fig:mirror}
+			\end{figure}
 			
 		\subsection{Wall} \label{ssec:wall}
 			The wall is the main obstacle in the game. It blocks incoming
 			laser beams completely. Walls are used in levels to make it 
 			less easy for one player to reflect a laser beam coming from
-			an emitter to the target.
+			an emitter to the target. The first few levels mainly use walls
+			to create paths that the laser beam has to go through, later
+			levels use not only walls, but also other game objects.
 			
 		\subsection{Emitter} \label{ssec:emitter}
 			The emitter is the most important aspect of the entire game.
@@ -115,3 +127,12 @@
 			(like the beam splitter, for example) in order to complete the
 			level. It is possible to have multiple emitters in a single level,
 			and later levels use this to create more complex puzzles.
+			What the emitter looks like exactly is shown in figure 
+			\ref{fig:emitter}.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=\textwidth]{Emitter}
+				\caption{what the emitter looks like in the game. Also shown here is a laser beam
+				coming from the emitter. The laser beam is colored red per standard. There are game objects that can change the coloring of the beam, these will also be described in this part of the report.}
+				\label{fig:emitter}
+			\end{figure}
