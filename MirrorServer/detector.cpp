@@ -65,7 +65,7 @@ void detector::detect(const detection_callback& callback) {
         Mat markerParts[3];
         split(marker, markerParts);
 
-        Mat mask = markerParts[0] > 0.8 * markerParts[1] & markerParts[0] < 1.2 * markerParts[1] & markerParts[0] > 0.8 * markerParts[2] & markerParts[0] < 1.2 * markerParts[2];
+        Mat mask = ~(markerParts[1] > 50 & (markerParts[1] > markerParts[2]) & (markerParts[1] > markerParts[0] * 1.2));
 
         vector<vector<Point>> contours;
         cv::findContours(mask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
@@ -78,6 +78,13 @@ void detector::detect(const detection_callback& callback) {
             for (auto& contour : contours) {
                 if (contour.size() > largestPoints) {
                     bb = cv::boundingRect(contour);
+
+                    if (bb.width > 3 && bb.height > 3) {
+                        bb.x += 3;
+                        bb.y += 3;
+                        bb.width -= 6;
+                        bb.height -= 6;
+                    }
                 }
             }
 
@@ -86,15 +93,15 @@ void detector::detect(const detection_callback& callback) {
             // Turn into grayscale and threshold to find black and white code
             Mat codeImageGray, thresholdedCode, downsizedCode;
             cv::cvtColor(codeImage, codeImageGray, CV_BGR2GRAY);
-            cv::resize(codeImageGray, downsizedCode, Size(6, 6), 0, 0, cv::INTER_LINEAR);
-            cv::threshold(downsizedCode, thresholdedCode, 80, 255, 0);
+            //cv::resize(codeImageGray, downsizedCode, Size(6, 6), 0, 0, cv::INTER_LINEAR);
+            //cv::threshold(codeImageGray, thresholdedCode, 128, 255, 0);
 
-            marker = thresholdedCode;
+            marker = codeImageGray;
         }
     }
 
     Mat markerBig;
-    cv::resize(marker, markerBig, Size(marker.size[0] * 32, marker.size[1] * 32), 0, 0, cv::INTER_NEAREST);
+    cv::resize(marker, markerBig, Size(marker.size[0] * 8, marker.size[1] * 8), 0, 0, cv::INTER_NEAREST);
 
     callback(markerBig);
 }
