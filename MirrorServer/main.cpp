@@ -9,7 +9,7 @@
 
 #include <iostream>
 #include <thread>
-using namespace std;
+#include <chrono>
 
 #include <opencv2/highgui/highgui.hpp>
 
@@ -20,7 +20,7 @@ using namespace mirrors;
 #define SERVER_PORT 23369
 
 int main(int, char**) {
-    detector cameraDetector;
+    detector cameraDetector(1);
     cv::namedWindow("Camera", CV_WINDOW_AUTOSIZE);
 
     ServerSocket::initialize();
@@ -29,14 +29,24 @@ int main(int, char**) {
         try {
             server.run();
         } catch (const NL::Exception &ex) {
-            cerr << "Uncaught exception in server: " << ex.what() << endl;
+            std::cerr << "Uncaught exception in server: " << ex.what() << std::endl;
             cameraDetector.stop();
         }
     });
 
-    cameraDetector.setSurfaceCorners({Point2f(423, 1), Point2f(944, 1), Point2f(344, 716), Point2f(1041, 719)});
+    cameraDetector.setSurfaceCorners({Point2f(401, 3), Point2f(920, 2), Point2f(295, 708), Point2f(991, 716)});
 
-    cameraDetector.loop([](const Mat& processedFrame) {
+    cameraDetector.loop([&server](const Mat& processedFrame, vector<Point> markerPositions) {
+        static auto start_time = std::chrono::high_resolution_clock::now();
+
+        // Determine time for updates
+        auto t = (std::chrono::high_resolution_clock::now() - start_time).count();
+
+        // Send positions of markers
+        for (size_t i = 0; i < markerPositions.size(); i++) {
+            server.broadcastPositionUpdate(static_cast<uint32_t>(i), markerPositions[i].x, markerPositions[i].y, t);
+        }
+
         cv::imshow("Camera", processedFrame);
     });
 

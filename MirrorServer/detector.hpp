@@ -15,7 +15,7 @@ using cv::VideoCapture;
 
 using std::vector;
 
-typedef std::function<void(const Mat&)> detection_callback;
+typedef std::function<void(const Mat&, vector<Point>)> detection_callback;
 
 struct marker_locations {
     vector<vector<Point>> contours;

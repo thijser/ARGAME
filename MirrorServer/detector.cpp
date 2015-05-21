@@ -39,64 +39,26 @@ void detector::detect(const detection_callback& callback) {
     // Use thresholded image to locate marker candidates
     auto data = locateMarkers(thresholdedFrame);
 
-    // Find rotated bounding rect of marker
-    if (data.candidates.empty()) return;
-    auto brect = cv::boundingRect(data.contours[data.candidates[0]]);
+    // Build collection of marker positions
+    vector<Point> markerPositions;
 
-    cv::RotatedRect rect = cv::minAreaRect(data.contours[data.candidates[0]]);
+    for (int contourIndex : data.candidates) {
+        vector<Point> contour = data.contours[contourIndex];
 
-    Mat marker = correctedFrame(brect);
-    marker = rotate(marker, rect.angle);
+        // Calculate center of marker
+        Point sum;
 
-    // Cut off border
-    int w = rect.size.width - 20;
-    int h = rect.size.height - 20;
-
-    if (w > 7 && h > 7) {
-        cv::Rect roi;
-        roi.x = marker.size[0] / 2 - w / 2;
-        roi.y = marker.size[1] / 2 - h / 2;
-        roi.width = w;
-        roi.height = h;
-
-        marker = marker(roi);
-
-        // Threshold for grayish area to find black/white region
-        Mat markerParts[3];
-        split(marker, markerParts);
-
-        Mat mask = markerParts[0] > 0.8 * markerParts[1] & markerParts[0] < 1.2 * markerParts[1] & markerParts[0] > 0.8 * markerParts[2] & markerParts[0] < 1.2 * markerParts[2];
-
-        vector<vector<Point>> contours;
-        cv::findContours(mask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
-
-        if (contours.size() > 0) {
-            // FIXME: largestPoints will only ever be 0
-            size_t largestPoints = 0;
-            cv::Rect bb;
-
-            for (auto& contour : contours) {
-                if (contour.size() > largestPoints) {
-                    bb = cv::boundingRect(contour);
-                }
-            }
-
-            Mat codeImage = marker(bb);
-
-            // Turn into grayscale and threshold to find black and white code
-            Mat codeImageGray, thresholdedCode, downsizedCode;
-            cv::cvtColor(codeImage, codeImageGray, CV_BGR2GRAY);
-            cv::resize(codeImageGray, downsizedCode, Size(6, 6), 0, 0, cv::INTER_LINEAR);
-            cv::threshold(downsizedCode, thresholdedCode, 80, 255, 0);
-
-            marker = thresholdedCode;
+        for (Point& p : contour) {
+            sum += p;
         }
+
+        sum.x = sum.x / contour.size();
+        sum.y = sum.y / contour.size();
+
+        markerPositions.push_back(sum);
     }
 
-    Mat markerBig;
-    cv::resize(marker, markerBig, Size(marker.size[0] * 32, marker.size[1] * 32), 0, 0, cv::INTER_NEAREST);
-
-    callback(markerBig);
+    callback(correctedFrame, markerPositions);
 }
 
 void detector::loop(const detection_callback& callback) {
