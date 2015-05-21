@@ -1,0 +1,174 @@
+\section{Proposed Solutions} \label{cha:solution}
+	% A description of the proposed solution, including gameplay elements.
+	% The description is taken from the Product Plan. This section also
+	% motivates why the proposed solution is a good solution.
+
+\subsection{Laser mirror game} \label{sec:lasergame}
+	The goal of the game is to solve a puzzle by controlling laser beams
+	using mirrors in such a way that a predefined target is hit. The game
+	can be played by one or more local players and one or more remote players.
+
+	There are cards present for the local players that represent mirror
+	bases. These must be placed on the table, which will be the locations
+	for the mirrors. The local players will be able to see the mirrors they
+	place through the use of AR technology. Each of the local players will
+	only be given a few of the mirror bases needed to solve the puzzle, and
+	as such solving the puzzle requires cooperation from all local players.
+
+	The remote players can also see the placed mirrors, and can rotate them
+	to influence the path of the laser beam(s). Only by cooperation between
+	local players (who can only move the mirror bases) and remote players
+	(who can only rotate them) it becomes possible to hit the target and as
+	such solve the puzzle.
+
+	The game provides various different types of mirrors with different
+	properties, allowing for more complex puzzles. One example of such a
+	mirror is a colored mirror, and then require the target is hit with the
+	right (combination of) colors. Another way to make puzzles more complex
+	is requiring that the players combine beams together to create more
+	powerful beams. Other optical components like beam splitters can also be introduced.
+
+	The game is designed to stimulate cooperation between the physically
+	co-located players and the physically remote player(s). It does so by
+	dividing abilities required for solving the puzzles amongst all players
+	as follows:
+
+	\begin{itemize}
+		\item Physically co-located players each get only a part of the
+		      mirror bases required to solve the puzzle, requiring input
+		      from all of these players.
+		\item If there are multiple virtually co-located players, each of
+		      these players can only rotate a subset of the mirrors, and
+		      as such input from all virtually co-located players is
+		      required for solving the puzzle.
+		\item Virtually co-located players have the ability to rotate
+		      mirrors while the physically co-located players do not have
+		      this ability, requiring input from both physically as well
+		      as virtually co-located players.
+	\end{itemize}
+
+	Because of this division of abilities, there is an interdependence
+	between all players (see section \ref{sec:interdependence}), regardless of
+	whether these players are physically co-located or not. This replicates the
+	interdependence that exists in the crime scene example as given in the
+	problem formulation (see chapter \ref{cha:problem}).
+
+\subsection{Platformer} \label{sec:platformer}
+	The game starts with the avatar of the remote player appearing
+	on the table and a goal appearing above the table. The local
+  players have a pile of blocks, each of these blocks exists both
+  in the virtual and real world.
+
+	Inside the virtual world a number of pre-existing structures and
+	obstacles exist making it harder for the remote player to move around.
+	The local and remote player must work together in order to get the
+	virtual avatar to the goal.
+
+	Team work is heavily encouraged due to the interdependence between the
+	players: There is information asymmetry (section \ref{ssec:information})
+	because the remote player can see some pre-existing blocks the local
+	player cannot see, and the fact that local players can place new blocks
+	in the game world provides ability asymmetry (section \ref{ssec:ability}).
+
+\subsection{FPS Survival game} \label{sec:fpssurvival}
+	The goal of the game is to protect a virtual structure from enemies. These
+	enemies will come from multiple sides to attack the structure while the
+	remote players have to stop them. For doing so, they require the aid of the
+	local players, who can place blocks (similar to the platformer game, section
+	\ref{sec:platformer}) to block the path of the enemies.
+
+	The local players can block the path of the enemies, but they cannot defeat
+	them. The remote players, who view the game from a first-person perspective,
+	have to defeat the enemies. Since the perspective of the remote players is
+	limited (also partly because of the blocks placed by local players), they
+	require information from the local players, who view the scene from above
+	and as such have a good view of the entire situation. This creates
+	information asymmetry between the players (section \ref{ssec:information}).
+
+	To keep the game challenging, the enemies will grow stronger over time,
+	requiring the cooperation between the local and remote players to improve
+	as well. Because of the fact that local players can only defeat the enemies,
+	and the remote players can block their path, there is a form of ability
+	asymmetry between the local and remote players (section \ref{ssec:ability}).
+
+\subsection{Tower defense} \label{sec:towerdefense}
+	The local players start off with a number of towers each
+	which have certain strengths and abilities. They must place
+	these towers on a table in front of them. What they cannot,
+	but the remote player can see is what paths a number of
+	hostile entities will take in order to attack their base.
+	They must therefore cooperate to place the towers on the right
+	positions to be able to defeat the enemies before they escape
+	by communicating the ideal locations of the
+	towers and paths that the hostile entities will take.
+
+	This game idea is relatively simple, and because of the simplicity,
+	complexity can easily be added to make the game more engaging. For
+	example, towers could be upgradeable, utilizing resources that
+	could be gained either by defeating individual enemies or by defeating
+	a wave of enemies. The idea behind these resources is that they are
+	shared between players. They could then be used to upgrade
+	tower types. As these resources are shared, and they can only be
+	used once, players must work together to choose the best upgrade
+	available in the given scenario. Enemies should also get procedurally
+	stronger because of the increased capabilities of the towers. Resources
+	could also be put towards research for new tower types, which players
+	could then use.
+
+	Another way to add extra necessary complexity would be through
+	introducing an experience system, and to grant towers some experience based
+	on what enemy they have defeated. These towers would also over time get
+	stronger. Bloons Tower Defense, a game found on the internet developed by Ninja Kiwi, is a tower defense game that uses both resources and experience, to show that these could also be combined. New towers would then be unlocked over time, after completing a certain amount of waves, instead of using resources.
+
+	The problem with this idea is that it will very likely create a
+	\emph{puppet master} scenario where the remote player takes charge
+	of the whole situation and the other players do net get a
+	say in what is going to happen. This could be avoided by a
+	number of extra abilities. This game shows heavy
+	information and ability asymmetry.
+
+\subsection{Minesweepers}
+	This concept is based on the classic game of minesweeper. There's a grid
+	where some of the squares have mines under them. Players each start at a
+	random position and have to place flags on locations of mines while avoiding
+	mines. The remote player is the only one who can see the numbers around
+	squares, so he has to give instructions to the players on the field.
+
+	The difference compared to the classic version of the game is that it's all
+	physical. Local players walk around on the field, where they have to take
+	careful steps to avoid triggering a mine. This turns the game into some sort
+	of Twister variant where people can use special moves to quickly traverse
+	the field and find all the mines. Local players co-operate by dividing the
+	field into sections that they'll clear in parallel.
+
+	The problem with this concept is the inherent \emph{puppet master} phenomenon.
+	Communication between the remote player and local players is very one-sided.
+	Local players just receive commands where to step and where to plant flags
+	and don't really have any input into the game themselves. Even if that
+	problem was solved, the lack of cooperation aspects between local players
+	would also be a big problem. Local players don't really have any reason to
+	interact with each other. One way to solve that problem would be to require
+	multiple players to place a flag.
+
+	There are also some technical challenges with this concept. It requires that
+	local players always know their exact position on a large field that they're
+	inside of, which would require a lot of markers. Next, the position of their
+	legs would have to be determined somehow to ensure that they're not stepping
+	on a mine. Finally, a space large enough for a field would likely have to be
+	found outside and sunlight doesn't play well with augmented reality devices.
+	The game could be transformed into an indoor variant instead, using a board
+	and pawns, but this does not solve the one-sided communication problem.
+
+\subsection{The chosen idea} \label{sec:chosenidea}
+	The idea that is chosen is the mirror game idea. The reason for this
+	decision is that it is a relatively simple idea, it can create hard
+	to solve puzzles, and extra complexity can easily be added. It also
+	prevents a \emph{puppet master} scenario by giving both types of players
+	about half of the abilities required for solving the game.
+
+	The game offers a strong interdependence between players. This, together
+	with the ability asymmetry caused by the separation between moving mirrors
+	and rotating them, causes a high need for collaboration between the local
+	and remote players. As such, this concept comes closest to the problem
+	formulation in creating a collaborative game between physically remote
+	players.

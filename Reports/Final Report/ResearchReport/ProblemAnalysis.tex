@@ -1,0 +1,264 @@
+\section{Problem Analysis} \label{cha:analysis}
+	% Includes the challenges surrounding AR and Networking.
+	% Also motivates the choices made.
+	This chapter provides an overview of the issues and challenges that may
+	arise during development of a solution to the problem description. It
+	provides an analysis of the problems and possible solutions.
+
+	One of the core challenges of the project is the use of Augmented Reality
+	(AR) technology. An analysis of the available options to implement this
+	functionality is given in section \ref{sec:ar}. Another important challenge
+	is improving situational awareness, which is discussed in section
+	\ref{sec:awareness}. The final challenge is the creation of interdependence
+	between players in such a way that collaboration from all players is
+	required. This challenge is analyzed in section \ref{sec:interdependence}.
+
+	\subsection{Augmented Reality (AR) Functionality} \label{sec:ar}
+		% AR is a core element in the project. As such, we need to compare
+		% various AR hardware devices and corresponding ways to implement
+		% AR functionality for each device.
+		Augmented Reality (AR) is a core aspect of the problem formulation.
+		As such, careful analysis has to be done as to how the AR functionality
+		can be best implemented to fully address the context of this project.
+
+		We consider three choices for implementing AR functionality: The META
+		One (an optical see-through device (\ref{ssec:metaone})), the Oculus
+		Rift virtual reality glasses in conjunction with mounted cameras
+		(\ref{ssec:oculusrift}) and a smartphone with Google Cardboard
+		(\ref{ssec:cardboard}).
+
+		% Hardware devices to consider:
+		\subsubsection{META One} \label{ssec:metaone}
+			%   - META One (as indicated by the BEPSys project page)
+			%       - Has a limited Field-of-View (around 35 degrees)
+			%          - May interfere with the experience of the game.
+			%       - Optical see-through glasses means AR works out of the box.
+
+			The META One glasses are optical see-through glasses. \cite{metaone}
+			Optical see-through glasses work by projecting a virtual image on
+			top of the world you see, effectively implementing a 3D AR
+			exprience.
+
+			Because the META One is an optical see-through device that also
+			features motion tracking, AR can be implemented simply by
+			projecting an image against a black background to the glasses.
+
+			A big drawback of the available META One glasses is their
+			Field-of-View, which is 35 degrees. This Field-of-View is way lower
+			than the Field-of-View of a person, which may have a negative impact
+			on the game experience.
+
+			One of the advantages of this device is that the Software
+			Development Kit (SDK) that comes with the glasses has tracking and
+			gesture recognition built-in. That allows us to focus on just the
+			gameplay aspects.
+
+		\subsubsection{Oculus Rift} \label{ssec:oculusrift}
+			%   - Oculus Rift + mounted cameras (http://oculusvr.com/)
+			%       - High Field-of-View (100 degrees)
+			%       - VR glasses, so need to project the real world using
+			%         cameras.
+			%          - Limited resolution creates blurriness.
+			%          - Projection can be done from within Unity
+			%          - Potentially requires a lot of calibration
+			% 		- Using Oculus Rift means we need to implement AR
+			%         functionality ourselves (as optical see-through often has
+			%         this built-in).
+			%
+			%         AR Libraries to consider:
+			We've built a camera rig for the Oculus Rift that can be used to
+			turn it into an augmented reality device. To detect the markers and
+			render objects on them in Unity, there are several libraries
+			available. Each of these will be discussed in the next sections.
+
+			Oculus offers an SDK for Unity that makes it easy to integrate a
+			game with the Rift. \cite{riftdev} The challenge that we'll be
+			facing during development is to properly integrate this SDK with the
+			augmented reality libraries. Each of the frameworks try to take
+			control of the camera in different ways and it's easy to get
+			conflicts there. Getting the Rift see-through functionality working
+			in Unity on its own and the augmented reality functionality on its
+			own is not a challenge.
+
+			The advantage of the Oculus Rift with mounted cameras is that it
+			provides complete control over the screen allowing us to completely
+			block certain regions of the view or project black objects. It also
+			causes the AR content to match up exactly with the real world in
+			terms of timing. The field of view is significantly larger as well.
+
+			A disadvantage is the slight latency between head movements and the
+			view, which takes work to reduce to a minimum to avoid motion
+			sickness and bad hand-eye coordination.
+
+			\subsubsection{Vuforia} \label{sssec:vuforia}
+				%   - Vuforia (http://developer.vuforia.com/)
+				%       - Includes integration with Unity
+				Vuforia is a framework by Qualcomm that allows you to create
+				arbitrary markers, import them into Unity and place objects onto
+				them. \cite{vuforia} You can then select a webcam and have it
+				render the camera images with 3D objects projected onto the
+				markers. It's very easy to use and has built-in support for
+				virtual reality solutions like GearVR. The tracking quality is
+				very good and stable, even with low quality markers (with few
+				color transitions).
+
+				Unfortunately it currently only works with the 32-bit version of
+				Unity. It also lacks support for the Oculus Rift on the desktop,
+				which means that we'll have to build that functionality
+				ourselves.
+
+			\subsubsection{Unity AR Toolkit (UART)} \label{sssec:uart}
+				%   - Unity AR Toolkit (UART)
+				%     (https://research.cc.gatech.edu/uart/content/contents/)
+				%       - Source code and demos hosted on SourceForge
+				%         (http://sourceforge.net/projects/uart/)
+				%       - Seems to be a research project
+				%       - Seems easy to use (comes with examples)
+				%       - Built for Unity
+				%       - Last change to SVN repo was in 2011.
+				Unity AR Toolkit \cite{uart} is a project by researchers at the
+				Georgia Institute of Technology to develop a set of plugins for
+				Unity that make it easy to build augmented reality applications.
+
+				Unfortunately the project was abandoned in 2011 and the tracking
+				library it's based on (ARToolKitPlus) was abandoned in 2006. The
+				documentation is also severely lacking. The camera also needs to
+				be calibrated to work with it. This project also only works with
+				the 32-bit version of Unity and lacks native Rift support.
+
+				The one advantage of this library is that it moves the 3D
+				objects by default, instead of the camera. That may make it
+				easier to reconstruct the world with its mirrors in Unity.
+
+			\subsubsection{Metaio} \label{sssec:metaio}
+				%   - Metaio (http://www.metaio.com/)
+				%       - Mainly oriented towards mobile phones, so may not be
+				%         suitable for this project
+				Metaio is a well-supported project, much like Vuforia. The
+				difference is that it has native support for see-through stereo
+				glasses, which makes it well suitable for both the META One and
+				Oculus Rift solution. \cite{metaio}
+
+				Unlike any of the other solutions, this framework works
+				natively on Unity 64-bit. It does have the limit of only working
+				with OpenGL, but we don't expect that to be a problem.
+
+		%   - ... <Add more as needed>
+		\subsubsection{Google Cardboard} \label{ssec:cardboard}
+			Google Cardboard can be used to implement the same concept for
+			augmented reality as the Oculus Rift. It allows you to turn a
+			smartphone into a VR headset by mounting lenses in front of it. This
+			can then be used to implement AR by overlaying 3D objects over the
+			phone camera image. \cite{cardboard}
+
+			The advantage of this approach over the Oculus Rift is that it's
+			much more convenient. The solution would be completely mobile,
+			meaning that there are no cables getting in the way (a problem we
+			ran into during testing). It's also much cheaper, making it easier
+			for local players to join by simply owning a smartphone. The
+			disadvantage is that there would be no depth, since most smartphones
+			don't have a stereo camera.
+
+			The libraries mentioned in the previous section are all suitable for
+			mobile usage. In fact, they were designed for it and just happen to
+			allow for desktop usage as well. This currently seems like the most
+			promising alternative, but it will require further testing.
+
+		\subsubsection{Markers} \label{ssec:markers}
+			An essential component of augmented reality systems are markers.
+			Markers are physical objects that are used by the augmented reality
+			framework to establish the position of the player and objects in the
+			virtual world (tracking). There are two main types of tracking:
+
+			\begin{itemize}
+				\item \textbf{Marker tracking:} Special asymmetric patterns
+					similar to QR codes are printed to cards. These are designed
+					to be efficiently detected by a computer
+
+				\item \textbf{Markerless tracking:} Tracking with arbitrary
+					images as opposed to specially designed markers, therefore
+					known as markerless tracking. This name is a bit misleading,
+					because these images are still typically chosen based on
+					properties like contrasting colors and sharp edges that are
+					easier to detect.
+			\end{itemize}
+
+			The advantage of markerless tracking is that they look more
+			aesthetically pleasing to the players, but the performance may be
+			worse than specially designed patterns. For that reason, we're going
+			to use a hybrid form that combines an easy to scan pattern with a
+			nice looking image of the object it represents (like a mirror). An
+			example of this concept are graphical QR codes. \cite{gqr}
+
+	\subsection{Situational Awareness} \label{sec:awareness}
+		% Improving situational awareness is part of the main goal of the
+		% project. We should indicate the steps needed to achieve this, which
+		% can be based on (possibly) a large range of scientific articles.
+		This project is about exploring the different perception of situational
+		awareness, presence and workload in a physical and an AR environment
+		(see chapter \ref{cha:problem}). As such, situational awareness plays a
+		key role in this project.
+
+		Before considering exactly how situational awareness plays a role in this
+		project, it is important to define precisely what situational awareness
+		means. According to \cite{endsley}, situational awareness is defined as
+		\emph{the perception of the elements in the environment within a volume of
+		time and space, comprehension of their meaning, and the projection of
+		their status in the near future}. In other words, situational awareness
+		means to fully understand the situation, and be able to predict what is
+		going to happen next. This also includes understanding any risks the
+		situation brings.
+
+		Now that the concept of situational awareness has been defined, the
+		importance of situational awareness for this project needs to be
+		considered. This project aims to approximate a situation in which the
+		players need to collaboratively solve complex problems, as they occur in
+		crime scene investigations (see chapter \ref{cha:problem}). On a crime
+		scene, the investigator needs to analyse and understand the situation,
+		so there is a need for situational awareness in the problem description.
+		The game will need to replicate a similar need for situational awareness
+		to be an accurate approximation of the context of this project.
+
+	\subsection{Interdependence between players} \label{sec:interdependence}
+		% Creating interdependence between players requires them to work
+		% together. This can be done in several ways. We need to elaborate on
+		% the various ways in which this can be achieved.
+		The problem formulation states that the game is to be employed as an
+		approximation of collaboratively solving complex problems. In order to
+		motivate players of the game to collaborate, there is a need to create
+		a form of interdependence amongst the players, as mentioned in
+		\cite{zagal}. One way to do this is to create an asymmetry of abilities.
+		Other ways to create interdependence are explained in the following
+		subsections.
+		\subsubsection{Asymmetry of abilities} \label{ssec:ability}
+			The main reason to co-operate is the asymmetry of abilities between
+			the players involved. For example: physically co-located players can
+			alter the game world, while virtually co-located players can guide
+			characters to a certain goal utilizing the altered game environment.
+			One thing to note is that a \emph{puppet master} scenario should be
+			avoided. This scenario happens when one player can do everything
+			except for a few required tasks, and uses the other players to
+			execute these tasks. In this case, the other players will have less
+			involvement with the shared goal, and the amount of co-operation
+			will go down.
+		\subsubsection{Asymmetry of information} \label{ssec:information}
+			Asymmetry of information could be used as another reason for the
+			players to co-operate. It means that both types of players (both the
+			physically co-located and the virtually co-located) have different,
+			separate, parts of the information required to complete the game. In
+			this case, a \emph{puppet master} scenario should also be avoided. Such a
+			scenario can occur here when one type of player has enough
+			information to infer nearly all information.
+
+		\subsubsection{Information overload} \label{ssec:overload}
+			Another reason for players to co-operate could be information
+			overload. This means that, while the game could technically be
+			completed by a single player, the amount of incoming information is
+			too large for one player to handle. An example would be in Call of
+			Duty, where people work together because there are too many enemies
+			that walk around and shoot at them. A single player could
+			potentially beat the game by themselves, but this is not really
+			feasible considering the amount of enemies and the amount of
+			information coming in continuously.
+
+	\input{ResearchReport/VirtualCoLocation.tex}
