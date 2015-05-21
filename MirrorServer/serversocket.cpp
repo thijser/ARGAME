@@ -10,13 +10,14 @@
 #include "serversocket.h"
 
 #include <iostream>
-using namespace std;
 
 #include "netlink/socket.h"
 #include "netlink/socket_group.h"
-using namespace NL;
 
 namespace mirrors {
+
+using namespace std;
+using namespace NL;
 
 namespace {
     // Helper function that writes arbitrary types
@@ -28,48 +29,71 @@ namespace {
             buf[offset + i] = bytes[i];
         }
     }
-
-    // Command that is called on accept
-    class AcceptCommand : public SocketGroupCmd {
-    public:
-        virtual void exec(Socket *socket, SocketGroup *group, void*) {
-            cout << "Accepted connection from " << socket->hostFrom() << endl;
-            group->add(socket);
-        }
-    };
 }
 
 ServerSocket::ServerSocket(uint16_t serverPort) :
-        sock(new Socket(serverPort)), keepGoing(true) {
-
+        port(serverPort), sock(NULL), keepGoing(true) {
 }
 
 ServerSocket::~ServerSocket() throw() {
-    delete sock;
+    if (sock != NULL) {
+        delete sock;
+    }
 }
 
 void ServerSocket::disconnect() {
-    sock->disconnect();
-    keepGoing = false;
+    socketMutex.lock();
+    if (sock != NULL) {
+        sock->disconnect();
+        keepGoing = false;
+    }
+    socketMutex.unlock();
 }
 
-void ServerSocket::run() {
-    cout << "Server started (listening on port " << sock->portFrom() << ")" << endl;
-    AcceptCommand accept;
-    clients.setCmdOnAccept(&accept);
-    while (keepGoing) {
-
-        Socket *client = sock->accept();
-        clients.add(client);
-
-        broadcastPositionUpdate(1234, 0.25f, 0.75f, 200000);
+void ServerSocket::run() throw (NL::Exception, std::logic_error) {
+    socketMutex.lock();
+    if (sock != NULL) {
+        socketMutex.unlock();
+        throw std::logic_error("ServerSocket::run - Cannot run multiple times");
     }
+
+    sock = new Socket(port);
+    socketMutex.unlock();
+    cout << "Server started (listening on port " << sock->portFrom() << ")" << endl;
+    while (keepGoing) {
+        try {
+            socketMutex.lock();
+            Socket *client = sock->accept(2000);
+            socketMutex.unlock();
+            if (client != NULL) {
+                clients.add(client);
+            }
+        } catch (const NL::Exception &ex) {
+            socketMutex.unlock();
+            cout << "Exception in Socket accept: " << ex.msg() << endl;
+        }
+        broadcastPositionUpdate(1234, 0.25f, 0.75f, 1000001);
+    }
+
+    socketMutex.lock();
+    sock = NULL;
+    socketMutex.unlock();
     cout << "Server stopped" << endl;
 }
 
 void ServerSocket::broadcastMessage(const void *buffer, int length) {
+    socketMutex.lock();
+    if (sock == NULL) {
+        return;
+    }
+    socketMutex.unlock();
     for (uint16_t i = 0; i < clients.size(); i++) {
-        clients.get(i)->send(buffer, length);
+        try {
+            clients.get(i)->send(buffer, length);
+        } catch (const NL::Exception &ex) {
+            cout << "Exception in send to client: " << ex.what()
+                 << " (error code: " << ex.nativeErrorCode() << ")" << endl;
+        }
     }
 }
 

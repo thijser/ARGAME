@@ -39,6 +39,7 @@ void detector::detect(const detection_callback& callback) {
     auto data = locateMarkers(thresholdedFrame);
 
     // Find rotated bounding rect of marker
+    if (data.candidates.empty()) return;
     auto brect = cv::boundingRect(data.contours[data.candidates[0]]);
 
     cv::RotatedRect rect = cv::minAreaRect(data.contours[data.candidates[0]]);
@@ -69,7 +70,8 @@ void detector::detect(const detection_callback& callback) {
         cv::findContours(mask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
         if (contours.size() > 0) {
-            int largestPoints = 0;
+            // FIXME: largestPoints will only ever be 0
+            size_t largestPoints = 0;
             cv::Rect bb;
 
             for (auto& contour : contours) {

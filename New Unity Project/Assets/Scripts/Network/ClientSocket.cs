@@ -13,10 +13,10 @@
         /// The size of a single packet.
         /// <para>
         /// The size of a single PositionUpdate is equal to the size 
-        /// of 2 floats and 2 integers. This is 4 * 4 bytes = 16 bytes.
+        /// of 2 floats and 2 integers. This is 3 * 4 bytes + 8 bytes = 20 bytes.
         /// </para>
         /// </summary>
-        public const int PacketSize = 16;
+        public const int PacketSize = 20;
         
         /// <summary>
         /// The server address.
@@ -134,7 +134,7 @@
             float x = BitConverter.ToSingle(buffer, 0);
             float y = BitConverter.ToSingle(buffer, 4);
             int id = BitConverter.ToInt32(buffer, 8);
-            int timestamp = BitConverter.ToInt32(buffer, 12);
+            long timestamp = BitConverter.ToInt64(buffer, 12);
 
             PositionUpdate update = new PositionUpdate(x, y, id, timestamp);
             Debug.Log("Read " + update);

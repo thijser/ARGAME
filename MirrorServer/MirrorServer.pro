@@ -15,8 +15,8 @@ TEMPLATE = app
 QT      -= core gui
 CONFIG  -= qt
 
-# We're building a simple console application, so
-# disable building an application bundle.
+# We're building a simple console application,
+# and we want c++11 functionality.
 CONFIG  += console c++11
 
 # NetLink also uses .inc as include file extension

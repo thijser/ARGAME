@@ -121,10 +121,11 @@ static void checkReadError(const string& functionName) {
 
 
 void Socket::initSocket() {
-
+#ifdef OS_WIN32
+    // On Windows, WSAStartup needs to be called before we can use Sockets.
     WSAData wsaData;
     WSAStartup(0x202, &wsaData);
-
+#endif
     struct addrinfo conf, *res = NULL;
     memset(&conf, 0, sizeof(conf));
 
@@ -378,7 +379,7 @@ static void *get_in_addr(struct sockaddr *sa)
 * @throw Exception EXPECTED_TCP_SOCKET, EXPECTED_SERVER_SOCKET
 */
 
-Socket* Socket::accept() {
+Socket* Socket::accept(int timeout) {
 
     if(_protocol != TCP)
         throw Exception(Exception::EXPECTED_TCP_SOCKET, "Socket::accept: non-tcp socket can not accept connections");
@@ -394,6 +395,22 @@ Socket* Socket::accept() {
         unsigned addrSize = sizeof(incoming_addr);
     #endif
 
+    struct timeval time;
+    time.tv_sec  = timeout / 1000;
+    time.tv_usec = (timeout % 1000) * 1000;
+
+    fd_set fds;
+    FD_ZERO(&fds);
+    FD_SET(_socketHandler, &fds);
+
+    int selectStatus = select(_socketHandler + 1, &fds, NULL, NULL, &time);
+    if (selectStatus == 0) {
+        // Timeout: simply return NULL
+        return NULL;
+    } else if (selectStatus < 0) {
+        throw Exception(Exception::ERROR_SELECT, "Error during Socket Select", getSocketErrorCode());
+    }
+    // Else: there is a Socket available: accept.
     int new_handler = ::accept(_socketHandler, (struct sockaddr *)&incoming_addr, &addrSize);
 
     if(new_handler == -1)

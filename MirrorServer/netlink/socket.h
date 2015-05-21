@@ -64,7 +64,7 @@ class Socket {
         ~Socket();
 
 
-        Socket* accept();
+        Socket* accept(int timeout = 0);
 
         int read(void* buffer, size_t bufferSize);
         void send(const void* buffer, size_t size);

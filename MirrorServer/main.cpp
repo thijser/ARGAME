@@ -21,8 +21,8 @@ using namespace mirrors;
 int main(int, char**) {
     cv::namedWindow("Camera", CV_WINDOW_AUTOSIZE);
 
-    //ServerSocket server(SERVER_PORT);
-    //std::thread serverThread([&](){ server.run(); });
+    ServerSocket server(SERVER_PORT);
+    std::thread serverThread([&](){ server.run(); });
 
     detector cameraDetector;
 
@@ -41,8 +41,8 @@ int main(int, char**) {
     });
 
     // Disconnect the Socket and wait for the server to stop.
-    //server.disconnect();
-    //serverThread.join();
+    server.disconnect();
+    serverThread.join();
 
     return 0;
 }

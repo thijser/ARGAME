@@ -10,21 +10,23 @@
 #ifndef MIRRORS_SERVERSOCKET_H
 #define MIRRORS_SERVERSOCKET_H
 
+#include <mutex>
+
+#include "netlink/socket.h"
 #include "netlink/socket_group.h"
 
-namespace NL {
-  class Socket;
-}
+namespace mirrors {
 
 using namespace NL;
-
-namespace mirrors {
 
 /**
  * @brief Server implementation using NetLink sockets.
  */
 class ServerSocket {
 private:
+    /// The port the server listens on.
+    uint16_t port;
+
     /// The Socket that clients can connect to.
     Socket *sock;
 
@@ -33,6 +35,9 @@ private:
 
     /// Flag indicating if the server should still be running.
     bool keepGoing;
+
+    /// The mutex used for locking the Socket.
+    std::mutex socketMutex;
 
     // Disable copying of ServerSockets.
     ServerSocket(const ServerSocket&) = delete;
@@ -45,7 +50,7 @@ public:
     explicit ServerSocket(uint16_t serverPort);
 
     /**
-     * @brief Deletes the Socket.
+     * @brief Closes and deletes the Socket.
      */
     virtual ~ServerSocket() throw();
 
@@ -55,11 +60,19 @@ public:
     void disconnect();
 
     /**
+     * @brief Tests whether this server is running.
+     * @return True if this server is running, false otherwise.
+     */
+    bool isRunning() const { return sock != NULL; }
+
+    /**
      * @brief Runs the server until disconnected.
      *
      * This function will only return after the Socket is disconnected.
+     * @throws NL::Exception    - If an exception occurred in the NetLink Socket.
+     * @throws std::logic_error - If this server is already running.
      */
-    void run();
+    void run() throw (NL::Exception, std::logic_error);
 
     /**
      * @brief The amount of connections this Server currently has.
