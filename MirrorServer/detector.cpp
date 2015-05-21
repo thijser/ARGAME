@@ -39,6 +39,83 @@ void detector::detect(const detection_callback& callback) {
     // Use thresholded image to locate marker candidates
     auto data = locateMarkers(thresholdedFrame);
 
+    // Find rotated bounding rect of marker
+    if (data.candidates.empty()) return;
+    auto brect = cv::boundingRect(data.contours[data.candidates[0]]);
+
+    cv::RotatedRect rect = cv::minAreaRect(data.contours[data.candidates[0]]);
+
+    Mat marker = correctedFrame(brect);
+    marker = rotate(marker, rect.angle);
+
+    // Cut off border
+    int w = rect.size.width - 20;
+    int h = rect.size.height - 20;
+
+    if (w > 7 && h > 7 && w <= marker.size[0] && h <= marker.size[1] && w > 0 && h > 0) {
+        cv::Rect roi;
+        roi.x = marker.size[0] / 2 - w / 2;
+        roi.y = marker.size[1] / 2 - h / 2;
+        roi.width = w;
+        roi.height = h;
+        marker = marker(roi);
+
+        // Threshold for grayish area to find black/white region
+        Mat markerParts[3];
+        split(marker, markerParts);
+
+        Mat mask = ~(markerParts[1] > 50 & (markerParts[1] > markerParts[2]) & (markerParts[1] > markerParts[0] * 1.2));
+
+        vector<vector<Point>> contours;
+        cv::findContours(mask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+
+        if (contours.size() > 0) {
+            // FIXME: largestPoints will only ever be 0
+            size_t largestPoints = 0;
+            cv::Rect bb;
+
+            for (auto& contour : contours) {
+                if (contour.size() > largestPoints) {
+                    bb = cv::boundingRect(contour);
+
+                    if (bb.width > 3 && bb.height > 3) {
+                        bb.x += 3;
+                        bb.y += 3;
+                        bb.width -= 6;
+                        bb.height -= 6;
+                    }
+                }
+            }
+
+            if (bb.x >= 0 && bb.y >= 0 && bb.width > 0 && bb.height > 0 && bb.x + bb.width < marker.size[0] && bb.y + bb.height < marker.size[1]) {
+                std::cout << bb.x << ", " << bb.y << ", " << bb.width << ", " << bb.height << ", " << marker.size[0] << ", " << marker.size[1] << std::endl;
+                Mat codeImage = marker(bb);
+
+                // Turn into grayscale and threshold to find black and white code
+                Mat codeImageGray, thresholdedCode, downsizedCode;
+                cv::cvtColor(codeImage, codeImageGray, CV_BGR2GRAY);
+                cv::resize(codeImageGray, downsizedCode, Size(6, 6), 0, 0, cv::INTER_LINEAR);
+
+                int avgPixel = 0;
+
+                for (int i = 0; i < 6; i++) {
+                    for (int j = 0; j < 6; j++) {
+                        avgPixel += downsizedCode.at<uint8_t>(i, j);
+                    }
+                }
+
+                avgPixel /= 36;
+
+                cv::threshold(downsizedCode, thresholdedCode, avgPixel, 255, 0);
+
+                marker = thresholdedCode;
+            }
+        }
+    }
+
+    Mat markerBig;
+    cv::resize(marker, markerBig, Size(marker.size[0] * 32, marker.size[1] * 32), 0, 0, cv::INTER_NEAREST);
+
     // Build collection of marker positions
     vector<Point> markerPositions;
 
@@ -58,7 +135,7 @@ void detector::detect(const detection_callback& callback) {
         markerPositions.push_back(sum);
     }
 
-    callback(correctedFrame, markerPositions);
+    callback(markerBig, markerPositions);
 }
 
 void detector::loop(const detection_callback& callback) {

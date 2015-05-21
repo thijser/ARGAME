@@ -72,7 +72,7 @@
             this.socket.Connect(this.endPoint);
             Debug.Log("Socket connected to " + this.endPoint.Address);
         }
-		
+
         /// <summary>
         /// Retrieves the PositionUpdates from the server and broadcasts the messages.
         /// </summary>
@@ -97,7 +97,7 @@
         public int ReadAllUpdates()
         {
             int count = 0;
-            while (this.socket.Available >= PacketSize) 
+            while (this.socket.Available >= PacketSize && count < 10) 
             {
                 PositionUpdate update = this.ReadUpdate();
                 if (update == null)
@@ -107,7 +107,7 @@
 
                 this.SendMessage(
                     "OnPositionUpdate", 
-                    update, 
+                    update,
                     SendMessageOptions.DontRequireReceiver);
                 count++;
             }
@@ -123,7 +123,7 @@
         /// <returns>The PositionUpdate.</returns>
         public PositionUpdate ReadUpdate() 
         {
-            Debug.Log("Trying to read data");
+            //Debug.Log("Trying to read data");
             int received = this.socket.Receive(buffer, PacketSize, SocketFlags.None);
             if (received < PacketSize) 
             {
@@ -137,7 +137,7 @@
             long timestamp = BitConverter.ToInt64(buffer, 12);
 
             PositionUpdate update = new PositionUpdate(x, y, id, timestamp);
-            Debug.Log("Read " + update);
+            //Debug.Log("Read " + update);
             return update;
         }
 
