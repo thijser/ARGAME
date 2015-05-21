@@ -22,7 +22,13 @@ int main(int, char**) {
     cv::namedWindow("Camera", CV_WINDOW_AUTOSIZE);
 
     ServerSocket server(SERVER_PORT);
-    std::thread serverThread([&](){ server.run(); });
+    std::thread serverThread([&](){
+        try {
+            server.run();
+        } catch (const NL::Exception &ex) {
+            cerr << "Uncaught exception in server: " << ex.what() << endl;
+        }
+    });
 
     detector cameraDetector;
 
