@@ -173,40 +173,7 @@ namespace RandomLevel
         /// <returns>The constructed string.</returns>
         public override string ToString()
         {
-            // The final String length is the amount of vertices (rows * columns) plus the
-            // amount of characters in a single newline (max. 2) times the amount of rows.
-            StringBuilder builder = new StringBuilder((this.Maxcol + 2) * this.Maxrow);
-            for (int column = 0; column < this.Maxcol; column++)
-            {
-                for (int row = 0; row < this.Maxrow; row++)
-                {
-                    builder.Append(this.GetVertexSymbol(row, column));
-                }
-
-                builder.AppendLine();
-            }
-
-            return builder.ToString();
-        }
-
-        /// <summary>
-        /// Returns a representative character for the Vertex at the given position.
-        /// </summary>
-        /// <param name="row">The row.</param>
-        /// <param name="column">The column.</param>
-        /// <returns>The character describing the Vertex.</returns>
-        private char GetVertexSymbol(int row, int column)
-        {
-            Property property = this.GetVertexAtPosition(row, column).Property;
-            switch (property)
-            {
-                case Property.EMPTY: return ' ';
-                case Property.LASER: return 'O';
-                case Property.PARTOFPATH: return '.';
-                case Property.TARGET: return 'X';
-                case Property.WALL: return '#';
-                default: throw new ArgumentException("Unknown Property at given position: " + property);
-            }
+            return SquareGraphStringBuilder.ToString(Maxrow, Maxcol, squareMap);
         }
     }
 }
