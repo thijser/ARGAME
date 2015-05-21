@@ -8,39 +8,63 @@
 		located	players as well as the physically remote players. The activities
 		are as follows:
 
-		\subsection{User wants to start a game} \label{ssec:userstartgame}
-			A user (or player) wants to start a new game. This user can be either
-			a physically co-located player or a physically remote player. In
-			order to start a new game, the user has to click the correct buttons
-			on the start screen. Clicking the buttons can only happen on a laptop,
-			but that should not be a problem considering the user needs to be near
-			their laptop anyway to view the game world from an Oculus Rift or a
-			META One, the two tools required to play the game with. When the game
-			is started, other users, both physically co-located and physically
-			remote, can join the same session to play the game together.
+		\subsection{A local user wants to start a game} \label{ssec:userstartgame}
+			The local user ensures the main camera is set up according to the 
+			provided guidelines. The local user then starts the server on the 
+			machine the camera is connected to. The local user needs to take note 
+			of the IP address of the server machine and fill this into his local 
+			machine (to which the Meta One glasses are attached). The other players
+			also fill in the same IP address. The server can also run on one of the 
+			players' machines. The local user needs to wait for others to join the 
+			game. When at least two local players and at least one remote player 
+			has joined the game, the game will start.
+			
+		\subsection{A local user wants to join a game} \label{ssec:localjoingame}
+			A local player wants to join an active game. Before this can
+			happen, a game has to be started first. The local player needs to 
+			acquire the IP address of the server machine and fill this in.
+			Once the game starts, the local player will see virtual objects projected 
+			through the Meta One glasses.
 
-		\subsection{Physically remote user wants to join a started game}
-				\label{ssec:remotejoingame}
+		\subsection{A remote user wants to join a game} \label{ssec:remotejoingame}
 			A physically remote player wants to join an active game. Before this can
-			happen, a game has to be started first. As mentioned before, both physically
-			co-located players and physically remote players can start a game session
-			which other players can join.
+			happen, a game has to be started first. The remote user needs to acquire 
+			the IP address of the local server machine (see \ref{ssec:userstartgame})
+			and fill this in. The remote user will see a virtualized version of the 
+			same game world as the local players.
 
 	\section{Back-end design} \label{sec:backenddesign}
 		The system is composed of three main parts: The Laser mechanics, the network
 		functionality and the projection to 3D glasses. For this purpose, we divided
-		the code over three namespaces, named "Laser", "Network" and
+		the C\# code over three namespaces, named "Core", "Network" and
 		"Projection", respectively.
 
-		The "Laser" namespace is responsible for drawing the Laser beams and
+		The "Core" namespace is responsible for drawing the Laser beams and
 		providing the interactions of laser beams with the other game objects.
+		The layout of this namespace is discussed in paragraph 
+		\ref{ssec:corenamespace}.
 
 		The "Network" namespace is responsible for synchronizing the game state
-		between all connected players.
+		between all connected players. The layout of this namespace if discussed 
+		in paragraph \ref{ssec:networknamespace}.
 
 		The "Projection" namespace is responsible for providing the projection to
 		the VR glasses. This namespace provides the functionality required to project
-		the game world to the VR glasses.
+		the game world to the VR glasses. The layout of this namespace is discusses in
+		paragraph \ref{ssec:projectionnamespace}.
+		
+		Additionally, the game depends on the deployment of a server application written
+		in C++. The purpose of this server application will be discussed in
+		\ref{ssec:networknamespace}.
+		
+		\subsection{The Core namespace} \label{ssec:corenamespace}
+			%TODO: Write about core namespace.
+			
+		\subsection{The Network namespace} \label{ssec:networknamespace}
+			%TODO: Write about network namespace.
+					
+		\subsection{The Projection namespace} \label{ssec:projectionnamespace}
+			%TODO: Write about projection namespace.
 
 	\section{Game elements} \label{sec:graphicaldesign}
 		For designing the 3D models, we used Blender. Blender is a free application
@@ -52,9 +76,10 @@
 		just feels good in combination with the beams of light.
 		The following sections display and describe the graphics used in
 		the gameplay elements, as well as the function of
-		these elements
+		these elements.
 		% TODO Explain why we chose this graphics style
-			\subsection{Laser target}\label{ssec:lasertarget}
+		
+		\subsection{Laser target} \label{ssec:lasertarget}
 			The laser target is the main target of the game. It consists of
 			a small container, which contains a crystal. The point of the
 			game is to direct a laser beam from an emitter to this target.
@@ -63,19 +88,22 @@
 			the target has been hit. The game will then proceed to the
 			next level.
 			% TODO image.
-			\subsection{Mirror}\label{ssec:mirror}
+			
+		\subsection{Mirror} \label{ssec:mirror}
 			A mirror is a crucial game element. Its reflective surfaces
 			allow it to reflect any laser beam that hits these surfaces.
 			It is also the only element that players can move and/or rotate.
 			All levels require at least one mirror to move or rotate
 			in order to hit the target. 
 			% TODO image.
-			\subsection{Wall}\label{ssec:wall}
+			
+		\subsection{Wall} \label{ssec:wall}
 			The wall is the main obstacle in the game. It blocks incoming
 			laser beams completely. Walls are used in levels to make it 
 			less easy for one player to reflect a laser beam coming from
 			an emitter to the target.
-			\subsection{Emitter}\label{ssec:emitter}
+			
+		\subsection{Emitter} \label{ssec:emitter}
 			The emitter is the most important aspect of the entire game.
 			It is the only "true" source of a laser beam (although game
 			elements like the beam splitter can also create beams, these
