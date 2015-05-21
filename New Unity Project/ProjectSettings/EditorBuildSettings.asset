@@ -9,5 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/PortalDemo.unity
   - enabled: 0
     path: Assets/Scenes/networktest.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/firstdemoscenemeta.unity
+  - enabled: 1
+    path: Assets/Scenes/metalinked.unity

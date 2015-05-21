@@ -9,8 +9,9 @@
     	private Dictionary<int,GameObject> objectTable;
     	public List<GameObject> RegisterObjectsOnStartup;
 
-    	public void SyncLoc(PositionUpdate update)
+		public void OnPositionUpdate(PositionUpdate update)
         {
+			Debug.Log("received:"+ update.ToString());
     		if(!objectTable.ContainsKey(update.ID))
             {
     			throw new KeyNotFoundException("ID of not yet registered object");
