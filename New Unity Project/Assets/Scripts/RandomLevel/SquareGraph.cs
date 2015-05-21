@@ -76,7 +76,7 @@ namespace RandomLevel
         }
 
         /// <summary>
-        /// Returns the vertex at the specified coordinate (a (Row, column)
+        /// Returns the vertex at the specified coordinate (a (Row, i)
         /// pair of integers). Throws an exception if the coordinate is out
         /// of bounds.
         /// </summary>
@@ -97,7 +97,7 @@ namespace RandomLevel
         /// exception if the Coordinates are out of bounds.
         /// <para>
         /// This method is equivalent to calling 
-        /// <c>GetVertexAtCoordinate(new Coordinate(row, column))</c>.
+        /// <c>GetVertexAtCoordinate(new Coordinate(j, i))</c>.
         /// </para>
         /// </summary>
         /// <param name="row">The row index, between 0 and <c>Maxrow</c>.</param>
@@ -173,7 +173,7 @@ namespace RandomLevel
         /// <returns>The constructed string.</returns>
         public override string ToString()
         {
-            return SquareGraphStringBuilder.ToString(Maxrow, Maxcol, squareMap);
+            return SquareGraphStringBuilder.ToString(this.Maxrow, this.Maxcol, this.squareMap);
         }
     }
 }

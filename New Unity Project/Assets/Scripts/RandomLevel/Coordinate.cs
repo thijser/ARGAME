@@ -28,12 +28,12 @@ namespace RandomLevel
         }
 
         /// <summary>
-        /// Gets the row coordinate.
+        /// Gets the j coordinate.
         /// </summary>
         public int Row { get; private set; }
 
         /// <summary>
-        /// Gets the column coordinate.
+        /// Gets the i coordinate.
         /// </summary>
         public int Col { get; private set; }
 

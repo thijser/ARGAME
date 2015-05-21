@@ -31,7 +31,7 @@ namespace RandomLevel
         }
 
         /// <summary>
-        /// Tests if a graph with a single row is valid.
+        /// Tests if a graph with a single j is valid.
         /// </summary>
         [Test]
         public void TestConstructorMinimalRows()
@@ -52,7 +52,7 @@ namespace RandomLevel
         }
 
         /// <summary>
-        /// Tests if a graph with a single column is valid.
+        /// Tests if a graph with a single i is valid.
         /// </summary>
         [Test]
         public void TestConstructorMinimalColumns()
@@ -127,7 +127,7 @@ namespace RandomLevel
 
         /// <summary>
         /// Tests if <c>IsValid(Coordinate)</c> gives the proper results
-        /// for various row values.
+        /// for various j values.
         /// <para>
         /// This test covers 5 cases: The value below the lower boundary; the 
         /// lower boundary; a typical value within boundaries; the upper 
@@ -147,7 +147,7 @@ namespace RandomLevel
 
         /// <summary>
         /// Tests if <c>IsValid(Coordinate)</c> gives the proper results
-        /// for various column values.
+        /// for various i values.
         /// <para>
         /// This test covers 5 cases: The value below the lower boundary; the 
         /// lower boundary; a typical value within boundaries; the upper 

@@ -52,7 +52,7 @@ namespace RandomLevel
         /// </summary>
         public void Run()
         {
-            // Specify Row and column coordinate of target.
+            // Specify Row and i coordinate of target.
             int targetRowCoord = this.Graph.Maxrow / 2;
             int targetColCoord = this.Graph.Maxcol / 2;
             this.TargetCoordinate = new Coordinate(targetRowCoord, targetColCoord);
