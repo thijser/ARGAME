@@ -59,7 +59,7 @@ void ServerSocket::run() throw (NL::Exception, std::logic_error) {
 
     sock = new Socket(port);
     socketMutex.unlock();
-    cout << "Server started (listening on port " << sock->portFrom() << ")" << endl;
+    clog << "Server started (listening on port " << sock->portFrom() << ")" << endl;
     while (keepGoing) {
         try {
             socketMutex.lock();
@@ -70,7 +70,7 @@ void ServerSocket::run() throw (NL::Exception, std::logic_error) {
             }
         } catch (const NL::Exception &ex) {
             socketMutex.unlock();
-            cout << "Exception in Socket accept: " << ex.msg() << endl;
+            clog << "Exception in Socket accept: " << ex.msg() << endl;
         }
         broadcastPositionUpdate(1234, 0.25f, 0.75f, 1000001);
     }
@@ -78,7 +78,7 @@ void ServerSocket::run() throw (NL::Exception, std::logic_error) {
     socketMutex.lock();
     sock = NULL;
     socketMutex.unlock();
-    cout << "Server stopped" << endl;
+    clog << "Server stopped" << endl;
 }
 
 void ServerSocket::broadcastMessage(const void *buffer, int length) {
@@ -91,7 +91,7 @@ void ServerSocket::broadcastMessage(const void *buffer, int length) {
         try {
             clients.get(i)->send(buffer, length);
         } catch (const NL::Exception &ex) {
-            cout << "Exception in send to client: " << ex.what()
+            clog << "Exception in send to client: " << ex.what()
                  << " (error code: " << ex.nativeErrorCode() << ")" << endl;
         }
     }

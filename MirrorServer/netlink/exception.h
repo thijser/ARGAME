@@ -94,7 +94,6 @@ class Exception {
         *
         * @return A C-string with a human readable error description
         */
-
         const char* what() const    { return _msg.c_str(); }
 
 

@@ -32,10 +32,13 @@ public:
     void detect(const detection_callback& callback);
     void loop(const detection_callback& callback);
 
+    void stop() throw();
+
 private:
     VideoCapture cap;
     int width, height;
     std::vector<Point2f> surfaceCorners;
+    bool keepGoing;
 
     Mat capture();
 

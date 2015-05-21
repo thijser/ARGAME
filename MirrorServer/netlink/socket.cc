@@ -121,11 +121,6 @@ static void checkReadError(const string& functionName) {
 
 
 void Socket::initSocket() {
-#ifdef OS_WIN32
-    // On Windows, WSAStartup needs to be called before we can use Sockets.
-    WSAData wsaData;
-    WSAStartup(0x202, &wsaData);
-#endif
     struct addrinfo conf, *res = NULL;
     memset(&conf, 0, sizeof(conf));
 

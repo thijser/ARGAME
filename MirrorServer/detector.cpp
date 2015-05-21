@@ -14,7 +14,8 @@ namespace hierarchy_members {
     };
 }
 
-detector::detector(int captureDevice, int requestedWidth, int requestedHeight) {
+detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
+        : keepGoing(true) {
     cap.open(captureDevice);
 
     cap.set(CV_CAP_PROP_FRAME_WIDTH, requestedWidth);
@@ -99,9 +100,14 @@ void detector::detect(const detection_callback& callback) {
 }
 
 void detector::loop(const detection_callback& callback) {
-    while (cv::waitKey(10) != 27) {
+    while (keepGoing && cv::waitKey(10) != 27) {
         detect(callback);
     }
+    std::clog << "Detector stoppped" << std::endl;
+}
+
+void detector::stop() throw() {
+    keepGoing = false;
 }
 
 Mat detector::capture() {

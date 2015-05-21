@@ -97,6 +97,15 @@ public:
      */
     void broadcastPositionUpdate(uint32_t id, float x, float y, uint64_t timestamp);
 
+    /**
+     * @brief Enables the use of Sockets.
+     *
+     * This is required to be called on Windows (for initializing WSA),
+     * but doesn't do any harm on other systems.
+     *
+     * This static function delegates to @c NL::init()
+     */
+    static void initialize() throw(NL::Exception) { NL::init(); }
 };
 
 } // namespace mirrors
