@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="SquareGraph.cs" company="Delft University of Technology">
+// <copyright file="SquareGraphBuilder.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //     
 //     This software is licensed under the terms of the MIT License.
@@ -43,10 +43,10 @@ namespace RandomLevel
         /// <summary>
         /// Initializes the 2D matrix and returns it.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An initialized 2D matrix.</returns>
         public Vertex[,] Init()
         {
-            Vertex[,] graph = new Vertex[rows, cols];
+            Vertex[,] graph = new Vertex[this.rows, this.cols];
             for (int i = 0; i < this.rows; i++)
             {
                 for (int j = 0; j < this.cols; j++)

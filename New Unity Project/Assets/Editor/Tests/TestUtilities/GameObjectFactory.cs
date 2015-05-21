@@ -75,7 +75,9 @@ namespace TestUtilities
         /// <returns>The emitter.</returns>
         public static MultiEmitter CreateMultiEmitter()
         {
-            GameObject gameObject = new GameObject("MultiEmitter", typeof(MultiEmitter),
+            GameObject gameObject = new GameObject(
+                "MultiEmitter", 
+                typeof(MultiEmitter),
                 typeof(LaserEmitter));
             return gameObject.GetComponent<MultiEmitter>();
         }
