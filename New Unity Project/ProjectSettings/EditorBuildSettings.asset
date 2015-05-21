@@ -11,5 +11,5 @@ EditorBuildSettings:
     path: Assets/Scenes/networktest.unity
   - enabled: 0
     path: Assets/Scenes/firstdemoscenemeta.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/metalinked.unity
