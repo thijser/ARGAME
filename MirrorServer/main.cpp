@@ -19,8 +19,15 @@ using namespace mirrors;
 
 #define SERVER_PORT 23369
 
-int main(int, char**) {
-    detector cameraDetector(1);
+int main(int argc, char **argv) {
+    int deviceID = 0;
+    if (argc > 1) {
+        deviceID = atoi(argv[1]);
+        std::clog << "Using camera device #" << deviceID << std::endl;
+    }
+
+    detector cameraDetector(deviceID);
+    cv::startWindowThread();
     cv::namedWindow("Camera", CV_WINDOW_AUTOSIZE);
 
     ServerSocket::initialize();
