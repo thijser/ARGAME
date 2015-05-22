@@ -27,8 +27,6 @@ class detector {
 public:
     detector(int captureDevice = 0, int requestedWidth = 1600, int requestedHeight = 896);
 
-    void setSurfaceCorners(const std::vector<Point2f>& corners);
-
     void detect(const detection_callback& callback);
     void loop(const detection_callback& callback);
 
@@ -37,17 +35,21 @@ public:
 private:
     VideoCapture cap;
     int width, height;
-    std::vector<Point2f> surfaceCorners;
     bool keepGoing;
+
+    vector<Point2f> corners;
 
     Mat capture();
 
-    Mat correctPerspective(const Mat& rawFrame) const;
+    vector<Point2f> findCorners(const Mat& rawFrame) const;
+
+    Mat correctPerspective(const Mat& rawFrame, const vector<Point2f>& corners) const;
     Mat thresholdGreen(const Mat& correctedFrame) const;
 
     marker_locations locateMarkers(const Mat& thresholdedFrame) const;
     Mat findMarker(const Mat& correctedFrame, const marker_locations& data) const;
 
+    static Point averageOfPoints(const vector<Point>& points);
     static Mat rotate(Mat src, double angle);
 };
 

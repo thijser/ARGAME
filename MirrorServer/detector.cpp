@@ -26,42 +26,81 @@ detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
     height = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 }
 
-void detector::setSurfaceCorners(const std::vector<Point2f>& corners) {
-    surfaceCorners = corners;
-}
-
 void detector::detect(const detection_callback& callback) {
-    // Process image
+    // Capture image from camera
     Mat frame = capture();
-    Mat correctedFrame = correctPerspective(frame);
-    Mat thresholdedFrame = thresholdGreen(correctedFrame);
 
-    // Use thresholded image to locate marker candidates
-    auto data = locateMarkers(thresholdedFrame);
+    // Detect corners of area or fall back to old ones
+    auto newCorners = findCorners(frame);
+    if (newCorners.size() != 0) corners = newCorners;
 
-    // Isolate code of first marker
-    Mat markerBig = findMarker(correctedFrame, data);
+    if (corners.size() == 4) {
+        Mat correctedFrame = correctPerspective(frame, corners);
+        Mat thresholdedFrame = thresholdGreen(correctedFrame);
 
-    // Build collection of marker positions
-    vector<Point> markerPositions;
+        // Use thresholded image to locate marker candidates
+        auto data = locateMarkers(thresholdedFrame);
 
-    for (int contourIndex : data.candidates) {
-        vector<Point> contour = data.contours[contourIndex];
+        // Isolate code of first marker
+        Mat markerBig = findMarker(correctedFrame, data);
 
-        // Calculate center of marker
-        Point sum;
+        // Build collection of marker positions
+        vector<Point> markerPositions;
 
-        for (Point& p : contour) {
-            sum += p;
+        for (int contourIndex : data.candidates) {
+            // Calculate center of marker
+            vector<Point> contour = data.contours[contourIndex];
+            markerPositions.push_back(averageOfPoints(contour));
         }
 
-        sum.x = sum.x / contour.size();
-        sum.y = sum.y / contour.size();
+        callback(correctedFrame, markerPositions);
+    } else {
+        callback(frame, vector<Point>());
+    }
+}
 
-        markerPositions.push_back(sum);
+vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
+    // Threshold on red
+    Mat frameParts[3];
+    split(rawFrame, frameParts);
+
+    Mat mask = frameParts[2] > frameParts[1] * 2 & frameParts[2] > frameParts[0] * 2 & frameParts[2] > 50;
+    Mat maskClean;
+    Mat kernel = cv::getStructuringElement(cv::MorphShapes::MORPH_RECT, Size(3, 3));
+    cv::erode(mask, maskClean, kernel);
+
+    // Find 4 red corner regions
+    vector<vector<Point>> contours;
+    cv::findContours(maskClean, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+
+    // Find center points
+    vector<Point> markerPoints;
+
+    for (auto& points : contours) {
+        markerPoints.push_back(averageOfPoints(points));
     }
 
-    callback(markerBig, markerPositions);
+    if (contours.size() == 4) {
+        // First sort by y to separate top and bottom markers
+        std::sort(markerPoints.begin(), markerPoints.end(), [](Point a, Point b) { return a.y < b.y; });
+
+        vector<Point> topMarkers(markerPoints.begin(), markerPoints.begin() + 2);
+        vector<Point> bottomMarkers(markerPoints.begin() + 2, markerPoints.begin() + 4);
+
+        // Then sort each of them by x to find left and right
+        std::sort(topMarkers.begin(), topMarkers.end(), [](Point a, Point b) { return a.x < b.x; });
+        std::sort(bottomMarkers.begin(), bottomMarkers.end(), [](Point a, Point b) { return a.x < b.x; });
+
+        vector<Point2f> corners;
+        corners.push_back(topMarkers[0]); // Top-left
+        corners.push_back(topMarkers[1]); // Top-right
+        corners.push_back(bottomMarkers[0]); // Bottom-left
+        corners.push_back(bottomMarkers[1]); // Bottom-right
+        
+        return corners;
+    }
+
+    return vector<Point2f>();
 }
 
 Mat detector::findMarker(const Mat& correctedFrame, const marker_locations& data) const {
@@ -75,8 +114,8 @@ Mat detector::findMarker(const Mat& correctedFrame, const marker_locations& data
     marker = rotate(marker, rect.angle);
 
     // Cut off border
-    int w = rect.size.width - 20;
-    int h = rect.size.height - 20;
+    int w = static_cast<int>(rect.size.width) - 20;
+    int h = static_cast<int>(rect.size.height) - 20;
 
     if (w > 7 && h > 7 && w <= marker.size[0] && h <= marker.size[1] && w > 0 && h > 0) {
         cv::Rect roi;
@@ -161,9 +200,9 @@ Mat detector::capture() {
     return frame;
 }
 
-Mat detector::correctPerspective(const Mat& rawFrame) const {
+Mat detector::correctPerspective(const Mat& rawFrame, const vector<Point2f>& corners) const {
     static Point2f dst[] = {Point2f(0, 0), Point2f(width, 0), Point2f(0, height), Point2f(width, height)};
-    Mat m = getPerspectiveTransform(surfaceCorners.data(), dst);
+    Mat m = getPerspectiveTransform(corners.data(), dst);
 
     Mat tmp, output;
     warpPerspective(rawFrame, tmp, m, cv::Size(width, height));
@@ -229,10 +268,23 @@ marker_locations detector::locateMarkers(const Mat& thresholdedFrame) const {
     return data;
 }
 
+Point detector::averageOfPoints(const vector<Point>& points) {
+    Point sum;
+
+    for (auto& p : points) {
+        sum += p;
+    }
+
+    sum.x = sum.x / points.size();
+    sum.y = sum.y / points.size();
+
+    return sum;
+}
+
 // Source: http://opencv-code.com/quick-tips/how-to-rotate-image-in-opencv/
 Mat detector::rotate(Mat src, double angle) {    
     int len = std::max(src.cols, src.rows);
-    cv::Point2f pt(len / 2., len / 2.);
+    cv::Point2f pt(len / 2.f, len / 2.f);
     cv::Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);
 
     Mat dst;
