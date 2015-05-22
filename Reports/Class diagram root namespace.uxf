@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>150</y>
+      <w>240</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>ArrowKeyMove :: MonoBehaviour
+elementstyle=autoresize
+--
+_+ Speed : float_
+--
++ Update()
+
++ InputMovement()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>370</x>
+      <y>70</y>
+      <w>240</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>CloudLauncher :: MonoBehaviour
+elementstyle=autoresize
+--
++ Shader : ComputeShader
+
+- output : RenderTexture
+--
++ Update()
+
++ RunShader()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>70</y>
+      <w>280</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ShutdownBehaviour :: MonoBehaviour
+elementstyle=autoresize
+--
++ QuitKey : KeyCode
+--
++ Update()</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
