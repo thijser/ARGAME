@@ -30,9 +30,7 @@ void detector::detect(const detection_callback& callback) {
     // Capture image from camera
     Mat frame = capture();
 
-    // Detect corners of area or fall back to old ones
-    auto newCorners = findCorners(frame);
-    if (newCorners.size() != 0) corners = newCorners;
+    auto corners = getAveragedCorners(frame);
 
     if (corners.size() == 4) {
         Mat correctedFrame = correctPerspective(frame, corners);
@@ -59,6 +57,41 @@ void detector::detect(const detection_callback& callback) {
     }
 }
 
+vector<Point2f> detector::getAveragedCorners(const Mat& rawFrame) {
+    // Detect corners of current frame and add them to the history
+    auto newCorners = findCorners(rawFrame);
+    if (newCorners.size() == 4) {
+        cornersHistory.push_back(newCorners);
+    }
+
+    // Keep history of last <cornerMovingAverageHistory> corners
+    if (cornersHistory.size() > cornerMovingAverageHistory) {
+        cornersHistory.erase(cornersHistory.begin());
+    } else if (cornersHistory.size() == 0) {
+        return vector<Point2f>();
+    }
+
+    // Calculate average for each corner and return it
+    vector<Point> topLeft;
+    vector<Point> topRight;
+    vector<Point> bottomLeft;
+    vector<Point> bottomRight;
+
+    for (auto& corners : cornersHistory) {
+        topLeft.push_back(corners[0]);
+        topRight.push_back(corners[1]);
+        bottomLeft.push_back(corners[2]);
+        bottomRight.push_back(corners[3]);
+    }
+
+    return {
+        averageOfPoints(topLeft),
+        averageOfPoints(topRight),
+        averageOfPoints(bottomLeft),
+        averageOfPoints(bottomRight)
+    };
+}
+
 vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
     // Threshold on red
     Mat frameParts[3];
@@ -66,7 +99,7 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
 
     Mat mask = frameParts[2] > frameParts[1] * 2 & frameParts[2] > frameParts[0] * 2 & frameParts[2] > 50;
     Mat maskClean;
-    Mat kernel = cv::getStructuringElement(cv::MorphShapes::MORPH_RECT, Size(3, 3));
+    Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, Size(3, 3));
     cv::erode(mask, maskClean, kernel);
 
     // Find 4 red corner regions

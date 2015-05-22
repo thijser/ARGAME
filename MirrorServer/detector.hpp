@@ -6,6 +6,9 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <functional>
 
+// Amount of frames to average for corner positions
+const int cornerMovingAverageHistory = 30;
+
 using cv::Mat;
 using cv::Point;
 using cv::Point2f;
@@ -37,10 +40,11 @@ private:
     int width, height;
     bool keepGoing;
 
-    vector<Point2f> corners;
+    vector<vector<Point2f>> cornersHistory;
 
     Mat capture();
 
+    vector<Point2f> getAveragedCorners(const Mat& rawFrame);
     vector<Point2f> findCorners(const Mat& rawFrame) const;
 
     Mat correctPerspective(const Mat& rawFrame, const vector<Point2f>& corners) const;
