@@ -7,7 +7,6 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -16,7 +15,7 @@ using UnityEngine;
 public class ArrowKeyMove : MonoBehaviour
 {
     /// <summary>
-    /// The speed with which to move the mirror.
+    /// The speed with which to move the object.
     /// </summary>
     public const float Speed = 10f;
 
