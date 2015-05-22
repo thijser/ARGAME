@@ -58,27 +58,6 @@ namespace Network
         }
 
         /// <summary>
-        /// Returns the top parent in the hierarchy.
-        /// </summary>
-        /// <param name="transform">The Transform for which to locate the top parent, not null.</param>
-        /// <returns>The top parent.</returns>
-        public static Transform GetHighestParent(Transform transform)
-        {
-            if (transform == null)
-            {
-                throw new ArgumentNullException("transform");
-            }
-
-            Transform current = transform;
-            while (current.parent != null)
-            {
-                current = current.parent;
-            }
-
-            return current;
-        }
-
-        /// <summary>
         /// Initializes this MirrorController and disables state synchronization for this
         /// object.
         /// </summary>

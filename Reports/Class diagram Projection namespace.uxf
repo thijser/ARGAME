@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>210</x>
-      <y>90</y>
+      <x>80</x>
+      <y>270</y>
       <w>120</w>
       <h>130</h>
     </coordinates>
@@ -23,10 +23,10 @@ elementstyle=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>460</x>
-      <y>110</y>
+      <x>240</x>
+      <y>270</y>
       <w>240</w>
-      <h>100</h>
+      <h>170</h>
     </coordinates>
     <panel_attributes>PositionLinker :: MonoBehaviour
 elementstyle=autoresize
@@ -34,7 +34,11 @@ elementstyle=autoresize
 + LinkedTo : Transform
 + Mode : LinkingMode
 + LevelMarker : Transform
+
+- angle : float
 --
++ Linked()
+
 + Update()
 </panel_attributes>
     <additional_attributes/>
@@ -42,12 +46,77 @@ elementstyle=autoresize
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>300</x>
-      <y>120</y>
-      <w>180</w>
+      <x>170</x>
+      <y>280</y>
+      <w>90</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;160;30</additional_attributes>
+    <additional_attributes>30;30;70;30</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>110</y>
+      <w>340</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>RemoteObjectSyncer :: MonoBehaviour
+elementstyle=autoresize
+--
++ RegisterObjectsOnStartup : List&lt;GameObject&gt;
+
+- objectTable : Dictionary&lt;int, GameObject&gt;
+--
++ Start()
++ OnPositionUpdate(update : PositionUpdate)
+
++ RegisterObject(id : int, obj : GameObject)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>500</x>
+      <y>270</y>
+      <w>220</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>BaseForLevel :: MonoBehaviour
+elementstyle=autoresize
+--
+_+ Patience : int_
+
++ BasePoint : GameObject
++ Timestamp : long
+--
++ Seen()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>110</y>
+      <w>300</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>UsedCardManager :: MonoBehaviour
+elementstyle=autoresize
+--
++ CurrentlyUsed (get, set) : BaseForLevel </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>570</x>
+      <y>130</y>
+      <w>50</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;140;30;30</additional_attributes>
   </element>
 </diagram>
