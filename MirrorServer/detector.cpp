@@ -268,8 +268,12 @@ match_result detector::findMatchingMarker(const Mat& detectedPattern) const {
 }
 
 void detector::loop(const detection_callback& callback) {
-    while (keepGoing && cv::waitKey(10) != 27) {
+    while (keepGoing) {
         detect(callback);
+        int keyCode = cv::waitKey(10);
+        if (keyCode == 27 || keyCode == 113) {
+            stop();
+        }
     }
     std::clog << "Detector stoppped" << std::endl;
 }

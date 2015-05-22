@@ -1,15 +1,18 @@
 /*
- * Copyright 2015, Delft University of Technology
- *
- * This software is licensed under the terms of the MIT license.
- * See http://opensource.org/licenses/MIT for the full license.
- *
- *
- */
+* Copyright 2015, Delft University of Technology
+*
+* This software is licensed under the terms of the MIT license.
+* See http://opensource.org/licenses/MIT for the full license.
+*
+*
+*/
 
 #include <iostream>
 #include <thread>
 #include <chrono>
+using std::chrono::duration_cast;
+using std::chrono::high_resolution_clock;
+using std::chrono::milliseconds;
 
 #include <opencv2/highgui/highgui.hpp>
 
@@ -19,13 +22,29 @@ using namespace mirrors;
 
 #define SERVER_PORT 23369
 
-int main(int, char**) {
-    detector cameraDetector(1);
-    cv::namedWindow("Camera", CV_WINDOW_AUTOSIZE);
+/**
+* @brief Entry point of this application.
+* @param argc - The amount of command-line arguments.
+* @param argv - The command-line argument values.
+* @return The exit code of this application.
+*/
+int main(int argc, char **argv) {
+    int deviceID = 0;
+    bool showFrames = true;
+    if (argc > 1) {
+        deviceID = atoi(argv[1]);
+        std::clog << "Using camera device #" << deviceID << std::endl;
+    }
+    if (argc > 2) {
+        showFrames = (bool) atoi(argv[2]);
+        std::clog << "UI Enabled: " << showFrames << std::endl;
+    }
+
+    detector cameraDetector(deviceID);
 
     ServerSocket::initialize();
     ServerSocket server(SERVER_PORT);
-    std::thread serverThread([&](){
+    std::thread serverThread([&]() {
         try {
             server.run();
         } catch (const NL::Exception &ex) {
@@ -34,7 +53,11 @@ int main(int, char**) {
         }
     });
 
-    // Load marker patterns
+    if (showFrames) {
+        cv::startWindowThread();
+        cv::namedWindow("Camera", CV_WINDOW_AUTOSIZE);
+    }
+
     std::vector<Mat> markerPatterns;
 
     for (int i = 0; i < 8; i++) {
@@ -49,21 +72,19 @@ int main(int, char**) {
     }
 
     // Start detection loop
-    cameraDetector.loop([&server](const Mat& processedFrame, vector<detected_marker> markers) {
-        static auto start_time = std::chrono::high_resolution_clock::now();
+    cameraDetector.loop([&](const Mat& processedFrame, vector<detected_marker> markers) {
+        long time = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count();
 
-        // Determine time for updates
-        auto t = (std::chrono::high_resolution_clock::now() - start_time).count();
-
-        // Send positions of markers
         for (auto& marker : markers) {
-            server.broadcastPositionUpdate(marker.id, marker.position.x, marker.position.y, t);
+            server.broadcastPositionUpdate(marker.id, marker.position.x, marker.position.y, time);
         }
 
-        cv::imshow("Camera", processedFrame);
+        if (showFrames) {
+            cv::imshow("Camera", processedFrame);
+        }
     });
 
-    // Disconnect the Socket and wait for the server to stop.
+    // Disconnect the Socket and wait for the server and detector to stop.
     server.disconnect();
     serverThread.join();
 
