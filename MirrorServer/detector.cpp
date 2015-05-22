@@ -39,8 +39,34 @@ void detector::detect(const detection_callback& callback) {
     // Use thresholded image to locate marker candidates
     auto data = locateMarkers(thresholdedFrame);
 
+    // Isolate code of first marker
+    Mat markerBig = findMarker(correctedFrame, data);
+
+    // Build collection of marker positions
+    vector<Point> markerPositions;
+
+    for (int contourIndex : data.candidates) {
+        vector<Point> contour = data.contours[contourIndex];
+
+        // Calculate center of marker
+        Point sum;
+
+        for (Point& p : contour) {
+            sum += p;
+        }
+
+        sum.x = sum.x / contour.size();
+        sum.y = sum.y / contour.size();
+
+        markerPositions.push_back(sum);
+    }
+
+    callback(markerBig, markerPositions);
+}
+
+Mat detector::findMarker(const Mat& correctedFrame, const marker_locations& data) const {
     // Find rotated bounding rect of marker
-    if (data.candidates.empty()) return;
+    if (data.candidates.empty()) return correctedFrame;
     auto brect = cv::boundingRect(data.contours[data.candidates[0]]);
 
     cv::RotatedRect rect = cv::minAreaRect(data.contours[data.candidates[0]]);
@@ -88,7 +114,6 @@ void detector::detect(const detection_callback& callback) {
             }
 
             if (bb.x >= 0 && bb.y >= 0 && bb.width > 0 && bb.height > 0 && bb.x + bb.width < marker.size[0] && bb.y + bb.height < marker.size[1]) {
-                std::cout << bb.x << ", " << bb.y << ", " << bb.width << ", " << bb.height << ", " << marker.size[0] << ", " << marker.size[1] << std::endl;
                 Mat codeImage = marker(bb);
 
                 // Turn into grayscale and threshold to find black and white code
@@ -116,26 +141,7 @@ void detector::detect(const detection_callback& callback) {
     Mat markerBig;
     cv::resize(marker, markerBig, Size(marker.size[0] * 32, marker.size[1] * 32), 0, 0, cv::INTER_NEAREST);
 
-    // Build collection of marker positions
-    vector<Point> markerPositions;
-
-    for (int contourIndex : data.candidates) {
-        vector<Point> contour = data.contours[contourIndex];
-
-        // Calculate center of marker
-        Point sum;
-
-        for (Point& p : contour) {
-            sum += p;
-        }
-
-        sum.x = sum.x / contour.size();
-        sum.y = sum.y / contour.size();
-
-        markerPositions.push_back(sum);
-    }
-
-    callback(markerBig, markerPositions);
+    return markerBig;
 }
 
 void detector::loop(const detection_callback& callback) {
