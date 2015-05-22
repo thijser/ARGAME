@@ -9,28 +9,38 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
-	using UnityEngine;
+    using System.Diagnostics.CodeAnalysis;
+    using UnityEngine;
 
-	public class BaseForLevel : MonoBehaviour 
-	{
-		public const int Patience = 10;
+    public class BaseForLevel : MonoBehaviour
+    {
+        /// <summary>
+        /// The time the base marker may be missing before another marker is used.
+        /// </summary>
+        public const int Patience = 10;
 
-		public GameObject Basepoint;
+        /// <summary>
+        /// The GameObject to use as a base point.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public GameObject Basepoint;
 
-		public long Timestamp = 0;
+        /// <summary>
+        /// Gets or sets the time stamp for this BaseForLevel instance.
+        /// </summary>
+        public long Timestamp { get; set; }
 
-		public void Seen()
-		{
-			Timestamp = Time.frameCount;
-			UsedCardManager holder = this.Basepoint.GetComponent<UsedCardManager>();
-			if(holder.CurrentlyUsed.Timestamp + Patience < this.Timestamp)
-			{
-				Transform p = transform.parent;
-				transform.parent = null;
-				p.parent = transform;
-				holder.CurrentlyUsed = this;
-			}
-		}
-
-	}
+        public void Seen()
+        {
+            this.Timestamp = Time.frameCount;
+            UsedCardManager holder = this.Basepoint.GetComponent<UsedCardManager>();
+            if (holder.CurrentlyUsed.Timestamp + Patience < this.Timestamp)
+            {
+                Transform p = transform.parent;
+                transform.parent = null;
+                p.parent = this.transform;
+                holder.CurrentlyUsed = this;
+            }
+        }
+    }
 }

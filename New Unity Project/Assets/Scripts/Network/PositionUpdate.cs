@@ -9,20 +9,20 @@
 //----------------------------------------------------------------------------
 namespace Network
 {
-	using System;
+    using System;
 
-	/// <summary>
-	/// Represents an update of a marker position.
-	/// </summary>
-    public class PositionUpdate 
+    /// <summary>
+    /// Represents an update of a marker position.
+    /// </summary>
+    public class PositionUpdate
     {
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Network.PositionUpdate"/> class.
-		/// </summary>
-		/// <param name="x">The x coordinate.</param>
-		/// <param name="y">The y coordinate.</param>
-		/// <param name="id">The unique ID of the marker.</param>
-		/// <param name="timestamp">The timestamp of the update.</param>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Network.PositionUpdate"/> class.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        /// <param name="id">The unique ID of the marker.</param>
+        /// <param name="timestamp">The timestamp of the update.</param>
         public PositionUpdate(float x, float y, int id, long timestamp)
         {
             this.X = x;
@@ -31,73 +31,74 @@ namespace Network
             this.TimeStamp = timestamp;
         }
 
-		/// <summary>
-		/// Gets the x coordinate of this update.
-		/// </summary>
+        /// <summary>
+        /// Gets the x coordinate of this update.
+        /// </summary>
         public float X { get; private set; }
 
-		/// <summary>
-		/// Gets the y coordinate of this update.
-		/// </summary>
+        /// <summary>
+        /// Gets the y coordinate of this update.
+        /// </summary>
         public float Y { get; private set; }
 
-		/// <summary>
-		/// Gets the unique ID of the marker object.
-		/// </summary>
+        /// <summary>
+        /// Gets the unique ID of the marker object.
+        /// </summary>
         public int ID { get; private set; }
 
-		/// <summary>
-		/// Gets the timestamp of this update.
-		/// </summary>
+        /// <summary>
+        /// Gets the timestamp of this update.
+        /// </summary>
         public long TimeStamp { get; private set; }
 
-		/// <summary>
-		///   Serves as a hash function for a <see cref="Network.PositionUpdate"/> object.
-		/// </summary>
-		/// <returns>
-		///   A hash code for this instance that is suitable for use in hashing 
-		///   algorithms and data structures such as a hash table.
-		/// </returns>
-    	public override int GetHashCode()
-    	{
-    		return (int)(Math.Pow((float)TimeStamp,(float)ID)*Math.Pow(X,Y));
-    	}
+        /// <summary>
+        ///   Serves as a hash function for a <see cref="Network.PositionUpdate"/> object.
+        /// </summary>
+        /// <returns>
+        ///   A hash code for this instance that is suitable for use in hashing 
+        ///   algorithms and data structures such as a hash table.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return (int)(Math.Pow((float)this.TimeStamp, (float)this.ID) * Math.Pow(this.X, this.Y));
+        }
 
-		/// <summary>
-		///   Determines whether the specified <see cref="System.Object"/> is equal to the 
-		///   current <see cref="Network.PositionUpdate"/>.
-		/// </summary>
-		/// <param name="o">
-		///   The <see cref="System.Object"/> to compare with the current 
-		///   <see cref="Network.PositionUpdate"/>.
-		/// </param>
-		/// <returns>
-		///   <c>true</c> if the specified <see cref="System.Object"/> is equal to the current
-		///   <see cref="Network.PositionUpdate"/>; otherwise, <c>false</c>.
-		/// </returns>
-    	public override bool Equals(object o)
-    	{
-            if(o == null || o.GetType() != this.GetType())
+        /// <summary>
+        ///   Determines whether the specified <see cref="System.Object"/> is equal to the 
+        ///   current <see cref="Network.PositionUpdate"/>.
+        /// </summary>
+        /// <param name="o">
+        ///   The <see cref="System.Object"/> to compare with the current 
+        ///   <see cref="Network.PositionUpdate"/>.
+        /// </param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to the current
+        ///   <see cref="Network.PositionUpdate"/>; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object o)
+        {
+            if (o == null || o.GetType() != this.GetType())
             {
-    			return false;
-    		}
+                return false;
+            }
 
             PositionUpdate that = o as PositionUpdate;
             return this.X == that.X
                 && this.Y == that.Y
                 && this.ID == that.ID
                 && this.TimeStamp == that.TimeStamp;
-    	}
+        }
 
-		/// <summary>
-		///   Returns a <see cref="System.String"/> that represents the current <see cref="Network.PositionUpdate"/>.
-		/// </summary>
-		/// <returns>
-		///   A <see cref="System.String"/> that represents the current <see cref="Network.PositionUpdate"/>.
-		/// </returns>
-    	public override string ToString()
-    	{
-    		return ("[PositionUpdate: ID<"+ID+">, X<"+X+">, "+"Y<"+Y+">, TimeStamp<"+TimeStamp+">]");
-    	}
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents the current <see cref="Network.PositionUpdate"/>.
+        /// </summary>
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents the current <see cref="Network.PositionUpdate"/>.
+        /// </returns>
+        public override string ToString()
+        {
+            return "[PositionUpdate: ID<" + this.ID + ">, X<" + this.X + 
+                   ">, Y<" + this.Y + ">, TimeStamp<" + this.TimeStamp + ">]";
+        }
     }
 }

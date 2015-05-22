@@ -9,10 +9,10 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
-	using UnityEngine;
+    using UnityEngine;
 
-	public class UsedCardManager : MonoBehaviour 
-	{
-		public BaseForLevel CurrentlyUsed { get; set; }
-	}
+    public class UsedCardManager : MonoBehaviour
+    {
+        public BaseForLevel CurrentlyUsed { get; set; }
+    }
 }

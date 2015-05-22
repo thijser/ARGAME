@@ -16,10 +16,10 @@ namespace Network
     using System.Net.Sockets;
     using UnityEngine;
 
-	/// <summary>
-	/// Maintains a Socket connection to the OpenCV server.
-	/// </summary>
-    public class ClientSocket : MonoBehaviour 
+    /// <summary>
+    /// Maintains a Socket connection to the OpenCV server.
+    /// </summary>
+    public class ClientSocket : MonoBehaviour
     {
         /// <summary>
         /// The size of a single packet.
@@ -30,11 +30,11 @@ namespace Network
         /// </summary>
         public const int PacketSize = 20;
 
-		/// <summary>
-		/// The maximum amount of updates to read in a single step.
-		/// </summary>
-		public const int MaxUpdates = 10;
-        
+        /// <summary>
+        /// The maximum amount of updates to read in a single step.
+        /// </summary>
+        public const int MaxUpdates = 10;
+
         /// <summary>
         /// The server address.
         /// </summary>
@@ -50,7 +50,7 @@ namespace Network
         /// <summary>
         /// The Socket used for the connection.
         /// </summary>
-        private Socket socket; 
+        private Socket socket;
 
         /// <summary>
         /// The end point of the Socket connection.
@@ -65,12 +65,12 @@ namespace Network
         /// <summary>
         /// Initializes the Socket and connects to the server.
         /// </summary>
-        public void Start() 
+        public void Start()
         {
             this.buffer = new byte[PacketSize];
 
             IPAddress[] addresses = Dns.GetHostEntry(this.ServerAddress).AddressList;
-            if (addresses.Length == 0) 
+            if (addresses.Length == 0)
             {
                 Debug.LogError("Host is unavailable. No IP addresses found for " + this.ServerAddress);
                 return;
@@ -93,9 +93,8 @@ namespace Network
         /// <summary>
         /// Retrieves the PositionUpdates from the server and broadcasts the messages.
         /// </summary>
-        public void Update() 
+        public void Update()
         {
-            
             this.ReadAllUpdates();
         }
 
@@ -114,7 +113,7 @@ namespace Network
         public int ReadAllUpdates()
         {
             int count = 0;
-			while (this.socket.Available >= PacketSize && count < MaxUpdates) 
+            while (this.socket.Available >= PacketSize && count < MaxUpdates)
             {
                 PositionUpdate update = this.ReadUpdate();
                 if (update == null)
@@ -123,7 +122,7 @@ namespace Network
                 }
 
                 this.SendMessage(
-                    "OnPositionUpdate", 
+                    "OnPositionUpdate",
                     update,
                     SendMessageOptions.DontRequireReceiver);
                 count++;
@@ -139,23 +138,22 @@ namespace Network
         /// </para>
         /// </summary>
         /// <returns>The PositionUpdate.</returns>
-        public PositionUpdate ReadUpdate() 
+        public PositionUpdate ReadUpdate()
         {
-            int received = this.socket.Receive(buffer, PacketSize, SocketFlags.None);
-            if (received < PacketSize) 
+            int received = this.socket.Receive(this.buffer, PacketSize, SocketFlags.None);
+            if (received < PacketSize)
             {
                 Debug.Log("Received not enough bytes: " + received);
                 return null;
             }
 
-            float x = BitConverter.ToSingle(buffer, 0);
-            float y = BitConverter.ToSingle(buffer, 4);
-            int id = BitConverter.ToInt32(buffer, 8);
-            long timestamp = BitConverter.ToInt64(buffer, 12);
+            float x = BitConverter.ToSingle(this.buffer, 0);
+            float y = BitConverter.ToSingle(this.buffer, 4);
+            int id = BitConverter.ToInt32(this.buffer, 8);
+            long timestamp = BitConverter.ToInt64(this.buffer, 12);
 
             PositionUpdate update = new PositionUpdate(x, y, id, timestamp);
             return update;
         }
-
     }
 }

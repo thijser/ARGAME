@@ -71,6 +71,9 @@ public class PositionLinker : MonoBehaviour
     /// </summary>
     private float angle = 0;
 
+    /// <summary>
+    /// Updates the position and/or rotation of the LinkedTo Transform.
+    /// </summary>
     public void Linked()
     {
         if (this.Mode == LinkingMode.Project)
@@ -111,12 +114,11 @@ public class PositionLinker : MonoBehaviour
             default:
                 throw new ArgumentException("Invalid LinkingMode");
         }
-
     }
 
-	/// <summary>
-	/// Updates the position and/or rotation of the LinkedTo Transform.
-	/// </summary>
+    /// <summary>
+    /// Updates the angle when pressed W or S.
+    /// </summary>
     public void Update()
     {
         if (Input.GetKey(KeyCode.W))
@@ -128,6 +130,5 @@ public class PositionLinker : MonoBehaviour
         {
             this.angle -= 1.0f;
         }
-
     }
 }

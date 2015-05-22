@@ -10,44 +10,49 @@
 namespace Projection
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Network;
     using UnityEngine;
 
-    public class RemoteObjectSyncer : MonoBehaviour 
+    public class RemoteObjectSyncer : MonoBehaviour
     {
-		public List<GameObject> RegisterObjectsOnStartup;
+        /// <summary>
+        /// The GameObjects to register on startup.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public List<GameObject> RegisterObjectsOnStartup;
 
-		private Dictionary<int,GameObject> objectTable;
-    	
-		public void OnPositionUpdate(PositionUpdate update)
+        private Dictionary<int, GameObject> objectTable;
+
+        public void OnPositionUpdate(PositionUpdate update)
         {
-			Debug.Log("received:"+ update.ToString());
-    		if(!objectTable.ContainsKey(update.ID))
+            Debug.Log("received:" + update.ToString());
+            if (!this.objectTable.ContainsKey(update.ID))
             {
-    			throw new KeyNotFoundException("ID of not yet registered object");
-    		}
+                throw new KeyNotFoundException("ID of not yet registered object");
+            }
 
-    		GameObject toMove = objectTable[update.ID];
-    		Transform transToMove = toMove.GetComponent<Transform>();
-    		transToMove.localPosition = new Vector3(update.X,0,update.Y);
-    	}
+            GameObject toMove = this.objectTable[update.ID];
+            Transform transToMove = toMove.GetComponent<Transform>();
+            transToMove.localPosition = new Vector3(update.X, 0, update.Y);
+        }
 
-    	public void RegisterObject(int id, GameObject obj)
+        public void RegisterObject(int id, GameObject obj)
         {
-    		objectTable.Add(id,obj);
-    	}
-    	
-        public void Start() 
+            this.objectTable.Add(id, obj);
+        }
+
+        public void Start()
         {
-            objectTable = new Dictionary<int,GameObject>();
-    		int i = 0;
-    		foreach (GameObject go in RegisterObjectsOnStartup)
+            this.objectTable = new Dictionary<int, GameObject>();
+            int i = 0;
+            foreach (GameObject go in this.RegisterObjectsOnStartup)
             {
-    			i++;
-    			objectTable.Add(i, go);
-    			Transform transGo = go.GetComponent<Transform>();
-    			transGo.SetParent(transform.parent, false);
-    		}
-    	}
+                i++;
+                this.objectTable.Add(i, go);
+                Transform transGo = go.GetComponent<Transform>();
+                transGo.SetParent(transform.parent, false);
+            }
+        }
     }
 }
