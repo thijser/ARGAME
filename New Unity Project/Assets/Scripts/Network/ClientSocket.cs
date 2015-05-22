@@ -1,4 +1,13 @@
-﻿namespace Network
+﻿//----------------------------------------------------------------------------
+// <copyright file="ClientSocket.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//     
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not, 
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
+namespace Network
 {
     using System;
     using System.Collections.Generic;
@@ -7,6 +16,9 @@
     using System.Net.Sockets;
     using UnityEngine;
 
+	/// <summary>
+	/// Maintains a Socket connection to the OpenCV server.
+	/// </summary>
     public class ClientSocket : MonoBehaviour 
     {
         /// <summary>
@@ -111,6 +123,7 @@
                     SendMessageOptions.DontRequireReceiver);
                 count++;
             }
+
             return count;
         }
 
@@ -123,7 +136,6 @@
         /// <returns>The PositionUpdate.</returns>
         public PositionUpdate ReadUpdate() 
         {
-            //Debug.Log("Trying to read data");
             int received = this.socket.Receive(buffer, PacketSize, SocketFlags.None);
             if (received < PacketSize) 
             {
@@ -137,7 +149,6 @@
             long timestamp = BitConverter.ToInt64(buffer, 12);
 
             PositionUpdate update = new PositionUpdate(x, y, id, timestamp);
-            //Debug.Log("Read " + update);
             return update;
         }
 
