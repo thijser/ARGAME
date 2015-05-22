@@ -46,6 +46,7 @@ private:
     Mat thresholdGreen(const Mat& correctedFrame) const;
 
     marker_locations locateMarkers(const Mat& thresholdedFrame) const;
+    Mat findMarker(const Mat& correctedFrame, const marker_locations& data) const;
 
     static Mat rotate(Mat src, double angle);
 };
