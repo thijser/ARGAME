@@ -1,3 +1,12 @@
+/*
+* Copyright 2015, Delft University of Technology
+*
+* This software is licensed under the terms of the MIT license.
+* See http://opensource.org/licenses/MIT for the full license.
+*
+*
+*/
+
 #include "detector.hpp"
 #include <vector>
 #include <iostream>
@@ -15,7 +24,7 @@ namespace hierarchy_members {
 }
 
 detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
-        : keepGoing(true) {
+        : keepGoing(true), cornersHistory(ringbuffer<vector<Point2f>>(CORNER_HISTORY_LENGTH)) {
     cap.open(captureDevice);
 
     cap.set(CV_CAP_PROP_FRAME_WIDTH, requestedWidth);
@@ -75,13 +84,11 @@ vector<Point2f> detector::getAveragedCorners(const Mat& rawFrame) {
     // Detect corners of current frame and add them to the history
     auto newCorners = findCorners(rawFrame);
     if (newCorners.size() == 4) {
-        cornersHistory.push_back(newCorners);
+        cornersHistory.add(newCorners);
     }
 
     // Keep history of last <cornerMovingAverageHistory> corners
-    if (cornersHistory.size() > cornerMovingAverageHistory) {
-        cornersHistory.erase(cornersHistory.begin());
-    } else if (cornersHistory.size() == 0) {
+    if (cornersHistory.size() == 0) {
         return vector<Point2f>();
     }
 
@@ -91,7 +98,7 @@ vector<Point2f> detector::getAveragedCorners(const Mat& rawFrame) {
     vector<Point> bottomLeft;
     vector<Point> bottomRight;
 
-    for (auto& corners : cornersHistory) {
+    for (auto& corners : cornersHistory.data()) {
         topLeft.push_back(corners[0]);
         topRight.push_back(corners[1]);
         bottomLeft.push_back(corners[2]);
@@ -150,7 +157,7 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
     return vector<Point2f>();
 }
 
-vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, const marker_locations& data) const {
+vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, const marker_locations& data) {
     vector<detected_marker> markers;
 
     for (int contourId : data.candidates) {
@@ -224,15 +231,23 @@ vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, co
                     match_result res = findMatchingMarker(thresholdedCode);
 
                     if (res.score > 0.5f) {
-                        // TODO: Clean up
-                        markers.push_back(detected_marker(res.pattern, averageOfPoints(data.contours[contourId])));
+                        // Create ringbuffer to store marker position history
+                        if (markersHistory.find(res.pattern) == markersHistory.end()) {
+                            markersHistory[res.pattern] = ringbuffer<Point>(MARKER_HISTORY_LENGTH);
+                        }
+
+                        // Add new position
+                        auto newPos = Point(brect.x + roi.x + bb.x, brect.y + roi.y + bb.y);
+                        markersHistory[res.pattern].add(newPos);
+
+                        // Calculate moving average to determine filtered current position
+                        Point movingPos = averageOfPoints(markersHistory[res.pattern].data());
+
+                        markers.push_back(detected_marker(res.pattern, newPos));
                     }
                 }
             }
         }
-
-        //Mat markerBig;
-        //cv::resize(marker, markerBig, Size(marker.size[0] * 32, marker.size[1] * 32), 0, 0, cv::INTER_NEAREST);
     }
 
     return markers;
@@ -250,7 +265,7 @@ match_result detector::findMatchingMarker(const Mat& detectedPattern) const {
     match_result bestResult;
 
     // Find the marker pattern that best matches any rotation of the detected pattern
-    for (int markerId = 0; markerId < markerPatterns.size(); markerId++) {
+    for (size_t markerId = 0; markerId < markerPatterns.size(); markerId++) {
         const Mat& marker = markerPatterns[markerId];
         double score = 0;
 

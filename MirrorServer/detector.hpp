@@ -1,3 +1,12 @@
+/*
+* Copyright 2015, Delft University of Technology
+*
+* This software is licensed under the terms of the MIT license.
+* See http://opensource.org/licenses/MIT for the full license.
+*
+*
+*/
+
 #ifndef DETECTOR_HPP
 #define DETECTOR_HPP
 
@@ -5,9 +14,14 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <functional>
+#include <unordered_map>
+#include "ringbuffer.hpp"
 
 // Amount of frames to average for corner positions
-const int cornerMovingAverageHistory = 30;
+const int CORNER_HISTORY_LENGTH = 30;
+
+// Amount of frames to average for marker positions
+const int MARKER_HISTORY_LENGTH = 5;
 
 using cv::Mat;
 using cv::Point;
@@ -68,7 +82,10 @@ private:
     vector<Mat> markerPatterns;
 
     // History of corner positions
-    vector<vector<Point2f>> cornersHistory;
+    ringbuffer<vector<Point2f>> cornersHistory;
+
+    // History of marker positions
+    std::unordered_map<int, ringbuffer<Point>> markersHistory;
 
     Mat capture();
 
@@ -79,7 +96,7 @@ private:
     Mat thresholdGreen(const Mat& correctedFrame) const;
 
     marker_locations locateMarkers(const Mat& thresholdedFrame) const;
-    vector<detected_marker> recognizeMarkers(const Mat& correctedFrame, const marker_locations& data) const;
+    vector<detected_marker> recognizeMarkers(const Mat& correctedFrame, const marker_locations& data);
 
     match_result findMatchingMarker(const Mat& detectedPattern) const;
 

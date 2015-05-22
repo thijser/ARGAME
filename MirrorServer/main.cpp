@@ -20,7 +20,7 @@ using std::chrono::milliseconds;
 #include "serversocket.h"
 using namespace mirrors;
 
-#define SERVER_PORT 23369
+const uint16_t SERVER_PORT = 23369;
 
 /**
 * @brief Entry point of this application.
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
         std::clog << "Using camera device #" << deviceID << std::endl;
     }
     if (argc > 2) {
-        showFrames = (bool) atoi(argv[2]);
+        showFrames = atoi(argv[2]) != 0;
         std::clog << "UI Enabled: " << showFrames << std::endl;
     }
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
 
     // Start detection loop
     cameraDetector.loop([&](const Mat& processedFrame, vector<detected_marker> markers) {
-        long time = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count();
+        auto time = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count();
 
         for (auto& marker : markers) {
             server.broadcastPositionUpdate(marker.id, marker.position.x, marker.position.y, time);
