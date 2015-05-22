@@ -1,11 +1,11 @@
 /*
- * Copyright 2015, Delft University of Technology
- *
- * This software is licensed under the terms of the MIT license.
- * See http://opensource.org/licenses/MIT for the full license.
- *
- *
- */
+* Copyright 2015, Delft University of Technology
+*
+* This software is licensed under the terms of the MIT license.
+* See http://opensource.org/licenses/MIT for the full license.
+*
+*
+*/
 
 #include <iostream>
 #include <thread>
@@ -23,11 +23,11 @@ using namespace mirrors;
 #define SERVER_PORT 23369
 
 /**
- * @brief Entry point of this application.
- * @param argc - The amount of command-line arguments.
- * @param argv - The command-line argument values.
- * @return The exit code of this application.
- */
+* @brief Entry point of this application.
+* @param argc - The amount of command-line arguments.
+* @param argv - The command-line argument values.
+* @return The exit code of this application.
+*/
 int main(int argc, char **argv) {
     int deviceID = 0;
     bool showFrames = true;
@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 
     ServerSocket::initialize();
     ServerSocket server(SERVER_PORT);
-    std::thread serverThread([&](){
+    std::thread serverThread([&]() {
         try {
             server.run();
         } catch (const NL::Exception &ex) {
@@ -57,15 +57,28 @@ int main(int argc, char **argv) {
         cv::startWindowThread();
         cv::namedWindow("Camera", CV_WINDOW_AUTOSIZE);
     }
-    cameraDetector.loop([&](const Mat& processedFrame, vector<Point> markerPositions) {
+
+    std::vector<Mat> markerPatterns;
+
+    for (int i = 0; i < 8; i++) {
+        markerPatterns.push_back(cv::imread("markers/" + std::to_string(i) + ".png", CV_LOAD_IMAGE_GRAYSCALE));
+    }
+
+    bool markersLoaded = cameraDetector.registerMarkers(markerPatterns);
+
+    if (!markersLoaded) {
+        std::cerr << "Failed to load markers!" << std::endl;
+        return 1;
+    }
+
+    // Start detection loop
+    cameraDetector.loop([&](const Mat& processedFrame, vector<detected_marker> markers) {
         long time = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count();
-        for (size_t i = 0; i < markerPositions.size(); i++) {
-            server.broadcastPositionUpdate(
-                        static_cast<uint32_t>(i),
-                        markerPositions[i].x,
-                        markerPositions[i].y,
-                        time);
+
+        for (auto& marker : markers) {
+            server.broadcastPositionUpdate(marker.id, marker.position.x, marker.position.y, time);
         }
+
         if (showFrames) {
             cv::imshow("Camera", processedFrame);
         }
