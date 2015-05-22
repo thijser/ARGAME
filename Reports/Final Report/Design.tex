@@ -84,9 +84,9 @@
 			the target has been hit. The game will then proceed to the
 			next level. An image of the target is shown in figure 
 			\ref{fig:target}.
-			\begin{figure}[h]
+			\begin{figure}[h!]
 				\centering
-				\includegraphics[width=\textwidth]{Target}
+				\includegraphics[scale = 0.4]{Target}
 				\caption{the target of the game. The gold columns around the inner crystal will open up and rotate once the target is hit, as described earlier. Also, the crystal will change color once the target hits it.}
 				\label{fig:target}
 			\end{figure}
@@ -98,9 +98,9 @@
 			All levels require at least one mirror to move or rotate
 			in order to hit the target. An image of a mirror in-game is shown
 			in \ref{fig:mirror}.
-			\begin{figure}[h]
+			\begin{figure}[h!]
 				\centering
-				\includegraphics[width=\textwidth]{Mirror}
+				\includegraphics[scale = 0.3]{Mirror}
 				\caption{an image of a mirror in-game, with its reflective surfaces.
 				The light blue circles reflect laser beams, the golden outer frame
 				does not.}
@@ -115,9 +115,9 @@
 			to create paths that the laser beam has to go through, later
 			levels use not only walls, but also other game objects. A wall
 			is shown in \ref{fig:wall}
-			\begin{figure}[h]
+			\begin{figure}[h!]
 				\centering
-				\includegraphics[width=\textwidth]{Wall}
+				\includegraphics[scale = 0.15]{Wall}
 				\caption{an image of a wall in-game. It blocks lasers entirely.}
 				\label{fig:wall}
 			\end{figure}
@@ -136,9 +136,9 @@
 			and later levels use this to create more complex puzzles.
 			What the emitter looks like exactly is shown in figure 
 			\ref{fig:emitter}.
-			\begin{figure}[h]
+			\begin{figure}[h!]
 				\centering
-				\includegraphics[width=\textwidth]{Emitter}
+				\includegraphics[scale = 0.25]{Emitter}
 				\caption{what the emitter looks like in the game. Also shown here is a laser beam
 				coming from the emitter. The laser beam is colored red per standard. There are game objects that can change the coloring of the beam, these will also be described in this part of the report.}
 				\label{fig:emitter}
@@ -149,13 +149,19 @@
 			to a new height. This then allows laser beams to pass over walls that 
 			stand on the ground. Therefore, elevators can function as a bridge over
 			walls. An elevator is depicted in \ref{fig:elevator}.
-			\begin{figure}[h]
+			\begin{figure}[h!]
 				\centering
-				\includegraphics[width=\textwidth]{Elevator}
+				\includegraphics[scale = 0.3]{Elevator}
 				\caption{an elevator in-game. Both the upper and lower plate have a
 				mirror (represented on the bottom plate as a light blue plate),
 				which reflects laser beams.}
 				\label{fig:elevator}
 			\end{figure}
 		\subsection{Portal}
+			The portal is a more advanced game object. It allows light that travels 
+			into it to travel out of the portal it is linked to, and vice versa. This
+			allows puzzles to contain targets that cannot be hit by just reflecting
+			laser beams from the emitters by mirrors (as the laser beams have to
+			travel through a portal in order to be able to hit the target),
+			therefore forcing the players to redirect laser beams to portals.
 		\subsection{Lens splitter}
