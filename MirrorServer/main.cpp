@@ -10,6 +10,9 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+using std::chrono::duration_cast;
+using std::chrono::high_resolution_clock;
+using std::chrono::milliseconds;
 
 #include <opencv2/highgui/highgui.hpp>
 
@@ -19,16 +22,25 @@ using namespace mirrors;
 
 #define SERVER_PORT 23369
 
+/**
+ * @brief Entry point of this application.
+ * @param argc - The amount of command-line arguments.
+ * @param argv - The command-line argument values.
+ * @return The exit code of this application.
+ */
 int main(int argc, char **argv) {
     int deviceID = 0;
+    bool showFrames = true;
     if (argc > 1) {
         deviceID = atoi(argv[1]);
         std::clog << "Using camera device #" << deviceID << std::endl;
     }
+    if (argc > 2) {
+        showFrames = (bool) atoi(argv[2]);
+        std::clog << "UI Enabled: " << showFrames << std::endl;
+    }
 
     detector cameraDetector(deviceID);
-    cv::startWindowThread();
-    cv::namedWindow("Camera", CV_WINDOW_AUTOSIZE);
 
     ServerSocket::initialize();
     ServerSocket server(SERVER_PORT);
@@ -41,21 +53,25 @@ int main(int argc, char **argv) {
         }
     });
 
-    cameraDetector.loop([&server](const Mat& processedFrame, vector<Point> markerPositions) {
-        static auto start_time = std::chrono::high_resolution_clock::now();
-
-        // Determine time for updates
-        auto t = (std::chrono::high_resolution_clock::now() - start_time).count();
-
-        // Send positions of markers
+    if (showFrames) {
+        cv::startWindowThread();
+        cv::namedWindow("Camera", CV_WINDOW_AUTOSIZE);
+    }
+    cameraDetector.loop([&](const Mat& processedFrame, vector<Point> markerPositions) {
+        long time = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count();
         for (size_t i = 0; i < markerPositions.size(); i++) {
-            server.broadcastPositionUpdate(static_cast<uint32_t>(i), markerPositions[i].x, markerPositions[i].y, t);
+            server.broadcastPositionUpdate(
+                        static_cast<uint32_t>(i),
+                        markerPositions[i].x,
+                        markerPositions[i].y,
+                        time);
         }
-
-        cv::imshow("Camera", processedFrame);
+        if (showFrames) {
+            cv::imshow("Camera", processedFrame);
+        }
     });
 
-    // Disconnect the Socket and wait for the server to stop.
+    // Disconnect the Socket and wait for the server and detector to stop.
     server.disconnect();
     serverThread.join();
 
