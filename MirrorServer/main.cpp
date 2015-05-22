@@ -34,8 +34,6 @@ int main(int, char**) {
         }
     });
 
-    cameraDetector.setSurfaceCorners({Point2f(517, 16), Point2f(1162, 0), Point2f(396, 871), Point2f(1262, 871)});
-
     cameraDetector.loop([&server](const Mat& processedFrame, vector<Point> markerPositions) {
         static auto start_time = std::chrono::high_resolution_clock::now();
 
