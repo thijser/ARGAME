@@ -34,6 +34,21 @@ int main(int, char**) {
         }
     });
 
+    // Load marker patterns
+    std::vector<Mat> markerPatterns;
+
+    for (int i = 0; i < 8; i++) {
+        markerPatterns.push_back(cv::imread("markers/" + std::to_string(i) + ".png", CV_LOAD_IMAGE_GRAYSCALE));
+    }
+
+    bool markersLoaded = cameraDetector.registerMarkers(markerPatterns);
+
+    if (!markersLoaded) {
+        std::cerr << "Failed to load markers!" << std::endl;
+        return 1;
+    }
+
+    // Start detection loop
     cameraDetector.loop([&server](const Mat& processedFrame, vector<Point> markerPositions) {
         static auto start_time = std::chrono::high_resolution_clock::now();
 

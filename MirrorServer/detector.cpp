@@ -26,6 +26,20 @@ detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
     height = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 }
 
+bool detector::registerMarkers(const vector<Mat>& markers) {
+    for (auto& marker : markers) {
+        if (marker.channels() != 1 || marker.rows != 6 || marker.cols != 6) {
+            return false;
+        } else {
+            cv::threshold(marker, marker, 128, 255, 0);
+        }
+    }
+
+    markerPatterns.insert(markerPatterns.end(), markers.begin(), markers.end());
+
+    return true;
+}
+
 void detector::detect(const detection_callback& callback) {
     // Capture image from camera
     Mat frame = capture();
@@ -51,7 +65,7 @@ void detector::detect(const detection_callback& callback) {
             markerPositions.push_back(averageOfPoints(contour));
         }
 
-        callback(correctedFrame, markerPositions);
+        callback(markerBig, markerPositions);
     } else {
         callback(frame, vector<Point>());
     }
@@ -168,12 +182,12 @@ Mat detector::findMarker(const Mat& correctedFrame, const marker_locations& data
         cv::findContours(mask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
         if (contours.size() > 0) {
-            // FIXME: largestPoints will only ever be 0
             size_t largestPoints = 0;
             cv::Rect bb;
 
             for (auto& contour : contours) {
                 if (contour.size() > largestPoints) {
+                    largestPoints = contour.size();
                     bb = cv::boundingRect(contour);
 
                     if (bb.width > 3 && bb.height > 3) {
@@ -205,7 +219,13 @@ Mat detector::findMarker(const Mat& correctedFrame, const marker_locations& data
 
                 cv::threshold(downsizedCode, thresholdedCode, avgPixel, 255, 0);
 
-                marker = thresholdedCode;
+                // Find marker pattern with closest distance
+                match_result res = findMatchingMarker(thresholdedCode);
+
+                if (res.score > 0.5f) {
+                    std::cout << "detected marker #" << res.pattern << std::endl;
+                    marker = thresholdedCode;
+                }
             }
         }
     }
@@ -214,6 +234,35 @@ Mat detector::findMarker(const Mat& correctedFrame, const marker_locations& data
     cv::resize(marker, markerBig, Size(marker.size[0] * 32, marker.size[1] * 32), 0, 0, cv::INTER_NEAREST);
 
     return markerBig;
+}
+
+match_result detector::findMatchingMarker(const Mat& detectedPattern) const {
+    // Calculate all permutations of input pattern
+    vector<Mat> inputPermutations = {
+        detectedPattern,
+        rotateExact(detectedPattern, CLOCKWISE_90),
+        rotateExact(detectedPattern, CLOCKWISE_180),
+        rotateExact(detectedPattern, CLOCKWISE_270)
+    };
+
+    match_result bestResult;
+
+    // Find the marker pattern that best matches any rotation of the detected pattern
+    for (int markerId = 0; markerId < markerPatterns.size(); markerId++) {
+        const Mat& marker = markerPatterns[markerId];
+        double score = 0;
+
+        for (auto& permutation : inputPermutations) {
+            score = std::max(score, cv::countNonZero(marker == permutation) / 36.0);
+        }
+
+        if (score > bestResult.score) {
+            bestResult.pattern = markerId;
+            bestResult.score = score;
+        }
+    }
+
+    return bestResult;
 }
 
 void detector::loop(const detection_callback& callback) {
@@ -324,4 +373,29 @@ Mat detector::rotate(Mat src, double angle) {
     cv::warpAffine(src, dst, r, cv::Size(len, len));
 
     return dst;
+}
+
+Mat detector::rotateExact(Mat src, exact_angle angle) {
+    Mat tmp, result;
+
+    switch (angle) {
+    case CLOCKWISE_90:
+        cv::transpose(src, tmp);
+        cv::flip(tmp, result, 1);
+        break;
+
+    case CLOCKWISE_180:
+        cv::flip(src, result, -1);
+        break;
+
+    case CLOCKWISE_270:
+        cv::transpose(src, tmp);
+        cv::flip(tmp, result, 0);
+        break;
+
+    default:
+        result = src;
+    }
+
+    return result;
 }

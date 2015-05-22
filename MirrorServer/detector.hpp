@@ -20,15 +20,31 @@ using std::vector;
 
 typedef std::function<void(const Mat&, vector<Point>)> detection_callback;
 
+struct match_result {
+    int pattern;
+    double score;
+
+    match_result(int pattern = 0, double score = 0)
+        : pattern(pattern), score(score) {}
+};
+
 struct marker_locations {
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
     vector<size_t> candidates;
 };
 
+enum exact_angle {
+    CLOCKWISE_90,
+    CLOCKWISE_180,
+    CLOCKWISE_270
+};
+
 class detector {
 public:
     detector(int captureDevice = 0, int requestedWidth = 1600, int requestedHeight = 896);
+
+    bool registerMarkers(const vector<Mat>& markers);
 
     void detect(const detection_callback& callback);
     void loop(const detection_callback& callback);
@@ -40,6 +56,10 @@ private:
     int width, height;
     bool keepGoing;
 
+    // Marker 6x6 patterns
+    vector<Mat> markerPatterns;
+
+    // History of corner positions
     vector<vector<Point2f>> cornersHistory;
 
     Mat capture();
@@ -53,8 +73,11 @@ private:
     marker_locations locateMarkers(const Mat& thresholdedFrame) const;
     Mat findMarker(const Mat& correctedFrame, const marker_locations& data) const;
 
+    match_result findMatchingMarker(const Mat& detectedPattern) const;
+
     static Point averageOfPoints(const vector<Point>& points);
     static Mat rotate(Mat src, double angle);
+    static Mat rotateExact(Mat src, exact_angle angle);
 };
 
 #endif
