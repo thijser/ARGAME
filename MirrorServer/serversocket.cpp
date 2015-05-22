@@ -67,7 +67,6 @@ void ServerSocket::run() throw (NL::Exception, std::logic_error) {
             socketMutex.unlock();
             clog << "Exception in Socket accept: " << ex.msg() << endl;
         }
-        broadcastPositionUpdate(1234, 0.25f, 0.75f, 1000001);
     }
 
     socketMutex.lock();

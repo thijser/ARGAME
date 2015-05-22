@@ -18,7 +18,15 @@ using cv::VideoCapture;
 
 using std::vector;
 
-typedef std::function<void(const Mat&, vector<Point>)> detection_callback;
+struct detected_marker {
+    int id;
+    Point position;
+
+    detected_marker(int id, Point position)
+        : id(id), position(position) {}
+};
+
+typedef std::function<void(const Mat&, vector<detected_marker>)> detection_callback;
 
 struct match_result {
     int pattern;
@@ -71,7 +79,7 @@ private:
     Mat thresholdGreen(const Mat& correctedFrame) const;
 
     marker_locations locateMarkers(const Mat& thresholdedFrame) const;
-    Mat findMarker(const Mat& correctedFrame, const marker_locations& data) const;
+    vector<detected_marker> recognizeMarkers(const Mat& correctedFrame, const marker_locations& data) const;
 
     match_result findMatchingMarker(const Mat& detectedPattern) const;
 

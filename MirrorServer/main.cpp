@@ -49,15 +49,15 @@ int main(int, char**) {
     }
 
     // Start detection loop
-    cameraDetector.loop([&server](const Mat& processedFrame, vector<Point> markerPositions) {
+    cameraDetector.loop([&server](const Mat& processedFrame, vector<detected_marker> markers) {
         static auto start_time = std::chrono::high_resolution_clock::now();
 
         // Determine time for updates
         auto t = (std::chrono::high_resolution_clock::now() - start_time).count();
 
         // Send positions of markers
-        for (size_t i = 0; i < markerPositions.size(); i++) {
-            server.broadcastPositionUpdate(static_cast<uint32_t>(i), markerPositions[i].x, markerPositions[i].y, t);
+        for (auto& marker : markers) {
+            server.broadcastPositionUpdate(marker.id, marker.position.x, marker.position.y, t);
         }
 
         cv::imshow("Camera", processedFrame);
