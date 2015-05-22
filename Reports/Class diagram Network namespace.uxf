@@ -4,10 +4,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>510</x>
-      <y>80</y>
-      <w>300</w>
-      <h>240</h>
+      <x>520</x>
+      <y>20</y>
+      <w>360</w>
+      <h>290</h>
     </coordinates>
     <panel_attributes>NetworkManager :: MonoBehaviour
 elementstyle=autoresize
@@ -19,56 +19,110 @@ _+ MaxPlayers : int_
 
 - hosts : HostData[]
 --
-+ Hosts : ReadOnlyCollection&lt;HostData&gt;
++ Hosts (get) : ReadOnlyCollection&lt;HostData&gt;
 
-_+ InitializeServer(string)_
-_+ InitializeClient(HostData)_
+_+ InitializeServer(address : string)_
+_+ InitializeClient(host : HostData)_
 
 + Start()
-+ OnMasterServerEvent(MasterServerEvent)</panel_attributes>
++ OnGUI()
++ OnMasterServerEvent(event : MasterServerEvent)
+
+- RefreshHostList()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>180</y>
-      <w>420</w>
-      <h>210</h>
+      <x>270</x>
+      <y>20</y>
+      <w>240</w>
+      <h>240</h>
     </coordinates>
-    <panel_attributes>MirrorRotation :: MonoBehaviour
+    <panel_attributes>MirrorController :: MonoBehaviour
 elementstyle=autoresize
 --
 + Highlight : Material
 + Original : Material
+
 - selected : bool
 --
-_+ GetHighestParent(Transform) : Transform_
++ SelectedMirror (get,set) : Mirror
 
++ Start()
 + Update()
-+ OnSerializeNetworkView(BitStream, NetworkMessageInfo)
 
+- UpdateSelectedMirror()
 - Rotate()
-- HighlightMirror()
-- ResetHighlight()
+- HighlightMirror(Mirror)
+- ResetHighlight(Mirror)
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>80</y>
-      <w>420</w>
-      <h>90</h>
+      <x>20</x>
+      <y>20</y>
+      <w>240</w>
+      <h>270</h>
     </coordinates>
-    <panel_attributes>CubeMover :: MonoBehaviour
+    <panel_attributes>ClientSocket :: MonoBehaviour
 elementstyle=autoresize
 --
-+ SpeedFactor : float
+_+ PacketSize : int_
+_+ MaxUpdates : int_
+
++ ServerAddress : string
++ ServerPort : int
+
+- socket : Socket
+- endPoint : IPEndPoint
+- buffer : byte[]
 --
++ Start()
 + Update()
-+ OnSerializeNetworkView(BitStream, NetworkMessageInfo)</panel_attributes>
+
++ DisconnectSocket()
++ ReadAllUpdates() : int
++ ReadUpdate() : PositionUpdate</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>320</y>
+      <w>320</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>PositionPreviewer :: MonoBehaviour
+elementstyle=autoresize
+--
++ OnPositionUpdate(update : PositionUpdate)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>300</y>
+      <w>440</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>PositionUpdate
+elementstyle=autoresize
+--
++ PositionUpdate(id : int, x : float, y : float, timestamp : long)
+
++ X (get) : float
++ Y (get) : float
++ ID (get) : int
++ TimeStamp (get) : long
+
++ GetHashCode() : int
++ Equals(other : object)
++ ToString() : string</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

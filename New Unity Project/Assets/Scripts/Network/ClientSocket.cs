@@ -29,6 +29,11 @@ namespace Network
         /// </para>
         /// </summary>
         public const int PacketSize = 20;
+
+		/// <summary>
+		/// The maximum amount of updates to read in a single step.
+		/// </summary>
+		public const int MaxUpdates = 10;
         
         /// <summary>
         /// The server address.
@@ -109,7 +114,7 @@ namespace Network
         public int ReadAllUpdates()
         {
             int count = 0;
-            while (this.socket.Available >= PacketSize && count < 10) 
+			while (this.socket.Available >= PacketSize && count < MaxUpdates) 
             {
                 PositionUpdate update = this.ReadUpdate();
                 if (update == null)
