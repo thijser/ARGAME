@@ -35,9 +35,10 @@ using std::vector;
 struct detected_marker {
     int id;
     Point position;
+    float rotation;
 
-    detected_marker(int id, Point position)
-        : id(id), position(position) {}
+    detected_marker(int id, Point position, float rotation)
+        : id(id), position(position), rotation(rotation) {}
 };
 
 typedef std::function<void(const Mat&, vector<detected_marker>)> detection_callback;
