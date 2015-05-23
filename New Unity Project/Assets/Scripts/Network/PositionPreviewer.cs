@@ -1,9 +1,9 @@
 ﻿//----------------------------------------------------------------------------
 // <copyright file="PositionPreviewer.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
-//     
+//
 //     This software is licensed under the terms of the MIT License.
-//     A copy of the license should be included with this software. If not, 
+//     A copy of the license should be included with this software. If not,
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
@@ -18,10 +18,20 @@ namespace Network
     public class PositionPreviewer : MonoBehaviour
     {
         /// <summary>
+        /// The factor with which to scale the position.
+        /// </summary>
+        public const float ScaleFactor = 0.1f;
+
+        /// <summary>
+        /// The vertical offset for the Y coordinate.
+        /// </summary>
+        public const int VerticalOffset = 72;
+
+        /// <summary>
         /// Moves the marker object with the ID of the given PositionUpdate
         /// to the location as indicated by the update.
         /// </summary>
-        /// <param name="update">The PositionUpdate object to show.</param>
+        /// <param name="update">The PositionUpdate object to show, not null.</param>
         public void OnPositionUpdate(PositionUpdate update)
         {
             if (update == null)
@@ -30,7 +40,11 @@ namespace Network
             }
 
             GameObject marker = GameObject.Find("Marker" + update.ID);
-            marker.transform.position = new Vector3(update.X / 10.0f, 0, 72 - (update.Y / 10.0f));
+            marker.transform.position = new Vector3(
+                    update.X * ScaleFactor,
+                    0,
+                    VerticalOffset - (update.Y * ScaleFactor));
+            marker.transform.eulerAngles = new Vector3(0, update.Rotation, 0);
         }
     }
 }
