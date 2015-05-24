@@ -81,7 +81,7 @@
 
 		The "Projection" namespace is responsible for providing the projection to
 		the VR glasses. This namespace provides the functionality required to project
-		the game world to the VR glasses. The layout of this namespace is discusses in
+		the game world to the VR glasses. The layout of this namespace is discussed in
 		paragraph \ref{ssec:projectionnamespace}.
 		
 		Additionally, the game depends on the deployment of a server application written
@@ -90,17 +90,26 @@
 		
 		\subsection{The Core namespace} \label{ssec:corenamespace}
 			%TODO: Write about core namespace.
+			%      Also include the class diagram.
 			
 		\subsection{The Network namespace} \label{ssec:networknamespace}
 			%TODO: Write about network namespace.
+			%      Also include the class diagram and a piece about the OpenCV server.
 					
 		\subsection{The Projection namespace} \label{ssec:projectionnamespace}
 			%TODO: Write about projection namespace.
+			%      Also include the class diagram.
 
 	\section{Game elements} \label{sec:graphicaldesign}
 		For designing the 3D models, we used Blender. Blender is a free application
-		for 3D modeling, under the GPL license, and Unity natively support Blender models (provided Blender is installed on the system). We have chosen for a light looking style featuring nature inspired modeling and gold and crystal based materials. The light modeling style causes slight miss alignments with the ground to be less noticeable and makes the lack of feedback from moving a card feel less odd. The crystals and gold 
-		just feels good in combination with the beams of light.
+		for 3D modeling, under the GPL license, and Unity natively support Blender 
+		models (provided Blender is installed on the system). We have chosen for a 
+		light looking style featuring nature inspired modeling and gold and crystal 
+		based materials. The light modeling style causes slight miss alignments with 
+		the ground to be less noticeable and makes the lack of feedback from moving a 
+		card feel less odd. The crystals and gold just feels good in combination with 
+		the beams of light.
+		
 		The following sections display and describe the graphics used in
 		the gameplay elements, as well as the function of
 		these elements.
@@ -115,10 +124,10 @@
 			the target has been hit. The game will then proceed to the
 			next level. An image of the target is shown in figure 
 			\ref{fig:target}.
-			\begin{figure}[h!]
+			\begin{figure}[h]
 				\centering
 				\includegraphics[scale = 0.4]{Target}
-				\caption{the target of the game. The gold columns around the inner crystal will open up and rotate once the target is hit, as described earlier. Also, the crystal will change color once the target hits it.}
+				\caption{The target of the game. The gold columns around the inner crystal will open up and rotate once the target is hit, as described earlier. Also, the crystal will change color once the target hits it.}
 				\label{fig:target}
 			\end{figure}
 			
@@ -129,7 +138,7 @@
 			All levels require at least one mirror to move or rotate
 			in order to hit the target. An image of a mirror in-game is shown
 			in \ref{fig:mirror}.
-			\begin{figure}[h!]
+			\begin{figure}[h]
 				\centering
 				\includegraphics[scale = 0.3]{Mirror}
 				\caption{an image of a mirror in-game, with its reflective surfaces.
@@ -145,8 +154,8 @@
 			an emitter to the target. The first few levels mainly use walls
 			to create paths that the laser beam has to go through, later
 			levels use not only walls, but also other game objects. A wall
-			is shown in \ref{fig:wall}
-			\begin{figure}[h!]
+			is shown in \ref{fig:wall}.
+			\begin{figure}[h]
 				\centering
 				\includegraphics[scale = 0.15]{Wall}
 				\caption{an image of a wall in-game. It blocks lasers entirely.}
@@ -167,7 +176,7 @@
 			and later levels use this to create more complex puzzles.
 			What the emitter looks like exactly is shown in figure 
 			\ref{fig:emitter}.
-			\begin{figure}[h!]
+			\begin{figure}[h]
 				\centering
 				\includegraphics[scale = 0.25]{Emitter}
 				\caption{what the emitter looks like in the game. Also shown here is a laser beam

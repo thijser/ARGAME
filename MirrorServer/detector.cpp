@@ -207,7 +207,8 @@ vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, co
                     }
                 }
 
-                if (bb.x >= 0 && bb.y >= 0 && bb.width > 0 && bb.height > 0 && bb.x + bb.width < marker.size[0] && bb.y + bb.height < marker.size[1]) {
+                if (bb.x >= 0 && bb.y >= 0 && bb.width > 0 && bb.height > 0
+                        && bb.x + bb.width < marker.size[0] && bb.y + bb.height < marker.size[1]) {
                     Mat codeImage = marker(bb);
 
                     // Turn into grayscale and threshold to find black and white code
@@ -243,7 +244,8 @@ vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, co
                         // Calculate moving average to determine filtered current position
                         Point movingPos = averageOfPoints(markersHistory[res.pattern].data());
 
-                        markers.push_back(detected_marker(res.pattern, newPos));
+                        //TODO Change default value '0' to actual rotation.
+                        markers.push_back(detected_marker(res.pattern, newPos, 0));
                     }
                 }
             }

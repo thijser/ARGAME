@@ -89,14 +89,15 @@ void ServerSocket::broadcastMessage(const void *buffer, int length) {
     }
 }
 
-void ServerSocket::broadcastPositionUpdate(uint32_t id, float x, float y, uint64_t timestamp) {
-    char buffer[20];
+void ServerSocket::broadcastPositionUpdate(uint32_t id, float x, float y, float rotation, uint64_t timestamp) {
+    char buffer[24];
     writeValue(x, buffer, 0);
     writeValue(y, buffer, 4);
-    writeValue(id, buffer, 8);
-    writeValue(timestamp, buffer, 12);
+    writeValue(rotation, buffer, 8);
+    writeValue(id, buffer, 12);
+    writeValue(timestamp, buffer, 16);
 
-    broadcastMessage(buffer, 20);
+    broadcastMessage(buffer, 24);
 }
 
 } // namespace mirrors
