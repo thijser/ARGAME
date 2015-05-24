@@ -1,0 +1,52 @@
+\section{Approach}
+
+This section covers development details that aren't directly related to the
+gameplay itself, such as software engineering practices and guidelines about
+client meetings.
+
+\subsection{Technical details}
+
+Although AR glasses have been provided to us, their field-of-view is very
+limited and is not suitable for most of our concepts. We experienced ourselves
+that the limited fov causes a lot of problems. Instead, we're going to try to
+use an Oculus Rift and cameras to create our own high fov augmented reality
+glasses.
+
+The Unity game engine is going to be used to render the in-game objects like
+mirrors and laser beams over the camera image.
+
+\subsection{Software engineering}
+
+Using the Unity game engine means that we'll use a loosely coupled
+component-based architecture from the start. Unity has built-in unit and
+integration testing systems, which we'll make use of in development.
+We'll also maintain UML diagrams of the architecture to keep an overview of how
+everything works, and to plan integration of new features.
+
+We'll make use of the Scrum software development methodology to plan new
+features and to help stick to the schedule. As is expected, there will be a
+playable demo at the end of each weekly sprint. As soon as the game has all the
+basic ingredients to be fun to play, we'll find users to play test on a regular
+basis and collect feedback from them to improve the gameplay.
+
+The version control software used is Git. The project is on GitHub. Git uses a 
+master branch (the basic branch which contains the project), as well as multiple 
+other, user-defined branches. The branch structure of Git allows a team to work 
+in separate branches, to merge the branches into the master branch later when 
+that part of the project is done. This is done by making a pull request, defining 
+what was changed, and afterwards the branch can be merged with the master branch. 
+The way branches work also allow other team members to do code reviews of a branch, 
+as all changed/added code can be seen and commented on.
+
+\subsection{Guidelines}
+
+Here is a list of rules that help prevent problems during development.
+
+\begin{itemize}
+	\item Meet with the client and coach every week to show a working demo
+	\item Add tests as soon as new methods are added to verify that they work
+	\item Have integration tests for common scenarios to reduce the need for user testing
+	\item For C\# code, we adopt the guidelines presented by Microsoft
+		  (See \url{https://msdn.microsoft.com/en-us/library/ms229042.aspx})
+	\item Work on the project in the INSYGHTLab from 9 to 5 every workday (except for the dates listed in the planning section)
+\end{itemize}
