@@ -32,6 +32,37 @@
 			the IP address of the local server machine (see \ref{ssec:userstartgame})
 			and fill this in. The remote user will see a virtualized version of the 
 			same game world as the local players.
+			
+		\subsection{A local player wants to move a mirror} \label{ssec:localmovemirror}
+			A local player is partaking in an active game. To hit the target, they
+			need to move a mirror from point A to point B to allow the laser beam
+			coming from the emitter to be deflected and therefore to hit the target.
+			The local player uses moveable markers to place a mirror in the game
+			world. Using the Meta One glasses, local players can see the game objects
+			when they see a marker. For this example, it is assumed that the player that wants
+			to move the mirror marker also has that mirror marker to their disposal,
+			and also that the mirror is rotated such that no more rotation is required.
+			The local player can then take the mirror marker, move it to the point
+			it should be moved to, and complete the game that way.
+			
+		\subsection{Two local players want to move a mirror} \label{ssec:localmovemirrorcollab}
+			Due to mirror markers being divided between the players, it is possible
+			that two (or, more generally speaking, multiple) players want to move
+			a mirror, possibly the last mirror required to solve the level. However,
+			a mirror marker can only be placed by one person. The local players then
+			need to collaborate on where the marker should be placed. As the players
+			are physically co-located (by definition of them being local players),
+			this collaboration can happen in multiple ways, like pointing to a 
+			location on the playing field, or discussing the best position for the
+			marker.
+			
+		\subsection{A remote player wants to rotate a mirror}
+			Remote players, due to them not being physically co-located with the
+			local players, cannot move mirror markers, as that would require them
+			to meet up with the local players and to play with them. However, 
+			remote players have access to an ability that the local players do
+			not have access to, that being the ability to rotate selected mirrors.
+			The remote player uses a computer for this. 
 
 	\section{Back-end design} \label{sec:backenddesign}
 		The system is composed of three main parts: The Laser mechanics, the network
