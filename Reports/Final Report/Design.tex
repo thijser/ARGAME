@@ -62,7 +62,19 @@
 			to meet up with the local players and to play with them. However, 
 			remote players have access to an ability that the local players do
 			not have access to, that being the ability to rotate selected mirrors.
-			The remote player uses a computer for this. 
+			The remote player uses a computer for this. In order to rotate a mirror,
+			the player has select a mirror first. Using the "M" key, the player can
+			cycle through mirrors, but they can also click on a mirror in the game
+			world to select that mirror. When a mirror is selected, the outer
+			frame of the mirror (shown in \ref{fig:mirror}) will change color
+			from gold to bright yellow, indicating that this mirror is selected
+			(the recolor will only be visible for the remote player responsible
+			for clicking on that mirror, even other remote players will not be
+			able to see this recolor). Also, a selected mirror can be rotated by
+			using the "A" key (for rotation to the left, relative to the surface
+			normal of the mirror) or the "D" key (for rotation to the right).
+			
+		% TODO add some use case diagrams?
 
 	\section{Back-end design} \label{sec:backenddesign}
 		The system is composed of three main parts: The Laser mechanics, the network
