@@ -1,13 +1,33 @@
 \chapter{Quality Assurance} \label{cha:qa}
+	This chapter explains and describes various quality assurance techniques 
+	that were used during the project, to allow us to deliver a product of 
+	good quality (regarding both code quality and gameplay quality).
 	%TODO Explain how we did Quality Assurance during the project.
 	%     This includes a description of FxCop, StyleCop and SonarQube,
 	%     but also the use of UnityTestTools and other metrics.
 	%     Also include a reference to the SIG evaluation (the actual
 	%     evaluation could be an appendix).
-	...
 
 	\section{Testing} \label{sec:testing}
-		...
+	There are two main types of testing done during the project. These are
+	unit testing and integration testing. Unity has no native support for
+	running unit/integration tests that have been written, but there is a toolkit
+	available for free on the Asset Store, called Unity Test Tools, that does
+	have this support. The extension is developed by the Unity team, and can be 
+	found here: \url{https://www.assetstore.unity3d.com/en/#!/content/13802}.
+	Using this extension, a new menu bar item, called "Unity Test Tools"
+	will appear in the main Unity editor. Clicking on this item creates a drop
+	down menu with different options, the most important one being the unit test
+	runner.
+	
+	Unit tests are written using the NUnit unit testing framework for C\#. NUnit
+	is a test framework which was ported from the Java test framework JUnit, and
+	was created to bring xUnit testing to all .NET languages. Using this framework
+	is also really easy, and a tutorial on how to write unit tests using NUnit
+	can be found using Google. Using Unity Test Tools, all unit tests in the
+	project are listed once one clicks on the subitem "Unit Test Runner".
+	The tests are listed in a new window, and one can run all unit tests by
+	clicking on the "Run All" button at the top. 
 		
 	\section{Code Style} \label{sec:codestyle}
 		...
@@ -17,3 +37,5 @@
 		
 	\section{SIG Evaluation} \label{sec:sigevaluation}
 		...
+		
+	\section{Demo's and playtesting sessions} \label{sec:demos}
