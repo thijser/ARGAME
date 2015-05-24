@@ -105,7 +105,38 @@
 			%      Also include the class diagram.
 			
 		\subsection{The Network namespace} \label{ssec:networknamespace}
-			%TODO: Write about network namespace.
+			The Network namespace has undergone several changes since the start
+			of the project. These changes are described in this part.
+			
+			The first take on creating a network functionality in the game
+			was to use the standard way of networking within Unity itself.
+			This involved creating a rather simple networking script that
+			allowed the game to connect to the Unity master server or their own
+			master server (provided they had one installed), which then handled
+			all changes that were recorded by network view components of objects,
+			and sent them to all the players, synchronizing the game world.
+			There are several tutorials on how to write such a networking
+			script and how to use it in a multiplayer game, the tutorial that
+			was used for the script in the namespace can be found here:
+			\url{http://www.paladinstudios.com/2013/07/10/how-to-create-an-online-multiplayer-game-with-unity/}
+			
+			The base networking functionality of Unity, however, was not enough
+			for what we were trying to do (for example, it had very poor VR and
+			AR support, and our game is an AR game after all). Because of this,
+			a different solution was required to create synchronization across
+			the game world. The next option was to use the Photon Unity Networking
+			package, which not only supported multiplayer better (it allowed for
+			more people to play the same game), but it also allowed VR and AR games
+			to have multiplayer functionality (there is a free package available
+			on the Unity Asset Store, which can be found here: \url{https://www.assetstore.unity3d.com/en/#!/content/1786}). However,
+			this was not used, as the problem was not that we needed to connect
+			several AR players in the game world (as these would be the local players,
+			and therefore would be able to see what was going on in the game world
+			by just looking at the marker that was placed near them). As such,
+			a different solution had to be found.
+			
+			The final solution is the solution that is used right now. 
+			%TODO: Check this part, and write about OpenCV.
 			%      Also include the class diagram and a piece about the OpenCV server.
 					
 		\subsection{The Projection namespace} \label{ssec:projectionnamespace}
