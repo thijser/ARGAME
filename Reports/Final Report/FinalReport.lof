@@ -1,12 +1,12 @@
 \select@language {english}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces A graphical display of the Scrum methodology of software development. The methodology shown here is nearly identical to the methodology we use, the only exception being that our sprints only last one week instead of two.}}{3}
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Scrum}}{3}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces The target of the game. The gold columns around the inner crystal will open up and rotate once the target is hit, as described earlier. Also, the crystal will change color once the target hits it.}}{10}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces an image of a mirror in-game, with its reflective surfaces. The light blue circles reflect laser beams, the golden outer frame does not.}}{11}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces an image of a wall in-game. It blocks lasers entirely.}}{11}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces what the emitter looks like in the game. Also shown here is a laser beam coming from the emitter. The laser beam is colored red per standard. There are game objects that can change the coloring of the beam, these will also be described in this part of the report.}}{12}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces an elevator in-game. Both the upper and lower plate have a mirror (represented on the bottom plate as a light blue plate), which reflects laser beams.}}{12}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Laser target}}{10}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Mirror}}{11}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Wall}}{11}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Laser emitter}}{12}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Elevator}}{12}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
