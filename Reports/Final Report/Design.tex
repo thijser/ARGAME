@@ -108,6 +108,20 @@
 			it would be possible to create the same game without using AR
 			technology or using markers to play the game with, for that matter.
 			
+			The Core namespace is further subdivided into three namespaces:
+			the Core namespace itself, which contains code relating to the laser
+			and code that helps the other two namespaces, the Core.Emitter
+			namespace, which contains code for objects that emit laser beams,
+			and the Code.Receiver namespace, which contains code for objects that
+			receive laser beams and have to do something with these beams.
+			There are several game objects that emit laser beams as well as receive
+			them (as seen in \ref{sec:graphicaldesign}). This causes the
+			Core.Emitter and Core.Receiver namespaces to have some coupling.
+			However, the coupling is minor, and coupling is only between
+			sub-namespaces in the same main namespace. As such, this should 
+			not cause that much of a problem, when considered in a software
+			engineering context.
+			
 			%TODO: Write about core namespace.
 			%      Also include the class diagram.
 			
@@ -265,7 +279,23 @@
 				linked to it. The green side blocks laser beams completely.}
 				\label{fig:portal}
 			\end{figure}
-		\subsection{Lens splitter}
+		\subsection{Lens splitter} \label{ssec:splitter}
+		...
+		\subsection{Planned game objects that didn't make it} \label{ssec:planned}
+			There were some ideas for game objects that did not make the
+			final cut. For example, there were plans to use AND- and OR-gates
+			that received beams as input and emitted beams when enough input
+			was given (this would be at least one beam for the OR-gate, and
+			at least two for the AND-gate, while these gates would then emit
+			a single beam as output). These were the first logic gates that
+			we thought about, and later ideas included XOR and NO-XOR gates
+			(gates that would only emit a laser beam when hit by an odd or 
+			even amount of beams, respectively). There was (and still is) 
+			code that manages the behavior of AND- and OR-gates, however, 
+			there were no models, and after talking
+			about them with our coach after the first demo, we concluded that
+			these objects would not add much more to the game, and as such,
+			development on them was scrapped.
 	\section{Level design} \label{sec:leveldesign}
 		Levels are designed to be simple at first, requiring little collaboration,
 		while getting progressively harder, as well as introducing more and more
