@@ -101,6 +101,13 @@
 		\ref{ssec:networknamespace}.
 		
 		\subsection{The Core namespace} \label{ssec:corenamespace}
+			The Core namespace contains all the code for all the core gameplay
+			elements. The term "core gameplay elements" refers to all the
+			elements necessary to play the basic game with, basically the code
+			for the game objects. Using only the code from the Core namespace,
+			it would be possible to create the same game without using AR
+			technology or using markers to play the game with, for that matter.
+			
 			%TODO: Write about core namespace.
 			%      Also include the class diagram.
 			
@@ -240,11 +247,26 @@
 				which reflects laser beams.}
 				\label{fig:elevator}
 			\end{figure}
-		\subsection{Portal}
+		\subsection{Portal} \label{ssec:portal}
 			The portal is a more advanced game object. It allows light that travels 
 			into it to travel out of the portal it is linked to, and vice versa. This
 			allows puzzles to contain targets that cannot be hit by just reflecting
 			laser beams from the emitters by mirrors (as the laser beams have to
 			travel through a portal in order to be able to hit the target),
 			therefore forcing the players to redirect laser beams to portals.
+			A portal is depicted in \ref{fig:portal}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[scale = 0.3]{Portal}
+				\caption{An in-game picture of the portal. It looks like a 
+				recolored mirror, but has different functionality. It has one
+				black side and one green side. The black side is the side
+				that allows laser beams to travel through it to the portal
+				linked to it. The green side blocks laser beams completely.}
+				\label{fig:portal}
+			\end{figure}
 		\subsection{Lens splitter}
+	\section{Level design} \label{sec:leveldesign}
+		Levels are designed to be simple at first, requiring little collaboration,
+		while getting progressively harder, as well as introducing more and more
+		game objects. 

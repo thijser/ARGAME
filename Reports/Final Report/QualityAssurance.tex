@@ -11,7 +11,10 @@
 	%     Also include a reference to the SIG evaluation (the actual
 	%     evaluation could be an appendix).
 	\section{IDE used for programming} \label{sec:ide}
-	The IDE used for programming was Microsoft Visual Studio.
+	The IDE used for programming was Microsoft Visual Studio. Unity has an IDE
+	of its own available for programming in C\#, which is called MonoDevelop.
+	However, the MonoDevelop IDE is really lacking in functionality. It has no
+	support for the plugins that we use to check our code. 
 	
 	\section{Testing} \label{sec:testing}
 	There are two main types of testing done during the project. These are
@@ -39,6 +42,21 @@
 	creating simple scenes and observing that the subjects of the test work
 	as they should when they are placed in an actual scene. It is also a lot
 	harder to run these tests in a standardized way most of the time. 
+	
+		\subsection{Code coverage} \label{ssec:codecoverage}
+		Code coverage is a metric that can be used to determine how thorough
+		the written code has been tested. There are several free software
+		packages available on the Internet that allow for generating code
+		coverage reports of NUnit test suites, such as NCover or PartCover.
+		These, however, are hard to use when combined with unit tests in
+		Unity. The reason behind this is that, to run the unit tests for
+		the game, the Unity Test Tools functionality has to be used (as most
+		tests use instantiation of gameplay objects, something that can
+		only happen in Unity). This functionality has no way of integrating
+		the NCover or PartCover software packages. It is possible to integrate
+		these with Microsoft Visual Studio, however it is impossible to run
+		the unit tests from that IDE. As such, we had to manually check
+		if the tests tested all possible branches of the code.
 		
 	\section{Code Style} \label{sec:codestyle}
 		...
