@@ -1,9 +1,10 @@
 \chapter{Orientation} \label{cha:orientation}
-
+\pagenumbering{arabic}
   This chapter provides an overview of the orientation phase of the project.
   It shows an analysis of the project requirements, and the decisions that
   have been made during the project regarding choices of frameworks and
-  libraries as well as gameplay elements.
+  libraries as well as gameplay elements. It also functions as a thorough
+  introduction to this report.
 
   For a more in-depth view on the research that has been done leading to
   these decisions, please refer to the Research Report in appendix
@@ -146,6 +147,9 @@
       programming to some extent.
       
     \section{Process}\label{sec:process}
+      This section describes the process of the project.
+      
+      \subsection{Pre-project preparations} \label{ssec:preparations}
       Before the project started, we had a meeting halfway through March
       with our coach about what the project entails and what is currently
       possible, given the hardware that we have today. After a brainstorm
@@ -153,6 +157,7 @@
       what kind of hardware the TU Delft has available, and also what the 
       limitations of this hardware are.
       
+      \subsection{Research} \label{ssec:research}
       The project started halfway through April, at the beginning of Q4.
       This is the "in schedule" time for the project. The first meeting
       started with a definite brainstorm session about what kind of game
@@ -161,8 +166,9 @@
       would be needed, as well as other potential issues. Also, the rest of the 
       week was dedicated to testing out various parts of the required software 
       and hardware, as well as defining the requirements according to the MoSCoW 
-      model.
+      model in the product plan, shown in the product plan in Appendix \ref{app:productplan}
       
+      \subsection{Research report} \label{ssec:researchreport}
       The first two weeks were the main research phase. This entailed that the
       research report had to be written. The second week was partly devoted
       to writing the report, and also to testing out more functionality of
@@ -170,6 +176,7 @@
       developed during this time, and there were plans for a first demo at the end
       of week 3 or at the beginning of week 4.
       
+      \subsection{Programming the basic game} \label{ssec:basics}
       The next two weeks revolved around creating game objects and gameplay.
       After some playing around with markers and AR glasses, as well as
       creating the basic and advanced game objects, a first demo was also
@@ -178,6 +185,7 @@
       resp. refactor code in order to deliver clean code to SIG, for our first
       submission.
       
+      \subsection{Demo + the OpenCV server} \label{ssec:firstdemo}
       Week 5 finally saw the first demo being demonstrated to the coach. The
       coach was satisfied, but there was a lot to be done before the project
       could be considered finished. During this week, networking was revamped
@@ -185,3 +193,16 @@
       OpenCV started. This decision was based on various technical challenges we 
       came across during development. The reason for this decision can be found 
       in the Implementation chapter (chapter \ref{cha:implementation}).
+      
+      \subsection{The process table} \label{ssec:processtable}
+      The following table gives a nice and short overview regarding what was done
+      every week.\\
+      \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c |}
+	      \hline
+	      Weeks & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
+	      \hline
+	      Research & X & X & \space & \space & \space & \space & \space & \space & \space & \space \\
+	      \hline
+	      Final report & \space & \space & \space & X & X & \space & \space & \space & \space & \space \\
+	      \hline
+      \end{tabular}

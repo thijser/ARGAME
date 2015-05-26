@@ -93,9 +93,10 @@ public:
      * @param id        - The id of the object.
      * @param x         - The x coordinate.
      * @param y         - The y coordinate.
+     * @param rotation  - The rotation of the object.
      * @param timestamp - The timestamp of the update.
      */
-    void broadcastPositionUpdate(uint32_t id, float x, float y, uint64_t timestamp);
+    void broadcastPositionUpdate(uint32_t id, float x, float y, float rotation, uint64_t timestamp);
 
     /**
      * @brief Enables the use of Sockets.

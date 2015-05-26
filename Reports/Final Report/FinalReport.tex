@@ -5,6 +5,7 @@
 \usepackage{cite}
 \usepackage{graphicx}
 \bibliographystyle{apalike}
+\pagenumbering{roman}
 
 % Title Page
 \title{Augmented Reality mirror game}
@@ -22,6 +23,8 @@ mirrors to deflect the laser beam coming from the laser to the target.
 % TODO: add description of the chapters.
 \end{abstract}
 \tableofcontents
+\listoffigures
+\input{Summary.tex}
 
 \input{Orientation.tex}
 \input{Design.tex}
@@ -31,11 +34,21 @@ mirrors to deflect the laser beam coming from the laser to the target.
 
 \appendix
 
-% Research Report
 \chapter{Research Report} \label{app:researchreport}
 \input{ResearchReport/ProblemFormulation.tex}
 \input{ResearchReport/ProblemAnalysis.tex}
 \input{ResearchReport/ProposedSolution.tex}
 \input{ResearchReport/Conclusion.tex}
+
+\chapter{Product plan} \label{app:productplan}
+\input{ProductPlan/GameConcept.tex}
+\input{ProductPlan/Approach.tex}
+\input{ProductPlan/Planning.tex}
+
+\pagebreak
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliography{ResearchReport/Bibliography.bib}
+
+
 
 \end{document}

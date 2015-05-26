@@ -32,6 +32,49 @@
 			the IP address of the local server machine (see \ref{ssec:userstartgame})
 			and fill this in. The remote user will see a virtualized version of the 
 			same game world as the local players.
+			
+		\subsection{A local player wants to move a mirror} \label{ssec:localmovemirror}
+			A local player is partaking in an active game. To hit the target, they
+			need to move a mirror from point A to point B to allow the laser beam
+			coming from the emitter to be deflected and therefore to hit the target.
+			The local player uses moveable markers to place a mirror in the game
+			world. Using the Meta One glasses, local players can see the game objects
+			when they see a marker. For this example, it is assumed that the player that wants
+			to move the mirror marker also has that mirror marker to their disposal,
+			and also that the mirror is rotated such that no more rotation is required.
+			The local player can then take the mirror marker, move it to the point
+			it should be moved to, and complete the game that way.
+			
+		\subsection{Two local players want to move a mirror} \label{ssec:localmovemirrorcollab}
+			Due to mirror markers being divided between the players, it is possible
+			that two (or, more generally speaking, multiple) players want to move
+			a mirror, possibly the last mirror required to solve the level. However,
+			a mirror marker can only be placed by one person. The local players then
+			need to collaborate on where the marker should be placed. As the players
+			are physically co-located (by definition of them being local players),
+			this collaboration can happen in multiple ways, like pointing to a 
+			location on the playing field, or discussing the best position for the
+			marker.
+			
+		\subsection{A remote player wants to rotate a mirror} \label{ssec:remoterotatemirror}
+			Remote players, due to them not being physically co-located with the
+			local players, cannot move mirror markers, as that would require them
+			to meet up with the local players and to play with them. However, 
+			remote players have access to an ability that the local players do
+			not have access to, that being the ability to rotate selected mirrors.
+			The remote player uses a computer for this. In order to rotate a mirror,
+			the player has select a mirror first. Using the "M" key, the player can
+			cycle through mirrors, but they can also click on a mirror in the game
+			world to select that mirror. When a mirror is selected, the outer
+			frame of the mirror (shown in \ref{fig:mirror}) will change color
+			from gold to bright yellow, indicating that this mirror is selected
+			(the recolor will only be visible for the remote player responsible
+			for clicking on that mirror, even other remote players will not be
+			able to see this recolor). Also, a selected mirror can be rotated by
+			using the "A" key (for rotation to the left, relative to the surface
+			normal of the mirror) or the "D" key (for rotation to the right).
+			
+		% TODO add some use case diagrams?
 
 	\section{Back-end design} \label{sec:backenddesign}
 		The system is composed of three main parts: The Laser mechanics, the network
@@ -58,11 +101,63 @@
 		\ref{ssec:networknamespace}.
 		
 		\subsection{The Core namespace} \label{ssec:corenamespace}
+			The Core namespace contains all the code for all the core gameplay
+			elements. The term "core gameplay elements" refers to all the
+			elements necessary to play the basic game with, basically the code
+			for the game objects. Using only the code from the Core namespace,
+			it would be possible to create the same game without using AR
+			technology or using markers to play the game with, for that matter.
+			
+			The Core namespace is further subdivided into three namespaces:
+			the Core namespace itself, which contains code relating to the laser
+			and code that helps the other two namespaces, the Core.Emitter
+			namespace, which contains code for objects that emit laser beams,
+			and the Code.Receiver namespace, which contains code for objects that
+			receive laser beams and have to do something with these beams.
+			There are several game objects that emit laser beams as well as receive
+			them (as seen in \ref{sec:graphicaldesign}). This causes the
+			Core.Emitter and Core.Receiver namespaces to have some coupling.
+			However, the coupling is minor, and coupling is only between
+			sub-namespaces in the same main namespace. As such, this should 
+			not cause that much of a problem, when considered in a software
+			engineering context.
+			
 			%TODO: Write about core namespace.
 			%      Also include the class diagram.
 			
 		\subsection{The Network namespace} \label{ssec:networknamespace}
-			%TODO: Write about network namespace.
+			The Network namespace has undergone several changes since the start
+			of the project. These changes are described in this part.
+			
+			The first take on creating a network functionality in the game
+			was to use the standard way of networking within Unity itself.
+			This involved creating a rather simple networking script that
+			allowed the game to connect to the Unity master server or their own
+			master server (provided they had one installed), which then handled
+			all changes that were recorded by network view components of objects,
+			and sent them to all the players, synchronizing the game world.
+			There are several tutorials on how to write such a networking
+			script and how to use it in a multiplayer game, the tutorial that
+			was used for the script in the namespace can be found here:
+			\url{http://www.paladinstudios.com/2013/07/10/how-to-create-an-online-multiplayer-game-with-unity/}
+			
+			The base networking functionality of Unity, however, was not enough
+			for what we were trying to do (for example, it had very poor VR and
+			AR support, and our game is an AR game after all). Because of this,
+			a different solution was required to create synchronization across
+			the game world. The next option was to use the Photon Unity Networking
+			package, which not only supported multiplayer better (it allowed for
+			more people to play the same game), but it also allowed VR and AR games
+			to have multiplayer functionality (there is a free package available
+			on the Unity Asset Store, which can be found here: \url{https://www.assetstore.unity3d.com/en/#!/content/1786}). However,
+			this was not used, as the problem was not that we needed to connect
+			several AR players in the game world (as these would be the local players,
+			and therefore would be able to see what was going on in the game world
+			by just looking at the marker that was placed near them). As such,
+			a different solution had to be found.
+			
+			The final solution is the solution that is used right now. 
+			%TODO: Check this part, and write about OpenCV.
 			%      Also include the class diagram and a piece about the OpenCV server.
 					
 		\subsection{The Projection namespace} \label{ssec:projectionnamespace}
@@ -93,7 +188,7 @@
 			the target has been hit. The game will then proceed to the
 			next level. An image of the target is shown in figure 
 			\ref{fig:target}.
-			\begin{figure}[h]
+			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.4]{Target}
 				\caption{The target of the game. The gold columns around the inner crystal will open up and rotate once the target is hit, as described earlier. Also, the crystal will change color once the target hits it.}
@@ -107,7 +202,7 @@
 			All levels require at least one mirror to move or rotate
 			in order to hit the target. An image of a mirror in-game is shown
 			in \ref{fig:mirror}.
-			\begin{figure}[h]
+			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.3]{Mirror}
 				\caption{an image of a mirror in-game, with its reflective surfaces.
@@ -124,7 +219,7 @@
 			to create paths that the laser beam has to go through, later
 			levels use not only walls, but also other game objects. A wall
 			is shown in \ref{fig:wall}.
-			\begin{figure}[h]
+			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.15]{Wall}
 				\caption{an image of a wall in-game. It blocks lasers entirely.}
@@ -145,7 +240,7 @@
 			and later levels use this to create more complex puzzles.
 			What the emitter looks like exactly is shown in figure 
 			\ref{fig:emitter}.
-			\begin{figure}[h]
+			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.25]{Emitter}
 				\caption{what the emitter looks like in the game. Also shown here is a laser beam
@@ -158,7 +253,7 @@
 			to a new height. This then allows laser beams to pass over walls that 
 			stand on the ground. Therefore, elevators can function as a bridge over
 			walls. An elevator is depicted in \ref{fig:elevator}.
-			\begin{figure}[h!]
+			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.3]{Elevator}
 				\caption{an elevator in-game. Both the upper and lower plate have a
@@ -166,11 +261,42 @@
 				which reflects laser beams.}
 				\label{fig:elevator}
 			\end{figure}
-		\subsection{Portal}
+		\subsection{Portal} \label{ssec:portal}
 			The portal is a more advanced game object. It allows light that travels 
 			into it to travel out of the portal it is linked to, and vice versa. This
 			allows puzzles to contain targets that cannot be hit by just reflecting
 			laser beams from the emitters by mirrors (as the laser beams have to
 			travel through a portal in order to be able to hit the target),
 			therefore forcing the players to redirect laser beams to portals.
-		\subsection{Lens splitter}
+			A portal is depicted in \ref{fig:portal}
+			\begin{figure}[!ht]
+				\centering
+				\includegraphics[scale = 0.3]{Portal}
+				\caption{An in-game picture of the portal. It looks like a 
+				recolored mirror, but has different functionality. It has one
+				black side and one green side. The black side is the side
+				that allows laser beams to travel through it to the portal
+				linked to it. The green side blocks laser beams completely.}
+				\label{fig:portal}
+			\end{figure}
+		\subsection{Lens splitter} \label{ssec:splitter}
+		...
+		\subsection{Planned game objects that didn't make it} \label{ssec:planned}
+			There were some ideas for game objects that did not make the
+			final cut. For example, there were plans to use AND- and OR-gates
+			that received beams as input and emitted beams when enough input
+			was given (this would be at least one beam for the OR-gate, and
+			at least two for the AND-gate, while these gates would then emit
+			a single beam as output). These were the first logic gates that
+			we thought about, and later ideas included XOR and NO-XOR gates
+			(gates that would only emit a laser beam when hit by an odd or 
+			even amount of beams, respectively). There was (and still is) 
+			code that manages the behavior of AND- and OR-gates, however, 
+			there were no models, and after talking
+			about them with our coach after the first demo, we concluded that
+			these objects would not add much more to the game, and as such,
+			development on them was scrapped.
+	\section{Level design} \label{sec:leveldesign}
+		Levels are designed to be simple at first, requiring little collaboration,
+		while getting progressively harder, as well as introducing more and more
+		game objects. 

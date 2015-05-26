@@ -21,12 +21,14 @@ namespace Network
         /// </summary>
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
+        /// <param name="rotation">The rotation.</param> 
         /// <param name="id">The unique ID of the marker.</param>
         /// <param name="timestamp">The timestamp of the update.</param>
-        public PositionUpdate(float x, float y, int id, long timestamp)
+        public PositionUpdate(float x, float y, float rotation, int id, long timestamp)
         {
             this.X = x;
             this.Y = y;
+            this.Rotation = rotation;
             this.ID = id;
             this.TimeStamp = timestamp;
         }
@@ -40,6 +42,11 @@ namespace Network
         /// Gets the y coordinate of this update.
         /// </summary>
         public float Y { get; private set; }
+
+        /// <summary>
+        /// Gets the rotation of this update.
+        /// </summary>
+        public float Rotation { get; private set; }
 
         /// <summary>
         /// Gets the unique ID of the marker object.

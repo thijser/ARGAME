@@ -25,10 +25,10 @@ namespace Network
         /// The size of a single packet.
         /// <para>
         /// The size of a single PositionUpdate is equal to the size 
-        /// of 2 floats and 2 integers. This is 3 * 4 bytes + 8 bytes = 20 bytes.
+        /// of 3 floats, an integer and a long. This is 4 * 4 bytes + 8 bytes = 24 bytes.
         /// </para>
         /// </summary>
-        public const int PacketSize = 20;
+        public const int PacketSize = 24;
 
         /// <summary>
         /// The maximum amount of updates to read in a single step.
@@ -149,10 +149,11 @@ namespace Network
 
             float x = BitConverter.ToSingle(this.buffer, 0);
             float y = BitConverter.ToSingle(this.buffer, 4);
-            int id = BitConverter.ToInt32(this.buffer, 8);
-            long timestamp = BitConverter.ToInt64(this.buffer, 12);
+            float rotation = BitConverter.ToSingle(this.buffer, 8);
+            int id = BitConverter.ToInt32(this.buffer, 12);
+            long timestamp = BitConverter.ToInt64(this.buffer, 16);
 
-            PositionUpdate update = new PositionUpdate(x, y, id, timestamp);
+            PositionUpdate update = new PositionUpdate(x, y, rotation, id, timestamp);
             return update;
         }
     }
