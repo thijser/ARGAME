@@ -73,7 +73,24 @@
 			able to see this recolor). Also, a selected mirror can be rotated by
 			using the "A" key (for rotation to the left, relative to the surface
 			normal of the mirror) or the "D" key (for rotation to the right).
-			
+		
+		\subsection{Use case diagrams} \label{ssec:usecasediagrams}
+			To illustrate the given main activities, two use case diagrams are
+			displayed here. The use cases for the remote player are depicted in
+			\ref{fig:remoteusecase}, while the use cases for the local player
+			are depicted in \ref{fig:localusecase}.
+			\begin{figure}[!ht]
+				\centering
+				\includegraphics[scale = 0.4]{RemotePlayerUseCase}
+				\caption{The use cases for the remote player.}
+				\label{fig:remoteusecase}
+			\end{figure}
+			\begin{figure}[!ht]
+				\centering
+				\includegraphics[scale = 0.4]{LocalPlayerUseCase}
+				\caption{The use cases for the local player.}
+				\label{fig:localusecase}
+			\end{figure}
 		% TODO add some use case diagrams?
 
 	\section{Back-end design} \label{sec:backenddesign}
@@ -185,13 +202,15 @@
 			game is to direct a laser beam from an emitter to this target.
 			When the target is hit by a laser beam, the outer columns around
 			the crystal inside will rotate and spread out, indicating that
-			the target has been hit. The game will then proceed to the
-			next level. An image of the target is shown in figure 
-			\ref{fig:target}.
+			the target has been hit. The game will proceed to the
+			next level once all targets are hit. An image of the target is shown in figure 
+			\ref{fig:target}. The gold columns depicted are the outer columns
+			described earlier. Also, the inner crystal will change color
+			when hit.
 			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.4]{Target}
-				\caption{The target of the game. The gold columns around the inner crystal will open up and rotate once the target is hit, as described earlier. Also, the crystal will change color once the target hits it.}
+				\caption{The laser target.}
 				\label{fig:target}
 			\end{figure}
 			
@@ -201,20 +220,19 @@
 			It is also the only element that players can move and/or rotate.
 			All levels require at least one mirror to move or rotate
 			in order to hit the target. An image of a mirror in-game is shown
-			in \ref{fig:mirror}.
+			in \ref{fig:mirror}. The light blue circles reflect laser beams, 
+			the golden outer frame does not.
 			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.3]{Mirror}
-				\caption{an image of a mirror in-game, with its reflective surfaces.
-				The light blue circles reflect laser beams, the golden outer frame
-				does not.}
+				\caption{A mirror.}
 				\label{fig:mirror}
 			\end{figure}
 			
 		\subsection{Wall} \label{ssec:wall}
 			The wall is the main obstacle in the game. It blocks incoming
 			laser beams completely. Walls are used in levels to make it 
-			less easy for one player to reflect a laser beam coming from
+			harder for one player to reflect a laser beam coming from
 			an emitter to the target. The first few levels mainly use walls
 			to create paths that the laser beam has to go through, later
 			levels use not only walls, but also other game objects. A wall
@@ -222,7 +240,7 @@
 			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.15]{Wall}
-				\caption{an image of a wall in-game. It blocks lasers entirely.}
+				\caption{A wall.}
 				\label{fig:wall}
 			\end{figure}
 			
@@ -239,12 +257,14 @@
 			level. It is possible to have multiple emitters in a single level,
 			and later levels use this to create more complex puzzles.
 			What the emitter looks like exactly is shown in figure 
-			\ref{fig:emitter}.
+			\ref{fig:emitter}. Also shown here is a laser beam
+			coming from the emitter. The laser beam is colored red per 
+			standard. There are game objects that can change the coloring of 
+			the beam, these will also be described in this part of the report.
 			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.25]{Emitter}
-				\caption{what the emitter looks like in the game. Also shown here is a laser beam
-				coming from the emitter. The laser beam is colored red per standard. There are game objects that can change the coloring of the beam, these will also be described in this part of the report.}
+				\caption{The emitter.}
 				\label{fig:emitter}
 			\end{figure}
 			
@@ -252,13 +272,13 @@
 			The elevator is a game object that uses mirrors to elevate laser beams
 			to a new height. This then allows laser beams to pass over walls that 
 			stand on the ground. Therefore, elevators can function as a bridge over
-			walls. An elevator is depicted in \ref{fig:elevator}.
+			walls. An elevator is depicted in \ref{fig:elevator}. Both the upper and 
+			lower plate have a mirror (represented on the bottom plate as a light 
+			blue plate), which reflects laser beams.
 			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.3]{Elevator}
-				\caption{an elevator in-game. Both the upper and lower plate have a
-				mirror (represented on the bottom plate as a light blue plate),
-				which reflects laser beams.}
+				\caption{An elevator}
 				\label{fig:elevator}
 			\end{figure}
 		\subsection{Portal} \label{ssec:portal}
@@ -268,19 +288,32 @@
 			laser beams from the emitters by mirrors (as the laser beams have to
 			travel through a portal in order to be able to hit the target),
 			therefore forcing the players to redirect laser beams to portals.
-			A portal is depicted in \ref{fig:portal}
+			A portal is depicted in \ref{fig:portal}. It looks like a 
+			recolored mirror. It has one black side and one green side. The 
+			black side is the side that allows laser beams to travel through 
+			it to the portal linked to it. The green side blocks laser beams completely.
 			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.3]{Portal}
-				\caption{An in-game picture of the portal. It looks like a 
-				recolored mirror, but has different functionality. It has one
-				black side and one green side. The black side is the side
-				that allows laser beams to travel through it to the portal
-				linked to it. The green side blocks laser beams completely.}
+				\caption{The portal.}
 				\label{fig:portal}
 			\end{figure}
 		\subsection{Lens splitter} \label{ssec:splitter}
-		...
+			The lens splitter is another advanced game object. It splits incoming
+			laser beams into two, creating two separate laser beams that each go
+			a different way. This allows creation of another laser beam without
+			another emitter, which allows hitting of multiple targets, for
+			example. A lens splitter is depicted in \ref{fig:lenssplitter}. As
+			can be seen, it has two lenses (to focus the laser beam to the crystal)
+			and a crystal (to split the incoming beam). The incoming beam has to hit
+			the outer lens, and the outgoing beams will be emitted from the outer
+			points of the crystal.
+			\begin{figure}[!ht]
+				\centering
+				\includegraphics[scale = 0.3]{LensSplitter}
+				\caption{The lens splitter.}
+				\label{fig:lenssplitter}
+			\end{figure}
 		\subsection{Planned game objects that didn't make it} \label{ssec:planned}
 			There were some ideas for game objects that did not make the
 			final cut. For example, there were plans to use AND- and OR-gates

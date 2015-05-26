@@ -12,6 +12,8 @@
 #include <iostream>
 #include <set>
 
+namespace mirrors {
+
 using std::vector;
 
 namespace hierarchy_members {
@@ -24,7 +26,7 @@ namespace hierarchy_members {
 }
 
 detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
-        : keepGoing(true), cornersHistory(ringbuffer<vector<Point2f>>(CORNER_HISTORY_LENGTH)) {
+    : keepGoing(true), cornersHistory(ringbuffer<vector<Point2f>>(CORNER_HISTORY_LENGTH)) {
     cap.open(captureDevice);
 
     cap.set(CV_CAP_PROP_FRAME_WIDTH, requestedWidth);
@@ -105,7 +107,7 @@ vector<Point2f> detector::getAveragedCorners(const Mat& rawFrame) {
         bottomRight.push_back(corners[3]);
     }
 
-    return {
+    return{
         averageOfPoints(topLeft),
         averageOfPoints(topRight),
         averageOfPoints(bottomLeft),
@@ -150,7 +152,7 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
         corners.push_back(topMarkers[1]); // Top-right
         corners.push_back(bottomMarkers[0]); // Bottom-left
         corners.push_back(bottomMarkers[1]); // Bottom-right
-        
+
         return corners;
     }
 
@@ -163,14 +165,14 @@ vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, co
     for (int contourId : data.candidates) {
         auto brect = cv::boundingRect(data.contours[contourId]);
 
-        cv::RotatedRect rect = cv::minAreaRect(data.contours[contourId]);
+        cv::RotatedRect rotatedRect = cv::minAreaRect(data.contours[contourId]);
 
         Mat marker = correctedFrame(brect);
-        marker = rotate(marker, rect.angle);
+        marker = rotate(marker, rotatedRect.angle);
 
         // Cut off border
-        int w = static_cast<int>(rect.size.width) - 20;
-        int h = static_cast<int>(rect.size.height) - 20;
+        int w = static_cast<int>(rotatedRect.size.width) - 20;
+        int h = static_cast<int>(rotatedRect.size.height) - 20;
 
         if (w > 7 && h > 7 && w <= marker.size[0] && h <= marker.size[1] && w > 0 && h > 0) {
             cv::Rect roi;
@@ -208,7 +210,7 @@ vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, co
                 }
 
                 if (bb.x >= 0 && bb.y >= 0 && bb.width > 0 && bb.height > 0
-                        && bb.x + bb.width < marker.size[0] && bb.y + bb.height < marker.size[1]) {
+                    && bb.x + bb.width < marker.size[0] && bb.y + bb.height < marker.size[1]) {
                     Mat codeImage = marker(bb);
 
                     // Turn into grayscale and threshold to find black and white code
@@ -244,8 +246,14 @@ vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, co
                         // Calculate moving average to determine filtered current position
                         Point movingPos = averageOfPoints(markersHistory[res.pattern].data());
 
-                        //TODO Change default value '0' to actual rotation.
-                        markers.push_back(detected_marker(res.pattern, newPos, 0));
+                        // Determine rotation
+                        double rotation = (rotatedRect.angle - (int) res.rotation);
+
+                        if (rotation < 0) {
+                            rotation += 360.0;
+                        }
+
+                        markers.push_back(detected_marker(res.pattern, newPos, rotation));
                     }
                 }
             }
@@ -257,11 +265,11 @@ vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, co
 
 match_result detector::findMatchingMarker(const Mat& detectedPattern) const {
     // Calculate all permutations of input pattern
-    vector<Mat> inputPermutations = {
-        detectedPattern,
-        rotateExact(detectedPattern, CLOCKWISE_90),
-        rotateExact(detectedPattern, CLOCKWISE_180),
-        rotateExact(detectedPattern, CLOCKWISE_270)
+    vector<std::pair<exact_angle, Mat>> inputPermutations = {
+        std::make_pair(CLOCKWISE_0, detectedPattern),
+        std::make_pair(CLOCKWISE_90, rotateExact(detectedPattern, CLOCKWISE_90)),
+        std::make_pair(CLOCKWISE_180, rotateExact(detectedPattern, CLOCKWISE_180)),
+        std::make_pair(CLOCKWISE_270, rotateExact(detectedPattern, CLOCKWISE_270))
     };
 
     match_result bestResult;
@@ -269,15 +277,13 @@ match_result detector::findMatchingMarker(const Mat& detectedPattern) const {
     // Find the marker pattern that best matches any rotation of the detected pattern
     for (size_t markerId = 0; markerId < markerPatterns.size(); markerId++) {
         const Mat& marker = markerPatterns[markerId];
-        double score = 0;
 
         for (auto& permutation : inputPermutations) {
-            score = std::max(score, cv::countNonZero(marker == permutation) / 36.0);
-        }
+            double score = cv::countNonZero(marker == permutation.second) / 36.0;
 
-        if (score > bestResult.score) {
-            bestResult.pattern = markerId;
-            bestResult.score = score;
+            if (score > bestResult.score) {
+                bestResult = match_result(markerId, score, permutation.first);
+            }
         }
     }
 
@@ -295,7 +301,7 @@ void detector::loop(const detection_callback& callback) {
     std::clog << "Detector stoppped" << std::endl;
 }
 
-void detector::stop() throw() {
+void detector::stop() {
     keepGoing = false;
 }
 
@@ -387,7 +393,7 @@ Point detector::averageOfPoints(const vector<Point>& points) {
 }
 
 // Source: http://opencv-code.com/quick-tips/how-to-rotate-image-in-opencv/
-Mat detector::rotate(Mat src, double angle) {    
+Mat detector::rotate(Mat src, double angle) {
     int len = std::max(src.cols, src.rows);
     cv::Point2f pt(len / 2.f, len / 2.f);
     cv::Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);
@@ -421,4 +427,6 @@ Mat detector::rotateExact(Mat src, exact_angle angle) {
     }
 
     return result;
+}
+
 }

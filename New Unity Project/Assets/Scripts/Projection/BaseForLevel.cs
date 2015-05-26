@@ -1,9 +1,9 @@
 ﻿//----------------------------------------------------------------------------
 // <copyright file="BaseForLevel.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
-//     
+//
 //     This software is licensed under the terms of the MIT License.
-//     A copy of the license should be included with this software. If not, 
+//     A copy of the license should be included with this software. If not,
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
@@ -11,8 +11,9 @@ namespace Projection
 {
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
+    
 	/// <summary>
-	/// Marks which marker is used for the basis of the level by the meta one 
+	/// Marks which marker is used for the basis of the level by the meta one
 	/// </summary>
     public class BaseForLevel : MonoBehaviour
     {
@@ -33,9 +34,9 @@ namespace Projection
         public long Timestamp { get; set; }
 
 		/// <summary>
-		/// The marked marker has been seen.It does determines by
-		/// determening if this one is now the dominant one if the
-	 	/// other one has not been seen for some time 
+		/// The marked marker has been seen. It determines by
+		/// determining if this marker is now the dominant one if the
+	 	/// other one has not been seen for some time.
 		/// </summary>
         public void Seen()
         {

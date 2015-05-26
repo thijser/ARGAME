@@ -63,3 +63,6 @@ Reports/**/*.pdf
 *.exe
 *.apk
 *.app/
+
+# Generated Documentation
+Reports/Documentation/

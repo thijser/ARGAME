@@ -20,10 +20,20 @@ using std::chrono::milliseconds;
 #include "serversocket.h"
 using namespace mirrors;
 
+/// The port used for the server socket.
 const uint16_t SERVER_PORT = 23369;
 
 /**
 * @brief Entry point of this application.
+*
+* The first argument to the application indicates the
+* camera device ID. If omitted, 0 is used as device ID.
+*
+* The second argument indicates if frames are displayed
+* or not. A non-zero value indicates frames should be
+* displayed, while a value of 0 skips showing the frames.
+* The default value is to show the frames.
+*
 * @param argc - The amount of command-line arguments.
 * @param argv - The command-line argument values.
 * @return The exit code of this application.
