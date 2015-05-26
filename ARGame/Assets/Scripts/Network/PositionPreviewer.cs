@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Network
 {
+    using Assets.Scripts;
     using System;
     using System.Collections.Generic;
     using UnityEngine;
@@ -52,7 +53,7 @@ namespace Network
                 this.LastUpdate = update.TimeStamp;
 
                 // Update orientation of object
-                //Object.SetActive(true);
+                Object.SetEnabled(true);
 
                 Object.transform.position = new Vector3(
                     update.X * ScaleFactor,
@@ -102,6 +103,19 @@ namespace Network
             foreach (var pair in markers)
             {
                 pair.Value.CheckTimeout();
+            }
+        }
+
+        /// <summary>
+        /// Disable all markers until they are detected.
+        /// </summary>
+        public void Start()
+        {
+            var markerObjects = GameObject.FindGameObjectsWithTag("Marker");
+
+            foreach (var marker in markerObjects)
+            {
+                marker.SetEnabled(false);
             }
         }
     }
