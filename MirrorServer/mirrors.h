@@ -6,7 +6,7 @@
 
 /**
  * @namespace mirrors
- * Main namespace of the Mirrors Server.
+ * @brief Main namespace of the Mirrors Server.
  */
 
 /**
