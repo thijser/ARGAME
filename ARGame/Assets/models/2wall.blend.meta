@@ -77,6 +77,20 @@ ModelImporter:
     4300022: Plane
     4300024: Cube_001
     4300026: Cube
+    6400000: Cube
+    6400002: Cube_001
+    6400004: Cube_002
+    6400006: Cube_003
+    6400008: NurbsCurve_001
+    6400010: Plane
+    6400012: Plane_001
+    6400014: Plane_002
+    6400016: Plane_003
+    6400018: Plane_004
+    6400020: Plane_005
+    6400022: Plane_006
+    6400024: Plane_007
+    6400026: SurfCurve
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -100,7 +114,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
