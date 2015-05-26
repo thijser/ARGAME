@@ -33,7 +33,9 @@ namespace Projection
         public long Timestamp { get; set; }
 
 		/// <summary>
-		/// The marked marker has been seen. 
+		/// The marked marker has been seen.It does determines by
+		/// determening if this one is now the dominant one if the
+	 	/// other one has not been seen for some time 
 		/// </summary>
         public void Seen()
         {
