@@ -7,6 +7,10 @@
  *
  */
 
+/**
+ * @file serversocket.h
+ * @brief Defines the mirrors::ServerSocket class.
+ */
 #ifndef MIRRORS_SERVERSOCKET_H
 #define MIRRORS_SERVERSOCKET_H
 

@@ -36,6 +36,9 @@ LIBS += -L$$OPENCV_PATH/lib -lopencv_core -lopencv_imgproc -lopencv_highgui
 INCLUDEPATH += $$OPENCV_PATH/include
 DEPENDPATH += $$OPENCV_PATH/include
 
+# ------- Add dependency for Windows Sockets --------
+win32: LIBS += -lWS2_32
+
 # ----------------- Project sources -----------------
 HEADERS += \
     netlink/config.h \
@@ -54,7 +57,8 @@ HEADERS += \
     netlink/util.inline.h \
     netlink/exception.code.inc \
     serversocket.h \
-    detector.hpp
+    detector.hpp \
+    mirrors.h
 
 SOURCES += \
     main.cpp \
