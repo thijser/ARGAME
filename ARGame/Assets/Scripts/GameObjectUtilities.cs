@@ -11,10 +11,10 @@ namespace Assets.Scripts
         public static void SetEnabled(this GameObject obj, bool enabled)
         {
             // Disable rendering of this component
-            obj.GetComponent<MeshRenderer>().enabled = enabled;
+            obj.GetComponent<Renderer>().enabled = enabled;
 
             // And of its children
-            var subComponents = obj.GetComponentsInChildren<MeshRenderer>();
+            var subComponents = obj.GetComponentsInChildren<Renderer>();
 
             foreach (var renderer in subComponents)
             {
