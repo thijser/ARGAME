@@ -82,13 +82,13 @@ enum exact_angle {
  */
 struct match_result {
     /// Index of known pattern that input was compared against.
-    const int pattern;
+    int pattern;
 
     /// Fraction of bits that were equal (between 0 and 1).
-    const double score;
+    double score;
 
     /// Rotated version of known pattern that was compared.
-    const exact_angle rotation;
+    exact_angle rotation;
 
     /**
      * @brief Creates a new structure describing an input/known pattern comparison.
