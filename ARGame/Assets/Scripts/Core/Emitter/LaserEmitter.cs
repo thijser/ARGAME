@@ -66,6 +66,7 @@ namespace Core.Emitter
         /// </summary>
         public void Update()
         {
+			Debug.Log ("hello");
             this.Clear();
             if (this.Enabled)
             {
