@@ -7,13 +7,19 @@
 *
 */
 
+/**
+ * @file Contains implementation of ringbuffer class.
+ */
+
 #ifndef RINGBUFFER_HPP
 #define RINGBUFFER_HPP
+
+namespace mirrors {
 
 #include <vector>
 
 /**
- * A circular buffer.
+ * @brief A circular buffer.
  *
  * Collection with a maximum capacity where the first inserted item is
  * removed for every newly inserted item once the collection is full.
@@ -63,5 +69,7 @@ private:
     /// Maximum capacity of buffer.
     size_t capacity;
 };
+
+}
 
 #endif
