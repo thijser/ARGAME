@@ -12,6 +12,8 @@
 #include <iostream>
 #include <set>
 
+namespace mirrors {
+
 using std::vector;
 
 namespace hierarchy_members {
@@ -24,7 +26,7 @@ namespace hierarchy_members {
 }
 
 detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
-        : keepGoing(true), cornersHistory(ringbuffer<vector<Point2f>>(CORNER_HISTORY_LENGTH)) {
+    : keepGoing(true), cornersHistory(ringbuffer<vector<Point2f>>(CORNER_HISTORY_LENGTH)) {
     cap.open(captureDevice);
 
     cap.set(CV_CAP_PROP_FRAME_WIDTH, requestedWidth);
@@ -105,7 +107,7 @@ vector<Point2f> detector::getAveragedCorners(const Mat& rawFrame) {
         bottomRight.push_back(corners[3]);
     }
 
-    return {
+    return{
         averageOfPoints(topLeft),
         averageOfPoints(topRight),
         averageOfPoints(bottomLeft),
@@ -150,7 +152,7 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
         corners.push_back(topMarkers[1]); // Top-right
         corners.push_back(bottomMarkers[0]); // Bottom-left
         corners.push_back(bottomMarkers[1]); // Bottom-right
-        
+
         return corners;
     }
 
@@ -208,7 +210,7 @@ vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, co
                 }
 
                 if (bb.x >= 0 && bb.y >= 0 && bb.width > 0 && bb.height > 0
-                        && bb.x + bb.width < marker.size[0] && bb.y + bb.height < marker.size[1]) {
+                    && bb.x + bb.width < marker.size[0] && bb.y + bb.height < marker.size[1]) {
                     Mat codeImage = marker(bb);
 
                     // Turn into grayscale and threshold to find black and white code
@@ -299,7 +301,7 @@ void detector::loop(const detection_callback& callback) {
     std::clog << "Detector stoppped" << std::endl;
 }
 
-void detector::stop() throw() {
+void detector::stop() {
     keepGoing = false;
 }
 
@@ -391,7 +393,7 @@ Point detector::averageOfPoints(const vector<Point>& points) {
 }
 
 // Source: http://opencv-code.com/quick-tips/how-to-rotate-image-in-opencv/
-Mat detector::rotate(Mat src, double angle) {    
+Mat detector::rotate(Mat src, double angle) {
     int len = std::max(src.cols, src.rows);
     cv::Point2f pt(len / 2.f, len / 2.f);
     cv::Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);
@@ -425,4 +427,6 @@ Mat detector::rotateExact(Mat src, exact_angle angle) {
     }
 
     return result;
+}
+
 }
