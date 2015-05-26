@@ -212,24 +212,50 @@ vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, co
                     if (res.score > 0.5f) {
                         // Create ringbuffer to store marker position history
                         if (markersHistory.find(res.pattern) == markersHistory.end()) {
-                            markersHistory[res.pattern] = ringbuffer<Point>(MARKER_HISTORY_LENGTH);
+                            markersHistory[res.pattern] = std::make_pair(ringbuffer<Point>(MARKER_HISTORY_LENGTH), ringbuffer<double>(MARKER_HISTORY_LENGTH));
+                        }
+
+                        // Add new rotation
+                        double newRot = (rotatedRect.angle - (int) res.rotation);
+
+                        if (newRot < 0) {
+                            newRot += 360.0;
                         }
 
                         // Add new position
                         auto newPos = Point(brect.x + roi.x + bb.x, brect.y + roi.y + bb.y);
-                        markersHistory[res.pattern].add(newPos);
+
+                        markersHistory[res.pattern].first.add(newPos);
+                        markersHistory[res.pattern].second.add(newRot);
 
                         // Calculate moving average to determine filtered current position
-                        Point movingPos = averageOfPoints(markersHistory[res.pattern].data());
+                        Point movingPos = averageOfPoints(markersHistory[res.pattern].first.data());
+                        double movingRot = average(markersHistory[res.pattern].second.data());
 
-                        // Determine rotation
-                        double rotation = (rotatedRect.angle - (int) res.rotation);
+                        // If current position is significantly different than average, then discard previous locations
+                        double dx = newPos.x - movingPos.x;
+                        double dy = newPos.y - movingPos.y;
+                        double d = sqrt(dx * dx + dy * dy);
 
-                        if (rotation < 0) {
-                            rotation += 360.0;
+                        if (d > 10) {
+                            for (int i = 0; i < MARKER_HISTORY_LENGTH; i++) {
+                                markersHistory[res.pattern].first.add(newPos);
+                            }
+                            movingPos = newPos;
                         }
 
-                        markers.push_back(detected_marker(res.pattern, newPos, rotation));
+                        // If current angle is significantly different than average, then discard previous angles
+                        // The second case here is for comparing angles like 359 and 0
+                        double angDiff = std::min(std::abs(movingRot - newRot), std::abs(movingRot - newRot - 360));
+                        
+                        if (angDiff > 10) {
+                            for (int i = 0; i < MARKER_HISTORY_LENGTH; i++) {
+                                markersHistory[res.pattern].second.add(newRot);
+                            }
+                            movingRot = newRot;
+                        }
+                        
+                        markers.push_back(detected_marker(res.pattern, movingPos, movingRot));
                     }
                 }
             }
@@ -366,6 +392,16 @@ Point detector::averageOfPoints(const vector<Point>& points) {
     sum.y = sum.y / points.size();
 
     return sum;
+}
+
+double detector::average(const vector<double>& vals) {
+    double sum = 0;
+
+    for (double n : vals) {
+        sum += n;
+    }
+
+    return sum / vals.size();
 }
 
 // Source: http://opencv-code.com/quick-tips/how-to-rotate-image-in-opencv/

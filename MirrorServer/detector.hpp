@@ -26,7 +26,7 @@
 namespace mirrors {
 
 /// Amount of frames to average for marker positions.
-const int MARKER_HISTORY_LENGTH = 5;
+const int MARKER_HISTORY_LENGTH = 15;
 
 using cv::Mat;
 using cv::Point;
@@ -169,7 +169,7 @@ private:
     vector<Point2f> boardCorners;
 
     /// History of marker positions.
-    std::unordered_map<int, ringbuffer<Point>> markersHistory;
+    std::unordered_map<int, std::pair<ringbuffer<Point>, ringbuffer<double>>> markersHistory;
 
     /**
      * @brief Capture a frame from the camera and return it.
@@ -235,6 +235,13 @@ private:
      * @return Point with average X and Y of specified points.
      */
     static Point averageOfPoints(const vector<Point>& points);
+
+    /**
+     * @brief Calculate average of given numbers.
+     * @param vals - Collection of values to calculate average from.
+     * @return Average value of given numbers.
+     */
+    static double average(const vector<double>& vals);
 
     /**
      * @brief Rotate image by arbitrary angle.
