@@ -26,7 +26,7 @@ namespace hierarchy_members {
 }
 
 detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
-    : keepGoing(true), cornersHistory(ringbuffer<vector<Point2f>>(CORNER_HISTORY_LENGTH)) {
+    : keepGoing(true) {
     cap.open(captureDevice);
 
     cap.set(CV_CAP_PROP_FRAME_WIDTH, requestedWidth);
@@ -55,7 +55,7 @@ void detector::detect(const detection_callback& callback) {
     // Capture image from camera
     Mat frame = capture();
 
-    auto corners = getAveragedCorners(frame);
+    auto corners = getCorners(frame);
 
     if (corners.size() == 4) {
         Mat correctedFrame = correctPerspective(frame, corners);
@@ -82,37 +82,13 @@ void detector::detect(const detection_callback& callback) {
     }
 }
 
-vector<Point2f> detector::getAveragedCorners(const Mat& rawFrame) {
-    // Detect corners of current frame and add them to the history
-    auto newCorners = findCorners(rawFrame);
-    if (newCorners.size() == 4) {
-        cornersHistory.add(newCorners);
+vector<Point2f> detector::getCorners(const Mat& rawFrame) {
+    if (boardCorners.size() == 4) {
+        return boardCorners;
+    } else {
+        boardCorners = findCorners(rawFrame);
+        return boardCorners;
     }
-
-    // Keep history of last <cornerMovingAverageHistory> corners
-    if (cornersHistory.size() == 0) {
-        return vector<Point2f>();
-    }
-
-    // Calculate average for each corner and return it
-    vector<Point> topLeft;
-    vector<Point> topRight;
-    vector<Point> bottomLeft;
-    vector<Point> bottomRight;
-
-    for (auto& corners : cornersHistory.data()) {
-        topLeft.push_back(corners[0]);
-        topRight.push_back(corners[1]);
-        bottomLeft.push_back(corners[2]);
-        bottomRight.push_back(corners[3]);
-    }
-
-    return{
-        averageOfPoints(topLeft),
-        averageOfPoints(topRight),
-        averageOfPoints(bottomLeft),
-        averageOfPoints(bottomRight)
-    };
 }
 
 vector<Point2f> detector::findCorners(const Mat& rawFrame) const {

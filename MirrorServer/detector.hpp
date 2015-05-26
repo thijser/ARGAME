@@ -25,9 +25,6 @@
 
 namespace mirrors {
 
-/// Amount of frames to average for corner positions.
-const int CORNER_HISTORY_LENGTH = 30;
-
 /// Amount of frames to average for marker positions.
 const int MARKER_HISTORY_LENGTH = 5;
 
@@ -169,7 +166,7 @@ private:
     vector<Mat> markerPatterns;
 
     /// History of corner positions.
-    ringbuffer<vector<Point2f>> cornersHistory;
+    vector<Point2f> boardCorners;
 
     /// History of marker positions.
     std::unordered_map<int, ringbuffer<Point>> markersHistory;
@@ -181,11 +178,11 @@ private:
     Mat capture();
 
     /**
-     * @brief Update moving average of board corner positions with new frame and return new values.
+     * @brief Returns found corners or searches for them.
      * @param rawFrame - Newly captured frame.
      * @return Positions of four board corners or empty collection if none were found so far.
      */
-    vector<Point2f> getAveragedCorners(const Mat& rawFrame);
+    vector<Point2f> getCorners(const Mat& rawFrame);
 
     /**
      * @brief Find the positions of the four board corners in the specified frame.
