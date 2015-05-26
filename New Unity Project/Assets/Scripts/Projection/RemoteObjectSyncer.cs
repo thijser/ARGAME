@@ -13,7 +13,9 @@ namespace Projection
     using System.Diagnostics.CodeAnalysis;
     using Network;
     using UnityEngine;
-
+	/// <summary>
+	/// Synchronizes the location of an object between remote => local.
+	/// </summary>
     public class RemoteObjectSyncer : MonoBehaviour
     {
         /// <summary>
@@ -23,7 +25,9 @@ namespace Projection
         public List<GameObject> RegisterObjectsOnStartup;
 
         private Dictionary<int, GameObject> objectTable;
-
+		/// <summary>
+		/// what to do when an update has been received from the socket.
+		/// </summary>
         public void OnPositionUpdate(PositionUpdate update)
         {
             Debug.Log("received:" + update.ToString());
@@ -36,12 +40,17 @@ namespace Projection
             Transform transToMove = toMove.GetComponent<Transform>();
             transToMove.localPosition = new Vector3(update.X, 0, update.Y);
         }
-
+		/// <summary>
+		/// registers a new object with a given id. 
+		/// </summary>
         public void RegisterObject(int id, GameObject obj)
         {
             this.objectTable.Add(id, obj);
         }
-
+		
+		/// <summary>
+		/// loads the list of object into the dictionary. 
+		/// </summary>
         public void Start()
         {
             this.objectTable = new Dictionary<int, GameObject>();

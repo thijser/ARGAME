@@ -11,7 +11,9 @@ namespace Projection
 {
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
-
+	/// <summary>
+	/// Marks which marker is used for the basis of the level by the meta one 
+	/// </summary>
     public class BaseForLevel : MonoBehaviour
     {
         /// <summary>
@@ -30,6 +32,9 @@ namespace Projection
         /// </summary>
         public long Timestamp { get; set; }
 
+		/// <summary>
+		/// The marked marker has been seen. 
+		/// </summary>
         public void Seen()
         {
             this.Timestamp = Time.frameCount;
