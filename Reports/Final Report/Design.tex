@@ -173,7 +173,17 @@
 			by just looking at the marker that was placed near them). As such,
 			a different solution had to be found.
 			
-			The final solution is the solution that is used right now. 
+			The final solution is the solution that is used right now. Instead of 
+			relying on Unity for the networking functionality, we decided to 
+			combine this problem with another issue we came across regarding 
+			the detection and synchronisation of marker locations. This solution
+			was to deploy a server, written in C++, that uses OpenCV to detect 
+			the markers. This also allows us full control over the detection and 
+			manipulation of object transformations in Unity, as this was causing 
+			issues with both the Meta One SDK as well as Vuforia.
+			
+			The OpenCV server makes use of a single camera to detect marker locations.
+			These locations are then sent to all clients over a socket connection.
 			%TODO: Check this part, and write about OpenCV.
 			%      Also include the class diagram and a piece about the OpenCV server.
 					
