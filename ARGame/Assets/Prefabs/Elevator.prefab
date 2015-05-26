@@ -111,6 +111,7 @@ GameObject:
   - 33: {fileID: 3319910}
   - 23: {fileID: 2346856}
   - 114: {fileID: 11412654}
+  - 64: {fileID: 6448018}
   m_Layer: 0
   m_Name: higherMirror_001
   m_TagString: Untagged
@@ -162,7 +163,7 @@ GameObject:
   - 4: {fileID: 478858}
   - 95: {fileID: 9509692}
   m_Layer: 0
-  m_Name: elevator1to2
+  m_Name: Elevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,6 +344,7 @@ GameObject:
   - 33: {fileID: 3311992}
   - 23: {fileID: 2303320}
   - 114: {fileID: 11485862}
+  - 64: {fileID: 6478184}
   m_Layer: 0
   m_Name: LowerMirror
   m_TagString: Untagged
@@ -1601,6 +1603,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 120542}
   m_Mesh: {fileID: 4300032, guid: e30f220edba6c9a439c02a6977ad9d81, type: 3}
+--- !u!64 &6448018
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145834}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_Mesh: {fileID: 4300036, guid: e30f220edba6c9a439c02a6977ad9d81, type: 3}
+--- !u!64 &6478184
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 182490}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_Mesh: {fileID: 4300042, guid: e30f220edba6c9a439c02a6977ad9d81, type: 3}
 --- !u!95 &9509692
 Animator:
   serializedVersion: 3
