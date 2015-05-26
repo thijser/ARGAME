@@ -8,7 +8,7 @@
 // </copyright>
 //----------------------------------------------------------------------------
 namespace Projection
-{
+{	
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using Network;
@@ -23,6 +23,7 @@ namespace Projection
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public List<GameObject> RegisterObjectsOnStartup;
+		public GameObject levelMarker; 
 
         private Dictionary<int, GameObject> objectTable;
 		/// <summary>
@@ -60,7 +61,8 @@ namespace Projection
                 i++;
                 this.objectTable.Add(i, go);
                 Transform transGo = go.GetComponent<Transform>();
-                transGo.SetParent(transform.parent, false);
+				Transform parent = levelMarker.GetComponent<Transform>();
+				transGo.SetParent(parent, false);
             }
         }
     }
