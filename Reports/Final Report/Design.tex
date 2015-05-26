@@ -184,9 +184,18 @@
 			
 			The OpenCV server makes use of a single camera to detect marker locations.
 			These locations are then sent to all clients over a socket connection.
-			%TODO: Check this part, and write about OpenCV.
-			%      Also include the class diagram and a piece about the OpenCV server.
-					
+			This solution makes it easier to synchronize object positions between users
+			because all gameplay activities take place in a predefined area on a table,
+			and the users need only look at a single marker to be able to see the 
+			entire scene. 
+			
+			%TODO: Add the class diagram for the Network namespace.
+			\begin{figure}[ht]
+				\includegraphics[width=\textwidth]{ClassDiagramNetwork}
+				\caption{Class diagram of the Network namespace}
+				\label{fig:classdiagramnetwork}
+			\end{figure}
+			
 		\subsection{The Projection namespace} \label{ssec:projectionnamespace}
 			%TODO: Write about projection namespace.
 			%      Also include the class diagram.
