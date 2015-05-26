@@ -8,7 +8,8 @@
 */
 
 /**
-* @file Contains implementation of classes and structures
+* @file detector.hpp
+* @brief Contains implementation of classes and structures
 * used for camera marker detection.
 */
 

@@ -8,7 +8,8 @@
 */
 
 /**
- * @file Contains implementation of ringbuffer class.
+ * @file ringbuffer.hpp
+ * @brief Contains implementation of mirrors::ringbuffer.
  */
 
 #ifndef RINGBUFFER_HPP
