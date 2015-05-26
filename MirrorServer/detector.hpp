@@ -43,24 +43,26 @@ struct detected_marker {
 
 typedef std::function<void(const Mat&, vector<detected_marker>)> detection_callback;
 
+enum exact_angle {
+    CLOCKWISE_0 = 0,
+    CLOCKWISE_90 = 90,
+    CLOCKWISE_180 = 180,
+    CLOCKWISE_270 = 270
+};
+
 struct match_result {
     int pattern;
     double score;
+    exact_angle rotation;
 
-    match_result(int pattern = 0, double score = 0)
-        : pattern(pattern), score(score) {}
+    match_result(int pattern = 0, double score = 0, exact_angle rotation = CLOCKWISE_0)
+        : pattern(pattern), score(score), rotation(rotation) {}
 };
 
 struct marker_locations {
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
     vector<size_t> candidates;
-};
-
-enum exact_angle {
-    CLOCKWISE_90,
-    CLOCKWISE_180,
-    CLOCKWISE_270
 };
 
 class detector {
