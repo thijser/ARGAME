@@ -268,21 +268,28 @@
 			laser beams from the emitters by mirrors (as the laser beams have to
 			travel through a portal in order to be able to hit the target),
 			therefore forcing the players to redirect laser beams to portals.
-			A portal is depicted in \ref{fig:portal}
+			A portal is depicted in \ref{fig:portal}. It looks like a 
+			recolored mirror. It has one black side and one green side. The 
+			black side is the side that allows laser beams to travel through 
+			it to the portal linked to it. The green side blocks laser beams completely.
 			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.3]{Portal}
-				\caption{An in-game picture of the portal. It looks like a 
-				recolored mirror, but has different functionality. It has one
-				black side and one green side. The black side is the side
-				that allows laser beams to travel through it to the portal
-				linked to it. The green side blocks laser beams completely.}
+				\caption{The portal.}
 				\label{fig:portal}
 			\end{figure}
 		\subsection{Lens splitter} \label{ssec:splitter}
 			The lens splitter is another advanced game object. It splits incoming
 			laser beams into two, creating two separate laser beams that each go
-			a different way. 
+			a different way. This allows creation of another laser beam without
+			another emitter, which allows hitting of multiple targets, for
+			example. A lens splitter is depicted in \ref{fig:lenssplitter}.
+			\begin{figure}[!ht]
+				\centering
+				\includegraphics[scale = 0.3]{LensSplitter}
+				\caption{The lens splitter.}
+				\label{fig:lenssplitter}
+			\end{figure}
 		\subsection{Planned game objects that didn't make it} \label{ssec:planned}
 			There were some ideas for game objects that did not make the
 			final cut. For example, there were plans to use AND- and OR-gates
