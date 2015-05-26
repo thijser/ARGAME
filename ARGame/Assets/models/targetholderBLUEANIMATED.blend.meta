@@ -192,7 +192,7 @@ ModelImporter:
     4300068: Circle_001
     4300070: Circle
     4300072: Cube_003
-    7400000: Default Take
+    7400000: Open
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -209,7 +209,109 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Open
+      takeName: Default Take
+      firstFrame: 0
+      lastFrame: 79
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BezierCircle
+        weight: 1
+      - path: BezierCircle/Circle_001
+        weight: 1
+      - path: BezierCircle/Circle_008
+        weight: 1
+      - path: BezierCircle/Circle_012
+        weight: 1
+      - path: BezierCircle_001
+        weight: 1
+      - path: BezierCircle_001/Circle_002
+        weight: 1
+      - path: BezierCircle_002
+        weight: 1
+      - path: BezierCircle_002/Circle_003
+        weight: 1
+      - path: BezierCircle_002/Circle_006
+        weight: 1
+      - path: BezierCircle_002/Circle_011
+        weight: 1
+      - path: BezierCircle_003
+        weight: 1
+      - path: BezierCircle_003/Circle_004
+        weight: 1
+      - path: BezierCircle_003/Circle_005
+        weight: 1
+      - path: BezierCircle_003/Circle_010
+        weight: 1
+      - path: BezierCircle_004
+        weight: 1
+      - path: BezierCircle_004/Circle_007
+        weight: 1
+      - path: BezierCircle_004/Circle_009
+        weight: 1
+      - path: BezierCircle_005
+        weight: 1
+      - path: BezierCircle_005/Circle_013
+        weight: 1
+      - path: BezierCircle_005/Circle_014
+        weight: 1
+      - path: BezierCircle_006
+        weight: 1
+      - path: BezierCircle_006/Circle_015
+        weight: 1
+      - path: BezierCircle_006/Circle_016
+        weight: 1
+      - path: BezierCircle_006/Circle_017
+        weight: 1
+      - path: BezierCircle_007
+        weight: 1
+      - path: BezierCircle_007/Circle_018
+        weight: 1
+      - path: BezierCircle_007/Circle_019
+        weight: 1
+      - path: BezierCircle_007/Circle_020
+        weight: 1
+      - path: BezierCircle_008
+        weight: 1
+      - path: BezierCircle_008/Circle_021
+        weight: 1
+      - path: BezierCircle_009
+        weight: 1
+      - path: BezierCircle_009/Circle_022
+        weight: 1
+      - path: BezierCircle_009/Circle_023
+        weight: 1
+      - path: BezierCircle_009/Circle_024
+        weight: 1
+      - path: Circle
+        weight: 1
+      - path: Circle_025
+        weight: 1
+      - path: Cube_003
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
