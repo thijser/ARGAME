@@ -22,7 +22,7 @@ namespace Network
         /// <summary>
         /// Time in milliseconds before 
         /// </summary>
-        public const long TimeoutTime = 3000;
+        public const long TimeoutTime = 500;
 
         /// <summary>
         /// The factor with which to scale the position.
@@ -37,35 +37,40 @@ namespace Network
         /// <summary>
         /// State of detected marker.
         /// </summary>
-        private struct MarkerState
+        private class MarkerState
         {
-            GameObject Object { get; set; }
-            long LastUpdate { get; set; }
+            public int ID;
+            public GameObject Object { get; private set; }
+            public DateTime LastUpdate { get; private set; }
 
             public MarkerState(PositionUpdate initialUpdate)
             {
+                this.ID = initialUpdate.ID;
                 this.Object = GameObject.Find("Marker" + initialUpdate.ID);
-                this.LastUpdate = initialUpdate.TimeStamp;
+                this.LastUpdate = new DateTime();
             }
 
             public void Update(PositionUpdate update)
             {
-                this.LastUpdate = update.TimeStamp;
+                this.LastUpdate = DateTime.Now;
 
                 // Update orientation of object
-                Object.SetEnabled(true);
+                this.Object.SetEnabled(true);
 
-                Object.transform.position = new Vector3(
+                this.Object.transform.position = new Vector3(
                     update.X * ScaleFactor,
                     0,
                     VerticalOffset - (update.Y * ScaleFactor));
 
-                Object.transform.eulerAngles = new Vector3(0, update.Rotation, 0);
+                this.Object.transform.eulerAngles = new Vector3(0, update.Rotation, 0);
             }
 
             public void CheckTimeout()
             {
-                // TODO: Implement
+                if ((DateTime.Now - LastUpdate).TotalMilliseconds > TimeoutTime)
+                {
+                    this.Object.SetEnabled(false);
+                }
             }
         }
 
