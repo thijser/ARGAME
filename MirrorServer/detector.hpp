@@ -7,6 +7,12 @@
 *
 */
 
+/**
+* @file detector.hpp
+* @brief Contains implementation of classes and structures
+* used for camera marker detection.
+*/
+
 #ifndef DETECTOR_HPP
 #define DETECTOR_HPP
 
@@ -72,7 +78,7 @@ enum exact_angle {
 };
 
 /**
- * Result of matching input pattern with known pattern.
+ * @brief Result of matching input pattern with known pattern.
  */
 struct match_result {
     /// Index of known pattern that input was compared against.
