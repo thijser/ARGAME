@@ -21,13 +21,9 @@ namespace Projection
         /// The time the base marker may be missing before another marker is used.
         /// </summary>
         public const int Patience = 10;
-		/// <summary>
-		/// identifier used by this object.
-		/// </summary>
-        /// <summary>
-        /// The GameObject to use as a base point.
-        /// </summary>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+
+
+		[SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
 
         /// <summary>
         /// Gets or sets the time stamp for this BaseForLevel instance.
