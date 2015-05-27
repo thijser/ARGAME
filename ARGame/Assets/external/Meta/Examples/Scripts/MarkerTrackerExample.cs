@@ -26,16 +26,15 @@ public class MarkerTrackerExample : MonoBehaviour
     /// </summary>
     private void LateUpdate()
     {
-
         //enable marker gameObject (disbaled by default)
         if (!markerdetectorGO.activeSelf)
         {
             markerdetectorGO.SetActive(true);
         }
-
         Transform newTransform = this.transform;
         if (MarkerDetector.Instance != null)
         {
+			Debug.Log("seeing" + MarkerDetector.Instance.GetNumberOfVisibleMarkers()+ "markers");
             if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(id))
                 MarkerDetector.Instance.GetMarkerTransform(id, ref newTransform);
         }

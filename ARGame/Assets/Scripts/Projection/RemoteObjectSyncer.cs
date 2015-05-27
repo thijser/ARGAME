@@ -25,7 +25,7 @@ namespace Projection
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public List<GameObject> RegisterObjectsOnStartup;
 		public GameObject levelMarker; 
-
+		public float scale; 
         /// <summary>
         /// The Dictionary containing the ID to GameObject mappings.
         /// </summary>
@@ -38,6 +38,7 @@ namespace Projection
         public void OnPositionUpdate(PositionUpdate update)
         {
             Debug.Log("received:" + update.ToString());
+
             if (!this.objectTable.ContainsKey(update.ID))
             {
                 throw new KeyNotFoundException("ID of not yet registered object");
@@ -45,7 +46,8 @@ namespace Projection
 
             GameObject toMove = this.objectTable[update.ID];
             Transform transToMove = toMove.GetComponent<Transform>();
-            transToMove.localPosition = new Vector3(update.X, 0, update.Y);
+          	Transform par= levelMarker.GetComponent<Transform>();
+			transToMove.position= new Vector3(update.X*scale, 0, update.Y*scale)+par.position;
         }
 
 		/// <summary>
