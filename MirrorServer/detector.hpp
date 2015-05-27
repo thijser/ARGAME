@@ -75,7 +75,7 @@ struct detected_marker {
     const int id;
 
     /// X and Y position on the board
-    const Point position;
+    const Point2f position;
 
     /// Yaw rotation of marker
     const float rotation;
@@ -86,7 +86,7 @@ struct detected_marker {
      * @param position - Position of marker.
      * @param rotation - Yaw rotation of marker.
      */
-    detected_marker(int id, Point position, float rotation)
+    detected_marker(int id, Point2f position, float rotation)
         : id(id), position(position), rotation(rotation) {
     }
 };
@@ -230,9 +230,6 @@ private:
     /// Positions of corner positions.
     vector<Point2f> boardCorners;
 
-    /// History of marker positions.
-    std::unordered_map<int, std::pair<ringbuffer<Point>, ringbuffer<double>>> markersHistory;
-
     /// Latest state of markers.
     vector<marker_state> markerStates;
 
@@ -290,14 +287,6 @@ private:
     vector<detected_marker> trackMarkers(const Mat& correctedFrame, const marker_locations& data);
 
     /**
-     * @brief Recognise the patterns of potential markers.
-     * @param correctedFrame - Image as returned by correctPerspective().
-     * @param data - Marker detection results from locateMarkers().
-     * @return Collection of detected markers and patterns.
-     */
-    vector<detected_marker> recognizeMarkers(const Mat& correctedFrame, const marker_locations& data);
-
-    /**
      * @brief Recognise the pattern of the marker described by the given contour.
      * @param correctedFrame - Image as returned by correctPerspective().
      * @param contour - Contour describing the marker in the image.
@@ -312,13 +301,6 @@ private:
      * @return Best matching known pattern and rotation of it.
      */
     match_result findMatchingMarker(const Mat& detectedPattern) const;
-
-    /**
-     * @brief Calculate average of given points.
-     * @param points - Collection of points to calculate average from.
-     * @return Point with average X and Y of specified points.
-     */
-    static Point averageOfPoints(const vector<Point>& points);
 
     /**
      * @brief Calculate average of given numbers.
@@ -336,11 +318,11 @@ private:
     static double dist(const Point& a, const Point& b);
 
     /**
-     * @brief Calculate the center of a marker given the contour.
+     * @brief Calculate the center of the bounding box given the contour.
      * @param contour - The contour that represents the shape of the marker.
-     * @return The center point of the marker depicted by the contour.
+     * @return The center point of the bounding box from the contour.
      */
-    static Point markerCenter(const vector<Point>& contour);
+    static Point boundingCenter(const vector<Point>& contour);
 
     /**
      * @brief Rotate image by arbitrary angle.

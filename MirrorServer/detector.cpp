@@ -100,7 +100,7 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
     vector<Point> markerPoints;
 
     for (auto& points : contours) {
-        markerPoints.push_back(averageOfPoints(points));
+        markerPoints.push_back(boundingCenter(points));
     }
 
     if (contours.size() == 4) {
@@ -131,7 +131,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
         auto& contour = data.contours[contourId];
 
         // Determine position of marker
-        Point center = markerCenter(contour);
+        Point center = boundingCenter(contour);
 
         // Find closest previously seen marker
         marker_state* closestMarker = nullptr;
@@ -211,7 +211,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
 
     for (auto& marker : markerStates) {
         if (marker.recognition_state.id != -1) {
-            detectedMarkers.push_back(detected_marker(marker.recognition_state.id, marker.pos, marker.rotation));
+            detectedMarkers.push_back(detected_marker(marker.recognition_state.id, marker.pos, static_cast<float>(marker.rotation)));
         }
     }
 
@@ -357,7 +357,13 @@ Mat detector::capture() {
 }
 
 Mat detector::correctPerspective(const Mat& rawFrame, const vector<Point2f>& corners) const {
-    static Point2f dst[] = {Point2f(0, 0), Point2f(width, 0), Point2f(0, height), Point2f(width, height)};
+    static Point2f dst[] = {
+        Point(0, 0),
+        Point(width, 0),
+        Point(0, height),
+        Point(width, height)
+    };
+
     Mat m = getPerspectiveTransform(corners.data(), dst);
 
     Mat tmp, output;
@@ -424,26 +430,13 @@ marker_locations detector::locateMarkers(const Mat& thresholdedFrame) const {
     return data;
 }
 
-Point detector::averageOfPoints(const vector<Point>& points) {
-    Point sum;
-
-    for (auto& p : points) {
-        sum += p;
-    }
-
-    sum.x = sum.x / points.size();
-    sum.y = sum.y / points.size();
-
-    return sum;
-}
-
 double detector::dist(const Point& a, const Point& b) {
     double dx = a.x - b.x;
     double dy = a.y - b.y;
     return std::sqrt(dx * dx + dy * dy);
 }
 
-Point detector::markerCenter(const vector<Point>& contour) {
+Point detector::boundingCenter(const vector<Point>& contour) {
     auto rect = cv::boundingRect(contour);
     return Point(rect.x + rect.width / 2, rect.y + rect.height / 2);
 }
