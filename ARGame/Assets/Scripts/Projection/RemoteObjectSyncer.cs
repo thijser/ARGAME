@@ -69,12 +69,13 @@ namespace Projection
             int i = 0;
             foreach (GameObject go in this.RegisterObjectsOnStartup)
             {
-                i++;
+                
                 this.objectTable.Add(i, go);
                 Transform transGo = go.GetComponent<Transform>();
 				Transform parent = levelMarker.GetComponent<Transform>();
 				transGo.SetParent(parent, false);
-            }
+				i++;
+			}
         }
     }
 }
