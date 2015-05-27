@@ -39,6 +39,29 @@ using cv::VideoCapture;
 using std::vector;
 
 /**
+ * @brief Information about a recognised pattern in a marker.
+ */
+struct recognition_result {
+    /// Index of recognised pattern.
+    int id;
+
+    /// Recognition confidence score [0, 1].
+    double confidence;
+
+    /// Yaw rotation of marker.
+    double rotation;
+
+    /**
+     * @brief Creates a new structure describing a recognised pattern.
+     * @param id - Index of recognised pattern or -1 if none recognised.
+     * @param confidence - Confidence score of recognition (only defined for id != -1).
+     * @param rotation - Rotation of marker containing pattern (only defined for id != 1).
+     */
+    recognition_result(int id = -1, double confidence = 0, double rotation = 0)
+        : id(id), confidence(confidence), rotation(rotation) {}
+};
+
+/**
  * @brief Information about a detected marker.
  */
 struct detected_marker {
@@ -113,14 +136,27 @@ struct marker_locations {
     vector<size_t> candidates;
 };
 
+/**
+ * @brief Information about detected marker.
+ */
 struct marker_state {
+    /// Unique ID of marker.
     int id;
 
+    /// Pattern recognised in marker.
+    recognition_result recognition_state;
+
+    /// Last known position of marker.
     Point pos;
 
+    /// Timestamp of last known position.
     clock_t lastSighting;
 
-    marker_state() : id(-1), pos(Point(-1000, -1000)), lastSighting(clock()) {}
+    /**
+     * @brief Creates a structure describing a marker that hasn't been detected yet.
+     */
+    marker_state()
+        : id(-1), pos(Point(-1000, -1000)), lastSighting(clock()) {}
 };
 
 /**
@@ -244,6 +280,14 @@ private:
      * @return Collection of detected markers and patterns.
      */
     vector<detected_marker> recognizeMarkers(const Mat& correctedFrame, const marker_locations& data);
+
+    /**
+     * @brief Recognise the pattern of the marker described by the given contour.
+     * @param correctedFrame - Image as returned by correctPerspective().
+     * @param contour - Contour describing the marker in the image.
+     * @return Best matching pattern, confidence and rotation of marker.
+     */
+    recognition_result recognizeMarker(const Mat& correctedFrame, const vector<Point>& contour) const;
 
     /**
      * @brief Find the pattern that best matches the given input pattern
