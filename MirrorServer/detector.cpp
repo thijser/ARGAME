@@ -156,15 +156,11 @@ void detector::trackMarkers(const Mat& correctedFrame, const marker_locations& d
         if (closestMarker != nullptr && dist(center, closestMarker->pos) < 100) {
             closestMarker->pos = center;
             closestMarker->lastSighting = clock();
-
-            std::cout << "new position for existing marker " << center.x << ", " << center.y << " (id = " << closestMarker->id << ")" << std::endl;
         } else {
             marker_state newMarker;
             newMarker.id = nextId++;
             newMarker.pos = center;
             markerStates.push_back(newMarker);
-
-            std::cout << "new marker! (id = " << newMarker.id << ")" << std::endl;
         }
     }
 
@@ -177,7 +173,6 @@ void detector::trackMarkers(const Mat& correctedFrame, const marker_locations& d
 
         for (size_t i = 0; i < markerStates.size(); i++) {
             if (now - markerStates[i].lastSighting > CLOCKS_PER_SEC / 2) {
-                std::cout << "removing marker because of timeout (id = " << markerStates[i].id << ")" << std::endl;
                 markerStates.erase(markerStates.begin() + i);
                 done = false;
                 break;

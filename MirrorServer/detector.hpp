@@ -182,12 +182,11 @@ private:
     /// History of marker positions.
     std::unordered_map<int, std::pair<ringbuffer<Point>, ringbuffer<double>>> markersHistory;
 
-    /// Latest state of markers
+    /// Latest state of markers.
     vector<marker_state> markerStates;
 
+    /// ID reserved for the next newly detected marker.
     int nextId = 0;
-
-    void trackMarkers(const Mat& correctedFrame, const marker_locations& data);
 
     /**
      * @brief Capture a frame from the camera and return it.
@@ -232,6 +231,13 @@ private:
     marker_locations locateMarkers(const Mat& thresholdedFrame) const;
 
     /**
+    * @brief Track previously seen markers in the new frame and update their state.
+    * @param correctedFrame - Image as returned by correctPerspective().
+    * @param data - Marker detection results from locateMarkers().
+    */
+    void trackMarkers(const Mat& correctedFrame, const marker_locations& data);
+
+    /**
      * @brief Recognise the patterns of potential markers.
      * @param correctedFrame - Image as returned by correctPerspective().
      * @param data - Marker detection results from locateMarkers().
@@ -261,8 +267,19 @@ private:
      */
     static double average(const vector<double>& vals);
 
+    /**
+     * @brief Calculate Euclidean distance between two points.
+     * @param a - First point.
+     * @param b - Second point.
+     * @return Euclidean distance between the first and second point.
+     */
     static double dist(const Point& a, const Point& b);
 
+    /**
+     * @brief Calculate the center of a marker given the contour.
+     * @param contour - The contour that represents the shape of the marker.
+     * @return The center point of the marker depicted by the contour.
+     */
     static Point markerCenter(const vector<Point>& contour);
 
     /**
