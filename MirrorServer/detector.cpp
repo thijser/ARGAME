@@ -64,20 +64,8 @@ void detector::detect(const detection_callback& callback) {
         // Use thresholded image to locate marker candidates
         auto data = locateMarkers(thresholdedFrame);
 
-        // Recognize markers using codes
-        auto markers = recognizeMarkers(correctedFrame, data);
-
         // Track markers
-        trackMarkers(correctedFrame, data);
-
-        // Build collection of marker positions
-        vector<Point> markerPositions;
-
-        for (int contourIndex : data.candidates) {
-            // Calculate center of marker
-            vector<Point> contour = data.contours[contourIndex];
-            markerPositions.push_back(averageOfPoints(contour));
-        }
+        auto markers = trackMarkers(correctedFrame, data);
 
         callback(correctedFrame, markers);
     } else {
@@ -138,7 +126,7 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
     return vector<Point2f>();
 }
 
-void detector::trackMarkers(const Mat& correctedFrame, const marker_locations& data) {
+vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const marker_locations& data) {
     for (size_t contourId : data.candidates) {
         auto& contour = data.contours[contourId];
 
@@ -155,19 +143,29 @@ void detector::trackMarkers(const Mat& correctedFrame, const marker_locations& d
         }
 
         // If there is one within a certain distance, assume it's the same marker
-        if (closestMarker != nullptr && dist(center, closestMarker->pos) < 100) {
+        if (closestMarker != nullptr && dist(center, closestMarker->pos) <= MARKER_MAX_FRAME_DIST) {
             closestMarker->pos = center;
             closestMarker->lastSighting = clock();
 
-            std::cout << "existing marker with new pos (id = " << closestMarker->id << ", pattern = " << closestMarker->recognition_state.id << ")" << std::endl;
-        } else {
-            marker_state newMarker;
-            newMarker.id = nextId++;
-            newMarker.recognition_state = recognizeMarker(correctedFrame, contour);
-            newMarker.pos = center;
-            markerStates.push_back(newMarker);
+            auto newRecognition = recognizeMarker(correctedFrame, contour);
 
-            std::cout << "new marker with id = " << newMarker.id << " and pattern = " << newMarker.recognition_state.id << std::endl;
+            // If the same pattern is still detected, update the recognized rotation
+            if (newRecognition.id == closestMarker->recognition_state.id) {
+                closestMarker->rotation = newRecognition.rotation;
+            }
+
+            // If the new recognition has a higher confidence, replace the old one with it
+            if (newRecognition.confidence > closestMarker->recognition_state.confidence) {
+                closestMarker->recognition_state = newRecognition;
+            }
+        } else {
+            // Create initial marker state
+            marker_state newMarker;
+
+            newMarker.id = nextId++;
+            newMarker.pos = center;
+
+            markerStates.push_back(newMarker);
         }
     }
 
@@ -186,6 +184,17 @@ void detector::trackMarkers(const Mat& correctedFrame, const marker_locations& d
             }
         }
     }
+
+    // Build list of updated marker data
+    vector<detected_marker> detectedMarkers;
+
+    for (auto& marker : markerStates) {
+        if (marker.recognition_state.id != -1) {
+            detectedMarkers.push_back(detected_marker(marker.recognition_state.id, marker.pos, marker.rotation));
+        }
+    }
+
+    return detectedMarkers;
 }
 
 recognition_result detector::recognizeMarker(const Mat& correctedFrame, const vector<Point>& contour) const {
@@ -276,136 +285,6 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
 
     // No pattern recognised
     return recognition_result(-1, 0, 0);
-}
-
-vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, const marker_locations& data) {
-    vector<detected_marker> markers;
-
-    for (int contourId : data.candidates) {
-        auto brect = cv::boundingRect(data.contours[contourId]);
-
-        cv::RotatedRect rotatedRect = cv::minAreaRect(data.contours[contourId]);
-
-        Mat marker = correctedFrame(brect);
-        marker = rotate(marker, rotatedRect.angle);
-
-        // Cut off border
-        int w = static_cast<int>(rotatedRect.size.width) - 20;
-        int h = static_cast<int>(rotatedRect.size.height) - 20;
-
-        if (w > 7 && h > 7 && w <= marker.size[0] && h <= marker.size[1] && w > 0 && h > 0) {
-            cv::Rect roi;
-            roi.x = marker.size[0] / 2 - w / 2;
-            roi.y = marker.size[1] / 2 - h / 2;
-            roi.width = w;
-            roi.height = h;
-            marker = marker(roi);
-
-            // Threshold for grayish area to find black/white region
-            Mat markerParts[3];
-            split(marker, markerParts);
-
-            Mat mask = ~(markerParts[1] > 50 & (markerParts[1] > markerParts[2]) & (markerParts[1] > markerParts[0] * 1.2));
-
-            vector<vector<Point>> contours;
-            cv::findContours(mask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
-
-            if (contours.size() > 0) {
-                size_t largestPoints = 0;
-                cv::Rect bb;
-
-                for (auto& contour : contours) {
-                    if (contour.size() > largestPoints) {
-                        largestPoints = contour.size();
-                        bb = cv::boundingRect(contour);
-
-                        if (bb.width > 3 && bb.height > 3) {
-                            bb.x += 3;
-                            bb.y += 3;
-                            bb.width -= 6;
-                            bb.height -= 6;
-                        }
-                    }
-                }
-
-                if (bb.x >= 0 && bb.y >= 0 && bb.width > 0 && bb.height > 0
-                    && bb.x + bb.width < marker.size[0] && bb.y + bb.height < marker.size[1]) {
-                    Mat codeImage = marker(bb);
-
-                    // Turn into grayscale and threshold to find black and white code
-                    Mat codeImageGray, thresholdedCode, downsizedCode;
-                    cv::cvtColor(codeImage, codeImageGray, CV_BGR2GRAY);
-                    cv::resize(codeImageGray, downsizedCode, Size(6, 6), 0, 0, cv::INTER_LINEAR);
-
-                    int avgPixel = 0;
-
-                    for (int i = 0; i < 6; i++) {
-                        for (int j = 0; j < 6; j++) {
-                            avgPixel += downsizedCode.at<uint8_t>(i, j);
-                        }
-                    }
-
-                    avgPixel /= 36;
-
-                    cv::threshold(downsizedCode, thresholdedCode, avgPixel, 255, 0);
-
-                    // Find marker pattern with closest distance
-                    match_result res = findMatchingMarker(thresholdedCode);
-
-                    if (res.score > 0.5f) {
-                        // Create ringbuffer to store marker position history
-                        if (markersHistory.find(res.pattern) == markersHistory.end()) {
-                            markersHistory[res.pattern] = std::make_pair(ringbuffer<Point>(MARKER_HISTORY_LENGTH), ringbuffer<double>(MARKER_HISTORY_LENGTH));
-                        }
-
-                        // Add new rotation
-                        double newRot = (rotatedRect.angle - (int) res.rotation);
-
-                        if (newRot < 0) {
-                            newRot += 360.0;
-                        }
-
-                        // Add new position
-                        auto newPos = Point(brect.x + roi.x + bb.x, brect.y + roi.y + bb.y);
-
-                        markersHistory[res.pattern].first.add(newPos);
-                        markersHistory[res.pattern].second.add(newRot);
-
-                        // Calculate moving average to determine filtered current position
-                        Point movingPos = averageOfPoints(markersHistory[res.pattern].first.data());
-                        double movingRot = average(markersHistory[res.pattern].second.data());
-
-                        // If current position is significantly different than average, then discard previous locations
-                        double dx = newPos.x - movingPos.x;
-                        double dy = newPos.y - movingPos.y;
-                        double d = sqrt(dx * dx + dy * dy);
-
-                        if (d > 10) {
-                            for (int i = 0; i < MARKER_HISTORY_LENGTH; i++) {
-                                markersHistory[res.pattern].first.add(newPos);
-                            }
-                            movingPos = newPos;
-                        }
-
-                        // If current angle is significantly different than average, then discard previous angles
-                        // The second case here is for comparing angles like 359 and 0
-                        double angDiff = std::min(std::abs(movingRot - newRot), std::abs(movingRot - newRot - 360));
-                        
-                        if (angDiff > 10) {
-                            for (int i = 0; i < MARKER_HISTORY_LENGTH; i++) {
-                                markersHistory[res.pattern].second.add(newRot);
-                            }
-                            movingRot = newRot;
-                        }
-                        
-                        markers.push_back(detected_marker(res.pattern, movingPos, movingRot));
-                    }
-                }
-            }
-        }
-    }
-
-    return markers;
 }
 
 match_result detector::findMatchingMarker(const Mat& detectedPattern) const {

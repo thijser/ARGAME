@@ -29,6 +29,9 @@ namespace mirrors {
 /// Amount of frames to average for marker positions.
 const int MARKER_HISTORY_LENGTH = 15;
 
+/// Maximum distance a marker can move per frame before it's considered a new marker.
+const double MARKER_MAX_FRAME_DIST = 100;
+
 using cv::Mat;
 using cv::Point;
 using cv::Point2f;
@@ -148,6 +151,9 @@ struct marker_state {
 
     /// Last known position of marker.
     Point pos;
+
+    /// Last known rotation of marker.
+    double rotation;
 
     /// Timestamp of last known position.
     clock_t lastSighting;
@@ -270,8 +276,9 @@ private:
     * @brief Track previously seen markers in the new frame and update their state.
     * @param correctedFrame - Image as returned by correctPerspective().
     * @param data - Marker detection results from locateMarkers().
+    * @return Updated marker states.
     */
-    void trackMarkers(const Mat& correctedFrame, const marker_locations& data);
+    vector<detected_marker> trackMarkers(const Mat& correctedFrame, const marker_locations& data);
 
     /**
      * @brief Recognise the patterns of potential markers.
