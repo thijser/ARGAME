@@ -144,9 +144,11 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
 
         // If there is one within a certain distance, assume it's the same marker
         if (closestMarker != nullptr && dist(center, closestMarker->pos) <= MARKER_MAX_FRAME_DIST) {
+            closestMarker->velocity = dist(closestMarker->pos, center);
+
             closestMarker->pos = center;
             closestMarker->lastSighting = clock();
-
+            
             auto newRecognition = recognizeMarker(correctedFrame, contour);
 
             // If the same pattern is still detected, update the recognized rotation
@@ -154,9 +156,12 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
                 closestMarker->rotation = newRecognition.rotation;
             }
 
-            // If the new recognition has a higher confidence, replace the old one with it
-            if (newRecognition.confidence > closestMarker->recognition_state.confidence) {
-                closestMarker->recognition_state = newRecognition;
+            // Only use new recognition to update state if motion blur influence is low.
+            if (closestMarker->velocity <= MARKER_MAX_RECOGNITION_VELOCITY) {
+                // If the new recognition has a higher confidence, replace the old one with it
+                if (newRecognition.confidence >= closestMarker->recognition_state.confidence) {
+                    closestMarker->recognition_state = newRecognition;
+                }
             }
         } else {
             // Create initial marker state

@@ -30,7 +30,10 @@ namespace mirrors {
 const int MARKER_HISTORY_LENGTH = 15;
 
 /// Maximum distance a marker can move per frame before it's considered a new marker.
-const double MARKER_MAX_FRAME_DIST = 100;
+const double MARKER_MAX_FRAME_DIST = 200;
+
+/// Maximum speed before recognition of marker pattern is disabled (pixels/frame)
+const double MARKER_MAX_RECOGNITION_VELOCITY = 15;
 
 using cv::Mat;
 using cv::Point;
@@ -154,6 +157,9 @@ struct marker_state {
 
     /// Last known rotation of marker.
     double rotation;
+
+    /// Last known velocity of marker (pixels/frame).
+    double velocity;
 
     /// Timestamp of last known position.
     clock_t lastSighting;
