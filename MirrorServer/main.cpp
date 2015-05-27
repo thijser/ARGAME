@@ -24,6 +24,16 @@ using namespace mirrors;
 const uint16_t SERVER_PORT = 23369;
 
 /**
+ * Dummy function for handling SIGPIPE, required
+ * to stop server crashes on a broken pipe (non-Windows).
+ */
+void handle_sigpipe(int) {
+#ifdef DEBUG
+    clog << "DEBUG: Received SIGPIPE: " << endl;
+#endif
+}
+
+/**
 * @brief Entry point of this application.
 *
 * The first argument to the application indicates the
@@ -39,6 +49,8 @@ const uint16_t SERVER_PORT = 23369;
 * @return The exit code of this application.
 */
 int main(int argc, char **argv) {
+    signal(SIGPIPE, handle_sigpipe);
+
     int deviceID = 0;
     bool showFrames = true;
     if (argc > 1) {

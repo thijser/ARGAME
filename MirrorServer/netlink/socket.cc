@@ -25,6 +25,8 @@
 #include <cstring>
 #include <cstdio>
 
+#include <sys/socket.h>
+
 #ifndef OS_WIN32
 #include <unistd.h>
 #endif
@@ -489,10 +491,10 @@ void Socket::sendTo(const void* buffer, size_t size, const string& hostTo, unsig
     }
 
     size_t sentBytes = 0;
-
+    status = 0;
+    const char *charBuffer = static_cast<const char*>(buffer);
     while(sentBytes < size) {
-
-        int status = ::sendto(_socketHandler, (const char*)buffer + sentBytes, size - sentBytes, 0, res->ai_addr, res->ai_addrlen);
+        status = ::sendto(_socketHandler, charBuffer + sentBytes, size - sentBytes, 0, res->ai_addr, res->ai_addrlen);
 
         if(status == -1)
             throw Exception(Exception::ERROR_SEND, "Socket::sendTo: could not send the data", getSocketErrorCode());
@@ -577,10 +579,9 @@ void Socket::send(const void* buffer, size_t size) {
     size_t sentData = 0;
 
     while (sentData < size) {
+        int status = ::send(_socketHandler, ((const char*)buffer) + sentData, size - sentData, 0);
 
-        int status = ::send(_socketHandler, (const char*)buffer + sentData, size - sentData, 0);
-
-        if(status == -1)
+        if(status < 0)
             throw Exception(Exception::ERROR_SEND, "Error sending data", getSocketErrorCode());
 
         sentData += status;

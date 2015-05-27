@@ -61,6 +61,7 @@ void ServerSocket::run() throw (NL::Exception, std::logic_error) {
             Socket *client = sock->accept(2000);
             socketMutex.unlock();
             if (client != NULL) {
+                clog << "Added client: " << client->hostTo() << endl;
                 clients.add(client);
             }
         } catch (const NL::Exception &ex) {
@@ -77,13 +78,12 @@ void ServerSocket::run() throw (NL::Exception, std::logic_error) {
 }
 
 void ServerSocket::broadcastMessage(const void *buffer, int length) {
-
     for (uint16_t i = 0; i < clients.size(); i++) {
+        Socket *client = clients.get(i);
         try {
-            clients.get(i)->send(buffer, length);
+            client->send(buffer, length);
         } catch (const NL::Exception &ex) {
-            clog << "Exception in send to client: " << ex.what()
-                 << " (error code: " << ex.nativeErrorCode() << ")" << endl;
+            clog << "Removed client: " << client->hostTo() << " (reason: " << ex.msg() << ")" << endl;
             clients.remove(i);
         }
     }

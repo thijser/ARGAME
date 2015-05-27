@@ -18,6 +18,7 @@ CONFIG  -= qt
 # We're building a simple console application,
 # and we want c++11 functionality.
 CONFIG  += console c++11
+CONFIG(debug): DEFINES += DEBUG
 
 # NetLink also uses .inc as include file extension
 # We tell QMake to treat .inc files as header files.
