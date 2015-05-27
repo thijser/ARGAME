@@ -24,12 +24,10 @@ namespace Projection
 		/// <summary>
 		/// identifier used by this object.
 		/// </summary>
-		public int id;
         /// <summary>
         /// The GameObject to use as a base point.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public GameObject Basepoint;
 
         /// <summary>
         /// Gets or sets the time stamp for this BaseForLevel instance.
@@ -44,13 +42,21 @@ namespace Projection
         public void Seen()
         {
             this.Timestamp = Time.frameCount;
-            UsedCardManager holder = this.Basepoint.GetComponent<UsedCardManager>();
-            if (holder.CurrentlyUsed.Timestamp + Patience < this.Timestamp)
+
+            UsedCardManager holder = this.GetComponentInParent<UsedCardManager>();
+            if(holder==null){
+				return;
+			}
+			if (holder.CurrentlyUsed.Timestamp + Patience < this.Timestamp)
             {
+				Destroy(holder);
                 Transform p = transform.parent;
                 transform.parent = null;
                 p.parent = this.transform;
-                holder.CurrentlyUsed = this;
+				gameObject.AddComponent<UsedCardManager>(); 
+				UsedCardManager newHolder=gameObject.GetComponent<UsedCardManager>();
+				newHolder.CurrentlyUsed=this;
+
             }
         }
     }
