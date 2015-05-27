@@ -67,6 +67,9 @@ void detector::detect(const detection_callback& callback) {
         // Recognize markers using codes
         auto markers = recognizeMarkers(correctedFrame, data);
 
+        // Track markers
+        trackMarkers(correctedFrame, data);
+
         // Build collection of marker positions
         vector<Point> markerPositions;
 
@@ -133,6 +136,54 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
     }
 
     return vector<Point2f>();
+}
+
+void detector::trackMarkers(const Mat& correctedFrame, const marker_locations& data) {
+    for (size_t contourId : data.candidates) {
+        // Determine position of marker
+        Point center = markerCenter(data.contours[contourId]);
+
+        // Find closest previously seen marker
+        marker_state* closestMarker = nullptr;
+
+        for (auto& state : markerStates) {
+            if (closestMarker == nullptr || dist(center, state.pos) < dist(center, closestMarker->pos)) {
+                closestMarker = &state;
+            }
+        }
+
+        // If there is one within a certain distance, assume it's the same marker
+        if (closestMarker != nullptr && dist(center, closestMarker->pos) < 100) {
+            closestMarker->pos = center;
+            closestMarker->lastSighting = clock();
+
+            std::cout << "new position for existing marker " << center.x << ", " << center.y << " (id = " << closestMarker->id << ")" << std::endl;
+        } else {
+            marker_state newMarker;
+            newMarker.id = nextId++;
+            newMarker.pos = center;
+            markerStates.push_back(newMarker);
+
+            std::cout << "new marker! (id = " << newMarker.id << ")" << std::endl;
+        }
+    }
+
+    // Clean up markers that haven't been seen in a while (500 ms)
+    clock_t now = clock();
+    bool done = false;
+
+    while (!done) {
+        done = true;
+
+        for (size_t i = 0; i < markerStates.size(); i++) {
+            if (now - markerStates[i].lastSighting > CLOCKS_PER_SEC / 2) {
+                std::cout << "removing marker because of timeout (id = " << markerStates[i].id << ")" << std::endl;
+                markerStates.erase(markerStates.begin() + i);
+                done = false;
+                break;
+            }
+        }
+    }
 }
 
 vector<detected_marker> detector::recognizeMarkers(const Mat& correctedFrame, const marker_locations& data) {
@@ -392,6 +443,29 @@ Point detector::averageOfPoints(const vector<Point>& points) {
     sum.y = sum.y / points.size();
 
     return sum;
+}
+
+double detector::dist(const Point& a, const Point& b) {
+    double dx = a.x - b.x;
+    double dy = a.y - b.y;
+    return std::sqrt(dx * dx + dy * dy);
+}
+
+Point detector::markerCenter(const vector<Point>& contour) {
+    int minX = INT_MAX;
+    int minY = INT_MAX;
+    int maxX = INT_MIN;
+    int maxY = INT_MIN;
+
+    for (auto& p : contour) {
+        minX = std::min(minX, p.x);
+        minY = std::min(minY, p.y);
+
+        maxX = std::max(maxX, p.x);
+        maxY = std::max(maxY, p.y);
+    }
+
+    return Point((minX + maxX) / 2, (minY + maxY) / 2);
 }
 
 double detector::average(const vector<double>& vals) {

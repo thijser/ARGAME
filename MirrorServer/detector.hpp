@@ -21,6 +21,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <functional>
 #include <unordered_map>
+#include <ctime>
 #include "ringbuffer.hpp"
 
 namespace mirrors {
@@ -112,6 +113,16 @@ struct marker_locations {
     vector<size_t> candidates;
 };
 
+struct marker_state {
+    int id;
+
+    Point pos;
+
+    clock_t lastSighting;
+
+    marker_state() : id(-1), pos(Point(-1000, -1000)), lastSighting(clock()) {}
+};
+
 /**
  * @brief Detector of markers from a camera image given known patterns.
  */
@@ -165,11 +176,18 @@ private:
     /// Marker 6x6 patterns.
     vector<Mat> markerPatterns;
 
-    /// History of corner positions.
+    /// Positions of corner positions.
     vector<Point2f> boardCorners;
 
     /// History of marker positions.
     std::unordered_map<int, std::pair<ringbuffer<Point>, ringbuffer<double>>> markersHistory;
+
+    /// Latest state of markers
+    vector<marker_state> markerStates;
+
+    int nextId = 0;
+
+    void trackMarkers(const Mat& correctedFrame, const marker_locations& data);
 
     /**
      * @brief Capture a frame from the camera and return it.
@@ -242,6 +260,10 @@ private:
      * @return Average value of given numbers.
      */
     static double average(const vector<double>& vals);
+
+    static double dist(const Point& a, const Point& b);
+
+    static Point markerCenter(const vector<Point>& contour);
 
     /**
      * @brief Rotate image by arbitrary angle.
