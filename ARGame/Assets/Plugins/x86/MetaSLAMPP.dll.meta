@@ -1,14 +1,6 @@
 fileFormatVersion: 2
-guid: d40e2583707dc704b9c3f702f2f53b91
-PluginImporter:
-  serializedVersion: 1
-  iconMap: {}
-  executionOrder: {}
-  isPreloaded: 0
-  platformData:
-    Any:
-      enabled: 1
-      settings: {}
+guid: bd2598970c65924469f69cb140fd46bc
+DefaultImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
