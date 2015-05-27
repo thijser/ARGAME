@@ -83,6 +83,9 @@ vector<Point2f> detector::getCorners(const Mat& rawFrame) {
 }
 
 vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
+    // Give camera time to warm up before starting detection
+    if (clock() - startTime < CLOCKS_PER_SEC) return vector<Point2f>();
+
     // Threshold on red
     Mat frameParts[3];
     split(rawFrame, frameParts);

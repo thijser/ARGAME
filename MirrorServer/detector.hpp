@@ -236,6 +236,9 @@ private:
     /// ID reserved for the next newly detected marker.
     int nextId = 0;
 
+    /// Time since detection start
+    clock_t startTime = clock();
+
     /**
      * @brief Capture a frame from the camera and return it.
      * @return New frame from the camera.
