@@ -25,9 +25,8 @@
 #include <cstring>
 #include <cstdio>
 
+#ifndef WIN32
 #include <sys/socket.h>
-
-#ifndef OS_WIN32
 #include <unistd.h>
 #endif
 

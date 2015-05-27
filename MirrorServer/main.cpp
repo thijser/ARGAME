@@ -49,7 +49,9 @@ void handle_sigpipe(int) {
 * @return The exit code of this application.
 */
 int main(int argc, char **argv) {
+#ifndef WIN32
     signal(SIGPIPE, handle_sigpipe);
+#endif
 
     int deviceID = 0;
     bool showFrames = true;
