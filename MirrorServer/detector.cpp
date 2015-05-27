@@ -153,7 +153,23 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
 
             // If the same pattern is still detected, update the recognized rotation
             if (newRecognition.id == closestMarker->recognition_state.id) {
-                closestMarker->rotation = newRecognition.rotation;
+                double newRot = newRecognition.rotation;
+                closestMarker->rotations.add(newRot);
+
+                double movingRot = average(closestMarker->rotations.data());
+
+                // If current angle is significantly different than average, then discard previous angles
+                // The second case here is for comparing angles like 359 and 0
+                double angDiff = std::min(std::abs(movingRot - newRot), std::abs(movingRot - newRot - 360));
+
+                if (angDiff > 10) {
+                    for (int i = 0; i < MARKER_HISTORY_LENGTH; i++) {
+                        closestMarker->rotations.add(newRot);
+                    }
+                    movingRot = newRot;
+                }
+                
+                closestMarker->rotation = movingRot;
             }
 
             // Only use new recognition to update state if motion blur influence is low.

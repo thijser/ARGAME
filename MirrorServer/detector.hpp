@@ -30,7 +30,7 @@ namespace mirrors {
 const int MARKER_HISTORY_LENGTH = 15;
 
 /// Maximum distance a marker can move per frame before it's considered a new marker.
-const double MARKER_MAX_FRAME_DIST = 200;
+const double MARKER_MAX_FRAME_DIST = 50;
 
 /// Maximum speed before recognition of marker pattern is disabled (pixels/frame)
 const double MARKER_MAX_RECOGNITION_VELOCITY = 15;
@@ -155,7 +155,10 @@ struct marker_state {
     /// Last known position of marker.
     Point pos;
 
-    /// Last known rotation of marker.
+    /// Last known rotations of marker.
+    ringbuffer<double> rotations;
+
+    /// Moving averaged rotation of marker.
     double rotation;
 
     /// Last known velocity of marker (pixels/frame).
@@ -168,7 +171,7 @@ struct marker_state {
      * @brief Creates a structure describing a marker that hasn't been detected yet.
      */
     marker_state()
-        : id(-1), pos(Point(-1000, -1000)), lastSighting(clock()) {}
+        : id(-1), pos(Point(-1000, -1000)), rotations(ringbuffer<double>(MARKER_HISTORY_LENGTH)), lastSighting(clock()) {}
 };
 
 /**
