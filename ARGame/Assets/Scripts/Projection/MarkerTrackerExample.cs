@@ -1,6 +1,7 @@
 ﻿using Meta;
 using UnityEngine;
 using System.Collections;
+using Projection;
 
 public class MarkerTrackerExample : MonoBehaviour
 {
@@ -35,8 +36,13 @@ public class MarkerTrackerExample : MonoBehaviour
         if (MarkerDetector.Instance != null)
         {
 			Debug.Log("seeing" + MarkerDetector.Instance.GetNumberOfVisibleMarkers()+ "markers");
-            if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(id))
+            if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(id)){
                 MarkerDetector.Instance.GetMarkerTransform(id, ref newTransform);
+				BaseForLevel bfl;
+				if((bfl= newTransform.gameObject.GetComponent<BaseForLevel>())!=null){
+					bfl.Seen();
+				}
+			}
         }
     }
 
