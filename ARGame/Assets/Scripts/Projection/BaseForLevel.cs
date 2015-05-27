@@ -24,7 +24,6 @@ namespace Projection
 		/// <summary>
 		/// identifier used by this object.
 		/// </summary>
-		public int id;
         /// <summary>
         /// The GameObject to use as a base point.
         /// </summary>
