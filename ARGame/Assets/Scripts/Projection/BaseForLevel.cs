@@ -21,7 +21,10 @@ namespace Projection
         /// The time the base marker may be missing before another marker is used.
         /// </summary>
         public const int Patience = 10;
-
+		/// <summary>
+		/// identifier used by this object.
+		/// </summary>
+		public int id;
         /// <summary>
         /// The GameObject to use as a base point.
         /// </summary>

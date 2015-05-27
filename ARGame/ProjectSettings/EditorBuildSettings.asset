@@ -9,3 +9,5 @@ EditorBuildSettings:
     path: Assets/Scenes/experiments/buildtest.unity
   - enabled: 1
     path: Assets/Scenes/Experiments/MetaNetworktests.unity
+  - enabled: 1
+    path: Assets/Scenes/Experiments/MetaNetworktests.unity
