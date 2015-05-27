@@ -91,7 +91,7 @@
 				\caption{The use cases for the local player.}
 				\label{fig:localusecase}
 			\end{figure}
-		% TODO add some use case diagrams?
+		%TODO add some use case diagrams?
 
 	\section{Back-end design} \label{sec:backenddesign}
 		The system is composed of three main parts: The Laser mechanics, the network
@@ -127,20 +127,25 @@
 			
 			The Core namespace is further subdivided into three namespaces:
 			the Core namespace itself, which contains code relating to the laser
-			and code that helps the other two namespaces, the Core.Emitter
-			namespace, which contains code for objects that emit laser beams,
-			and the Code.Receiver namespace, which contains code for objects that
-			receive laser beams and have to do something with these beams.
-			There are several game objects that emit laser beams as well as receive
-			them (as seen in \ref{sec:graphicaldesign}). This causes the
-			Core.Emitter and Core.Receiver namespaces to have some coupling.
-			However, the coupling is minor, and coupling is only between
-			sub-namespaces in the same main namespace. As such, this should 
-			not cause that much of a problem, when considered in a software
-			engineering context.
+			and code that helps the other two namespaces, the 
+			\texttt{Core.Emitter} namespace, which contains code for objects 
+			that emit laser beams, and the \texttt{Code.Receiver} namespace, 
+			which contains code for objects that receive laser beams and have to 
+			do something with these beams.
 			
-			%TODO: Write about core namespace.
-			%      Also include the class diagram.
+			There are several game objects that emit laser beams as well as 
+			receive them (as seen in \ref{sec:graphicaldesign}). This causes the
+			\texttt{Core.Emitter} and \texttt{Core.Receiver} namespaces to have 
+			some coupling. However, the coupling is minor, and coupling is only 
+			between sub-namespaces in the same main namespace. As such, this 
+			should not cause that much of a problem, when considered in a 
+			software engineering context.
+			
+			\begin{figure}[ht]
+				\includegraphics[width=\textwidth]{ClassDiagramCore}
+				\caption{Class diagram of the Core namespace}
+				\label{fig:classdiagramcore}
+			\end{figure}
 			
 		\subsection{The Network namespace} \label{ssec:networknamespace}
 			The Network namespace has undergone several changes since the start
@@ -212,7 +217,7 @@
 		The following sections display and describe the graphics used in
 		the gameplay elements, as well as the function of
 		these elements.
-		% TODO Explain why we chose this graphics style
+		%TODO Explain why we chose this graphics style
 		
 		\subsection{Laser target} \label{ssec:lasertarget}
 			The laser target is the main target of the game. It consists of
@@ -299,6 +304,7 @@
 				\caption{An elevator}
 				\label{fig:elevator}
 			\end{figure}
+			
 		\subsection{Portal} \label{ssec:portal}
 			The portal is a more advanced game object. It allows light that travels 
 			into it to travel out of the portal it is linked to, and vice versa. This
@@ -316,6 +322,7 @@
 				\caption{The portal.}
 				\label{fig:portal}
 			\end{figure}
+			
 		\subsection{Lens splitter} \label{ssec:splitter}
 			The lens splitter is another advanced game object. It splits incoming
 			laser beams into two, creating two separate laser beams that each go
@@ -332,6 +339,7 @@
 				\caption{The lens splitter.}
 				\label{fig:lenssplitter}
 			\end{figure}
+			
 		\subsection{Planned game objects that didn't make it} \label{ssec:planned}
 			There were some ideas for game objects that did not make the
 			final cut. For example, there were plans to use AND- and OR-gates
@@ -347,6 +355,7 @@
 			about them with our coach after the first demo, we concluded that
 			these objects would not add much more to the game, and as such,
 			development on them was scrapped.
+			
 	\section{Level design} \label{sec:leveldesign}
 		Levels are designed to be simple at first, requiring little collaboration,
 		while getting progressively harder, as well as introducing more and more
