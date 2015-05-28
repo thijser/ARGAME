@@ -241,11 +241,21 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
         roi.height = h;
         marker = marker(roi);
 
-        // Threshold for grayish area to find black/white region
+        // Threshold for non-green area to find black/white region
         Mat markerParts[3];
         split(marker, markerParts);
 
-        Mat mask = ~(markerParts[1] > 50 & (markerParts[1] > markerParts[2]) & (markerParts[1] > markerParts[0] * 1.2));
+        Mat mask;
+        if (approach == SEGMENTATION_FAINT_GREEN) {
+            mask = ~(markerParts[1] > 50 & (markerParts[1] > markerParts[2]) & (markerParts[1] > markerParts[0]));
+
+            Mat maskClean;
+            auto kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+            erode(mask, maskClean, kernel);
+            dilate(maskClean, mask, kernel);
+        } else {
+            mask = ~(markerParts[1] > 50 & (markerParts[1] > markerParts[2]) & (markerParts[1] > markerParts[0] * 1.2));
+        }
 
         vector<vector<Point>> contours;
         cv::findContours(mask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
@@ -386,11 +396,17 @@ Mat detector::thresholdGreen(const Mat& correctedFrame) const {
     Mat greenThreshold, blueThreshold;
     inRange(frameParts[1], cv::Scalar(50), cv::Scalar(255), greenThreshold);
 
-    Mat rawThreshold = greenThreshold & (frameParts[1] > frameParts[2]) & (frameParts[1] > frameParts[0] * 1.2);
+    Mat rawThreshold, kernel;
+    if (approach == SEGMENTATION_FAINT_GREEN) {
+        rawThreshold = greenThreshold & (frameParts[1] > frameParts[2]) & (frameParts[1] > frameParts[0]);
+        kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(10, 10));
+    } else {
+        rawThreshold = greenThreshold & (frameParts[1] > frameParts[2]) & (frameParts[1] > frameParts[0] * 1.2);
+        kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+    }
 
     // Clean up thresholded image by eroding noise and dilating to remove holes
     Mat tmp, cleanThreshold;
-    auto kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
     erode(rawThreshold, tmp, kernel);
 
     auto kernel2 = getStructuringElement(cv::MORPH_RECT, cv::Size(10, 10));

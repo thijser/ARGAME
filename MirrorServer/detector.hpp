@@ -35,6 +35,16 @@ const double MARKER_MAX_FRAME_DIST = 50;
 /// Maximum speed before recognition of marker pattern is disabled (pixels/frame)
 const double MARKER_MAX_RECOGNITION_VELOCITY = 15;
 
+/**
+* Type of technique used to detect marker green.
+*/
+enum segmentation_approach {
+    SEGMENTATION_SOLID,
+    SEGMENTATION_FAINT_GREEN
+};
+
+const segmentation_approach approach = SEGMENTATION_FAINT_GREEN;
+
 using cv::Mat;
 using cv::Point;
 using cv::Point2f;
