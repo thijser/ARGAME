@@ -113,9 +113,9 @@
 		the game world to the VR glasses. The layout of this namespace is discussed in
 		paragraph \ref{ssec:projectionnamespace}.
 		
-		Additionally, the game depends on the deployment of a server application written
-		in C++. The purpose of this server application will be discussed in
-		\ref{ssec:networknamespace}.
+		Additionally, the game depends on the deployment of a server application
+		written in C++. The purpose of this server application will be discussed 
+		along with the Network namespace in \ref{ssec:networknamespace}.
 		
 		\subsection{The Core namespace} \label{ssec:corenamespace}
 			The Core namespace contains all the code for all the core gameplay
@@ -201,8 +201,40 @@
 			\end{figure}
 			
 		\subsection{The Projection namespace} \label{ssec:projectionnamespace}
-			%TODO: Write about projection namespace.
-			%      Also include the class diagram.
+			The Projection namespace is responsible for projecting the 
+			world to the Meta One glasses. It takes care of detecting 
+			markers in the playing area and projects all objects relative
+			to those markers. 
+			
+			The main responsibility, fixing the projection to the Meta One 
+			glasses, is partly taken care of by the Meta SDK. However, the 
+			Meta SDK moves and rotates all game objects to fit the actual 
+			position and rotation of the Meta One. Due to the limited field 
+			of vision of the Meta One glasses, not all markers can be seen at 
+			the same time. In order to ensure the game objects and 
+			corresponding laser beams still appear at the correct positions,
+			the Network namespace provides relative positions and rotations for 
+			all game markers in the playing area (also see paragraph 
+			\ref{ssec:networknamespace}). The Projection namespace then uses
+			this information to place the objects in correct positions relative
+			to any marker detected by the Meta SDK. This ensures that all objects
+			remain visible and in the correct locations, as long as the Meta SDK 
+			tracks at least a single marker.
+			
+			Note that even if the marker cannot be detected temporarily, there 
+			is only a slight error in the locations of objects. This is due to 
+			the use of SLAM localization for tracking markers. See the paragraph
+			about SLAM localization (\ref{ssec:slamloc}) for details on how SLAM 
+			localization works.
+			
+			See figure \ref{fig:classdiagramprojection} for the class diagram for 
+			the Projection namespace.
+			
+			\begin{figure}[ht]
+				\includegraphics[width=\textwidth]{ClassDiagramProjection}
+				\caption{Class diagram of the Projection namespace}
+				\label{fig:classdiagramprojection}
+			\end{figure}
 
 	\section{Game elements} \label{sec:graphicaldesign}
 		For designing the 3D models, we used Blender. Blender is a free application

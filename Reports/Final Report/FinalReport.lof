@@ -2,20 +2,22 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {1.1}{\ignorespaces Scrum.}}{3}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces The use cases for the remote player.}}{8}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces The use cases for the local player.}}{9}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Class diagram of the Core namespace}}{10}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Class diagram of the Network namespace}}{11}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces The laser target.}}{12}
-\contentsline {figure}{\numberline {2.6}{\ignorespaces A mirror.}}{13}
-\contentsline {figure}{\numberline {2.7}{\ignorespaces A wall.}}{13}
-\contentsline {figure}{\numberline {2.8}{\ignorespaces The emitter.}}{14}
-\contentsline {figure}{\numberline {2.9}{\ignorespaces An elevator}}{14}
-\contentsline {figure}{\numberline {2.10}{\ignorespaces The portal.}}{15}
-\contentsline {figure}{\numberline {2.11}{\ignorespaces The lens splitter.}}{16}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces The use cases for the remote player.}}{9}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces The use cases for the local player.}}{10}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Class diagram of the Core namespace}}{11}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Class diagram of the Network namespace}}{13}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Class diagram of the Projection namespace}}{14}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces The laser target.}}{15}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces A mirror.}}{15}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces A wall.}}{15}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces The emitter.}}{16}
+\contentsline {figure}{\numberline {2.10}{\ignorespaces An elevator}}{17}
+\contentsline {figure}{\numberline {2.11}{\ignorespaces The portal.}}{17}
+\contentsline {figure}{\numberline {2.12}{\ignorespaces The lens splitter.}}{18}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces A pair of META One glasses.}}{17}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces A pair of META One glasses.}}{20}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces A SonarQube overview.}}{23}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
