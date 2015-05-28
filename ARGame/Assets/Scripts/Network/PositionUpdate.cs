@@ -10,28 +10,48 @@
 namespace Network
 {
     using System;
-	using UnityEngine;
+
+	/// <summary>
+	/// Indicates the type of the PositionUpdate message.
+	/// </summary>
+	public enum UpdateType 
+	{
+		/// <summary>
+		/// Indicates the position of the object is updated.
+		/// </summary>
+		Update = 0,
+
+		/// <summary>
+		/// Indicates the object is removed from the field.
+		/// </summary>
+		Delete = 1
+	}
+
     /// <summary>
     /// Represents an update of a marker position.
     /// </summary>
-	public class PositionUpdate
+    public class PositionUpdate
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Network.PositionUpdate"/> class.
         /// </summary>
+		/// <param name="type">The type of the PositionUpdate.</param> 
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
         /// <param name="rotation">The rotation.</param> 
         /// <param name="id">The unique ID of the marker.</param>
         /// <param name="timestamp">The timestamp of the update.</param>
-        public PositionUpdate(float x, float y, float rotation, int id, long timestamp)
+        public PositionUpdate(UpdateType type, float x, float y, float rotation, int id, long timestamp)
         {
+			this.Type = type;
             this.X = x;
             this.Y = y;
             this.Rotation = rotation;
             this.ID = id;
             this.TimeStamp = timestamp;
         }
+
+		public UpdateType Type { get; private set; }
 
         /// <summary>
         /// Gets the x coordinate of this update.
@@ -67,7 +87,12 @@ namespace Network
         /// </returns>
         public override int GetHashCode()
         {
-            return (int)(Math.Pow((float)this.TimeStamp, (float)this.ID) * Math.Pow(this.X, this.Y));
+			int hash = this.Type.GetHashCode();
+			hash = 5 * hash + this.ID;
+			hash = 5 * hash + this.X.GetHashCode();
+			hash = 5 * hash + this.Y.GetHashCode();
+			hash = 5 * hash + this.TimeStamp.GetHashCode();
+			return hash;
         }
 
         /// <summary>
@@ -90,7 +115,8 @@ namespace Network
             }
 
             PositionUpdate that = o as PositionUpdate;
-            return this.X == that.X
+			return this.Type == that.Type
+				&& this.X == that.X
                 && this.Y == that.Y
                 && this.ID == that.ID
                 && this.TimeStamp == that.TimeStamp;
@@ -104,8 +130,8 @@ namespace Network
         /// </returns>
         public override string ToString()
         {
-            return "[PositionUpdate: ID<" + this.ID + ">, X<" + this.X + 
-                   ">, Y<" + this.Y + ">, TimeStamp<" + this.TimeStamp + ">]";
+            return "[PositionUpdate: Type<" + this.Type + ">, ID<" + this.ID + 
+				">, X<" + this.X + ">, Y<" + this.Y + ">, TimeStamp<" + this.TimeStamp + ">]";
         }
     }
 }
