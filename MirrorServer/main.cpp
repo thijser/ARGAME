@@ -29,7 +29,7 @@ const uint16_t SERVER_PORT = 23369;
  */
 void handle_sigpipe(int) {
 #ifdef DEBUG
-    clog << "DEBUG: Received SIGPIPE: " << endl;
+    std::clog << "DEBUG: Received SIGPIPE: " << std::endl;
 #endif
 }
 
@@ -55,12 +55,15 @@ int main(int argc, char **argv) {
     bool showFrames = true;
     if (argc > 1) {
         deviceID = atoi(argv[1]);
-        std::clog << "Using camera device #" << deviceID << std::endl;
     }
     if (argc > 2) {
         showFrames = atoi(argv[2]) != 0;
-        std::clog << "UI Enabled: " << showFrames << std::endl;
     }
+
+#ifdef DEBUG
+    std::clog << "Using camera device #" << deviceID << std::endl;
+    std::clog << "UI Enabled: " << showFrames << std::endl;
+#endif
 
     detector cameraDetector(deviceID);
 
@@ -92,6 +95,9 @@ int main(int argc, char **argv) {
         std::cerr << "Failed to load markers!" << std::endl;
         return 1;
     }
+#ifdef DEBUG
+    std::clog << "Detector initialized (loaded " << markerPatterns.size() << " markers)" << std::endl;
+#endif
 
     // Start detection loop
     cameraDetector.loop([&](const Mat& processedFrame, vector<detected_marker> markers) {
