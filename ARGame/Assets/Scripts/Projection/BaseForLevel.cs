@@ -10,93 +10,97 @@
 namespace Projection
 {
     using System.Diagnostics.CodeAnalysis;
-    using Meta;
     using UnityEngine;
-    
-    /// <summary>
-    /// Marks which marker is used for the basis of the level by the meta one
-    /// </summary>
+	using Meta;
+	/// <summary>
+	/// Marks which marker is used for the basis of the level by the meta one
+	/// </summary>
     public class BaseForLevel : MonoBehaviour
     {
+		public int ID = -1;
+		public float RemoteX;
+		public float RemoteY;
+		GameObject markerdetectorGO;
+		MarkerTargetIndicator marketTargetindicator;
+
+		/// <summary>
+		/// hide the markerindicator
+		/// </summary>
+		private void Start() {
+			
+			markerdetectorGO = MarkerDetector.Instance.gameObject;
+			
+			//hide markerindicator
+			marketTargetindicator = markerdetectorGO.GetComponent<MarkerTargetIndicator>();
+			marketTargetindicator.enabled = false;
+		}
+		private void LateUpdate()
+		{
+			//enable marker gameObject (disbaled by default)
+			if (!markerdetectorGO.activeSelf)
+			{
+				markerdetectorGO.SetActive(true);
+			}
+			Transform newTransform = this.transform;
+			if (MarkerDetector.Instance != null)
+			{
+				Debug.Log("seeing" + MarkerDetector.Instance.GetNumberOfVisibleMarkers()+ "markers");
+				if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(ID)){
+					MarkerDetector.Instance.GetMarkerTransform(ID, ref newTransform);
+					BaseForLevel bfl;
+					if((bfl= newTransform.gameObject.GetComponent<BaseForLevel>())!=null){
+						bfl.Seen();
+						if(gameObject.GetComponent<UsedCardManager>()){
+							UpdateWrapper wrapper=gameObject.GetComponent<UpdateWrapper>();
+					
+							if(wrapper!=null&&wrapper.Wrapped!=null){
+								transform.RotateAround(transform.position,transform.up,-1*wrapper.Wrapped.Rotation);
+							}
+						}
+					}
+				}
+			}
+		}
         /// <summary>
         /// The time the base marker may be missing before another marker is used.
         /// </summary>
         public const int Patience = 10;
 
-        public int ID = -1;
 
-        public float RemoteX;
-        
-        public float RemoteY;
-       
-        private GameObject markerdetectorGO;
-
-        private MarkerTargetIndicator marketTargetindicator;
+		[SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
 
         /// <summary>
         /// Gets or sets the time stamp for this BaseForLevel instance.
         /// </summary>
         public long Timestamp { get; set; }
 
-        /// <summary>
-        /// Hide the marker indicator.
-        /// </summary>
-        public void Start()
-        {
-            this.markerdetectorGO = MarkerDetector.Instance.gameObject;
-            this.marketTargetindicator = this.markerdetectorGO.GetComponent<MarkerTargetIndicator>();
-            this.marketTargetindicator.enabled = false;
-        }
-
-        public void LateUpdate()
-        {
-            if (!this.markerdetectorGO.activeSelf)
-            {
-                this.markerdetectorGO.SetActive(true);
-            }
-
-            Transform newTransform = this.transform;
-            if (MarkerDetector.Instance != null)
-            {
-                Debug.Log("seeing" + MarkerDetector.Instance.GetNumberOfVisibleMarkers() + "markers");
-                if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(this.ID))
-                {
-                    MarkerDetector.Instance.GetMarkerTransform(this.ID, ref newTransform);
-                    BaseForLevel bfl;
-                    if ((bfl = newTransform.gameObject.GetComponent<BaseForLevel>()) != null)
-                    {
-                        bfl.Seen();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// The marked marker has been seen. It determines by
-        /// determining if this marker is now the dominant one if the
-        /// other one has not been seen for some time.
-        /// </summary>
+		/// <summary>
+		/// The marked marker has been seen. It determines by
+		/// determining if this marker is now the dominant one if the
+	 	/// other one has not been seen for some time.
+		/// </summary>
         public void Seen()
         {
-            Debug.Log("saw:" + this.ID);
+			Debug.Log ("saw:" + ID);
             this.Timestamp = Time.frameCount;
 
             UsedCardManager holder = this.GetComponentInParent<UsedCardManager>();
-            BaseForLevel holderbfl;
-            if (holder != null)
+			BaseForLevel holderbfl;
+			if (holder!=null){
+				holderbfl=holder.GetComponent<BaseForLevel>();
+				if(holderbfl.Timestamp + Patience < this.Timestamp)
             {
-                holderbfl = holder.GetComponent<BaseForLevel>();
-                if (holderbfl.Timestamp + Patience < this.Timestamp)
-                {
-                    this.Destroy(holder);
-                    Transform p = transform.parent;
-                    transform.parent = null;
-                    p.parent = this.transform;
-                    gameObject.AddComponent<UsedCardManager>();
-                    UsedCardManager newHolder = gameObject.GetComponent<UsedCardManager>();
-                    newHolder.CurrentlyUsed = this;
-                }
-            }
+				Destroy(holder);
+                Transform p = transform.parent;
+                transform.parent = null;
+                p.parent = this.transform;
+				gameObject.AddComponent<UsedCardManager>(); 
+				UsedCardManager newHolder=gameObject.GetComponent<UsedCardManager>();
+				newHolder.CurrentlyUsed=this;
+				
+				}
+			}
+
         }
     }
 }
