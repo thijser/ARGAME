@@ -168,7 +168,10 @@ struct marker_state {
     /// Pattern recognised in marker.
     recognition_result recognition_state;
 
-    /// Last known position of marker.
+    /// Last known postions of marker.
+    ringbuffer<Point> positions;
+
+    /// Moving averaged position of marker.
     Point pos;
 
     /// Last known rotations of marker.
@@ -193,7 +196,8 @@ struct marker_state {
      * @brief Creates a structure describing a marker that hasn't been detected yet.
      */
     marker_state()
-        : id(-1), pos(Point(-1000, -1000)), rotations(ringbuffer<double>(MARKER_HISTORY_LENGTH)), lastSighting(clock()) {}
+        : id(-1), pos(Point(-1000, -1000)), rotations(ringbuffer<double>(MARKER_HISTORY_LENGTH)),
+        positions(ringbuffer<Point>(MARKER_HISTORY_LENGTH)), lastSighting(clock()) {}
 };
 
 /**
@@ -336,6 +340,13 @@ private:
      * @return Average value of given numbers.
      */
     static double average(const vector<double>& vals);
+
+    /**
+    * @brief Calculate average of given points.
+    * @param vals - Collection of points to calculate average from.
+    * @return Average value of given points.
+    */
+    static Point average(const vector<Point>& vals);
 
     /**
      * @brief Calculate Euclidean distance between two points.
