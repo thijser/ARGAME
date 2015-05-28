@@ -29,6 +29,9 @@ namespace mirrors {
 /// Amount of frames to average for marker positions.
 const int MARKER_HISTORY_LENGTH = 15;
 
+/// Amount of marker scales to average.
+const int MARKER_SCALE_HISTORY_LENGTH = 30;
+
 /// Maximum distance a marker can move per frame before it's considered a new marker.
 const double MARKER_MAX_FRAME_DIST = 50;
 
@@ -43,7 +46,7 @@ enum segmentation_approach {
     SEGMENTATION_FAINT_GREEN
 };
 
-const segmentation_approach approach = SEGMENTATION_FAINT_GREEN;
+const segmentation_approach approach = SEGMENTATION_SOLID;
 
 using cv::Mat;
 using cv::Point;
@@ -67,14 +70,17 @@ struct recognition_result {
     /// Yaw rotation of marker.
     double rotation;
 
+    /// Width and height of marker
+    double scale;
+
     /**
      * @brief Creates a new structure describing a recognised pattern.
      * @param id - Index of recognised pattern or -1 if none recognised.
      * @param confidence - Confidence score of recognition (only defined for id != -1).
      * @param rotation - Rotation of marker containing pattern (only defined for id != 1).
      */
-    recognition_result(int id = -1, double confidence = 0, double rotation = 0)
-        : id(id), confidence(confidence), rotation(rotation) {}
+    recognition_result(int id = -1, double confidence = 0, double rotation = 0, double scale = 1)
+        : id(id), confidence(confidence), rotation(rotation), scale(scale) {}
 };
 
 /**
@@ -177,6 +183,12 @@ struct marker_state {
     /// Timestamp of last known position.
     clock_t lastSighting;
 
+    /// Flag indicating if marker has been assigned a new position this frame
+    bool updatedThisFrame;
+
+    /// Flag indicating if this marker has first appeared in this frame
+    bool newThisFrame = true;
+
     /**
      * @brief Creates a structure describing a marker that hasn't been detected yet.
      */
@@ -242,6 +254,9 @@ private:
 
     /// Latest state of markers.
     vector<marker_state> markerStates;
+
+    /// Average scale of markers.
+    ringbuffer<double> markerScales;
 
     /// ID reserved for the next newly detected marker.
     int nextId = 0;
