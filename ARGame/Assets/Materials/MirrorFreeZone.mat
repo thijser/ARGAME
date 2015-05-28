@@ -6,11 +6,11 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: LaserBeam
+  m_Name: MirrorFreeZone
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHABLEND_ON _EMISSION
-  m_LightmapFlags: 2
-  m_CustomRenderQueue: 3000
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -31,6 +31,69 @@ Material:
       data:
         first:
           name: _DetailNormalMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Control
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat0
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat3
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal0
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal3
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -86,16 +149,16 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Illum
+          name: _RefractTex
         second:
-          m_Texture: {fileID: 2800000, guid: 057e1d8ac28dd1748b3a0786102409cb, type: 3}
+          m_Texture: {fileID: 8900000, guid: 51e3f49dbd110a7011005aba44295342, type: 2}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _SpecGlossMap
+          name: _ReflectTex
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 8900000, guid: 25793ebbbd111a7011005aba44295342, type: 2}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -105,16 +168,12 @@ Material:
         second: .5
       data:
         first:
-          name: _Shininess
-        second: .078125
-      data:
-        first:
           name: _SrcBlend
-        second: 5
+        second: 1
       data:
         first:
           name: _DstBlend
-        second: 10
+        second: 0
       data:
         first:
           name: _Parallax
@@ -122,11 +181,11 @@ Material:
       data:
         first:
           name: _ZWrite
-        second: 0
+        second: 1
       data:
         first:
           name: _Glossiness
-        second: .192000002
+        second: .129999995
       data:
         first:
           name: _BumpScale
@@ -134,7 +193,7 @@ Material:
       data:
         first:
           name: _OcclusionStrength
-        second: 0
+        second: 1
       data:
         first:
           name: _DetailNormalMapScale
@@ -146,31 +205,31 @@ Material:
       data:
         first:
           name: _EmissionScaleUI
-        second: 4
+        second: 0
       data:
         first:
           name: _Mode
-        second: 2
+        second: 0
       data:
         first:
           name: _Metallic
-        second: 0
+        second: .519999981
       data:
         first:
           name: _InvFade
-        second: 3
+        second: 1
       data:
         first:
           name: _Tile
-        second: 5
+        second: 6.5
       data:
         first:
           name: _Inside
-        second: 0
+        second: .219999999
       data:
         first:
           name: _Rim
-        second: 1.20000005
+        second: .610000014
       data:
         first:
           name: _Speed
@@ -178,65 +237,17 @@ Material:
       data:
         first:
           name: _Strength
-        second: 1.5
-      data:
-        first:
-          name: _LineWidth
-        second: 1.29999995
-      data:
-        first:
-          name: _LightSaberFactor
-        second: .662999988
-      data:
-        first:
-          name: _Stencil
-        second: 0
-      data:
-        first:
-          name: _StencilComp
-        second: 8
-      data:
-        first:
-          name: _StencilOp
-        second: 0
-      data:
-        first:
-          name: _StencilReadMask
-        second: 255
-      data:
-        first:
-          name: _StencilWriteMask
-        second: 255
-      data:
-        first:
-          name: _ColorMask
-        second: 15
+        second: 1.24000001
     m_Colors:
       data:
         first:
           name: _EmissionColor
-        second: {r: 4, g: 0, b: 0, a: 4}
+        second: {r: 0, g: 0, b: 0, a: 0}
       data:
         first:
           name: _Color
-        second: {r: 1, g: 0, b: 0, a: 1}
-      data:
-        first:
-          name: _SpecColor
-        second: {r: .929411829, g: .282352954, b: .301960796, a: 1}
+        second: {r: .279411793, g: .16641438, b: .16641438, a: 1}
       data:
         first:
           name: _EmissionColorUI
-        second: {r: 1, g: 0, b: 0, a: 1}
-      data:
-        first:
-          name: _TintColor
-        second: {r: 1, g: 1, b: 1, a: .5}
-      data:
-        first:
-          name: _EmisColor
-        second: {r: .200000003, g: .200000003, b: .200000003, a: 0}
-      data:
-        first:
-          name: _Specular
-        second: {r: 1, g: .129411772, b: .168627456, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}

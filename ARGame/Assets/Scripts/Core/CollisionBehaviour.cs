@@ -22,7 +22,15 @@
 		/// Gets or sets a value indicating whether this <see cref="Core.CollisionBehaviour"/> 
 		/// is colliding with another object.
 		/// </summary>
-		public bool Colliding { get; set; }
+		public bool Colliding;// { get; set; }
+
+		/// <summary>
+		/// Initializes this CollisionBehaviour.
+		/// </summary>
+		public void Start()
+		{
+			this.Colliding = false;
+		}
 
         /// <summary>
         /// Enables or disables Behaviours based on whether this GameObject collides with
