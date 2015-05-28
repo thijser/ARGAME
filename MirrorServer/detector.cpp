@@ -162,9 +162,20 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
             unseenMarkerCount--;
 
             closestMarker->velocity = dist(closestMarker->pos, center);
-
-            closestMarker->pos = center;
             closestMarker->lastSighting = clock();
+
+            // Calculate moving average of position
+            closestMarker->positions.add(center);
+            Point movingPos = average(closestMarker->positions.data());
+
+            if (dist(movingPos, center) > 3) {
+                for (int i = 0; i < MARKER_HISTORY_LENGTH; i++) {
+                    closestMarker->positions.add(center);
+                }
+                movingPos = center;
+            }
+
+            closestMarker->pos = movingPos;
             
             auto newRecognition = recognizeMarker(correctedFrame, contour);
 
@@ -508,6 +519,16 @@ double detector::average(const vector<double>& vals) {
     }
 
     return sum / vals.size();
+}
+
+Point detector::average(const vector<Point>& vals) {
+    Point sum;
+
+    for (Point n : vals) {
+        sum += n;
+    }
+
+    return Point(sum.x / vals.size(), sum.y / vals.size());
 }
 
 // Source: http://opencv-code.com/quick-tips/how-to-rotate-image-in-opencv/
