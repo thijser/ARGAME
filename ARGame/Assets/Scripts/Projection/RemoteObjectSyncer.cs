@@ -74,7 +74,7 @@ namespace Projection
                 Transform transGo = go.GetComponent<Transform>();
 				Transform parent = levelMarker.GetComponent<Transform>();
 				transGo.SetParent(parent, false);
-				i++;
+				i++; 
 			}
         }
     }

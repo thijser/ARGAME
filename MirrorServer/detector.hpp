@@ -21,12 +21,19 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <functional>
 #include <unordered_map>
+#include <ctime>
 #include "ringbuffer.hpp"
 
 namespace mirrors {
 
 /// Amount of frames to average for marker positions.
 const int MARKER_HISTORY_LENGTH = 15;
+
+/// Maximum distance a marker can move per frame before it's considered a new marker.
+const double MARKER_MAX_FRAME_DIST = 50;
+
+/// Maximum speed before recognition of marker pattern is disabled (pixels/frame)
+const double MARKER_MAX_RECOGNITION_VELOCITY = 15;
 
 using cv::Mat;
 using cv::Point;
@@ -38,6 +45,29 @@ using cv::VideoCapture;
 using std::vector;
 
 /**
+ * @brief Information about a recognised pattern in a marker.
+ */
+struct recognition_result {
+    /// Index of recognised pattern.
+    int id;
+
+    /// Recognition confidence score [0, 1].
+    double confidence;
+
+    /// Yaw rotation of marker.
+    double rotation;
+
+    /**
+     * @brief Creates a new structure describing a recognised pattern.
+     * @param id - Index of recognised pattern or -1 if none recognised.
+     * @param confidence - Confidence score of recognition (only defined for id != -1).
+     * @param rotation - Rotation of marker containing pattern (only defined for id != 1).
+     */
+    recognition_result(int id = -1, double confidence = 0, double rotation = 0)
+        : id(id), confidence(confidence), rotation(rotation) {}
+};
+
+/**
  * @brief Information about a detected marker.
  */
 struct detected_marker {
@@ -45,7 +75,7 @@ struct detected_marker {
     const int id;
 
     /// X and Y position on the board
-    const Point position;
+    const Point2f position;
 
     /// Yaw rotation of marker
     const float rotation;
@@ -56,7 +86,7 @@ struct detected_marker {
      * @param position - Position of marker.
      * @param rotation - Yaw rotation of marker.
      */
-    detected_marker(int id, Point position, float rotation)
+    detected_marker(int id, Point2f position, float rotation)
         : id(id), position(position), rotation(rotation) {
     }
 };
@@ -113,6 +143,38 @@ struct marker_locations {
 };
 
 /**
+ * @brief Information about detected marker.
+ */
+struct marker_state {
+    /// Unique ID of marker.
+    int id;
+
+    /// Pattern recognised in marker.
+    recognition_result recognition_state;
+
+    /// Last known position of marker.
+    Point pos;
+
+    /// Last known rotations of marker.
+    ringbuffer<double> rotations;
+
+    /// Moving averaged rotation of marker.
+    double rotation;
+
+    /// Last known velocity of marker (pixels/frame).
+    double velocity;
+
+    /// Timestamp of last known position.
+    clock_t lastSighting;
+
+    /**
+     * @brief Creates a structure describing a marker that hasn't been detected yet.
+     */
+    marker_state()
+        : id(-1), pos(Point(-1000, -1000)), rotations(ringbuffer<double>(MARKER_HISTORY_LENGTH)), lastSighting(clock()) {}
+};
+
+/**
  * @brief Detector of markers from a camera image given known patterns.
  */
 class detector {
@@ -165,11 +227,17 @@ private:
     /// Marker 6x6 patterns.
     vector<Mat> markerPatterns;
 
-    /// History of corner positions.
+    /// Positions of corner positions.
     vector<Point2f> boardCorners;
 
-    /// History of marker positions.
-    std::unordered_map<int, std::pair<ringbuffer<Point>, ringbuffer<double>>> markersHistory;
+    /// Latest state of markers.
+    vector<marker_state> markerStates;
+
+    /// ID reserved for the next newly detected marker.
+    int nextId = 0;
+
+    /// Time since detection start
+    clock_t startTime = clock();
 
     /**
      * @brief Capture a frame from the camera and return it.
@@ -214,12 +282,20 @@ private:
     marker_locations locateMarkers(const Mat& thresholdedFrame) const;
 
     /**
-     * @brief Recognise the patterns of potential markers.
+    * @brief Track previously seen markers in the new frame and update their state.
+    * @param correctedFrame - Image as returned by correctPerspective().
+    * @param data - Marker detection results from locateMarkers().
+    * @return Updated marker states.
+    */
+    vector<detected_marker> trackMarkers(const Mat& correctedFrame, const marker_locations& data);
+
+    /**
+     * @brief Recognise the pattern of the marker described by the given contour.
      * @param correctedFrame - Image as returned by correctPerspective().
-     * @param data - Marker detection results from locateMarkers().
-     * @return Collection of detected markers and patterns.
+     * @param contour - Contour describing the marker in the image.
+     * @return Best matching pattern, confidence and rotation of marker.
      */
-    vector<detected_marker> recognizeMarkers(const Mat& correctedFrame, const marker_locations& data);
+    recognition_result recognizeMarker(const Mat& correctedFrame, const vector<Point>& contour) const;
 
     /**
      * @brief Find the pattern that best matches the given input pattern
@@ -230,18 +306,26 @@ private:
     match_result findMatchingMarker(const Mat& detectedPattern) const;
 
     /**
-     * @brief Calculate average of given points.
-     * @param points - Collection of points to calculate average from.
-     * @return Point with average X and Y of specified points.
-     */
-    static Point averageOfPoints(const vector<Point>& points);
-
-    /**
      * @brief Calculate average of given numbers.
      * @param vals - Collection of values to calculate average from.
      * @return Average value of given numbers.
      */
     static double average(const vector<double>& vals);
+
+    /**
+     * @brief Calculate Euclidean distance between two points.
+     * @param a - First point.
+     * @param b - Second point.
+     * @return Euclidean distance between the first and second point.
+     */
+    static double dist(const Point& a, const Point& b);
+
+    /**
+     * @brief Calculate the center of the bounding box given the contour.
+     * @param contour - The contour that represents the shape of the marker.
+     * @return The center point of the bounding box from the contour.
+     */
+    static Point boundingCenter(const vector<Point>& contour);
 
     /**
      * @brief Rotate image by arbitrary angle.
