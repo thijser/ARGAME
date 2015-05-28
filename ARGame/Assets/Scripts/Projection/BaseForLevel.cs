@@ -50,6 +50,13 @@ namespace Projection
 					BaseForLevel bfl;
 					if((bfl= newTransform.gameObject.GetComponent<BaseForLevel>())!=null){
 						bfl.Seen();
+						if(gameObject.GetComponent<UsedCardManager>()){
+							UpdateWrapper wrapper=gameObject.GetComponent<UpdateWrapper>();
+					
+							if(wrapper!=null&&wrapper.wrapped!=null){
+								transform.RotateAround(transform.position,transform.up,-1*wrapper.wrapped.Rotation);
+							}
+						}
 					}
 				}
 			}
@@ -90,7 +97,9 @@ namespace Projection
 				gameObject.AddComponent<UsedCardManager>(); 
 				UsedCardManager newHolder=gameObject.GetComponent<UsedCardManager>();
 				newHolder.CurrentlyUsed=this;
-				}}
+				
+				}
+			}
 
         }
     }
