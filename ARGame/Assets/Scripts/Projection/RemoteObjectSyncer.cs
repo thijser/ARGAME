@@ -47,12 +47,15 @@ namespace Projection
             GameObject toMove = this.objectTable[update.ID];
             Transform transToMove = toMove.GetComponent<Transform>();
           	Transform par= levelMarker.GetComponent<Transform>();
-			transToMove.position= new Vector3((update.X-home.remoteX)*scale, 0, (update.Y-home.remoteY)*scale)+par.position;
+			transToMove.localPosition= new Vector3((update.X-home.remoteX)*scale, 0, (update.Y-home.remoteY)*scale)+par.position;
 			BaseForLevel bfl;
+
 			if((bfl= toMove.GetComponent<BaseForLevel>())!=null){
 				bfl.remoteX=update.X;
 				bfl.remoteY=update.Y;
 			}
+			UpdateWrapper wrapper= toMove.GetComponent<UpdateWrapper>();
+			wrapper.wrapped=toMove.GetComponent<PositionUpdate>();
         }
 
 		/// <summary>
@@ -74,7 +77,7 @@ namespace Projection
             int i = 0;
             foreach (GameObject go in this.RegisterObjectsOnStartup)
             {
-                
+				go.AddComponent<UpdateWrapper>();
                 this.objectTable.Add(i, go);
                 Transform transGo = go.GetComponent<Transform>();
 				Transform parent = levelMarker.GetComponent<Transform>();

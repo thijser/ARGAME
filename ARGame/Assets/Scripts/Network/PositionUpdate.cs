@@ -10,11 +10,11 @@
 namespace Network
 {
     using System;
-
+	using UnityEngine;
     /// <summary>
     /// Represents an update of a marker position.
     /// </summary>
-    public class PositionUpdate
+	public class PositionUpdate
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Network.PositionUpdate"/> class.
