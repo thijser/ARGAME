@@ -22,13 +22,17 @@ namespace Network
     public class ClientSocket : MonoBehaviour
     {
         /// <summary>
-        /// The size of a single packet.
-        /// <para>
-        /// The size of a single PositionUpdate is equal to the size 
-        /// of 3 floats, an integer and a long. This is 4 * 4 bytes + 8 bytes = 24 bytes.
-        /// </para>
+        /// The minimum size of a single packet.
         /// </summary>
-        public const int PacketSize = 24;
+		public const int MinPacketSize = 5;
+
+		/// <summary>
+		/// The maximum size of a single packet.
+		/// <para>
+		/// This is used as the size of the message buffer.
+		/// </para>
+		/// </summary>
+		public const int MaxPacketSize = 25;
 
         /// <summary>
         /// The maximum amount of updates to read in a single step.
@@ -67,7 +71,7 @@ namespace Network
         /// </summary>
         public void Start()
         {
-            this.buffer = new byte[PacketSize];
+            this.buffer = new byte[MaxPacketSize];
 
             IPAddress[] addresses = Dns.GetHostEntry(this.ServerAddress).AddressList;
             if (addresses.Length == 0)
@@ -113,9 +117,9 @@ namespace Network
         public int ReadAllUpdates()
         {
             int count = 0;
-            while (this.socket.Available >= PacketSize && count < MaxUpdates)
+            while (this.socket.Available >= MinPacketSize && count < MaxUpdates)
             {
-                PositionUpdate update = this.ReadUpdate();
+                PositionUpdate update = this.ReadMessage();
                 if (update == null)
                 {
                     return count;
@@ -132,29 +136,64 @@ namespace Network
         }
 
         /// <summary>
-        /// Reads a single PositionUpdate from the Socket.
+        /// Reads a single PositionUpdate message from the Socket.
         /// <para>
         /// If not enough data is available, this method may return null.
         /// </para>
         /// </summary>
         /// <returns>The PositionUpdate.</returns>
-        public PositionUpdate ReadUpdate()
+        public PositionUpdate ReadMessage()
         {
-            int received = this.socket.Receive(this.buffer, PacketSize, SocketFlags.None);
-            if (received < PacketSize)
+            int received = this.socket.Receive(this.buffer, 1, SocketFlags.None);
+            if (received < 1)
             {
                 Debug.Log("Received not enough bytes: " + received);
                 return null;
             }
 
-            float x = BitConverter.ToSingle(this.buffer, 0);
-            float y = BitConverter.ToSingle(this.buffer, 4);
-            float rotation = BitConverter.ToSingle(this.buffer, 8);
-            int id = BitConverter.ToInt32(this.buffer, 12);
-            long timestamp = BitConverter.ToInt64(this.buffer, 16);
-
-            PositionUpdate update = new PositionUpdate(x, y, rotation, id, timestamp);
-            return update;
+			byte type = this.buffer[0];
+			switch ((UpdateType) type) {
+			case UpdateType.Delete:
+				return ReadDelete ();
+			case UpdateType.Update:
+				return ReadUpdate ();
+			default:
+				Debug.LogWarning ("Received invalid type: " + type);
+				return null;
+			}
         }
-    }
+
+		/// <summary>
+		/// Reads a <c>Update</c> type PositionUpdate message.
+		/// </summary>
+		/// <returns>The PositionUpdate.</returns>
+		public PositionUpdate ReadUpdate() {
+			int received = this.socket.Receive (this.buffer, 24, SocketFlags.None);
+			if (received < 24) 
+			{
+				return null;
+			}
+
+			float x = BitConverter.ToSingle (this.buffer, 0);
+			float y = BitConverter.ToSingle (this.buffer, 4);
+			float rotation = BitConverter.ToSingle (this.buffer, 8);
+			int id = BitConverter.ToInt32 (this.buffer, 12);
+			long timestamp = BitConverter.ToInt64 (this.buffer, 16);
+			return new PositionUpdate(UpdateType.Update, x, y, rotation, id, timestamp);
+		}
+
+		/// <summary>
+		/// Reads a <c>Delete</c> type PositionUpdate message.
+		/// </summary>
+		/// <returns>The PositionUpdate.</returns>
+		public PositionUpdate ReadDelete() {
+			int received = this.socket.Receive (this.buffer, 4, SocketFlags.None);
+			if (received < 4) {
+				return null;
+			}
+
+			int id = BitConverter.ToInt32 (this.buffer, 0);
+			return new PositionUpdate(UpdateType.Delete, 0, 0, 0, id, 0);
+		}
+	}
 }
