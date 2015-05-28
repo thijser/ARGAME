@@ -9,7 +9,6 @@
 //----------------------------------------------------------------------------
 namespace Network
 {
-    using Assets.Scripts;
     using System;
     using System.Collections.Generic;
     using UnityEngine;
@@ -35,6 +34,11 @@ namespace Network
         public const int VerticalOffset = 72;
 
         /// <summary>
+        /// Object representing the mesh to use for markers.
+        /// </summary>
+        public GameObject referenceMarker;
+
+        /// <summary>
         /// State of detected marker.
         /// </summary>
         private class MarkerState
@@ -43,11 +47,18 @@ namespace Network
             public GameObject Object { get; private set; }
             public DateTime LastUpdate { get; private set; }
 
-            public MarkerState(PositionUpdate initialUpdate)
+            public MarkerState(PositionUpdate initialUpdate, GameObject referenceMarker)
             {
                 this.ID = initialUpdate.ID;
-                this.Object = GameObject.Find("Marker" + initialUpdate.ID);
                 this.LastUpdate = new DateTime();
+
+                // Create mesh representing this marker
+                this.Object = GameObject.Instantiate(referenceMarker);
+                this.Object.name = "Marker" + this.ID;
+
+                // Assign number to mesh
+                TextMesh tm = this.Object.transform.Find("NumberText").GetComponent<TextMesh>();
+                tm.text = "" + this.ID;
             }
 
             public void Update(PositionUpdate update)
@@ -55,7 +66,7 @@ namespace Network
                 this.LastUpdate = DateTime.Now;
 
                 // Update orientation of object
-                this.Object.SetEnabled(true);
+                this.Object.SetActive(true);
 
                 this.Object.transform.position = new Vector3(
                     update.X * ScaleFactor,
@@ -69,7 +80,7 @@ namespace Network
             {
                 if ((DateTime.Now - LastUpdate).TotalMilliseconds > TimeoutTime)
                 {
-                    this.Object.SetEnabled(false);
+                    this.Object.SetActive(false);
                 }
             }
         }
@@ -94,7 +105,7 @@ namespace Network
             // Update marker state (and create initial one if this is the first sighting)
             if (!markers.ContainsKey(update.ID))
             {
-                markers[update.ID] = new MarkerState(update);
+                markers[update.ID] = new MarkerState(update, referenceMarker);
             }
 
             markers[update.ID].Update(update);
@@ -112,16 +123,11 @@ namespace Network
         }
 
         /// <summary>
-        /// Disable all markers until they are detected.
+        /// Disable reference marker, because it's only used as template.
         /// </summary>
         public void Start()
         {
-            var markerObjects = GameObject.FindGameObjectsWithTag("Marker");
-
-            foreach (var marker in markerObjects)
-            {
-                marker.SetEnabled(false);
-            }
+            referenceMarker.SetActive(false);
         }
     }
 }
