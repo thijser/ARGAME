@@ -106,7 +106,11 @@ int main(int argc, char **argv) {
         auto time = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count();
 
         for (auto& marker : markers) {
-            server.broadcastPositionUpdate(marker.id, marker.position.x, marker.position.y, marker.rotation, time);
+            if (marker.deleted) {
+                server.broadcastDelete(marker.id);
+            } else {
+                server.broadcastPositionUpdate(marker.id, marker.position.x, marker.position.y, marker.rotation, time);
+            }
         }
 
         if (showFrames) {

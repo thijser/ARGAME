@@ -237,6 +237,9 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
         markerStates.pop_back();
     }
 
+    // Build list of updated marker data
+    vector<detected_marker> detectedMarkers;
+
     // Clean up markers that haven't been seen in a while (500 ms)
     clock_t now = clock();
     bool done = false;
@@ -246,6 +249,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
 
         for (size_t i = 0; i < markerStates.size(); i++) {
             if (now - markerStates[i].lastSighting > CLOCKS_PER_SEC / 2) {
+                detectedMarkers.push_back(detected_marker(markerStates[i].recognition_state.id, Point2f(), 0, true));
                 markerStates.erase(markerStates.begin() + i);
                 done = false;
                 break;
@@ -253,8 +257,6 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
         }
     }
 
-    // Build list of updated marker data
-    vector<detected_marker> detectedMarkers;
     double markerScale = average(markerScales.data());
 
     for (auto& marker : markerStates) {

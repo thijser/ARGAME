@@ -103,6 +103,12 @@ public:
     void broadcastPositionUpdate(uint32_t id, float x, float y, float rotation, uint64_t timestamp);
 
     /**
+     * @brief Broadcasts a delete message to all clients.
+     * @param id - The id of the object.
+     */
+    void broadcastDelete(uint32_t id);
+
+    /**
      * @brief Enables the use of Sockets.
      *
      * This is required to be called on Windows (for initializing WSA),

@@ -30,7 +30,7 @@ namespace mirrors {
 const int MARKER_HISTORY_LENGTH = 15;
 
 /// Amount of marker scales to average.
-const int MARKER_SCALE_HISTORY_LENGTH = 30;
+const int MARKER_SCALE_HISTORY_LENGTH = 120;
 
 /// Maximum distance a marker can move per frame before it's considered a new marker.
 const double MARKER_MAX_FRAME_DIST = 50;
@@ -96,14 +96,17 @@ struct detected_marker {
     /// Yaw rotation of marker
     const float rotation;
 
+    /// True if marker was deleted this frame (not seen for a while).
+    const bool deleted;
+
     /**
      * @brief Creates a new structure describing a detected marker.
      * @param id - Index of recognised pattern.
      * @param position - Position of marker.
      * @param rotation - Yaw rotation of marker.
      */
-    detected_marker(int id, Point2f position, float rotation)
-        : id(id), position(position), rotation(rotation) {
+    detected_marker(int id, Point2f position, float rotation, bool deleted = false)
+        : id(id), position(position), rotation(rotation), deleted(deleted) {
     }
 };
 
