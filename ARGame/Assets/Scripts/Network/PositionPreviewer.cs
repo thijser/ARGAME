@@ -11,6 +11,7 @@ namespace Network
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 
     /// <summary>
@@ -36,49 +37,8 @@ namespace Network
         /// <summary>
         /// Object representing the mesh to use for markers.
         /// </summary>
-        public GameObject referenceMarker;
-
-        /// <summary>
-        /// State of detected marker.
-        /// </summary>
-        private class MarkerState
-        {
-            public int ID;
-            public GameObject Object { get; private set; }
-
-            public MarkerState(PositionUpdate initialUpdate, GameObject referenceMarker)
-            {
-                this.ID = initialUpdate.ID;
-
-                // Create mesh representing this marker
-                this.Object = GameObject.Instantiate(referenceMarker);
-                this.Object.name = "Marker" + this.ID;
-
-                // Assign number to mesh
-                TextMesh tm = this.Object.transform.Find("NumberText").GetComponent<TextMesh>();
-                tm.text = "" + this.ID;
-            }
-
-            public void Update(PositionUpdate update)
-            {
-                if (update.Type == UpdateType.Update)
-                {
-                    // Update orientation of object
-                    this.Object.SetActive(true);
-
-                    this.Object.transform.position = new Vector3(
-                        update.X * ScaleFactor,
-                        0,
-                        VerticalOffset - (update.Y * ScaleFactor));
-
-                    this.Object.transform.eulerAngles = new Vector3(0, update.Rotation, 0);
-                } else if (update.Type == UpdateType.Delete)
-                {
-                    // Remove object
-                    this.Object.SetActive(false);
-                }
-            }
-        }
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public GameObject ReferenceMarker;
 
         /// <summary>
         /// State of markers in game.
@@ -98,12 +58,12 @@ namespace Network
             }
 
             // Update marker state (and create initial one if this is the first sighting)
-            if (!markers.ContainsKey(update.ID))
+            if (!this.markers.ContainsKey(update.ID))
             {
-                markers[update.ID] = new MarkerState(update, referenceMarker);
+                this.markers[update.ID] = new MarkerState(update, this.ReferenceMarker);
             }
 
-            markers[update.ID].Update(update);
+            this.markers[update.ID].Update(update);
         }
 
         /// <summary>
@@ -111,7 +71,66 @@ namespace Network
         /// </summary>
         public void Start()
         {
-            referenceMarker.SetActive(false);
+            this.ReferenceMarker.SetActive(false);
+        }
+
+        /// <summary>
+        /// State of detected marker.
+        /// </summary>
+        private class MarkerState
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="MarkerState"/> class.
+            /// </summary>
+            /// <param name="initialUpdate">The PositionUpdate indicating the initial position.</param>
+            /// <param name="referenceMarker">The GameObject that the PositionUpdate represents.</param>
+            public MarkerState(PositionUpdate initialUpdate, GameObject referenceMarker)
+            {
+                this.ID = initialUpdate.ID;
+
+                // Create mesh representing this marker
+                this.Object = GameObject.Instantiate(referenceMarker);
+                this.Object.name = "Marker" + this.ID;
+
+                // Assign number to mesh
+                TextMesh mesh = this.Object.transform.Find("NumberText").GetComponent<TextMesh>();
+                mesh.text = this.ID.ToString();
+            }
+
+            /// <summary>
+            /// Gets the ID of the Marker.
+            /// </summary>
+            public int ID { get; private set; }
+
+            /// <summary>
+            /// Gets the GameObject assigned to this marker.
+            /// </summary>
+            public GameObject Object { get; private set; }
+
+            /// <summary>
+            /// Updates the position of the GameObject with the given PositionUpdate.
+            /// </summary>
+            /// <param name="update">The PositionUpdate.</param>
+            public void Update(PositionUpdate update)
+            {
+                if (update.Type == UpdateType.Update)
+                {
+                    // Update orientation of object
+                    this.Object.SetActive(true);
+
+                    this.Object.transform.position = new Vector3(
+                        update.X * ScaleFactor,
+                        0,
+                        VerticalOffset - (update.Y * ScaleFactor));
+
+                    this.Object.transform.eulerAngles = new Vector3(0, update.Rotation, 0);
+                }
+                else if (update.Type == UpdateType.Delete)
+                {
+                    // Remove object
+                    this.Object.SetActive(false);
+                }
+            }
         }
     }
 }
