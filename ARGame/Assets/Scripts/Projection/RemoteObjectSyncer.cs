@@ -43,11 +43,16 @@ namespace Projection
             {
                 throw new KeyNotFoundException("ID of not yet registered object");
             }
-
+			BaseForLevel home=levelMarker.GetComponent<BaseForLevel>();
             GameObject toMove = this.objectTable[update.ID];
             Transform transToMove = toMove.GetComponent<Transform>();
           	Transform par= levelMarker.GetComponent<Transform>();
-			transToMove.position= new Vector3(update.X*scale, 0, update.Y*scale)+par.position;
+			transToMove.position= new Vector3((update.X-home.remoteX)*scale, 0, (update.Y-home.remoteY)*scale)+par.position;
+			BaseForLevel bfl;
+			if((bfl= toMove.GetComponent<BaseForLevel>())!=null){
+				bfl.remoteX=update.X;
+				bfl.remoteY=update.Y;
+			}
         }
 
 		/// <summary>

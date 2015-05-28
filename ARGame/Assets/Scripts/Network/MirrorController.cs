@@ -79,6 +79,19 @@ namespace Network
             }
 
             this.Rotate();
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hitInfo;
+                bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
+
+                if (hit)
+                {
+                    if (hitInfo.collider.gameObject.GetComponent<Mirror>() != null)
+                    {
+                        this.SelectedMirror = hitInfo.collider.gameObject.GetComponent<Mirror>();
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -137,7 +150,7 @@ namespace Network
         {
             if (mirror != null)
             {
-                Transform frame = mirror.transform.parent.Find("MirrorBase/Cube_002");
+                Transform frame = mirror.transform.parent.Find("Cube_002");
                 MeshRenderer mesh = frame.GetComponent<MeshRenderer>();
                 mesh.material = this.Highlight;
             }
@@ -151,7 +164,7 @@ namespace Network
         {
             if (mirror != null)
             {
-                Transform frame = mirror.transform.parent.Find("MirrorBase/Cube_002");
+                Transform frame = mirror.transform.parent.Find("Cube_002");
                 MeshRenderer mesh = frame.GetComponent<MeshRenderer>();
                 mesh.material = this.Original;
             }

@@ -35,6 +35,8 @@ detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
     // Get actual resolution
     width = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_WIDTH));
     height = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_HEIGHT));
+
+    markerScales = ringbuffer<double>(MARKER_SCALE_HISTORY_LENGTH);
 }
 
 bool detector::registerMarkers(const vector<Mat>& markers) {
@@ -130,6 +132,15 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
 }
 
 vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const marker_locations& data) {
+    // Start by marking everything as not seen
+    size_t unseenMarkerCount = markerStates.size();
+    size_t newMarkerCount = 0;
+
+    for (auto& state : markerStates) {
+        state.updatedThisFrame = false;
+        state.newThisFrame = false;
+    }
+
     for (size_t contourId : data.candidates) {
         auto& contour = data.contours[contourId];
 
@@ -147,10 +158,24 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
 
         // If there is one within a certain distance, assume it's the same marker
         if (closestMarker != nullptr && dist(center, closestMarker->pos) <= MARKER_MAX_FRAME_DIST) {
-            closestMarker->velocity = dist(closestMarker->pos, center);
+            closestMarker->updatedThisFrame = true;
+            unseenMarkerCount--;
 
-            closestMarker->pos = center;
+            closestMarker->velocity = dist(closestMarker->pos, center);
             closestMarker->lastSighting = clock();
+
+            // Calculate moving average of position
+            closestMarker->positions.add(center);
+            Point movingPos = average(closestMarker->positions.data());
+
+            if (dist(movingPos, center) > 3) {
+                for (int i = 0; i < MARKER_HISTORY_LENGTH; i++) {
+                    closestMarker->positions.add(center);
+                }
+                movingPos = center;
+            }
+
+            closestMarker->pos = movingPos;
             
             auto newRecognition = recognizeMarker(correctedFrame, contour);
 
@@ -165,7 +190,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
                 // The second case here is for comparing angles like 359 and 0
                 double angDiff = std::min(std::abs(movingRot - newRot), std::abs(movingRot - newRot - 360));
 
-                if (angDiff > 10) {
+                if (angDiff > 3) {
                     for (int i = 0; i < MARKER_HISTORY_LENGTH; i++) {
                         closestMarker->rotations.add(newRot);
                     }
@@ -173,6 +198,9 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
                 }
                 
                 closestMarker->rotation = movingRot;
+
+                // Also add the scale to average it across markers and time
+                markerScales.add(newRecognition.scale);
             }
 
             // Only use new recognition to update state if motion blur influence is low.
@@ -190,7 +218,23 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
             newMarker.pos = center;
 
             markerStates.push_back(newMarker);
+
+            newMarkerCount++;
         }
+    }
+
+    // If exactly 1 marker was not seen and exactly 1 new marker has appeared,
+    // then assume that the marker has moved very quickly.
+    if (unseenMarkerCount == 1 && newMarkerCount == 1) {
+        for (auto& state : markerStates) {
+            if (!state.updatedThisFrame && !state.newThisFrame) {
+                state.pos = markerStates[markerStates.size() - 1].pos;
+                state.lastSighting = clock();
+                break;
+            }
+        }
+
+        markerStates.pop_back();
     }
 
     // Clean up markers that haven't been seen in a while (500 ms)
@@ -211,10 +255,15 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
 
     // Build list of updated marker data
     vector<detected_marker> detectedMarkers;
+    double markerScale = average(markerScales.data());
 
     for (auto& marker : markerStates) {
         if (marker.recognition_state.id != -1) {
-            detectedMarkers.push_back(detected_marker(marker.recognition_state.id, marker.pos, static_cast<float>(marker.rotation)));
+            // Convert marker coordinates to scaled coordinates
+            auto p = Point2f(marker.pos);
+            p /= markerScale;
+
+            detectedMarkers.push_back(detected_marker(marker.recognition_state.id, p, static_cast<float>(marker.rotation)));
         }
     }
 
@@ -241,11 +290,21 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
         roi.height = h;
         marker = marker(roi);
 
-        // Threshold for grayish area to find black/white region
+        // Threshold for non-green area to find black/white region
         Mat markerParts[3];
         split(marker, markerParts);
 
-        Mat mask = ~(markerParts[1] > 50 & (markerParts[1] > markerParts[2]) & (markerParts[1] > markerParts[0] * 1.2));
+        Mat mask;
+        if (approach == SEGMENTATION_FAINT_GREEN) {
+            mask = ~(markerParts[1] > 50 & (markerParts[1] > markerParts[2]) & (markerParts[1] > markerParts[0]));
+
+            Mat maskClean;
+            auto kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+            erode(mask, maskClean, kernel);
+            dilate(maskClean, mask, kernel);
+        } else {
+            mask = ~(markerParts[1] > 50 & (markerParts[1] > markerParts[2]) & (markerParts[1] > markerParts[0] * 1.2));
+        }
 
         vector<vector<Point>> contours;
         cv::findContours(mask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
@@ -300,8 +359,10 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
                         newRot += 360.0;
                     }
 
-                    //markers.push_back(detected_marker(res.pattern, movingPos, movingRot));
-                    return recognition_result(res.pattern, res.score, newRot);
+                    // Determine scale of square marker
+                    double scale = (rotatedRect.size.width + rotatedRect.size.height) / 2;
+
+                    return recognition_result(res.pattern, res.score, newRot, scale);
                 }
             }
         }
@@ -386,11 +447,17 @@ Mat detector::thresholdGreen(const Mat& correctedFrame) const {
     Mat greenThreshold, blueThreshold;
     inRange(frameParts[1], cv::Scalar(50), cv::Scalar(255), greenThreshold);
 
-    Mat rawThreshold = greenThreshold & (frameParts[1] > frameParts[2]) & (frameParts[1] > frameParts[0] * 1.2);
+    Mat rawThreshold, kernel;
+    if (approach == SEGMENTATION_FAINT_GREEN) {
+        rawThreshold = greenThreshold & (frameParts[1] > frameParts[2]) & (frameParts[1] > frameParts[0]);
+        kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(10, 10));
+    } else {
+        rawThreshold = greenThreshold & (frameParts[1] > frameParts[2]) & (frameParts[1] > frameParts[0] * 1.2);
+        kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+    }
 
     // Clean up thresholded image by eroding noise and dilating to remove holes
     Mat tmp, cleanThreshold;
-    auto kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
     erode(rawThreshold, tmp, kernel);
 
     auto kernel2 = getStructuringElement(cv::MORPH_RECT, cv::Size(10, 10));
@@ -452,6 +519,16 @@ double detector::average(const vector<double>& vals) {
     }
 
     return sum / vals.size();
+}
+
+Point detector::average(const vector<Point>& vals) {
+    Point sum;
+
+    for (Point n : vals) {
+        sum += n;
+    }
+
+    return Point(sum.x / vals.size(), sum.y / vals.size());
 }
 
 // Source: http://opencv-code.com/quick-tips/how-to-rotate-image-in-opencv/

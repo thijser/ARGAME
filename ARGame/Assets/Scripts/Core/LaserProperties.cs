@@ -19,7 +19,8 @@ namespace Core
     public class LaserProperties : MonoBehaviour
     {
         /// <summary>
-        /// The strengths of the RGB components as a Vector3.
+        /// The relative strengths of the RGB components as a Vector3.
+        /// Beam strength is based on these strengths.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public Vector3 RGBStrengths;
