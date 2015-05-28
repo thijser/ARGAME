@@ -17,9 +17,9 @@ namespace Projection
 	/// </summary>
     public class BaseForLevel : MonoBehaviour
     {
-		public int id = -1;
-		public float remoteX;
-		public float remoteY;
+		public int ID = -1;
+		public float RemoteX;
+		public float RemoteY;
 		GameObject markerdetectorGO;
 		MarkerTargetIndicator marketTargetindicator;
 
@@ -45,11 +45,18 @@ namespace Projection
 			if (MarkerDetector.Instance != null)
 			{
 				Debug.Log("seeing" + MarkerDetector.Instance.GetNumberOfVisibleMarkers()+ "markers");
-				if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(id)){
-					MarkerDetector.Instance.GetMarkerTransform(id, ref newTransform);
+				if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(ID)){
+					MarkerDetector.Instance.GetMarkerTransform(ID, ref newTransform);
 					BaseForLevel bfl;
 					if((bfl= newTransform.gameObject.GetComponent<BaseForLevel>())!=null){
 						bfl.Seen();
+						if(gameObject.GetComponent<UsedCardManager>()){
+							UpdateWrapper wrapper=gameObject.GetComponent<UpdateWrapper>();
+					
+							if(wrapper!=null&&wrapper.Wrapped!=null){
+								transform.RotateAround(transform.position,transform.up,-1*wrapper.Wrapped.Rotation);
+							}
+						}
 					}
 				}
 			}
@@ -74,7 +81,7 @@ namespace Projection
 		/// </summary>
         public void Seen()
         {
-			Debug.Log ("saw:" + id);
+			Debug.Log ("saw:" + ID);
             this.Timestamp = Time.frameCount;
 
             UsedCardManager holder = this.GetComponentInParent<UsedCardManager>();
@@ -90,7 +97,9 @@ namespace Projection
 				gameObject.AddComponent<UsedCardManager>(); 
 				UsedCardManager newHolder=gameObject.GetComponent<UsedCardManager>();
 				newHolder.CurrentlyUsed=this;
-				}}
+				
+				}
+			}
 
         }
     }

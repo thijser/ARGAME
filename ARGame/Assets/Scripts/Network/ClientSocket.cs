@@ -24,15 +24,15 @@ namespace Network
         /// <summary>
         /// The minimum size of a single packet.
         /// </summary>
-		public const int MinPacketSize = 5;
+        public const int MinPacketSize = 5;
 
-		/// <summary>
-		/// The maximum size of a single packet.
-		/// <para>
-		/// This is used as the size of the message buffer.
-		/// </para>
-		/// </summary>
-		public const int MaxPacketSize = 25;
+        /// <summary>
+        /// The maximum size of a single packet.
+        /// <para>
+        /// This is used as the size of the message buffer.
+        /// </para>
+        /// </summary>
+        public const int MaxPacketSize = 25;
 
         /// <summary>
         /// The maximum amount of updates to read in a single step.
@@ -151,49 +151,53 @@ namespace Network
                 return null;
             }
 
-			byte type = this.buffer[0];
-			switch ((UpdateType) type) {
-			case UpdateType.Delete:
-				return ReadDelete ();
-			case UpdateType.Update:
-				return ReadUpdate ();
-			default:
-				Debug.LogWarning ("Received invalid type: " + type);
-				return null;
-			}
+            byte type = this.buffer[0];
+            switch ((UpdateType)type)
+            {
+                case UpdateType.Delete:
+                    return this.ReadDelete();
+                case UpdateType.Update:
+                    return this.ReadUpdate();
+                default:
+                    Debug.LogWarning("Received invalid type: " + type);
+                    return null;
+            }
         }
 
-		/// <summary>
-		/// Reads a <c>Update</c> type PositionUpdate message.
-		/// </summary>
-		/// <returns>The PositionUpdate.</returns>
-		public PositionUpdate ReadUpdate() {
-			int received = this.socket.Receive (this.buffer, 24, SocketFlags.None);
-			if (received < 24) 
-			{
-				return null;
-			}
+        /// <summary>
+        /// Reads a <c>Update</c> type PositionUpdate message.
+        /// </summary>
+        /// <returns>The PositionUpdate.</returns>
+        public PositionUpdate ReadUpdate()
+        {
+            int received = this.socket.Receive(this.buffer, 24, SocketFlags.None);
+            if (received < 24)
+            {
+                return null;
+            }
 
-			float x = BitConverter.ToSingle (this.buffer, 0);
-			float y = BitConverter.ToSingle (this.buffer, 4);
-			float rotation = BitConverter.ToSingle (this.buffer, 8);
-			int id = BitConverter.ToInt32 (this.buffer, 12);
-			long timestamp = BitConverter.ToInt64 (this.buffer, 16);
-			return new PositionUpdate(UpdateType.Update, x, y, rotation, id, timestamp);
-		}
+            float x = BitConverter.ToSingle(this.buffer, 0);
+            float y = BitConverter.ToSingle(this.buffer, 4);
+            float rotation = BitConverter.ToSingle(this.buffer, 8);
+            int id = BitConverter.ToInt32(this.buffer, 12);
+            long timestamp = BitConverter.ToInt64(this.buffer, 16);
+            return new PositionUpdate(UpdateType.Update, x, y, rotation, id, timestamp);
+        }
 
-		/// <summary>
-		/// Reads a <c>Delete</c> type PositionUpdate message.
-		/// </summary>
-		/// <returns>The PositionUpdate.</returns>
-		public PositionUpdate ReadDelete() {
-			int received = this.socket.Receive (this.buffer, 4, SocketFlags.None);
-			if (received < 4) {
-				return null;
-			}
+        /// <summary>
+        /// Reads a <c>Delete</c> type PositionUpdate message.
+        /// </summary>
+        /// <returns>The PositionUpdate.</returns>
+        public PositionUpdate ReadDelete()
+        {
+            int received = this.socket.Receive(this.buffer, 4, SocketFlags.None);
+            if (received < 4)
+            {
+                return null;
+            }
 
-			int id = BitConverter.ToInt32 (this.buffer, 0);
-			return new PositionUpdate(UpdateType.Delete, 0, 0, 0, id, 0);
-		}
-	}
+            int id = BitConverter.ToInt32(this.buffer, 0);
+            return new PositionUpdate(UpdateType.Delete, 0, 0, 0, id, 0);
+        }
+    }
 }

@@ -149,10 +149,21 @@ namespace Core.Receiver
         /// on all RGB strengths), false otherwise.</returns>
         private bool IsHitColorSufficient(Color hit)
         {
-            bool rIsSufficient = hit.r >= this.TargetColor.r * 0.9f && hit.r <= this.TargetColor.r * 1.1f;
-            bool gIsSufficient = hit.g >= this.TargetColor.g * 0.9f && hit.g <= this.TargetColor.g * 1.1f;
-            bool bIsSufficient = hit.b >= this.TargetColor.b * 0.9f && hit.b <= this.TargetColor.b * 1.1f;
-            return rIsSufficient && gIsSufficient && bIsSufficient;
+            return this.MatchExpectedChannel(this.TargetColor.r, hit.r)
+                && this.MatchExpectedChannel(this.TargetColor.g, hit.g)
+                && this.MatchExpectedChannel(this.TargetColor.b, hit.b);
+        }
+
+        /// <summary>
+        /// Tests whether the <c>actual</c> color channel value is close enough 
+        /// to the <c>expected</c> value to be considered equal.
+        /// </summary>
+        /// <param name="expected">The expected value.</param>
+        /// <param name="actual">The actual value.</param>
+        /// <returns>True if they are roughly equal, false otherwise.</returns>
+        private bool MatchExpectedChannel(float expected, float actual)
+        {
+            return actual >= expected * 0.9f && actual <= expected * 1.1f;
         }
     }
 }

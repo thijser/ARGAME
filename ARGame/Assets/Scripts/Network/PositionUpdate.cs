@@ -11,21 +11,21 @@ namespace Network
 {
     using System;
 
-	/// <summary>
-	/// Indicates the type of the PositionUpdate message.
-	/// </summary>
-	public enum UpdateType 
-	{
-		/// <summary>
-		/// Indicates the position of the object is updated.
-		/// </summary>
-		Update = 0,
+    /// <summary>
+    /// Indicates the type of the PositionUpdate message.
+    /// </summary>
+    public enum UpdateType
+    {
+        /// <summary>
+        /// Indicates the position of the object is updated.
+        /// </summary>
+        Update = 0,
 
-		/// <summary>
-		/// Indicates the object is removed from the field.
-		/// </summary>
-		Delete = 1
-	}
+        /// <summary>
+        /// Indicates the object is removed from the field.
+        /// </summary>
+        Delete = 1
+    }
 
     /// <summary>
     /// Represents an update of a marker position.
@@ -35,7 +35,7 @@ namespace Network
         /// <summary>
         /// Initializes a new instance of the <see cref="Network.PositionUpdate"/> class.
         /// </summary>
-		/// <param name="type">The type of the PositionUpdate.</param> 
+        /// <param name="type">The type of the PositionUpdate.</param> 
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
         /// <param name="rotation">The rotation.</param> 
@@ -43,7 +43,7 @@ namespace Network
         /// <param name="timestamp">The timestamp of the update.</param>
         public PositionUpdate(UpdateType type, float x, float y, float rotation, int id, long timestamp)
         {
-			this.Type = type;
+            this.Type = type;
             this.X = x;
             this.Y = y;
             this.Rotation = rotation;
@@ -51,7 +51,10 @@ namespace Network
             this.TimeStamp = timestamp;
         }
 
-		public UpdateType Type { get; private set; }
+        /// <summary>
+        /// Gets the type of this update.
+        /// </summary>
+        public UpdateType Type { get; private set; }
 
         /// <summary>
         /// Gets the x coordinate of this update.
@@ -87,12 +90,12 @@ namespace Network
         /// </returns>
         public override int GetHashCode()
         {
-			int hash = this.Type.GetHashCode();
-			hash = 5 * hash + this.ID;
-			hash = 5 * hash + this.X.GetHashCode();
-			hash = 5 * hash + this.Y.GetHashCode();
-			hash = 5 * hash + this.TimeStamp.GetHashCode();
-			return hash;
+            int hash = this.Type.GetHashCode();
+            hash = (5 * hash) + this.ID;
+            hash = (5 * hash) + this.X.GetHashCode();
+            hash = (5 * hash) + this.Y.GetHashCode();
+            hash = (5 * hash) + this.TimeStamp.GetHashCode();
+            return hash;
         }
 
         /// <summary>
@@ -115,8 +118,8 @@ namespace Network
             }
 
             PositionUpdate that = o as PositionUpdate;
-			return this.Type == that.Type
-				&& this.X == that.X
+            return this.Type == that.Type
+                && this.X == that.X
                 && this.Y == that.Y
                 && this.ID == that.ID
                 && this.TimeStamp == that.TimeStamp;
@@ -130,8 +133,8 @@ namespace Network
         /// </returns>
         public override string ToString()
         {
-            return "[PositionUpdate: Type<" + this.Type + ">, ID<" + this.ID + 
-				">, X<" + this.X + ">, Y<" + this.Y + ">, TimeStamp<" + this.TimeStamp + ">]";
+            return "[PositionUpdate: Type<" + this.Type + ">, ID<" + this.ID +
+                ">, X<" + this.X + ">, Y<" + this.Y + ">, TimeStamp<" + this.TimeStamp + ">]";
         }
     }
 }

@@ -11,14 +11,14 @@ namespace Core
 {
     /// <summary>
     /// An object that is manipulated by a Laser beam.
-	/// <para>
-	/// Implementations of this class must extend from
-	/// MonoBehaviour to work properly. Implementations
-	/// that do not may cause Exceptions at run time.
-	/// </para>
+    /// <para>
+    /// Implementations of this class must extend from
+    /// <c>MonoBehaviour</c> to work properly. Implementations
+    /// that do not may cause Exceptions at run time.
+    /// </para>
     /// </summary>
     /// <seealso cref="LaserBeam.LaserBeam" />
-    public interface ILaserReceiver 
+    public interface ILaserReceiver
     {
         /// <summary>
         /// Called every time the object is Hit by a laser beam.

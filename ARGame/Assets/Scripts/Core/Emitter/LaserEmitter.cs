@@ -33,6 +33,11 @@ namespace Core.Emitter
         public bool Enabled = true;
 
         /// <summary>
+        /// A List of segments that make up the whole Laser beam this LaserEmitter emits.
+        /// </summary>
+        private List<LaserBeam> segments = new List<LaserBeam>();
+
+        /// <summary>
         /// Gets the laser properties.
         /// </summary>
         public LaserProperties Properties
@@ -42,11 +47,6 @@ namespace Core.Emitter
                 return this.gameObject.GetComponent<LaserProperties>();
             }
         }
-
-        /// <summary>
-        /// A List of segments that make up the whole Laser beam this LaserEmitter emits.
-        /// </summary>
-        private List<LaserBeam> segments = new List<LaserBeam>();
 
         /// <summary>
         /// Gets all the segments of the laser beam as a read-only variable.
