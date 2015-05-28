@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
 
     std::vector<Mat> markerPatterns;
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 12; i++) {
         markerPatterns.push_back(cv::imread("markers/" + std::to_string(i) + ".png", CV_LOAD_IMAGE_GRAYSCALE));
     }
 
@@ -104,6 +104,8 @@ int main(int argc, char **argv) {
     // Start detection loop
     cameraDetector.loop([&](const Mat& processedFrame, vector<detected_marker> markers) {
         auto time = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count();
+
+        std::cout << markers.size() << std::endl;
 
         for (auto& marker : markers) {
             server.broadcastPositionUpdate(marker.id, marker.position.x, marker.position.y, marker.rotation, time);
