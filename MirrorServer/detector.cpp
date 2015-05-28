@@ -177,7 +177,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
                 // The second case here is for comparing angles like 359 and 0
                 double angDiff = std::min(std::abs(movingRot - newRot), std::abs(movingRot - newRot - 360));
 
-                if (angDiff > 10) {
+                if (angDiff > 3) {
                     for (int i = 0; i < MARKER_HISTORY_LENGTH; i++) {
                         closestMarker->rotations.add(newRot);
                     }
