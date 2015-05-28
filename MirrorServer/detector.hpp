@@ -43,7 +43,7 @@ enum segmentation_approach {
     SEGMENTATION_FAINT_GREEN
 };
 
-const segmentation_approach approach = SEGMENTATION_FAINT_GREEN;
+const segmentation_approach approach = SEGMENTATION_SOLID;
 
 using cv::Mat;
 using cv::Point;
@@ -176,6 +176,12 @@ struct marker_state {
 
     /// Timestamp of last known position.
     clock_t lastSighting;
+
+    /// Flag indicating if marker has been assigned a new position this frame
+    bool updatedThisFrame;
+
+    /// Flag indicating if this marker has first appeared in this frame
+    bool newThisFrame = true;
 
     /**
      * @brief Creates a structure describing a marker that hasn't been detected yet.

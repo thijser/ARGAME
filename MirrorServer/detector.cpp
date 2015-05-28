@@ -130,6 +130,15 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
 }
 
 vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const marker_locations& data) {
+    // Start by marking everything as not seen
+    size_t unseenMarkerCount = markerStates.size();
+    size_t newMarkerCount = 0;
+
+    for (auto& state : markerStates) {
+        state.updatedThisFrame = false;
+        state.newThisFrame = false;
+    }
+
     for (size_t contourId : data.candidates) {
         auto& contour = data.contours[contourId];
 
@@ -147,6 +156,9 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
 
         // If there is one within a certain distance, assume it's the same marker
         if (closestMarker != nullptr && dist(center, closestMarker->pos) <= MARKER_MAX_FRAME_DIST) {
+            closestMarker->updatedThisFrame = true;
+            unseenMarkerCount--;
+
             closestMarker->velocity = dist(closestMarker->pos, center);
 
             closestMarker->pos = center;
@@ -190,7 +202,23 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
             newMarker.pos = center;
 
             markerStates.push_back(newMarker);
+
+            newMarkerCount++;
         }
+    }
+
+    // If exactly 1 marker was not seen and exactly 1 new marker has appeared,
+    // then assume that the marker has moved very quickly.
+    if (unseenMarkerCount == 1 && newMarkerCount == 1) {
+        for (auto& state : markerStates) {
+            if (!state.updatedThisFrame && !state.newThisFrame) {
+                state.pos = markerStates[markerStates.size() - 1].pos;
+                state.lastSighting = clock();
+                break;
+            }
+        }
+
+        markerStates.pop_back();
     }
 
     // Clean up markers that haven't been seen in a while (500 ms)
