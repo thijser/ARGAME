@@ -11,12 +11,49 @@ namespace Projection
 {
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
-    
+	using Meta;
 	/// <summary>
 	/// Marks which marker is used for the basis of the level by the meta one
 	/// </summary>
     public class BaseForLevel : MonoBehaviour
     {
+		public int id = -1;
+		public float remoteX;
+		public float remoteY;
+		GameObject markerdetectorGO;
+		MarkerTargetIndicator marketTargetindicator;
+
+		/// <summary>
+		/// hide the markerindicator
+		/// </summary>
+		private void Start() {
+			
+			markerdetectorGO = MarkerDetector.Instance.gameObject;
+			
+			//hide markerindicator
+			marketTargetindicator = markerdetectorGO.GetComponent<MarkerTargetIndicator>();
+			marketTargetindicator.enabled = false;
+		}
+		private void LateUpdate()
+		{
+			//enable marker gameObject (disbaled by default)
+			if (!markerdetectorGO.activeSelf)
+			{
+				markerdetectorGO.SetActive(true);
+			}
+			Transform newTransform = this.transform;
+			if (MarkerDetector.Instance != null)
+			{
+				Debug.Log("seeing" + MarkerDetector.Instance.GetNumberOfVisibleMarkers()+ "markers");
+				if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(id)){
+					MarkerDetector.Instance.GetMarkerTransform(id, ref newTransform);
+					BaseForLevel bfl;
+					if((bfl= newTransform.gameObject.GetComponent<BaseForLevel>())!=null){
+						bfl.Seen();
+					}
+				}
+			}
+		}
         /// <summary>
         /// The time the base marker may be missing before another marker is used.
         /// </summary>
@@ -37,13 +74,14 @@ namespace Projection
 		/// </summary>
         public void Seen()
         {
+			Debug.Log ("saw:" + id);
             this.Timestamp = Time.frameCount;
 
             UsedCardManager holder = this.GetComponentInParent<UsedCardManager>();
-            if(holder==null){
-				return;
-			}
-			if (holder.CurrentlyUsed.Timestamp + Patience < this.Timestamp)
+			BaseForLevel holderbfl;
+			if (holder!=null){
+				holderbfl=holder.GetComponent<BaseForLevel>();
+				if(holderbfl.Timestamp + Patience < this.Timestamp)
             {
 				Destroy(holder);
                 Transform p = transform.parent;
@@ -52,8 +90,8 @@ namespace Projection
 				gameObject.AddComponent<UsedCardManager>(); 
 				UsedCardManager newHolder=gameObject.GetComponent<UsedCardManager>();
 				newHolder.CurrentlyUsed=this;
+				}}
 
-            }
         }
     }
 }
