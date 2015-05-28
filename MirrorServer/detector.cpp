@@ -35,6 +35,8 @@ detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
     // Get actual resolution
     width = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_WIDTH));
     height = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_HEIGHT));
+
+    markerScales = ringbuffer<double>(MARKER_SCALE_HISTORY_LENGTH);
 }
 
 bool detector::registerMarkers(const vector<Mat>& markers) {
@@ -185,6 +187,9 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
                 }
                 
                 closestMarker->rotation = movingRot;
+
+                // Also add the scale to average it across markers and time
+                markerScales.add(newRecognition.scale);
             }
 
             // Only use new recognition to update state if motion blur influence is low.
@@ -239,10 +244,15 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
 
     // Build list of updated marker data
     vector<detected_marker> detectedMarkers;
+    double markerScale = average(markerScales.data());
 
     for (auto& marker : markerStates) {
         if (marker.recognition_state.id != -1) {
-            detectedMarkers.push_back(detected_marker(marker.recognition_state.id, marker.pos, static_cast<float>(marker.rotation)));
+            // Convert marker coordinates to scaled coordinates
+            auto p = Point2f(marker.pos);
+            p /= markerScale;
+
+            detectedMarkers.push_back(detected_marker(marker.recognition_state.id, p, static_cast<float>(marker.rotation)));
         }
     }
 
@@ -338,8 +348,10 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
                         newRot += 360.0;
                     }
 
-                    //markers.push_back(detected_marker(res.pattern, movingPos, movingRot));
-                    return recognition_result(res.pattern, res.score, newRot);
+                    // Determine scale of square marker
+                    double scale = (rotatedRect.size.width + rotatedRect.size.height) / 2;
+
+                    return recognition_result(res.pattern, res.score, newRot, scale);
                 }
             }
         }
