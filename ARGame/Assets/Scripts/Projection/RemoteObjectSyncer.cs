@@ -37,6 +37,7 @@ namespace Projection
         /// <param name="update">The PositionUpdate.</param>
         public void OnPositionUpdate(PositionUpdate update)
         {
+
             Debug.Log("received:" + update.ToString());
 
             if (!this.objectTable.ContainsKey(update.ID))
@@ -47,6 +48,9 @@ namespace Projection
             GameObject toMove = this.objectTable[update.ID];
             Transform transToMove = toMove.GetComponent<Transform>();
           	Transform par= levelMarker.GetComponent<Transform>();
+			if(update.Type==UpdateType.Delete){
+				transToMove.position=new Vector3(666,666,666);
+			}
 			transToMove.position= new Vector3((update.X-home.remoteX)*scale, 0, (update.Y-home.remoteY)*scale)+par.position;
 			BaseForLevel bfl;
 			if((bfl= toMove.GetComponent<BaseForLevel>())!=null){
