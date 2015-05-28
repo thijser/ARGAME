@@ -33,6 +33,17 @@ namespace Core.Emitter
         public bool Enabled = true;
 
         /// <summary>
+        /// Gets the laser properties.
+        /// </summary>
+        public LaserProperties Properties
+        {
+            get
+            {
+                return this.gameObject.GetComponent<LaserProperties>();
+            }
+        }
+
+        /// <summary>
         /// A List of segments that make up the whole Laser beam this LaserEmitter emits.
         /// </summary>
         private List<LaserBeam> segments = new List<LaserBeam>();
@@ -56,6 +67,11 @@ namespace Core.Emitter
             if (this.LineRenderer == null)
             {
                 this.LineRenderer = this.GetComponent<LineRenderer>();
+            }
+
+            if (this.gameObject.GetComponent<LaserProperties>() == null)
+            {
+                Debug.LogError("No LaserProperties object detected.");
             }
 
             this.Enabled = true;

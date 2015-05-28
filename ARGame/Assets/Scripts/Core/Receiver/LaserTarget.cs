@@ -98,14 +98,17 @@ namespace Core.Receiver
                 throw new ArgumentException("The supplied HitEventArgs object was invalid.");
             }
 
-            Animator animator = GetComponent<Animator>();
-            animator.SetBool("LaserHit", true);
-            this.IsOpening = true;
-
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName(OpenedStateName))
+            if (args.Laser.Emitter.Properties.Strength >= MinimumStrength)
             {
-                Application.LoadLevel(this.NextLevelIndex);
+                Animator animator = GetComponent<Animator>();
+                animator.SetBool("LaserHit", true);
+                this.IsOpening = true;
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName(OpenedStateName))
+                {
+                    Application.LoadLevel(this.NextLevelIndex);
+                }
             }
+
         }
 
         /// <summary>
