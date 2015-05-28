@@ -118,18 +118,18 @@
 		along with the Network namespace in \ref{ssec:networknamespace}.
 		
 		\subsection{The Core namespace} \label{ssec:corenamespace}
-			The Core namespace contains all the code for all the core gameplay
+			The \texttt{Core} namespace contains all the code for all the core gameplay
 			elements. The term "core gameplay elements" refers to all the
 			elements necessary to play the basic game with, basically the code
-			for the game objects. Using only the code from the Core namespace,
+			for the game objects. Using only the code from the \texttt{Core} namespace,
 			it would be possible to create the same game without using AR
 			technology or using markers to play the game with, for that matter.
 			
-			The Core namespace is further subdivided into three namespaces:
-			the Core namespace itself, which contains code relating to the laser
+			The \texttt{Core} namespace is further subdivided into three namespaces:
+			the \texttt{Core} namespace itself, which contains code relating to the laser
 			and code that helps the other two namespaces, the 
 			\texttt{Core.Emitter} namespace, which contains code for objects 
-			that emit laser beams, and the \texttt{Code.Receiver} namespace, 
+			that emit laser beams, and the \texttt{Core.Receiver} namespace, 
 			which contains code for objects that receive laser beams and have to 
 			do something with these beams.
 			
@@ -148,7 +148,7 @@
 			\end{figure}
 			
 		\subsection{The Network namespace} \label{ssec:networknamespace}
-			The Network namespace has undergone several changes since the start
+			The \texttt{Network} namespace has undergone several changes since the start
 			of the project. These changes are described in this part.
 			
 			The first take on creating a network functionality in the game
@@ -282,6 +282,16 @@
 				\includegraphics[scale = 0.3]{Mirror}
 				\caption{A mirror.}
 				\label{fig:mirror}
+			\end{figure}
+			
+			As mentioned before in the user activities, the mirror's outer
+			frame will become brightly yellow when that mirror is selected.
+			A selected mirror is shown in figure \ref{fig:selectedmirror}.
+			\begin{figure}[!ht]
+				\centering
+				\includegraphics[scale = 0.3]{SelectedMirror}
+				\caption{A selected mirror.}
+				\label{fig:selectedmirror}
 			\end{figure}
 			
 		\subsection{Wall} \label{ssec:wall}

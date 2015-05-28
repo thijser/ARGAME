@@ -45,12 +45,10 @@ namespace Network
         {
             public int ID;
             public GameObject Object { get; private set; }
-            public DateTime LastUpdate { get; private set; }
 
             public MarkerState(PositionUpdate initialUpdate, GameObject referenceMarker)
             {
                 this.ID = initialUpdate.ID;
-                this.LastUpdate = new DateTime();
 
                 // Create mesh representing this marker
                 this.Object = GameObject.Instantiate(referenceMarker);
@@ -63,23 +61,20 @@ namespace Network
 
             public void Update(PositionUpdate update)
             {
-                this.LastUpdate = DateTime.Now;
-
-                // Update orientation of object
-                this.Object.SetActive(true);
-
-                this.Object.transform.position = new Vector3(
-                    update.X * ScaleFactor,
-                    0,
-                    VerticalOffset - (update.Y * ScaleFactor));
-
-                this.Object.transform.eulerAngles = new Vector3(0, update.Rotation, 0);
-            }
-
-            public void CheckTimeout()
-            {
-                if ((DateTime.Now - LastUpdate).TotalMilliseconds > TimeoutTime)
+                if (update.Type == UpdateType.Update)
                 {
+                    // Update orientation of object
+                    this.Object.SetActive(true);
+
+                    this.Object.transform.position = new Vector3(
+                        update.X * ScaleFactor,
+                        0,
+                        VerticalOffset - (update.Y * ScaleFactor));
+
+                    this.Object.transform.eulerAngles = new Vector3(0, update.Rotation, 0);
+                } else if (update.Type == UpdateType.Delete)
+                {
+                    // Remove object
                     this.Object.SetActive(false);
                 }
             }
@@ -109,17 +104,6 @@ namespace Network
             }
 
             markers[update.ID].Update(update);
-        }
-
-        /// <summary>
-        /// Check all markers to see if any need to be hidden because they timed out.
-        /// </summary>
-        public void Update()
-        {
-            foreach (var pair in markers)
-            {
-                pair.Value.CheckTimeout();
-            }
         }
 
         /// <summary>

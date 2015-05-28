@@ -132,12 +132,12 @@ namespace Network
                 if (Input.GetKey(KeyCode.A))
                 {
                     float t = Time.deltaTime * -90f;
-                    this.SelectedMirror.transform.parent.Rotate(0, t, 0);
+                    this.SelectedMirror.transform.Rotate(0, t, 0);
                 }
                 else if (Input.GetKey(KeyCode.D))
                 {
                     float t = Time.deltaTime * 90f;
-                    this.SelectedMirror.transform.parent.Rotate(0, t, 0);
+                    this.SelectedMirror.transform.Rotate(0, t, 0);
                 }
             }
         }
@@ -150,7 +150,7 @@ namespace Network
         {
             if (mirror != null)
             {
-                Transform frame = mirror.transform.parent.Find("Cube_002");
+                Transform frame = mirror.transform.Find("Frame");
                 MeshRenderer mesh = frame.GetComponent<MeshRenderer>();
                 mesh.material = this.Highlight;
             }
@@ -164,7 +164,7 @@ namespace Network
         {
             if (mirror != null)
             {
-                Transform frame = mirror.transform.parent.Find("Cube_002");
+                Transform frame = mirror.transform.Find("Frame");
                 MeshRenderer mesh = frame.GetComponent<MeshRenderer>();
                 mesh.material = this.Original;
             }

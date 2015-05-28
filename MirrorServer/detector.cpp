@@ -102,28 +102,28 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
     cv::findContours(maskClean, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
     // Find center points
-    vector<Point> markerPoints;
+    vector<cv::Rect> markerPoints;
 
     for (auto& points : contours) {
-        markerPoints.push_back(boundingCenter(points));
+        markerPoints.push_back(cv::boundingRect(points));
     }
 
     if (contours.size() == 4) {
         // First sort by y to separate top and bottom markers
-        std::sort(markerPoints.begin(), markerPoints.end(), [](Point a, Point b) { return a.y < b.y; });
+        std::sort(markerPoints.begin(), markerPoints.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.y < b.y; });
 
-        vector<Point> topMarkers(markerPoints.begin(), markerPoints.begin() + 2);
-        vector<Point> bottomMarkers(markerPoints.begin() + 2, markerPoints.begin() + 4);
+        vector<cv::Rect> topMarkers(markerPoints.begin(), markerPoints.begin() + 2);
+        vector<cv::Rect> bottomMarkers(markerPoints.begin() + 2, markerPoints.begin() + 4);
 
         // Then sort each of them by x to find left and right
-        std::sort(topMarkers.begin(), topMarkers.end(), [](Point a, Point b) { return a.x < b.x; });
-        std::sort(bottomMarkers.begin(), bottomMarkers.end(), [](Point a, Point b) { return a.x < b.x; });
+        std::sort(topMarkers.begin(), topMarkers.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.x < b.x; });
+        std::sort(bottomMarkers.begin(), bottomMarkers.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.x < b.x; });
 
         vector<Point2f> corners;
-        corners.push_back(topMarkers[0]); // Top-left
-        corners.push_back(topMarkers[1]); // Top-right
-        corners.push_back(bottomMarkers[0]); // Bottom-left
-        corners.push_back(bottomMarkers[1]); // Bottom-right
+        corners.push_back(Point(topMarkers[0].x, topMarkers[0].y)); // Top-left
+        corners.push_back(Point(topMarkers[1].x + topMarkers[1].width, topMarkers[1].y)); // Top-right
+        corners.push_back(Point(bottomMarkers[0].x, bottomMarkers[0].y + bottomMarkers[0].height)); // Bottom-left
+        corners.push_back(Point(bottomMarkers[1].x + bottomMarkers[1].width, bottomMarkers[1].y + bottomMarkers[1].height)); // Bottom-right
 
         return corners;
     }

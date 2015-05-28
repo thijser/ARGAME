@@ -83,7 +83,7 @@ namespace Core
         /// </summary>
         public void Create() 
         {
-            HitEventArgs args = this.GetValidReceiver();
+            HitEventArgs args = this.DoRaycast();
             ILaserReceiver receiver = args.Receiver;
             if (receiver != null) 
             {
@@ -95,32 +95,23 @@ namespace Core
         /// Finds the Receiver this Laser collided with.
         /// </summary>
         /// <returns>The HitEventArgs containing details about the collision.</returns>
-        public HitEventArgs GetValidReceiver()
+        public HitEventArgs DoRaycast()
         {
-            RaycastHit hit;
-			bool raycastHit = Physics.Raycast(this.Origin, this.Direction, out hit, MaxRaycastDist);
-			ILaserReceiver receiver = GetValidReceiver(hit);
-			if (raycastHit && receiver != null)
-            {
-				if (receiver == null)
-                {
-                    this.Endpoint = hit.point;
-                    this.emitter.AddLaser(this);
-                    return new HitEventArgs();
-                }
-                else
-                {
-                    this.Endpoint = hit.point;
-                    this.emitter.AddLaser(this);
-                    return new HitEventArgs(this, hit.point, hit.normal, receiver);
-                }
-            }
-            else
-            {
-                this.Endpoint = this.Origin + (this.Direction * MaxLaserLength);
-                this.emitter.AddLaser(this);
-                return new HitEventArgs();
-            }
+			RaycastHit[] hits = Physics.RaycastAll(this.Origin, this.Direction, MaxRaycastDist);
+			foreach (RaycastHit hit in hits) 
+			{
+				ILaserReceiver receiver = GetValidReceiver(hit);
+				if (receiver != null) 
+				{
+					this.Endpoint = hit.point;
+					this.emitter.AddLaser (this);
+					return new HitEventArgs (this, hit.point, hit.normal, receiver);
+				}
+			}
+
+			this.Endpoint = this.Origin + (MaxLaserLength * this.Direction);
+			this.Emitter.AddLaser(this);
+			return new HitEventArgs();
         }
 
 		/// <summary>
