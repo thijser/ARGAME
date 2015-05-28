@@ -36,6 +36,12 @@ namespace Core.Receiver
         public float MinimumStrength;
 
         /// <summary>
+        /// The original crystal material.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public Material OriginalMaterial;
+
+        /// <summary>
         /// The model that defines the crystal.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
@@ -79,6 +85,7 @@ namespace Core.Receiver
         {
             GetComponent<Animator>().SetBool("LaserHit", this.IsOpening);
             this.StartCoroutine(this.ResetState());
+            this.IsOpening = false;
         }
 
         /// <summary>
@@ -98,7 +105,8 @@ namespace Core.Receiver
                 throw new ArgumentException("The supplied HitEventArgs object was invalid.");
             }
 
-            if (args.Laser.Emitter.Properties.Strength >= MinimumStrength)
+            if (args.Laser.Emitter.Properties.Strength >= MinimumStrength && IsHitColorSufficient(
+                args.Laser.Emitter.Properties.LaserColor))
             {
                 Animator animator = GetComponent<Animator>();
                 animator.SetBool("LaserHit", true);
@@ -135,6 +143,20 @@ namespace Core.Receiver
         {
             yield return new WaitForEndOfFrame();
             this.IsOpening = false;
+        }
+
+        /// <summary>
+        /// Determines if the color of the laser hitting the target is sufficient.
+        /// </summary>
+        /// <param name="hit">The color of the beam hitting the target.</param>
+        /// <returns>True if the supplied color is within range (10% off at most
+        /// on all RGB strengths), false otherwise.</returns>
+        private bool IsHitColorSufficient(Color hit)
+        {
+            bool rIsSufficient = hit.r >= this.TargetColor.r * 0.9f && hit.r <= this.TargetColor.r * 1.1f;
+            bool gIsSufficient = hit.g >= this.TargetColor.g * 0.9f && hit.g <= this.TargetColor.g * 1.1f;
+            bool bIsSufficient = hit.b >= this.TargetColor.b * 0.9f && hit.b <= this.TargetColor.b * 1.1f;
+            return rIsSufficient && gIsSufficient && bIsSufficient;
         }
     }
 }
