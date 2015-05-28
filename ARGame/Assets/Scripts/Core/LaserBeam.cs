@@ -83,7 +83,7 @@ namespace Core
         /// </summary>
         public void Create() 
         {
-            HitEventArgs args = this.FindReceiver();
+            HitEventArgs args = this.GetValidReceiver();
             ILaserReceiver receiver = args.Receiver;
             if (receiver != null) 
             {
@@ -95,13 +95,14 @@ namespace Core
         /// Finds the Receiver this Laser collided with.
         /// </summary>
         /// <returns>The HitEventArgs containing details about the collision.</returns>
-        public HitEventArgs FindReceiver()
+        public HitEventArgs GetValidReceiver()
         {
             RaycastHit hit;
-            if (Physics.Raycast(this.Origin, this.Direction, out hit, MaxRaycastDist))
+			bool raycastHit = Physics.Raycast(this.Origin, this.Direction, out hit, MaxRaycastDist);
+			ILaserReceiver receiver = GetValidReceiver(hit);
+			if (raycastHit && receiver != null)
             {
-                ILaserReceiver receiver = hit.collider.GetComponent<ILaserReceiver>();
-                if (receiver == null)
+				if (receiver == null)
                 {
                     this.Endpoint = hit.point;
                     this.emitter.AddLaser(this);
@@ -121,6 +122,31 @@ namespace Core
                 return new HitEventArgs();
             }
         }
+
+		/// <summary>
+		/// Returns a valid ILaserReceiver from the given RaycastHit.
+		/// <para>
+		/// An ILaserReceiver is valid if the argument RaycastHit is not null
+		/// and the Collider of the hit has an ILaseReceiver Component that
+		/// also extends MonoBehaviour. Furthermore, the MonoBehaviour needs 
+		/// to be enabled to be valid.
+		/// </para>
+		/// </summary>
+		/// <returns>The ILaserReceiver, or null if no valid ILaserReceiver is found.</returns>
+		/// <param name="hit">The RaycastHit.</param>
+		private static ILaserReceiver GetValidReceiver(RaycastHit hit) 
+		{
+			if (hit.collider == null) {
+				return null;
+			}
+
+			ILaserReceiver receiver = hit.collider.GetComponent<ILaserReceiver>();
+			MonoBehaviour script = receiver as MonoBehaviour;
+			if (script == null || !script.enabled) {
+				return null;
+			}
+			return receiver;
+		}
 
         /// <summary>
         /// Extends this Laser beam in the specified direction.
