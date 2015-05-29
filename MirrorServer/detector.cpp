@@ -262,8 +262,9 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
     for (auto& marker : markerStates) {
         if (marker.recognition_state.id != -1) {
             // Convert marker coordinates to scaled coordinates
-            auto p = Point2f(marker.pos);
-            p /= markerScale;
+            Point2f p = Point2f(
+                        marker.pos.x / markerScale,
+                        marker.pos.y / markerScale);
 
             detectedMarkers.push_back(detected_marker(marker.recognition_state.id, p, static_cast<float>(marker.rotation)));
         }

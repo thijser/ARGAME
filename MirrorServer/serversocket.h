@@ -100,7 +100,7 @@ public:
      * @param rotation  - The rotation of the object.
      * @param timestamp - The timestamp of the update.
      */
-    void broadcastPositionUpdate(uint32_t id, float x, float y, float rotation, uint64_t timestamp);
+    void broadcastPositionUpdate(uint32_t id, float x, float y, float rotation);
 
     /**
      * @brief Broadcasts a delete message to all clients.

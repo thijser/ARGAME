@@ -31,14 +31,37 @@
 		the META One, but AR itself is still in development (as of
 		writing this report), and the META One glasses are experimental
 		at best. The SDK that we used first was also very buggy (due to the
-		experimental nature of the META One).
+		experimental nature of the META One). Also, the META One has a very
+		limited field-of-view (the field-of-view was so limited that, during
+		one of our first tests with our coach, the coach had to sit back
+		to keep everything tracked, which, especially considering that they
+		had to move markers as well as track the environment continuously,
+		was less than ideal). However, the SLAM tracking built into the
+		META allows for game objects to continue to be rendered on a marker
+		even if the marker is outside of the view of the META. SLAM tracking
+		is explained in subsection \ref{ssec:slamloc}.
 		
 		\subsection{SLAM tracking} \label{ssec:slamloc}
-			SLAM is an acronym, which stands for Simultaneous Localization And
-			Mapping. It stands for a computational problem involving making
-			a map of an unknown environment while updating the location of
-			the agent within it (this definition follows from Wikipedia).
+			SLAM is an acronym, which means Simultaneous Localization And
+			Mapping. It stands for a computational problem making a map
+			from an unknown environment while updating the location of the
+			agent in the same environment. These problems cannot be solved
+			independently from each other, as updating a map usually involves
+			knowing the location of the agent before any accurate updates
+			can be made, and vice versa. Several algorithms have been developed
+			for solving this problem, and there is even a platform, called OpenSLAM,
+			which contains several open source algorithms which solve this
+			problem.
 			
+			However, the algorithms are beside the point. the real benefit of 
+			using SLAM with AR is that SLAM tracking allows the META One to
+			render the game objects belonging to a marker while keeping them
+			rendered once the marker leaves the field-of-view of the META One.
+			Considering that the field-of-view of the META One is not that large
+			(As seen in our research report under Appendix \ref{app:researchreport}),
+			this is a huge benefit. The META One also has built-in support for
+			SLAM tracking of objects, which meant that no time had to be spent
+			on developing algorithms.
 
 	\section{Marker Detection} \label{sec:markerdetection}
 		...
@@ -48,4 +71,12 @@
 		
 	\section{Networking and the OpenCV server} \label{sec:network}
 		...
-	
+		
+		\subsection{Communication between C\# and C++} \label{ssec:communication}
+			...
+		
+		\subsection{The master camera} \label{ssec:mastercamera}
+			...
+			
+	\section{Distinguishable markers} \label{sec:markers}
+		...

@@ -4,9 +4,9 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces The use cases for the remote player.}}{9}
 \contentsline {figure}{\numberline {2.2}{\ignorespaces The use cases for the local player.}}{10}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Class diagram of the Core namespace}}{11}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Class diagram of the Network namespace}}{13}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Class diagram of the Projection namespace}}{14}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Class diagram of the \texttt {Core} namespace}}{11}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Class diagram of the \texttt {Network} namespace}}{13}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Class diagram of the \texttt {Projection} namespace}}{14}
 \contentsline {figure}{\numberline {2.6}{\ignorespaces The laser target.}}{15}
 \contentsline {figure}{\numberline {2.7}{\ignorespaces A mirror.}}{15}
 \contentsline {figure}{\numberline {2.8}{\ignorespaces A selected mirror.}}{15}
@@ -18,7 +18,7 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces A pair of META One glasses.}}{21}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces A SonarQube overview.}}{24}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces A SonarQube overview.}}{25}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

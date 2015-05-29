@@ -199,8 +199,8 @@ struct marker_state {
      * @brief Creates a structure describing a marker that hasn't been detected yet.
      */
     marker_state()
-        : id(-1), pos(Point(-1000, -1000)), rotations(ringbuffer<double>(MARKER_HISTORY_LENGTH)),
-        positions(ringbuffer<Point>(MARKER_HISTORY_LENGTH)), lastSighting(clock()) {}
+        : id(-1), positions(ringbuffer<Point>(MARKER_HISTORY_LENGTH)), pos(Point(-1000, -1000)),
+          rotations(ringbuffer<double>(MARKER_HISTORY_LENGTH)), lastSighting(clock()) {}
 };
 
 /**
