@@ -1,117 +1,97 @@
-/*
- * Copyright 2015, Delft University of Technology
- *
- * This software is licensed under the terms of the MIT license.
- * See http://opensource.org/licenses/MIT for the full license.
- *
- *
- */
-
 #include "serversocket.h"
 
-#include <iostream>
-
-#include "netlink/socket.h"
-#include "netlink/socket_group.h"
+#include <QTcpServer>
+#include <QTcpSocket>
 
 namespace mirrors {
 
-using namespace std;
-using namespace NL;
-
 namespace {
-    // Helper function that writes arbitrary types
-    // to a char array.
-    template<typename T>
-    void writeValue(T f, char *buf, int offset) {
-        char* bytes = reinterpret_cast<char*>(&f);
-        for (unsigned long i = 0; i < sizeof(T); i++) {
-            buf[offset + i] = bytes[i];
+    template <typename T>
+    QByteArray toRawBytes(T value) {
+        const char *bytes = reinterpret_cast<const char*>(&value);
+        return QByteArray(bytes, sizeof(T));
+    }
+}
+
+ServerSocket::ServerSocket(QObject *parent)
+    : QObject(parent), sock(new QTcpServer(this)), pingTimer(new QTimer(this))
+{
+    connect(sock, SIGNAL(newConnection()),
+            this, SLOT(newConnection()));
+    connect(sock, SIGNAL(acceptError(QAbstractSocket::SocketError)),
+            this, SLOT(handleError()));
+
+    pingTimer->setInterval(1000);
+    connect(pingTimer, SIGNAL(timeout()),
+            this,      SLOT(broadcastPing()));
+}
+
+void ServerSocket::setPortNumber(int portNum) {
+    Q_ASSERT(portNum > 0 && portNum < 65536);
+    port = portNum;
+}
+
+void ServerSocket::start() {
+    sock->listen(QHostAddress::Any, 23369);
+    emit started();
+}
+
+void ServerSocket::stop() {
+    sock->close();
+    emit stopped();
+}
+
+void ServerSocket::disconnect(QTcpSocket *client) {
+    if (clients.contains(client)) {
+        clients.removeOne(client);
+        if (client->isOpen()) {
+            client->close();
         }
+        emit clientDisconnected(client);
+        client->deleteLater();
     }
 }
 
-ServerSocket::ServerSocket(uint16_t serverPort) :
-        port(serverPort), sock(NULL), keepGoing(true) {
-}
-
-ServerSocket::~ServerSocket() throw() {
-    if (sock != NULL) {
-        delete sock;
+void ServerSocket::broadcastBytes(QByteArray bytes) {
+    foreach (QTcpSocket *client, clients) {
+        client->write(bytes);
     }
 }
 
-void ServerSocket::disconnect() {
-    keepGoing = false;
+void ServerSocket::broadcastPositionUpdate(int id, float x, float y, float rotation) {
+    QByteArray bytes;
+    bytes.append((char)0)
+         .append(toRawBytes(x))
+         .append(toRawBytes(y))
+         .append(toRawBytes(rotation))
+         .append(toRawBytes(id));
+    broadcastBytes(bytes);
 }
 
-void ServerSocket::run() throw (NL::Exception, std::logic_error) {
-    socketMutex.lock();
-    if (sock != NULL) {
-        socketMutex.unlock();
-        throw std::logic_error("ServerSocket::run - Cannot run multiple times");
-    }
-
-    sock = new Socket(port);
-    socketMutex.unlock();
-    clog << "Server started (listening on port " << sock->portFrom() << ")" << endl;
-    while (keepGoing) {
-        broadcastPing();
-        try {
-            socketMutex.lock();
-            Socket *client = sock->accept(1000);
-            socketMutex.unlock();
-            if (client != NULL) {
-                clog << "Added client: " << client->hostTo() << endl;
-                clients.add(client);
-            }
-        } catch (const NL::Exception &ex) {
-            socketMutex.unlock();
-            clog << "Exception in Socket accept: " << ex.msg() << endl;
-        }
-    }
-
-    socketMutex.lock();
-    delete sock;
-    sock = NULL;
-    socketMutex.unlock();
-    clog << "Server stopped" << endl;
-}
-
-void ServerSocket::broadcastMessage(const void *buffer, int length) {
-    for (uint16_t i = 0; i < clients.size(); i++) {
-        Socket *client = clients.get(i);
-        try {
-            client->send(buffer, length);
-        } catch (const NL::Exception &ex) {
-            clog << "Removed client: " << client->hostTo() << " (reason: " << ex.msg() << ")" << endl;
-            clients.remove(i);
-        }
-    }
-}
-
-void ServerSocket::broadcastPositionUpdate(uint32_t id, float x, float y, float rotation) {
-    char buffer[17];
-    writeValue((char)0, buffer, 0);
-    writeValue(x, buffer, 1);
-    writeValue(y, buffer, 5);
-    writeValue(rotation, buffer, 9);
-    writeValue(id, buffer, 13);
-
-    broadcastMessage(buffer, 17);
-}
-
-void ServerSocket::broadcastDelete(uint32_t id) {
-    char buffer[5];
-    writeValue((char)1, buffer, 0);
-    writeValue(id, buffer, 1);
-
-    broadcastMessage(buffer, 5);
+void ServerSocket::broadcastDelete(int id) {
+    QByteArray bytes;
+    bytes.append((char)1)
+         .append(toRawBytes(id));
+    broadcastBytes(bytes);
 }
 
 void ServerSocket::broadcastPing() {
-    char type = 2;
-    broadcastMessage(&type, 1);
+    broadcastBytes(QByteArray(1, 2));
 }
 
-} // namespace mirrors
+void ServerSocket::newConnection() {
+    QTcpSocket *client = sock->nextPendingConnection();
+    clients.append(client);
+    emit clientConnected(client);
+}
+
+void ServerSocket::handleError() {
+    emit errorOccurred(sock->errorString());
+}
+
+void ServerSocket::handleClientError() {
+    QTcpSocket *client = qobject_cast<QTcpSocket*>(sender());
+    disconnect(client);
+}
+
+}

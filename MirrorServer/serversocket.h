@@ -1,132 +1,58 @@
-/*
- * Copyright 2015, Delft University of Technology
- *
- * This software is licensed under the terms of the MIT license.
- * See http://opensource.org/licenses/MIT for the full license.
- *
- *
- */
+#ifndef SERVERSOCKET_H
+#define SERVERSOCKET_H
 
-/**
- * @file serversocket.h
- * @brief Defines the mirrors::ServerSocket class.
- */
-#ifndef MIRRORS_SERVERSOCKET_H
-#define MIRRORS_SERVERSOCKET_H
+#include <QObject>
+#include <QTimer>
 
-#include <mutex>
-
-#include "netlink/socket.h"
-#include "netlink/socket_group.h"
+class QTcpServer;
+class QTcpSocket;
 
 namespace mirrors {
 
-using namespace NL;
-
-/**
- * @brief Server implementation using NetLink sockets.
- */
-class ServerSocket {
+class ServerSocket : public QObject
+{
+    Q_OBJECT
+    Q_DISABLE_COPY(ServerSocket)
 private:
-    /// The port the server listens on.
-    uint16_t port;
+    QTcpServer *sock;
+    QList<QTcpSocket*> clients;
+    QTimer *pingTimer;
 
-    /// The Socket that clients can connect to.
-    Socket *sock;
-
-    /// The SocketGroup maintaining the connected clients.
-    SocketGroup clients;
-
-    /// Flag indicating if the server should still be running.
-    bool keepGoing;
-
-    /// The mutex used for locking the Socket.
-    std::mutex socketMutex;
-
-    // Disable copying of ServerSockets.
-    ServerSocket(const ServerSocket&) = delete;
-    ServerSocket& operator=(const ServerSocket&) = delete;
+    int port;
 public:
-    /**
-     * @brief Creates a new server Socket that connects to the given port.
-     * @param serverPort - The port of the server Socket.
-     */
-    explicit ServerSocket(uint16_t serverPort);
+    explicit ServerSocket(QObject *parent = 0);
 
-    /**
-     * @brief Closes and deletes the Socket.
-     */
-    virtual ~ServerSocket() throw();
+    int portNumber() const { return port; }
+    QTcpServer* socket() const { return sock; }
+    QList<QTcpSocket*> connections() const { return clients; }
 
-    /**
-     * @brief Disconnects the server Socket.
-     */
-    void disconnect();
+    void setPortNumber(int portNum);
+signals:
+    void started();
+    void stopped();
 
-    /**
-     * @brief Tests whether this server is running.
-     * @return True if this server is running, false otherwise.
-     */
-    bool isRunning() const { return sock != NULL; }
+    void clientConnected(QTcpSocket *client);
+    void clientDisconnected(QTcpSocket *client);
 
-    /**
-     * @brief Runs the server until disconnected.
-     *
-     * This function will only return after the Socket is disconnected.
-     * @throws NL::Exception    - If an exception occurred in the NetLink Socket.
-     * @throws std::logic_error - If this server is already running.
-     */
-    void run() throw (NL::Exception, std::logic_error);
+    void errorOccurred(QString message);
 
-    /**
-     * @brief The amount of connections this Server currently has.
-     * @return The amount of connections.
-     */
-    int connectionCount() const { return clients.size(); }
+public slots:
+    void start();
+    void stop();
 
-    /**
-     * @brief Broadcasts a message to all clients.
-     *
-     * @param buffer - The buffer with the data to send.
-     * @param length - The length of the data, must be positive.
-     */
-    void broadcastMessage(const void *buffer, int length);
+    void disconnect(QTcpSocket *client);
 
-    /**
-     * @brief Broadcasts a position update to all clients.
-     * @param id        - The id of the object.
-     * @param x         - The x coordinate.
-     * @param y         - The y coordinate.
-     * @param rotation  - The rotation of the object.
-     * @param timestamp - The timestamp of the update.
-     */
-    void broadcastPositionUpdate(uint32_t id, float x, float y, float rotation);
-
-    /**
-     * @brief Broadcasts a delete message to all clients.
-     * @param id - The id of the object.
-     */
-    void broadcastDelete(uint32_t id);
-
-    /**
-     * @brief Broadcasts a ping message to all clients.
-     *
-     * This message keeps the connection alive and should be sent at least
-     * every second if no other messages are sent.
-     */
+    void broadcastBytes(QByteArray bytes);
+    void broadcastPositionUpdate(int id, float x, float y, float rotation);
+    void broadcastDelete(int id);
     void broadcastPing();
 
-    /**
-     * @brief Enables the use of Sockets.
-     *
-     * This is required to be called on Windows (for initializing WSA),
-     * but doesn't do any harm on other systems.
-     *
-     * This static function delegates to @c NL::init()
-     */
-    static void initialize() throw(NL::Exception) { NL::init(); }
+private slots:
+    void newConnection();
+    void handleError();
+    void handleClientError();
 };
 
-} // namespace mirrors
+}
 
-#endif // MIRRORS_SERVERSOCKET_H
+#endif // SERVERSOCKET_H
