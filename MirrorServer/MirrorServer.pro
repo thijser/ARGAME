@@ -15,13 +15,15 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     serversocket.cpp \
-    detector.cpp
+    detector.cpp \
+    servercontroller.cpp
 
 HEADERS  += \
     mainwindow.h \
     serversocket.h \
     ringbuffer.hpp \
-    detector.hpp
+    detector.hpp \
+    servercontroller.h
 
 FORMS    += mainwindow.ui
 

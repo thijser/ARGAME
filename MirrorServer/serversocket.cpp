@@ -26,8 +26,12 @@ ServerSocket::ServerSocket(QObject *parent)
             this,      SLOT(broadcastPing()));
 }
 
-void ServerSocket::setPortNumber(int portNum) {
-    Q_ASSERT(portNum > 0 && portNum < 65536);
+bool ServerSocket::isStarted() const {
+    return sock->isListening();
+}
+
+void ServerSocket::setPortNumber(quint16 portNum) {
+    Q_ASSERT(!sock->isListening());
     port = portNum;
 }
 
@@ -91,7 +95,9 @@ void ServerSocket::handleError() {
 
 void ServerSocket::handleClientError() {
     QTcpSocket *client = qobject_cast<QTcpSocket*>(sender());
-    disconnect(client);
+    if (client != nullptr) {
+        disconnect(client);
+    }
 }
 
 }

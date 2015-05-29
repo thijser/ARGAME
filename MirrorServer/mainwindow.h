@@ -5,12 +5,10 @@
 #include <opencv2/core/core.hpp>
 #include <vector>
 
-#include "detector.hpp"
-
 namespace mirrors {
 using namespace std;
 
-class ServerSocket;
+class ServerController;
 
 namespace Ui {
 class MainWindow;
@@ -22,16 +20,15 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setServer(ServerSocket *server);
-    void setDetector(detector *det);
+    void setController(ServerController *controller);
 public slots:
     void startServer();
-    void handleFrame(const cv::Mat& matrix, vector<detected_marker> markers);
+
+    void handleFrame(const cv::Mat& matrix);
     void stopServer();
 private:
     Ui::MainWindow *ui;
-    ServerSocket *server;
-    detector *det;
+    ServerController *controller;
 };
 
 }

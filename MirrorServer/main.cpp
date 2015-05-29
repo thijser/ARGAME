@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "serversocket.h"
+#include "servercontroller.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -15,9 +15,9 @@ using namespace mirrors;
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    ServerSocket server;
+    ServerController controller;
     MainWindow w;
-    w.setServer(&server);
+    w.setController(&controller);
     w.show();
 
     return a.exec();

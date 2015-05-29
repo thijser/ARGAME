@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "serversocket.h"
+#include "servercontroller.h"
 
 #include <QDebug>
 #include <QImage>
@@ -25,14 +25,8 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::setServer(ServerSocket *server) {
-    Q_ASSERT(server != NULL);
-    this->server = server;
-}
-
-void MainWindow::setDetector(detector *det) {
-    Q_ASSERT(det != NULL);
-    this->det = det;
+void MainWindow::setController(ServerController *controller) {
+    this->controller = controller;
 }
 
 void MainWindow::startServer() {
@@ -43,8 +37,7 @@ void MainWindow::startServer() {
         //TODO Show message dialog instead.
         qDebug() << "Provided an invalid port number";
     } else {
-        server->setPortNumber(port);
-        server->start();
+        controller->startServer(port);
         ui->serverPort->setEnabled(false);
         ui->startButton->setEnabled(false);
         ui->stopButton->setEnabled(true);
@@ -52,23 +45,15 @@ void MainWindow::startServer() {
     }
 }
 
-void MainWindow::handleFrame(const cv::Mat &matrix, vector<detected_marker> markers) {
+void MainWindow::handleFrame(const cv::Mat &matrix) {
     QImage image(matrix.data, matrix.cols, matrix.rows, QImage::Format_RGB888);
     QPixmap pixmap = QPixmap::fromImage(image);
     ui->image->setPixmap(pixmap);
-
-    for (detected_marker marker : markers) {
-        if (marker.deleted) {
-            server->broadcastDelete(marker.id);
-        } else {
-            server->broadcastPositionUpdate(marker.id, marker.position.x, marker.position.y, marker.rotation);
-        }
-    }
 }
 
 void MainWindow::stopServer() {
     qDebug() << "Stopping server";
-    server->stop();
+    controller->stopServer();
     ui->serverPort->setEnabled(true);
     ui->startButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
