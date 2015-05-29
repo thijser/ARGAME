@@ -30,7 +30,7 @@ namespace mirrors {
 const int MARKER_HISTORY_LENGTH = 15;
 
 /// Amount of marker scales to average.
-const int MARKER_SCALE_HISTORY_LENGTH = 60;
+const int MARKER_SCALE_HISTORY_LENGTH = 120;
 
 /// Maximum distance a marker can move per frame before it's considered a new marker.
 const float MARKER_MAX_FRAME_DIST = 50;
@@ -78,16 +78,16 @@ struct recognition_result {
  */
 struct detected_marker {
     /// Index of the recognised pattern.
-    const int id;
+    int id;
 
     /// X and Y position on the board
-    const Point2f position;
+    Point2f position;
 
     /// Yaw rotation of marker
-    const float rotation;
+    float rotation;
 
     /// True if marker was deleted this frame (not seen for a while).
-    const bool deleted;
+    bool deleted;
 
     /**
      * @brief Creates a new structure describing a detected marker.
@@ -101,7 +101,7 @@ struct detected_marker {
 };
 
 /// Callback for detected markers in a frame.
-typedef std::function<void(const Mat&, vector<detected_marker>)> detection_callback;
+typedef std::function<void(const vector<detected_marker>&)> detection_callback;
 
 /**
  * @brief Angles that are multiples of 90 degrees, used for exact rotations.
@@ -135,20 +135,6 @@ struct match_result {
     match_result(int pattern = 0, float score = 0, exact_angle rotation = CLOCKWISE_0)
         : pattern(pattern), score(score), rotation(rotation) {
     }
-};
-
-/**
- * @brief Info about possible marker objects in camera image.
- */
-struct marker_locations {
-    /// List of green contours that were detected.
-    vector<vector<Point>> contours;
-
-    /// Hierarchy of detected contours (outer and inner contours).
-    vector<Vec4i> hierarchy;
-
-    /// List of indices into contours collection that are likely to be markers.
-    vector<size_t> candidates;
 };
 
 /**
@@ -215,15 +201,21 @@ public:
 
     /**
      * @brief Capture a single frame and detect markers in it.
-     * @param callback - Callback to pass detection results to.
+     * @return Updates to markers (new markers, moved markers, removed markers).
      */
-    void detect(const detection_callback& callback);
+    vector<detected_marker> detect();
 
     /**
      * @brief Continuously capture frames and detect markers in them.
      * @param callback - Callback to pass detection results of each frame to.
      */
     void loop(const detection_callback& callback);
+
+    /**
+     * @brief Retrieve the last frame that detection ran on.
+     * @return Last frame that detection ran on.
+     */
+    const Mat& getLastFrame() const;
 
     /**
      * @brief Method to abort an invocation of loop().
@@ -233,6 +225,9 @@ public:
 private:
     /// Video capture device to capture frames from.
     VideoCapture cap;
+
+    /// Last captured frame.
+    Mat lastFrame;
 
     /// Actual horizontal resolution to capture frames with.
     int width;
@@ -253,7 +248,7 @@ private:
     vector<marker_state> markerStates;
 
     /// Average scale of markers.
-    ringbuffer<float> markerScales;
+    vector<float> markerScales;
 
     /// ID reserved for the next newly detected marker.
     int nextId = 0;
@@ -299,17 +294,33 @@ private:
     /**
      * @brief Find possible markers in a frame given a threshold on green regions.
      * @param thresholdedFrame - Binary image as returned by thresholdGreen().
-     * @return Locations of possible markers.
+     * @return Contours of possible markers.
      */
-    marker_locations locateMarkers(const Mat& thresholdedFrame) const;
+    vector<vector<Point>> locateMarkers(const Mat& thresholdedFrame) const;
 
     /**
     * @brief Track previously seen markers in the new frame and update their state.
     * @param correctedFrame - Image as returned by correctPerspective().
-    * @param data - Marker detection results from locateMarkers().
+    * @param markerContours - Marker detection results from locateMarkers().
     * @return Updated marker states.
     */
-    vector<detected_marker> trackMarkers(const Mat& correctedFrame, const marker_locations& data);
+    vector<detected_marker> trackMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours);
+
+    /**
+     * @brief Check for markers that moved, new markers and disappeared markers.
+     * @param correctedFrame - Image as returned by correctPerspective().
+     * @param markerContours - Marker detection results from locateMarkers().
+     * @param unseenMarkerCount - Output variable for amount of unseen markers.
+     * @param newMarkerCount - Output variable for amount of new markers.
+     * @return Updated marker states.
+     */
+    vector<detected_marker> discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours);
+
+    /**
+     * @brief Check and remove markers that haven't been visible for a while.
+     * @return Marker updates for the deletes.
+     */
+    vector<detected_marker> checkMarkerTimeouts();
 
     /**
      * @brief Recognise the pattern of the marker described by the given contour.
@@ -326,6 +337,14 @@ private:
      * @return Best matching known pattern and rotation of it.
      */
     match_result findMatchingMarker(const Mat& detectedPattern) const;
+
+    /**
+     * @brief Process four contours into a standardized list of corners
+     * in the order top-left, top-right, bottom-left and bottom-right.
+     * @param cornerContours - Contours that represent the red corners (exactly 4 items).
+     * @return Standardized list of corners.
+     */
+    static vector<Point2f> classifyCorners(const vector<vector<Point>>& cornerContours);
 
     /**
      * @brief Calculate average of given numbers.
