@@ -99,6 +99,11 @@ namespace Projection
         {
             this.objectTable = new Dictionary<int, GameObject>();
             int i = 0;
+
+			//mark levelMarker as active level marker
+			BaseForLevel levelmarker= this.LevelMarker.GetComponent<BaseForLevel>();
+			levelmarker.LevelMarker=true;
+
             foreach (GameObject go in this.RegisterObjectsOnStartup)
             {
                 go.AddComponent<UpdateWrapper>();
