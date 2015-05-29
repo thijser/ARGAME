@@ -29,6 +29,12 @@
       <layout class="QFormLayout" name="formLayout">
        <item row="1" column="0">
         <widget class="QLabel" name="portLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string>ServerPort</string>
          </property>
@@ -42,8 +48,14 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="inputMask">
+          <string/>
+         </property>
          <property name="maxLength">
-          <number>5</number>
+          <number>32767</number>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

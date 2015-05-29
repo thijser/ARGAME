@@ -103,7 +103,7 @@ public slots:
      * @brief Starts this ServerController.
      * @param port - The port number to bind to.
      */
-    void startServer(int port);
+    void startServer(quint16 port);
 
     /**
      * @brief Stops this ServerController.

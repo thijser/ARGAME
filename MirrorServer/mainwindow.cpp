@@ -19,6 +19,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // The server is stopped by default, so the stop button
     // needs to be disabled here.
     ui->stopButton->setEnabled(false);
+
+    // Set the port number LineEdit to only accept numbers in
+    // the range 0-65536
+    ui->serverPort->setValidator(new QIntValidator(0, 65536, this));
 }
 
 MainWindow::~MainWindow() {
@@ -31,18 +35,16 @@ void MainWindow::setController(ServerController *controller) {
 
 void MainWindow::startServer() {
     qDebug() << "Starting server";
-    bool ok = true;
-    int port = ui->serverPort->text().toInt(&ok);
-    if (!ok || port <= 0 || port >= 65536) {
-        //TODO Show message dialog instead.
-        qDebug() << "Provided an invalid port number";
-    } else {
-        controller->startServer(port);
-        ui->serverPort->setEnabled(false);
-        ui->startButton->setEnabled(false);
-        ui->stopButton->setEnabled(true);
-        qDebug() << "Server started";
-    }
+
+    // The QIntValidator set to this QLineEdit
+    // ensures the text represents a valid number
+    // in the range 0-65536
+    quint16 port = static_cast<quint16>(ui->serverPort->text().toInt());
+    controller->startServer(port);
+    ui->serverPort->setEnabled(false);
+    ui->startButton->setEnabled(false);
+    ui->stopButton->setEnabled(true);
+    qDebug() << "Server started";
 }
 
 void MainWindow::handleFrame(const cv::Mat &matrix) {

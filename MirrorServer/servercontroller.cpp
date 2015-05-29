@@ -8,7 +8,7 @@ ServerController::ServerController(QObject *parent)
       detectorTimer(new QTimer(this)), serverState(Idle)
 {
     connect(this, SIGNAL(markersUpdated(vector<detected_marker>)),
-            this, SLOT(broadcastUpdates(vector<detected_marker>)));
+            this, SLOT(broadcastPositions(vector<detected_marker>)));
     connect(detectorTimer, SIGNAL(timeout()),
             this,          SLOT(detectFrame()));
     connect(sock, SIGNAL(errorOccurred(QString)),
@@ -35,7 +35,7 @@ void ServerController::changeState(ServerState state) {
     emit stateChanged(state);
 }
 
-void ServerController::startServer(int port) {
+void ServerController::startServer(quint16 port) {
     changeState(Starting);
     sock->setPortNumber(port);
     sock->start();
