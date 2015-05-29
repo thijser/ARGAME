@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
 #endif
 
     // Start detection loop
-    cameraDetector.loop([&](const Mat& processedFrame, vector<detected_marker> markers) {
+    cameraDetector.loop([&](vector<detected_marker> markers) {
         for (auto& marker : markers) {
             if (marker.deleted) {
                 server.broadcastDelete(marker.id);
@@ -112,7 +112,7 @@ int main(int argc, char **argv) {
         }
 
         if (showFrames) {
-            cv::imshow("Camera", processedFrame);
+            cv::imshow("Camera", cameraDetector.getLastFrame());
         }
     });
 
