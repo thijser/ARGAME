@@ -71,7 +71,6 @@ namespace Projection
 			//check if there is a marker detector (if there isn't the meta isn't working)
 			if (MarkerDetector.Instance != null)
 			{
-				Debug.Log("seeing" + MarkerDetector.Instance.GetNumberOfVisibleMarkers()+ "markers");
 				//check if we can see this marker 
 				if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(ID)){
 					//if we can then move this marker to that position 

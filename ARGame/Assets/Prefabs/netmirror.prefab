@@ -13,7 +13,6 @@ GameObject:
   - 114: {fileID: 11459552}
   - 114: {fileID: 11435702}
   - 114: {fileID: 11421938}
-  - 114: {fileID: 11420364}
   m_Layer: 0
   m_Name: netmirror
   m_TagString: Untagged
@@ -243,17 +242,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: .00173175335, z: -.0304059982}
---- !u!114 &11420364
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 161894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5d2e02f99454d64481a1c80fbd800b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11421938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -265,9 +253,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed37e9a5f6dc43248819ce2b746247b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 3
-  remoteX: 1.20000005
-  remoteY: 1.20000005
+  LevelMarker: 0
+  ID: -1
+  RemoteX: 0
+  RemoteY: 0
 --- !u!114 &11435702
 MonoBehaviour:
   m_ObjectHideFlags: 1

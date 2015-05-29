@@ -56,7 +56,7 @@ namespace Projection
             {
                 throw new KeyNotFoundException("ID of not yet registered object");
             }
-
+			
             BaseForLevel home = this.LevelMarker.GetComponent<BaseForLevel>();
             GameObject toMove = this.objectTable[update.ID];
             Transform transToMove = toMove.GetComponent<Transform>();
@@ -71,7 +71,7 @@ namespace Projection
             }
 
             UpdateWrapper wrapper = toMove.GetComponent<UpdateWrapper>();
-            wrapper.Wrapped = toMove.GetComponent<PositionUpdate>();
+			wrapper.Wrapped = update;
         }
 
         /// <summary>
