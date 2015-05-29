@@ -36,6 +36,9 @@ namespace Projection
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public GameObject LevelMarker;
 
+		/// <summary>
+		/// The marker scale factor.
+		/// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public float Scale;
 
@@ -61,10 +64,15 @@ namespace Projection
             GameObject toMove = this.objectTable[update.ID];
             Transform transToMove = toMove.GetComponent<Transform>();
             Transform par = this.LevelMarker.GetComponent<Transform>();
-            transToMove.localPosition = new Vector3((update.X - home.RemoteX) * this.Scale, 0, (update.Y - home.RemoteY) * this.Scale) + par.position;
-            BaseForLevel bfl;
 
-            if ((bfl = toMove.GetComponent<BaseForLevel>()) != null)
+			// TODO: Check if `par.position` is still correct.
+			transToMove.localPosition = par.position + new Vector3(
+				(update.X - home.RemoteX) * this.Scale, 
+				0, 
+				(update.Y - home.RemoteY) * this.Scale);
+			BaseForLevel bfl = toMove.GetComponent<BaseForLevel>();
+
+            if (bfl != null)
             {
                 bfl.RemoteX = update.X;
                 bfl.RemoteY = update.Y;
