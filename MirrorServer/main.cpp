@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
     std::clog << "UI Enabled: " << showFrames << std::endl;
 #endif
 
-    detector cameraDetector(deviceID);
+    Detector cameraDetector(deviceID);
 
     ServerSocket::initialize();
     ServerSocket server(SERVER_PORT);

@@ -5,14 +5,14 @@
 namespace Mirrors {
 
 CornerDetector::CornerDetector(const cv::Mat& image) {
-    corners = FindCorners(image);
+    corners = findCorners(image);
 }
 
-const vector<Point>& CornerDetector::GetCorners() {
+const vector<Point>& CornerDetector::getCorners() {
     return corners;
 }
 
-vector<Point> CornerDetector::FindCorners(const cv::Mat& image) {
+vector<Point> CornerDetector::findCorners(const cv::Mat& image) {
     // Threshold on red
     Mat frameParts[3];
     split(image, frameParts);
@@ -27,13 +27,13 @@ vector<Point> CornerDetector::FindCorners(const cv::Mat& image) {
     cv::findContours(maskClean, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
     if (contours.size() == 4) {
-        return ClassifyCorners(contours);
+        return classifyCorners(contours);
     } else {
         return vector<Point>();
     }
 }
 
-vector<Point> CornerDetector::ClassifyCorners(const vector<vector<Point>>& contours) {
+vector<Point> CornerDetector::classifyCorners(const vector<vector<Point>>& contours) {
     // Find bounding regions.
     vector<cv::Rect> markerPoints;
 
