@@ -50,10 +50,12 @@ namespace Projection
 					BaseForLevel bfl;
 					if((bfl= newTransform.gameObject.GetComponent<BaseForLevel>())!=null){
 						bfl.Seen();
+						Debug.Log ("transforming");
 						if(gameObject.GetComponent<UsedCardManager>()){
 							UpdateWrapper wrapper=gameObject.GetComponent<UpdateWrapper>();
-					
+							Debug.Log ("locking");
 							if(wrapper!=null&&wrapper.wrapped!=null){
+								Debug.Log("done");
 								transform.RotateAround(transform.position,transform.up,-1*wrapper.wrapped.Rotation);
 							}
 						}

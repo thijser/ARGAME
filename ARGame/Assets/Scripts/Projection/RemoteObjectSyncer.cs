@@ -54,8 +54,10 @@ namespace Projection
 				bfl.remoteX=update.X;
 				bfl.remoteY=update.Y;
 			}
-			UpdateWrapper wrapper= toMove.GetComponent<UpdateWrapper>();
-			wrapper.wrapped=toMove.GetComponent<PositionUpdate>();
+
+			toMove.AddComponent<UpdateWrapper>();
+			UpdateWrapper tmuw=toMove.GetComponent<UpdateWrapper>();
+			tmuw.wrapped=update;
         }
 
 		/// <summary>
