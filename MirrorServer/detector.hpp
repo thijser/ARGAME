@@ -253,7 +253,7 @@ private:
     vector<marker_state> markerStates;
 
     /// Average scale of markers.
-    ringbuffer<float> markerScales;
+    vector<float> markerScales;
 
     /// ID reserved for the next newly detected marker.
     int nextId = 0;
@@ -311,6 +311,8 @@ private:
     */
     vector<detected_marker> trackMarkers(const Mat& correctedFrame, const marker_locations& data);
 
+    vector<detected_marker> discoverAndUpdateMarkers(const Mat& correctedFrame, const marker_locations& data, size_t& unseenMarkerCount, size_t& newMarkerCount);
+
     /**
      * @brief Recognise the pattern of the marker described by the given contour.
      * @param correctedFrame - Image as returned by correctPerspective().
@@ -326,6 +328,14 @@ private:
      * @return Best matching known pattern and rotation of it.
      */
     match_result findMatchingMarker(const Mat& detectedPattern) const;
+
+    /**
+     * @brief Process four contours into a standardized list of corners
+     * in the order top-left, top-right, bottom-left and bottom-right.
+     * @param cornerContours - Contours that represent the red corners (exactly 4 items).
+     * @return Standardized list of corners.
+     */
+    static vector<Point2f> classifyCorners(const vector<vector<Point>>& cornerContours);
 
     /**
      * @brief Calculate average of given numbers.

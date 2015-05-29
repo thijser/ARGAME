@@ -35,8 +35,6 @@ detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
     // Get actual resolution
     width = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_WIDTH));
     height = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_HEIGHT));
-
-    markerScales = ringbuffer<float>(MARKER_SCALE_HISTORY_LENGTH);
 }
 
 bool detector::registerMarkers(const vector<Mat>& markers) {
@@ -97,44 +95,46 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
     Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, Size(3, 3));
     cv::erode(mask, maskClean, kernel);
 
-    // Find 4 red corner regions
+    // Find 4 red corner regions and return them in the right order
     vector<vector<Point>> contours;
     cv::findContours(maskClean, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
-    // Find center points
+    if (contours.size() == 4) {
+        return classifyCorners(contours);
+    } else {
+        return vector<Point2f>();
+    }
+}
+
+vector<Point2f> detector::classifyCorners(const vector<vector<Point>>& contours) {
+    // Find bounding regions.
     vector<cv::Rect> markerPoints;
 
     for (auto& points : contours) {
         markerPoints.push_back(cv::boundingRect(points));
     }
 
-    if (contours.size() == 4) {
-        // First sort by y to separate top and bottom markers
-        std::sort(markerPoints.begin(), markerPoints.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.y < b.y; });
+    // First sort by y to separate top and bottom markers.
+    std::sort(markerPoints.begin(), markerPoints.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.y < b.y; });
 
-        vector<cv::Rect> topMarkers(markerPoints.begin(), markerPoints.begin() + 2);
-        vector<cv::Rect> bottomMarkers(markerPoints.begin() + 2, markerPoints.begin() + 4);
+    vector<cv::Rect> top(markerPoints.begin(), markerPoints.begin() + 2);
+    vector<cv::Rect> bottom(markerPoints.begin() + 2, markerPoints.begin() + 4);
 
-        // Then sort each of them by x to find left and right
-        std::sort(topMarkers.begin(), topMarkers.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.x < b.x; });
-        std::sort(bottomMarkers.begin(), bottomMarkers.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.x < b.x; });
+    // Then sort each of them by x to find left and right
+    std::sort(top.begin(), top.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.x < b.x; });
+    std::sort(bottom.begin(), bottom.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.x < b.x; });
 
-        vector<Point2f> corners;
-        corners.push_back(Point(topMarkers[0].x, topMarkers[0].y)); // Top-left
-        corners.push_back(Point(topMarkers[1].x + topMarkers[1].width, topMarkers[1].y)); // Top-right
-        corners.push_back(Point(bottomMarkers[0].x, bottomMarkers[0].y + bottomMarkers[0].height)); // Bottom-left
-        corners.push_back(Point(bottomMarkers[1].x + bottomMarkers[1].width, bottomMarkers[1].y + bottomMarkers[1].height)); // Bottom-right
+    // Determine the bounds of the board by taking the outer corners of the corner markers.
+    vector<Point2f> corners;
+    corners.push_back(Point(top[0].x, top[0].y)); // Top-left
+    corners.push_back(Point(top[1].x + top[1].width, top[1].y)); // Top-right
+    corners.push_back(Point(bottom[0].x, bottom[0].y + bottom[0].height)); // Bottom-left
+    corners.push_back(Point(bottom[1].x + bottom[1].width, bottom[1].y + bottom[1].height)); // Bottom-right
 
-        return corners;
-    }
-
-    return vector<Point2f>();
+    return corners;
 }
 
 vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const marker_locations& data) {
-    // Build list of updated marker data
-    vector<detected_marker> detectedMarkers;
-
     // Start by marking everything as not seen
     size_t unseenMarkerCount = markerStates.size();
     size_t newMarkerCount = 0;
@@ -143,6 +143,62 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
         state.updatedThisFrame = false;
         state.newThisFrame = false;
     }
+
+    // Build list of updated marker data
+    auto detectedMarkers = discoverAndUpdateMarkers(correctedFrame, data, unseenMarkerCount, newMarkerCount);
+
+    // If exactly 1 marker was not seen and exactly 1 new marker has appeared,
+    // then assume that the marker has moved very quickly.
+    if (unseenMarkerCount == 1 && newMarkerCount == 1) {
+        for (auto& state : markerStates) {
+            if (!state.updatedThisFrame && !state.newThisFrame) {
+                state.pos = markerStates[markerStates.size() - 1].pos;
+                state.lastSighting = clock();
+                break;
+            }
+        }
+
+        markerStates.pop_back();
+    }
+
+    // Clean up markers that haven't been seen in a while (500 ms)
+    clock_t now = clock();
+    bool done = false;
+
+    while (!done) {
+        done = true;
+
+        for (size_t i = 0; i < markerStates.size(); i++) {
+            if (now - markerStates[i].lastSighting > CLOCKS_PER_SEC / 2) {
+                if (markerStates[i].recognition_state.id != -1) {
+                    detectedMarkers.push_back(detected_marker(markerStates[i].recognition_state.id, Point2f(), 0, true));
+                }
+
+                markerStates.erase(markerStates.begin() + i);
+                done = false;
+                break;
+            }
+        }
+    }
+
+    float markerScale = average(markerScales);
+
+    for (auto& marker : markerStates) {
+        if (marker.recognition_state.id != -1) {
+            // Convert marker coordinates to scaled coordinates
+            Point2f p = Point2f(
+                        marker.pos.x / markerScale,
+                        marker.pos.y / markerScale);
+
+            detectedMarkers.push_back(detected_marker(marker.recognition_state.id, p, static_cast<float>(marker.rotation)));
+        }
+    }
+
+    return detectedMarkers;
+}
+
+vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedFrame, const marker_locations& data, size_t& unseenMarkerCount, size_t& newMarkerCount) {
+    vector<detected_marker> detectedMarkers;
 
     for (size_t contourId : data.candidates) {
         auto& contour = data.contours[contourId];
@@ -179,7 +235,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
             }
 
             closestMarker->pos = movingPos;
-            
+
             auto newRecognition = recognizeMarker(correctedFrame, contour);
 
             // If the same pattern is still detected, update the recognized rotation
@@ -199,12 +255,12 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
                     }
                     movingRot = newRot;
                 }
-                
+
                 closestMarker->rotation = movingRot;
 
                 // Also add the scale to average it across markers and time
-                if (markerScales.size() < 120) {
-                    markerScales.add(newRecognition.scale);
+                if (markerScales.size() < MARKER_SCALE_HISTORY_LENGTH) {
+                    markerScales.push_back(newRecognition.scale);
                 }
             }
 
@@ -230,53 +286,6 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
             markerStates.push_back(newMarker);
 
             newMarkerCount++;
-        }
-    }
-
-    // If exactly 1 marker was not seen and exactly 1 new marker has appeared,
-    // then assume that the marker has moved very quickly.
-    if (unseenMarkerCount == 1 && newMarkerCount == 1) {
-        for (auto& state : markerStates) {
-            if (!state.updatedThisFrame && !state.newThisFrame) {
-                state.pos = markerStates[markerStates.size() - 1].pos;
-                state.lastSighting = clock();
-                break;
-            }
-        }
-
-        markerStates.pop_back();
-    }
-
-    // Clean up markers that haven't been seen in a while (500 ms)
-    clock_t now = clock();
-    bool done = false;
-
-    while (!done) {
-        done = true;
-
-        for (size_t i = 0; i < markerStates.size(); i++) {
-            if (now - markerStates[i].lastSighting > CLOCKS_PER_SEC / 2) {
-                if (markerStates[i].recognition_state.id != -1) {
-                    detectedMarkers.push_back(detected_marker(markerStates[i].recognition_state.id, Point2f(), 0, true));
-                }
-
-                markerStates.erase(markerStates.begin() + i);
-                done = false;
-                break;
-            }
-        }
-    }
-
-    float markerScale = average(markerScales.data());
-
-    for (auto& marker : markerStates) {
-        if (marker.recognition_state.id != -1) {
-            // Convert marker coordinates to scaled coordinates
-            Point2f p = Point2f(
-                        marker.pos.x / markerScale,
-                        marker.pos.y / markerScale);
-
-            detectedMarkers.push_back(detected_marker(marker.recognition_state.id, p, static_cast<float>(marker.rotation)));
         }
     }
 
@@ -471,7 +480,7 @@ marker_locations detector::locateMarkers(const Mat& thresholdedFrame) const {
     // findContours mutates the input, so make a copy
     findContours(Mat(thresholdedFrame), contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
-    // Find contours that look like markers (outer contour with exactly one inner contour)
+    // Find contours that look like markers (outer contour with exactly one inner contour = child)
     vector<size_t> potentialMarkers;
 
     for (size_t i = 0; i < hierarchy.size(); i++) {
