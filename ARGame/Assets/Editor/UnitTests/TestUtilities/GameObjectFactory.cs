@@ -15,7 +15,7 @@ namespace TestUtilities
     using Core.Receiver;
     using NUnit.Framework;
     using UnityEngine;
-
+	using Projection;
     /// <summary>
     /// A factory class which has some easy methods for constructing
     /// several game objects and returning their components.
@@ -132,7 +132,13 @@ namespace TestUtilities
             portal1.LinkedPortal = gameObject2.GetComponent<Portal>();
             return portal1;
         }
+	public static GameObject createMarker(){
+			GameObject marker = new GameObject();
+			marker.AddComponent<BaseForLevel>();
+			marker.AddComponent<Transform>();
 
+			return marker;
+		}
         /// <summary>
         /// Creates a portal that is not linked to another portal.
         /// </summary>
