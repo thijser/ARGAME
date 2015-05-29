@@ -132,6 +132,9 @@ vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
 }
 
 vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const marker_locations& data) {
+    // Build list of updated marker data
+    vector<detected_marker> detectedMarkers;
+
     // Start by marking everything as not seen
     size_t unseenMarkerCount = markerStates.size();
     size_t newMarkerCount = 0;
@@ -207,6 +210,11 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
             if (closestMarker->velocity <= MARKER_MAX_RECOGNITION_VELOCITY) {
                 // If the new recognition has a higher confidence, replace the old one with it
                 if (newRecognition.confidence >= closestMarker->recognition_state.confidence) {
+                    // Register old marker as disappeared
+                    if (closestMarker->recognition_state.id != -1) {
+                        detectedMarkers.push_back(detected_marker(closestMarker->recognition_state.id, Point2f(), 0, true));
+                    }
+
                     closestMarker->recognition_state = newRecognition;
                 }
             }
@@ -237,9 +245,6 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
         markerStates.pop_back();
     }
 
-    // Build list of updated marker data
-    vector<detected_marker> detectedMarkers;
-
     // Clean up markers that haven't been seen in a while (500 ms)
     clock_t now = clock();
     bool done = false;
@@ -249,7 +254,10 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
 
         for (size_t i = 0; i < markerStates.size(); i++) {
             if (now - markerStates[i].lastSighting > CLOCKS_PER_SEC / 2) {
-                detectedMarkers.push_back(detected_marker(markerStates[i].recognition_state.id, Point2f(), 0, true));
+                if (markerStates[i].recognition_state.id != -1) {
+                    detectedMarkers.push_back(detected_marker(markerStates[i].recognition_state.id, Point2f(), 0, true));
+                }
+
                 markerStates.erase(markerStates.begin() + i);
                 done = false;
                 break;
