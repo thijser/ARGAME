@@ -353,7 +353,7 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
                 // Find marker pattern with closest distance
                 match_result res = findMatchingMarker(thresholdedCode);
 
-                if (res.score > 0.5f) {
+                if (res.score > 0.75f) {
                     // Add new rotation
                     double newRot = (rotatedRect.angle - (int) res.rotation);
 

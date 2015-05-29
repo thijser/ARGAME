@@ -16,10 +16,15 @@ namespace Projection
 	/// Marks which marker is used for the basis of the level by the meta one
 	/// </summary>
     public class BaseForLevel : MonoBehaviour
-    {
-		public int id = -1;
-		public float remoteX;
-		public float remoteY;
+	{
+		/// <summary>
+		/// The time the base marker may be missing before another marker is used.
+		/// </summary>
+		public const int Patience = 10;
+
+		public int ID = -1;
+		public float RemoteX;
+		public float RemoteY;
 		GameObject markerdetectorGO;
 		MarkerTargetIndicator marketTargetindicator;
 
@@ -45,8 +50,8 @@ namespace Projection
 			if (MarkerDetector.Instance != null)
 			{
 				Debug.Log("seeing" + MarkerDetector.Instance.GetNumberOfVisibleMarkers()+ "markers");
-				if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(id)){
-					MarkerDetector.Instance.GetMarkerTransform(id, ref newTransform);
+				if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(ID)){
+					MarkerDetector.Instance.GetMarkerTransform(ID, ref newTransform);
 					BaseForLevel bfl;
 					if((bfl= newTransform.gameObject.GetComponent<BaseForLevel>())!=null){
 						bfl.Seen();
@@ -54,20 +59,16 @@ namespace Projection
 						if(gameObject.GetComponent<UsedCardManager>()){
 							UpdateWrapper wrapper=gameObject.GetComponent<UpdateWrapper>();
 							Debug.Log ("locking");
-							if(wrapper!=null&&wrapper.wrapped!=null){
+							if(wrapper!=null&&wrapper.Wrapped!=null){
 								Debug.Log("done");
-								transform.RotateAround(transform.position,transform.up,-1*wrapper.wrapped.Rotation);
-							}
+								transform.RotateAround(transform.position,transform.up,-1*wrapper.Wrapped.Rotation);
 						}
 					}
 				}
 			}
 		}
-        /// <summary>
-        /// The time the base marker may be missing before another marker is used.
-        /// </summary>
-        public const int Patience = 10;
 
+		}
 
 		[SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
 
@@ -83,7 +84,7 @@ namespace Projection
 		/// </summary>
         public void Seen()
         {
-			Debug.Log ("saw:" + id);
+			Debug.Log ("saw:" + ID);
             this.Timestamp = Time.frameCount;
 
             UsedCardManager holder = this.GetComponentInParent<UsedCardManager>();

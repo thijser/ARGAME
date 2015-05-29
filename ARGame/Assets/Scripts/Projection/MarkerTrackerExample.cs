@@ -1,49 +1,53 @@
-﻿using Meta;
-using UnityEngine;
-using System.Collections;
-using Projection;
-
-public class MarkerTrackerExample : MonoBehaviour
+﻿namespace Projection
 {
-    GameObject markerdetectorGO;
-    MarkerTargetIndicator marketTargetindicator;
+    using Meta;
+    using Projection;
+    using UnityEngine;
 
-    /// <summary>
-    /// The marker ID to use for the attached transform.
-    /// </summary>
-    public int id = -1;
-
-    private void Start() {
-
-        markerdetectorGO = MarkerDetector.Instance.gameObject;
-
-        //hide markerindicator
-        marketTargetindicator = markerdetectorGO.GetComponent<MarkerTargetIndicator>();
-        marketTargetindicator.enabled = false;
-    }
-
-    /// <summary>
-    /// Use in LateUpdate, for better performance
-    /// </summary>
-    private void LateUpdate()
+    public class MarkerTrackerExample : MonoBehaviour
     {
-        //enable marker gameObject (disbaled by default)
-        if (!markerdetectorGO.activeSelf)
+        /// <summary>
+        /// The marker ID to use for the attached transform.
+        /// </summary>
+        public int id = -1;
+
+        private GameObject markerdetectorGO;
+        private MarkerTargetIndicator marketTargetindicator;
+
+        public void Start()
         {
-            markerdetectorGO.SetActive(true);
+            this.markerdetectorGO = MarkerDetector.Instance.gameObject;
+
+            // hide markerindicator
+            this.marketTargetindicator = this.markerdetectorGO.GetComponent<MarkerTargetIndicator>();
+            this.marketTargetindicator.enabled = false;
         }
-        Transform newTransform = this.transform;
-        if (MarkerDetector.Instance != null)
+
+        /// <summary>
+        /// Use in LateUpdate, for better performance
+        /// </summary>
+        public void LateUpdate()
         {
-			Debug.Log("seeing" + MarkerDetector.Instance.GetNumberOfVisibleMarkers()+ "markers");
-            if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(id)){
-                MarkerDetector.Instance.GetMarkerTransform(id, ref newTransform);
-				BaseForLevel bfl;
-				if((bfl= newTransform.gameObject.GetComponent<BaseForLevel>())!=null){
-					bfl.Seen();
-				}
-			}
+            // enable marker gameObject (disabled by default)
+            if (!this.markerdetectorGO.activeSelf)
+            {
+                this.markerdetectorGO.SetActive(true);
+            }
+
+            Transform newTransform = this.transform;
+            if (MarkerDetector.Instance != null)
+            {
+                Debug.Log("seeing" + MarkerDetector.Instance.GetNumberOfVisibleMarkers() + "markers");
+                if (MarkerDetector.Instance.updatedMarkerTransforms.Contains(this.id))
+                {
+                    MarkerDetector.Instance.GetMarkerTransform(this.id, ref newTransform);
+                    BaseForLevel bfl;
+                    if ((bfl = newTransform.gameObject.GetComponent<BaseForLevel>()) != null)
+                    {
+                        bfl.Seen();
+                    }
+                }
+            }
         }
     }
-
 }
