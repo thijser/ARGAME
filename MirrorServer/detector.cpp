@@ -51,14 +51,14 @@ bool detector::registerMarkers(const vector<Mat>& markers) {
     return true;
 }
 
-void detector::detect(const detection_callback& callback) {
+vector<detected_marker> detector::detect() {
     // Capture image from camera
-    Mat frame = capture();
+    lastFrame = capture();
 
-    auto corners = getCorners(frame);
+    auto corners = getCorners(lastFrame);
 
     if (corners.size() == 4) {
-        Mat correctedFrame = correctPerspective(frame, corners);
+        Mat correctedFrame = correctPerspective(lastFrame, corners);
         Mat thresholdedFrame = thresholdGreen(correctedFrame);
 
         // Use thresholded image to locate marker candidates
@@ -67,10 +67,17 @@ void detector::detect(const detection_callback& callback) {
         // Track markers
         auto markers = trackMarkers(correctedFrame, data);
 
-        callback(correctedFrame, markers);
+        // Show board view in last frame
+        lastFrame = correctedFrame;
+
+        return markers;
     } else {
-        callback(frame, vector<detected_marker>());
+        return vector<detected_marker>();
     }
+}
+
+const Mat& detector::getLastFrame() const {
+    return lastFrame;
 }
 
 vector<Point2f> detector::getCorners(const Mat& rawFrame) {
@@ -415,7 +422,7 @@ match_result detector::findMatchingMarker(const Mat& detectedPattern) const {
 
 void detector::loop(const detection_callback& callback) {
     while (keepGoing) {
-        detect(callback);
+        callback(detect());
         int keyCode = cv::waitKey(10);
         if (keyCode == 27 || keyCode == 113) {
             stop();

@@ -101,7 +101,7 @@ struct detected_marker {
 };
 
 /// Callback for detected markers in a frame.
-typedef std::function<void(const Mat&, vector<detected_marker>)> detection_callback;
+typedef std::function<void(const vector<detected_marker>&)> detection_callback;
 
 /**
  * @brief Angles that are multiples of 90 degrees, used for exact rotations.
@@ -215,15 +215,21 @@ public:
 
     /**
      * @brief Capture a single frame and detect markers in it.
-     * @param callback - Callback to pass detection results to.
+     * @return Updates to markers (new markers, moved markers, removed markers).
      */
-    void detect(const detection_callback& callback);
+    vector<detected_marker> detect();
 
     /**
      * @brief Continuously capture frames and detect markers in them.
      * @param callback - Callback to pass detection results of each frame to.
      */
     void loop(const detection_callback& callback);
+
+    /**
+     * @brief Retrieve the last frame that detection ran on.
+     * @return Last frame that detection ran on.
+     */
+    const Mat& getLastFrame() const;
 
     /**
      * @brief Method to abort an invocation of loop().
@@ -233,6 +239,9 @@ public:
 private:
     /// Video capture device to capture frames from.
     VideoCapture cap;
+
+    /// Last captured frame.
+    Mat lastFrame;
 
     /// Actual horizontal resolution to capture frames with.
     int width;
