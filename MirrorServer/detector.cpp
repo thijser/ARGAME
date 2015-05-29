@@ -36,7 +36,7 @@ detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
     width = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_WIDTH));
     height = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 
-    markerScales = ringbuffer<double>(MARKER_SCALE_HISTORY_LENGTH);
+    markerScales = ringbuffer<float>(MARKER_SCALE_HISTORY_LENGTH);
 }
 
 bool detector::registerMarkers(const vector<Mat>& markers) {
@@ -181,10 +181,10 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
 
             // If the same pattern is still detected, update the recognized rotation
             if (newRecognition.id == closestMarker->recognition_state.id) {
-                double newRot = newRecognition.rotation;
+                float newRot = newRecognition.rotation;
                 closestMarker->rotations.add(newRot);
 
-                double movingRot = average(closestMarker->rotations.data());
+                float movingRot = average(closestMarker->rotations.data());
 
                 // If current angle is significantly different than average, then discard previous angles
                 // The second case here is for comparing angles like 359 and 0
@@ -257,7 +257,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
         }
     }
 
-    double markerScale = average(markerScales.data());
+    float markerScale = average(markerScales.data());
 
     for (auto& marker : markerStates) {
         if (marker.recognition_state.id != -1) {
@@ -282,10 +282,10 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
     marker = rotate(marker, rotatedRect.angle);
 
     // Cut off border
-    int w = static_cast<int>(rotatedRect.size.width) - 20;
-    int h = static_cast<int>(rotatedRect.size.height) - 20;
+    int w = static_cast<int>(rotatedRect.size.width) * 3 / 4;
+    int h = static_cast<int>(rotatedRect.size.height) * 3 / 4;
 
-    if (w > 7 && h > 7 && w <= marker.size[0] && h <= marker.size[1] && w > 0 && h > 0) {
+    if (w > 7 && h > 7 && w <= marker.size[0] && h <= marker.size[1]) {
         cv::Rect roi;
         roi.x = marker.size[0] / 2 - w / 2;
         roi.y = marker.size[1] / 2 - h / 2;
@@ -294,20 +294,7 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
         marker = marker(roi);
 
         // Threshold for non-green area to find black/white region
-        Mat markerParts[3];
-        split(marker, markerParts);
-
-        Mat mask;
-        if (approach == SEGMENTATION_FAINT_GREEN) {
-            mask = ~(markerParts[1] > 50 & (markerParts[1] > markerParts[2]) & (markerParts[1] > markerParts[0]));
-
-            Mat maskClean;
-            auto kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
-            erode(mask, maskClean, kernel);
-            dilate(maskClean, mask, kernel);
-        } else {
-            mask = ~(markerParts[1] > 50 & (markerParts[1] > markerParts[2]) & (markerParts[1] > markerParts[0] * 1.2));
-        }
+        Mat mask = ~thresholdGreen(marker);
 
         vector<vector<Point>> contours;
         cv::findContours(mask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
@@ -334,36 +321,41 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
                 && bb.x + bb.width < marker.size[0] && bb.y + bb.height < marker.size[1]) {
                 Mat codeImage = marker(bb);
 
-                // Turn into grayscale and threshold to find black and white code
+                // Turn into grayscale and downsize to 8x8 pixels
                 Mat codeImageGray, thresholdedCode, downsizedCode;
                 cv::cvtColor(codeImage, codeImageGray, CV_BGR2GRAY);
-                cv::resize(codeImageGray, downsizedCode, Size(6, 6), 0, 0, cv::INTER_LINEAR);
-
+                cv::resize(codeImageGray, downsizedCode, Size(8, 8), 0, 0, cv::INTER_LINEAR);
+                
+                // Threshold using average pixel brightness
                 int avgPixel = 0;
 
-                for (int i = 0; i < 6; i++) {
-                    for (int j = 0; j < 6; j++) {
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
                         avgPixel += downsizedCode.at<uint8_t>(i, j);
                     }
                 }
 
-                avgPixel /= 36;
+                avgPixel /= 64;
 
                 cv::threshold(downsizedCode, thresholdedCode, avgPixel, 255, 0);
+
+                // Crop to 6x6 pattern
+                cv::Rect patternRegion(1, 1, 6, 6);
+                thresholdedCode = thresholdedCode(patternRegion);
 
                 // Find marker pattern with closest distance
                 match_result res = findMatchingMarker(thresholdedCode);
 
                 if (res.score > 0.75f) {
                     // Add new rotation
-                    double newRot = (rotatedRect.angle - (int) res.rotation);
+                    float newRot = (rotatedRect.angle - (int) res.rotation);
 
                     if (newRot < 0) {
-                        newRot += 360.0;
+                        newRot += 360.0f;
                     }
 
                     // Determine scale of square marker
-                    double scale = (rotatedRect.size.width + rotatedRect.size.height) / 2;
+                    float scale = (rotatedRect.size.width + rotatedRect.size.height) / 2;
 
                     return recognition_result(res.pattern, res.score, newRot, scale);
                 }
@@ -391,7 +383,7 @@ match_result detector::findMatchingMarker(const Mat& detectedPattern) const {
         const Mat& marker = markerPatterns[markerId];
 
         for (auto& permutation : inputPermutations) {
-            double score = cv::countNonZero(marker == permutation.second) / 36.0;
+            float score = cv::countNonZero(marker == permutation.second) / 36.0f;
 
             if (score > bestResult.score) {
                 bestResult = match_result(markerId, score, permutation.first);
@@ -441,32 +433,25 @@ Mat detector::correctPerspective(const Mat& rawFrame, const vector<Point2f>& cor
 }
 
 Mat detector::thresholdGreen(const Mat& correctedFrame) const {
-    // Split image into B, G, R components
-    Mat frameParts[3];
-    split(correctedFrame, frameParts);
+    // Convert image to HSV channels
+    Mat frame_hsv;
+    cvtColor(correctedFrame, frame_hsv, CV_BGR2HSV);
 
-    // Find parts of image that have a reasonable minimum green component,
-    // don't contain much blue and have a red component > green
-    Mat greenThreshold, blueThreshold;
-    inRange(frameParts[1], cv::Scalar(50), cv::Scalar(255), greenThreshold);
+    // Split image into H, S, V components
+    Mat channels[3];
+    split(frame_hsv, channels);
 
-    Mat rawThreshold, kernel;
-    if (approach == SEGMENTATION_FAINT_GREEN) {
-        rawThreshold = greenThreshold & (frameParts[1] > frameParts[2]) & (frameParts[1] > frameParts[0]);
-        kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(10, 10));
-    } else {
-        rawThreshold = greenThreshold & (frameParts[1] > frameParts[2]) & (frameParts[1] > frameParts[0] * 1.2);
-        kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
-    }
+    // Threshold on greenish hue, reasonable lightness and at least some saturation
+    Mat mask = channels[0] > 35 & channels[0] < 90 & channels[2] > 40 & channels[2] < 200 & channels[1] > 30;
 
-    // Clean up thresholded image by eroding noise and dilating to remove holes
-    Mat tmp, cleanThreshold;
-    erode(rawThreshold, tmp, kernel);
+    // Clean up mask (remove noise, close holes)
+    Mat kernel = getStructuringElement(cv::MORPH_RECT, Size(5, 5));
+    Mat kernel2 = getStructuringElement(cv::MORPH_RECT, Size(10, 10));
+    Mat mask_clean;
+    cv::morphologyEx(mask, mask_clean, cv::MORPH_OPEN, kernel);
+    cv::morphologyEx(mask_clean, mask, cv::MORPH_CLOSE, kernel);
 
-    auto kernel2 = getStructuringElement(cv::MORPH_RECT, cv::Size(10, 10));
-    dilate(tmp, cleanThreshold, kernel2);
-
-    return cleanThreshold;
+    return mask;
 }
 
 marker_locations detector::locateMarkers(const Mat& thresholdedFrame) const {
@@ -503,10 +488,10 @@ marker_locations detector::locateMarkers(const Mat& thresholdedFrame) const {
     return data;
 }
 
-double detector::dist(const Point& a, const Point& b) {
-    double dx = a.x - b.x;
-    double dy = a.y - b.y;
-    return std::sqrt(dx * dx + dy * dy);
+float detector::dist(const Point& a, const Point& b) {
+    int dx = a.x - b.x;
+    int dy = a.y - b.y;
+    return static_cast<float>(std::sqrt(dx * dx + dy * dy));
 }
 
 Point detector::boundingCenter(const vector<Point>& contour) {
@@ -514,10 +499,10 @@ Point detector::boundingCenter(const vector<Point>& contour) {
     return Point(rect.x + rect.width / 2, rect.y + rect.height / 2);
 }
 
-double detector::average(const vector<double>& vals) {
-    double sum = 0;
+float detector::average(const vector<float>& vals) {
+    float sum = 0;
 
-    for (double n : vals) {
+    for (float n : vals) {
         sum += n;
     }
 
@@ -535,7 +520,7 @@ Point detector::average(const vector<Point>& vals) {
 }
 
 // Source: http://opencv-code.com/quick-tips/how-to-rotate-image-in-opencv/
-Mat detector::rotate(Mat src, double angle) {
+Mat detector::rotate(Mat src, float angle) {
     int len = std::max(src.cols, src.rows);
     cv::Point2f pt(len / 2.f, len / 2.f);
     cv::Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);

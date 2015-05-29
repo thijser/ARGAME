@@ -33,20 +33,10 @@ const int MARKER_HISTORY_LENGTH = 15;
 const int MARKER_SCALE_HISTORY_LENGTH = 120;
 
 /// Maximum distance a marker can move per frame before it's considered a new marker.
-const double MARKER_MAX_FRAME_DIST = 50;
+const float MARKER_MAX_FRAME_DIST = 50;
 
 /// Maximum speed before recognition of marker pattern is disabled (pixels/frame)
-const double MARKER_MAX_RECOGNITION_VELOCITY = 15;
-
-/**
-* Type of technique used to detect marker green.
-*/
-enum segmentation_approach {
-    SEGMENTATION_SOLID,
-    SEGMENTATION_FAINT_GREEN
-};
-
-const segmentation_approach approach = SEGMENTATION_SOLID;
+const float MARKER_MAX_RECOGNITION_VELOCITY = 15;
 
 using cv::Mat;
 using cv::Point;
@@ -65,13 +55,13 @@ struct recognition_result {
     int id;
 
     /// Recognition confidence score [0, 1].
-    double confidence;
+    float confidence;
 
     /// Yaw rotation of marker.
-    double rotation;
+    float rotation;
 
     /// Width and height of marker
-    double scale;
+    float scale;
 
     /**
      * @brief Creates a new structure describing a recognised pattern.
@@ -79,7 +69,7 @@ struct recognition_result {
      * @param confidence - Confidence score of recognition (only defined for id != -1).
      * @param rotation - Rotation of marker containing pattern (only defined for id != 1).
      */
-    recognition_result(int id = -1, double confidence = 0, double rotation = 0, double scale = 1)
+    recognition_result(int id = -1, float confidence = 0, float rotation = 0, float scale = 1)
         : id(id), confidence(confidence), rotation(rotation), scale(scale) {}
 };
 
@@ -131,7 +121,7 @@ struct match_result {
     int pattern;
 
     /// Fraction of bits that were equal (between 0 and 1).
-    double score;
+    float score;
 
     /// Rotated version of known pattern that was compared.
     exact_angle rotation;
@@ -142,7 +132,7 @@ struct match_result {
      * @param score - Fraction of bits that were equal.
      * @param rotation - Exact rotation of known pattern used in comparison.
      */
-    match_result(int pattern = 0, double score = 0, exact_angle rotation = CLOCKWISE_0)
+    match_result(int pattern = 0, float score = 0, exact_angle rotation = CLOCKWISE_0)
         : pattern(pattern), score(score), rotation(rotation) {
     }
 };
@@ -178,13 +168,13 @@ struct marker_state {
     Point pos;
 
     /// Last known rotations of marker.
-    ringbuffer<double> rotations;
+    ringbuffer<float> rotations;
 
     /// Moving averaged rotation of marker.
-    double rotation;
+    float rotation;
 
     /// Last known velocity of marker (pixels/frame).
-    double velocity;
+    float velocity;
 
     /// Timestamp of last known position.
     clock_t lastSighting;
@@ -200,7 +190,7 @@ struct marker_state {
      */
     marker_state()
         : id(-1), positions(ringbuffer<Point>(MARKER_HISTORY_LENGTH)), pos(Point(-1000, -1000)),
-          rotations(ringbuffer<double>(MARKER_HISTORY_LENGTH)), lastSighting(clock()) {}
+          rotations(ringbuffer<float>(MARKER_HISTORY_LENGTH)), lastSighting(clock()) {}
 };
 
 /**
@@ -263,7 +253,7 @@ private:
     vector<marker_state> markerStates;
 
     /// Average scale of markers.
-    ringbuffer<double> markerScales;
+    ringbuffer<float> markerScales;
 
     /// ID reserved for the next newly detected marker.
     int nextId = 0;
@@ -342,7 +332,7 @@ private:
      * @param vals - Collection of values to calculate average from.
      * @return Average value of given numbers.
      */
-    static double average(const vector<double>& vals);
+    static float average(const vector<float>& vals);
 
     /**
     * @brief Calculate average of given points.
@@ -357,7 +347,7 @@ private:
      * @param b - Second point.
      * @return Euclidean distance between the first and second point.
      */
-    static double dist(const Point& a, const Point& b);
+    static float dist(const Point& a, const Point& b);
 
     /**
      * @brief Calculate the center of the bounding box given the contour.
@@ -372,7 +362,7 @@ private:
      * @param angle - Angle rotate image by in clockwise direction (may be negative for counter-clockwise).
      * @return Rotated image, which may be resized to fit the result.
      */
-    static Mat rotate(Mat src, double angle);
+    static Mat rotate(Mat src, float angle);
 
     /**
      * @brief Rotate image by multiple of 90 degrees.
