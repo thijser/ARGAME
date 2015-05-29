@@ -24,7 +24,12 @@ namespace Network
         /// <summary>
         /// Indicates the object is removed from the field.
         /// </summary>
-        Delete = 1
+        Delete = 1,
+
+        /// <summary>
+        /// Indicates a ping message indicating the server is still alive.
+        /// </summary>
+        Ping = 2
     }
 
     /// <summary>
