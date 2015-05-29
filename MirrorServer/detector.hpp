@@ -138,20 +138,6 @@ struct match_result {
 };
 
 /**
- * @brief Info about possible marker objects in camera image.
- */
-struct marker_locations {
-    /// List of green contours that were detected.
-    vector<vector<Point>> contours;
-
-    /// Hierarchy of detected contours (outer and inner contours).
-    vector<Vec4i> hierarchy;
-
-    /// List of indices into contours collection that are likely to be markers.
-    vector<size_t> candidates;
-};
-
-/**
  * @brief Information about detected marker.
  */
 struct marker_state {
@@ -308,19 +294,27 @@ private:
     /**
      * @brief Find possible markers in a frame given a threshold on green regions.
      * @param thresholdedFrame - Binary image as returned by thresholdGreen().
-     * @return Locations of possible markers.
+     * @return Contours of possible markers.
      */
-    marker_locations locateMarkers(const Mat& thresholdedFrame) const;
+    vector<vector<Point>> locateMarkers(const Mat& thresholdedFrame) const;
 
     /**
     * @brief Track previously seen markers in the new frame and update their state.
     * @param correctedFrame - Image as returned by correctPerspective().
-    * @param data - Marker detection results from locateMarkers().
+    * @param markerContours - Marker detection results from locateMarkers().
     * @return Updated marker states.
     */
-    vector<detected_marker> trackMarkers(const Mat& correctedFrame, const marker_locations& data);
+    vector<detected_marker> trackMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours);
 
-    vector<detected_marker> discoverAndUpdateMarkers(const Mat& correctedFrame, const marker_locations& data, size_t& unseenMarkerCount, size_t& newMarkerCount);
+    /**
+     * @brief Check for markers that moved, new markers and disappeared markers.
+     * @param correctedFrame - Image as returned by correctPerspective().
+     * @param markerContours - Marker detection results from locateMarkers().
+     * @param unseenMarkerCount - Output variable for amount of unseen markers.
+     * @param newMarkerCount - Output variable for amount of new markers.
+     * @return Updated marker states.
+     */
+    vector<detected_marker> discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours, size_t& unseenMarkerCount, size_t& newMarkerCount);
 
     /**
      * @brief Recognise the pattern of the marker described by the given contour.

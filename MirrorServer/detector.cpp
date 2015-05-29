@@ -141,7 +141,7 @@ vector<Point2f> detector::classifyCorners(const vector<vector<Point>>& contours)
     return corners;
 }
 
-vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const marker_locations& data) {
+vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours) {
     // Start by marking everything as not seen
     size_t unseenMarkerCount = markerStates.size();
     size_t newMarkerCount = 0;
@@ -152,7 +152,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
     }
 
     // Build list of updated marker data
-    auto detectedMarkers = discoverAndUpdateMarkers(correctedFrame, data, unseenMarkerCount, newMarkerCount);
+    auto detectedMarkers = discoverAndUpdateMarkers(correctedFrame, markerContours, unseenMarkerCount, newMarkerCount);
 
     // If exactly 1 marker was not seen and exactly 1 new marker has appeared,
     // then assume that the marker has moved very quickly.
@@ -204,12 +204,10 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
     return detectedMarkers;
 }
 
-vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedFrame, const marker_locations& data, size_t& unseenMarkerCount, size_t& newMarkerCount) {
+vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours, size_t& unseenMarkerCount, size_t& newMarkerCount) {
     vector<detected_marker> detectedMarkers;
 
-    for (size_t contourId : data.candidates) {
-        auto& contour = data.contours[contourId];
-
+    for (auto& contour : markerContours) {
         // Determine position of marker
         Point center = boundingCenter(contour);
 
@@ -480,7 +478,7 @@ Mat detector::thresholdGreen(const Mat& correctedFrame) const {
     return mask;
 }
 
-marker_locations detector::locateMarkers(const Mat& thresholdedFrame) const {
+vector<vector<Point>> detector::locateMarkers(const Mat& thresholdedFrame) const {
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
 
@@ -488,7 +486,7 @@ marker_locations detector::locateMarkers(const Mat& thresholdedFrame) const {
     findContours(Mat(thresholdedFrame), contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
     // Find contours that look like markers (outer contour with exactly one inner contour = child)
-    vector<size_t> potentialMarkers;
+    vector<vector<Point>> potentialMarkers;
 
     for (size_t i = 0; i < hierarchy.size(); i++) {
         if (hierarchy[i][hierarchy_members::PARENT] < 0) {
@@ -501,17 +499,12 @@ marker_locations detector::locateMarkers(const Mat& thresholdedFrame) const {
             }
 
             if (children == 1) {
-                potentialMarkers.push_back(i);
+                potentialMarkers.push_back(contours[i]);
             }
         }
     }
 
-    marker_locations data;
-    data.contours = contours;
-    data.hierarchy = hierarchy;
-    data.candidates = potentialMarkers;
-
-    return data;
+    return potentialMarkers;
 }
 
 float detector::dist(const Point& a, const Point& b) {
