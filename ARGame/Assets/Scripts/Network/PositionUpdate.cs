@@ -1,9 +1,9 @@
 ﻿//----------------------------------------------------------------------------
 // <copyright file="PositionUpdate.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
-//     
+//
 //     This software is licensed under the terms of the MIT License.
-//     A copy of the license should be included with this software. If not, 
+//     A copy of the license should be included with this software. If not,
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
@@ -35,20 +35,18 @@ namespace Network
         /// <summary>
         /// Initializes a new instance of the <see cref="Network.PositionUpdate"/> class.
         /// </summary>
-        /// <param name="type">The type of the PositionUpdate.</param> 
+        /// <param name="type">The type of the PositionUpdate.</param>
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
-        /// <param name="rotation">The rotation.</param> 
+        /// <param name="rotation">The rotation.</param>
         /// <param name="id">The unique ID of the marker.</param>
-        /// <param name="timestamp">The timestamp of the update.</param>
-        public PositionUpdate(UpdateType type, float x, float y, float rotation, int id, long timestamp)
+        public PositionUpdate(UpdateType type, float x, float y, float rotation, int id)
         {
             this.Type = type;
             this.X = x;
             this.Y = y;
             this.Rotation = rotation;
             this.ID = id;
-            this.TimeStamp = timestamp;
         }
 
         /// <summary>
@@ -85,7 +83,7 @@ namespace Network
         ///   Serves as a hash function for a <see cref="Network.PositionUpdate"/> object.
         /// </summary>
         /// <returns>
-        ///   A hash code for this instance that is suitable for use in hashing 
+        ///   A hash code for this instance that is suitable for use in hashing
         ///   algorithms and data structures such as a hash table.
         /// </returns>
         public override int GetHashCode()
@@ -94,16 +92,15 @@ namespace Network
             hash = (5 * hash) + this.ID;
             hash = (5 * hash) + this.X.GetHashCode();
             hash = (5 * hash) + this.Y.GetHashCode();
-            hash = (5 * hash) + this.TimeStamp.GetHashCode();
             return hash;
         }
 
         /// <summary>
-        ///   Determines whether the specified <see cref="System.Object"/> is equal to the 
+        ///   Determines whether the specified <see cref="System.Object"/> is equal to the
         ///   current <see cref="Network.PositionUpdate"/>.
         /// </summary>
         /// <param name="o">
-        ///   The <see cref="System.Object"/> to compare with the current 
+        ///   The <see cref="System.Object"/> to compare with the current
         ///   <see cref="Network.PositionUpdate"/>.
         /// </param>
         /// <returns>
@@ -121,8 +118,7 @@ namespace Network
             return this.Type == that.Type
                 && this.X == that.X
                 && this.Y == that.Y
-                && this.ID == that.ID
-                && this.TimeStamp == that.TimeStamp;
+                && this.ID == that.ID;
         }
 
         /// <summary>
@@ -134,7 +130,7 @@ namespace Network
         public override string ToString()
         {
             return "[PositionUpdate: Type<" + this.Type + ">, ID<" + this.ID +
-                ">, X<" + this.X + ">, Y<" + this.Y + ">, TimeStamp<" + this.TimeStamp + ">]";
+                ">, X<" + this.X + ">, Y<" + this.Y + ">]";
         }
     }
 }

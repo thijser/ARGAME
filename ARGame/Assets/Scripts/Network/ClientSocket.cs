@@ -1,9 +1,9 @@
 ﻿//----------------------------------------------------------------------------
 // <copyright file="ClientSocket.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
-//     
+//
 //     This software is licensed under the terms of the MIT License.
-//     A copy of the license should be included with this software. If not, 
+//     A copy of the license should be included with this software. If not,
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
@@ -32,7 +32,7 @@ namespace Network
         /// This is used as the size of the message buffer.
         /// </para>
         /// </summary>
-        public const int MaxPacketSize = 25;
+        public const int MaxPacketSize = 17;
 
         /// <summary>
         /// The maximum amount of updates to read in a single step.
@@ -170,8 +170,8 @@ namespace Network
         /// <returns>The PositionUpdate.</returns>
         public PositionUpdate ReadUpdate()
         {
-            int received = this.socket.Receive(this.buffer, 24, SocketFlags.None);
-            if (received < 24)
+            int received = this.socket.Receive(this.buffer, 16, SocketFlags.None);
+            if (received < 16)
             {
                 return null;
             }
@@ -180,8 +180,7 @@ namespace Network
             float y = BitConverter.ToSingle(this.buffer, 4);
             float rotation = BitConverter.ToSingle(this.buffer, 8);
             int id = BitConverter.ToInt32(this.buffer, 12);
-            long timestamp = BitConverter.ToInt64(this.buffer, 16);
-            return new PositionUpdate(UpdateType.Update, x, y, rotation, id, timestamp);
+            return new PositionUpdate(UpdateType.Update, x, y, rotation, id);
         }
 
         /// <summary>
@@ -197,7 +196,7 @@ namespace Network
             }
 
             int id = BitConverter.ToInt32(this.buffer, 0);
-            return new PositionUpdate(UpdateType.Delete, 0, 0, 0, id, 0);
+            return new PositionUpdate(UpdateType.Delete, 0, 0, 0, id);
         }
     }
 }
