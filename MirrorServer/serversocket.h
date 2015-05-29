@@ -109,6 +109,14 @@ public:
     void broadcastDelete(uint32_t id);
 
     /**
+     * @brief Broadcasts a ping message to all clients.
+     *
+     * This message keeps the connection alive and should be sent at least
+     * every second if no other messages are sent.
+     */
+    void broadcastPing();
+
+    /**
      * @brief Enables the use of Sockets.
      *
      * This is required to be called on Windows (for initializing WSA),

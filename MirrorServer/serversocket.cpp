@@ -56,9 +56,10 @@ void ServerSocket::run() throw (NL::Exception, std::logic_error) {
     socketMutex.unlock();
     clog << "Server started (listening on port " << sock->portFrom() << ")" << endl;
     while (keepGoing) {
+        broadcastPing();
         try {
             socketMutex.lock();
-            Socket *client = sock->accept(2000);
+            Socket *client = sock->accept(1000);
             socketMutex.unlock();
             if (client != NULL) {
                 clog << "Added client: " << client->hostTo() << endl;
@@ -106,6 +107,11 @@ void ServerSocket::broadcastDelete(uint32_t id) {
     writeValue(id, buffer, 1);
 
     broadcastMessage(buffer, 5);
+}
+
+void ServerSocket::broadcastPing() {
+    char type = 2;
+    broadcastMessage(&type, 1);
 }
 
 } // namespace mirrors
