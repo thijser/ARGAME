@@ -18,7 +18,7 @@ using std::chrono::milliseconds;
 
 #include "detector.hpp"
 #include "serversocket.h"
-using namespace mirrors;
+using namespace Mirrors;
 
 /// The port used for the server socket.
 const uint16_t SERVER_PORT = 23369;

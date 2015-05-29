@@ -12,7 +12,7 @@
 #include <iostream>
 #include <set>
 
-namespace mirrors {
+namespace Mirrors {
 
 using std::vector;
 
@@ -80,65 +80,13 @@ const Mat& detector::getLastFrame() const {
     return lastFrame;
 }
 
-vector<Point2f> detector::getCorners(const Mat& rawFrame) {
-    if (boardCorners.size() == 4) {
-        return boardCorners;
-    } else {
-        boardCorners = findCorners(rawFrame);
-        return boardCorners;
-    }
-}
-
-vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
-    // Give camera time to warm up before starting detection
-    if (clock() - startTime < CLOCKS_PER_SEC) return vector<Point2f>();
-
-    // Threshold on red
-    Mat frameParts[3];
-    split(rawFrame, frameParts);
-
-    Mat mask = frameParts[2] > frameParts[1] * 2 & frameParts[2] > frameParts[0] * 2 & frameParts[2] > 50;
-    Mat maskClean;
-    Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, Size(3, 3));
-    cv::erode(mask, maskClean, kernel);
-
-    // Find 4 red corner regions and return them in the right order
-    vector<vector<Point>> contours;
-    cv::findContours(maskClean, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
-
-    if (contours.size() == 4) {
-        return classifyCorners(contours);
-    } else {
-        return vector<Point2f>();
-    }
-}
-
-vector<Point2f> detector::classifyCorners(const vector<vector<Point>>& contours) {
-    // Find bounding regions.
-    vector<cv::Rect> markerPoints;
-
-    for (auto& points : contours) {
-        markerPoints.push_back(cv::boundingRect(points));
+vector<Point> detector::getCorners(const Mat& rawFrame) {
+    // Give camera time to warm up before starting detection.
+    if (boardCorners.empty() && clock() - startTime >= CLOCKS_PER_SEC) {
+        boardCorners = CornerDetector(rawFrame).GetCorners();
     }
 
-    // First sort by y to separate top and bottom markers.
-    std::sort(markerPoints.begin(), markerPoints.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.y < b.y; });
-
-    vector<cv::Rect> top(markerPoints.begin(), markerPoints.begin() + 2);
-    vector<cv::Rect> bottom(markerPoints.begin() + 2, markerPoints.begin() + 4);
-
-    // Then sort each of them by x to find left and right
-    std::sort(top.begin(), top.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.x < b.x; });
-    std::sort(bottom.begin(), bottom.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.x < b.x; });
-
-    // Determine the bounds of the board by taking the outer corners of the corner markers.
-    vector<Point2f> corners;
-    corners.push_back(Point(top[0].x, top[0].y)); // Top-left
-    corners.push_back(Point(top[1].x + top[1].width, top[1].y)); // Top-right
-    corners.push_back(Point(bottom[0].x, bottom[0].y + bottom[0].height)); // Bottom-left
-    corners.push_back(Point(bottom[1].x + bottom[1].width, bottom[1].y + bottom[1].height)); // Bottom-right
-
-    return corners;
+    return boardCorners;
 }
 
 vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours) {
@@ -450,7 +398,7 @@ Mat detector::capture() {
     return frame;
 }
 
-Mat detector::correctPerspective(const Mat& rawFrame, const vector<Point2f>& corners) const {
+Mat detector::correctPerspective(const Mat& rawFrame, const vector<Point>& corners) const {
     static Point2f dst[] = {
         Point(0, 0),
         Point(width, 0),
@@ -458,7 +406,14 @@ Mat detector::correctPerspective(const Mat& rawFrame, const vector<Point2f>& cor
         Point(width, height)
     };
 
-    Mat m = getPerspectiveTransform(corners.data(), dst);
+    Point2f src[] = {
+        Point2f(corners[0]),
+        Point2f(corners[1]),
+        Point2f(corners[2]),
+        Point2f(corners[3])
+    };
+
+    Mat m = getPerspectiveTransform(src, dst);
 
     Mat tmp, output;
     warpPerspective(rawFrame, tmp, m, cv::Size(width, height));

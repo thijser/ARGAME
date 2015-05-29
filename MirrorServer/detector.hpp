@@ -23,8 +23,9 @@
 #include <unordered_map>
 #include <ctime>
 #include "ringbuffer.hpp"
+#include "cornerdetector.hpp"
 
-namespace mirrors {
+namespace Mirrors {
 
 /// Amount of frames to average for marker positions.
 const int MARKER_HISTORY_LENGTH = 15;
@@ -242,7 +243,7 @@ private:
     vector<Mat> markerPatterns;
 
     /// Positions of corner positions.
-    vector<Point2f> boardCorners;
+    vector<Point> boardCorners;
 
     /// Latest state of markers.
     vector<marker_state> markerStates;
@@ -267,14 +268,7 @@ private:
      * @param rawFrame - Newly captured frame.
      * @return Positions of four board corners or empty collection if none were found so far.
      */
-    vector<Point2f> getCorners(const Mat& rawFrame);
-
-    /**
-     * @brief Find the positions of the four board corners in the specified frame.
-     * @param rawFrame - Frame to detect corners in.
-     * @return Positions of four board corners or empty collection if none were found.
-     */
-    vector<Point2f> findCorners(const Mat& rawFrame) const;
+    vector<Point> getCorners(const Mat& rawFrame);
 
     /**
      * @brief Isolate the board from the camera view using the corner positions.
@@ -282,7 +276,7 @@ private:
      * @param corners - Positions of board corners in given image.
      * @return Image with isolated version of board (aspect ratio based on test board).
      */
-    Mat correctPerspective(const Mat& rawFrame, const vector<Point2f>& corners) const;
+    Mat correctPerspective(const Mat& rawFrame, const vector<Point>& corners) const;
 
     /**
      * @brief Isolate possible markers from the rest of the image by thresholding green.
@@ -337,14 +331,6 @@ private:
      * @return Best matching known pattern and rotation of it.
      */
     match_result findMatchingMarker(const Mat& detectedPattern) const;
-
-    /**
-     * @brief Process four contours into a standardized list of corners
-     * in the order top-left, top-right, bottom-left and bottom-right.
-     * @param cornerContours - Contours that represent the red corners (exactly 4 items).
-     * @return Standardized list of corners.
-     */
-    static vector<Point2f> classifyCorners(const vector<vector<Point>>& cornerContours);
 
     /**
      * @brief Calculate average of given numbers.

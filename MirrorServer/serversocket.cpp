@@ -14,7 +14,7 @@
 #include "netlink/socket.h"
 #include "netlink/socket_group.h"
 
-namespace mirrors {
+namespace Mirrors {
 
 using namespace std;
 using namespace NL;
