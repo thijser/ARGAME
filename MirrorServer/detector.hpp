@@ -24,6 +24,7 @@
 #include <ctime>
 #include "ringbuffer.hpp"
 #include "cornerdetector.hpp"
+#include "cvutil.hpp"
 
 namespace Mirrors {
 
@@ -105,16 +106,6 @@ struct detected_marker {
 typedef std::function<void(const vector<detected_marker>&)> detection_callback;
 
 /**
- * @brief Angles that are multiples of 90 degrees, used for exact rotations.
- */
-enum exact_angle {
-    CLOCKWISE_0 = 0,
-    CLOCKWISE_90 = 90,
-    CLOCKWISE_180 = 180,
-    CLOCKWISE_270 = 270
-};
-
-/**
  * @brief Result of matching input pattern with known pattern.
  */
 struct match_result {
@@ -125,7 +116,7 @@ struct match_result {
     float score;
 
     /// Rotated version of known pattern that was compared.
-    exact_angle rotation;
+    ExactAngle rotation;
 
     /**
      * @brief Creates a new structure describing an input/known pattern comparison.
@@ -133,7 +124,7 @@ struct match_result {
      * @param score - Fraction of bits that were equal.
      * @param rotation - Exact rotation of known pattern used in comparison.
      */
-    match_result(int pattern = 0, float score = 0, exact_angle rotation = CLOCKWISE_0)
+    match_result(int pattern = 0, float score = 0, ExactAngle rotation = CLOCKWISE_0)
         : pattern(pattern), score(score), rotation(rotation) {
     }
 };
@@ -183,7 +174,7 @@ struct marker_state {
 /**
  * @brief Detector of markers from a camera image given known patterns.
  */
-class detector {
+class Detector {
 public:
     /**
      * @brief Construct a detector.
@@ -191,7 +182,7 @@ public:
      * @param requestedWidth - Desired horizontal resolution of images to capture.
      * @param requestedHeight - Desired vertical resolution of images to capture.
      */
-    detector(int captureDevice = 0, int requestedWidth = 1600, int requestedHeight = 896);
+    Detector(int captureDevice = 0, int requestedWidth = 1600, int requestedHeight = 896);
 
     /**
      * @brief Register new patterns that can be recognised in markers.
@@ -331,51 +322,6 @@ private:
      * @return Best matching known pattern and rotation of it.
      */
     match_result findMatchingMarker(const Mat& detectedPattern) const;
-
-    /**
-     * @brief Calculate average of given numbers.
-     * @param vals - Collection of values to calculate average from.
-     * @return Average value of given numbers.
-     */
-    static float average(const vector<float>& vals);
-
-    /**
-    * @brief Calculate average of given points.
-    * @param vals - Collection of points to calculate average from.
-    * @return Average value of given points.
-    */
-    static Point average(const vector<Point>& vals);
-
-    /**
-     * @brief Calculate Euclidean distance between two points.
-     * @param a - First point.
-     * @param b - Second point.
-     * @return Euclidean distance between the first and second point.
-     */
-    static float dist(const Point& a, const Point& b);
-
-    /**
-     * @brief Calculate the center of the bounding box given the contour.
-     * @param contour - The contour that represents the shape of the marker.
-     * @return The center point of the bounding box from the contour.
-     */
-    static Point boundingCenter(const vector<Point>& contour);
-
-    /**
-     * @brief Rotate image by arbitrary angle.
-     * @param src - Input image.
-     * @param angle - Angle rotate image by in clockwise direction (may be negative for counter-clockwise).
-     * @return Rotated image, which may be resized to fit the result.
-     */
-    static Mat rotate(Mat src, float angle);
-
-    /**
-     * @brief Rotate image by multiple of 90 degrees.
-     * @param src - Input image.
-     * @param angle - Multiple of 90 degrees.
-     * @return Rotated image, where row/column size may be swapped.
-     */
-    static Mat rotateExact(Mat src, exact_angle angle);
 };
 
 }

@@ -40,7 +40,7 @@ public:
      * @return List of corners in order top-left, top-right, bottom-left, bottom-right or an empty
      * list if an amount of corners other than four was found.
      */
-    const vector<Point>& GetCorners();
+    const vector<Point>& getCorners();
 
 private:
     /// List of detected corners.
@@ -52,14 +52,14 @@ private:
      * @return List of corners in order top-left, top-right, bottom-left, bottom-right or an empty
      * list if an amount of corners other than four was found.
      */
-    static vector<Point> FindCorners(const Mat& image);
+    static vector<Point> findCorners(const Mat& image);
 
     /**
      * @brief Takes four arbitrary corner contours and classifies them as top-left, top-right and so on.
      * @param contours - Detected contours that represent corner markers in an image.
      * @return List of corners in order top-left, top-right, bottom-left and bottom-right.
      */
-    static vector<Point> ClassifyCorners(const vector<vector<Point>>& contours);
+    static vector<Point> classifyCorners(const vector<vector<Point>>& contours);
 };
 
 }

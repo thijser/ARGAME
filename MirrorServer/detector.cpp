@@ -25,7 +25,7 @@ namespace hierarchy_members {
     };
 }
 
-detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
+Detector::Detector(int captureDevice, int requestedWidth, int requestedHeight)
     : keepGoing(true) {
     cap.open(captureDevice);
 
@@ -37,7 +37,7 @@ detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
     height = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 }
 
-bool detector::registerMarkers(const vector<Mat>& markers) {
+bool Detector::registerMarkers(const vector<Mat>& markers) {
     for (auto& marker : markers) {
         if (marker.channels() != 1 || marker.rows != 6 || marker.cols != 6) {
             return false;
@@ -51,7 +51,7 @@ bool detector::registerMarkers(const vector<Mat>& markers) {
     return true;
 }
 
-vector<detected_marker> detector::detect() {
+vector<detected_marker> Detector::detect() {
     // Capture image from camera
     lastFrame = capture();
 
@@ -76,20 +76,20 @@ vector<detected_marker> detector::detect() {
     }
 }
 
-const Mat& detector::getLastFrame() const {
+const Mat& Detector::getLastFrame() const {
     return lastFrame;
 }
 
-vector<Point> detector::getCorners(const Mat& rawFrame) {
+vector<Point> Detector::getCorners(const Mat& rawFrame) {
     // Give camera time to warm up before starting detection.
     if (boardCorners.empty() && clock() - startTime >= CLOCKS_PER_SEC) {
-        boardCorners = CornerDetector(rawFrame).GetCorners();
+        boardCorners = CornerDetector(rawFrame).getCorners();
     }
 
     return boardCorners;
 }
 
-vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours) {
+vector<detected_marker> Detector::trackMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours) {
     // Get remove messages for markers that changed pattern
     auto markerUpdates = discoverAndUpdateMarkers(correctedFrame, markerContours);
 
@@ -114,7 +114,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
     return markerUpdates;
 }
 
-vector<detected_marker> detector::checkMarkerTimeouts() {
+vector<detected_marker> Detector::checkMarkerTimeouts() {
     vector<detected_marker> markerUpdates;
 
     // Clean up markers that haven't been seen in a while (500 ms)
@@ -140,7 +140,7 @@ vector<detected_marker> detector::checkMarkerTimeouts() {
     return markerUpdates;
 }
 
-vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours) {
+vector<detected_marker> Detector::discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours) {
     vector<detected_marker> markerUpdates;
 
     // Start by marking everything as not seen this frame
@@ -256,7 +256,7 @@ vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedF
     return markerUpdates;
 }
 
-recognition_result detector::recognizeMarker(const Mat& correctedFrame, const vector<Point>& contour) const {
+recognition_result Detector::recognizeMarker(const Mat& correctedFrame, const vector<Point>& contour) const {
     auto brect = cv::boundingRect(contour);
 
     cv::RotatedRect rotatedRect = cv::minAreaRect(contour);
@@ -350,9 +350,9 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
     return recognition_result(-1, 0, 0);
 }
 
-match_result detector::findMatchingMarker(const Mat& detectedPattern) const {
+match_result Detector::findMatchingMarker(const Mat& detectedPattern) const {
     // Calculate all permutations of input pattern
-    vector<std::pair<exact_angle, Mat>> inputPermutations = {
+    vector<std::pair<ExactAngle, Mat>> inputPermutations = {
         std::make_pair(CLOCKWISE_0, detectedPattern),
         std::make_pair(CLOCKWISE_90, rotateExact(detectedPattern, CLOCKWISE_90)),
         std::make_pair(CLOCKWISE_180, rotateExact(detectedPattern, CLOCKWISE_180)),
@@ -377,7 +377,7 @@ match_result detector::findMatchingMarker(const Mat& detectedPattern) const {
     return bestResult;
 }
 
-void detector::loop(const detection_callback& callback) {
+void Detector::loop(const detection_callback& callback) {
     while (keepGoing) {
         callback(detect());
         int keyCode = cv::waitKey(10);
@@ -388,17 +388,17 @@ void detector::loop(const detection_callback& callback) {
     std::clog << "Detector stoppped" << std::endl;
 }
 
-void detector::stop() {
+void Detector::stop() {
     keepGoing = false;
 }
 
-Mat detector::capture() {
+Mat Detector::capture() {
     Mat frame;
     cap.read(frame);
     return frame;
 }
 
-Mat detector::correctPerspective(const Mat& rawFrame, const vector<Point>& corners) const {
+Mat Detector::correctPerspective(const Mat& rawFrame, const vector<Point>& corners) const {
     static Point2f dst[] = {
         Point(0, 0),
         Point(width, 0),
@@ -422,7 +422,7 @@ Mat detector::correctPerspective(const Mat& rawFrame, const vector<Point>& corne
     return output;
 }
 
-Mat detector::thresholdGreen(const Mat& correctedFrame) const {
+Mat Detector::thresholdGreen(const Mat& correctedFrame) const {
     // Convert image to HSV channels
     Mat frame_hsv;
     cvtColor(correctedFrame, frame_hsv, CV_BGR2HSV);
@@ -444,7 +444,7 @@ Mat detector::thresholdGreen(const Mat& correctedFrame) const {
     return mask;
 }
 
-vector<vector<Point>> detector::locateMarkers(const Mat& thresholdedFrame) const {
+vector<vector<Point>> Detector::locateMarkers(const Mat& thresholdedFrame) const {
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
 
@@ -471,74 +471,6 @@ vector<vector<Point>> detector::locateMarkers(const Mat& thresholdedFrame) const
     }
 
     return potentialMarkers;
-}
-
-float detector::dist(const Point& a, const Point& b) {
-    int dx = a.x - b.x;
-    int dy = a.y - b.y;
-    return static_cast<float>(std::sqrt(dx * dx + dy * dy));
-}
-
-Point detector::boundingCenter(const vector<Point>& contour) {
-    auto rect = cv::boundingRect(contour);
-    return Point(rect.x + rect.width / 2, rect.y + rect.height / 2);
-}
-
-float detector::average(const vector<float>& vals) {
-    float sum = 0;
-
-    for (float n : vals) {
-        sum += n;
-    }
-
-    return sum / vals.size();
-}
-
-Point detector::average(const vector<Point>& vals) {
-    Point sum;
-
-    for (Point n : vals) {
-        sum += n;
-    }
-
-    return Point(sum.x / vals.size(), sum.y / vals.size());
-}
-
-// Source: http://opencv-code.com/quick-tips/how-to-rotate-image-in-opencv/
-Mat detector::rotate(Mat src, float angle) {
-    int len = std::max(src.cols, src.rows);
-    cv::Point2f pt(len / 2.f, len / 2.f);
-    cv::Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);
-
-    Mat dst;
-    cv::warpAffine(src, dst, r, cv::Size(len, len));
-
-    return dst;
-}
-
-Mat detector::rotateExact(Mat src, exact_angle angle) {
-    Mat tmp, result;
-
-    switch (angle) {
-    case CLOCKWISE_90:
-        cv::transpose(src, tmp);
-        cv::flip(tmp, result, 1);
-        break;
-
-    case CLOCKWISE_180:
-        cv::flip(src, result, -1);
-        break;
-
-    case CLOCKWISE_270:
-        cv::transpose(src, tmp);
-        cv::flip(tmp, result, 0);
-        break;
-
-    default:
-        result = src;
-    }
-
-    return result;
 }
 
 }
