@@ -228,7 +228,7 @@ Prefab:
       objectReference: {fileID: 1166063723}
     - target: {fileID: 11487652, guid: ba72f82482f610140acec07dc288ea2b, type: 2}
       propertyPath: ServerAddress
-      value: 145.94.146.46
+      value: localhost
       objectReference: {fileID: 0}
     - target: {fileID: 11487652, guid: ba72f82482f610140acec07dc288ea2b, type: 2}
       propertyPath: m_Enabled
@@ -263,8 +263,8 @@ MonoBehaviour:
   - {fileID: 1282012181}
   - {fileID: 1282012181}
   - {fileID: 491863506}
-  levelMarker: {fileID: 2073756804}
-  scale: .0500000007
+  LevelMarker: {fileID: 0}
+  Scale: 0
 --- !u!1001 &539810766
 Prefab:
   m_ObjectHideFlags: 0
@@ -671,6 +671,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed37e9a5f6dc43248819ce2b746247b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 3
-  remoteX: 1.20000005
-  remoteY: 1.20000005
+  ID: -1
+  RemoteX: 0
+  RemoteY: 0

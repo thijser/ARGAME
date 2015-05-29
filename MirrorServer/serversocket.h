@@ -100,13 +100,21 @@ public:
      * @param rotation  - The rotation of the object.
      * @param timestamp - The timestamp of the update.
      */
-    void broadcastPositionUpdate(uint32_t id, float x, float y, float rotation, uint64_t timestamp);
+    void broadcastPositionUpdate(uint32_t id, float x, float y, float rotation);
 
     /**
      * @brief Broadcasts a delete message to all clients.
      * @param id - The id of the object.
      */
     void broadcastDelete(uint32_t id);
+
+    /**
+     * @brief Broadcasts a ping message to all clients.
+     *
+     * This message keeps the connection alive and should be sent at least
+     * every second if no other messages are sent.
+     */
+    void broadcastPing();
 
     /**
      * @brief Enables the use of Sockets.

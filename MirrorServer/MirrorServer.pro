@@ -15,10 +15,10 @@ TEMPLATE = app
 QT      -= core gui
 CONFIG  -= qt
 
-# We're building a simple console application,
-# and we want c++11 functionality.
+# We're building an application with c++11 functionality.
+# Also define a DEBUG flag in debug builds.
 CONFIG  += c++11
-CONFIG(debug): DEFINES += DEBUG
+CONFIG(debug): DEFINES += MIRRORS_DEBUG
 
 # NetLink also uses .inc as include file extension
 # We tell QMake to treat .inc files as header files.

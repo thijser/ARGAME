@@ -168,7 +168,7 @@ void Socket::initSocket() {
 
     if(_type == CLIENT && _protocol == TCP) {
         host = _hostTo.c_str();
-        snprintf(portStr, 10, "%u", _portTo);
+        _snprintf_s(portStr, 10, "%u", _portTo);
     }
     else {
         if(!_hostFrom.compare("") || !_hostFrom.compare("*"))
@@ -176,7 +176,7 @@ void Socket::initSocket() {
         else
             host = _hostFrom.c_str();
 
-        snprintf(portStr, 10, "%u", _portFrom);
+        _snprintf_s(portStr, 10, "%u", _portFrom);
     }
 
     int status = getaddrinfo(host, portStr, &conf, &res);
@@ -473,7 +473,7 @@ void Socket::sendTo(const void* buffer, size_t size, const string& hostTo, unsig
     }
 
     char portStr[10];
-    snprintf(portStr, 10, "%u", portTo);
+    _snprintf_s(portStr, 10, "%u", portTo);
 
     int status = getaddrinfo(hostTo.c_str(), portStr, &conf, &res);
 
