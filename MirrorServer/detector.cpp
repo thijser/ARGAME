@@ -343,7 +343,7 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
 
                 for (int i = 0; i < 6; i++) {
                     for (int j = 0; j < 6; j++) {
-                        avgPixel += downsizedCode.at<uint8_t>(i, j);
+                        avgPixel += downsizedCode.at<unsigned char>(i, j);
                     }
                 }
 
