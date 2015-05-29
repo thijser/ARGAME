@@ -30,7 +30,7 @@ namespace mirrors {
 const int MARKER_HISTORY_LENGTH = 15;
 
 /// Amount of marker scales to average.
-const int MARKER_SCALE_HISTORY_LENGTH = 60;
+const int MARKER_SCALE_HISTORY_LENGTH = 120;
 
 /// Maximum distance a marker can move per frame before it's considered a new marker.
 const float MARKER_MAX_FRAME_DIST = 50;
@@ -78,16 +78,16 @@ struct recognition_result {
  */
 struct detected_marker {
     /// Index of the recognised pattern.
-    const int id;
+    int id;
 
     /// X and Y position on the board
-    const Point2f position;
+    Point2f position;
 
     /// Yaw rotation of marker
-    const float rotation;
+    float rotation;
 
     /// True if marker was deleted this frame (not seen for a while).
-    const bool deleted;
+    bool deleted;
 
     /**
      * @brief Creates a new structure describing a detected marker.
@@ -314,7 +314,13 @@ private:
      * @param newMarkerCount - Output variable for amount of new markers.
      * @return Updated marker states.
      */
-    vector<detected_marker> discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours, size_t& unseenMarkerCount, size_t& newMarkerCount);
+    vector<detected_marker> discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours);
+
+    /**
+     * @brief Check and remove markers that haven't been visible for a while.
+     * @return Marker updates for the deletes.
+     */
+    vector<detected_marker> checkMarkerTimeouts();
 
     /**
      * @brief Recognise the pattern of the marker described by the given contour.

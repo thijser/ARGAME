@@ -142,31 +142,32 @@ vector<Point2f> detector::classifyCorners(const vector<vector<Point>>& contours)
 }
 
 vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours) {
-    // Start by marking everything as not seen
-    size_t unseenMarkerCount = markerStates.size();
-    size_t newMarkerCount = 0;
+    // Get remove messages for markers that changed pattern
+    auto markerUpdates = discoverAndUpdateMarkers(correctedFrame, markerContours);
 
-    for (auto& state : markerStates) {
-        state.updatedThisFrame = false;
-        state.newThisFrame = false;
-    }
+    // Remove markers that timed out
+    auto markerTimeouts = checkMarkerTimeouts();
+    std::copy(markerTimeouts.begin(), markerTimeouts.end(), markerUpdates.begin());
 
-    // Build list of updated marker data
-    auto detectedMarkers = discoverAndUpdateMarkers(correctedFrame, markerContours, unseenMarkerCount, newMarkerCount);
+    // Add updates for current positions of markers that remain
+    float markerScale = average(markerScales);
 
-    // If exactly 1 marker was not seen and exactly 1 new marker has appeared,
-    // then assume that the marker has moved very quickly.
-    if (unseenMarkerCount == 1 && newMarkerCount == 1) {
-        for (auto& state : markerStates) {
-            if (!state.updatedThisFrame && !state.newThisFrame) {
-                state.pos = markerStates[markerStates.size() - 1].pos;
-                state.lastSighting = clock();
-                break;
-            }
+    for (auto& marker : markerStates) {
+        if (marker.recognition_state.id != -1) {
+            // Convert marker coordinates to scaled coordinates
+            Point2f p = Point2f(
+                        marker.pos.x / markerScale,
+                        marker.pos.y / markerScale);
+
+            markerUpdates.push_back(detected_marker(marker.recognition_state.id, p, static_cast<float>(marker.rotation)));
         }
-
-        markerStates.pop_back();
     }
+
+    return markerUpdates;
+}
+
+vector<detected_marker> detector::checkMarkerTimeouts() {
+    vector<detected_marker> markerUpdates;
 
     // Clean up markers that haven't been seen in a while (500 ms)
     clock_t now = clock();
@@ -178,7 +179,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
         for (size_t i = 0; i < markerStates.size(); i++) {
             if (now - markerStates[i].lastSighting > CLOCKS_PER_SEC / 2) {
                 if (markerStates[i].recognition_state.id != -1) {
-                    detectedMarkers.push_back(detected_marker(markerStates[i].recognition_state.id, Point2f(), 0, true));
+                    markerUpdates.push_back(detected_marker(markerStates[i].recognition_state.id, Point2f(), 0, true));
                 }
 
                 markerStates.erase(markerStates.begin() + i);
@@ -188,24 +189,20 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
         }
     }
 
-    float markerScale = average(markerScales);
-
-    for (auto& marker : markerStates) {
-        if (marker.recognition_state.id != -1) {
-            // Convert marker coordinates to scaled coordinates
-            Point2f p = Point2f(
-                        marker.pos.x / markerScale,
-                        marker.pos.y / markerScale);
-
-            detectedMarkers.push_back(detected_marker(marker.recognition_state.id, p, static_cast<float>(marker.rotation)));
-        }
-    }
-
-    return detectedMarkers;
+    return markerUpdates;
 }
 
-vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours, size_t& unseenMarkerCount, size_t& newMarkerCount) {
-    vector<detected_marker> detectedMarkers;
+vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours) {
+    vector<detected_marker> markerUpdates;
+
+    // Start by marking everything as not seen this frame
+    size_t unseenMarkerCount = markerStates.size();
+    size_t newMarkerCount = 0;
+
+    for (auto& state : markerStates) {
+        state.updatedThisFrame = false;
+        state.newThisFrame = false;
+    }
 
     for (auto& contour : markerContours) {
         // Determine position of marker
@@ -275,7 +272,7 @@ vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedF
                 if (newRecognition.confidence >= closestMarker->recognition_state.confidence) {
                     // Register old marker as disappeared
                     if (closestMarker->recognition_state.id != -1 && newRecognition.id != closestMarker->recognition_state.id) {
-                        detectedMarkers.push_back(detected_marker(closestMarker->recognition_state.id, Point2f(), 0, true));
+                        markerUpdates.push_back(detected_marker(closestMarker->recognition_state.id, Point2f(), 0, true));
                     }
 
                     closestMarker->recognition_state = newRecognition;
@@ -294,7 +291,21 @@ vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedF
         }
     }
 
-    return detectedMarkers;
+    // If exactly 1 marker was not seen and exactly 1 new marker has appeared,
+    // then assume that the marker has moved very quickly.
+    if (unseenMarkerCount == 1 && newMarkerCount == 1) {
+        for (auto& state : markerStates) {
+            if (!state.updatedThisFrame && !state.newThisFrame) {
+                state.pos = markerStates[markerStates.size() - 1].pos;
+                state.lastSighting = clock();
+                break;
+            }
+        }
+
+        markerStates.pop_back();
+    }
+
+    return markerUpdates;
 }
 
 recognition_result detector::recognizeMarker(const Mat& correctedFrame, const vector<Point>& contour) const {
