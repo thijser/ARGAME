@@ -27,6 +27,7 @@ StyleCop.Cache
 *.user
 *.userprefs
 *.pidb
+*.pdb
 *.booproj
 Upgradelog*.htm
 
