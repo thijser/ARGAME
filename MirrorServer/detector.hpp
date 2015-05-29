@@ -30,7 +30,7 @@ namespace mirrors {
 const int MARKER_HISTORY_LENGTH = 15;
 
 /// Amount of marker scales to average.
-const int MARKER_SCALE_HISTORY_LENGTH = 120;
+const int MARKER_SCALE_HISTORY_LENGTH = 60;
 
 /// Maximum distance a marker can move per frame before it's considered a new marker.
 const float MARKER_MAX_FRAME_DIST = 50;

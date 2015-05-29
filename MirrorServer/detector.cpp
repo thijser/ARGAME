@@ -203,7 +203,9 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
                 closestMarker->rotation = movingRot;
 
                 // Also add the scale to average it across markers and time
-                markerScales.add(newRecognition.scale);
+                if (markerScales.size() < 120) {
+                    markerScales.add(newRecognition.scale);
+                }
             }
 
             // Only use new recognition to update state if motion blur influence is low.
@@ -211,7 +213,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
                 // If the new recognition has a higher confidence, replace the old one with it
                 if (newRecognition.confidence >= closestMarker->recognition_state.confidence) {
                     // Register old marker as disappeared
-                    if (closestMarker->recognition_state.id != -1) {
+                    if (closestMarker->recognition_state.id != -1 && newRecognition.id != closestMarker->recognition_state.id) {
                         detectedMarkers.push_back(detected_marker(closestMarker->recognition_state.id, Point2f(), 0, true));
                     }
 
