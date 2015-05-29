@@ -16,7 +16,12 @@ namespace Projection
 	/// Marks which marker is used for the basis of the level by the meta one
 	/// </summary>
     public class BaseForLevel : MonoBehaviour
-    {
+	{
+		/// <summary>
+		/// The time the base marker may be missing before another marker is used.
+		/// </summary>
+		public const int Patience = 10;
+
 		public int ID = -1;
 		public float RemoteX;
 		public float RemoteY;
@@ -50,22 +55,20 @@ namespace Projection
 					BaseForLevel bfl;
 					if((bfl= newTransform.gameObject.GetComponent<BaseForLevel>())!=null){
 						bfl.Seen();
+						Debug.Log ("transforming");
 						if(gameObject.GetComponent<UsedCardManager>()){
 							UpdateWrapper wrapper=gameObject.GetComponent<UpdateWrapper>();
-					
+							Debug.Log ("locking");
 							if(wrapper!=null&&wrapper.Wrapped!=null){
+								Debug.Log("done");
 								transform.RotateAround(transform.position,transform.up,-1*wrapper.Wrapped.Rotation);
-							}
 						}
 					}
 				}
 			}
 		}
-        /// <summary>
-        /// The time the base marker may be missing before another marker is used.
-        /// </summary>
-        public const int Patience = 10;
 
+		}
 
 		[SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
 
