@@ -89,16 +89,15 @@ void ServerSocket::broadcastMessage(const void *buffer, int length) {
     }
 }
 
-void ServerSocket::broadcastPositionUpdate(uint32_t id, float x, float y, float rotation, uint64_t timestamp) {
-    char buffer[25];
+void ServerSocket::broadcastPositionUpdate(uint32_t id, float x, float y, float rotation) {
+    char buffer[17];
     writeValue((char)0, buffer, 0);
     writeValue(x, buffer, 1);
     writeValue(y, buffer, 5);
     writeValue(rotation, buffer, 9);
     writeValue(id, buffer, 13);
-    writeValue(timestamp, buffer, 17);
 
-    broadcastMessage(buffer, 25);
+    broadcastMessage(buffer, 17);
 }
 
 void ServerSocket::broadcastDelete(uint32_t id) {

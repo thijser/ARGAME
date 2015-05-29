@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
         showFrames = atoi(argv[2]) != 0;
     }
 
-#ifdef DEBUG
+#ifdef MIRRORS_DEBUG
     std::clog << "Using camera device #" << deviceID << std::endl;
     std::clog << "UI Enabled: " << showFrames << std::endl;
 #endif
@@ -97,19 +97,17 @@ int main(int argc, char **argv) {
         std::cerr << "Failed to load markers!" << std::endl;
         return 1;
     }
-#ifdef DEBUG
+#ifdef MIRRORS_DEBUG
     std::clog << "Detector initialized (loaded " << markerPatterns.size() << " markers)" << std::endl;
 #endif
 
     // Start detection loop
     cameraDetector.loop([&](const Mat& processedFrame, vector<detected_marker> markers) {
-        auto time = duration_cast<milliseconds>(high_resolution_clock::now().time_since_epoch()).count();
-
         for (auto& marker : markers) {
             if (marker.deleted) {
                 server.broadcastDelete(marker.id);
             } else {
-                server.broadcastPositionUpdate(marker.id, marker.position.x, marker.position.y, marker.rotation, time);
+                server.broadcastPositionUpdate(marker.id, marker.position.x, marker.position.y, marker.rotation);
             }
         }
 
