@@ -11,7 +11,7 @@
 class QTcpServer;
 class QTcpSocket;
 
-namespace mirrors {
+namespace Mirrors {
 
 /**
  * @brief Mirrors TCP Server class.

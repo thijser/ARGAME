@@ -23,14 +23,16 @@
 #include <unordered_map>
 #include <ctime>
 #include "ringbuffer.hpp"
+#include "cornerdetector.hpp"
+#include "cvutil.hpp"
 
-namespace mirrors {
+namespace Mirrors {
 
 /// Amount of frames to average for marker positions.
 const int MARKER_HISTORY_LENGTH = 15;
 
 /// Amount of marker scales to average.
-const int MARKER_SCALE_HISTORY_LENGTH = 60;
+const int MARKER_SCALE_HISTORY_LENGTH = 120;
 
 /// Maximum distance a marker can move per frame before it's considered a new marker.
 const float MARKER_MAX_FRAME_DIST = 50;
@@ -78,16 +80,16 @@ struct recognition_result {
  */
 struct detected_marker {
     /// Index of the recognised pattern.
-    const int id;
+    int id;
 
     /// X and Y position on the board
-    const Point2f position;
+    Point2f position;
 
     /// Yaw rotation of marker
-    const float rotation;
+    float rotation;
 
     /// True if marker was deleted this frame (not seen for a while).
-    const bool deleted;
+    bool deleted;
 
     /**
      * @brief Creates a new structure describing a detected marker.
@@ -104,16 +106,6 @@ struct detected_marker {
 typedef std::function<void(const vector<detected_marker>&)> detection_callback;
 
 /**
- * @brief Angles that are multiples of 90 degrees, used for exact rotations.
- */
-enum exact_angle {
-    CLOCKWISE_0 = 0,
-    CLOCKWISE_90 = 90,
-    CLOCKWISE_180 = 180,
-    CLOCKWISE_270 = 270
-};
-
-/**
  * @brief Result of matching input pattern with known pattern.
  */
 struct match_result {
@@ -124,7 +116,7 @@ struct match_result {
     float score;
 
     /// Rotated version of known pattern that was compared.
-    exact_angle rotation;
+    ExactAngle rotation;
 
     /**
      * @brief Creates a new structure describing an input/known pattern comparison.
@@ -132,7 +124,7 @@ struct match_result {
      * @param score - Fraction of bits that were equal.
      * @param rotation - Exact rotation of known pattern used in comparison.
      */
-    match_result(int pattern = 0, float score = 0, exact_angle rotation = CLOCKWISE_0)
+    match_result(int pattern = 0, float score = 0, ExactAngle rotation = CLOCKWISE_0)
         : pattern(pattern), score(score), rotation(rotation) {
     }
 };
@@ -182,7 +174,7 @@ struct marker_state {
 /**
  * @brief Detector of markers from a camera image given known patterns.
  */
-class detector {
+class Detector {
 public:
     /**
      * @brief Construct a detector.
@@ -190,7 +182,7 @@ public:
      * @param requestedWidth - Desired horizontal resolution of images to capture.
      * @param requestedHeight - Desired vertical resolution of images to capture.
      */
-    detector(int captureDevice = 0, int requestedWidth = 1600, int requestedHeight = 896);
+    Detector(int captureDevice = 0, int requestedWidth = 1600, int requestedHeight = 896);
 
     /**
      * @brief Register new patterns that can be recognised in markers.
@@ -242,7 +234,7 @@ private:
     vector<Mat> markerPatterns;
 
     /// Positions of corner positions.
-    vector<Point2f> boardCorners;
+    vector<Point> boardCorners;
 
     /// Latest state of markers.
     vector<marker_state> markerStates;
@@ -267,14 +259,7 @@ private:
      * @param rawFrame - Newly captured frame.
      * @return Positions of four board corners or empty collection if none were found so far.
      */
-    vector<Point2f> getCorners(const Mat& rawFrame);
-
-    /**
-     * @brief Find the positions of the four board corners in the specified frame.
-     * @param rawFrame - Frame to detect corners in.
-     * @return Positions of four board corners or empty collection if none were found.
-     */
-    vector<Point2f> findCorners(const Mat& rawFrame) const;
+    vector<Point> getCorners(const Mat& rawFrame);
 
     /**
      * @brief Isolate the board from the camera view using the corner positions.
@@ -282,7 +267,7 @@ private:
      * @param corners - Positions of board corners in given image.
      * @return Image with isolated version of board (aspect ratio based on test board).
      */
-    Mat correctPerspective(const Mat& rawFrame, const vector<Point2f>& corners) const;
+    Mat correctPerspective(const Mat& rawFrame, const vector<Point>& corners) const;
 
     /**
      * @brief Isolate possible markers from the rest of the image by thresholding green.
@@ -314,7 +299,13 @@ private:
      * @param newMarkerCount - Output variable for amount of new markers.
      * @return Updated marker states.
      */
-    vector<detected_marker> discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours, size_t& unseenMarkerCount, size_t& newMarkerCount);
+    vector<detected_marker> discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours);
+
+    /**
+     * @brief Check and remove markers that haven't been visible for a while.
+     * @return Marker updates for the deletes.
+     */
+    vector<detected_marker> checkMarkerTimeouts();
 
     /**
      * @brief Recognise the pattern of the marker described by the given contour.
@@ -331,59 +322,6 @@ private:
      * @return Best matching known pattern and rotation of it.
      */
     match_result findMatchingMarker(const Mat& detectedPattern) const;
-
-    /**
-     * @brief Process four contours into a standardized list of corners
-     * in the order top-left, top-right, bottom-left and bottom-right.
-     * @param cornerContours - Contours that represent the red corners (exactly 4 items).
-     * @return Standardized list of corners.
-     */
-    static vector<Point2f> classifyCorners(const vector<vector<Point>>& cornerContours);
-
-    /**
-     * @brief Calculate average of given numbers.
-     * @param vals - Collection of values to calculate average from.
-     * @return Average value of given numbers.
-     */
-    static float average(const vector<float>& vals);
-
-    /**
-    * @brief Calculate average of given points.
-    * @param vals - Collection of points to calculate average from.
-    * @return Average value of given points.
-    */
-    static Point average(const vector<Point>& vals);
-
-    /**
-     * @brief Calculate Euclidean distance between two points.
-     * @param a - First point.
-     * @param b - Second point.
-     * @return Euclidean distance between the first and second point.
-     */
-    static float dist(const Point& a, const Point& b);
-
-    /**
-     * @brief Calculate the center of the bounding box given the contour.
-     * @param contour - The contour that represents the shape of the marker.
-     * @return The center point of the bounding box from the contour.
-     */
-    static Point boundingCenter(const vector<Point>& contour);
-
-    /**
-     * @brief Rotate image by arbitrary angle.
-     * @param src - Input image.
-     * @param angle - Angle rotate image by in clockwise direction (may be negative for counter-clockwise).
-     * @return Rotated image, which may be resized to fit the result.
-     */
-    static Mat rotate(Mat src, float angle);
-
-    /**
-     * @brief Rotate image by multiple of 90 degrees.
-     * @param src - Input image.
-     * @param angle - Multiple of 90 degrees.
-     * @return Rotated image, where row/column size may be swapped.
-     */
-    static Mat rotateExact(Mat src, exact_angle angle);
 };
 
 }

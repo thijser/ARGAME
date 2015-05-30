@@ -15,7 +15,7 @@
 #ifndef RINGBUFFER_HPP
 #define RINGBUFFER_HPP
 
-namespace mirrors {
+namespace Mirrors {
 
 #include <vector>
 

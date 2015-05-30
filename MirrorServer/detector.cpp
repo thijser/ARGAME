@@ -12,7 +12,7 @@
 #include <iostream>
 #include <set>
 
-namespace mirrors {
+namespace Mirrors {
 
 using std::vector;
 
@@ -25,7 +25,7 @@ namespace hierarchy_members {
     };
 }
 
-detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
+Detector::Detector(int captureDevice, int requestedWidth, int requestedHeight)
     : keepGoing(true) {
     cap.open(captureDevice);
 
@@ -37,7 +37,7 @@ detector::detector(int captureDevice, int requestedWidth, int requestedHeight)
     height = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 }
 
-bool detector::registerMarkers(const vector<Mat>& markers) {
+bool Detector::registerMarkers(const vector<Mat>& markers) {
     for (auto& marker : markers) {
         if (marker.channels() != 1 || marker.rows != 6 || marker.cols != 6) {
             return false;
@@ -51,7 +51,7 @@ bool detector::registerMarkers(const vector<Mat>& markers) {
     return true;
 }
 
-vector<detected_marker> detector::detect() {
+vector<detected_marker> Detector::detect() {
     // Capture image from camera
     lastFrame = capture();
 
@@ -76,97 +76,46 @@ vector<detected_marker> detector::detect() {
     }
 }
 
-const Mat& detector::getLastFrame() const {
+const Mat& Detector::getLastFrame() const {
     return lastFrame;
 }
 
-vector<Point2f> detector::getCorners(const Mat& rawFrame) {
-    if (boardCorners.size() == 4) {
-        return boardCorners;
-    } else {
-        boardCorners = findCorners(rawFrame);
-        return boardCorners;
+vector<Point> Detector::getCorners(const Mat& rawFrame) {
+    // Give camera time to warm up before starting detection.
+    if (boardCorners.empty() && clock() - startTime >= CLOCKS_PER_SEC) {
+        boardCorners = CornerDetector(rawFrame).getCorners();
     }
+
+    return boardCorners;
 }
 
-vector<Point2f> detector::findCorners(const Mat& rawFrame) const {
-    // Give camera time to warm up before starting detection
-    if (clock() - startTime < CLOCKS_PER_SEC) return vector<Point2f>();
+vector<detected_marker> Detector::trackMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours) {
+    // Get remove messages for markers that changed pattern
+    auto markerUpdates = discoverAndUpdateMarkers(correctedFrame, markerContours);
 
-    // Threshold on red
-    Mat frameParts[3];
-    split(rawFrame, frameParts);
+    // Remove markers that timed out
+    auto markerTimeouts = checkMarkerTimeouts();
+    std::copy(markerTimeouts.begin(), markerTimeouts.end(), markerUpdates.begin());
 
-    Mat mask = frameParts[2] > frameParts[1] * 2 & frameParts[2] > frameParts[0] * 2 & frameParts[2] > 50;
-    Mat maskClean;
-    Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, Size(3, 3));
-    cv::erode(mask, maskClean, kernel);
+    // Add updates for current positions of markers that remain
+    float markerScale = average(markerScales);
 
-    // Find 4 red corner regions and return them in the right order
-    vector<vector<Point>> contours;
-    cv::findContours(maskClean, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+    for (auto& marker : markerStates) {
+        if (marker.recognition_state.id != -1) {
+            // Convert marker coordinates to scaled coordinates
+            Point2f p = Point2f(
+                        marker.pos.x / markerScale,
+                        marker.pos.y / markerScale);
 
-    if (contours.size() == 4) {
-        return classifyCorners(contours);
-    } else {
-        return vector<Point2f>();
-    }
-}
-
-vector<Point2f> detector::classifyCorners(const vector<vector<Point>>& contours) {
-    // Find bounding regions.
-    vector<cv::Rect> markerPoints;
-
-    for (auto& points : contours) {
-        markerPoints.push_back(cv::boundingRect(points));
-    }
-
-    // First sort by y to separate top and bottom markers.
-    std::sort(markerPoints.begin(), markerPoints.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.y < b.y; });
-
-    vector<cv::Rect> top(markerPoints.begin(), markerPoints.begin() + 2);
-    vector<cv::Rect> bottom(markerPoints.begin() + 2, markerPoints.begin() + 4);
-
-    // Then sort each of them by x to find left and right
-    std::sort(top.begin(), top.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.x < b.x; });
-    std::sort(bottom.begin(), bottom.end(), [](const cv::Rect& a, const cv::Rect& b) { return a.x < b.x; });
-
-    // Determine the bounds of the board by taking the outer corners of the corner markers.
-    vector<Point2f> corners;
-    corners.push_back(Point(top[0].x, top[0].y)); // Top-left
-    corners.push_back(Point(top[1].x + top[1].width, top[1].y)); // Top-right
-    corners.push_back(Point(bottom[0].x, bottom[0].y + bottom[0].height)); // Bottom-left
-    corners.push_back(Point(bottom[1].x + bottom[1].width, bottom[1].y + bottom[1].height)); // Bottom-right
-
-    return corners;
-}
-
-vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours) {
-    // Start by marking everything as not seen
-    size_t unseenMarkerCount = markerStates.size();
-    size_t newMarkerCount = 0;
-
-    for (auto& state : markerStates) {
-        state.updatedThisFrame = false;
-        state.newThisFrame = false;
-    }
-
-    // Build list of updated marker data
-    auto detectedMarkers = discoverAndUpdateMarkers(correctedFrame, markerContours, unseenMarkerCount, newMarkerCount);
-
-    // If exactly 1 marker was not seen and exactly 1 new marker has appeared,
-    // then assume that the marker has moved very quickly.
-    if (unseenMarkerCount == 1 && newMarkerCount == 1) {
-        for (auto& state : markerStates) {
-            if (!state.updatedThisFrame && !state.newThisFrame) {
-                state.pos = markerStates[markerStates.size() - 1].pos;
-                state.lastSighting = clock();
-                break;
-            }
+            markerUpdates.push_back(detected_marker(marker.recognition_state.id, p, static_cast<float>(marker.rotation)));
         }
-
-        markerStates.pop_back();
     }
+
+    return markerUpdates;
+}
+
+vector<detected_marker> Detector::checkMarkerTimeouts() {
+    vector<detected_marker> markerUpdates;
 
     // Clean up markers that haven't been seen in a while (500 ms)
     clock_t now = clock();
@@ -178,7 +127,7 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
         for (size_t i = 0; i < markerStates.size(); i++) {
             if (now - markerStates[i].lastSighting > CLOCKS_PER_SEC / 2) {
                 if (markerStates[i].recognition_state.id != -1) {
-                    detectedMarkers.push_back(detected_marker(markerStates[i].recognition_state.id, Point2f(), 0, true));
+                    markerUpdates.push_back(detected_marker(markerStates[i].recognition_state.id, Point2f(), 0, true));
                 }
 
                 markerStates.erase(markerStates.begin() + i);
@@ -188,24 +137,20 @@ vector<detected_marker> detector::trackMarkers(const Mat& correctedFrame, const 
         }
     }
 
-    float markerScale = average(markerScales);
-
-    for (auto& marker : markerStates) {
-        if (marker.recognition_state.id != -1) {
-            // Convert marker coordinates to scaled coordinates
-            Point2f p = Point2f(
-                        marker.pos.x / markerScale,
-                        marker.pos.y / markerScale);
-
-            detectedMarkers.push_back(detected_marker(marker.recognition_state.id, p, static_cast<float>(marker.rotation)));
-        }
-    }
-
-    return detectedMarkers;
+    return markerUpdates;
 }
 
-vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours, size_t& unseenMarkerCount, size_t& newMarkerCount) {
-    vector<detected_marker> detectedMarkers;
+vector<detected_marker> Detector::discoverAndUpdateMarkers(const Mat& correctedFrame, const vector<vector<Point>>& markerContours) {
+    vector<detected_marker> markerUpdates;
+
+    // Start by marking everything as not seen this frame
+    size_t unseenMarkerCount = markerStates.size();
+    size_t newMarkerCount = 0;
+
+    for (auto& state : markerStates) {
+        state.updatedThisFrame = false;
+        state.newThisFrame = false;
+    }
 
     for (auto& contour : markerContours) {
         // Determine position of marker
@@ -275,7 +220,7 @@ vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedF
                 if (newRecognition.confidence >= closestMarker->recognition_state.confidence) {
                     // Register old marker as disappeared
                     if (closestMarker->recognition_state.id != -1 && newRecognition.id != closestMarker->recognition_state.id) {
-                        detectedMarkers.push_back(detected_marker(closestMarker->recognition_state.id, Point2f(), 0, true));
+                        markerUpdates.push_back(detected_marker(closestMarker->recognition_state.id, Point2f(), 0, true));
                     }
 
                     closestMarker->recognition_state = newRecognition;
@@ -294,10 +239,24 @@ vector<detected_marker> detector::discoverAndUpdateMarkers(const Mat& correctedF
         }
     }
 
-    return detectedMarkers;
+    // If exactly 1 marker was not seen and exactly 1 new marker has appeared,
+    // then assume that the marker has moved very quickly.
+    if (unseenMarkerCount == 1 && newMarkerCount == 1) {
+        for (auto& state : markerStates) {
+            if (!state.updatedThisFrame && !state.newThisFrame) {
+                state.pos = markerStates[markerStates.size() - 1].pos;
+                state.lastSighting = clock();
+                break;
+            }
+        }
+
+        markerStates.pop_back();
+    }
+
+    return markerUpdates;
 }
 
-recognition_result detector::recognizeMarker(const Mat& correctedFrame, const vector<Point>& contour) const {
+recognition_result Detector::recognizeMarker(const Mat& correctedFrame, const vector<Point>& contour) const {
     auto brect = cv::boundingRect(contour);
 
     cv::RotatedRect rotatedRect = cv::minAreaRect(contour);
@@ -391,9 +350,9 @@ recognition_result detector::recognizeMarker(const Mat& correctedFrame, const ve
     return recognition_result(-1, 0, 0);
 }
 
-match_result detector::findMatchingMarker(const Mat& detectedPattern) const {
+match_result Detector::findMatchingMarker(const Mat& detectedPattern) const {
     // Calculate all permutations of input pattern
-    vector<std::pair<exact_angle, Mat>> inputPermutations = {
+    vector<std::pair<ExactAngle, Mat>> inputPermutations = {
         std::make_pair(CLOCKWISE_0, detectedPattern),
         std::make_pair(CLOCKWISE_90, rotateExact(detectedPattern, CLOCKWISE_90)),
         std::make_pair(CLOCKWISE_180, rotateExact(detectedPattern, CLOCKWISE_180)),
@@ -418,7 +377,7 @@ match_result detector::findMatchingMarker(const Mat& detectedPattern) const {
     return bestResult;
 }
 
-void detector::loop(const detection_callback& callback) {
+void Detector::loop(const detection_callback& callback) {
     while (keepGoing) {
         callback(detect());
         int keyCode = cv::waitKey(10);
@@ -429,17 +388,17 @@ void detector::loop(const detection_callback& callback) {
     std::clog << "Detector stoppped" << std::endl;
 }
 
-void detector::stop() {
+void Detector::stop() {
     keepGoing = false;
 }
 
-Mat detector::capture() {
+Mat Detector::capture() {
     Mat frame;
     cap.read(frame);
     return frame;
 }
 
-Mat detector::correctPerspective(const Mat& rawFrame, const vector<Point2f>& corners) const {
+Mat Detector::correctPerspective(const Mat& rawFrame, const vector<Point>& corners) const {
     static Point2f dst[] = {
         Point(0, 0),
         Point(width, 0),
@@ -447,7 +406,14 @@ Mat detector::correctPerspective(const Mat& rawFrame, const vector<Point2f>& cor
         Point(width, height)
     };
 
-    Mat m = getPerspectiveTransform(corners.data(), dst);
+    Point2f src[] = {
+        Point2f(corners[0]),
+        Point2f(corners[1]),
+        Point2f(corners[2]),
+        Point2f(corners[3])
+    };
+
+    Mat m = getPerspectiveTransform(src, dst);
 
     Mat tmp, output;
     warpPerspective(rawFrame, tmp, m, cv::Size(width, height));
@@ -456,7 +422,7 @@ Mat detector::correctPerspective(const Mat& rawFrame, const vector<Point2f>& cor
     return output;
 }
 
-Mat detector::thresholdGreen(const Mat& correctedFrame) const {
+Mat Detector::thresholdGreen(const Mat& correctedFrame) const {
     // Convert image to HSV channels
     Mat frame_hsv;
     cvtColor(correctedFrame, frame_hsv, CV_BGR2HSV);
@@ -478,7 +444,7 @@ Mat detector::thresholdGreen(const Mat& correctedFrame) const {
     return mask;
 }
 
-vector<vector<Point>> detector::locateMarkers(const Mat& thresholdedFrame) const {
+vector<vector<Point>> Detector::locateMarkers(const Mat& thresholdedFrame) const {
     vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
 
@@ -505,74 +471,6 @@ vector<vector<Point>> detector::locateMarkers(const Mat& thresholdedFrame) const
     }
 
     return potentialMarkers;
-}
-
-float detector::dist(const Point& a, const Point& b) {
-    int dx = a.x - b.x;
-    int dy = a.y - b.y;
-    return static_cast<float>(std::sqrt(dx * dx + dy * dy));
-}
-
-Point detector::boundingCenter(const vector<Point>& contour) {
-    auto rect = cv::boundingRect(contour);
-    return Point(rect.x + rect.width / 2, rect.y + rect.height / 2);
-}
-
-float detector::average(const vector<float>& vals) {
-    float sum = 0;
-
-    for (float n : vals) {
-        sum += n;
-    }
-
-    return sum / vals.size();
-}
-
-Point detector::average(const vector<Point>& vals) {
-    Point sum;
-
-    for (Point n : vals) {
-        sum += n;
-    }
-
-    return Point(sum.x / vals.size(), sum.y / vals.size());
-}
-
-// Source: http://opencv-code.com/quick-tips/how-to-rotate-image-in-opencv/
-Mat detector::rotate(Mat src, float angle) {
-    int len = std::max(src.cols, src.rows);
-    cv::Point2f pt(len / 2.f, len / 2.f);
-    cv::Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);
-
-    Mat dst;
-    cv::warpAffine(src, dst, r, cv::Size(len, len));
-
-    return dst;
-}
-
-Mat detector::rotateExact(Mat src, exact_angle angle) {
-    Mat tmp, result;
-
-    switch (angle) {
-    case CLOCKWISE_90:
-        cv::transpose(src, tmp);
-        cv::flip(tmp, result, 1);
-        break;
-
-    case CLOCKWISE_180:
-        cv::flip(src, result, -1);
-        break;
-
-    case CLOCKWISE_270:
-        cv::transpose(src, tmp);
-        cv::flip(tmp, result, 0);
-        break;
-
-    default:
-        result = src;
-    }
-
-    return result;
 }
 
 }
