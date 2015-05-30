@@ -84,8 +84,7 @@ void ServerController::broadcastPosition(const detected_marker& marker) {
     } else {
         sock->broadcastPositionUpdate(
                     marker.id,
-                    marker.position.x,
-                    marker.position.y,
+                    marker.position,
                     marker.rotation);
     }
 }

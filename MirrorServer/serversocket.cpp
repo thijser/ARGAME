@@ -62,11 +62,11 @@ void ServerSocket::broadcastBytes(QByteArray bytes) {
     }
 }
 
-void ServerSocket::broadcastPositionUpdate(int id, float x, float y, float rotation) {
+void ServerSocket::broadcastPositionUpdate(int id, cv::Point2f position, float rotation) {
     QByteArray bytes;
     bytes.append((char)0)
-         .append(toRawBytes(x))
-         .append(toRawBytes(y))
+         .append(toRawBytes(position.x))
+         .append(toRawBytes(position.y))
          .append(toRawBytes(rotation))
          .append(toRawBytes(id));
     broadcastBytes(bytes);

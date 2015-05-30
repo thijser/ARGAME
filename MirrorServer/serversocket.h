@@ -147,11 +147,10 @@ public slots:
     /**
      * @brief Sends a PositionUpdate message to all clients.
      * @param id       - The marker ID.
-     * @param x        - The x coordinate of the marker.
-     * @param y        - The y coordinate of the marker.
+     * @param position - The position of the marker.
      * @param rotation - The rotation of the marker.
      */
-    void broadcastPositionUpdate(int id, float x, float y, float rotation);
+    void broadcastPositionUpdate(int id, cv::Point2f position, float rotation);
 
     /**
      * @brief Sends a Delete message to all clients.
