@@ -115,7 +115,9 @@
 		
 		Additionally, the game depends on the deployment of a server application
 		written in C++. The purpose of this server application will be discussed 
-		along with the Network namespace in \ref{ssec:networknamespace}.
+		along with the Network namespace in \ref{ssec:networknamespace}. Also,
+		in the past we wanted to potentially add random levels for replay value,
+		and this is discussed in paragraph \ref{ssec:randomlevelnamespace}
 		
 		\subsection{The Core namespace} \label{ssec:corenamespace}
 			The \texttt{Core} namespace contains all the code for all the core gameplay
@@ -235,6 +237,18 @@
 				\caption{Class diagram of the \texttt{Projection} namespace}
 				\label{fig:classdiagramprojection}
 			\end{figure}
+			
+		\subsection{Experimental code: the RandomLevel namespace} \label{ssec:randomlevelnamespace}
+			The \texttt{RandomLevel} namespace is an abandoned and deleted
+			namespace, which contained code that, when deployed, would create
+			rather simple but random levels with one target and one laser.
+			The levels are always solvable, and would be created according 
+			to an algorithm that is explained in this section.
+			
+			The algorithm that was used to create random levels is as follows:
+			First, a square grid of points is made. The grid was represented by
+			2D array (a matrix) of grid points. Secondly, the laser target is
+			placed in the middle of the map, and 
 
 	\section{Game elements} \label{sec:graphicaldesign}
 		For designing the 3D models, we used Blender. Blender is a free application
