@@ -3,7 +3,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 
-namespace Mirrors {
+namespace mirrors {
 
 namespace {
     template <typename T>

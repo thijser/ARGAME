@@ -38,7 +38,7 @@ void ServerController::changeState(ServerState state) {
 void ServerController::startServer(quint16 port, int cameraDevice) {
     Q_ASSERT(serverState == Idle);
     changeState(Starting);
-    det = new detector(cameraDevice);
+    det = new Detector(cameraDevice);
     sock->setPortNumber(port);
     sock->start();
     detectorTimer->start();

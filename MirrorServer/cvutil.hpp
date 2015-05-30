@@ -16,9 +16,8 @@
 #define CV_UTIL_HPP
 
 #include <vector>
-#include <opencv2/core/core.hpp>
 
-namespace Mirrors {
+namespace mirrors {
 
 using std::vector;
 using cv::Point;

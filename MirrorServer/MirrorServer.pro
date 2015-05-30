@@ -16,14 +16,18 @@ SOURCES += \
     mainwindow.cpp \
     serversocket.cpp \
     detector.cpp \
-    servercontroller.cpp
+    servercontroller.cpp \
+    cornerdetector.cpp \
+    cvutil.cpp
 
 HEADERS  += \
     mainwindow.h \
     serversocket.h \
     ringbuffer.hpp \
     detector.hpp \
-    servercontroller.h
+    servercontroller.h \
+    cornerdetector.hpp \
+    cvutil.hpp
 
 PRECOMPILED_HEADER = mirrors.h
 

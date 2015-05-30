@@ -17,7 +17,7 @@
 
 #include <opencv2/core/core.hpp>
 
-namespace Mirrors {
+namespace mirrors {
 
 using cv::Mat;
 using cv::Point;

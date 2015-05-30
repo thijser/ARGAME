@@ -1,8 +1,6 @@
 #include "cornerdetector.hpp"
 
-#include <opencv2/imgproc/imgproc.hpp>
-
-namespace Mirrors {
+namespace mirrors {
 
 CornerDetector::CornerDetector(const cv::Mat& image) {
     corners = findCorners(image);

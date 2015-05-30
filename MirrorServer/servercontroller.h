@@ -130,7 +130,7 @@ private:
     ServerSocket *sock;
 
     /// The detector instance used to find markers.
-    detector *det;
+    Detector *det;
 
     /// The QTimer used for scheduling marker detection
     QTimer *detectorTimer;

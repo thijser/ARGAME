@@ -1,8 +1,6 @@
 #include "cvutil.hpp"
 
-#include <opencv2/imgproc/imgproc.hpp>
-
-namespace Mirrors {
+namespace mirrors {
 
 float dist(const Point& a, const Point& b) {
     int dx = a.x - b.x;

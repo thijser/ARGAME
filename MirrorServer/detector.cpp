@@ -12,7 +12,7 @@
 #include <iostream>
 #include <set>
 
-namespace Mirrors {
+namespace mirrors {
 
 using std::vector;
 
@@ -406,12 +406,10 @@ Mat Detector::correctPerspective(const Mat& rawFrame, const vector<Point>& corne
         Point(width, height)
     };
 
-    Point2f src[] = {
-        Point2f(corners[0]),
-        Point2f(corners[1]),
-        Point2f(corners[2]),
-        Point2f(corners[3])
-    };
+    Point2f src[4];
+    for (int i = 0; i < 4; i++) {
+        src[i] = corners[i];
+    }
 
     Mat m = getPerspectiveTransform(src, dst);
 

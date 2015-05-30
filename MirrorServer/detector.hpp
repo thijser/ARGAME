@@ -26,7 +26,7 @@
 #include "cornerdetector.hpp"
 #include "cvutil.hpp"
 
-namespace Mirrors {
+namespace mirrors {
 
 /// Amount of frames to average for marker positions.
 const int MARKER_HISTORY_LENGTH = 15;
