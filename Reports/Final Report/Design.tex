@@ -253,12 +253,22 @@
 			known as the critical path. Third, walls are added to the level randomly,
 			however they are never placed on either the target, a part of the
 			critical path, or the laser. The walls are also rotated either
-			horizontally or vertically.
+			horizontally or vertically. As can be seen, the levels created were
+			rather simple (as they did not contain our more advanced game
+			objects, only targets and walls), and solving them could always be done
+			with several mirrors.
 			
 			The random level generation was added very early on in the project,
 			and there was some value in developing it further (think of replay
 			value for the game, for example). However, it was scrapped after
-			talking about it with our coach
+			talking about it with our coach, especially after talking about how it
+			would increase the replay value of the game (it would increase it,
+			but only by very little). Another reason to scrap it was because the
+			classes belonging to it were some of the most complex classes that were
+			written for this project. Even after several refactoring attempts,
+			the classes were still just barely under the maximum complexity that we
+			allowed for our classes (this was measured with SonarQube, explained
+			in the Quality Assurance part of this report). 
 
 	\section{Game elements} \label{sec:graphicaldesign}
 		For designing the 3D models, we used Blender. Blender is a free application
