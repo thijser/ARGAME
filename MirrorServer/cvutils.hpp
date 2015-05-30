@@ -20,6 +20,8 @@
 namespace mirrors {
 
     using cv::Mat;
+    using cv::Point;
+    using std::vector;
 
     /**
      * @brief Order of channels in image using BGR color space. 
@@ -80,6 +82,13 @@ namespace mirrors {
     * @return Rotated image, where row/column size may be swapped.
     */
     Mat rotateExactly(Mat src, ExactAngle angle);
+
+    /**
+     * @brief Get pivot point of specified contour.
+     * @param contour - Contour to calculate pivot point of.
+     * @return Pivot point of specified contour.
+     */
+    Point getPivot(const vector<Point>& contour);
 
 }
 
