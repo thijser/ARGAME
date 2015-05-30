@@ -11,19 +11,19 @@
 
 #include <opencv2/highgui/highgui.hpp>
 
-#include "boarddetector.hpp"
+#include "markerdetector.hpp"
 
 using namespace mirrors;
 
 int main(int argc, char** argv) {
-    auto image = cv::imread("input.png");
+    auto boardImage = cv::imread("input.png");
 
-    BoardDetector boardDetector;
-    boardDetector.locateBoard(image);
-    Mat boardImage = boardDetector.extractBoard(image);
+    MarkerDetector markerDetector;
+    auto markerContours = markerDetector.locateMarkers(boardImage);
 
-    cv::imshow("Board image", boardImage);
-    cv::waitKey(0);
+    std::cout << markerContours.size() << std::endl;
+
+    std::cin.get();
 
     return EXIT_SUCCESS;
 }

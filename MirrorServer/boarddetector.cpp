@@ -4,6 +4,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 namespace mirrors {
+
     using cv::Point2f;
     using cv::Size;
 
@@ -106,4 +107,5 @@ namespace mirrors {
 
         return corners;
     }
+
 }

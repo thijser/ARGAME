@@ -16,6 +16,7 @@
 #define OPENCV_UTILS_HPP
 
 namespace mirrors {
+
     /**
      * @brief Order of channels in image using BGR color space. 
      */
@@ -26,6 +27,30 @@ namespace mirrors {
             R
         };
     }
+
+    /**
+     * @brief Order of channels in image using HSV color space.
+     */
+    namespace HSV {
+        enum HSV {
+            H = 0,
+            S,
+            V
+        };
+    }
+
+    /**
+     * @brief Type of element in cv::findContours() hierarchy vector by index.
+     */
+    namespace HierarchyElement {
+        enum HierarchyElement {
+            NEXT = 0,
+            PREVIOUS,
+            CHILD,
+            PARENT
+        };
+    }
+
 }
 
 #endif
