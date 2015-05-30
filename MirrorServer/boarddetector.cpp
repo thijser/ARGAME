@@ -21,18 +21,18 @@ namespace mirrors {
             return Mat();
         }
 
-        Point2f dst[] = {
-            Point(0, 0),
-            Point(cameraImage.cols, cameraImage.rows),
-            Point(0, cameraImage.rows),
-            Point(cameraImage.cols, cameraImage.rows)
+        Point2f src[] = {
+            corners[0],
+            corners[1],
+            corners[2],
+            corners[3]
         };
 
-        Point2f src[] = {
-            Point2f(corners[0]),
-            Point2f(corners[1]),
-            Point2f(corners[2]),
-            Point2f(corners[3])
+        Point2f dst[] = {
+            Point(0, 0),
+            Point(cameraImage.cols, 0),
+            Point(0, cameraImage.rows),
+            Point(cameraImage.cols, cameraImage.rows)
         };
 
         Mat m = getPerspectiveTransform(src, dst);
