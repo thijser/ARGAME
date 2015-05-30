@@ -4,7 +4,7 @@
 namespace mirrors {
 
 ServerController::ServerController(QObject *parent)
-    : QObject(parent), sock(new ServerSocket(this)), det(new detector()),
+    : QObject(parent), sock(new ServerSocket(this)), det(nullptr),
       detectorTimer(new QTimer(this)), serverState(Idle)
 {
     connect(this, SIGNAL(markersUpdated(vector<detected_marker>)),
@@ -35,14 +35,18 @@ void ServerController::changeState(ServerState state) {
     emit stateChanged(state);
 }
 
-void ServerController::startServer(quint16 port) {
+void ServerController::startServer(quint16 port, int cameraDevice) {
+    Q_ASSERT(serverState == Idle);
     changeState(Starting);
+    det = new detector(cameraDevice);
     sock->setPortNumber(port);
     sock->start();
     detectorTimer->start();
 }
 
 void ServerController::stopServer() {
+    Q_ASSERT(serverState == Started);
+
     changeState(Stopping);
     sock->stop();
     det->stop();
@@ -50,6 +54,7 @@ void ServerController::stopServer() {
 }
 
 void ServerController::detectFrame() {
+    Q_ASSERT(serverState == Started || serverState == Starting);
     if (state() == Starting) {
         changeState(Started);
     }

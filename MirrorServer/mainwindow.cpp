@@ -2,8 +2,8 @@
 #include "ui_mainwindow.h"
 #include "servercontroller.h"
 
-#include <QDebug>
 #include <QImage>
+
 namespace mirrors {
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -23,6 +23,12 @@ MainWindow::MainWindow(QWidget *parent) :
     // Set the port number LineEdit to only accept numbers in
     // the range 0-65536
     ui->serverPort->setValidator(new QIntValidator(0, 65536, this));
+
+    // Set the camera device ID to only accept -1 and higher
+    // values (-1 selects the default camera on the system).
+    QIntValidator *camValidator = new QIntValidator(this);
+    camValidator->setBottom(-1);
+    ui->cameraDevice->setValidator(camValidator);
 }
 
 MainWindow::~MainWindow() {

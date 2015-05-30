@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <opencv2/core/core.hpp>
 #include <vector>
 
 namespace mirrors {

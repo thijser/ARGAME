@@ -2,7 +2,6 @@
 #include "servercontroller.h"
 
 #include <QApplication>
-#include <QDebug>
 
 using namespace mirrors;
 

@@ -9,7 +9,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = MirrorServer
 TEMPLATE = app
-CONFIG += c++11
+CONFIG += c++11 precompile_header
 
 SOURCES += \
     main.cpp \
@@ -24,6 +24,8 @@ HEADERS  += \
     ringbuffer.hpp \
     detector.hpp \
     servercontroller.h
+
+PRECOMPILED_HEADER = mirrors.h
 
 FORMS    += mainwindow.ui
 

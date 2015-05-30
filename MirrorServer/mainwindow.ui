@@ -28,7 +28,7 @@
       </property>
       <layout class="QFormLayout" name="formLayout">
        <item row="1" column="0">
-        <widget class="QLabel" name="portLabel">
+        <widget class="QLabel" name="serverLabel">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -51,11 +51,31 @@
          <property name="inputMask">
           <string/>
          </property>
+         <property name="text">
+          <string>23369</string>
+         </property>
          <property name="maxLength">
           <number>32767</number>
          </property>
          <property name="frame">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="cameraLabel">
+         <property name="text">
+          <string>Camera Device ID</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="cameraDevice">
+         <property name="text">
+          <string>-1</string>
+         </property>
+         <property name="maxLength">
+          <number>8</number>
          </property>
         </widget>
        </item>

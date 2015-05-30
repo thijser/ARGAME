@@ -6,7 +6,6 @@
  * @brief Defines the mirrors::ServerSocket class.
  */
 
-#include <QObject>
 #include <QTimer>
 
 class QTcpServer;

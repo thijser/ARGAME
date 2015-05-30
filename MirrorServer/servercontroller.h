@@ -6,10 +6,8 @@
  * @brief Defines the mirrors::ServerController class.
  */
 
-#include <QObject>
 #include <QTimer>
 #include <vector>
-#include <opencv2/core/core.hpp>
 
 #include "detector.hpp"
 
@@ -103,7 +101,7 @@ public slots:
      * @brief Starts this ServerController.
      * @param port - The port number to bind to.
      */
-    void startServer(quint16 port);
+    void startServer(quint16 port, int cameraDevice = -1);
 
     /**
      * @brief Stops this ServerController.
