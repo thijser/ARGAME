@@ -16,12 +16,11 @@
 #ifndef DETECTOR_HPP
 #define DETECTOR_HPP
 
-#include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
 #include <functional>
 #include <unordered_map>
 #include <ctime>
+
 #include "ringbuffer.hpp"
 #include "cornerdetector.hpp"
 #include "cvutil.hpp"

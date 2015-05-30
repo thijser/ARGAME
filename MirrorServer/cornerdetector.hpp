@@ -9,13 +9,11 @@
 
 /**
 * @file cornerdetector.hpp
-* @brief Contains implementation of Mirrors::CornerDetector.
+* @brief Contains implementation of mirrors::CornerDetector.
 */
 
 #ifndef CORNER_DETECTOR_HPP
 #define CORNER_DETECTOR_HPP
-
-#include <opencv2/core/core.hpp>
 
 namespace mirrors {
 
