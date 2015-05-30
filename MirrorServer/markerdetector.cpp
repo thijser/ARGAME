@@ -53,16 +53,21 @@ namespace mirrors {
 
         for (size_t i = 0; i < hierarchy.size(); i++) {
             if (hierarchy[i][HierarchyElement::PARENT] < 0) {
-                size_t children = 0;
+                vector<vector<Point>> childContours;
 
                 for (size_t j = 0; j < hierarchy.size(); j++) {
                     if (hierarchy[j][HierarchyElement::PARENT] == (int) i) {
-                        children++;
+                        childContours.push_back(contours[j]);
                     }
                 }
 
-                if (children == 1) {
-                    potentialMarkers.push_back(contours[i]);
+                if (childContours.size() == 1) {
+                    // Find if contour is large enough
+                    auto rrect = cv::minAreaRect(childContours[0]);
+
+                    if (rrect.size.width >= 8 && rrect.size.height >= 8) {
+                        potentialMarkers.push_back(childContours[0]);
+                    }
                 }
             }
         }

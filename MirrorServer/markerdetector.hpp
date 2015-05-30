@@ -47,7 +47,7 @@ namespace mirrors {
         /**
          * @brief Locates markers in the board image and returns their outer contours.
          * @param boardImage - Board image to detect markers in.
-         * @return Outer contours of markers on board.
+         * @return Contours of marker patterns on board.
          */
         vector<vector<Point>> locateMarkers(const Mat& boardImage) const;
 

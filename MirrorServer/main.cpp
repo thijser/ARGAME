@@ -12,6 +12,7 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #include "markerdetector.hpp"
+#include "markerrecognizer.hpp"
 
 using namespace mirrors;
 
@@ -21,9 +22,16 @@ int main(int argc, char** argv) {
     MarkerDetector markerDetector;
     auto markerContours = markerDetector.locateMarkers(boardImage);
 
-    std::cout << markerContours.size() << std::endl;
+    MarkerRecognizer markerRecognizer;
 
-    std::cin.get();
+    for (int i = 0; i < 12; i++) {
+        auto pattern = cv::imread("markers/" + std::to_string(i) + ".png", CV_LOAD_IMAGE_GRAYSCALE);
+        markerRecognizer.registerPattern(i, pattern);
+    }
+
+    auto firstMarker = markerRecognizer.recognizeMarker(boardImage, markerContours[0]);
+
+    std::cout << firstMarker.confidence << ", " << firstMarker.id << ", " << firstMarker.rotation << std::endl;
 
     return EXIT_SUCCESS;
 }

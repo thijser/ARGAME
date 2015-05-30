@@ -15,7 +15,11 @@
 #ifndef OPENCV_UTILS_HPP
 #define OPENCV_UTILS_HPP
 
+#include <opencv2/core/core.hpp>
+
 namespace mirrors {
+
+    using cv::Mat;
 
     /**
      * @brief Order of channels in image using BGR color space. 
@@ -50,6 +54,32 @@ namespace mirrors {
             PARENT
         };
     }
+
+    /**
+    * @brief Angles that are multiples of 90 degrees, used for exact rotations.
+    */
+    enum ExactAngle {
+        CLOCKWISE_0 = 0,
+        CLOCKWISE_90 = 90,
+        CLOCKWISE_180 = 180,
+        CLOCKWISE_270 = 270
+    };
+
+    /**
+    * @brief Rotate image by arbitrary angle.
+    * @param src - Input image.
+    * @param angle - Angle rotate image by in clockwise direction (may be negative for counter-clockwise).
+    * @return Rotated image, which may be resized to fit the result.
+    */
+    Mat rotateImage(Mat src, float angle);
+
+    /**
+    * @brief Rotate image by multiple of 90 degrees.
+    * @param src - Input image.
+    * @param angle - Multiple of 90 degrees.
+    * @return Rotated image, where row/column size may be swapped.
+    */
+    Mat rotateExactly(Mat src, ExactAngle angle);
 
 }
 
