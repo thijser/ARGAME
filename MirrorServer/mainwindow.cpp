@@ -42,29 +42,49 @@ void MainWindow::setController(ServerController *controller) {
 void MainWindow::startServer() {
     qDebug() << "Starting server";
 
+    connect(controller, SIGNAL(imageReady(cv::Mat)),
+            this,       SLOT(handleFrame(cv::Mat)));
+
     // The QIntValidator set to this QLineEdit
     // ensures the text represents a valid number
     // in the range 0-65536
     quint16 port = static_cast<quint16>(ui->serverPort->text().toInt());
     controller->startServer(port);
+
+    // Disable the configuration options.
     ui->serverPort->setEnabled(false);
+    ui->cameraDevice->setEnabled(false);
     ui->startButton->setEnabled(false);
     ui->stopButton->setEnabled(true);
     qDebug() << "Server started";
 }
 
 void MainWindow::handleFrame(const cv::Mat &matrix) {
-    QImage image(matrix.data, matrix.cols, matrix.rows, QImage::Format_RGB888);
-    QPixmap pixmap = QPixmap::fromImage(image);
+    // OpenCV stores pixels in BGR order, but QImage expects RGB order.
+    // We make a copy that contains the correct order first.
+    cv::Mat copy;
+    cv::cvtColor(matrix, copy, CV_BGR2RGB);
+    QImage image(copy.data, copy.cols, copy.rows, copy.step, QImage::Format_RGB888);
+    // Make sure the image fits on screen by scaling it to 500 px high.
+    QPixmap pixmap = QPixmap::fromImage(image, Qt::ColorOnly).scaledToHeight(500);
+
     ui->image->setPixmap(pixmap);
+    setFixedWidth(pixmap.width());
 }
 
 void MainWindow::stopServer() {
     qDebug() << "Stopping server";
+    disconnect(controller, SIGNAL(imageReady(cv::Mat)),
+               this,       SLOT(handleFrame(cv::Mat)));
     controller->stopServer();
+
+    // Enable the configuration options.
     ui->serverPort->setEnabled(true);
+    ui->cameraDevice->setEnabled(true);
     ui->startButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
+    ui->image->setPixmap(QPixmap());
     qDebug() << "Server stopped";
 }
+
 }

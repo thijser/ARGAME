@@ -37,6 +37,7 @@ void ServerController::changeState(ServerState state) {
 
 void ServerController::startServer(quint16 port, int cameraDevice) {
     Q_ASSERT(serverState == Idle);
+    Q_ASSERT(det == nullptr); // Otherwise we get a memory leak.
     changeState(Starting);
     det = new Detector(cameraDevice);
     sock->setPortNumber(port);
@@ -49,25 +50,25 @@ void ServerController::stopServer() {
 
     changeState(Stopping);
     sock->stop();
-    det->stop();
-    detectorTimer->stop();
 }
 
 void ServerController::detectFrame() {
-    Q_ASSERT(serverState == Started || serverState == Starting);
+    // detectFrame should never be called when the server is not running.
+    Q_ASSERT(serverState != Idle);
     if (state() == Starting) {
         changeState(Started);
     }
 
-    vector<detected_marker> markers = det->detect();
-    emit markersUpdated(markers);
-    emit imageReady(det->getLastFrame());
-
-    // Schedule the next invocation.
     if (state() == Started) {
+        vector<detected_marker> markers = det->detect();
+        emit markersUpdated(markers);
+        emit imageReady(det->getLastFrame());
         detectorTimer->start();
     } else {
+        Q_ASSERT(det != nullptr);
         changeState(Idle);
+        delete det;
+        det = nullptr;
     }
 }
 

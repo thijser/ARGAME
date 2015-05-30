@@ -37,6 +37,10 @@ Detector::Detector(int captureDevice, int requestedWidth, int requestedHeight)
     height = static_cast<int>(cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 }
 
+Detector::~Detector() {
+    cap.release();
+}
+
 bool Detector::registerMarkers(const vector<Mat>& markers) {
     for (auto& marker : markers) {
         if (marker.channels() != 1 || marker.rows != 6 || marker.cols != 6) {

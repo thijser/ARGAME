@@ -182,7 +182,14 @@ public:
      * @param requestedWidth - Desired horizontal resolution of images to capture.
      * @param requestedHeight - Desired vertical resolution of images to capture.
      */
-    Detector(int captureDevice = 0, int requestedWidth = 1600, int requestedHeight = 896);
+    explicit Detector(int captureDevice = 0, int requestedWidth = 1600, int requestedHeight = 896);
+
+    /**
+     * @brief Destructs this Detector.
+     *
+     * This releases the camera resource.
+     */
+    virtual ~Detector();
 
     /**
      * @brief Register new patterns that can be recognised in markers.
