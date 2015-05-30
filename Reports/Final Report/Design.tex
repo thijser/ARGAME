@@ -247,8 +247,18 @@
 			
 			The algorithm that was used to create random levels is as follows:
 			First, a square grid of points is made. The grid was represented by
-			2D array (a matrix) of grid points. Secondly, the laser target is
-			placed in the middle of the map, and 
+			2D array (a matrix) of grid points. Second, the laser target is
+			placed in the middle of the matrix, and a spiral path is created that
+			goes from the laser to an outer edge of the matrix. This path is then
+			known as the critical path. Third, walls are added to the level randomly,
+			however they are never placed on either the target, a part of the
+			critical path, or the laser. The walls are also rotated either
+			horizontally or vertically.
+			
+			The random level generation was added very early on in the project,
+			and there was some value in developing it further (think of replay
+			value for the game, for example). However, it was scrapped after
+			talking about it with our coach
 
 	\section{Game elements} \label{sec:graphicaldesign}
 		For designing the 3D models, we used Blender. Blender is a free application
