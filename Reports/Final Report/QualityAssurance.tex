@@ -93,7 +93,11 @@
 		\end{figure}
 		
 		An issue with SonarQube is that, while it has free options for analyzing
-		C\# code, 
+		C\# code, it has none of these free options for analyzing C/C++ code,
+		because of the preprocessing that can happen in C or C++ (as explained
+		in their blog on \url{http://www.sonarqube.org/ccobjective-c-dark-past-bright-future/}).
+		Therefore, it is very hard to analyze the C++ code that we use for the
+		OpenCV server.
 		
 	\section{SIG Evaluation} \label{sec:sigevaluation}
 		%TODO Write introduction part to SIG evaluation.
