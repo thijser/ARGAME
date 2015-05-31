@@ -79,6 +79,9 @@ namespace mirrors {
         /// Rotation of marker on board relative to pattern.
         float rotation;
 
+        /// Scale of marker relative to pattern.
+        float scale;
+
     private:
         /**
          * @brief Construct a marker state change descriptor.
@@ -88,7 +91,7 @@ namespace mirrors {
          * @param match - Match result of marker (used for id and rotation).
          */
         MarkerUpdate(MarkerUpdateType::MarkerUpdateType type, Point position, float rotation, PatternMatch match)
-            : type(type), id(match.id), position(position), rotation(rotation) {}
+            : type(type), id(match.id), position(position), rotation(rotation), scale(match.scale) {}
     };
 
     /**

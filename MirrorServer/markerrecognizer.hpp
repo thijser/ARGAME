@@ -50,6 +50,9 @@ namespace mirrors {
         /// Rotation of detected marker relative to known marker.
         float rotation;
 
+        /// Scale of detected marker relative to known marker.
+        float scale;
+
         /// Confidence of match.
         float confidence;
 

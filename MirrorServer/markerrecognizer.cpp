@@ -31,6 +31,12 @@ namespace mirrors {
             patternMatch.rotation += 360;
         }
 
+        // Determine scale by averaging width/height (marker is square)
+        int w = straightenedMarker.first.cols;
+        int h = straightenedMarker.first.rows;
+
+        patternMatch.scale = ((w + h) / 2) / 8.0f;
+
         return patternMatch;
     }
 
