@@ -46,4 +46,10 @@ namespace mirrors {
         return Point(rect.x + rect.width / 2, rect.y + rect.height / 2);
     }
 
+    float dist(const Point& a, const Point& b) {
+        int dx = a.x - b.x;
+        int dy = a.y - b.y;
+        return (float) std::sqrt(dx * dx + dy * dy);
+    }
+
 }

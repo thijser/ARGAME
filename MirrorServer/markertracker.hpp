@@ -23,12 +23,26 @@
 
 namespace mirrors {
 
+    /// Maximum distance a marker can move per frame before it's considered a new marker.
+    const float MARKER_MAX_FRAME_DIST = 50;
+
+    /// Minimum confidence for marker recognition before a marker is considered valid.
+    const float MARKER_MIN_CONFIDENCE = 0.7f;
+
+    /// Maximum speed before recognition of marker pattern is disabled (pixels/frame)
+    const float MARKER_MAX_RECOGNITION_VELOCITY = 15;
+
+    /// Time of not seeing a marker before it is considered removed.
+    const clock_t MARKER_TIMEOUT_TIME = CLOCKS_PER_SEC / 2;
+
     /**
      * @brief Type of marker state update that occured.
      */
     namespace MarkerUpdateType {
         enum MarkerUpdateType {
-            CHANGE
+            NEW,
+            CHANGE,
+            REMOVE
         };
     }
 
@@ -57,12 +71,11 @@ namespace mirrors {
         /**
          * @brief Construct a marker state change descriptor.
          * @param type - Type of state change.
-         * @param id - ID of recognized pattern.
-         * @param point - Pivot position of marker on board.
-         * @param rotation - Rotation of marker relative to pattern.
+         * @param position - Pivot position of marker on board.
+         * @param match - Match result of marker (used for id and rotation).
          */
-        MarkerUpdate(MarkerUpdateType::MarkerUpdateType type, int id, Point position, float rotation)
-            : type(type), id(id), position(position), rotation(rotation) {}
+        MarkerUpdate(MarkerUpdateType::MarkerUpdateType type, Point position, PatternMatch match)
+            : type(type), id(match.id), position(position), rotation(match.rotation) {}
     };
 
     /**
@@ -98,6 +111,75 @@ namespace mirrors {
 
         /// Recognizer for markers on the board.
         const MarkerRecognizer& markerRecognizer;
+
+        /**
+         * @brief Describes state of persistently tracked marker.
+         */
+        struct TrackedMarker {
+            /// Last time this marker was seen.
+            clock_t lastSighting;
+
+            /// Last known position of marker.
+            Point position;
+
+            /// Last known velocity of marker (pixels/frame).
+            float velocity;
+
+            /// Most confident pattern match of marker thus far.
+            PatternMatch match;
+
+            /**
+             * @brief Creates a state descriptor for a new persistent marker.
+             * @param timestamp - First time this marker was detected.
+             * @param position - First position of this marker.
+             * @param match - First pattern match results for this marker.
+             */
+            TrackedMarker(clock_t timestamp, Point position, PatternMatch match = PatternMatch())
+                : lastSighting(timestamp), position(position), match(match) {}
+        };
+
+        /// List of persistently tracked markers.
+        vector<TrackedMarker> trackedMarkers;
+
+        /**
+         * @brief Detects and recognizes all the markers in a new frame.
+         * @param frame - New frame to analyze.
+         * @return List of recognized markers as (position, match) tuples.
+         */
+        vector<pair<Point, PatternMatch>> detectMarkers(const Mat& frame) const;
+
+        /**
+         * @brief Updates the persistent marker state with regards to changed markers.
+         * @param detectedMarkers - Markers detected using detectMarkers().
+         * @param timestamp - Timestamp at which markers were detected.
+         * @param updates - List of marker updates to write changes to.
+         */
+        void trackChangedMarkers(const vector<pair<Point, PatternMatch>>& detectedMarkers, clock_t timestamp, vector<MarkerUpdate>& updates);
+
+        /**
+        * @brief Updates the persistent marker state with regards to new markers.
+        * @param detectedMarkers - Markers detected using detectMarkers().
+        * @param timestamp - Timestamp at which markers were detected.
+        * @param updates - List of marker updates to write changes to.
+        */
+        void trackNewMarkers(const vector<pair<Point, PatternMatch>>& detectedMarkers, clock_t timestamp, vector<MarkerUpdate>& updates);
+
+        /**
+        * @brief Updates the persistent marker state with regards to removed markers.
+        * @param detectedMarkers - Markers detected using detectMarkers().
+        * @param timestamp - Timestamp at which markers were detected.
+        * @param updates - List of marker updates to write changes to.
+        */
+        void trackRemovedMarkers(const vector<pair<Point, PatternMatch>>& detectedMarkers, clock_t timestamp, vector<MarkerUpdate>& updates);
+
+        /**
+         * @brief Finds the tracked marker closest to the specified point.
+         * @param point - Point to find closest marker center around.
+         * @param maxDist - Optional parameter to limit the search radius (pixels).
+         * @return Reference to closest marker in trackedMarkers list or nullptr if
+         * none was found in the given range.
+         */
+        TrackedMarker* findClosestMarker(const Point& point, float maxDist = std::numeric_limits<float>::infinity());
     };
 
 }

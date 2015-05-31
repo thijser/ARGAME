@@ -53,14 +53,14 @@ namespace mirrors {
         /// Confidence of match.
         float confidence;
 
-    private:
         /**
-         * @brief Construct an empty match (no known pattern).
-         */
+        * @brief Construct an empty match (no known pattern).
+        */
         PatternMatch()
             : id(-1), rotation(ExactAngle::CLOCKWISE_0), confidence(0) {
         }
 
+    private:
         /**
          * @brief Construct a match with a known pattern.
          * @param id - ID of known marker that matches input.

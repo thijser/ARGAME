@@ -30,9 +30,14 @@ int main(int argc, char** argv) {
     MarkerTracker markerTracker(boardDetector, markerDetector, markerRecognizer);
 
     Mat fakeFrame = cv::imread("input.png");
+    Mat fakeFrame2 = cv::imread("input_remove.png");
     boardDetector.locateBoard(fakeFrame);
 
     auto updates = markerTracker.track(fakeFrame);
+
+    updates = markerTracker.track(fakeFrame2);
+
+    updates = markerTracker.track(fakeFrame2, clock() + CLOCKS_PER_SEC);
 
     return EXIT_SUCCESS;
 }

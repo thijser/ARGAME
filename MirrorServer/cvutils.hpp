@@ -90,6 +90,14 @@ namespace mirrors {
      */
     Point getPivot(const vector<Point>& contour);
 
+    /**
+    * @brief Calculate Euclidean distance between two points.
+    * @param a - First point.
+    * @param b - Second point.
+    * @return Euclidean distance between the first and second point.
+    */
+    float dist(const Point& a, const Point& b);
+
 }
 
 #endif
