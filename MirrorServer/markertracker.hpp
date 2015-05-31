@@ -128,6 +128,12 @@ namespace mirrors {
             /// Most confident pattern match of marker thus far.
             PatternMatch match;
 
+            /// Flag indicating if this marker was added this frame.
+            bool newThisFrame = true;
+
+            /// Flag indicating if this marker was (first) seen in this frame.
+            bool seenThisFrame = true;
+
             /**
              * @brief Creates a state descriptor for a new persistent marker.
              * @param timestamp - First time this marker was detected.
@@ -158,6 +164,7 @@ namespace mirrors {
 
         /**
         * @brief Updates the persistent marker state with regards to new markers.
+        * Must be called after trackChangedMarkers().
         * @param detectedMarkers - Markers detected using detectMarkers().
         * @param timestamp - Timestamp at which markers were detected.
         * @param updates - List of marker updates to write changes to.
@@ -166,11 +173,23 @@ namespace mirrors {
 
         /**
         * @brief Updates the persistent marker state with regards to removed markers.
+        * Must be called after trackNewMarkers().
         * @param detectedMarkers - Markers detected using detectMarkers().
         * @param timestamp - Timestamp at which markers were detected.
         * @param updates - List of marker updates to write changes to.
         */
         void trackRemovedMarkers(const vector<pair<Point, PatternMatch>>& detectedMarkers, clock_t timestamp, vector<MarkerUpdate>& updates);
+
+        /**
+         * @brief Updates the persistent marker state to track fast markers in a special case.
+         * If during a single frame, 1 marker has disappeared (not timed out) and 1 new marker
+         * has appeared, we assume that it's the same marker that has simply moved very quickly.
+         * Must be called after trackRemovedMarkers().
+         * @param detectedMarkers - Markers detected using detectMarkers().
+         * @param timestamp - Timestamp at which markers were detected.
+         * @param updates - List of marker updates to write changes to.
+         */
+        void trackFastMarkers(const vector<pair<Point, PatternMatch>>& detectedMarkers, clock_t timestamp, vector<MarkerUpdate>& updates);
 
         /**
          * @brief Finds the tracked marker closest to the specified point.

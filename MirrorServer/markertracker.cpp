@@ -12,6 +12,12 @@ namespace mirrors {
         trackChangedMarkers(frameMarkers, timestamp, updates);
         trackNewMarkers(frameMarkers, timestamp, updates);
         trackRemovedMarkers(frameMarkers, timestamp, updates);
+        trackFastMarkers(frameMarkers, timestamp, updates);
+
+        for (auto& trackedMarker : trackedMarkers) {
+            trackedMarker.newThisFrame = false;
+            trackedMarker.seenThisFrame = false;
+        }
 
         return updates;
     }
@@ -39,6 +45,7 @@ namespace mirrors {
                 MarkerUpdateType::MarkerUpdateType updateType = MarkerUpdateType::CHANGE;
 
                 closestMarker->lastSighting = timestamp;
+                closestMarker->seenThisFrame = true;
 
                 closestMarker->velocity = dist(closestMarker->position, detectedMarker.first);
                 closestMarker->position = detectedMarker.first;
@@ -86,6 +93,7 @@ namespace mirrors {
         vector<TrackedMarker> newTrackedMarkers;
 
         // Replace tracked markers list with only markers that have been seen recently
+        // and return remove updates for the timed out ones
         for (auto& trackedMarker : trackedMarkers) {
             if (timestamp - trackedMarker.lastSighting < MARKER_TIMEOUT_TIME) {
                 newTrackedMarkers.push_back(trackedMarker);
@@ -95,6 +103,47 @@ namespace mirrors {
         }
 
         trackedMarkers = newTrackedMarkers;
+    }
+
+    void MarkerTracker::trackFastMarkers(const vector<pair<Point, PatternMatch>>& detectedMarkers, clock_t timestamp, vector<MarkerUpdate>& updates) {
+        // Check if special condition applies
+        int newMarkerCount = 0;
+        int removedMarkerCount = 0;
+
+        for (auto& trackedMarker : trackedMarkers) {
+            if (trackedMarker.newThisFrame) newMarkerCount++;
+            else if (!trackedMarker.seenThisFrame) removedMarkerCount++;
+        }
+
+        // If exactly 1 marker was removed and 1 new marker appeared within
+        // this single frame, assume that it moved very quickly.
+        if (newMarkerCount == 1 && removedMarkerCount == 1) {
+            for (auto& trackedMarker : trackedMarkers) {
+                if (!trackedMarker.seenThisFrame && !trackedMarker.newThisFrame) {
+                    trackedMarker.position = trackedMarkers.back().position;
+                    trackedMarker.lastSighting = clock();
+
+                    updates.push_back(MarkerUpdate(MarkerUpdateType::CHANGE, trackedMarker.position, trackedMarker.match));
+
+                    break;
+                }
+            }
+
+            // Remove erroneously detected new marker and the last NEW update
+            // (We can't just remove the first one, because it could be produced
+            // by trackChangedMarkers.)
+            trackedMarkers.pop_back();
+
+            int lastNewUpdate;
+
+            for (size_t i = 0; i < updates.size(); i++) {
+                if (updates[i].type == MarkerUpdateType::NEW) {
+                    lastNewUpdate = i;
+                }
+            }
+
+            updates.erase(updates.begin() + lastNewUpdate);
+        }
     }
 
     MarkerTracker::TrackedMarker* MarkerTracker::findClosestMarker(const Point& point, float maxDist) {
