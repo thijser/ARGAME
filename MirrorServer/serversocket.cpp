@@ -7,14 +7,14 @@
  *
  */
 
-#include "serversocket.h"
+#include "serversocket.hpp"
 
 #include <iostream>
 
 #include "netlink/socket.h"
 #include "netlink/socket_group.h"
 
-namespace Mirrors {
+namespace mirrors {
 
 using namespace std;
 using namespace NL;
