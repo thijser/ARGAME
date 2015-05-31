@@ -18,6 +18,7 @@
 #include "boarddetector.hpp"
 #include "markerdetector.hpp"
 #include "markerrecognizer.hpp"
+#include "averager.hpp"
 
 #include <ctime>
 
@@ -34,6 +35,13 @@ namespace mirrors {
 
     /// Time of not seeing a marker before it is considered removed.
     const clock_t MARKER_TIMEOUT_TIME = CLOCKS_PER_SEC / 2;
+
+    /// Amount of frames to average for marker rotations.
+    const int MARKER_HISTORY_LENGTH = 15;
+
+    /// Minimum distance (pixels) between smoothed rotation and new rotation before
+    /// smoothing is disabled and the new rotation is assumed directly.
+    const float MARKER_ROTATION_SMOOTH_THRESHOLD = 3;
 
     /**
      * @brief Type of marker state update that occured.
@@ -72,10 +80,11 @@ namespace mirrors {
          * @brief Construct a marker state change descriptor.
          * @param type - Type of state change.
          * @param position - Pivot position of marker on board.
+         * @param rotation - Rotation of marker relative to detected pattern.
          * @param match - Match result of marker (used for id and rotation).
          */
-        MarkerUpdate(MarkerUpdateType::MarkerUpdateType type, Point position, PatternMatch match)
-            : type(type), id(match.id), position(position), rotation(match.rotation) {}
+        MarkerUpdate(MarkerUpdateType::MarkerUpdateType type, Point position, float rotation, PatternMatch match)
+            : type(type), id(match.id), position(position), rotation(rotation) {}
     };
 
     /**
@@ -122,6 +131,12 @@ namespace mirrors {
             /// Last known position of marker.
             Point position;
 
+            /// Last known rotations of marker.
+            Averager<float> rotations = Averager<float>(MARKER_HISTORY_LENGTH, MARKER_ROTATION_SMOOTH_THRESHOLD);
+
+            /// Smoothed rotation of marker;
+            float rotation;
+
             /// Last known velocity of marker (pixels/frame).
             float velocity;
 
@@ -141,7 +156,10 @@ namespace mirrors {
              * @param match - First pattern match results for this marker.
              */
             TrackedMarker(clock_t timestamp, Point position, PatternMatch match = PatternMatch())
-                : lastSighting(timestamp), position(position), match(match) {}
+                : lastSighting(timestamp), position(position), match(match) {
+
+                rotation = rotations.update(match.rotation);
+            }
         };
 
         /// List of persistently tracked markers.

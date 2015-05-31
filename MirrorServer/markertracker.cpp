@@ -39,37 +39,40 @@ namespace mirrors {
 
     void MarkerTracker::trackChangedMarkers(const vector<pair<Point, PatternMatch>>& detectedMarkers, clock_t timestamp, vector<MarkerUpdate>& updates) {
         for (auto& detectedMarker : detectedMarkers) {
-            TrackedMarker* closestMarker = findClosestMarker(detectedMarker.first, MARKER_MAX_FRAME_DIST);
+            TrackedMarker* closest = findClosestMarker(detectedMarker.first, MARKER_MAX_FRAME_DIST);
 
-            if (closestMarker != nullptr) {
+            if (closest != nullptr) {
                 MarkerUpdateType::MarkerUpdateType updateType = MarkerUpdateType::CHANGE;
 
-                closestMarker->lastSighting = timestamp;
-                closestMarker->seenThisFrame = true;
+                closest->lastSighting = timestamp;
+                closest->seenThisFrame = true;
 
-                closestMarker->velocity = dist(closestMarker->position, detectedMarker.first);
-                closestMarker->position = detectedMarker.first;
+                closest->velocity = dist(closest->position, detectedMarker.first);
+                closest->position = detectedMarker.first;
 
                 // Update the rotation if the newest pattern match is the same as the current one
-                if (detectedMarker.second.id == closestMarker->match.id) {
-                    closestMarker->match.rotation = detectedMarker.second.rotation;
+                if (detectedMarker.second.id == closest->match.id) {
+                    closest->match.rotation = detectedMarker.second.rotation;
                 }
 
                 // If the new match is more confidence, completely replace the current match
-                if (closestMarker->velocity <= MARKER_MAX_RECOGNITION_VELOCITY &&
-                    detectedMarker.second.confidence > closestMarker->match.confidence) {
+                if (closest->velocity <= MARKER_MAX_RECOGNITION_VELOCITY &&
+                    detectedMarker.second.confidence > closest->match.confidence) {
 
                     // But first log a delete for the old marker (if the detected pattern has changed)
-                    if (closestMarker->match.id != detectedMarker.second.id) {
-                        updates.push_back(MarkerUpdate(MarkerUpdateType::REMOVE, detectedMarker.first, detectedMarker.second));
+                    if (closest->match.id != detectedMarker.second.id) {
+                        updates.push_back(MarkerUpdate(MarkerUpdateType::REMOVE, detectedMarker.first, closest->rotation, detectedMarker.second));
                         updateType = MarkerUpdateType::NEW;
                     }
 
-                    closestMarker->match = detectedMarker.second;
+                    closest->match = detectedMarker.second;
                 }
 
+                // Smoothen rotation
+                closest->rotation = closest->rotations.update(closest->match.rotation);
+
                 // Finally, log a CHANGE or NEW depending on a change of detected pattern
-                updates.push_back(MarkerUpdate(updateType, detectedMarker.first, detectedMarker.second));
+                updates.push_back(MarkerUpdate(updateType, detectedMarker.first, closest->rotation, detectedMarker.second));
             }
         }
     }
@@ -80,11 +83,12 @@ namespace mirrors {
 
             if (closestMarker == nullptr) {
                 TrackedMarker newMarker(timestamp, detectedMarker.first, detectedMarker.second);
-                trackedMarkers.push_back(newMarker);
 
                 if (detectedMarker.second.confidence >= MARKER_MIN_CONFIDENCE) {
-                    updates.push_back(MarkerUpdate(MarkerUpdateType::NEW, detectedMarker.first, detectedMarker.second));
+                    updates.push_back(MarkerUpdate(MarkerUpdateType::NEW, detectedMarker.first, newMarker.rotation, detectedMarker.second));
                 }
+
+                trackedMarkers.push_back(newMarker);
             }
         }
     }
@@ -98,7 +102,7 @@ namespace mirrors {
             if (timestamp - trackedMarker.lastSighting < MARKER_TIMEOUT_TIME) {
                 newTrackedMarkers.push_back(trackedMarker);
             } else {
-                updates.push_back(MarkerUpdate(MarkerUpdateType::REMOVE, trackedMarker.position, trackedMarker.match));
+                updates.push_back(MarkerUpdate(MarkerUpdateType::REMOVE, trackedMarker.position, trackedMarker.rotation, trackedMarker.match));
             }
         }
 
@@ -123,7 +127,7 @@ namespace mirrors {
                     trackedMarker.position = trackedMarkers.back().position;
                     trackedMarker.lastSighting = clock();
 
-                    updates.push_back(MarkerUpdate(MarkerUpdateType::CHANGE, trackedMarker.position, trackedMarker.match));
+                    updates.push_back(MarkerUpdate(MarkerUpdateType::CHANGE, trackedMarker.position, trackedMarker.rotation, trackedMarker.match));
 
                     break;
                 }
