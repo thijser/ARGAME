@@ -136,6 +136,7 @@ namespace Network
                 {
                     return count;
                 }
+
                 this.timestamp = DateTime.Now;
 
                 if (update.Type != UpdateType.Ping)
@@ -224,6 +225,5 @@ namespace Network
             int id = BitConverter.ToInt32(this.buffer, 0);
             return new PositionUpdate(UpdateType.Delete, 0, 0, 0, id);
         }
-
     }
 }

@@ -14,6 +14,7 @@ namespace Core
     using System.Diagnostics.CodeAnalysis;
     using Core.Receiver;
     using UnityEngine;
+    using SysDebug = System.Diagnostics.Debug;
 
     /// <summary>
     /// A class that tracks if the level has been won.
@@ -36,8 +37,8 @@ namespace Core
         /// </summary>
         public void Start()
         {
-            targets = GameObject.FindObjectsOfType<LaserTarget>();
-            Debug.Log(targets.Length);
+            this.targets = GameObject.FindObjectsOfType<LaserTarget>();
+            Debug.Log(this.targets.Length);
         }
 
         /// <summary>
@@ -46,19 +47,19 @@ namespace Core
         /// </summary>
         public void Update()
         {
-            if(targets.Length > 0)
+            // If the length of targets is 0, the level cannot be completed.
+            // As such, this should never happen in scenes where this script exists.
+            SysDebug.Assert(this.targets.Length > 0);
+            bool win = Array.TrueForAll(
+                this.targets, 
+                t => t.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opened"));
+
+            if (win)
             {
-                bool win = true;
-                for (int i = 0; i < targets.Length; i++)
-                {
-                    win = win && targets[i].GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opened");
-                }
-                if (win)
-                {
-                    Application.LoadLevel(this.NextLevelIndex);
-                }
-                Debug.Log(win);
+                Application.LoadLevel(this.NextLevelIndex);
             }
+
+            Debug.Log(win);
         }
     }
 }
