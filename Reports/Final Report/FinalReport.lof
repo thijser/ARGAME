@@ -7,18 +7,20 @@
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Class diagram of the \texttt {Core} namespace}}{11}
 \contentsline {figure}{\numberline {2.4}{\ignorespaces Class diagram of the \texttt {Network} namespace}}{13}
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Class diagram of the \texttt {Projection} namespace}}{14}
-\contentsline {figure}{\numberline {2.6}{\ignorespaces The laser target.}}{15}
-\contentsline {figure}{\numberline {2.7}{\ignorespaces A mirror.}}{16}
-\contentsline {figure}{\numberline {2.8}{\ignorespaces A selected mirror.}}{16}
-\contentsline {figure}{\numberline {2.9}{\ignorespaces A wall.}}{16}
-\contentsline {figure}{\numberline {2.10}{\ignorespaces The emitter.}}{17}
-\contentsline {figure}{\numberline {2.11}{\ignorespaces An elevator}}{17}
-\contentsline {figure}{\numberline {2.12}{\ignorespaces The portal.}}{18}
-\contentsline {figure}{\numberline {2.13}{\ignorespaces The lens splitter.}}{19}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces The random level algorithm, displayed graphically.}}{15}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces The laser target.}}{16}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces A mirror.}}{16}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces A selected mirror.}}{17}
+\contentsline {figure}{\numberline {2.10}{\ignorespaces A wall.}}{17}
+\contentsline {figure}{\numberline {2.11}{\ignorespaces The emitter.}}{18}
+\contentsline {figure}{\numberline {2.12}{\ignorespaces An elevator}}{18}
+\contentsline {figure}{\numberline {2.13}{\ignorespaces The portal.}}{19}
+\contentsline {figure}{\numberline {2.14}{\ignorespaces The lens splitter.}}{19}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces A pair of META One glasses.}}{21}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces A pair of META One glasses.}}{22}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces A SonarQube overview.}}{25}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces The Unity Test Tools unit testing screen.}}{25}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces A SonarQube overview.}}{27}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

@@ -248,19 +248,35 @@
 			The algorithm that was used to create random levels is as follows:
 			First, a square grid of points is made. The grid was represented by
 			2D array (a matrix) of grid points. Second, the laser target is
-			placed in the middle of the matrix, and a spiral path is created that
+			placed in the middle of the matrix. Third, a spiral path is created that
 			goes from the laser to an outer edge of the matrix. This path is then
-			known as the critical path. Third, walls are added to the level randomly,
+			known as the critical path. Finally, walls are added to the level randomly,
 			however they are never placed on either the target, a part of the
 			critical path, or the laser. The walls are also rotated either
 			horizontally or vertically. As can be seen, the levels created were
 			rather simple (as they did not contain our more advanced game
 			objects, only targets and walls), and solving them could always be done
-			with several mirrors.
+			with several mirrors. The four phases of the randomization algorithm
+			are displayed graphically in \ref{fig:random}. The first image depicts
+			the grid, the second depicts the laser target as a red dot in the
+			middle of the map, the third image depicts the spiral path that
+			is created from the target (the orange dot) to the edge of the map 
+			(this spiral path always bends four times, and can start in any 
+			random direction), the final image depicts the random placement of
+			walls as purple dots.
+			
+			\begin{figure}[ht]
+				\centering
+				\includegraphics[scale = 0.4]{RandomLevelAlgorithm}
+				\caption{The random level algorithm, displayed graphically.}
+				\label{fig:random}
+			\end{figure}
 			
 			The random level generation was added very early on in the project,
 			and there was some value in developing it further (think of replay
-			value for the game, for example). However, it was scrapped after
+			value for the game, for example). It was also refactored later to
+			allow for more possible paths (not only spirals, but also paths with
+			less or more than four bends). However, it was scrapped after
 			talking about it with our coach, especially after talking about how it
 			would increase the replay value of the game (it would increase it,
 			but only by very little). Another reason to scrap it was because the

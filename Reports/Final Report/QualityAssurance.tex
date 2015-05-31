@@ -38,7 +38,17 @@
 			listed in a new window, and one can run all unit tests by clicking 
 			on the "Run All" button at the top. The menu then shows what unit 
 			tests have passed or failed, and clicking on a unit test shows what 
-			went wrong.
+			went wrong. A unit testing overview can be seen in \ref{fig:unitytesttools}.
+			The UnityTest testing class seen in the overview also displays
+			the different statuses of tests in the NUnit framework (passing,
+			failing, inconclusive, not executed, and culture specific).
+			
+			\begin{figure}[!ht]
+				\centering
+				\includegraphics[width=\textwidth]{UnityTestTools}
+				\caption{The Unity Test Tools unit testing screen.}
+				\label{fig:unitytesttools}
+			\end{figure}
 		
 		\subsection{Integration Tests} \label{ssec:integrationtests}
 			Integration tests are not done via a formalized test procedure, but 
@@ -93,7 +103,11 @@
 		\end{figure}
 		
 		An issue with SonarQube is that, while it has free options for analyzing
-		C\# code, 
+		C\# code, it has none of these free options for analyzing C/C++ code,
+		because of the preprocessing that can happen in C or C++ (as explained
+		in their blog on \url{http://www.sonarqube.org/ccobjective-c-dark-past-bright-future/}).
+		Therefore, it is very hard to analyze the C++ code that we use for the
+		OpenCV server.
 		
 	\section{SIG Evaluation} \label{sec:sigevaluation}
 		%TODO Write introduction part to SIG evaluation.
