@@ -36,8 +36,12 @@ namespace mirrors {
     /// Time of not seeing a marker before it is considered removed.
     const clock_t MARKER_TIMEOUT_TIME = CLOCKS_PER_SEC / 2;
 
-    /// Amount of frames to average for marker rotations.
+    /// Amount of frames to average for marker positions and rotations.
     const int MARKER_HISTORY_LENGTH = 15;
+
+    /// Minimum distance (pixels) between smoothed position and new position before
+    /// smoothing is disabled and the new position is assumed directly.
+    const float MARKER_POSITION_SMOOTH_THRESHOLD = 3;
 
     /// Minimum distance (pixels) between smoothed rotation and new rotation before
     /// smoothing is disabled and the new rotation is assumed directly.
@@ -128,13 +132,16 @@ namespace mirrors {
             /// Last time this marker was seen.
             clock_t lastSighting;
 
-            /// Last known position of marker.
+            /// Last known positions of marker.
+            Averager<Point> positions = Averager<Point>(MARKER_HISTORY_LENGTH, MARKER_POSITION_SMOOTH_THRESHOLD);
+
+            /// Smoothed position of marker.
             Point position;
 
             /// Last known rotations of marker.
             Averager<float> rotations = Averager<float>(MARKER_HISTORY_LENGTH, MARKER_ROTATION_SMOOTH_THRESHOLD);
 
-            /// Smoothed rotation of marker;
+            /// Smoothed rotation of marker.
             float rotation;
 
             /// Last known velocity of marker (pixels/frame).
@@ -156,9 +163,10 @@ namespace mirrors {
              * @param match - First pattern match results for this marker.
              */
             TrackedMarker(clock_t timestamp, Point position, PatternMatch match = PatternMatch())
-                : lastSighting(timestamp), position(position), match(match) {
+                : lastSighting(timestamp), match(match) {
 
-                rotation = rotations.update(match.rotation);
+                this->position = positions.update(position);
+                this->rotation = rotations.update(match.rotation);
             }
         };
 

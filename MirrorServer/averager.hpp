@@ -15,10 +15,12 @@
 #ifndef AVERAGER_HPP
 #define AVERAGER_HPP
 
+#include <opencv2/core/core.hpp>
 #include <deque>
 
 namespace mirrors {
 
+    using cv::Point;
     using std::deque;
 
     /**
@@ -39,13 +41,18 @@ namespace mirrors {
         Averager(size_t history, T flushDistance = std::numeric_limits<T>::max())
             : history(history), flushDistance(flushDistance) {}
 
+        /**
+         * @brief Extend history with new value and get new moving average.
+         * @param newValue - New value to add to history.
+         * @return New moving average.
+         */
         T update(T newValue) {
             // Add new value to history and pop oldest item if history is full
             storage.push_back(newValue);
             if (storage.size() > history) storage.pop_front();
 
             // Calculate new moving average
-            T average = 0;
+            T average = T();
 
             for (T val : storage) {
                 average += val;
@@ -68,6 +75,60 @@ namespace mirrors {
         deque<T> storage;
         size_t history;
         T flushDistance;
+    };
+
+    /**
+     * @brief Special mirrors::Averager implementation for cv::Point.
+     */
+    template <>
+    class Averager<Point> {
+    public:
+        /**
+        * @brief Create moving average calculator with specified properties.
+        * @param history - Amount of values to average.
+        * @param flushDistance - Minimum distance between average and new value
+        * for triggering fast response where history is cleared and the new
+        * value is used immediately.
+        */
+        Averager(size_t history, float flushDistance = std::numeric_limits<float>::max())
+            : history(history), flushDistance(flushDistance) {
+        }
+
+        /**
+        * @brief Extend history with new value and get new moving average.
+        * @param newValue - New value to add to history.
+        * @return New moving average.
+        */
+        Point update(Point newValue) {
+            // Add new value to history and pop oldest item if history is full
+            storage.push_back(newValue);
+            if (storage.size() > history) storage.pop_front();
+
+            // Calculate new moving average
+            Point average;
+
+            for (Point val : storage) {
+                average += val;
+            }
+
+            average.x /= storage.size();
+            average.y /= storage.size();
+
+            // If average deviates too much from new value, then flush history
+            if (dist(average, newValue) > flushDistance) {
+                average = newValue;
+
+                storage.clear();
+                storage.push_back(average);
+            }
+
+            return average;
+        }
+
+    private:
+        deque<Point> storage;
+        size_t history;
+        float flushDistance;
     };
 
 }

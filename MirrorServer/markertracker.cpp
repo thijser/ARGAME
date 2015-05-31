@@ -48,7 +48,6 @@ namespace mirrors {
                 closest->seenThisFrame = true;
 
                 closest->velocity = dist(closest->position, detectedMarker.first);
-                closest->position = detectedMarker.first;
 
                 // Update the rotation if the newest pattern match is the same as the current one
                 if (detectedMarker.second.id == closest->match.id) {
@@ -67,6 +66,9 @@ namespace mirrors {
 
                     closest->match = detectedMarker.second;
                 }
+
+                // Smoothen position
+                closest->position = closest->positions.update(detectedMarker.first);
 
                 // Smoothen rotation
                 closest->rotation = closest->rotations.update(closest->match.rotation);
@@ -124,7 +126,7 @@ namespace mirrors {
         if (newMarkerCount == 1 && removedMarkerCount == 1) {
             for (auto& trackedMarker : trackedMarkers) {
                 if (!trackedMarker.seenThisFrame && !trackedMarker.newThisFrame) {
-                    trackedMarker.position = trackedMarkers.back().position;
+                    trackedMarker.position = trackedMarker.positions.update(trackedMarkers.back().position);
                     trackedMarker.lastSighting = clock();
 
                     updates.push_back(MarkerUpdate(MarkerUpdateType::CHANGE, trackedMarker.position, trackedMarker.rotation, trackedMarker.match));
