@@ -16,6 +16,7 @@
 #define AVERAGER_HPP
 
 #include <opencv2/core/core.hpp>
+#include "cvutils.hpp"
 #include <deque>
 
 namespace mirrors {
