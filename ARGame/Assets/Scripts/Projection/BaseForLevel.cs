@@ -10,14 +10,13 @@
 namespace Projection
 {
     using System.Diagnostics.CodeAnalysis;
-    using Meta;
-    using UnityEngine;
+	using UnityEngine;
     /// <summary>
     /// Marks which marker is used for the basis of the level by the meta one
     /// </summary>
     public class BaseForLevel : MonoBehaviour
     {
-		private MetaMarker metaMarker;
+		private MetaMarkerInterface metaMarker;
 
         /// <summary>
         /// The time the base marker may be missing before another marker is used.
@@ -55,8 +54,8 @@ namespace Projection
         public void Start()
         {
 			if(this.activeMarkers){
-				this.metaMarker= new MetaMarker();
-				this.metaMarker.RegisterMeta();
+			//	this.metaMarker= new MetaMarker();
+			//	this.metaMarker.RegisterMeta();
 			}
 			}
 

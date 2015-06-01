@@ -4,7 +4,7 @@ using Meta;
 namespace Projection
 {
 
-public class MetaMarker : MonoBehaviour {
+public class MetaMarker : MonoBehaviour , MetaMarkerInterface{
 		/// <summary>
 		/// meta object required for tracking 
 		/// </summary>
