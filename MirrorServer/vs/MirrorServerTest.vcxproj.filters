@@ -21,7 +21,7 @@
     <ClCompile Include="..\cvutils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\averagertest.cpp">
+    <ClCompile Include="..\tests\averagertest.cpp">
       <Filter>Source Files\Tests</Filter>
     </ClCompile>
   </ItemGroup>
