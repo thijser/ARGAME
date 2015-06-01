@@ -214,11 +214,11 @@ namespace Network
                 return null;
             }
 
-            float x = BitConverter.ToSingle(this.buffer, 0);
-            float y = BitConverter.ToSingle(this.buffer, 4);
+			float x = this.ReadFloat(0);
+			float y = this.ReadFloat(4);
             Vector2 coordinate = new Vector2(x, y);
-            float rotation = BitConverter.ToSingle(this.buffer, 8);
-            int id = BitConverter.ToInt32(this.buffer, 12);
+			float rotation = this.ReadFloat(8);
+			int id = this.ReadInt(12);
             return new PositionUpdate(UpdateType.UpdatePosition, coordinate, rotation, id);
         }
 
@@ -234,7 +234,7 @@ namespace Network
                 return null;
             }
 
-            int id = BitConverter.ToInt32(this.buffer, 0);
+			int id = this.ReadInt(0);
             return new PositionUpdate(UpdateType.DeletePosition, new Vector2(0, 0), 0, id);
         }
 
@@ -246,9 +246,20 @@ namespace Network
                 return null;
             }
 
-            int id = BitConverter.ToInt32(this.buffer, 0);
-            float rotation = BitConverter.ToSingle(this.buffer, 4);
+			int id = this.ReadInt(0);
+			float rotation = this.ReadFloat(4);
             return new RotationUpdate(UpdateType.UpdateRotation, rotation, id);
         }
+
+		private float ReadFloat(int offset) 
+		{
+			byte[] bytes = IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset));
+			return BitConverter.ToSingle(bytes, 0);
+		}
+
+		private int ReadInt(int offset)
+		{
+			return IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset));
+		}
     }
 }
