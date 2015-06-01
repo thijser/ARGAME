@@ -1,14 +1,21 @@
 #include "servercontroller.h"
-#include "serversocket.h"
+#include "serversocket.hpp"
 
 namespace mirrors {
 
 ServerController::ServerController(QObject *parent)
-    : QObject(parent), sock(new ServerSocket(this)), det(nullptr),
-      detectorTimer(new QTimer(this)), serverState(Idle)
+    : QObject(parent),
+      sock(new ServerSocket(this)),
+      boardDetector(nullptr),
+      markerDetector(nullptr),
+      markerTracker(nullptr),
+      recognizer(nullptr),
+      capture(nullptr),
+      detectorTimer(new QTimer(this)),
+      serverState(Idle)
 {
-    connect(this, SIGNAL(markersUpdated(vector<detected_marker>)),
-            this, SLOT(broadcastPositions(vector<detected_marker>)));
+    connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
+            this, SLOT(broadcastPositions(vector<MarkerUpdate>)));
     connect(detectorTimer, SIGNAL(timeout()),
             this,          SLOT(detectFrame()));
     connect(sock, SIGNAL(errorOccurred(QString)),
@@ -24,9 +31,8 @@ ServerController::ServerController(QObject *parent)
 }
 
 ServerController::~ServerController() {
-    if (det != nullptr) {
-        det->stop();
-        delete det;
+    if (capture != nullptr) {
+        delete capture;
     }
 }
 
@@ -37,9 +43,10 @@ void ServerController::changeState(ServerState state) {
 
 void ServerController::startServer(quint16 port, int cameraDevice) {
     Q_ASSERT(serverState == Idle);
-    Q_ASSERT(det == nullptr); // Otherwise we get a memory leak.
+    Q_ASSERT(capture == nullptr); // Otherwise we get a memory leak.
     changeState(Starting);
-    det = new Detector(cameraDevice);
+    capture = new cv::VideoCapture(cameraDevice);
+
     sock->setPortNumber(port);
     sock->start();
     detectorTimer->start();
@@ -55,31 +62,35 @@ void ServerController::stopServer() {
 void ServerController::detectFrame() {
     // detectFrame should never be called when the server is not running.
     Q_ASSERT(serverState != Idle);
+    Q_ASSERT(capture != nullptr);
     if (state() == Starting) {
         changeState(Started);
     }
 
     if (state() == Started) {
-        vector<detected_marker> markers = det->detect();
+        Mat frame;
+        capture->read(frame);
+        vector<MarkerUpdate> markers = markerTracker->track(frame);
         emit markersUpdated(markers);
-        emit imageReady(det->getLastFrame());
+
+        boardDetector->extractBoard(frame);
+        emit imageReady(frame);
         detectorTimer->start();
     } else {
-        Q_ASSERT(det != nullptr);
         changeState(Idle);
-        delete det;
-        det = nullptr;
+        delete capture;
+        capture = nullptr;
     }
 }
 
-void ServerController::broadcastPositions(vector<detected_marker> markers) {
-    for(detected_marker marker : markers) {
+void ServerController::broadcastPositions(vector<MarkerUpdate> markers) {
+    for(MarkerUpdate marker : markers) {
         broadcastPosition(marker);
     }
 }
 
-void ServerController::broadcastPosition(const detected_marker& marker) {
-    if (marker.deleted) {
+void ServerController::broadcastPosition(const MarkerUpdate& marker) {
+    if (marker.type == MarkerUpdateType::REMOVE) {
         sock->broadcastDelete(marker.id);
     } else {
         sock->broadcastPositionUpdate(

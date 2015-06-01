@@ -15,19 +15,24 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     serversocket.cpp \
-    detector.cpp \
     servercontroller.cpp \
-    cornerdetector.cpp \
-    cvutil.cpp
+    boarddetector.cpp \
+    cvutils.cpp \
+    markerdetector.cpp \
+    markerrecognizer.cpp \
+    markertracker.cpp
 
 HEADERS  += \
     mainwindow.h \
     serversocket.h \
-    ringbuffer.hpp \
-    detector.hpp \
     servercontroller.h \
-    cornerdetector.hpp \
-    cvutil.hpp
+    averager.hpp \
+    boarddetector.hpp \
+    cvutils.hpp \
+    markerdetector.hpp \
+    markerrecognizer.hpp \
+    markertracker.hpp \
+    serversocket.hpp
 
 PRECOMPILED_HEADER = mirrors.h
 

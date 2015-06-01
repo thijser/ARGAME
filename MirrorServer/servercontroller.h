@@ -9,7 +9,10 @@
 #include <QTimer>
 #include <vector>
 
-#include "detector.hpp"
+#include "markertracker.hpp"
+#include "markerdetector.hpp"
+#include "markerrecognizer.hpp"
+#include "boarddetector.hpp"
 
 namespace mirrors {
 using std::vector;
@@ -72,7 +75,7 @@ signals:
      * @brief Signal emitted whenever marker positions have changed.
      * @param markers - The changed markers with their new positions.
      */
-    void markersUpdated(vector<detected_marker> markers);
+    void markersUpdated(vector<MarkerUpdate> markers);
 
     /**
      * @brief Signal emitted whenever the state of this server changes.
@@ -117,20 +120,32 @@ public slots:
      * @brief Broadcasts the detected markers to all connected clients.
      * @param markers - The marker data to send.
      */
-    void broadcastPositions(vector<detected_marker> markers);
+    void broadcastPositions(vector<MarkerUpdate> markers);
 
     /**
      * @brief Broadcasts the detected marker to all connected clients.
      * @param marker - The marker data to send.
      */
-    void broadcastPosition(const detected_marker& marker);
+    void broadcastPosition(const MarkerUpdate& marker);
 
 private:
     /// The ServerSocket used to send messages
     ServerSocket *sock;
 
-    /// The detector instance used to find markers.
-    Detector *det;
+    /// The BoardDetector used to find the playing area.
+    BoardDetector *boardDetector;
+
+    /// The MarkerDetector instance used to find markers.
+    MarkerDetector *markerDetector;
+
+    /// The MarkerTracker instance used to follow markers.
+    MarkerTracker *markerTracker;
+
+    /// The MarkerRecognizer instance used to recognize marker patterns.
+    MarkerRecognizer *recognizer;
+
+    /// The OpenCV VideoCapture object used to get video frames.
+    cv::VideoCapture *capture;
 
     /// The QTimer used for scheduling marker detection
     QTimer *detectorTimer;

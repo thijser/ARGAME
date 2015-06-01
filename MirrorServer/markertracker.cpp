@@ -96,6 +96,7 @@ namespace mirrors {
     }
 
     void MarkerTracker::trackRemovedMarkers(const vector<pair<Point, PatternMatch>>& detectedMarkers, clock_t timestamp, vector<MarkerUpdate>& updates) {
+        Q_UNUSED(detectedMarkers);
         vector<TrackedMarker> newTrackedMarkers;
 
         // Replace tracked markers list with only markers that have been seen recently
@@ -112,6 +113,8 @@ namespace mirrors {
     }
 
     void MarkerTracker::trackFastMarkers(const vector<pair<Point, PatternMatch>>& detectedMarkers, clock_t timestamp, vector<MarkerUpdate>& updates) {
+        Q_UNUSED(detectedMarkers);
+        Q_UNUSED(timestamp);
         // Check if special condition applies
         int newMarkerCount = 0;
         int removedMarkerCount = 0;
