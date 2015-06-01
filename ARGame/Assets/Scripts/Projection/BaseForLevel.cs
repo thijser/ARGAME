@@ -69,7 +69,7 @@ namespace Projection
 			if(!this.activeMarkers)//either this marker should not exist or there is no meta 
 				return;
             // enable marker gameObject (disbaled by default)
-			if(this.metaMarker.MoveTransformToMarker(this.transform,this.ID)){
+			if(this.metaMarker.MoveTransformToMarker(this.ID,this.transform)){
             // get transform if we have to move this object
 
                     // we have seen this marker 

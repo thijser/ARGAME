@@ -27,7 +27,7 @@ namespace Projection
         /// </summary>
         public void Start()
         {
-            GameObject marker1 = GameObjectFactory.CreateMarker();
+            /*GameObject marker1 = GameObjectFactory.CreateMarker();
             marker1.transform.position = Vector3.zero;
 
             GameObject marker2 = GameObjectFactory.CreateMarker();
@@ -39,14 +39,14 @@ namespace Projection
             sync.RegisterObjectsOnStartup.Add(marker2);
             sync.Start();
 
-            PositionUpdate update1 = new PositionUpdate(UpdateType.Update, 1, 1, 0, 0);
+            PositionUpdate update1 = new PositionUpdate(UpdateType.Update, new Vector2(0, 0), 0, 0);
             sync.OnPositionUpdate(update1);
             Assert.AreEqual(Vector3.zero, marker1.transform.position);
             Assert.AreEqual(Vector3.zero, marker2.transform.position);
 
-            PositionUpdate update2 = new PositionUpdate(UpdateType.Update, 2, 2, 0, 1);
+			PositionUpdate update2 = new PositionUpdate(UpdateType.Update, new Vector2(1, 0), 0, 1);
             sync.OnPositionUpdate(update2);
             Assert.AreEqual(new Vector3(1, 0, 1), marker2.transform.position);
-        }
+        */}
     }
 }
