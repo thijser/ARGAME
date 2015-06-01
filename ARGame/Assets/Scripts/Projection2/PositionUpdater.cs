@@ -42,7 +42,7 @@ namespace Projection{
 		}
 
 		public void onRotationUpdate(RotationUpdate ru){
-			this.GetMarker(ru.id).SetObjectRotation(ru.rotation);
+			this.GetMarker(ru.ID).SetObjectRotation(ru.Rotation);
 		}
 		
 
