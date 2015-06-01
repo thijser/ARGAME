@@ -119,9 +119,9 @@ namespace Network
                     this.Object.SetActive(true);
 
                     this.Object.transform.position = new Vector3(
-                        update.X * ScaleFactor,
+                        update.Coordinate.x * ScaleFactor,
                         0,
-                        VerticalOffset - (update.Y * ScaleFactor));
+                        VerticalOffset - (update.Coordinate.y * ScaleFactor));
 
                     this.Object.transform.eulerAngles = new Vector3(0, update.Rotation, 0);
                 }

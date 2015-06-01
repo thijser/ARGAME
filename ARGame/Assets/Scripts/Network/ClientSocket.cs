@@ -183,7 +183,7 @@ namespace Network
                 case UpdateType.Update:
                     return this.ReadUpdate();
                 case UpdateType.Ping:
-                    return new PositionUpdate(UpdateType.Ping, 0, 0, 0, -1);
+                    return new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0, -1);
                 default:
                     Debug.LogWarning("Received invalid type: " + type);
                     return null;
@@ -204,9 +204,10 @@ namespace Network
 
             float x = BitConverter.ToSingle(this.buffer, 0);
             float y = BitConverter.ToSingle(this.buffer, 4);
+            Vector2 coordinate = new Vector2(x, y);
             float rotation = BitConverter.ToSingle(this.buffer, 8);
             int id = BitConverter.ToInt32(this.buffer, 12);
-            return new PositionUpdate(UpdateType.Update, x, y, rotation, id);
+            return new PositionUpdate(UpdateType.Update, coordinate, rotation, id);
         }
 
         /// <summary>
@@ -222,7 +223,7 @@ namespace Network
             }
 
             int id = BitConverter.ToInt32(this.buffer, 0);
-            return new PositionUpdate(UpdateType.Delete, 0, 0, 0, id);
+            return new PositionUpdate(UpdateType.Delete, new Vector2(0, 0), 0, id);
         }
 
     }

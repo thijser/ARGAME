@@ -10,6 +10,7 @@
 namespace Network
 {
     using System;
+    using UnityEngine;
 
     /// <summary>
     /// Indicates the type of the PositionUpdate message.
@@ -41,15 +42,13 @@ namespace Network
         /// Initializes a new instance of the <see cref="Network.PositionUpdate"/> class.
         /// </summary>
         /// <param name="type">The type of the PositionUpdate.</param>
-        /// <param name="x">The x coordinate.</param>
-        /// <param name="y">The y coordinate.</param>
+        /// <param name="coord">A 2D coordinate containing the x- and y-coordinate.</param>
         /// <param name="rotation">The rotation.</param>
         /// <param name="id">The unique ID of the marker.</param>
-        public PositionUpdate(UpdateType type, float x, float y, float rotation, int id)
+        public PositionUpdate(UpdateType type, Vector2 coord, float rotation, int id)
         {
             this.Type = type;
-            this.X = x;
-            this.Y = y;
+            this.Coordinate = coord;
             this.Rotation = rotation;
             this.ID = id;
         }
@@ -60,14 +59,9 @@ namespace Network
         public UpdateType Type { get; private set; }
 
         /// <summary>
-        /// Gets the x coordinate of this update.
+        /// Gets the 2D coordinate of this update.
         /// </summary>
-        public float X { get; private set; }
-
-        /// <summary>
-        /// Gets the y coordinate of this update.
-        /// </summary>
-        public float Y { get; private set; }
+        public Vector2 Coordinate { get; private set; }
 
         /// <summary>
         /// Gets the rotation of this update.
@@ -95,8 +89,8 @@ namespace Network
         {
             int hash = this.Type.GetHashCode();
             hash = (5 * hash) + this.ID;
-            hash = (5 * hash) + this.X.GetHashCode();
-            hash = (5 * hash) + this.Y.GetHashCode();
+            hash = (5 * hash) + this.Coordinate.x.GetHashCode();
+            hash = (5 * hash) + this.Coordinate.y.GetHashCode();
             return hash;
         }
 
@@ -121,8 +115,8 @@ namespace Network
 
             PositionUpdate that = o as PositionUpdate;
             return this.Type == that.Type
-                && this.X == that.X
-                && this.Y == that.Y
+                && this.Coordinate.x == that.Coordinate.x
+                && this.Coordinate.y == that.Coordinate.y
                 && this.ID == that.ID;
         }
 
@@ -135,7 +129,7 @@ namespace Network
         public override string ToString()
         {
             return "[PositionUpdate: Type<" + this.Type + ">, ID<" + this.ID +
-                ">, X<" + this.X + ">, Y<" + this.Y + ">]";
+                ">, X<" + this.Coordinate.x + ">, Y<" + this.Coordinate.y + ">]";
         }
     }
 }
