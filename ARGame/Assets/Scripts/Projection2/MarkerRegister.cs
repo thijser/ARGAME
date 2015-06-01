@@ -9,6 +9,9 @@ namespace Projection{
 		public MarkerRegister(Marker mark){
 			marker = mark;
 		}
+		public Marker getMarker(){
+			return marker;
+		}
 	}
 
 }

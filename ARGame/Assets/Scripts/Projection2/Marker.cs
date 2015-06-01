@@ -1,15 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class Marker : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
+namespace Projection{
+	public class Marker : MonoBehaviour {
+		public int id=-1;
+		MarkerPosition remotePosition;
+		MarkerPosition localPosition;
+		float objectRotation; 
 	
-	}
+		public void SetObjectRotation(float rotation){
+			objectRotation=rotation;
+		}
 	
-	// Update is called once per frame
-	void Update () {
-	
+		public void SetRemotePosition(MarkerPosition rem){
+			remotePosition=rem;
+		}
+		public void SetLocalPosition(MarkerPosition rem){
+			localPosition=rem;
+		}
+		void Start(){
+			this.SendMessageUpwards("OnMarkerRegister",new MarkerRegister(this));
+		}
 	}
 }
