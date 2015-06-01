@@ -1,15 +1,18 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿namespace Projection{
+	using UnityEngine;
+	using System.Collections.Generic;
 
-public class Detector : MonoBehaviour {
+	public class Detector : MonoBehaviour {
+		IARLink link;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		void start(){
+			link =  new MetaLink();
+		}
+		void LateUpdate () {
+			List<MarkerPosition> list = link.GetMarkerPositions();
+			foreach( MarkerPosition mp in list){
+
+			}
+		}
 	}
 }

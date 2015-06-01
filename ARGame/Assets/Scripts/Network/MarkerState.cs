@@ -63,7 +63,7 @@ namespace Network
         /// <param name="update">The PositionUpdate.</param>
         public void Update(PositionUpdate update)
         {
-            if (update.Type == UpdateType.Update)
+            if (update.Type == UpdateType.UpdatePosition)
             {
                 // Update orientation of object
                 this.Object.SetActive(true);
@@ -75,7 +75,7 @@ namespace Network
 
                 this.Object.transform.eulerAngles = new Vector3(0, update.Rotation, 0);
             }
-            else if (update.Type == UpdateType.Delete)
+            else if (update.Type == UpdateType.DeletePosition)
             {
                 // Remove object
                 this.Object.SetActive(false);

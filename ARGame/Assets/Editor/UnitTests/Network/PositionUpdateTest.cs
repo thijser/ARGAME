@@ -29,9 +29,9 @@ namespace Network
         [Test]
         public void HashTest()
         {
-            PositionUpdate pu = new PositionUpdate(UpdateType.Update, new Vector2(0, 0), 0f, 0);
+            PositionUpdate pu = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(0, 0), 0f, 0);
             Assert.True(pu.GetHashCode() == 0);
-            pu = new PositionUpdate(UpdateType.Delete, new Vector2(0, 0), 0f, 0);
+            pu = new PositionUpdate(UpdateType.DeletePosition, new Vector2(0, 0), 0f, 0);
             Assert.True(pu.GetHashCode() == 125);
         }
     }

@@ -8,7 +8,7 @@ namespace Projection{
 		/// Central level marker, this should be visible. 
 		/// </summary>
 		Marker parent;
-
+		public float scale=1; 
 		/// <summary>
 		/// Collection of all registered to this clas. 
 		/// </summary>
@@ -18,6 +18,8 @@ namespace Projection{
 		/// </summary>
 		public void OnMarkerRegister(MarkerRegister reg){
 			markerTable.Add(reg.getMarker().id,reg.getMarker());
+			if(parent==null)
+				parent=reg.getMarker();
 		}
 		/// <summary>
 		/// gets marker with Identifier  
@@ -40,11 +42,40 @@ namespace Projection{
 		public void OnMarkerSeen(MarkerPosition mp,int id){
 			this.GetMarker(id).SetLocalPosition(mp);
 		}
-
+		/// <summary>
+		/// inform marker that it has received an rotationUpdate 
+		/// </summary>
+		/// <param name="ru">rotation update.</param>
 		public void onRotationUpdate(RotationUpdate ru){
-			this.GetMarker(ru.id).SetObjectRotation(ru.rotation);
+			this.GetMarker(ru.ID).SetObjectRotation(ru.Rotation);
 		}
-		
+		/// <summary>
+		/// Update position of all markers .
+		/// </summary>
+		public void Update(){
+			foreach(KeyValuePair<int, Marker> entry in markerTable)
+			{
+				updatePosition(entry.Value);
+			}
+		}
+		/// <summary>
+		/// uses the market target and parent to set the transform of target
+		/// </summary>
+		/// <param name="target">Target</param>
+		public void updatePosition(Marker target){
+            UpdateParentPosition(target);
+            UpdateChildPosition(target);
+		}
+
+        public void UpdateParentPosition(Marker target)
+        {
+
+        }
+
+        public void UpdateChildPosition(Marker target)
+        {
+
+        }
 
 		/// <summary>
 		/// set the location of the marker based on the remote position. 

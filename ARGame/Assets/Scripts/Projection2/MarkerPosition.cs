@@ -8,7 +8,7 @@ using Network;
 /// </summary>
 public class MarkerPosition : MonoBehaviour {
 	public Vector3 Position;
-	public Vector3 Rotation;
+	public Quaternion Rotation;
 	public DateTime timeStamp;
 	public Vector3 scale;
 
@@ -23,7 +23,7 @@ public class MarkerPosition : MonoBehaviour {
 		this.Position= new Vector3(pu.Coordinate[0],0,pu.Coordinate[1]);
 		this.scale=new Vector3(1,1,1);
 	}
-	public MarkerPosition(Vector3 pos,Vector3 rot,DateTime stamp,Vector3 scale){
+	public MarkerPosition(Vector3 pos,Quaternion rot,DateTime stamp,Vector3 scale){
 		Position=pos;
 		Rotation=rot;
 		timeStamp=stamp;

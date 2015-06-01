@@ -1,15 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿namespace Projection{
+using System.Collections.Generic;
 
-public class IARLink : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public interface IARLink {
+		/// <summary>
+		/// return a list of all vissible markers and their locations, can be empty if none are visible. 
+		/// </summary>
+		/// <returns>The marker positions.</returns>
+		 List<MarkerPosition>GetMarkerPositions();
 	}
 }

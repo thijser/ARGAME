@@ -15,7 +15,7 @@ namespace Network
     /// <summary>
     /// Represents an update of a marker position.
     /// </summary>
-    public class PositionUpdate
+    public class PositionUpdate : AbstractUpdate
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Network.PositionUpdate"/> class.
@@ -33,11 +33,6 @@ namespace Network
         }
 
         /// <summary>
-        /// Gets the type of this update.
-        /// </summary>
-        public UpdateType Type { get; private set; }
-
-        /// <summary>
         /// Gets the 2D coordinate of this update.
         /// </summary>
         public Vector2 Coordinate { get; private set; }
@@ -46,16 +41,6 @@ namespace Network
         /// Gets the rotation of this update.
         /// </summary>
         public float Rotation { get; private set; }
-
-        /// <summary>
-        /// Gets the unique ID of the marker object.
-        /// </summary>
-        public int ID { get; private set; }
-
-        /// <summary>
-        /// Gets the timestamp of this update.
-        /// </summary>
-        public long TimeStamp { get; private set; }
 
         /// <summary>
         ///   Serves as a hash function for a <see cref="Network.PositionUpdate"/> object.
