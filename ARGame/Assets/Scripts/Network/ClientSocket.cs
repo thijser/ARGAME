@@ -179,9 +179,9 @@ namespace Network
             byte type = this.buffer[0];
             switch ((UpdateType)type)
             {
-                case UpdateType.Delete:
+                case UpdateType.DeletePosition:
                     return this.ReadDelete();
-                case UpdateType.Update:
+                case UpdateType.UpdatePosition:
                     return this.ReadUpdate();
                 case UpdateType.Ping:
                     return new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0, -1);
@@ -208,7 +208,7 @@ namespace Network
             Vector2 coordinate = new Vector2(x, y);
             float rotation = BitConverter.ToSingle(this.buffer, 8);
             int id = BitConverter.ToInt32(this.buffer, 12);
-            return new PositionUpdate(UpdateType.Update, coordinate, rotation, id);
+            return new PositionUpdate(UpdateType.UpdatePosition, coordinate, rotation, id);
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace Network
             }
 
             int id = BitConverter.ToInt32(this.buffer, 0);
-            return new PositionUpdate(UpdateType.Delete, new Vector2(0, 0), 0, id);
+            return new PositionUpdate(UpdateType.DeletePosition, new Vector2(0, 0), 0, id);
         }
     }
 }

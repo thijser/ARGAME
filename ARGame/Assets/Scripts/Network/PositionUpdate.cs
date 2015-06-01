@@ -13,27 +13,6 @@ namespace Network
     using UnityEngine;
 
     /// <summary>
-    /// Indicates the type of the PositionUpdate message.
-    /// </summary>
-    public enum UpdateType
-    {
-        /// <summary>
-        /// Indicates the position of the object is updated.
-        /// </summary>
-        Update = 0,
-
-        /// <summary>
-        /// Indicates the object is removed from the field.
-        /// </summary>
-        Delete = 1,
-
-        /// <summary>
-        /// Indicates a ping message indicating the server is still alive.
-        /// </summary>
-        Ping = 2
-    }
-
-    /// <summary>
     /// Represents an update of a marker position.
     /// </summary>
     public class PositionUpdate
