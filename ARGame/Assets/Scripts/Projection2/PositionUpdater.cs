@@ -62,19 +62,39 @@ namespace Projection{
 		/// uses the market target and parent to set the transform of target
 		/// </summary>
 		/// <param name="target">Target</param>
-		public void updatePosition(Marker target){
-            UpdateParentPosition(target);
-            UpdateChildPosition(target);
+		public void updatePosition(Marker target)
+        {
+            if (target == parent)
+            {
+                UpdateParentPosition(target);
+            }
+            else
+            {
+                UpdateChildPosition(target);
+            }
 		}
 
+        /// <summary>
+        /// Updates position if supplied target is the parent.
+        /// </summary>
+        /// <param name="target">The supplied target.</param>
         public void UpdateParentPosition(Marker target)
         {
-
+            target.gameObject.transform.position = target.localPosition.Position;
+            Vector3 localrotation = target.localPosition.Rotation.eulerAngles;
+            Vector3 remoterotation = target.remotePosition.Rotation.eulerAngles;
+            Vector3 finalrotation = localrotation - remoterotation;
+            target.gameObject.transform.rotation = Quaternion.Euler(finalrotation);
         }
 
+        /// <summary>
+        /// Updates position if supplied target is not the parent.
+        /// </summary>
+        /// <param name="target">The supplied target.</param>
         public void UpdateChildPosition(Marker target)
         {
-
+            target.gameObject.transform.position = target.remotePosition.Position - parent.remotePosition.Position;
+            // TODO: If mirrored then swap operation params.
         }
 
 		/// <summary>
