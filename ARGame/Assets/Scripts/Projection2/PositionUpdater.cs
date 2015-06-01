@@ -8,7 +8,7 @@ namespace Projection{
 		/// Central level marker, this should be visible. 
 		/// </summary>
 		Marker parent;
-
+		public float scale=1; 
 		/// <summary>
 		/// Collection of all registered to this clas. 
 		/// </summary>
@@ -18,6 +18,8 @@ namespace Projection{
 		/// </summary>
 		public void OnMarkerRegister(MarkerRegister reg){
 			markerTable.Add(reg.getMarker().id,reg.getMarker());
+			if(parent==null)
+				parent=reg.getMarker();
 		}
 		/// <summary>
 		/// gets marker with Identifier  
@@ -56,7 +58,7 @@ namespace Projection{
 				updatePosition(entry.Value);
 			}
 		}
-			/// <summary>
+		/// <summary>
 		/// uses the market target and parent to set the transform of target
 		/// </summary>
 		/// <param name="target">Target</param>
