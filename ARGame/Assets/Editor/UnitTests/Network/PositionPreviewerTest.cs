@@ -37,9 +37,22 @@ namespace Network
         /// Tests if none of the marker states have been initialized after creation.
         /// </summary>
         [Test]
+        [ExpectedException(typeof(KeyNotFoundException))]
         public static void NullMarkerStateTest()
         {
+            GameObjectFactory.CreatePreviewer().GetMarkerState(0);
+        }
 
+        /// <summary>
+        /// Tests if the start behaviour is correct.
+        /// </summary>
+        [Test]
+        public static void StartTest()
+        {
+            PositionPreviewer pp = GameObjectFactory.CreatePreviewer();
+            pp.ReferenceMarker = new UnityEngine.GameObject();
+            pp.Start();
+            Assert.False(pp.ReferenceMarker.activeSelf);
         }
     }
 }
