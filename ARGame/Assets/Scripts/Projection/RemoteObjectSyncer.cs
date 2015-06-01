@@ -62,15 +62,14 @@ namespace Projection
 
             // TODO: Check if `par.position` is still correct.
             transToMove.localPosition = par.position + new Vector3(
-                (update.X - home.RemoteX) * this.Scale,
+                (update.Coordinate.x - home.RemoteCoord.x) * this.Scale,
                 0,
-                (update.Y - home.RemoteY) * this.Scale);
+                (update.Coordinate.y - home.RemoteCoord.y) * this.Scale);
             BaseForLevel bfl = toMove.GetComponent<BaseForLevel>();
 
             if (bfl != null)
             {
-                bfl.RemoteX = update.X;
-                bfl.RemoteY = update.Y;
+                bfl.RemoteCoord = update.Coordinate;
             }
 
             UpdateWrapper wrapper = toMove.GetComponent<UpdateWrapper>();
