@@ -40,14 +40,9 @@ namespace Projection
         public bool LevelMarker { get; set; }
 
         /// <summary>
-        /// Gets or sets the x position from the remote.
+        /// Gets or sets the (x, y) coordinate from the remote.
         /// </summary>
-        public float RemoteX { get; set; }
-
-        /// <summary>
-        /// Gets or sets the y position from the remote.
-        /// </summary>
-        public float RemoteY { get; set; }
+        public Vector2 RemoteCoord { get; set; }
 
         /// <summary>
         /// Gets or sets the time stamp for this BaseForLevel instance.
