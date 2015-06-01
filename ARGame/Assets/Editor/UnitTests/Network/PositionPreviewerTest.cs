@@ -14,7 +14,9 @@ namespace Network
     using System.Linq;
     using System.Text;
     using NUnit.Framework;
+    using NSubstitute;
     using TestUtilities;
+    using UnityEngine;
 
     /// <summary>
     /// Test class for PositionPreviewer.
