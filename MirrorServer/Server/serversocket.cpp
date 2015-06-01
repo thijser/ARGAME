@@ -2,16 +2,12 @@
 
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QtEndian>
+
+#include "byteconverter.hpp"
 
 namespace mirrors {
-
-namespace {
-    template <typename T>
-    QByteArray toRawBytes(T value) {
-        const char *bytes = reinterpret_cast<const char*>(&value);
-        return QByteArray(bytes, sizeof(T));
-    }
-}
+using namespace ::mirrors::bytes;
 
 ServerSocket::ServerSocket(QObject *parent)
     : QObject(parent), sock(new QTcpServer(this)), pingTimer(new QTimer(this))

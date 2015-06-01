@@ -13,6 +13,15 @@
  */
 
 /**
+ * @namespace mirrors::bytes
+ * @brief Provides byte order conversion functions.
+ *
+ * The functions in this utility namespace can be used to safely transmit
+ * data over the network using a known byte order (big-endian). It also
+ * performs conversion from value types to QByteArrays and vice versa.
+ */
+
+/**
  * @mainpage
  *
  * This is a server application for providing marker detection to the Mirrors AR game.
