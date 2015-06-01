@@ -8,7 +8,7 @@
  */
 
 /**
- * @file serversocket.h
+ * @file serversocket.hpp
  * @brief Defines the mirrors::ServerSocket class.
  */
 #ifndef MIRRORS_SERVERSOCKET_H

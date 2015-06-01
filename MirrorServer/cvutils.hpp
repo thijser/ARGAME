@@ -23,10 +23,10 @@ namespace mirrors {
     using cv::Point;
     using std::vector;
 
-    /**
-     * @brief Order of channels in image using BGR color space. 
-     */
     namespace BGR {
+        /**
+        * @brief Order of channels in image using BGR color space.
+        */
         enum BGR {
             B = 0,
             G,
@@ -34,10 +34,10 @@ namespace mirrors {
         };
     }
 
-    /**
-     * @brief Order of channels in image using HSV color space.
-     */
     namespace HSV {
+        /**
+        * @brief Order of channels in image using HSV color space.
+        */
         enum HSV {
             H = 0,
             S,
@@ -45,10 +45,10 @@ namespace mirrors {
         };
     }
 
-    /**
-     * @brief Type of element in cv::findContours() hierarchy vector by index.
-     */
     namespace HierarchyElement {
+        /**
+        * @brief Type of element in cv::findContours() hierarchy vector by index.
+        */
         enum HierarchyElement {
             NEXT = 0,
             PREVIOUS,

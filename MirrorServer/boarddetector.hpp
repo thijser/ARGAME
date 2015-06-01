@@ -23,10 +23,10 @@ namespace mirrors {
     using cv::Point;
     using std::vector;
 
-    /**
-     * @brief Method of detecting the bounds of the board surface.
-     */
     namespace BoardDetectionApproach {
+        /**
+        * @brief Method of detecting the bounds of the board surface.
+        */
         enum BoardDetectionApproach {
             RED_MARKERS
         };

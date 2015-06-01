@@ -47,10 +47,10 @@ namespace mirrors {
     /// smoothing is disabled and the new rotation is assumed directly.
     const float MARKER_ROTATION_SMOOTH_THRESHOLD = 3;
 
-    /**
-     * @brief Type of marker state update that occured.
-     */
     namespace MarkerUpdateType {
+        /**
+        * @brief Type of marker state update that occured.
+        */
         enum MarkerUpdateType {
             NEW,
             CHANGE,

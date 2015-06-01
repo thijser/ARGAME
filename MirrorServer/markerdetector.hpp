@@ -23,10 +23,10 @@ namespace mirrors {
     using cv::Point;
     using std::vector;
 
-    /**
-    * @brief Method of detecting the bounds of markers.
-    */
     namespace MarkerDetectionApproach {
+        /**
+        * @brief Method of detecting the bounds of markers.
+        */
         enum MarkerDetectionApproach {
             GREEN_BORDERS
         };

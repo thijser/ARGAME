@@ -26,10 +26,10 @@ namespace mirrors {
     using std::vector;
     using std::pair;
 
-    /**
-    * @brief Method of recognizing a marker and its pattern.
-    */
     namespace MarkerRecognitionApproach {
+        /**
+        * @brief Method of recognizing a marker and its pattern.
+        */
         enum MarkerRecognitionApproach {
             HAMMING_DISTANCE
         };

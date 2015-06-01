@@ -73,8 +73,13 @@ namespace mirrors {
         }
 
     private:
+        /// Container for historic values.
         deque<T> storage;
+
+        /// Length of history.
         size_t history;
+
+        /// Distance between new value and moving average for fast response.
         T flushDistance;
     };
 
@@ -127,8 +132,13 @@ namespace mirrors {
         }
 
     private:
+        /// Container for historic values.
         deque<Point> storage;
+
+        /// Length of history.
         size_t history;
+
+        /// Distance between new value and moving average for fast response.
         float flushDistance;
     };
 
