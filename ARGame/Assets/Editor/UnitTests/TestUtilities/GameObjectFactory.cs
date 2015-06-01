@@ -9,13 +9,12 @@
 //----------------------------------------------------------------------------
 namespace TestUtilities
 {
-    using System;
     using Core;
     using Core.Emitter;
     using Core.Receiver;
-    using NUnit.Framework;
+    using Projection;
     using UnityEngine;
-	using Projection;
+
     /// <summary>
     /// A factory class which has some easy methods for constructing
     /// several game objects and returning their components.
@@ -60,8 +59,8 @@ namespace TestUtilities
         public static LaserEmitter CreateEmitter()
         {
             GameObject gameObject = new GameObject(
-                "Emitter", 
-                typeof(LaserEmitter), 
+                "Emitter",
+                typeof(LaserEmitter),
                 typeof(LineRenderer),
                 typeof(LaserProperties));
             LaserEmitter emitter = gameObject.GetComponent<LaserEmitter>();
@@ -76,7 +75,7 @@ namespace TestUtilities
         public static MultiEmitter CreateMultiEmitter()
         {
             GameObject gameObject = new GameObject(
-                "MultiEmitter", 
+                "MultiEmitter",
                 typeof(MultiEmitter),
                 typeof(LaserEmitter));
             return gameObject.GetComponent<MultiEmitter>();
@@ -132,13 +131,16 @@ namespace TestUtilities
             portal1.LinkedPortal = gameObject2.GetComponent<Portal>();
             return portal1;
         }
-	public static GameObject createMarker(){
-			GameObject marker = new GameObject();
-			marker.AddComponent<BaseForLevel>();
-			marker.AddComponent<Transform>();
 
-			return marker;
-		}
+        /// <summary>
+        /// Creates a marker object that has a <see cref="Projection.BaseForLevel"/> component.
+        /// </summary>
+        /// <returns>The created GameObject.</returns>
+        public static GameObject CreateMarker()
+        {
+            return new GameObject("Marker", typeof(BaseForLevel));
+        }
+
         /// <summary>
         /// Creates a portal that is not linked to another portal.
         /// </summary>

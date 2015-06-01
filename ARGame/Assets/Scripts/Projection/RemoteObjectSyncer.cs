@@ -3,11 +3,6 @@
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
-﻿//----------------------------------------------------------------------------
-// <copyright file="RemoteObjectSyncer.cs" company="Delft University of Technology">
-//     Copyright 2015, Delft University of Technology
-//
-//     This software is licensed under the terms of the MIT License.
 //     A copy of the license should be included with this software. If not,
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
@@ -28,19 +23,19 @@ namespace Projection
         /// The GameObjects to register on startup.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public List<GameObject> RegisterObjectsOnStartup;
+        public List<GameObject> RegisterObjectsOnStartup = new List<GameObject>();
 
         /// <summary>
         /// The GameObject to use as Level Marker.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public GameObject LevelMarker;
+        public GameObject LevelMarker = null;
 
-		/// <summary>
-		/// The marker scale factor.
-		/// </summary>
+        /// <summary>
+        /// The marker scale factor.
+        /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public float Scale;
+        public float Scale = 1.0f;
 
         /// <summary>
         /// The Dictionary containing the ID to GameObject mappings.
@@ -59,18 +54,18 @@ namespace Projection
             {
                 throw new KeyNotFoundException("ID of not yet registered object");
             }
-			
+
             BaseForLevel home = this.LevelMarker.GetComponent<BaseForLevel>();
             GameObject toMove = this.objectTable[update.ID];
             Transform transToMove = toMove.GetComponent<Transform>();
             Transform par = this.LevelMarker.GetComponent<Transform>();
 
-			// TODO: Check if `par.position` is still correct.
-			transToMove.localPosition = par.position + new Vector3(
-				(update.X - home.RemoteX) * this.Scale, 
-				0, 
-				(update.Y - home.RemoteY) * this.Scale);
-			BaseForLevel bfl = toMove.GetComponent<BaseForLevel>();
+            // TODO: Check if `par.position` is still correct.
+            transToMove.localPosition = par.position + new Vector3(
+                (update.X - home.RemoteX) * this.Scale,
+                0,
+                (update.Y - home.RemoteY) * this.Scale);
+            BaseForLevel bfl = toMove.GetComponent<BaseForLevel>();
 
             if (bfl != null)
             {
@@ -79,7 +74,7 @@ namespace Projection
             }
 
             UpdateWrapper wrapper = toMove.GetComponent<UpdateWrapper>();
-			wrapper.Wrapped = update;
+            wrapper.Wrapped = update;
         }
 
         /// <summary>
@@ -100,9 +95,9 @@ namespace Projection
             this.objectTable = new Dictionary<int, GameObject>();
             int i = 0;
 
-			//mark levelMarker as active level marker
-			BaseForLevel levelmarker= this.LevelMarker.GetComponent<BaseForLevel>();
-			levelmarker.LevelMarker=true;
+            // mark levelMarker as active level marker
+            BaseForLevel levelmarker = this.LevelMarker.GetComponent<BaseForLevel>();
+            levelmarker.LevelMarker = true;
 
             foreach (GameObject go in this.RegisterObjectsOnStartup)
             {

@@ -70,7 +70,7 @@ namespace Core
         public void FindReceiverWithoutObjectTest()
         {
             LaserBeam laser = CreateLaser(Vector3.zero, Vector3.forward);
-			HitEventArgs args = laser.DoRaycast();
+            HitEventArgs args = laser.DoRaycast();
 
             Assert.IsNull(args.Receiver);
             Assert.IsNull(args.Laser);
@@ -87,7 +87,7 @@ namespace Core
         {
             BoxCollider collider = CreateCollider(Vector3.forward, 0.5f);
             LaserBeam laser = CreateLaser(Vector3.zero, Vector3.forward);
-			HitEventArgs args = laser.DoRaycast();
+            HitEventArgs args = laser.DoRaycast();
 
             Assert.IsNull(args.Receiver);
             Assert.IsNull(args.Laser);
