@@ -66,6 +66,11 @@ public:
 
 signals:
     /**
+     * @brief Signal emitted when the board has been detected.
+     */
+    void boardFound();
+
+    /**
      * @brief Signal emitted whenever an image frame is processed.
      * @param image - The processed image.
      */
@@ -112,6 +117,11 @@ public slots:
     void stopServer();
 
     /**
+     * @brief Attempts to detect the board
+     */
+    void detectBoard();
+
+    /**
      * @brief Detects a single frame using a detector instance.
      */
     void detectFrame();
@@ -138,11 +148,11 @@ private:
     /// The MarkerDetector instance used to find markers.
     MarkerDetector *markerDetector;
 
-    /// The MarkerTracker instance used to follow markers.
-    MarkerTracker *markerTracker;
-
     /// The MarkerRecognizer instance used to recognize marker patterns.
     MarkerRecognizer *recognizer;
+
+    /// The MarkerTracker instance used to follow markers.
+    MarkerTracker *markerTracker;
 
     /// The OpenCV VideoCapture object used to get video frames.
     cv::VideoCapture *capture;

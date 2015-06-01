@@ -6,10 +6,10 @@ namespace mirrors {
 ServerController::ServerController(QObject *parent)
     : QObject(parent),
       sock(new ServerSocket(this)),
-      boardDetector(nullptr),
-      markerDetector(nullptr),
-      markerTracker(nullptr),
-      recognizer(nullptr),
+      boardDetector(new BoardDetector()),
+      markerDetector(new MarkerDetector()),
+      recognizer(new MarkerRecognizer()),
+      markerTracker(new MarkerTracker(*boardDetector, *markerDetector, *recognizer)),
       capture(nullptr),
       detectorTimer(new QTimer(this)),
       serverState(Idle)
@@ -17,7 +17,7 @@ ServerController::ServerController(QObject *parent)
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
             this, SLOT(broadcastPositions(vector<MarkerUpdate>)));
     connect(detectorTimer, SIGNAL(timeout()),
-            this,          SLOT(detectFrame()));
+            this,          SLOT(detectBoard()));
     connect(sock, SIGNAL(errorOccurred(QString)),
             this, SIGNAL(socketError(QString)));
 
@@ -44,6 +44,7 @@ void ServerController::changeState(ServerState state) {
 void ServerController::startServer(quint16 port, int cameraDevice) {
     Q_ASSERT(serverState == Idle);
     Q_ASSERT(capture == nullptr); // Otherwise we get a memory leak.
+    qDebug() << "Server starting (using camera ID" << cameraDevice << "for frames)";
     changeState(Starting);
     capture = new cv::VideoCapture(cameraDevice);
 
@@ -53,10 +54,37 @@ void ServerController::startServer(quint16 port, int cameraDevice) {
 }
 
 void ServerController::stopServer() {
-    Q_ASSERT(serverState == Started);
+    Q_ASSERT(serverState == Started || serverState == Starting);
+    qDebug() << "Server stopping";
 
     changeState(Stopping);
     sock->stop();
+}
+
+void ServerController::detectBoard() {
+    Q_ASSERT(capture != nullptr);
+    if (state() == Stopping) {
+        delete capture;
+        capture = nullptr;
+        changeState(Idle);
+        qDebug() << "Server stopped";
+        return;
+    }
+    Q_ASSERT(serverState == Starting);
+
+    Mat frame;
+    capture->read(frame);
+    if (boardDetector->locateBoard(frame)) {
+        // When the board is found, we stop trying to locate
+        // the board and start detecting markers instead.
+        disconnect(detectorTimer, SIGNAL(timeout()),
+                   this,          SLOT(detectBoard()));
+        connect(detectorTimer,    SIGNAL(timeout()),
+                this,             SLOT(detectFrame()));
+        changeState(Started);
+        qDebug() << "Server started";
+    }
+    detectorTimer->start();
 }
 
 void ServerController::detectFrame() {
@@ -73,13 +101,14 @@ void ServerController::detectFrame() {
         vector<MarkerUpdate> markers = markerTracker->track(frame);
         emit markersUpdated(markers);
 
-        boardDetector->extractBoard(frame);
-        emit imageReady(frame);
+        Mat board = boardDetector->extractBoard(frame);
+        emit imageReady(board);
         detectorTimer->start();
     } else {
         changeState(Idle);
         delete capture;
         capture = nullptr;
+        qDebug() << "Server stopped";
     }
 }
 
