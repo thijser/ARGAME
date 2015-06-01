@@ -29,6 +29,8 @@ StyleCop.Cache
 *.pidb
 *.pdb
 *.booproj
+*.sdf
+*.opensdf
 Upgradelog*.htm
 
 # Unity3D generated meta files
@@ -64,6 +66,12 @@ Reports/**/*.pdf
 *.exe
 *.apk
 *.app/
+
+# MirrorServer binaries
+MirrorServer/vs/**/*.dll
+MirrorServer/vs/Release/
+MirrorServer/vs/Debug/
+MirrorServer/vs/MirrorServer.dir/
 
 # Generated Documentation
 Reports/Documentation/
