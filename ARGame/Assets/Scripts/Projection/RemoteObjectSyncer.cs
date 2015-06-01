@@ -101,11 +101,14 @@ namespace Projection
 
             foreach (GameObject go in this.RegisterObjectsOnStartup)
             {
+
                 go.AddComponent<UpdateWrapper>();
                 this.objectTable.Add(i, go);
-                Transform transGo = go.GetComponent<Transform>();
+				if(go!=this.LevelMarker){
+				Transform transGo = go.GetComponent<Transform>();
                 Transform parent = this.LevelMarker.GetComponent<Transform>();
                 transGo.SetParent(parent, false);
+				}
                 i++;
             }
         }
