@@ -12,6 +12,7 @@ namespace TestUtilities
     using Core;
     using Core.Emitter;
     using Core.Receiver;
+    using Network;
     using Projection;
     using UnityEngine;
 
@@ -149,6 +150,16 @@ namespace TestUtilities
         {
             GameObject gameObject = new GameObject("Portal", typeof(Portal));
             return gameObject.GetComponent<Portal>();
+        }
+
+        /// <summary>
+        /// Creates a dummy position previewer.
+        /// </summary>
+        /// <returns>A position previewer used for testing purposes.</returns>
+        public static PositionPreviewer CreatePreviewer()
+        {
+            GameObject gameObject = new GameObject("Dummy", typeof(PositionPreviewer));
+            return gameObject.GetComponent<PositionPreviewer>();
         }
     }
 }
