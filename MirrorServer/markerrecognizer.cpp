@@ -70,7 +70,7 @@ namespace mirrors {
 
         // Take part of the image containing the marker pattern and straighten it
         Mat marker = boardImage(rotatedRect.boundingRect());
-        marker = rotateImage(marker, rotatedRect.angle);
+        marker = rotateImage(marker, -rotatedRect.angle);
 
         // Crop image to remove the padding caused by the former rotation
         // ____________         ____________

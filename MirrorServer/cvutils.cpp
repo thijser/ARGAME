@@ -8,7 +8,7 @@ namespace mirrors {
     Mat rotateImage(Mat src, float angle) {
         int len = std::max(src.cols, src.rows);
         cv::Point2f pt(len / 2.f, len / 2.f);
-        cv::Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);
+        cv::Mat r = cv::getRotationMatrix2D(pt, -angle, 1.0);
 
         Mat dst;
         cv::warpAffine(src, dst, r, cv::Size(len, len));
