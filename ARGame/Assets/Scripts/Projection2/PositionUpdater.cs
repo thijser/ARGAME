@@ -96,6 +96,15 @@ namespace Projection{
             target.gameObject.transform.position = target.remotePosition.Position - parent.remotePosition.Position;
             // TODO: If mirrored then swap operation params.
         }
+		public void reparent(Marker target){
+			parent=target;
+			foreach(KeyValuePair<int, Marker> entry in markerTable){
+				if(entry.Value!=parent){
+					entry.Value.transform.SetParent(target);
+					updatePosition(entry.Value);
+				}
+			}
+		}
 
 		/// <summary>
 		/// set the location of the marker based on the remote position. 
