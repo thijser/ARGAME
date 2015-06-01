@@ -148,7 +148,7 @@ namespace mirrors {
             float rotation;
 
             /// Last known velocity of marker (pixels/frame).
-            float velocity;
+            float velocity = 0;
 
             /// Most confident pattern match of marker thus far.
             PatternMatch match;

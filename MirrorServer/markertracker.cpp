@@ -140,7 +140,7 @@ namespace mirrors {
             // by trackChangedMarkers.)
             trackedMarkers.pop_back();
 
-            int lastNewUpdate;
+            int lastNewUpdate = -1;
 
             for (size_t i = 0; i < updates.size(); i++) {
                 if (updates[i].type == MarkerUpdateType::NEW) {
@@ -148,7 +148,11 @@ namespace mirrors {
                 }
             }
 
-            updates.erase(updates.begin() + lastNewUpdate);
+            // It's possible that there is no NEW update if the marker hasn't
+            // been recognized yet.
+            if (lastNewUpdate != -1) {
+                updates.erase(updates.begin() + lastNewUpdate);
+            }
         }
     }
 
