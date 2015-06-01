@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="PositionUpdate.cs" company="Delft University of Technology">
+// <copyright file="IUpdate.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -9,18 +9,21 @@
 //----------------------------------------------------------------------------
 namespace Network
 {
-	public class RotationUpdate : AbstractUpdate 
+    public abstract class AbstractUpdate
     {
         /// <summary>
-        /// Gets the rotation if this update object.
+        /// Gets the type of this update.
         /// </summary>
-		public float Rotation { get; private set; }
+        public UpdateType Type { get; protected set; }
 
-        public RotationUpdate(UpdateType type, float rotation, int id)
-        {
-            this.Type = type;
-            this.Rotation = rotation;
-            this.ID = id;
-        }
-	}
+        /// <summary>
+        /// Gets the ID of this update.
+        /// </summary>
+        public int ID { get; protected set; }
+
+        /// <summary>
+        /// Gets the timestamp of this update.
+        /// </summary>
+        public long TimeStamp { get; protected set; }
+    }
 }

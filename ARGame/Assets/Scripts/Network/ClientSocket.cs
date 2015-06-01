@@ -131,7 +131,7 @@ namespace Network
             int count = 0;
             while (this.socket.Available >= MinPacketSize && count < MaxUpdates)
             {
-                PositionUpdate update = this.ReadMessage();
+                AbstractUpdate update = this.ReadMessage();
                 if (update == null)
                 {
                     return count;
@@ -139,11 +139,20 @@ namespace Network
 
                 this.timestamp = DateTime.Now;
 
-                if (update.Type != UpdateType.Ping)
+                if (update.Type == UpdateType.DeletePosition || update.Type == UpdateType.UpdatePosition)
                 {
                     this.SendMessage(
                         "OnPositionUpdate",
-                        update,
+                        (PositionUpdate) update,
+                        SendMessageOptions.DontRequireReceiver);
+                    count++;
+                }
+                
+                else if (update.Type == UpdateType.UpdateRotation)
+                {
+                    this.SendMessage(
+                        "OnRotationUpdate",
+                        (RotationUpdate) update,
                         SendMessageOptions.DontRequireReceiver);
                     count++;
                 }
@@ -167,7 +176,7 @@ namespace Network
         /// </para>
         /// </summary>
         /// <returns>The PositionUpdate.</returns>
-        public PositionUpdate ReadMessage()
+        public AbstractUpdate ReadMessage()
         {
             int received = this.socket.Receive(this.buffer, 1, SocketFlags.None);
             if (received < 1)
@@ -182,9 +191,11 @@ namespace Network
                 case UpdateType.DeletePosition:
                     return this.ReadDelete();
                 case UpdateType.UpdatePosition:
-                    return this.ReadUpdate();
+                    return this.ReadUpdatePosition();
                 case UpdateType.Ping:
                     return new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0, -1);
+                case UpdateType.UpdateRotation:
+                    return this.ReadUpdateRotation();
                 default:
                     Debug.LogWarning("Received invalid type: " + type);
                     return null;
@@ -195,7 +206,7 @@ namespace Network
         /// Reads a <c>Update</c> type PositionUpdate message.
         /// </summary>
         /// <returns>The PositionUpdate.</returns>
-        public PositionUpdate ReadUpdate()
+        public PositionUpdate ReadUpdatePosition()
         {
             int received = this.socket.Receive(this.buffer, 16, SocketFlags.None);
             if (received < 16)
@@ -225,6 +236,19 @@ namespace Network
 
             int id = BitConverter.ToInt32(this.buffer, 0);
             return new PositionUpdate(UpdateType.DeletePosition, new Vector2(0, 0), 0, id);
+        }
+
+        public RotationUpdate ReadUpdateRotation()
+        {
+            int received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
+            if (received < 8)
+            {
+                return null;
+            }
+
+            int id = BitConverter.ToInt32(this.buffer, 0);
+            float rotation = BitConverter.ToSingle(this.buffer, 4);
+            return new RotationUpdate(UpdateType.UpdateRotation, rotation, id);
         }
     }
 }
