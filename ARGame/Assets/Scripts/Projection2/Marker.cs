@@ -3,8 +3,8 @@ using System.Collections;
 namespace Projection{
 	public class Marker : MonoBehaviour {
 		public int id=-1;
-		MarkerPosition remotePosition;
-		MarkerPosition localPosition;
+		public MarkerPosition remotePosition;
+		public MarkerPosition localPosition;
 		float objectRotation; 
 	
 		public void SetObjectRotation(float rotation){

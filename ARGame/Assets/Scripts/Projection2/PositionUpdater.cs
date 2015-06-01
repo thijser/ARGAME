@@ -61,8 +61,19 @@ namespace Projection{
 		/// </summary>
 		/// <param name="target">Target</param>
 		public void updatePosition(Marker target){
-			
+            UpdateParentPosition(target);
+            UpdateChildPosition(target);
 		}
+
+        public void UpdateParentPosition(Marker target)
+        {
+
+        }
+
+        public void UpdateChildPosition(Marker target)
+        {
+
+        }
 
 		/// <summary>
 		/// set the location of the marker based on the remote position. 
