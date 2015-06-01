@@ -86,6 +86,7 @@
   <ItemGroup>
     <ClCompile Include="..\cvutils.cpp" />
     <ClCompile Include="..\tests\averagertest.cpp" />
+    <ClCompile Include="..\tests\utilstest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
