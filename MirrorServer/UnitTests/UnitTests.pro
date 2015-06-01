@@ -4,8 +4,16 @@
 #
 #-------------------------------------------------
 
-QT       += core
-QT       -= gui
+#-------------------------------------------------
+#
+# This project uses Google Test to provide the
+# testing framework. The Google Test source is
+# included in the project in the `gtest` folder
+# and is lecensed under the new BSD license.
+#
+#-------------------------------------------------
+
+QT       += core gui network
 
 TARGET    = UnitTests
 CONFIG   += console c++11
@@ -13,29 +21,31 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
+HEADERS += \
+    gtest/gtest.h
+
 SOURCES += \
     averagertest.cpp \
-    utilstest.cpp
-
-# ----- Add dependency for Server project --------
-INCLUDEPATH += ../Server
-DEPENDPATH  += ../Server
-
-# ----- Add dependency for Google test. ----------
-GTEST_PATH = $$(GTEST_HOME)
-isEmpty(GTEST_PATH): error(Missing GTest libraries. set GTEST_HOME in environment.)
-win32:CONFIG(release, debug|release):    LIBS += -L$$GTEST_PATH -lgtest
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$GTEST_PATH -lgtestd
-else:mac:  LIBS += -F$$GTEST_PATH -framework gtest
-else:unix: LIBS += -L$$GTEST_PATH -lgtest
-INCLUDEPATH += $$GTEST_PATH/include
-DEPENDPATH  += $$GTEST_PATH/include
+    utilstest.cpp \
+    gtest/gtest_main.cc \
+    gtest/gtest-all.cc
 
 # ---------- Add the dependency for OpenCV ----------
 OPENCV_PATH = $$(OPENCV_HOME)
 isEmpty(OPENCV_PATH) {
     error(OPENCV_HOME is not defined. Set OPENCV_HOME to point to the OpenCV home directory)
 }
-LIBS += -L$$OPENCV_PATH/lib -lopencv_core -lopencv_imgproc -lopencv_highgui
+win32: OPENCV_SUFFIX = 300
+LIBS += -L$$OPENCV_PATH/lib \
+        -lopencv_core$$OPENCV_SUFFIX \
+        -lopencv_imgproc$$OPENCV_SUFFIX \
+        -lopencv_highgui$$OPENCV_SUFFIX
 INCLUDEPATH += $$OPENCV_PATH/include
 DEPENDPATH += $$OPENCV_PATH/include
+
+# ------ Add the dependency for the Server ------
+win32:debug:        LIBS += -L$$OUT_PWD/../Server/release/ -lServer
+else:win32:release: LIBS += -L$$OUT_PWD/../Server/debug/   -lServer
+else:unix:          LIBS += -L$$OUT_PWD/../Server/         -lServer
+INCLUDEPATH += $$PWD/../Server
+DEPENDPATH  += $$PWD/../Server

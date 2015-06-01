@@ -1,40 +1,27 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-05-27T13:14:43
+# Project created by QtCreator 2015-06-01T16:13:57
 #
 #-------------------------------------------------
 
 QT       += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Server
-TEMPLATE = lib
-CONFIG += c++11 precompile_header staticlib
+TARGET = MirrorServer
+TEMPLATE = app
+CONFIG -= app_bundle
+CONFIG += c++11
+
 
 SOURCES += \
-    mainwindow.cpp \
-    serversocket.cpp \
-    servercontroller.cpp \
-    boarddetector.cpp \
-    cvutils.cpp \
-    markerdetector.cpp \
-    markerrecognizer.cpp \
-    markertracker.cpp
+    main.cpp
 
-HEADERS  += \
-    mainwindow.h \
-    serversocket.hpp \
-    servercontroller.h \
-    averager.hpp \
-    boarddetector.hpp \
-    cvutils.hpp \
-    markerdetector.hpp \
-    markerrecognizer.hpp \
-    markertracker.hpp
-
-PRECOMPILED_HEADER = mirrors.h
-
-FORMS    += mainwindow.ui
+# ----- Add dependency for Server project -----
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Server/release/ -lServer
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Server/debug/ -lServer
+else:unix: LIBS += -L$$OUT_PWD/../Server/ -lServer
+INCLUDEPATH += $$PWD/../Server
+DEPENDPATH  += $$PWD/../Server
 
 # ---------- Add the dependency for OpenCV ----------
 OPENCV_PATH = $$(OPENCV_HOME)
