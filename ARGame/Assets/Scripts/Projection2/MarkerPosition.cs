@@ -16,7 +16,7 @@ public class MarkerPosition : MonoBehaviour {
 	/// <summary>
 	/// create a new markerPosition from a position update 
 	/// </summary>
-	/// <param name="pu">Pu.</param>
+	/// <param name="update">Pu.</param>
 	public MarkerPosition(PositionUpdate pu){
 		this.scale=new Vector3(1,1,1);
 		this.timeStamp=DateTime.Now;

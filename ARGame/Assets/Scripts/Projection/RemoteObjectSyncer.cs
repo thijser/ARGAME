@@ -98,16 +98,18 @@ namespace Projection
             BaseForLevel levelmarker = this.LevelMarker.GetComponent<BaseForLevel>();
             levelmarker.LevelMarker = true;
 
-            foreach (GameObject go in this.RegisterObjectsOnStartup)
+            foreach (GameObject gameobject in this.RegisterObjectsOnStartup)
             {
 
-                go.AddComponent<UpdateWrapper>();
-                this.objectTable.Add(i, go);
-				if(go!=this.LevelMarker){
-				Transform transGo = go.GetComponent<Transform>();
-                Transform parent = this.LevelMarker.GetComponent<Transform>();
-                transGo.SetParent(parent, false);
+                gameobject.AddComponent<UpdateWrapper>();
+                this.objectTable.Add(i, gameobject);
+				if(gameobject != this.LevelMarker)
+                {
+				    Transform transGo = gameobject.GetComponent<Transform>();
+                    Transform parent = this.LevelMarker.GetComponent<Transform>();
+                    transGo.SetParent(parent, false);
 				}
+
                 i++;
             }
         }

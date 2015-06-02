@@ -10,6 +10,7 @@
 namespace Projection
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Network;
     using UnityEngine;
 
@@ -21,12 +22,13 @@ namespace Projection
         /// <summary>
         /// How long are we willing to wait after losing track of a marker. 
         /// </summary>
-        public long patience=(1000*10000);//1000 milliseconds 
+        private long patience = 1000*10000;//1000 milliseconds 
 
         /// <summary>
         /// Central level marker, this should be visible. 
         /// </summary>
-        Marker parent;
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public Marker Parent;
 
         /// <summary>
         /// Scale of the object.
@@ -36,18 +38,18 @@ namespace Projection
         /// <summary>
         /// Collection of all registered to this class. 
         /// </summary>
-        private Dictionary<int, Marker> markerTable;
+        private Dictionary<int, Marker> markerTable = new Dictionary<int, Marker>();
 
         /// <summary>
-        /// Register a new marker
+        /// Registers a new marker
         /// <param name="register">The marker register parameter that registers the new marker.</param>
         /// </summary>
         public void OnMarkerRegister(MarkerRegister register)
         {
             markerTable.Add(register.getMarker().id, register.getMarker());
-            if (parent == null)
+            if (Parent == null)
             {
-                parent = register.getMarker();
+                Parent = register.getMarker();
             }  
         }
 
@@ -72,24 +74,24 @@ namespace Projection
         /// <summary>
         /// This marker has been seen by remote, informs the marker of this 
         /// </summary>
-        /// <param name="mp">marker position.</param>
-        /// <param name="id">Identifier.</param>
-        public void OnMarkerSeen(MarkerPosition mp,int id)
+        /// <param name="position">The marker position.</param>
+        /// <param name="id">The identifier.</param>
+        public void OnMarkerSeen(MarkerPosition position, int id)
         {
-            this.GetMarker(id).SetLocalPosition(mp);
-            if(parent.localPosition.timeStamp.Ticks+patience<mp.timeStamp.Ticks)
+            this.GetMarker(id).SetLocalPosition(position);
+            if(Parent.localPosition.timeStamp.Ticks + patience<position.timeStamp.Ticks)
             {
                 reparent(this.GetMarker(id));
             }
         }
 
         /// <summary>
-        /// inform marker that it has received an rotationUpdate 
+        /// Inform marker that it has received an rotationUpdate 
         /// </summary>
-        /// <param name="ru">rotation update.</param>
-        public void onRotationUpdate(RotationUpdate ru)
+        /// <param name="update">rotation update.</param>
+        public void OnRotationUpdate(RotationUpdate update)
         {
-            this.GetMarker(ru.ID).SetObjectRotation(ru.Rotation);
+            this.GetMarker(update.ID).SetObjectRotation(update.Rotation);
         }
 
         /// <summary>
@@ -99,17 +101,17 @@ namespace Projection
         {
             foreach(KeyValuePair<int, Marker> entry in markerTable)
             {
-                updatePosition(entry.Value);
+                UpdatePosition(entry.Value);
             }
         }
 
         /// <summary>
-        /// uses the market target and parent to set the transform of target
+        /// uses the market target and Parent to set the transform of target
         /// </summary>
         /// <param name="target">Target</param>
-        public void updatePosition(Marker target)
+        public void UpdatePosition(Marker target)
         {
-            if (target == parent)
+            if (target == Parent)
             {
                 UpdateParentPosition(target);
             }
@@ -120,7 +122,7 @@ namespace Projection
         }
 
         /// <summary>
-        /// Updates position if supplied target is the parent.
+        /// Updates position if supplied target is the Parent.
         /// </summary>
         /// <param name="target">The supplied target.</param>
         public void UpdateParentPosition(Marker target)
@@ -133,25 +135,24 @@ namespace Projection
         }
 
         /// <summary>
-        /// Updates position if supplied target is not the parent.
+        /// Updates position if supplied target is not the Parent.
         /// </summary>
         /// <param name="target">The supplied target.</param>
         public void UpdateChildPosition(Marker target)
         {
-            target.gameObject.transform.position = target.remotePosition.Position - parent.remotePosition.Position;
-            // TODO: If mirrored then swap operation params.
+            target.gameObject.transform.position = target.remotePosition.Position - Parent.remotePosition.Position;
+            /// TODO: If mirrored then swap operation params.
         }
-
 
         public void reparent(Marker target)
         {
-            parent=target;
+            Parent=target;
             foreach(KeyValuePair<int, Marker> entry in markerTable)
             {
-                if(entry.Value!=parent)
+                if(entry.Value != Parent)
                 {
                     entry.Value.transform.SetParent(target.transform);
-                    updatePosition(entry.Value);
+                    UpdatePosition(entry.Value);
                 }
             }
         }
@@ -159,10 +160,10 @@ namespace Projection
         /// <summary>
         /// set the location of the marker based on the remote position. 
         /// </summary>
-        /// <param name="pu">position update received over the net.</param>
-        public void OnPositionUpdate (PositionUpdate pu)
+        /// <param name="update">position update received over the net.</param>
+        public void OnPositionUpdate (PositionUpdate update)
         {
-            this.GetMarker(pu.ID).SetRemotePosition(new MarkerPosition(pu));
+            this.GetMarker(update.ID).SetRemotePosition(new MarkerPosition(update));
         }
     }
 }

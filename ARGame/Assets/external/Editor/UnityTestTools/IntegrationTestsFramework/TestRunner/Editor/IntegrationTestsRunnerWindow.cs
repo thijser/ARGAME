@@ -136,7 +136,7 @@ namespace UnityTest
             // create a test runner if it doesn't exist
             TestRunner.GetTestRunner();
 
-            // make tests are not places under a go that is not a test itself
+            // make tests are not places under a gameobject that is not a test itself
             foreach (var test in TestComponent.FindAllTestsOnScene())
             {
                 if (test.gameObject.transform.parent != null && test.gameObject.transform.parent.gameObject.GetComponent<TestComponent>() == null)
