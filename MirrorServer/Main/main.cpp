@@ -1,7 +1,9 @@
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <QApplication>
+
 #include "mainwindow.h"
 #include "servercontroller.h"
-
-#include <QApplication>
 
 using namespace mirrors;
 
