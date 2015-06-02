@@ -1,6 +1,7 @@
 #include "markerrecognizer.hpp"
 
 #include <opencv2/imgproc/imgproc.hpp>
+#include <cstdint>
 
 namespace mirrors {
 
