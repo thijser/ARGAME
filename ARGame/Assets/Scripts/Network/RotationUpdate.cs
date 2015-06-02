@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="PositionUpdate.cs" company="Delft University of Technology">
+// <copyright file="RotationUpdate.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -9,18 +9,28 @@
 //----------------------------------------------------------------------------
 namespace Network
 {
-	public class RotationUpdate : AbstractUpdate 
+    /// <summary>
+    /// An update object that describes a changed rotation of a game object.
+    /// The rotation is caused by the remote player.
+    /// </summary>
+    public class RotationUpdate : AbstractUpdate 
     {
         /// <summary>
-        /// Gets the rotation if this update object.
+        /// Initializes a new instance of the <see cref="Network.RotationUpdate"/> class.
         /// </summary>
-		public float Rotation { get; private set; }
-
+        /// <param name="type">The update type.</param>
+        /// <param name="rotation">The rotation.</param>
+        /// <param name="id">The ID of this update.</param>
         public RotationUpdate(UpdateType type, float rotation, int id)
         {
             this.Type = type;
             this.Rotation = rotation;
             this.ID = id;
         }
-	}
+
+        /// <summary>
+        /// Gets the rotation if this update object.
+        /// </summary>
+        public float Rotation { get; private set; }
+    }
 }

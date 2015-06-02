@@ -5,6 +5,11 @@ using Network;
 namespace Projection{
 	public class PositionUpdater : MonoBehaviour {
 		/// <summary>
+		/// How long are we willing to wait after losing track of a marker. 
+		/// </summary>
+		public long patience=(1000*10000);//1000 milliseconds 
+
+		/// <summary>
 		/// Central level marker, this should be visible. 
 		/// </summary>
 		Marker parent;
@@ -41,6 +46,9 @@ namespace Projection{
 		/// <param name="id">Identifier.</param>
 		public void OnMarkerSeen(MarkerPosition mp,int id){
 			this.GetMarker(id).SetLocalPosition(mp);
+			if(parent.localPosition.timeStamp.Ticks+patience<mp.timeStamp.Ticks){
+				reparent(this.GetMarker(id));
+			}
 		}
 		/// <summary>
 		/// inform marker that it has received an rotationUpdate 
@@ -100,7 +108,7 @@ namespace Projection{
 			parent=target;
 			foreach(KeyValuePair<int, Marker> entry in markerTable){
 				if(entry.Value!=parent){
-					entry.Value.transform.SetParent(target);
+					entry.Value.transform.SetParent(target.transform);
 					updatePosition(entry.Value);
 				}
 			}
