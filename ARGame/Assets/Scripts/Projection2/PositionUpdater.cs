@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using Network;
@@ -46,6 +47,11 @@ namespace Projection
         /// </summary>
         public void OnMarkerRegister(MarkerRegister register)
         {
+            if(register == null)
+            {
+                throw new ArgumentNullException("register");
+            }
+
             this.markerTable.Add(register.getMarker().id, register.getMarker());
             if (this.Parent == null)
             {
@@ -78,6 +84,11 @@ namespace Projection
         /// <param name="id">The identifier.</param>
         public void OnMarkerSeen(MarkerPosition position, int id)
         {
+            if(position == null)
+            {
+                throw new ArgumentNullException("position");
+            }
+
             this.GetMarker(id).SetLocalPosition(position);
             if(this.Parent.localPosition.timeStamp.Ticks + this.patience < position.timeStamp.Ticks)
             {
@@ -91,6 +102,11 @@ namespace Projection
         /// <param name="update">rotation update.</param>
         public void OnRotationUpdate(RotationUpdate update)
         {
+            if(update == null)
+            {
+                throw new ArgumentNullException("update");
+            }
+
             this.GetMarker(update.ID).SetObjectRotation(update.Rotation);
         }
 
@@ -111,6 +127,11 @@ namespace Projection
         /// <param name="target">Target</param>
         public void UpdatePosition(Marker target)
         {
+            if(target == null)
+            {
+                throw new ArgumentException("target");
+            }
+
             if (target == this.Parent)
             {
                 this.UpdateParentPosition(target);
@@ -127,6 +148,11 @@ namespace Projection
         /// <param name="target">The supplied target.</param>
         public void UpdateParentPosition(Marker target)
         {
+            if(target == null)
+            {
+                throw new ArgumentException("target");
+            }
+
             target.gameObject.transform.position = target.localPosition.Position;
             Vector3 localrotation = target.localPosition.Rotation.eulerAngles;
             Vector3 remoterotation = target.remotePosition.Rotation.eulerAngles;
@@ -140,12 +166,22 @@ namespace Projection
         /// <param name="target">The supplied target.</param>
         public void UpdateChildPosition(Marker target)
         {
+            if (target == null)
+            {
+                throw new ArgumentException("target");
+            }
+
             target.gameObject.transform.position = target.remotePosition.Position - this.Parent.remotePosition.Position;
             /// TODO: If mirrored then swap operation params.
         }
 
         public void reparent(Marker target)
         {
+            if (target == null)
+            {
+                throw new ArgumentException("target");
+            }
+
             this.Parent = target;
             foreach(KeyValuePair<int, Marker> entry in this.markerTable)
             {
