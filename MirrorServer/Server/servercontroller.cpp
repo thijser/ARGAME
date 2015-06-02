@@ -41,12 +41,26 @@ void ServerController::changeState(ServerState state) {
     emit stateChanged(state);
 }
 
-void ServerController::startServer(quint16 port, int cameraDevice) {
+void ServerController::fatalError(const QString &message) {
+    stopServer();
+    emit fatalErrorOccurred(message);
+}
+
+void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camSize) {
     Q_ASSERT(serverState == Idle);
     Q_ASSERT(capture == nullptr); // Otherwise we get a memory leak.
     qDebug() << "Server starting (using camera ID" << cameraDevice << "for frames)";
     changeState(Starting);
     capture = new cv::VideoCapture(cameraDevice);
+    if (!capture->isOpened()) {
+        delete capture;
+        capture = nullptr;
+        qDebug() << "Server failed to open camera ID" << cameraDevice;
+        fatalError(tr("Fatal error: could not open camera"));
+    }
+
+    cameraResolution.width  = capture->set(CV_CAP_PROP_FRAME_WIDTH,  camSize.width);
+    cameraResolution.height = capture->set(CV_CAP_PROP_FRAME_HEIGHT, camSize.height);
 
     sock->setPortNumber(port);
     sock->start();

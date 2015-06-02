@@ -12,9 +12,10 @@ TEMPLATE = app
 CONFIG -= app_bundle
 CONFIG += c++11
 
-win32: CONFIG += console
-
-!win32_debug: OUT_PWD = $$OUT_PWD/../build
+win32 {
+    CONFIG += console
+    !win32_debug: OUT_PWD = $$OUT_PWD/../build
+}
 
 SOURCES += \
     main.cpp
@@ -39,4 +40,4 @@ LIBS += -L$$OPENCV_PATH/lib \
 win32: LIBS += -lopencv_videoio$$OPENCV_SUFFIX \
                -lopencv_video$$OPENCV_SUFFIX
 INCLUDEPATH += $$OPENCV_PATH/include
-DEPENDPATH += $$OPENCV_PATH/include
+DEPENDPATH  += $$OPENCV_PATH/include

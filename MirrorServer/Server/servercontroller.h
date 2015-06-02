@@ -64,6 +64,12 @@ public:
      */
     ServerState state() const { return serverState; }
 
+    /**
+     * @brief The current camera resolution.
+     * @return The camera resolution.
+     */
+    cv::Size resolution() const { return cameraResolution; }
+
 signals:
     /**
      * @brief Signal emitted when the board has been detected.
@@ -94,6 +100,16 @@ signals:
      */
     void socketError(QString message);
 
+    /**
+     * @brief Signal emitted when the server encounters a fatal error.
+     *
+     * After this signal is emitted, it may be assumed the server is in the
+     * @c Idle state.
+     *
+     * @param errorMessage - a localized QString describing the error.
+     */
+    void fatalErrorOccurred(QString errorMessage);
+
 protected slots:
     /**
      * @brief Changes the current ServerState.
@@ -104,12 +120,20 @@ protected slots:
      * @param state - The new ServerState
      */
     void changeState(ServerState state);
+
+    /**
+     * @brief Stops the server and emits the @c fatalErrorOccurred(QString) signal.
+     * @param message - A localized message describing the error.
+     */
+    void fatalError(const QString& message);
 public slots:
     /**
      * @brief Starts this ServerController.
-     * @param port - The port number to bind to.
+     * @param port         - The port number to bind to.
+     * @param cameraDevice - The camera to use.
+     * @param camSize      - The desired camera resolution.
      */
-    void startServer(quint16 port, int cameraDevice = -1);
+    void startServer(quint16 port, int cameraDevice = -1, cv::Size camSize = cv::Size(640,480));
 
     /**
      * @brief Stops this ServerController.
@@ -137,7 +161,6 @@ public slots:
      * @param marker - The marker data to send.
      */
     void broadcastPosition(const MarkerUpdate& marker);
-
 private:
     /// The ServerSocket used to send messages
     ServerSocket *sock;
@@ -162,6 +185,9 @@ private:
 
     /// Flag indicating if the server is running.
     ServerState serverState;
+
+    /// The actual camera resolution.
+    cv::Size cameraResolution;
 };
 
 } // namespace mirrors

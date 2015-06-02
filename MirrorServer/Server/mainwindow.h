@@ -9,6 +9,8 @@
 #include <QMainWindow>
 #include <vector>
 
+class QErrorMessage;
+
 namespace mirrors {
 using namespace std;
 
@@ -60,11 +62,20 @@ public slots:
      */
     void stopServer();
 private:
+    /**
+     * @brief Enables or disables the server configuration options.
+     * @param enabled - True to enable, false to disable.
+     */
+    void setConfigEnabled(bool enabled);
+
     /// The satellite object containing the UI elements.
     Ui::MainWindow *ui;
 
     /// The ServerController instance used to control the server.
     ServerController *controller;
+
+    /// The Error message dialog used to queue and show error messages.
+    QErrorMessage *errorDialog;
 };
 
 }

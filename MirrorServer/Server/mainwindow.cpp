@@ -3,12 +3,15 @@
 #include "servercontroller.h"
 
 #include <QImage>
+#include <QDialog>
+#include <QErrorMessage>
 
 namespace mirrors {
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow) {
+        QMainWindow(parent),
+        ui(new Ui::MainWindow),
+        errorDialog(new QErrorMessage(this)) {
     ui->setupUi(this);
 
     connect(ui->startButton, SIGNAL(clicked(bool)),
@@ -29,6 +32,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QIntValidator *camValidator = new QIntValidator(this);
     camValidator->setBottom(-1);
     ui->cameraDevice->setValidator(camValidator);
+
+    // Set the width and height to only accept positive values.
+    QIntValidator *sizeValidator = new QIntValidator(this);
+    sizeValidator->setBottom(1);
+    ui->camHeight->setValidator(sizeValidator);
+    ui->camWidth->setValidator(sizeValidator);
 }
 
 MainWindow::~MainWindow() {
@@ -40,8 +49,13 @@ void MainWindow::setController(ServerController *controller) {
 }
 
 void MainWindow::startServer() {
-    connect(controller, SIGNAL(imageReady(cv::Mat)),
-            this,       SLOT(handleFrame(cv::Mat)));
+    connect(controller,  SIGNAL(imageReady(cv::Mat)),
+            this,        SLOT(handleFrame(cv::Mat)));
+    connect(controller,  SIGNAL(fatalErrorOccurred(QString)),
+            errorDialog, SLOT(showMessage(QString)));
+
+    // Disable the configuration options.
+    setConfigEnabled(false);
 
     // The QIntValidator set to this QLineEdit
     // ensures the text represents a valid number
@@ -50,11 +64,11 @@ void MainWindow::startServer() {
     int device = ui->cameraDevice->text().toInt();
     controller->startServer(port, device);
 
-    // Disable the configuration options.
-    ui->serverPort->setEnabled(false);
-    ui->cameraDevice->setEnabled(false);
-    ui->startButton->setEnabled(false);
-    ui->stopButton->setEnabled(true);
+    // controller now has the actual camera resolution.
+    // We update the UI to show the resolution being used.
+    cv::Size size = controller->resolution();
+    ui->camWidth->setText(QString::number(size.width));
+    ui->camHeight->setText(QString::number(size.height));
 }
 
 void MainWindow::handleFrame(const cv::Mat &matrix) {
@@ -81,11 +95,20 @@ void MainWindow::stopServer() {
     controller->stopServer();
 
     // Enable the configuration options.
-    ui->serverPort->setEnabled(true);
-    ui->cameraDevice->setEnabled(true);
-    ui->startButton->setEnabled(true);
-    ui->stopButton->setEnabled(false);
-    ui->image->setPixmap(QPixmap());
+    setConfigEnabled(true);
+}
+
+void MainWindow::setConfigEnabled(bool enabled) {
+    ui->serverPort->setEnabled(enabled);
+    ui->cameraDevice->setEnabled(enabled);
+    ui->startButton->setEnabled(enabled);
+    ui->stopButton->setEnabled(!enabled);
+    ui->camWidth->setEnabled(enabled);
+    ui->camHeight->setEnabled(enabled);
+
+    if (enabled) {
+        ui->image->setPixmap(QPixmap());
+    }
 }
 
 }

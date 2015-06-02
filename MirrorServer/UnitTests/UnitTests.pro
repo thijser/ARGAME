@@ -47,7 +47,7 @@ win32: LIBS += -lopencv_videoio$$OPENCV_SUFFIX \
                -lopencv_video$$OPENCV_SUFFIX \
                -lopencv_imgcodecs$$OPENCV_SUFFIX
 INCLUDEPATH += $$OPENCV_PATH/include
-DEPENDPATH += $$OPENCV_PATH/include
+DEPENDPATH  += $$OPENCV_PATH/include
 
 # ------ Add the dependency for the Server ------
 LIBS += -L$$OUT_PWD/../Server/ -lServer
