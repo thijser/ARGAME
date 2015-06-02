@@ -253,7 +253,7 @@ namespace Network
 
 		private float ReadFloat(int offset) 
 		{
-			byte[] bytes = IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset));
+			byte[] bytes =BitConverter.GetBytes(IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset)));
 			return BitConverter.ToSingle(bytes, 0);
 		}
 
