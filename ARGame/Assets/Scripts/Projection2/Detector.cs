@@ -16,17 +16,20 @@ namespace Projection
     {
         IARLink link;
 
-        void Start()
+        public void Start()
         {
             this.link = new MetaLink();
         }
 
-        void LateUpdate()
+        public void LateUpdate()
         {
             List<MarkerPosition> list = this.link.GetMarkerPositions();
             foreach (MarkerPosition mp in list)
             {
-
+                this.SendMessage(
+					"OnMarkerSeen", 
+					mp, 
+					SendMessageOptions.DontRequireReceiver);
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 // <copyright file="MarkerPosition.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
@@ -22,6 +22,7 @@ namespace Projection
         public Quaternion Rotation;
         public DateTime timeStamp;
         public Vector3 scale;
+        public int id=-1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkerPosition"/> class.

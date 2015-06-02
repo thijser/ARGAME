@@ -30,8 +30,7 @@ HEADERS  += \
     cvutils.hpp \
     markerdetector.hpp \
     markerrecognizer.hpp \
-    markertracker.hpp \
-    byteconverter.hpp
+    markertracker.hpp
 
 PRECOMPILED_HEADER = mirrors.h
 
@@ -42,10 +41,14 @@ OPENCV_PATH = $$(OPENCV_HOME)
 isEmpty(OPENCV_PATH) {
     error(OPENCV_HOME is not defined. Set OPENCV_HOME to point to the OpenCV home directory)
 }
-win32: OPENCV_SUFFIX = 300
+win32_debug: OPENCV_SUFFIX = 300d
+else:win32: OPENCV_SUFFIX = 300
+
 LIBS += -L$$OPENCV_PATH/lib \
         -lopencv_core$$OPENCV_SUFFIX \
         -lopencv_imgproc$$OPENCV_SUFFIX \
         -lopencv_highgui$$OPENCV_SUFFIX
+win32: LIBS += -lopencv_videoio$$OPENCV_SUFFIX \
+               -lopencv_video$$OPENCV_SUFFIX
 INCLUDEPATH += $$OPENCV_PATH/include
 DEPENDPATH += $$OPENCV_PATH/include

@@ -6,17 +6,17 @@ using namespace mirrors;
 using namespace cv;
 
 TEST(UtilsTest, Rotate) {
-    Mat frame0 = imread("tests/rotationtest_nonexact_0.png");
-    Mat frame90 = imread("tests/rotationtest_nonexact_90.png");
+    Mat frame0 = imread("UnitTests/rotationtest_nonexact_0.png");
+    Mat frame90 = imread("UnitTests/rotationtest_nonexact_90.png");
 
     ASSERT_EQ(cv::countNonZero(frame90 == rotateImage(frame0, 90)), 64 * 64);
 }
 
 TEST(UtilsTest, RotateExactly) {
-    Mat frame0 = imread("tests/rotationtest_0.png");
-    Mat frame90 = imread("tests/rotationtest_90.png");
-    Mat frame180 = imread("tests/rotationtest_180.png");
-    Mat frame270 = imread("tests/rotationtest_270.png");
+    Mat frame0 = imread("UnitTests/rotationtest_0.png");
+    Mat frame90 = imread("UnitTests/rotationtest_90.png");
+    Mat frame180 = imread("UnitTests/rotationtest_180.png");
+    Mat frame270 = imread("UnitTests/rotationtest_270.png");
 
     ASSERT_EQ(cv::countNonZero(frame0 == rotateExactly(frame0, CLOCKWISE_0)), 6);
     ASSERT_EQ(cv::countNonZero(frame90 == rotateExactly(frame0, CLOCKWISE_90)), 6);

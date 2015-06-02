@@ -2,12 +2,9 @@
 
 #include <QTcpServer>
 #include <QTcpSocket>
-#include <QtEndian>
-
-#include "byteconverter.hpp"
+#include <QDataStream>
 
 namespace mirrors {
-using namespace ::mirrors::bytes;
 
 ServerSocket::ServerSocket(QObject *parent)
     : QObject(parent), sock(new QTcpServer(this)), pingTimer(new QTimer(this))
@@ -60,18 +57,22 @@ void ServerSocket::broadcastBytes(QByteArray bytes) {
 
 void ServerSocket::broadcastPositionUpdate(int id, cv::Point2f position, float rotation) {
     QByteArray bytes;
-    bytes.append((char)0)
-         .append(toRawBytes(position.x))
-         .append(toRawBytes(position.y))
-         .append(toRawBytes(rotation))
-         .append(toRawBytes(id));
+    QDataStream stream(&bytes, QIODevice::WriteOnly);
+    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+    stream << (qint8) 0
+           << position.x
+           << position.y
+           << rotation
+           << (qint32) id;
+
     broadcastBytes(bytes);
 }
 
 void ServerSocket::broadcastDelete(int id) {
     QByteArray bytes;
-    bytes.append((char)1)
-         .append(toRawBytes(id));
+    QDataStream stream(&bytes, QIODevice::WriteOnly);
+    stream << (qint8) 1
+           << (qint32) id;
     broadcastBytes(bytes);
 }
 

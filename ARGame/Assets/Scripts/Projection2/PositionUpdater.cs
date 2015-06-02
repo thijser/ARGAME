@@ -56,26 +56,41 @@ namespace Projection
             if (this.Parent == null)
             {
                 this.Parent = register.RegisteredMarker;
-            }  
-        }
-
-        /// <summary>
-        /// Gets marker with Identifier  
-        /// </summary>
-        /// <returns>The marker.</returns>
-        /// <param name="id">The identifier.</param>
-        /// <exception cref="KeyNotFoundException"> thrown when the marker is not (yet) registered</exception>
-        public Marker GetMarker(int id)
-        {
-            if (this.markerTable.ContainsKey(id))
-            {
-                return this.markerTable[id];
             }
             else
             {
-                throw new KeyNotFoundException("this marker is not registered");
-            }
+				register.RegisteredMarker.gameObject.transform.SetParent(Parent.gameObject.transform);
+			}
         }
+
+        /// <summary>
+		/// gets marker with Identifier  
+		/// </summary>
+		/// <returns>The marker.</returns>
+		/// <param name="id">Identifier.</param>
+		/// <exception cref="KeyNotFoundException"> thrown when the marker is not (yet) registered</exception>
+		public Marker GetMarker(int id)
+        {
+			if(markerTable.ContainsKey(id))
+            {
+				return markerTable[id];
+			}
+            else
+            {
+				throw new KeyNotFoundException("this marker is not registered");
+			}
+		}
+		
+		/// <summary>
+		/// Update position of all markers .
+		/// </summary>
+		public void Update()
+        {
+			foreach(KeyValuePair<int, Marker> entry in markerTable)
+			{
+				UpdatePosition(entry.Value);
+			}
+		}
 
         /// <summary>
         /// This marker has been seen by remote, informs the marker of this 

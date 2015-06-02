@@ -34,7 +34,20 @@ namespace Projection
         /// meta object required for tracking 
         /// </summary>
         private MarkerTargetIndicator marketTargetindicator;
-
+		
+		/// <summary>
+		/// sets up the detector and marker indicator to find this marker/ 
+		/// </summary>
+		 public MetaLink()
+         {
+			this.markerdetectorGO = MarkerDetector.Instance.gameObject;
+			
+			// hide markerindicator
+			this.marketTargetindicator = this.markerdetectorGO.GetComponent<MarkerTargetIndicator>();
+			this.marketTargetindicator.enabled = false;
+			
+		}
+		
         /// <summary>
         /// sets up the detector and marker indicator to find this marker/ 
         /// </summary>
@@ -69,9 +82,10 @@ namespace Projection
                 MarkerDetector.Instance.GetMarkerTransform(id, ref trans);
                 MarkerPosition pos = new MarkerPosition(trans.position, trans.rotation, DateTime.Now, trans.localScale);
                 list.Add(pos);
+                pos.id = id;
             }
 
             return list;
         }
-    }
+	}
 }
