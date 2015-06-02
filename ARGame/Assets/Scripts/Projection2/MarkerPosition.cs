@@ -9,14 +9,12 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
-    using System.Collections;
     using System;
     using Network;
     using UnityEngine;
 
     /// <summary>
     /// Keeps data from either remote or local on the position of the marker.
-    /// 
     /// </summary>
     public class MarkerPosition : MonoBehaviour
     {
@@ -25,9 +23,8 @@ namespace Projection
         public DateTime timeStamp;
         public Vector3 scale;
 
-
         /// <summary>
-        /// create a new markerPosition from a position update 
+        /// Initializes a new instance of the <see cref="MarkerPosition"/> class.
         /// </summary>
         /// <param name="update">The update.</param>
         public MarkerPosition(PositionUpdate update)
@@ -38,13 +35,19 @@ namespace Projection
             this.scale = new Vector3(1, 1, 1);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MarkerPosition"/> class.
+        /// </summary>
+        /// <param name="pos">The position.</param>
+        /// <param name="rot">The rotation.</param>
+        /// <param name="stamp">The timestamp of the update.</param>
+        /// <param name="scale">The scale of the object.</param>
         public MarkerPosition(Vector3 pos, Quaternion rot, DateTime stamp, Vector3 scale)
         {
-            Position = pos;
-            Rotation = rot;
-            timeStamp = stamp;
+            this.Position = pos;
+            this.Rotation = rot;
+            this.timeStamp = stamp;
             this.scale = scale;
         }
     }
-
 }
