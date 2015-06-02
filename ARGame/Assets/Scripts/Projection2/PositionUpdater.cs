@@ -29,7 +29,7 @@ namespace Projection
         /// <summary>
         /// Scale of the object.
         /// </summary>
-        public float scale = 1;
+        private float scale = 1;
  
         /// <summary>
         /// Collection of all registered to this class. 
@@ -47,15 +47,15 @@ namespace Projection
         /// </summary>
         public void OnMarkerRegister(MarkerRegister register)
         {
-            if(register == null)
+            if (register == null)
             {
                 throw new ArgumentNullException("register");
             }
 
-            this.markerTable.Add(register.getMarker().id, register.getMarker());
+            this.markerTable.Add(register.RegisteredMarker.id, register.RegisteredMarker);
             if (this.Parent == null)
             {
-                this.Parent = register.getMarker();
+                this.Parent = register.RegisteredMarker;
             }  
         }
 
@@ -67,7 +67,7 @@ namespace Projection
         /// <exception cref="KeyNotFoundException"> thrown when the marker is not (yet) registered</exception>
         public Marker GetMarker(int id)
         {
-            if(this.markerTable.ContainsKey(id))
+            if (this.markerTable.ContainsKey(id))
             {
                 return this.markerTable[id];
             }
@@ -84,15 +84,15 @@ namespace Projection
         /// <param name="id">The identifier.</param>
         public void OnMarkerSeen(MarkerPosition position, int id)
         {
-            if(position == null)
+            if (position == null)
             {
                 throw new ArgumentNullException("position");
             }
 
             this.GetMarker(id).SetLocalPosition(position);
-            if(this.Parent.localPosition.timeStamp.Ticks + this.patience < position.timeStamp.Ticks)
+            if (this.Parent.localPosition.timeStamp.Ticks + this.patience < position.timeStamp.Ticks)
             {
-                this.reparent(this.GetMarker(id));
+                this.Reparent(this.GetMarker(id));
             }
         }
 
@@ -102,7 +102,7 @@ namespace Projection
         /// <param name="update">rotation update.</param>
         public void OnRotationUpdate(RotationUpdate update)
         {
-            if(update == null)
+            if (update == null)
             {
                 throw new ArgumentNullException("update");
             }
@@ -115,7 +115,7 @@ namespace Projection
         /// </summary>
         public void Update()
         {
-            foreach(KeyValuePair<int, Marker> entry in this.markerTable)
+            foreach (KeyValuePair<int, Marker> entry in this.markerTable)
             {
                 this.UpdatePosition(entry.Value);
             }
@@ -124,10 +124,10 @@ namespace Projection
         /// <summary>
         /// uses the market target and Parent to set the transform of target
         /// </summary>
-        /// <param name="target">Target</param>
+        /// <param name="target">The target</param>
         public void UpdatePosition(Marker target)
         {
-            if(target == null)
+            if (target == null)
             {
                 throw new ArgumentNullException("target");
             }
@@ -148,7 +148,7 @@ namespace Projection
         /// <param name="target">The supplied target.</param>
         public void UpdateParentPosition(Marker target)
         {
-            if(target == null)
+            if (target == null)
             {
                 throw new ArgumentNullException("target");
             }
@@ -172,10 +172,10 @@ namespace Projection
             }
 
             target.gameObject.transform.position = target.remotePosition.Position - this.Parent.remotePosition.Position;
-            /// TODO: If mirrored then swap operation params.
+            //// TODO: If mirrored then swap operation params.
         }
 
-        public void reparent(Marker target)
+        public void Reparent(Marker target)
         {
             if (target == null)
             {
@@ -183,9 +183,9 @@ namespace Projection
             }
 
             this.Parent = target;
-            foreach(KeyValuePair<int, Marker> entry in this.markerTable)
+            foreach (KeyValuePair<int, Marker> entry in this.markerTable)
             {
-                if(entry.Value != this.Parent)
+                if (entry.Value != this.Parent)
                 {
                     entry.Value.transform.SetParent(target.transform);
                     this.UpdatePosition(entry.Value);
@@ -197,7 +197,7 @@ namespace Projection
         /// set the location of the marker based on the remote position. 
         /// </summary>
         /// <param name="update">position update received over the net.</param>
-        public void OnPositionUpdate (PositionUpdate update)
+        public void OnPositionUpdate(PositionUpdate update)
         {
             if (update == null)
             {

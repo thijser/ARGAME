@@ -17,16 +17,11 @@ namespace Projection
     /// </summary>
     public class MarkerRegister  
     {
-        Marker marker;
+        public Marker RegisteredMarker { get; private set; }
 
         public MarkerRegister(Marker mark)
         {
-            this.marker = mark;
-        }
-
-        public Marker getMarker()
-        {
-            return marker;
+            this.RegisteredMarker = mark;
         }
     }
 }

@@ -18,10 +18,10 @@ namespace Projection
     /// <summary>
     /// Class responsible for linking the Meta to the game world.
     /// </summary>
-    public class MetaLink : MonoBehaviour ,IARLink
+    public class MetaLink : MonoBehaviour, IARLink
     {
         /// <summary>
-        /// like cattle this class is driven all around it's very position consumed by the meta, please no cowtipping with the lamb
+        /// like cattle this class is driven all around it's very position consumed by the meta, please no cow tipping with the lamb
         /// </summary>
         private GameObject lamb = new GameObject(); 
 
@@ -44,10 +44,9 @@ namespace Projection
             //// hide markerindicator
             this.marketTargetindicator = this.markerdetectorGO.GetComponent<MarkerTargetIndicator>();
             this.marketTargetindicator.enabled = false;
-            
         }
 
-        public void ensureMeta()
+        public void EnsureMeta()
         {
             if (!this.markerdetectorGO.activeSelf)
             {
@@ -60,16 +59,16 @@ namespace Projection
             }
         }
 
-        public List<MarkerPosition>GetMarkerPositions()
+        public List<MarkerPosition> GetMarkerPositions()
         {
-            ensureMeta ();
-            Transform trans = lamb.transform;
+            this.EnsureMeta();
+            Transform trans = this.lamb.transform;
             List<MarkerPosition> list = new List<MarkerPosition>();
-            foreach (int ID in MarkerDetector.Instance.updatedMarkerTransforms)
+            foreach (int id in MarkerDetector.Instance.updatedMarkerTransforms)
             {
-                MarkerDetector.Instance.GetMarkerTransform(ID,ref trans);
-                MarkerPosition MP = new MarkerPosition(trans.position,trans.rotation,DateTime.Now,trans.localScale);
-                list.Add(MP);
+                MarkerDetector.Instance.GetMarkerTransform(id, ref trans);
+                MarkerPosition pos = new MarkerPosition(trans.position, trans.rotation, DateTime.Now, trans.localScale);
+                list.Add(pos);
             }
 
             return list;
