@@ -22,7 +22,7 @@ namespace Network
         /// <summary>
         /// The factor with which to scale the position.
         /// </summary>
-        public const float ScaleFactor = 9.44f;
+        public const float ScaleFactor = 0.6875f;
 
         /// <summary>
         /// The vertical offset for the Y coordinate.
