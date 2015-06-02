@@ -60,7 +60,11 @@ namespace mirrors {
 
                     // But first log a delete for the old marker (if the detected pattern has changed)
                     if (closest->match.id != detectedMarker.second.id) {
-                        updates.push_back(MarkerUpdate(MarkerUpdateType::REMOVE, closest->position, closest->rotation, closest->match));
+                        // And if it was ever detected at all
+                        if (closest->match.id != -1) {
+                            updates.push_back(MarkerUpdate(MarkerUpdateType::REMOVE, closest->position, closest->rotation, closest->match));
+                        }
+
                         updateType = MarkerUpdateType::NEW;
                     }
 
@@ -74,7 +78,9 @@ namespace mirrors {
                 closest->rotation = closest->rotations.update(closest->match.rotation);
 
                 // Finally, log a CHANGE or NEW depending on a change of detected pattern
-                updates.push_back(MarkerUpdate(updateType, closest->position, closest->rotation, closest->match));
+                if (closest->match.id != -1) {
+                    updates.push_back(MarkerUpdate(updateType, closest->position, closest->rotation, closest->match));
+                }
             }
         }
     }
