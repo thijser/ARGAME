@@ -14,7 +14,7 @@ namespace Projection
     public interface IARLink 
     {
         /// <summary>
-        /// return a list of all vissible markers and their locations, can be empty if none are visible. 
+        /// return a list of all visible markers and their locations, can be empty if none are visible. 
         /// </summary>
         /// <returns>The marker positions.</returns>
          List<MarkerPosition> GetMarkerPositions();

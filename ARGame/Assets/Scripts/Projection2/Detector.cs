@@ -18,13 +18,13 @@ namespace Projection
 
         void Start()
         {
-            this.link =  new MetaLink();
+            this.link = new MetaLink();
         }
 
-        void LateUpdate () 
+        void LateUpdate()
         {
-            List<MarkerPosition> list = link.GetMarkerPositions();
-            foreach( MarkerPosition mp in list)
+            List<MarkerPosition> list = this.link.GetMarkerPositions();
+            foreach (MarkerPosition mp in list)
             {
 
             }
