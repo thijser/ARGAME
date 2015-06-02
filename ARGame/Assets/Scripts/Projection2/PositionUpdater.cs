@@ -20,11 +20,6 @@ namespace Projection
     public class PositionUpdater : MonoBehaviour 
     {
         /// <summary>
-        /// How long are we willing to wait after losing track of a marker. 
-        /// </summary>
-        private long patience = 1000*10000;//1000 milliseconds 
-
-        /// <summary>
         /// Central level marker, this should be visible. 
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
@@ -41,15 +36,20 @@ namespace Projection
         private Dictionary<int, Marker> markerTable = new Dictionary<int, Marker>();
 
         /// <summary>
+        /// How long are we willing to wait after losing track of a marker. 
+        /// </summary>
+        private long patience = 1000 * 10000; //// 1000 milliseconds 
+
+        /// <summary>
         /// Registers a new marker
         /// <param name="register">The marker register parameter that registers the new marker.</param>
         /// </summary>
         public void OnMarkerRegister(MarkerRegister register)
         {
-            markerTable.Add(register.getMarker().id, register.getMarker());
-            if (Parent == null)
+            this.markerTable.Add(register.getMarker().id, register.getMarker());
+            if (this.Parent == null)
             {
-                Parent = register.getMarker();
+                this.Parent = register.getMarker();
             }  
         }
 
@@ -61,9 +61,9 @@ namespace Projection
         /// <exception cref="KeyNotFoundException"> thrown when the marker is not (yet) registered</exception>
         public Marker GetMarker(int id)
         {
-            if(markerTable.ContainsKey(id))
+            if(this.markerTable.ContainsKey(id))
             {
-                return markerTable[id];
+                return this.markerTable[id];
             }
             else
             {
@@ -79,9 +79,9 @@ namespace Projection
         public void OnMarkerSeen(MarkerPosition position, int id)
         {
             this.GetMarker(id).SetLocalPosition(position);
-            if(Parent.localPosition.timeStamp.Ticks + patience<position.timeStamp.Ticks)
+            if(this.Parent.localPosition.timeStamp.Ticks + this.patience < position.timeStamp.Ticks)
             {
-                reparent(this.GetMarker(id));
+                this.reparent(this.GetMarker(id));
             }
         }
 
@@ -99,9 +99,9 @@ namespace Projection
         /// </summary>
         public void Update()
         {
-            foreach(KeyValuePair<int, Marker> entry in markerTable)
+            foreach(KeyValuePair<int, Marker> entry in this.markerTable)
             {
-                UpdatePosition(entry.Value);
+                this.UpdatePosition(entry.Value);
             }
         }
 
@@ -111,13 +111,13 @@ namespace Projection
         /// <param name="target">Target</param>
         public void UpdatePosition(Marker target)
         {
-            if (target == Parent)
+            if (target == this.Parent)
             {
-                UpdateParentPosition(target);
+                this.UpdateParentPosition(target);
             }
             else
             {
-                UpdateChildPosition(target);
+                this.UpdateChildPosition(target);
             }
         }
 
@@ -140,19 +140,19 @@ namespace Projection
         /// <param name="target">The supplied target.</param>
         public void UpdateChildPosition(Marker target)
         {
-            target.gameObject.transform.position = target.remotePosition.Position - Parent.remotePosition.Position;
+            target.gameObject.transform.position = target.remotePosition.Position - this.Parent.remotePosition.Position;
             /// TODO: If mirrored then swap operation params.
         }
 
         public void reparent(Marker target)
         {
-            Parent=target;
-            foreach(KeyValuePair<int, Marker> entry in markerTable)
+            this.Parent = target;
+            foreach(KeyValuePair<int, Marker> entry in this.markerTable)
             {
-                if(entry.Value != Parent)
+                if(entry.Value != this.Parent)
                 {
                     entry.Value.transform.SetParent(target.transform);
-                    UpdatePosition(entry.Value);
+                    this.UpdatePosition(entry.Value);
                 }
             }
         }
