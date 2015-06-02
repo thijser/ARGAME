@@ -11,7 +11,7 @@ namespace mirrors {
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow),
-        errorDialog(new QErrorMessage(this)) {
+        errorDialog(QErrorMessage::qtHandler()) {
     ui->setupUi(this);
 
     connect(ui->startButton, SIGNAL(clicked(bool)),
