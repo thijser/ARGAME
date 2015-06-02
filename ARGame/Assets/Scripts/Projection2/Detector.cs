@@ -5,7 +5,7 @@
 	public class Detector : MonoBehaviour {
 		IARLink link;
 
-		void start(){
+		void Start(){
 			link =  new MetaLink();
 		}
 		void LateUpdate () {

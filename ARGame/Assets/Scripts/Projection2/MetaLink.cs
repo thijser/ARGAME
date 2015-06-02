@@ -24,7 +24,7 @@ public class MetaLink : MonoBehaviour ,IARLink{
 		/// <summary>
 		/// sets up the detector and marker indicator to find this marker/ 
 		/// </summary>
-		public void Start(){
+		 public MetaLink(){
 			this.markerdetectorGO = MarkerDetector.Instance.gameObject;
 			
 			// hide markerindicator
@@ -33,13 +33,15 @@ public class MetaLink : MonoBehaviour ,IARLink{
 			
 		}
 		public void ensureMeta(){
+
+			if (MarkerDetector.Instance == null){
+				throw new MissingComponentException("All out of MarkerDetectors, I'm very very sorry");
+			}
 			if (!this.markerdetectorGO.activeSelf)
 			{
 				this.markerdetectorGO.SetActive(true);
 			}
-			if (MarkerDetector.Instance == null){
-				throw new MissingComponentException("All out of MarkerDetectors, I'm very very sorry");
-			}
+		
 		}
 		public List<MarkerPosition>GetMarkerPositions(){
 				ensureMeta ();

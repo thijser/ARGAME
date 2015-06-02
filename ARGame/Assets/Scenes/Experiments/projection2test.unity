@@ -87,6 +87,38 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &40745341 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 157430, guid: 2b20768e6588e4f46ac1cf8f79e31633, type: 2}
+  m_PrefabInternal: {fileID: 126368140}
+--- !u!4 &40745342 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 448796, guid: 2b20768e6588e4f46ac1cf8f79e31633, type: 2}
+  m_PrefabInternal: {fileID: 126368140}
+--- !u!114 &40745343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 40745341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a186731744c974cf3bbca6fc8e841a84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerAddress: localhost
+  ServerPort: 23369
+--- !u!114 &40745344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 40745341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa62ce84ebedd046abca50b2075c86b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &126368140
 Prefab:
   m_ObjectHideFlags: 0
@@ -142,7 +174,9 @@ Prefab:
       propertyPath: _localizers.Array.data[2]
       value: 
       objectReference: {fileID: 126368141}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11412676, guid: 2b20768e6588e4f46ac1cf8f79e31633, type: 2}
+    - {fileID: 11463600, guid: 2b20768e6588e4f46ac1cf8f79e31633, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2b20768e6588e4f46ac1cf8f79e31633, type: 2}
   m_IsPrefabParent: 0
 --- !u!114 &126368141 stripped
@@ -163,3 +197,63 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 126368140}
   m_Script: {fileID: 1374306739, guid: c194b141a03c88649a39294c9c55f84c, type: 3}
+--- !u!1001 &1720923397
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 40745342}
+    m_Modifications:
+    - target: {fileID: 462180, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -.969714344
+      objectReference: {fileID: 0}
+    - target: {fileID: 462180, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.61000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 462180, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -.635396183
+      objectReference: {fileID: 0}
+    - target: {fileID: 462180, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 462180, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 462180, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 462180, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 462180, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1 &2003843724 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 136600, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
+  m_PrefabInternal: {fileID: 1720923397}
+--- !u!114 &2003843726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2003843724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: -1
+  remotePosition: {fileID: 0}
+  localPosition: {fileID: 0}
