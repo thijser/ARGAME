@@ -1,10 +1,23 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using Meta;
-using System;
+﻿//----------------------------------------------------------------------------
+// <copyright file="MetaLink.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not,
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
 namespace Projection
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using Meta;
+    using UnityEngine;
+
+    /// <summary>
+    /// Class responsible for linking the Meta to the game world.
+    /// </summary>
     public class MetaLink : MonoBehaviour ,IARLink
     {
         /// <summary>
@@ -41,7 +54,8 @@ namespace Projection
                 this.markerdetectorGO.SetActive(true);
             }
 
-            if (MarkerDetector.Instance == null){
+            if (MarkerDetector.Instance == null)
+            {
                 throw new MissingComponentException("All out of MarkerDetectors, I'm very very sorry");
             }
         }
@@ -57,6 +71,7 @@ namespace Projection
                 MarkerPosition MP = new MarkerPosition(trans.position,trans.rotation,DateTime.Now,trans.localScale);
                 list.Add(MP);
             }
+
             return list;
         }
     }
