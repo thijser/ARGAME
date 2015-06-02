@@ -30,8 +30,7 @@ HEADERS  += \
     cvutils.hpp \
     markerdetector.hpp \
     markerrecognizer.hpp \
-    markertracker.hpp \
-    byteconverter.hpp
+    markertracker.hpp
 
 PRECOMPILED_HEADER = mirrors.h
 
