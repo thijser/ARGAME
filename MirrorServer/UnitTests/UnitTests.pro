@@ -22,13 +22,16 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 HEADERS += \
-    gtest/gtest.h
+    gtest/gtest.h \
+    testutilities.hpp
 
 SOURCES += \
     averagertest.cpp \
     utilstest.cpp \
     gtest/gtest_main.cc \
-    gtest/gtest-all.cc
+    gtest/gtest-all.cc \
+    boarddetectortest.cpp \
+    testutilities.cpp
 
 # ---------- Add the dependency for OpenCV ----------
 OPENCV_PATH = $$(OPENCV_HOME)

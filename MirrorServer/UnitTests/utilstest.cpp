@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <opencv2/highgui/highgui.hpp>
 #include "cvutils.hpp"
+#include "testutilities.hpp"
 
 using namespace mirrors;
 using namespace cv;
@@ -9,7 +10,7 @@ TEST(UtilsTest, Rotate) {
     Mat frame0 = imread("UnitTests/rotationtest_nonexact_0.png");
     Mat frame90 = imread("UnitTests/rotationtest_nonexact_90.png");
 
-    ASSERT_EQ(cv::countNonZero(frame90 == rotateImage(frame0, 90)), 64 * 64);
+    ASSERT_EQ(countNonZeroMultichannel(frame90 == rotateImage(frame0, 90)), 64 * 64);
 }
 
 TEST(UtilsTest, RotateExactly) {
@@ -18,10 +19,10 @@ TEST(UtilsTest, RotateExactly) {
     Mat frame180 = imread("UnitTests/rotationtest_180.png");
     Mat frame270 = imread("UnitTests/rotationtest_270.png");
 
-    ASSERT_EQ(cv::countNonZero(frame0 == rotateExactly(frame0, CLOCKWISE_0)), 6);
-    ASSERT_EQ(cv::countNonZero(frame90 == rotateExactly(frame0, CLOCKWISE_90)), 6);
-    ASSERT_EQ(cv::countNonZero(frame180 == rotateExactly(frame0, CLOCKWISE_180)), 6);
-    ASSERT_EQ(cv::countNonZero(frame270 == rotateExactly(frame0, CLOCKWISE_270)), 6);
+    ASSERT_EQ(countNonZeroMultichannel(frame0 == rotateExactly(frame0, CLOCKWISE_0)), 6);
+    ASSERT_EQ(countNonZeroMultichannel(frame90 == rotateExactly(frame0, CLOCKWISE_90)), 6);
+    ASSERT_EQ(countNonZeroMultichannel(frame180 == rotateExactly(frame0, CLOCKWISE_180)), 6);
+    ASSERT_EQ(countNonZeroMultichannel(frame270 == rotateExactly(frame0, CLOCKWISE_270)), 6);
 }
 
 TEST(UtilsTest, Pivot) {
