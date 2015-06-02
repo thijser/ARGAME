@@ -12,31 +12,31 @@ namespace Projection
     using System.Collections;
     using UnityEngine;
 
-	public class Marker : MonoBehaviour 
+    public class Marker : MonoBehaviour 
     {
-		public int id = -1;
-		public MarkerPosition remotePosition;
-		public MarkerPosition localPosition;
-		float objectRotation; 
-	
-		public void SetObjectRotation(float rotation)
+        public int id = -1;
+        public MarkerPosition remotePosition;
+        public MarkerPosition localPosition;
+        float objectRotation; 
+    
+        public void SetObjectRotation(float rotation)
         {
-			objectRotation = rotation;
-		}
-	
-		public void SetRemotePosition(MarkerPosition rem)
+            this.objectRotation = rotation;
+        }
+    
+        public void SetRemotePosition(MarkerPosition rem)
         {
-			remotePosition = rem;
-		}
+            this.remotePosition = rem;
+        }
 
-		public void SetLocalPosition(MarkerPosition rem)
+        public void SetLocalPosition(MarkerPosition rem)
         {
-			localPosition = rem;
-		}
+            this.localPosition = rem;
+        }
 
-		void Start()
+        void Start()
         {
-			this.SendMessageUpwards("OnMarkerRegister", new MarkerRegister(this));
-		}
-	}
+            this.SendMessageUpwards("OnMarkerRegister", new MarkerRegister(this));
+        }
+    }
 }
