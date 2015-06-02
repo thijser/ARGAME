@@ -58,19 +58,21 @@ void ServerSocket::broadcastBytes(QByteArray bytes) {
 void ServerSocket::broadcastPositionUpdate(int id, cv::Point2f position, float rotation) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
-    stream << (char) 0
+    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+    stream << (qint8) 0
            << position.x
            << position.y
            << rotation
-           << id;
+           << (qint32) id;
+
     broadcastBytes(bytes);
 }
 
 void ServerSocket::broadcastDelete(int id) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
-    stream << (char) 1
-           << id;
+    stream << (qint8) 1
+           << (qint32) id;
     broadcastBytes(bytes);
 }
 

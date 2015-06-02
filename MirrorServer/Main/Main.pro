@@ -12,6 +12,8 @@ TEMPLATE = app
 CONFIG -= app_bundle
 CONFIG += c++11
 
+win32: CONFIG += console
+
 !win32_debug: OUT_PWD = $$OUT_PWD/../build
 
 SOURCES += \
