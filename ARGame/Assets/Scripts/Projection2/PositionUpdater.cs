@@ -108,7 +108,7 @@ namespace Projection{
 			parent=target;
 			foreach(KeyValuePair<int, Marker> entry in markerTable){
 				if(entry.Value!=parent){
-					entry.Value.transform.SetParent(target);
+					entry.Value.transform.SetParent(target.transform);
 					updatePosition(entry.Value);
 				}
 			}
