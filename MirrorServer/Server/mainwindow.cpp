@@ -62,7 +62,12 @@ void MainWindow::startServer() {
     // in the range 0-65536
     quint16 port = static_cast<quint16>(ui->serverPort->text().toInt());
     int device = ui->cameraDevice->text().toInt();
-    controller->startServer(port, device);
+    cv::Size requestedSize(
+        ui->camWidth->text().toInt(),
+        ui->camHeight->text().toInt()
+    );
+
+    controller->startServer(port, device, requestedSize);
 
     // controller now has the actual camera resolution.
     // We update the UI to show the resolution being used.
