@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="IUpdate.cs" company="Delft University of Technology">
+// <copyright file="AbstractUpdate.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -9,20 +9,24 @@
 //----------------------------------------------------------------------------
 namespace Network
 {
+    /// <summary>
+    /// An abstract class used as an accessibility interface
+    /// for parameters for both types of updates.
+    /// </summary>
     public abstract class AbstractUpdate
     {
         /// <summary>
-        /// Gets the type of this update.
+        /// Gets or sets the type of this update.
         /// </summary>
         public UpdateType Type { get; protected set; }
 
         /// <summary>
-        /// Gets the ID of this update.
+        /// Gets or sets the ID of this update.
         /// </summary>
         public int ID { get; protected set; }
 
         /// <summary>
-        /// Gets the timestamp of this update.
+        /// Gets or sets the timestamp of this update.
         /// </summary>
         public long TimeStamp { get; protected set; }
     }

@@ -142,17 +142,16 @@ namespace Network
                 if (update.Type == UpdateType.DeletePosition || update.Type == UpdateType.UpdatePosition)
                 {
                     this.SendMessage(
-                        "OnPositionUpdate",
-                        (PositionUpdate) update,
+                        "OnPositionUpdate", 
+                        (PositionUpdate)update, 
                         SendMessageOptions.DontRequireReceiver);
                     count++;
                 }
-                
                 else if (update.Type == UpdateType.UpdateRotation)
                 {
                     this.SendMessage(
-                        "OnRotationUpdate",
-                        (RotationUpdate) update,
+                        "OnRotationUpdate", 
+                        (RotationUpdate)update, 
                         SendMessageOptions.DontRequireReceiver);
                     count++;
                 }
@@ -214,11 +213,11 @@ namespace Network
                 return null;
             }
 
-			float x = this.ReadFloat(0);
-			float y = this.ReadFloat(4);
+            float x = this.ReadFloat(0);
+            float y = this.ReadFloat(4);
             Vector2 coordinate = new Vector2(x, y);
-			float rotation = this.ReadFloat(8);
-			int id = this.ReadInt(12);
+            float rotation = this.ReadFloat(8);
+            int id = this.ReadInt(12);
             return new PositionUpdate(UpdateType.UpdatePosition, coordinate, rotation, id);
         }
 
@@ -234,10 +233,14 @@ namespace Network
                 return null;
             }
 
-			int id = this.ReadInt(0);
+            int id = this.ReadInt(0);
             return new PositionUpdate(UpdateType.DeletePosition, new Vector2(0, 0), 0, id);
         }
 
+        /// <summary>
+        /// Reads a <c>UpdateRotation</c> type RotationUpdate message.
+        /// </summary>
+        /// <returns>The RotationUpdate.</returns>
         public RotationUpdate ReadUpdateRotation()
         {
             int received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
@@ -246,20 +249,32 @@ namespace Network
                 return null;
             }
 
-			int id = this.ReadInt(0);
-			float rotation = this.ReadFloat(4);
+            int id = this.ReadInt(0);
+            float rotation = this.ReadFloat(4);
             return new RotationUpdate(UpdateType.UpdateRotation, rotation, id);
         }
 
-		private float ReadFloat(int offset) 
-		{
-			byte[] bytes =BitConverter.GetBytes(IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset)));
-			return BitConverter.ToSingle(bytes, 0);
-		}
+        /// <summary>
+        /// Reads and returns a float value from a network byte input, starting
+        /// from the given offset.
+        /// </summary>
+        /// <param name="offset">The given offset.</param>
+        /// <returns>The float that represents the bytes read.</returns>
+        private float ReadFloat(int offset) 
+        {
+            byte[] bytes = BitConverter.GetBytes(IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset)));
+            return BitConverter.ToSingle(bytes, 0);
+        }
 
-		private int ReadInt(int offset)
-		{
-			return IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset));
-		}
+        /// <summary>
+        /// Reads and returns an integer value from a network byte input, starting
+        /// from the given offset.
+        /// </summary>
+        /// <param name="offset">The given offset.</param>
+        /// <returns>The integer that represents the bytes read.</returns>
+        private int ReadInt(int offset)
+        {
+            return IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset));
+        }
     }
 }

@@ -57,14 +57,14 @@ namespace Network
         }
 
         /// <summary>
-        /// Returns the markerstate from the dictionary of markers corresponding with
+        /// Returns the marker state from the dictionary of markers corresponding with
         /// the given key.
         /// </summary>
         /// <param name="key">The key for searching in the dictionary.</param>
         /// <returns>The marker state corresponding with that key.</returns>
         public MarkerState GetMarkerState(int key)
         {
-            return markers[key];
+            return this.markers[key];
         }
 
         /// <summary>
