@@ -22,13 +22,15 @@ namespace Projection{
 		/// register a new marker
 		/// </summary>
 		public void OnMarkerRegister(MarkerRegister reg){
-			markerTable.Add(reg.getMarker().id,reg.getMarker());
-			Debug.Log("register");
 			if(parent==null){
 				parent=reg.getMarker();
+				markerTable=new Dictionary<int, Marker>();
 			}else{
 				reg.getMarker().gameObject.transform.SetParent(parent.gameObject.transform);
 			}
+			markerTable.Add(reg.getMarker().id,reg.getMarker());
+			Debug.Log("register");
+
 		}
 		/// <summary>
 		/// gets marker with Identifier  
