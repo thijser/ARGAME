@@ -49,6 +49,7 @@ public class MetaLink : MonoBehaviour ,IARLink{
 					MarkerDetector.Instance.GetMarkerTransform(ID,ref trans);
 					MarkerPosition MP = new MarkerPosition(trans.position,trans.rotation,DateTime.Now,trans.localScale);
 					list.Add(MP);
+					MP.id=ID;
 				}
 			return list;
 	}

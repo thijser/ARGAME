@@ -11,7 +11,7 @@ public class MarkerPosition : MonoBehaviour {
 	public Quaternion Rotation;
 	public DateTime timeStamp;
 	public Vector3 scale;
-
+	public int id=-1;
 
 	/// <summary>
 	/// create a new markerPosition from a position update 

@@ -11,7 +11,10 @@
 		void LateUpdate () {
 			List<MarkerPosition> list = link.GetMarkerPositions();
 			foreach( MarkerPosition mp in list){
-
+				this.SendMessage(
+					"OnMarkerSeen", 
+					mp, 
+					SendMessageOptions.DontRequireReceiver);
 			}
 		}
 	}
