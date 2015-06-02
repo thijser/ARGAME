@@ -12,14 +12,13 @@ TEMPLATE = app
 CONFIG -= app_bundle
 CONFIG += c++11
 
+!win32_debug: OUT_PWD = $$OUT_PWD/../build
 
 SOURCES += \
     main.cpp
 
 # ----- Add dependency for Server project -----
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Server/release/ -lServer
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Server/debug/ -lServer
-else:unix: LIBS += -L$$OUT_PWD/../Server/ -lServer
+LIBS += -L$$OUT_PWD/../Server/ -lServer
 INCLUDEPATH += $$PWD/../Server
 DEPENDPATH  += $$PWD/../Server
 
@@ -28,8 +27,8 @@ OPENCV_PATH = $$(OPENCV_HOME)
 isEmpty(OPENCV_PATH) {
     error(OPENCV_HOME is not defined. Set OPENCV_HOME to point to the OpenCV home directory)
 }
-win32:release: OPENCV_SUFFIX = 300
-else:win32:debug: OPENCV_SUFFIX = 300d
+win32_debug: OPENCV_SUFFIX = 300d
+else:win32: OPENCV_SUFFIX = 300
 
 LIBS += -L$$OPENCV_PATH/lib \
         -lopencv_core$$OPENCV_SUFFIX \
