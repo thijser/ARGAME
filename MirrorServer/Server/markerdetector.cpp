@@ -27,9 +27,9 @@ namespace mirrors {
             // Threshold on greenish hue
             channels[HSV::H] > 35 & channels[HSV::H] < 90 &
             // Reasonable saturation of the green color
-            channels[HSV::S] > 30 &
-            // Reasonable lightness(not black and not white)
-            channels[HSV::V] > 40 & channels[HSV::V] < 200;
+            channels[HSV::S] > 50 &
+            // Reasonable lightness(not black)
+            channels[HSV::V] > 40;
 
         // Clean up mask (remove noise, close holes)
         Mat kernel = getStructuringElement(cv::MORPH_RECT, Size(5, 5));

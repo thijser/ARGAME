@@ -1,5 +1,6 @@
 #include "servercontroller.h"
 #include "serversocket.hpp"
+#include <iostream>
 
 namespace mirrors {
 
@@ -63,11 +64,11 @@ void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camS
         fatalError(tr("Fatal error: could not open camera"));
     }
 
-    cameraResolution.width  = capture->set(CV_CAP_PROP_FRAME_WIDTH,  camSize.width);
-    cameraResolution.height = capture->set(CV_CAP_PROP_FRAME_HEIGHT, camSize.height);
+    capture->set(CV_CAP_PROP_FRAME_WIDTH,  camSize.width);
+    capture->set(CV_CAP_PROP_FRAME_HEIGHT, camSize.height);
 
-    capture->set(CV_CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH);
-    capture->set(CV_CAP_PROP_FRAME_HEIGHT, CAMERA_HEIGHT);
+    cameraResolution.width = capture->get(CV_CAP_PROP_FRAME_WIDTH);
+    cameraResolution.height = capture->get(CV_CAP_PROP_FRAME_HEIGHT);
 
     sock->setPortNumber(port);
     sock->start();
