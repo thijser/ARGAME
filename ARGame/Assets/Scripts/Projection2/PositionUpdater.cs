@@ -23,8 +23,12 @@ namespace Projection{
 		/// </summary>
 		public void OnMarkerRegister(MarkerRegister reg){
 			markerTable.Add(reg.getMarker().id,reg.getMarker());
-			if(parent==null)
+			Debug.Log("register");
+			if(parent==null){
 				parent=reg.getMarker();
+			}else{
+				reg.getMarker().gameObject.transform.SetParent(parent.gameObject.transform);
+			}
 		}
 		/// <summary>
 		/// gets marker with Identifier  
