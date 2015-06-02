@@ -19,10 +19,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->stopButton,  SIGNAL(clicked(bool)),
             this,            SLOT(stopServer()));
 
-    // The server is stopped by default, so the stop button
-    // needs to be disabled here.
-    ui->stopButton->setEnabled(false);
-
     // Set the port number LineEdit to only accept numbers in
     // the range 0-65536
     ui->serverPort->setValidator(new QIntValidator(0, 65536, this));
@@ -38,6 +34,10 @@ MainWindow::MainWindow(QWidget *parent) :
     sizeValidator->setBottom(1);
     ui->camHeight->setValidator(sizeValidator);
     ui->camWidth->setValidator(sizeValidator);
+
+    // Enable configuration and set proper constraints for
+    // a disabled server state.
+    setConfigEnabled(true);
 }
 
 MainWindow::~MainWindow() {
@@ -85,8 +85,9 @@ void MainWindow::handleFrame(const cv::Mat &matrix) {
         QRect rect = ui->image->geometry();
         setFixedWidth(pixmap.width() + width() - rect.width());
     } catch (const cv::Exception& ex) {
-        qDebug() << "Unexpected OpenCV Exception in handleFrame: " << ex.what();
+        qDebug() << tr("Unexpected OpenCV Exception in handleFrame:") << ex.what();
     }
+
 }
 
 void MainWindow::stopServer() {
@@ -107,7 +108,9 @@ void MainWindow::setConfigEnabled(bool enabled) {
     ui->camHeight->setEnabled(enabled);
 
     if (enabled) {
-        ui->image->setPixmap(QPixmap());
+        ui->image->setText(tr("Server stopped.\n\nClick the \"Start Server\" button."));
+    } else {
+        ui->image->setText(tr("Calibrating...\n\nMake sure the entire board is visible for the camera."));
     }
 }
 
