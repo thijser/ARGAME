@@ -125,16 +125,7 @@ namespace Projection
             this.GetMarker(update.ID).SetObjectRotation(update.Rotation);
         }
 
-        /// <summary>
-        /// Update position of all markers .
-        /// </summary>
-        public void Update()
-        {
-            foreach (KeyValuePair<int, Marker> entry in this.markerTable)
-            {
-                this.UpdatePosition(entry.Value);
-            }
-        }
+
 
         /// <summary>
         /// uses the market target and Parent to set the transform of target
