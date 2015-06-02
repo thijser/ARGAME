@@ -139,7 +139,9 @@ namespace TestUtilities
         /// <returns>The created GameObject.</returns>
         public static GameObject CreateMarker()
         {
-            return new GameObject("Marker", typeof(BaseForLevel));
+            // FIXME: Object doesn't exist
+            //return new GameObject("Marker", typeof(BaseForLevel));
+            return null;
         }
 
         /// <summary>
