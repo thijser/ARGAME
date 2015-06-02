@@ -129,7 +129,7 @@ namespace Projection
         {
             if(target == null)
             {
-                throw new ArgumentException("target");
+                throw new ArgumentNullException("target");
             }
 
             if (target == this.Parent)
@@ -150,7 +150,7 @@ namespace Projection
         {
             if(target == null)
             {
-                throw new ArgumentException("target");
+                throw new ArgumentNullException("target");
             }
 
             target.gameObject.transform.position = target.localPosition.Position;
@@ -168,7 +168,7 @@ namespace Projection
         {
             if (target == null)
             {
-                throw new ArgumentException("target");
+                throw new ArgumentNullException("target");
             }
 
             target.gameObject.transform.position = target.remotePosition.Position - this.Parent.remotePosition.Position;
@@ -179,7 +179,7 @@ namespace Projection
         {
             if (target == null)
             {
-                throw new ArgumentException("target");
+                throw new ArgumentNullException("target");
             }
 
             this.Parent = target;
@@ -199,6 +199,11 @@ namespace Projection
         /// <param name="update">position update received over the net.</param>
         public void OnPositionUpdate (PositionUpdate update)
         {
+            if (update == null)
+            {
+                throw new ArgumentNullException("update");
+            }
+
             this.GetMarker(update.ID).SetRemotePosition(new MarkerPosition(update));
         }
     }

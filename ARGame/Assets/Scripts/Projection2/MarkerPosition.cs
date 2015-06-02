@@ -29,12 +29,12 @@ namespace Projection
         /// <summary>
         /// create a new markerPosition from a position update 
         /// </summary>
-        /// <param name="update">Pu.</param>
-        public MarkerPosition(PositionUpdate pu)
+        /// <param name="update">The update.</param>
+        public MarkerPosition(PositionUpdate update)
         {
             this.scale = new Vector3(1, 1, 1);
             this.timeStamp = DateTime.Now;
-            this.Position = new Vector3(pu.Coordinate[0], 0, pu.Coordinate[1]);
+            this.Position = new Vector3(update.Coordinate[0], 0, update.Coordinate[1]);
             this.scale = new Vector3(1, 1, 1);
         }
 
