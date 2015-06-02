@@ -1,5 +1,7 @@
 #include "testutilities.hpp"
 
+#include <opencv2/highgui/highgui.hpp>
+
 namespace mirrors {
 
 int countNonZeroMultichannel(Mat input) {
@@ -9,15 +11,15 @@ int countNonZeroMultichannel(Mat input) {
     return countNonZero(channels[0] & channels[1] & channels[2]);
 }
 
-bool imagesApproximatelyEqual(Mat a, Mat b) {
-    if (a.rows != b.rows || a.cols != b.cols) {
+bool imagesApproximatelyEqual(Mat expected, Mat actual, float minimalMatch, float colorDiff) {
+    if (expected.rows != actual.rows || expected.cols != actual.cols) {
         return false;
     }
 
-    int absError = countNonZeroMultichannel(cv::abs(a - b) < 10);
-    float relError = absError / (float) (a.cols * a.rows);
+    int absError = countNonZeroMultichannel(cv::abs(expected - actual) < colorDiff);
+    float relError = absError / (float) (expected.cols * expected.rows);
 
-    return relError >= 0.95f;
+    return relError >= minimalMatch;
 }
 
 }
