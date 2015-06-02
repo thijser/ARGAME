@@ -52,18 +52,18 @@ namespace Projection
                 throw new ArgumentNullException("register");
             }
 
-            this.markerTable.Add(register.RegisteredMarker.id, register.RegisteredMarker);
             if (this.Parent == null)
             {
                 this.Parent = register.RegisteredMarker;
+                this.markerTable = new Dictionary<int, Marker>();
             }
             else
             {
 				register.RegisteredMarker.gameObject.transform.SetParent(Parent.gameObject.transform);
 			}
+            this.markerTable.Add(register.RegisteredMarker.id, register.RegisteredMarker);
         }
 
-        /// <summary>
 		/// gets marker with Identifier  
 		/// </summary>
 		/// <returns>The marker.</returns>
