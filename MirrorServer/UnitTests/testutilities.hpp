@@ -9,6 +9,8 @@ using namespace cv;
 
 int countNonZeroMultichannel(Mat input);
 
+bool imagesApproximatelyEqual(Mat a, Mat b);
+
 }
 
 #endif // TESTUTILITIES_HPP
