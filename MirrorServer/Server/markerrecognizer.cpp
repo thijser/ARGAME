@@ -70,7 +70,15 @@ namespace mirrors {
         cv::RotatedRect rotatedRect = cv::minAreaRect(contour);
 
         // Take part of the image containing the marker pattern and straighten it
-        Mat marker = boardImage(rotatedRect.boundingRect());
+        cv::Rect bb = rotatedRect.boundingRect();
+
+        // Clamp bounding rect to board borders
+        if (bb.x < 0) bb.x = 0;
+        if (bb.y < 0) bb.y = 0;
+        if (bb.x + bb.width > boardImage.cols) bb.width = boardImage.cols - bb.x;
+        if (bb.y + bb.height > boardImage.rows) bb.height = boardImage.rows - bb.y;
+
+        Mat marker = boardImage(bb);
         marker = rotateImage(marker, -rotatedRect.angle);
 
         // Crop image to remove the padding caused by the former rotation

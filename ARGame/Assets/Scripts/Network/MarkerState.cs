@@ -22,7 +22,7 @@ namespace Network
         /// <summary>
         /// The factor with which to scale the position.
         /// </summary>
-        public const float ScaleFactor = 9.44f;
+        public const float ScaleFactor = 0.6875f;
 
         /// <summary>
         /// The vertical offset for the Y coordinate.
@@ -36,6 +36,16 @@ namespace Network
         /// <param name="referenceMarker">The GameObject that the PositionUpdate represents.</param>
         public MarkerState(PositionUpdate initialUpdate, GameObject referenceMarker)
         {
+            if(initialUpdate == null)
+            {
+                throw new ArgumentNullException("initialUpdate");
+            }
+
+            if(referenceMarker == null)
+            {
+                throw new ArgumentNullException("referenceMarker");
+            }
+
             this.ID = initialUpdate.ID;
 
             // Create mesh representing this marker
@@ -60,22 +70,27 @@ namespace Network
         /// <summary>
         /// Updates the position of the GameObject with the given PositionUpdate.
         /// </summary>
-        /// <param name="update">The PositionUpdate.</param>
-        public void Update(PositionUpdate update)
+        /// <param name="positionupdate">The PositionUpdate.</param>
+        public void Update(PositionUpdate positionupdate)
         {
-            if (update.Type == UpdateType.UpdatePosition)
+            if(positionupdate == null)
+            {
+                throw new ArgumentNullException("positionupdate");
+            }
+
+            if (positionupdate.Type == UpdateType.UpdatePosition)
             {
                 // Update orientation of object
                 this.Object.SetActive(true);
 
                 this.Object.transform.position = new Vector3(
-                    update.Coordinate.x * ScaleFactor,
+                    positionupdate.Coordinate.x * ScaleFactor,
                     0,
-                    VerticalOffset - (update.Coordinate.y * ScaleFactor));
+                    VerticalOffset - (positionupdate.Coordinate.y * ScaleFactor));
 
-                this.Object.transform.eulerAngles = new Vector3(0, update.Rotation, 0);
+                this.Object.transform.eulerAngles = new Vector3(0, positionupdate.Rotation, 0);
             }
-            else if (update.Type == UpdateType.DeletePosition)
+            else if (positionupdate.Type == UpdateType.DeletePosition)
             {
                 // Remove object
                 this.Object.SetActive(false);

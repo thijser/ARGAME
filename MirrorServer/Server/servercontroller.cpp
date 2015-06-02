@@ -14,6 +14,12 @@ ServerController::ServerController(QObject *parent)
       detectorTimer(new QTimer(this)),
       serverState(Idle)
 {
+    // Load markers
+    for (int i = 0; i < MARKER_COUNT; i++) {
+        auto pattern = cv::imread("markers/" + std::to_string(i) + ".png", CV_LOAD_IMAGE_GRAYSCALE);
+        recognizer->registerPattern(i, pattern);
+    }
+
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
             this, SLOT(broadcastPositions(vector<MarkerUpdate>)));
     connect(detectorTimer, SIGNAL(timeout()),
@@ -61,6 +67,9 @@ void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camS
 
     cameraResolution.width  = capture->set(CV_CAP_PROP_FRAME_WIDTH,  camSize.width);
     cameraResolution.height = capture->set(CV_CAP_PROP_FRAME_HEIGHT, camSize.height);
+
+    capture->set(CV_CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH);
+    capture->set(CV_CAP_PROP_FRAME_HEIGHT, CAMERA_HEIGHT);
 
     sock->setPortNumber(port);
     sock->start();
@@ -136,9 +145,12 @@ void ServerController::broadcastPosition(const MarkerUpdate& marker) {
     if (marker.type == MarkerUpdateType::REMOVE) {
         sock->broadcastDelete(marker.id);
     } else {
+        // Scale marker positions based on their size for Meta 1 tracking
+        cv::Point2f scaledCoords(marker.position.x / marker.scale, marker.position.y / marker.scale);
+
         sock->broadcastPositionUpdate(
                     marker.id,
-                    marker.position,
+                    scaledCoords,
                     marker.rotation);
     }
 }

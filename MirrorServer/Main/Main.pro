@@ -38,6 +38,7 @@ LIBS += -L$$OPENCV_PATH/lib \
         -lopencv_imgproc$$OPENCV_SUFFIX \
         -lopencv_highgui$$OPENCV_SUFFIX
 win32: LIBS += -lopencv_videoio$$OPENCV_SUFFIX \
-               -lopencv_video$$OPENCV_SUFFIX
+               -lopencv_video$$OPENCV_SUFFIX \
+               -lopencv_imgcodecs$$OPENCV_SUFFIX
 INCLUDEPATH += $$OPENCV_PATH/include
 DEPENDPATH  += $$OPENCV_PATH/include
