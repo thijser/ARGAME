@@ -15,8 +15,8 @@ namespace Projection
     public class Marker : MonoBehaviour 
     {
         public int id = -1;
-        public MarkerPosition remotePosition;
-        public MarkerPosition localPosition;
+		[HideInInspector] public MarkerPosition remotePosition;
+		[HideInInspector] public MarkerPosition localPosition;
         float objectRotation; 
     
         public void SetObjectRotation(float rotation)
