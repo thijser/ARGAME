@@ -77,6 +77,16 @@ namespace Network
         /// <returns>The RotationUpdate.</returns>
         public static RotationUpdate ReadUpdateRotation(byte[] buffer)
         {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
+
+            if (buffer.Length < 8)
+            {
+                throw new ArgumentException("The supplied byte array is not long enough to contain all the required data.");
+            }
+
             int id = MessageProcessor.ReadInt(buffer, 0);
             float rotation = MessageProcessor.ReadFloat(buffer, 4);
             return new RotationUpdate(UpdateType.UpdateRotation, rotation, id);
