@@ -193,62 +193,30 @@ namespace Network
                     {
                         return null;
                     }
-                    return MessageProcessor.ReadDelete(buffer);
+
+                    return MessageProcessor.ReadDelete(this.buffer);
                 case UpdateType.UpdatePosition:
                     received = this.socket.Receive(this.buffer, 16, SocketFlags.None);
                     if (received < 16)
                     {
                         return null;
                     }
-                    return MessageProcessor.ReadUpdatePosition(buffer);
+
+                    return MessageProcessor.ReadUpdatePosition(this.buffer);
                 case UpdateType.Ping:
                     return new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0, -1);
                 case UpdateType.UpdateRotation:
-                    return this.ReadUpdateRotation();
+                    received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
+                    if (received < 8)
+                    {
+                        return null;
+                    }
+
+                    return MessageProcessor.ReadUpdateRotation(this.buffer);
                 default:
                     Debug.LogWarning("Received invalid type: " + type);
                     return null;
             }
-        }
-
-        /// <summary>
-        /// Reads a <c>UpdateRotation</c> type RotationUpdate message.
-        /// </summary>
-        /// <returns>The RotationUpdate.</returns>
-        public RotationUpdate ReadUpdateRotation()
-        {
-            int received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
-            if (received < 8)
-            {
-                return null;
-            }
-
-            int id = this.ReadInt(0);
-            float rotation = this.ReadFloat(4);
-            return new RotationUpdate(UpdateType.UpdateRotation, rotation, id);
-        }
-
-        /// <summary>
-        /// Reads and returns a float value from a network byte input, starting
-        /// from the given offset.
-        /// </summary>
-        /// <param name="offset">The given offset.</param>
-        /// <returns>The float that represents the bytes read.</returns>
-        private float ReadFloat(int offset) 
-        {
-            byte[] bytes = BitConverter.GetBytes(IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset)));
-            return BitConverter.ToSingle(bytes, 0);
-        }
-
-        /// <summary>
-        /// Reads and returns an integer value from a network byte input, starting
-        /// from the given offset.
-        /// </summary>
-        /// <param name="offset">The given offset.</param>
-        /// <returns>The integer that represents the bytes read.</returns>
-        private int ReadInt(int offset)
-        {
-            return IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset));
         }
     }
 }

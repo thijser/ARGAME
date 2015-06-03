@@ -60,8 +60,29 @@ namespace Network
         /// <returns>The PositionUpdate.</returns>
         public static PositionUpdate ReadDelete(byte[] buffer)
         {
+            if(buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
+
+            if (buffer.Length < 4)
+            {
+                throw new ArgumentException("The supplied byte array is not long enough to contain all the required data.");
+            }
+
             int id = MessageProcessor.ReadInt(buffer, 0);
             return new PositionUpdate(UpdateType.DeletePosition, new Vector2(0, 0), 0, id);
+        }
+
+        /// <summary>
+        /// Reads a <c>UpdateRotation</c> type RotationUpdate message.
+        /// </summary>
+        /// <returns>The RotationUpdate.</returns>
+        public static RotationUpdate ReadUpdateRotation(byte[] buffer)
+        {
+            int id = MessageProcessor.ReadInt(buffer, 0);
+            float rotation = MessageProcessor.ReadFloat(buffer, 4);
+            return new RotationUpdate(UpdateType.UpdateRotation, rotation, id);
         }
 
         /// <summary>
