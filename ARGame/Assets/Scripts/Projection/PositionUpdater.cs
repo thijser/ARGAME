@@ -61,7 +61,7 @@ namespace Projection
             {
 				register.RegisteredMarker.gameObject.transform.SetParent(Parent.gameObject.transform);
 			}
-            this.markerTable.Add(register.RegisteredMarker.id, register.RegisteredMarker);
+            this.markerTable.Add(register.RegisteredMarker.ID, register.RegisteredMarker);
         }
 
 		/// gets marker with Identifier  
@@ -104,8 +104,8 @@ namespace Projection
                 throw new ArgumentNullException("position");
             }
 
-            this.GetMarker(id).SetLocalPosition(position);
-            if (this.Parent.localPosition.timeStamp.Ticks + this.patience < position.timeStamp.Ticks)
+            this.GetMarker(id).LocalPosition = position;
+            if (this.Parent.LocalPosition.timeStamp.Ticks + this.patience < position.timeStamp.Ticks)
             {
                 this.Reparent(this.GetMarker(id));
             }
@@ -122,7 +122,7 @@ namespace Projection
                 throw new ArgumentNullException("update");
             }
 
-            this.GetMarker(update.ID).SetObjectRotation(update.Rotation);
+            this.GetMarker(update.ID).ObjectRotation = update.Rotation;
         }
 
 
@@ -159,9 +159,9 @@ namespace Projection
                 throw new ArgumentNullException("target");
             }
 
-            target.gameObject.transform.position = target.localPosition.Position;
-            Vector3 localrotation = target.localPosition.Rotation.eulerAngles;
-            Vector3 remoterotation = target.remotePosition.Rotation.eulerAngles;
+            target.gameObject.transform.position = target.LocalPosition.Position;
+            Vector3 localrotation = target.LocalPosition.Rotation.eulerAngles;
+            Vector3 remoterotation = target.RemotePosition.Rotation.eulerAngles;
             Vector3 finalrotation = localrotation - remoterotation;
             target.gameObject.transform.rotation = Quaternion.Euler(finalrotation);
         }
@@ -177,7 +177,7 @@ namespace Projection
                 throw new ArgumentNullException("target");
             }
 
-            target.gameObject.transform.position = target.remotePosition.Position - this.Parent.remotePosition.Position;
+            target.gameObject.transform.position = target.RemotePosition.Position - this.Parent.RemotePosition.Position;
             //// TODO: If mirrored then swap operation params.
         }
 
@@ -210,7 +210,7 @@ namespace Projection
                 throw new ArgumentNullException("update");
             }
 
-            this.GetMarker(update.ID).SetRemotePosition(new MarkerPosition(update));
+            this.GetMarker(update.ID).RemotePosition = new MarkerPosition(update);
         }
     }
 }
