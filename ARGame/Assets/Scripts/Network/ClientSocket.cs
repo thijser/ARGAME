@@ -137,23 +137,12 @@ namespace Network
                 }
 
                 this.timestamp = DateTime.Now;
+                if(update.Type != UpdateType.Ping)
+                {
+                    this.SendMessage("OnServerUpdate", update, SendMessageOptions.DontRequireReceiver);
+                }
 
-                if (update.Type == UpdateType.DeletePosition || update.Type == UpdateType.UpdatePosition)
-                {
-                    this.SendMessage(
-                        "OnPositionUpdate", 
-                        (PositionUpdate)update, 
-                        SendMessageOptions.DontRequireReceiver);
-                    count++;
-                }
-                else if (update.Type == UpdateType.UpdateRotation)
-                {
-                    this.SendMessage(
-                        "OnRotationUpdate", 
-                        (RotationUpdate)update, 
-                        SendMessageOptions.DontRequireReceiver);
-                    count++;
-                }
+                count++;
             }
 
             long duration = (DateTime.Now - this.timestamp).Milliseconds;

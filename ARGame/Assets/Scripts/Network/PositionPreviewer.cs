@@ -36,24 +36,28 @@ namespace Network
         private Dictionary<int, MarkerState> markers = new Dictionary<int, MarkerState>();
 
         /// <summary>
-        /// Moves the marker object with the ID of the given PositionUpdate
-        /// to the location as indicated by the update.
+        /// Receives and handles all server updates.
         /// </summary>
-        /// <param name="update">The PositionUpdate object to show, not null.</param>
-        public void OnPositionUpdate(PositionUpdate update)
+        /// <param name="update">The update to be handled, can be either a
+        /// PositionUpdate or a RotationUpdate.</param>
+        public void OnServerUpdate(AbstractUpdate update)
         {
             if (update == null)
             {
                 throw new ArgumentNullException("update");
             }
 
-            // Update marker state (and create initial one if this is the first sighting)
-            if (!this.markers.ContainsKey(update.ID))
+            if (update.Type == UpdateType.DeletePosition || update.Type == UpdateType.UpdatePosition)
             {
-                this.markers[update.ID] = new MarkerState(update, this.ReferenceMarker);
-            }
+                PositionUpdate position = update as PositionUpdate;
+                // Update marker state (and create initial one if this is the first sighting)
+                if (!this.markers.ContainsKey(position.ID))
+                {
+                    this.markers[position.ID] = new MarkerState(position, this.ReferenceMarker);
+                }
 
-            this.markers[update.ID].Update(update);
+                this.markers[position.ID].Update(position);
+            }
         }
 
         /// <summary>
