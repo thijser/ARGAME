@@ -97,8 +97,9 @@ namespace Projection
         /// </summary>
         /// <param name="position">The marker position.</param>
         /// <param name="id">The identifier.</param>
-        public void OnMarkerSeen(MarkerPosition position, int id)
+        public void OnMarkerSeen(MarkerPosition position)
         {
+			int id = position.id;
             if (position == null)
             {
                 throw new ArgumentNullException("position");
@@ -177,6 +178,9 @@ namespace Projection
             {
                 throw new ArgumentNullException("target");
             }
+			if(this.Parent.RemotePosition==null){
+				throw new NullReferenceException("parent has no remote");
+			}
 
             target.gameObject.transform.position = target.RemotePosition.Position - this.Parent.RemotePosition.Position;
             //// TODO: If mirrored then swap operation params.
