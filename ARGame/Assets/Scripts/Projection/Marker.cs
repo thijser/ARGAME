@@ -49,5 +49,10 @@ namespace Projection
         {
             this.SendMessageUpwards("OnMarkerRegister", new MarkerRegister(this));
         }
+		public override string ToString(){
+			string ret="<marker:id="+ID+", RemotePosition="+RemotePosition.ToString()+", LocalPosition="+LocalPosition.ToString()+", ObjectRotation="+ObjectRotation+">";
+			return ret;
+		}
+
     }
 }

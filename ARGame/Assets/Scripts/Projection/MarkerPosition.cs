@@ -16,7 +16,7 @@ namespace Projection
     /// <summary>
     /// Keeps data from either remote or local on the position of the marker.
     /// </summary>
-    public class MarkerPosition : MonoBehaviour
+    public class MarkerPosition
     {
         public Vector3 Position;
         public Quaternion Rotation;
@@ -40,7 +40,8 @@ namespace Projection
         /// Initializes a new instance of the <see cref="MarkerPosition"/> class.
         /// </summary>
         /// <param name="pos">The position.</param>
-        /// <param name="rot">The rotation.</param>
+  
+		/// <param name="rot">The rotation.</param>
         /// <param name="stamp">The timestamp of the update.</param>
         /// <param name="scale">The scale of the object.</param>
         public MarkerPosition(Vector3 pos, Quaternion rot, DateTime stamp, Vector3 scale)
@@ -50,7 +51,7 @@ namespace Projection
             this.timeStamp = stamp;
             this.scale = scale;
         }
-		@public override String ToString ()
+		public override String ToString ()
 		{
 			String ret = "MarkerPosition:< Position="+Position+", Rotation="+Rotation+", timeStamp="+timeStamp+", scale="+scale+", id=" + id;
 			return ret;
