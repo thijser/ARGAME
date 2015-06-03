@@ -74,6 +74,7 @@ namespace Projection
 
         public List<MarkerPosition> GetMarkerPositions()
         {
+
             this.EnsureMeta();
             Transform trans = this.lamb.transform;
             List<MarkerPosition> list = new List<MarkerPosition>();
