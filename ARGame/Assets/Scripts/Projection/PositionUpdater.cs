@@ -97,8 +97,9 @@ namespace Projection
         /// </summary>
         /// <param name="position">The marker position.</param>
         /// <param name="id">The identifier.</param>
-        public void OnMarkerSeen(MarkerPosition position, int id)
+        public void OnMarkerSeen(MarkerPosition position)
         {
+			int id = position.id;
             if (position == null)
             {
                 throw new ArgumentNullException("position");
