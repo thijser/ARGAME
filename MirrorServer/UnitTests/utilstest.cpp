@@ -8,20 +8,18 @@ using namespace cv;
 
 TEST(UtilsTest, Rotate) {
     Mat frame0 = imread("UnitTests/rotationtest_nonexact_0.png");
-    Mat frame90 = imread("UnitTests/rotationtest_nonexact_90.png");
+    Mat expected = imread("UnitTests/rotationtest_nonexact_90.png");
     Mat rotated = rotateImage(frame0, 90);
 
-    ASSERT_EQ(countNonZeroMultichannel(frame90 == rotated), frame90.rows * frame90.cols);
+    ASSERT_EQ(countNonZeroMultichannel(rotated == expected), expected.rows * expected.cols);
 }
 
 TEST(UtilsTest, RotateCrop) {
     Mat marker = imread("UnitTests/rotationtest_non_square.png");
-    Mat marker0 = rotateImage(marker, 0);
+    Mat expected = imread("UnitTests/rotationtest_non_square_10.png");
+    Mat rotated = rotateImage(marker, 10);
 
-    ASSERT_EQ(marker.cols, marker0.cols);
-    ASSERT_EQ(marker.rows, marker0.rows);
-
-    ASSERT_EQ(countNonZeroMultichannel(marker == marker0), marker.cols * marker.rows);
+    ASSERT_EQ(countNonZeroMultichannel(rotated == expected), expected.cols * expected.rows);
 }
 
 TEST(UtilsTest, RotateExactly) {
