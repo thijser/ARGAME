@@ -23,9 +23,27 @@ namespace Projection
     public class Marker : MonoBehaviour 
     {
         /// <summary>
-        /// The ID of this Marker.
+        /// The ID of the Marker.
         /// </summary>
-        public int ID = -1;
+        private int id = -1;
+
+        /// <summary>
+        /// Gets or sets the ID of this Marker.
+        /// <para>
+        /// If the ID is already set to a valid ID, the setter does nothing.
+        /// </para>
+        /// </summary>
+        public int ID 
+        {
+            get { return id; }
+            set 
+            {
+                if (id < 0)
+                {
+                    id = value;
+                }
+            } 
+        }
 
         /// <summary>
         /// Gets or sets the remote position of this marker.
