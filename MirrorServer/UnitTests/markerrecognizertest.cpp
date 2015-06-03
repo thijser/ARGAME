@@ -140,3 +140,42 @@ TEST(MarkerRecognizerTest, MultiShades) {
         }
     }
 }
+
+TEST(MarkerRecognizerTest, MultiSkewed) {
+    BoardDetector boardDetector;
+    MarkerDetector markerDetector;
+    MarkerRecognizer markerRecognizer;
+    loadPatterns(markerRecognizer, "markers/%d.png");
+
+    Mat frame = imread("UnitTests/boardtest_markers.jpg");
+    boardDetector.locateBoard(frame);
+    Mat board = boardDetector.extractBoard(frame);
+
+    auto contours = markerDetector.locateMarkers(board);
+    ASSERT_EQ(contours.size(), 11);
+
+    vector<pair<Point, int>> expectedMatches = {
+        make_pair(Point(102, 101), 7),
+        make_pair(Point(243, 96), 6),
+        make_pair(Point(371, 140), 2),
+        make_pair(Point(192, 195), 3),
+        make_pair(Point(80, 320), 5),
+        make_pair(Point(249, 306), 4),
+        make_pair(Point(409, 269), 10),
+        make_pair(Point(95, 518), 8),
+        make_pair(Point(259, 470), 1),
+        make_pair(Point(465, 434), 0),
+        make_pair(Point(462, 646), 9)
+    };
+
+    for (auto& contour : contours) {
+        Point pivot = getPivot(contour);
+        auto match = markerRecognizer.recognizeMarker(board, contour);
+
+        for (auto& expect : expectedMatches) {
+            if (dist(pivot, expect.first) < 5) {
+                ASSERT_EQ(expect.second, match.id);
+            }
+        }
+    }
+}
