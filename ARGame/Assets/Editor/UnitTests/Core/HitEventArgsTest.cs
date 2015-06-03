@@ -30,7 +30,7 @@ namespace Core
         [ExpectedException(typeof(ArgumentNullException))]
         public static void ConstructorFirstArgNull()
         {
-            new HitEventArgs(null, Vector3.zero, Vector3.zero, CreateAndGate());
+            new HitEventArgs(null, Vector3.zero, Vector3.zero, Create<AndGate>());
         }
 
         /// <summary>

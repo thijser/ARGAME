@@ -28,7 +28,7 @@ namespace Core.Receiver
         [Test]
         public void StartTest()
         {
-            AndGate ag = CreateAndGate();
+            AndGate ag = Create<AndGate>();
             Assert.True(ag.PassThroughEmitter == null);
             ag.Start();
             Assert.False(ag.PassThroughEmitter == null);
@@ -41,7 +41,7 @@ namespace Core.Receiver
         [Test]
         public void StartTest2()
         {
-            AndGate ag = CreateAndGate();
+            AndGate ag = Create<AndGate>();
             ag.Start();
             Assert.False(ag.Hit);
             Assert.False(ag.BeamCreated);
@@ -55,7 +55,7 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentException))]
         public void InvalidOnLaserHit()
         {
-            AndGate ag = CreateAndGate();
+            AndGate ag = Create<AndGate>();
             ag.OnLaserHit(null, new HitEventArgs());
         }
 
@@ -67,7 +67,7 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullOnLaserHit()
         {
-            AndGate ag = CreateAndGate();
+            AndGate ag = Create<AndGate>();
             ag.OnLaserHit(null, null);
         }
 
@@ -79,7 +79,7 @@ namespace Core.Receiver
         [Test]
         public void OneLaserHit()
         {
-            AndGate ag = CreateAndGate();
+            AndGate ag = Create<AndGate>();
             ag.Start();
             ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
             Assert.True(ag.Hit);
@@ -94,7 +94,7 @@ namespace Core.Receiver
         [Test]
         public void MoreLaserHit()
         {
-            AndGate ag = CreateAndGate();
+            AndGate ag = Create<AndGate>();
             ag.Start();
             ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
             ag.OnLaserHit(null, new HitEventArgs(CreateTestBeam(), Vector3.one, Vector3.back, CreateOrGate()));

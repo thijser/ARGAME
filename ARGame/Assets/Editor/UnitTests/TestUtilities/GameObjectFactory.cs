@@ -23,16 +23,6 @@ namespace TestUtilities
     public class GameObjectFactory
     {
         /// <summary>
-        /// Creates and returns an AND-gate game object.
-        /// </summary>
-        /// <returns>The AND-gate.</returns>
-        public static AndGate CreateAndGate()
-        {
-            GameObject gameObject = new GameObject("ANDGate", typeof(AndGate));
-            return gameObject.GetComponent<AndGate>();
-        }
-
-        /// <summary>
         /// Creates and returns an OR-gate game object.
         /// </summary>
         /// <returns>The OR-gate.</returns>
@@ -97,7 +87,7 @@ namespace TestUtilities
         /// <returns>A valid HitEventArgs object.</returns>
         public static HitEventArgs CreateTestHit()
         {
-            return new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.forward, CreateAndGate());
+            return new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.forward, Create<AndGate>());
         }
 
         /// <summary>
