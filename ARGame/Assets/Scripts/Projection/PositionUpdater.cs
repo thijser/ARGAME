@@ -109,7 +109,7 @@ namespace Projection
                 throw new ArgumentNullException("update");
             }
 
-            if (update.Type == UpdateType.DeletePosition || update.Type == UpdateType.UpdatePosition)
+            if ( update.Type == UpdateType.UpdatePosition)
             {
                 this.OnPositionUpdate(update as PositionUpdate);
             }
