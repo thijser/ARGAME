@@ -97,8 +97,9 @@ namespace Projection
         /// </summary>
         /// <param name="position">The marker position.</param>
         /// <param name="id">The identifier.</param>
-        public void OnMarkerSeen(MarkerPosition position, int id)
+        public void OnMarkerSeen(MarkerPosition position)
         {
+			int id = position.id;
             if (position == null)
             {
                 throw new ArgumentNullException("position");
@@ -158,7 +159,9 @@ namespace Projection
             {
                 throw new ArgumentNullException("target");
             }
-
+			if(target.localPosition==null){
+				throw new MissingComponentException("target lacks a localposition");
+			}
             target.gameObject.transform.position = target.localPosition.Position;
             Vector3 localrotation = target.localPosition.Rotation.eulerAngles;
             Vector3 remoterotation = target.remotePosition.Rotation.eulerAngles;

@@ -23,6 +23,7 @@ namespace Projection
 
         public void LateUpdate()
         {
+
             List<MarkerPosition> list = this.link.GetMarkerPositions();
             foreach (MarkerPosition mp in list)
             {
