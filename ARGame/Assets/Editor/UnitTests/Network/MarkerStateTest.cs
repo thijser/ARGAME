@@ -44,5 +44,18 @@ namespace Network
         {
             new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), null);
         }
+
+        /// <summary>
+        /// Test if correct exception is thrown when null ref
+        /// is passed in update.
+        [Test]
+        public void UpdateNullTest()
+        {
+            GameObject go = new GameObject("Dummy");
+            GameObject go2 = new GameObject("NumberText");
+            go2.AddComponent<TextMesh>();
+            go2.transform.parent = go.transform;
+            MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), new GameObject());
+        }
     }
 }
