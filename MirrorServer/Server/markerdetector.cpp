@@ -57,7 +57,10 @@ namespace mirrors {
             bool isInnerContour = parent >= 0;
             bool isFirstLevel = isInnerContour && hierarchy[parent][HierarchyElement::PARENT] < 0;
 
-            if (isInnerContour && isFirstLevel) {
+            cv::Rect bb = cv::boundingRect(contours[i]);
+            bool largeEnough = bb.width >= 8 && bb.height >= 8;
+
+            if (isInnerContour && isFirstLevel && largeEnough) {
                 potentialMarkers.push_back(contours[i]);
             }
         }

@@ -148,7 +148,7 @@ TEST(MarkerDetectorTest, LightingGradient) {
 TEST(MarkerDetectorTest, Table) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/boardtest_table_result.jpg");
+    Mat frame = imread("UnitTests/boardtest_table.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
