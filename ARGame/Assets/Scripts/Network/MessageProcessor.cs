@@ -55,6 +55,16 @@ namespace Network
         }
 
         /// <summary>
+        /// Reads a <c>Delete</c> type PositionUpdate message.
+        /// </summary>
+        /// <returns>The PositionUpdate.</returns>
+        public static PositionUpdate ReadDelete(byte[] buffer)
+        {
+            int id = MessageProcessor.ReadInt(buffer, 0);
+            return new PositionUpdate(UpdateType.DeletePosition, new Vector2(0, 0), 0, id);
+        }
+
+        /// <summary>
         /// Reads and returns a float value from a network byte input, starting
         /// from the given offset.
         /// </summary>

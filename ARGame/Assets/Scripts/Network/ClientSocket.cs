@@ -188,7 +188,12 @@ namespace Network
             switch ((UpdateType)type)
             {
                 case UpdateType.DeletePosition:
-                    return this.ReadDelete();
+                    received = this.socket.Receive(this.buffer, 4, SocketFlags.None);
+                    if (received < 4)
+                    {
+                        return null;
+                    }
+                    return MessageProcessor.ReadDelete(buffer);
                 case UpdateType.UpdatePosition:
                     received = this.socket.Receive(this.buffer, 16, SocketFlags.None);
                     if (received < 16)
@@ -204,22 +209,6 @@ namespace Network
                     Debug.LogWarning("Received invalid type: " + type);
                     return null;
             }
-        }
-
-        /// <summary>
-        /// Reads a <c>Delete</c> type PositionUpdate message.
-        /// </summary>
-        /// <returns>The PositionUpdate.</returns>
-        public PositionUpdate ReadDelete()
-        {
-            int received = this.socket.Receive(this.buffer, 4, SocketFlags.None);
-            if (received < 4)
-            {
-                return null;
-            }
-
-            int id = this.ReadInt(0);
-            return new PositionUpdate(UpdateType.DeletePosition, new Vector2(0, 0), 0, id);
         }
 
         /// <summary>
