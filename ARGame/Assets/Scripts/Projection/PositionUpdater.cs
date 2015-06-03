@@ -85,6 +85,7 @@ namespace Projection
 		/// </summary>
 		public void Update()
         {
+			if(Parent!=null&&Parent.LocalPosition!=null)
 			foreach(KeyValuePair<int, Marker> entry in markerTable)
 			{
 				UpdatePosition(entry.Value);
@@ -96,8 +97,9 @@ namespace Projection
         /// </summary>
         /// <param name="position">The marker position.</param>
         /// <param name="id">The identifier.</param>
-        public void OnMarkerSeen(MarkerPosition position, int id)
+        public void OnMarkerSeen(MarkerPosition position)
         {
+			int id = position.id;
             if (position == null)
             {
                 throw new ArgumentNullException("position");
@@ -155,7 +157,10 @@ namespace Projection
             {
                 throw new ArgumentNullException("target");
             }
-
+			if(target.LocalPosition== null){
+				throw new ArgumentNullException("parent has no localposition");
+			}                        
+			Debug.Log (target);
             target.gameObject.transform.position = target.LocalPosition.Position;
             Vector3 localrotation = target.LocalPosition.Rotation.eulerAngles;
             Vector3 remoterotation = target.RemotePosition.Rotation.eulerAngles;
