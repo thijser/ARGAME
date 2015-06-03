@@ -61,6 +61,12 @@ namespace mirrors {
         boundRect.width = boundRect.width - boundRect.x;
         boundRect.height = boundRect.height - boundRect.y;
 
+        // Check bounds (sometimes there's an off-by-one error)
+        boundRect.x = std::max(0, boundRect.x);
+        boundRect.y = std::max(0, boundRect.y);
+        boundRect.width = std::min(boundRect.width, frameRotated.cols - boundRect.x);
+        boundRect.height = std::min(boundRect.height, frameRotated.rows - boundRect.y);
+
         // Crop rotated image
         return frameRotated(boundRect);
     }
