@@ -19,11 +19,6 @@ namespace Projection
     public class MarkerRegister
     {
         /// <summary>
-        /// The Marker that needs to be reigstered.
-        /// </summary>
-        public Marker RegisteredMarker { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MarkerRegister"/> class.
         /// </summary>
         /// <param name="mark">The Marker to be registered.</param>
@@ -31,5 +26,10 @@ namespace Projection
         {
             this.RegisteredMarker = mark;
         }
+
+        /// <summary>
+        /// Gets the Marker that needs to be registered.
+        /// </summary>
+        public Marker RegisteredMarker { get; private set; }
     }
 }

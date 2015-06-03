@@ -18,43 +18,74 @@ namespace Projection
     /// </summary>
     public class MarkerPosition
     {
-        public Vector3 Position;
-        public Quaternion Rotation;
-        public DateTime timeStamp;
-        public Vector3 scale;
-        public int id=-1;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkerPosition"/> class.
         /// </summary>
-        /// <param name="update">The update.</param>
+        /// <param name="update">The update, must be of type UpdatePosition.</param>
         public MarkerPosition(PositionUpdate update)
         {
-            this.scale = new Vector3(1, 1, 1);
-            this.timeStamp = DateTime.Now;
+            if (update.Type != UpdateType.UpdatePosition)
+            {
+                throw new ArgumentException("UpdateType is not UpdatePosition.", "update");
+            }
+
+            this.Scale = new Vector3(1, 1, 1);
+            this.TimeStamp = DateTime.Now;
             this.Position = new Vector3(update.Coordinate[0], 0, update.Coordinate[1]);
-            this.scale = new Vector3(1, 1, 1);
+            this.Scale = new Vector3(1, 1, 1);
+            this.ID = update.ID;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkerPosition"/> class.
         /// </summary>
         /// <param name="pos">The position.</param>
-  
-		/// <param name="rot">The rotation.</param>
+        /// <param name="rot">The rotation.</param>
         /// <param name="stamp">The timestamp of the update.</param>
         /// <param name="scale">The scale of the object.</param>
-        public MarkerPosition(Vector3 pos, Quaternion rot, DateTime stamp, Vector3 scale)
+        /// <param name="id">The ID of the Marker.</param>
+        public MarkerPosition(Vector3 pos, Quaternion rot, DateTime stamp, Vector3 scale, int id)
         {
             this.Position = pos;
             this.Rotation = rot;
-            this.timeStamp = stamp;
-            this.scale = scale;
+            this.TimeStamp = stamp;
+            this.Scale = scale;
+            this.ID = id;
         }
-		public override String ToString ()
-		{
-			String ret = "MarkerPosition:< Position="+Position+", Rotation="+Rotation+", timeStamp="+timeStamp+", scale="+scale+", id=" + id;
-			return ret;
-		}
+
+        /// <summary>
+        /// Gets or sets the position of the Marker.
+        /// </summary>
+        public Vector3 Position { get; set; }
+
+        /// <summary>
+        /// Gets or sets the rotation of the Marker.
+        /// </summary>
+        public Quaternion Rotation { get; set; }
+
+        /// <summary>
+        /// Gets or sets a timestamp indicating when this MarkerPosition was made.
+        /// </summary>
+        public DateTime TimeStamp { get; set; }
+
+        /// <summary>
+        /// Gets or sets the scale of the Marker.
+        /// </summary>
+        public Vector3 Scale { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the Marker.
+        /// </summary>
+        public int ID { get; set; }
+
+        /// <summary>
+        /// Returns a string representation of this MarkerPosition.
+        /// </summary>
+        /// <returns>A string describing this MarkerPosition.</returns>
+        public override string ToString()
+        {
+            return "MarkerPosition:< Position=" + this.Position + ", Rotation=" + this.Rotation + 
+                   ", timeStamp=" + this.TimeStamp + ", scale=" + this.Scale + ", id=" + this.ID;
+        }
     }
 }

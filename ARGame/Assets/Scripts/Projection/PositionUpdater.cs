@@ -18,18 +18,13 @@ namespace Projection
     /// <summary>
     /// A class that handles marker registration and updates positions.
     /// </summary>
-    public class PositionUpdater : MonoBehaviour 
+    public class PositionUpdater : MonoBehaviour
     {
-        /// <summary>
-        /// Gets or sets the central level marker, this should be visible. 
-        /// </summary>
-        public Marker Parent { get; set; }
-
         /// <summary>
         /// Scale of the object.
         /// </summary>
         private float scale = 1;
- 
+
         /// <summary>
         /// Collection of all registered to this class. 
         /// </summary>
@@ -41,9 +36,14 @@ namespace Projection
         private long patience = 1000 * 10000; //// 1000 milliseconds 
 
         /// <summary>
-        /// Registers a new marker.
-        /// <param name="register">The marker register parameter that registers the new marker.</param>
+        /// Gets or sets the central level marker, this should be visible. 
         /// </summary>
+        public Marker Parent { get; set; }
+
+        /// <summary>
+        /// Registers a new marker.
+        /// </summary>
+        /// <param name="register">The marker register parameter that registers the new marker.</param>
         public void OnMarkerRegister(MarkerRegister register)
         {
             if (register == null)
@@ -54,43 +54,48 @@ namespace Projection
             if (this.Parent == null)
             {
                 this.Parent = register.RegisteredMarker;
-                this.markerTable = new Dictionary<int, Marker>();
             }
             else
             {
-				register.RegisteredMarker.gameObject.transform.SetParent(Parent.gameObject.transform);
-			}
+                register.RegisteredMarker.gameObject.transform.SetParent(this.Parent.gameObject.transform);
+            }
+
             this.markerTable.Add(register.RegisteredMarker.ID, register.RegisteredMarker);
         }
 
-		/// gets marker with Identifier  
-		/// </summary>
-		/// <returns>The marker.</returns>
-		/// <param name="id">Identifier.</param>
-		/// <exception cref="KeyNotFoundException"> thrown when the marker is not (yet) registered</exception>
-		public Marker GetMarker(int id)
+        /// <summary>
+        /// Gets a marker by ID. 
+        /// </summary>
+        /// <returns>The Marker.</returns>
+        /// <param name="id">The ID.</param>
+        /// <exception cref="KeyNotFoundException">If the marker is not (yet) registered.</exception>
+        public Marker GetMarker(int id)
         {
-			if(markerTable.ContainsKey(id))
+            if (this.markerTable.ContainsKey(id))
             {
-				return markerTable[id];
-			}
+                return this.markerTable[id];
+            }
             else
             {
-				throw new KeyNotFoundException("this marker is not registered");
-			}
-		}
-		
-		/// <summary>
-		/// Update position of all markers .
-		/// </summary>
-		public void Update()
+                throw new KeyNotFoundException("this marker is not registered");
+            }
+        }
+
+        /// <summary>
+        /// Updates the position of all markers.
+        /// </summary>
+        public void Update()
         {
-			if(Parent!=null&&Parent.LocalPosition!=null)
-			foreach(KeyValuePair<int, Marker> entry in markerTable)
-			{
-				UpdatePosition(entry.Value);
-			}
-		}
+            if (this.Parent == null || this.Parent.LocalPosition == null)
+            {
+                return;
+            }
+
+            foreach (Marker marker in this.markerTable.Values)
+            {
+                this.UpdatePosition(marker);
+            }
+        }
 
         /// <summary>
         /// This marker has been seen by remote, informs the marker of this 
@@ -99,14 +104,14 @@ namespace Projection
         /// <param name="id">The identifier.</param>
         public void OnMarkerSeen(MarkerPosition position)
         {
-			int id = position.id;
+			int id = position.ID;
             if (position == null)
             {
                 throw new ArgumentNullException("position");
             }
 
             this.GetMarker(id).LocalPosition = position;
-            if (this.Parent.LocalPosition.timeStamp.Ticks + this.patience < position.timeStamp.Ticks)
+            if (this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
             {
                 this.Reparent(this.GetMarker(id));
             }
@@ -186,6 +191,10 @@ namespace Projection
             //// TODO: If mirrored then swap operation params.
         }
 
+        /// <summary>
+        /// Changes the parent to the given target Marker.
+        /// </summary>
+        /// <param name="target">The new parent Marker, not null.</param>
         public void Reparent(Marker target)
         {
             if (target == null)
@@ -205,9 +214,9 @@ namespace Projection
         }
 
         /// <summary>
-        /// set the location of the marker based on the remote position. 
+        /// Updates the location of the marker based on the remote position. 
         /// </summary>
-        /// <param name="update">position update received over the net.</param>
+        /// <param name="update">The <see cref="PositionUpdate"/>, not null.</param>
         public void OnPositionUpdate(PositionUpdate update)
         {
             if (update == null)
@@ -215,7 +224,18 @@ namespace Projection
                 throw new ArgumentNullException("update");
             }
 
-            this.GetMarker(update.ID).RemotePosition = new MarkerPosition(update);
+            try
+            {
+                this.GetMarker(update.ID).RemotePosition = new MarkerPosition(update);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                // This should never happen on well-designed levels.
+                // We log a warning message stating this, and ignore it.
+                // We do this because we do not want to risk throwing an exception
+                // to Unity's message system.
+                Debug.LogWarning("Received PositionUpdate of unknown Marker: " + ex);
+            }
         }
     }
 }

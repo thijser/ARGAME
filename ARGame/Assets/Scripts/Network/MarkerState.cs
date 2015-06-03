@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 // <copyright file="MarkerState.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
@@ -36,12 +36,12 @@ namespace Network
         /// <param name="referenceMarker">The GameObject that the PositionUpdate represents.</param>
         public MarkerState(PositionUpdate initialUpdate, GameObject referenceMarker)
         {
-            if(initialUpdate == null)
+            if (initialUpdate == null)
             {
                 throw new ArgumentNullException("initialUpdate");
             }
 
-            if(referenceMarker == null)
+            if (referenceMarker == null)
             {
                 throw new ArgumentNullException("referenceMarker");
             }
@@ -84,7 +84,7 @@ namespace Network
         /// <param name="positionupdate">The PositionUpdate.</param>
         public void Update(PositionUpdate positionupdate)
         {
-            if(positionupdate == null)
+            if (positionupdate == null)
             {
                 throw new ArgumentNullException("positionupdate");
             }

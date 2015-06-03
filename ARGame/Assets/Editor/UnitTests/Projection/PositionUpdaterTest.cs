@@ -85,21 +85,20 @@ namespace Projection
             Assert.AreEqual(parent, updater.GetMarker(54));
         }
 
-        /// <summary>
-        /// Tests if changing the marker ID after registration leaves the PositionUpdater 
-        /// in a consistent state.
-        /// </summary>
         [Test]
-        public void TestGetMarkerIDChange()
+        [ExpectedException(typeof(KeyNotFoundException))]
+        public void TestGetMarkerWithNoMarkersRegistered()
         {
             PositionUpdater updater = GameObjectFactory.Create<PositionUpdater>();
-            Marker marker = GameObjectFactory.Create<Marker>();
-            marker.ID = 54;
-            updater.OnMarkerRegister(new MarkerRegister(marker));
-            marker.ID = 23;
+            updater.GetMarker(0);
+        }
 
-            // I registered a Marker with ID 54, so it should exist with ID = 54.
-            Assert.AreEqual(54, updater.GetMarker(54).ID);
+        [Test]
+        public void TestOnPositionUpdate()
+        {
+            PositionUpdater updater = GameObjectFactory.Create<PositionUpdater>();
+            Marker parent = GameObjectFactory.Create<Marker>();
+            parent.ID = 54;
         }
     }
 }

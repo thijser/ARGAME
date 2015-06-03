@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 // <copyright file="Detector.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
@@ -12,25 +12,40 @@ namespace Projection
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class Detector : MonoBehaviour 
+    /// <summary>
+    /// Broadcasts the MarkerPositions from an <see cref="IARLink"/> instance
+    /// as Unity messages.
+    /// </summary>
+    public class Detector : MonoBehaviour
     {
-        IARLink link;
+        /// <summary>
+        /// Gets or sets the IARLink instance used to get MarkerPositions from.
+        /// </summary>
+        public IARLink Link { get; set; }
 
+        /// <summary>
+        /// Initializes the Detector with a MetaLink instance.
+        /// </summary>
         public void Start()
         {
-            this.link = new MetaLink();
+            this.Link = new MetaLink();
         }
 
+        /// <summary>
+        /// Retrieves the MarkerPositions from the <see cref="IARLink"/> 
+        /// instance and broadcasts all positions as "OnMarkerSeen" Unity 
+        /// messages.
+        /// </summary>
         public void LateUpdate()
         {
-
-            List<MarkerPosition> list = this.link.GetMarkerPositions();
+            List<MarkerPosition> list = this.Link.GetMarkerPositions();
             foreach (MarkerPosition mp in list)
             {
+                Debug.Log(mp.ToString());
                 this.SendMessage(
-					"OnMarkerSeen", 
-					mp, 
-					SendMessageOptions.DontRequireReceiver);
+                    "OnMarkerSeen",
+                    mp,
+                    SendMessageOptions.DontRequireReceiver);
             }
         }
     }

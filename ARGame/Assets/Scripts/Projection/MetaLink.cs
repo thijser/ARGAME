@@ -23,33 +23,32 @@ namespace Projection
         /// <summary>
         /// like cattle this class is driven all around it's very position consumed by the meta, please no cow tipping with the lamb
         /// </summary>
-        private GameObject lamb = new GameObject(); 
+        private GameObject lamb = new GameObject();
 
         /// <summary>
         /// meta object required for tracking 
         /// </summary>
         private GameObject markerdetectorGO;
-        
+
         /// <summary>
         /// meta object required for tracking 
         /// </summary>
         private MarkerTargetIndicator marketTargetindicator;
-		
-		/// <summary>
-		/// sets up the detector and marker indicator to find this marker/ 
-		/// </summary>
-		 public MetaLink()
-         {
-			this.markerdetectorGO = MarkerDetector.Instance.gameObject;
-			
-			// hide markerindicator
-			this.marketTargetindicator = this.markerdetectorGO.GetComponent<MarkerTargetIndicator>();
-			this.marketTargetindicator.enabled = false;
-			
-		}
-		
+
         /// <summary>
-        /// sets up the detector and marker indicator to find this marker/ 
+        /// Initializes a new instance of the <see cref="MetaLink"/> class.
+        /// </summary>
+        public MetaLink()
+        {
+            this.markerdetectorGO = MarkerDetector.Instance.gameObject;
+
+            // hide markerindicator
+            this.marketTargetindicator = this.markerdetectorGO.GetComponent<MarkerTargetIndicator>();
+            this.marketTargetindicator.enabled = false;
+        }
+
+        /// <summary>
+        /// Sets up the detector and marker indicator to find this marker.
         /// </summary>
         public void Start()
         {
@@ -59,6 +58,10 @@ namespace Projection
             this.marketTargetindicator.enabled = false;
         }
 
+        /// <summary>
+        /// Checks if the MarkerDetector instance of the Meta is available.
+        /// Throws a <see cref="MissingComponentException"/> otherwise.
+        /// </summary>
         public void EnsureMeta()
         {
             if (!this.markerdetectorGO.activeSelf)
@@ -68,25 +71,29 @@ namespace Projection
 
             if (MarkerDetector.Instance == null)
             {
-                throw new MissingComponentException("All out of MarkerDetectors, I'm very very sorry");
+                throw new MissingComponentException("Missing MarkerDetector instance");
             }
         }
 
+        /// <summary>
+        /// Builds and returns the MarkerPositions detected by the Meta detector.
+        /// </summary>
+        /// <returns>The List of MarkerPositions.</returns>
         public List<MarkerPosition> GetMarkerPositions()
         {
-
             this.EnsureMeta();
             Transform trans = this.lamb.transform;
             List<MarkerPosition> list = new List<MarkerPosition>();
+
             foreach (int id in MarkerDetector.Instance.updatedMarkerTransforms)
             {
                 MarkerDetector.Instance.GetMarkerTransform(id, ref trans);
-                MarkerPosition pos = new MarkerPosition(trans.position, trans.rotation, DateTime.Now, trans.localScale);
+                MarkerPosition pos = new MarkerPosition(trans.position, trans.rotation, DateTime.Now, trans.localScale, id);
                 list.Add(pos);
-                pos.id = id;
+                pos.ID = id;
             }
 
             return list;
         }
-	}
+    }
 }

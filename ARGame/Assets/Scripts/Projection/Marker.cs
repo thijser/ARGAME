@@ -20,7 +20,7 @@ namespace Projection
     /// implementation.
     /// </para>
     /// </summary>
-    public class Marker : MonoBehaviour 
+    public class Marker : MonoBehaviour
     {
         /// <summary>
         /// The ID of the Marker.
@@ -33,28 +33,32 @@ namespace Projection
         /// If the ID is already set to a valid ID, the setter does nothing.
         /// </para>
         /// </summary>
-        public int ID 
+        public int ID
         {
-            get { return id; }
-            set 
+            get
             {
-                if (id < 0)
+                return this.id;
+            }
+
+            set
+            {
+                if (this.id < 0)
                 {
-                    id = value;
+                    this.id = value;
                 }
-            } 
+            }
         }
 
         /// <summary>
         /// Gets or sets the remote position of this marker.
         /// </summary>
         public MarkerPosition RemotePosition { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the local position of this marker.
         /// </summary>
         public MarkerPosition LocalPosition { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the rotation of the object on this marker.
         /// </summary>
@@ -72,13 +76,12 @@ namespace Projection
         /// Returns a string representation of this Marker.
         /// </summary>
         /// <returns>A string describing this Marker.</returns>
-		public override string ToString()
+        public override string ToString()
         {
-			return "<marker:id=" + this.ID + 
-                ", RemotePosition=" + this.RemotePosition.ToString() + 
-                ", LocalPosition=" + this.LocalPosition.ToString() + 
+            return "<marker:id=" + this.ID +
+                ", RemotePosition=" + this.RemotePosition.ToString() +
+                ", LocalPosition=" + this.LocalPosition.ToString() +
                 ", ObjectRotation=" + this.ObjectRotation + ">";
-		}
-
+        }
     }
 }
