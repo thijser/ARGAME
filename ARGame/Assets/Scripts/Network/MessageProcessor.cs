@@ -30,15 +30,16 @@ namespace Network
         /// <summary>
         /// Reads a <c>Update</c> type PositionUpdate message.
         /// </summary>
+        /// <param name="buffer">The byte array containing data.</param>
         /// <returns>The PositionUpdate.</returns>
         public static PositionUpdate ReadUpdatePosition(byte[] buffer)
         {
-            if(buffer == null)
+            if (buffer == null)
             {
                 throw new ArgumentNullException("buffer");
             }
 
-            if(buffer.Length < 16)
+            if (buffer.Length < 16)
             {
                 throw new ArgumentException("The supplied byte array is not long enough to contain all the required data.");
             }
@@ -54,10 +55,11 @@ namespace Network
         /// <summary>
         /// Reads a <c>Delete</c> type PositionUpdate message.
         /// </summary>
+        /// <param name="buffer">The byte array containing data.</param>
         /// <returns>The PositionUpdate.</returns>
         public static PositionUpdate ReadDelete(byte[] buffer)
         {
-            if(buffer == null)
+            if (buffer == null)
             {
                 throw new ArgumentNullException("buffer");
             }
@@ -74,6 +76,7 @@ namespace Network
         /// <summary>
         /// Reads a <c>UpdateRotation</c> type RotationUpdate message.
         /// </summary>
+        /// <param name="buffer">The byte array containing data.</param>
         /// <returns>The RotationUpdate.</returns>
         public static RotationUpdate ReadUpdateRotation(byte[] buffer)
         {
