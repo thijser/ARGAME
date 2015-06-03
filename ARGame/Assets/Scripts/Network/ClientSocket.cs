@@ -137,7 +137,7 @@ namespace Network
                 }
 
                 this.timestamp = DateTime.Now;
-                if(update.Type != UpdateType.Ping)
+                if (update.Type != UpdateType.Ping)
                 {
                     this.SendMessage("OnServerUpdate", update, SendMessageOptions.DontRequireReceiver);
                 }

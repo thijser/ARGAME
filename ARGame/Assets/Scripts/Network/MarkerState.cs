@@ -54,12 +54,12 @@ namespace Network
 
             // Assign number to mesh
             Transform t = this.Object.transform.Find("NumberText");
-            if(t == null)
+            if (t == null)
             {
                 throw new ArgumentException("The given GameObject does not have a NumberText child object.");
             }
 
-            if(t.GetComponent<TextMesh>() == null)
+            if (t.GetComponent<TextMesh>() == null)
             {
                 throw new ArgumentException("The given GameObject does not have a NumberText child object with a TextMesh component.");
             }
