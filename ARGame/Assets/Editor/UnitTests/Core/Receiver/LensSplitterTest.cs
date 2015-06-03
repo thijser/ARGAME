@@ -29,7 +29,7 @@ namespace Core.Receiver
         [Test]
         public void StartTest()
         {
-            LensSplitter ls = CreateLensSplitter();
+            LensSplitter ls = Create<LensSplitter>();
             Assert.False(ls.IsHit());
         }
 
@@ -41,7 +41,7 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullTest()
         {
-            LensSplitter ls = CreateLensSplitter();
+            LensSplitter ls = Create<LensSplitter>();
             ls.OnLaserHit(null, null);
         }
 
@@ -53,7 +53,7 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentException))]
         public void InvalidTest()
         {
-            LensSplitter ls = CreateLensSplitter();
+            LensSplitter ls = Create<LensSplitter>();
             ls.OnLaserHit(null, new HitEventArgs());
         }
     }

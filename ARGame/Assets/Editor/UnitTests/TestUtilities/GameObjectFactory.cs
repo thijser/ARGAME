@@ -23,26 +23,6 @@ namespace TestUtilities
     public class GameObjectFactory
     {
         /// <summary>
-        /// Creates and returns an AND-gate game object.
-        /// </summary>
-        /// <returns>The AND-gate.</returns>
-        public static AndGate CreateAndGate()
-        {
-            GameObject gameObject = new GameObject("ANDGate", typeof(AndGate));
-            return gameObject.GetComponent<AndGate>();
-        }
-
-        /// <summary>
-        /// Creates and returns an OR-gate game object.
-        /// </summary>
-        /// <returns>The OR-gate.</returns>
-        public static OrGate CreateOrGate()
-        {
-            GameObject gameObject = new GameObject("ORGate", typeof(OrGate));
-            return gameObject.GetComponent<OrGate>();
-        }
-
-        /// <summary>
         /// Creates and returns a LaserTarget game object.
         /// </summary>
         /// <returns>The laser target.</returns>
@@ -97,29 +77,7 @@ namespace TestUtilities
         /// <returns>A valid HitEventArgs object.</returns>
         public static HitEventArgs CreateTestHit()
         {
-            return new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.forward, CreateAndGate());
-        }
-
-        /// <summary>
-        /// Creates and returns a beam splitter game object.
-        /// </summary>
-        /// <returns>The beam splitter.</returns>
-        // FIXME Deprecated: Use Create<BeamSplitter>() instead.
-        public static BeamSplitter CreateBeamSplitter()
-        {
-            GameObject gameObject = new GameObject("Splitter", typeof(BeamSplitter));
-            return gameObject.GetComponent<BeamSplitter>();
-        }
-
-        /// <summary>
-        /// Creates and returns a lens splitter game object.
-        /// </summary>
-        /// <returns>The lens splitter.</returns>
-        // FIXME Deprecated: Use Create<LensSplitter>() instead.
-        public static LensSplitter CreateLensSplitter()
-        {
-            GameObject gameObject = new GameObject("Splitter", typeof(LensSplitter));
-            return gameObject.GetComponent<LensSplitter>();
+            return new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.forward, Create<AndGate>());
         }
 
         /// <summary>
