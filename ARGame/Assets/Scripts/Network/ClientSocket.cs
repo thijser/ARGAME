@@ -190,7 +190,12 @@ namespace Network
                 case UpdateType.DeletePosition:
                     return this.ReadDelete();
                 case UpdateType.UpdatePosition:
-                    return this.ReadUpdatePosition();
+                    received = this.socket.Receive(this.buffer, 16, SocketFlags.None);
+                    if (received < 16)
+                    {
+                        return null;
+                    }
+                    return MessageProcessor.ReadUpdatePosition(buffer);
                 case UpdateType.Ping:
                     return new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0, -1);
                 case UpdateType.UpdateRotation:
