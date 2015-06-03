@@ -50,5 +50,10 @@ namespace Projection
             this.timeStamp = stamp;
             this.scale = scale;
         }
+		@public override String ToString ()
+		{
+			String ret = "MarkerPosition:< Position="+Position+", Rotation="+Rotation+", timeStamp="+timeStamp+", scale="+scale+", id=" + id;
+			return ret;
+		}
     }
 }
