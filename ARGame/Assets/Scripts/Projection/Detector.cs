@@ -23,9 +23,11 @@ namespace Projection
 
         public void LateUpdate()
         {
+
             List<MarkerPosition> list = this.link.GetMarkerPositions();
             foreach (MarkerPosition mp in list)
             {
+				Debug.Log(mp.ToString());
                 this.SendMessage(
 					"OnMarkerSeen", 
 					mp, 

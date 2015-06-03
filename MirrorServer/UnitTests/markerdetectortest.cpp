@@ -25,7 +25,7 @@ TEST(MarkerDetectorTest, NoMarkers) {
 TEST(MarkerDetectorTest, SingleMarker) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/markerdetectortest_single.jpg");
+    Mat frame = imread("UnitTests/markertest_single.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
@@ -36,14 +36,13 @@ TEST(MarkerDetectorTest, SingleMarker) {
 
     Point pos = getPivot(contours[0]);
 
-    ASSERT_NEAR(pos.x, 248, 4);
-    ASSERT_NEAR(pos.y, 334, 4);
+    ASSERT_NEAR(dist(pos, Point(248, 334)), 0, 5);
 }
 
 TEST(MarkerDetectorTest, MarkerGrid) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/markerdetectortest_grid.jpg");
+    Mat frame = imread("UnitTests/markertest_grid.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
@@ -70,7 +69,7 @@ TEST(MarkerDetectorTest, MarkerGrid) {
 TEST(MarkerDetectorTest, MarkerShades) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/markerdetectortest_green_shades.jpg");
+    Mat frame = imread("UnitTests/markertest_green_shades.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
@@ -97,7 +96,7 @@ TEST(MarkerDetectorTest, MarkerShades) {
 TEST(MarkerDetectorTest, VaryingLighting) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/markerdetectortest_varying_lighting.jpg");
+    Mat frame = imread("UnitTests/markertest_varying_lighting.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
@@ -119,7 +118,7 @@ TEST(MarkerDetectorTest, VaryingLighting) {
 TEST(MarkerDetectorTest, LightingGradient) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/markerdetectortest_lighting_gradient.jpg");
+    Mat frame = imread("UnitTests/markertest_lighting_gradient.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);

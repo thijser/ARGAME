@@ -104,6 +104,7 @@ namespace TestUtilities
         /// Creates and returns a beam splitter game object.
         /// </summary>
         /// <returns>The beam splitter.</returns>
+        // FIXME Deprecated: Use Create<BeamSplitter>() instead.
         public static BeamSplitter CreateBeamSplitter()
         {
             GameObject gameObject = new GameObject("Splitter", typeof(BeamSplitter));
@@ -114,6 +115,7 @@ namespace TestUtilities
         /// Creates and returns a lens splitter game object.
         /// </summary>
         /// <returns>The lens splitter.</returns>
+        // FIXME Deprecated: Use Create<LensSplitter>() instead.
         public static LensSplitter CreateLensSplitter()
         {
             GameObject gameObject = new GameObject("Splitter", typeof(LensSplitter));
@@ -134,20 +136,10 @@ namespace TestUtilities
         }
 
         /// <summary>
-        /// Creates a marker object that has a <see cref="Projection.BaseForLevel"/> component.
-        /// </summary>
-        /// <returns>The created GameObject.</returns>
-        public static GameObject CreateMarker()
-        {
-            // FIXME: Object doesn't exist
-            //return new GameObject("Marker", typeof(BaseForLevel));
-            return null;
-        }
-
-        /// <summary>
         /// Creates a portal that is not linked to another portal.
         /// </summary>
         /// <returns>An unlinked portal</returns>
+        // FIXME Deprecated: Use Create<Portal>() instead.
         public static Portal CreateUnlinkedPortal()
         {
             GameObject gameObject = new GameObject("Portal", typeof(Portal));
@@ -158,10 +150,23 @@ namespace TestUtilities
         /// Creates a dummy position previewer.
         /// </summary>
         /// <returns>A position previewer used for testing purposes.</returns>
+        // FIXME Deprecated: Use Create<PositionPreviewer>() instead.
         public static PositionPreviewer CreatePreviewer()
         {
             GameObject gameObject = new GameObject("Dummy", typeof(PositionPreviewer));
             return gameObject.GetComponent<PositionPreviewer>();
+        }
+
+        /// <summary>
+        /// Creates a GameObject that has the single given Component type.
+        /// </summary>
+        /// <typeparam name="T">The Component Type</typeparam>
+        /// <returns>The created Component</returns>
+        public static T Create<T>() where T : MonoBehaviour
+        {
+            System.Type type = typeof(T);
+            GameObject gameObject = new GameObject(type.Name, type);
+            return gameObject.GetComponent<T>();
         }
     }
 }
