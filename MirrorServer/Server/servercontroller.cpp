@@ -1,5 +1,6 @@
 #include "servercontroller.h"
 #include "serversocket.hpp"
+#include <iostream>
 
 namespace mirrors {
 
@@ -55,21 +56,19 @@ void ServerController::fatalError(const QString &message) {
 void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camSize) {
     Q_ASSERT(serverState == Idle);
     Q_ASSERT(capture == nullptr); // Otherwise we get a memory leak.
-    qDebug() << "Server starting (using camera ID" << cameraDevice << "for frames)";
     changeState(Starting);
     capture = new cv::VideoCapture(cameraDevice);
     if (!capture->isOpened()) {
         delete capture;
         capture = nullptr;
-        qDebug() << "Server failed to open camera ID" << cameraDevice;
         fatalError(tr("Fatal error: could not open camera"));
     }
 
-    cameraResolution.width  = capture->set(CV_CAP_PROP_FRAME_WIDTH,  camSize.width);
-    cameraResolution.height = capture->set(CV_CAP_PROP_FRAME_HEIGHT, camSize.height);
+    capture->set(CV_CAP_PROP_FRAME_WIDTH,  camSize.width);
+    capture->set(CV_CAP_PROP_FRAME_HEIGHT, camSize.height);
 
-    capture->set(CV_CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH);
-    capture->set(CV_CAP_PROP_FRAME_HEIGHT, CAMERA_HEIGHT);
+    cameraResolution.width = capture->get(CV_CAP_PROP_FRAME_WIDTH);
+    cameraResolution.height = capture->get(CV_CAP_PROP_FRAME_HEIGHT);
 
     sock->setPortNumber(port);
     sock->start();
@@ -78,8 +77,6 @@ void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camS
 
 void ServerController::stopServer() {
     Q_ASSERT(serverState == Started || serverState == Starting);
-    qDebug() << "Server stopping";
-
     changeState(Stopping);
     sock->stop();
 }
@@ -90,7 +87,6 @@ void ServerController::detectBoard() {
         delete capture;
         capture = nullptr;
         changeState(Idle);
-        qDebug() << "Server stopped";
         return;
     }
     Q_ASSERT(serverState == Starting);
@@ -105,7 +101,6 @@ void ServerController::detectBoard() {
         connect(detectorTimer,    SIGNAL(timeout()),
                 this,             SLOT(detectFrame()));
         changeState(Started);
-        qDebug() << "Server started";
     }
     detectorTimer->start();
 }
@@ -131,7 +126,6 @@ void ServerController::detectFrame() {
         changeState(Idle);
         delete capture;
         capture = nullptr;
-        qDebug() << "Server stopped";
     }
 }
 

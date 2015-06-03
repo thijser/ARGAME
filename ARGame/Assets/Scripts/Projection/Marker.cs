@@ -12,29 +12,40 @@ namespace Projection
     using System.Collections;
     using UnityEngine;
 
+    /// <summary>
+    /// Represents a marker detected in the world.
+    /// <para>
+    /// This class acts as a container for the position and rotation data 
+    /// coming from both the remote server as well as the local IARLink 
+    /// implementation.
+    /// </para>
+    /// </summary>
     public class Marker : MonoBehaviour 
     {
-        public int id = -1;
-		[HideInInspector] public MarkerPosition remotePosition;
-		[HideInInspector] public MarkerPosition localPosition;
-        float objectRotation; 
-    
-        public void SetObjectRotation(float rotation)
-        {
-            this.objectRotation = rotation;
-        }
-    
-        public void SetRemotePosition(MarkerPosition rem)
-        {
-            this.remotePosition = rem;
-        }
+        /// <summary>
+        /// The ID of this Marker.
+        /// </summary>
+        public int ID = -1;
 
-        public void SetLocalPosition(MarkerPosition rem)
-        {
-            this.localPosition = rem;
-        }
+        /// <summary>
+        /// Gets or sets the remote position of this marker.
+        /// </summary>
+        public MarkerPosition RemotePosition { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the local position of this marker.
+        /// </summary>
+        public MarkerPosition LocalPosition { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the rotation of the object on this marker.
+        /// </summary>
+        public float ObjectRotation { get; set; }
 
-        void Start()
+        /// <summary>
+        /// Registers this marker.
+        /// </summary>
+        public void Start()
         {
             this.SendMessageUpwards("OnMarkerRegister", new MarkerRegister(this));
         }

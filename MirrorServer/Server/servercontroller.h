@@ -17,12 +17,6 @@
 namespace mirrors {
 using std::vector;
 
-/// Horizontal capture resolution for camera.
-const int CAMERA_WIDTH = 1600;
-
-/// Vertical capture resolution for camera.
-const int CAMERA_HEIGHT = 896;
-
 /// Directory that contains marker images.
 const std::string MARKER_DIRECTORY = "markers/";
 
