@@ -86,9 +86,11 @@ namespace Projection
 		/// </summary>
 		public void Update()
         {
+			if(Parent!=null && Parent.LocalPosition!=null && Parent.RemotePosition!=null){
 			foreach(KeyValuePair<int, Marker> entry in markerTable)
-			{
-				UpdatePosition(entry.Value);
+				{
+					UpdatePosition(entry.Value);
+				}
 			}
 		}
 
