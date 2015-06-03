@@ -80,7 +80,6 @@ namespace Network
         public void ConstructorInvalidArgsTestPartTwo()
         {
             GameObject parent = new GameObject("Dummy");
-            GameObject child = new GameObject("NumberText");
             MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), parent);
         }
 

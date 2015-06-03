@@ -30,9 +30,9 @@ namespace Network
         /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public static void ArgumentNullTest()
+        public void ArgumentNullTest()
         {
-            GameObjectFactory.CreatePreviewer().OnPositionUpdate(null);
+            GameObjectFactory.Create<PositionPreviewer>().OnServerUpdate(null);
         }
 
         /// <summary>
@@ -40,18 +40,18 @@ namespace Network
         /// </summary>
         [Test]
         [ExpectedException(typeof(KeyNotFoundException))]
-        public static void NullMarkerStateTest()
+        public void NullMarkerStateTest()
         {
-            GameObjectFactory.CreatePreviewer().GetMarkerState(0);
+            GameObjectFactory.Create<PositionPreviewer>().GetMarkerState(0);
         }
 
         /// <summary>
         /// Tests if the start behaviour is correct.
         /// </summary>
         [Test]
-        public static void StartTest()
+        public void StartTest()
         {
-            PositionPreviewer pp = GameObjectFactory.CreatePreviewer();
+            PositionPreviewer pp = GameObjectFactory.Create<PositionPreviewer>();
             pp.ReferenceMarker = new UnityEngine.GameObject();
             pp.Start();
             Assert.False(pp.ReferenceMarker.activeSelf);

@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
+    using Network;
     using NUnit.Framework;
     using TestUtilities;
     using UnityEngine;
@@ -65,6 +66,10 @@ namespace Projection
             Assert.AreEqual(parent.transform, child.transform.parent, "Marker Hierarchy");
         }
 
+        /// <summary>
+        /// Tests whether the correct exception is thrown when an invalid ID
+        /// is requested.
+        /// </summary>
         [Test]
         [ExpectedException(typeof(KeyNotFoundException))]
         public void TestGetMarkerInvalidID()
@@ -75,6 +80,9 @@ namespace Projection
             updater.GetMarker(2);
         }
 
+        /// <summary>
+        /// Tests whether the <c>GetMarker(int)</c> returns the correct marker.
+        /// </summary>
         [Test]
         public void TestGetMarkerTypical()
         {
@@ -85,6 +93,10 @@ namespace Projection
             Assert.AreEqual(parent, updater.GetMarker(54));
         }
 
+        /// <summary>
+        /// Tests whether the <c>GetMarker(int)</c> method succeeds if no markers are 
+        /// registered.
+        /// </summary>
         [Test]
         [ExpectedException(typeof(KeyNotFoundException))]
         public void TestGetMarkerWithNoMarkersRegistered()
@@ -93,12 +105,34 @@ namespace Projection
             updater.GetMarker(0);
         }
 
+        /// <summary>
+        /// Tests whether <c>OnPositionUpdate(null)</c> throws 
+        /// an <see cref="ArgumentNullException"/>.
+        /// </summary>
         [Test]
-        public void TestOnPositionUpdate()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestOnPositionUpdateNull()
+        {
+            GameObjectFactory.Create<PositionUpdater>().OnPositionUpdate(null);
+        }
+
+        /// <summary>
+        /// Tests whether <c>OnPositionUpdate</c> updates the position of a 
+        /// Marker as expected.
+        /// </summary>
+        [Test]
+        public void TestOnPositionUpdateTypical()
         {
             PositionUpdater updater = GameObjectFactory.Create<PositionUpdater>();
-            Marker parent = GameObjectFactory.Create<Marker>();
-            parent.ID = 54;
+            Marker marker = GameObjectFactory.Create<Marker>();
+            Assume.That(marker.transform.position == Vector3.zero, "Marker position should be initialized to Vector3.zero");
+            marker.ID = 12;
+            PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 0, 12);
+            updater.OnMarkerRegister(new MarkerRegister(marker));
+            updater.OnPositionUpdate(update);
+            Assert.AreEqual(new Vector3(2, 0, 2), marker.RemotePosition.Position);
+            Assert.AreEqual(Quaternion.identity, marker.RemotePosition.Rotation);
+            Assert.AreEqual(12, marker.RemotePosition.ID);
         }
     }
 }

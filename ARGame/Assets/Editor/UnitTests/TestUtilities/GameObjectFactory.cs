@@ -147,17 +147,6 @@ namespace TestUtilities
         }
 
         /// <summary>
-        /// Creates a dummy position previewer.
-        /// </summary>
-        /// <returns>A position previewer used for testing purposes.</returns>
-        // FIXME Deprecated: Use Create<PositionPreviewer>() instead.
-        public static PositionPreviewer CreatePreviewer()
-        {
-            GameObject gameObject = new GameObject("Dummy", typeof(PositionPreviewer));
-            return gameObject.GetComponent<PositionPreviewer>();
-        }
-
-        /// <summary>
         /// Creates a GameObject that has the single given Component type.
         /// </summary>
         /// <typeparam name="T">The Component Type</typeparam>
