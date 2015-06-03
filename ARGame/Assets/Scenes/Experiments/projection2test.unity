@@ -148,9 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 3
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 3
 --- !u!1 &40745341 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 157430, guid: 2b20768e6588e4f46ac1cf8f79e31633, type: 2}
@@ -194,7 +192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77f9043b8173aa468d606aa7542a954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Parent: {fileID: 0}
 --- !u!1001 &126368140
 Prefab:
   m_ObjectHideFlags: 0
@@ -346,9 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 8
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 8
 --- !u!1 &275600576 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 136600, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
@@ -364,9 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 7
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 7
 --- !u!1001 &497565954
 Prefab:
   m_ObjectHideFlags: 0
@@ -428,9 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 5
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 5
 --- !u!1 &700514906 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 136600, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
@@ -446,9 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 11
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 11
 --- !u!1 &1078696419 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 136600, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
@@ -464,9 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 2
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 2
 --- !u!1001 &1162891460
 Prefab:
   m_ObjectHideFlags: 0
@@ -574,9 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 9
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 9
 --- !u!1001 &1453698746
 Prefab:
   m_ObjectHideFlags: 0
@@ -684,9 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 10
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 10
 --- !u!1001 &1720923397
 Prefab:
   m_ObjectHideFlags: 0
@@ -882,9 +865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 0
 --- !u!1 &2033427368 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 136600, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
@@ -900,9 +881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 6
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 6
 --- !u!1001 &2042439884
 Prefab:
   m_ObjectHideFlags: 0
@@ -964,9 +943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 4
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 4
 --- !u!1 &2127614242 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 136600, guid: 76267cfb1b445b64aa6c970d520d12d6, type: 2}
@@ -982,6 +959,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1
-  remotePosition: {fileID: 0}
-  localPosition: {fileID: 0}
+  ID: 1
