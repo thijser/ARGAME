@@ -2,6 +2,7 @@
 #define TESTUTILITIES_HPP
 
 #include <opencv2/core/core.hpp>
+#include "markerrecognizer.hpp"
 #include <vector>
 
 namespace mirrors {
@@ -29,13 +30,21 @@ int countNonZeroMultichannel(Mat input);
 bool imagesApproximatelyEqual(Mat expected, Mat actual, float minimalMatch = 0.95f, float colorDiff = 10);
 
 /**
- * @brief Test if the expected marker centers have been found.
+ * @brief Tests if the expected marker centers have been found.
  * @param expectedPivots - Expected pivot points.
  * @param contoursFound - Marker contours that should have matching pivot points.
  * @param maxDistance - Maximum distance between marker contour and closest expected pivot.
  * @return True if all of the expected pivots have been found exactly once.
  */
 bool expectMarkers(const vector<Point>& expectedPivots, const vector<vector<Point>>& contoursFound, int maxDistance = 5);
+
+/**
+ * @brief Loads patterns into a recognizer based on a path like "markers/%d.png".
+ * @param recognizer - Recognizer to load patterns into.
+ * @param path - Path with %d that will be replaced with sequence of numbers.
+ * @return Amount of patterns loaded.
+ */
+int loadPatterns(MarkerRecognizer& recognizer, const std::string& path);
 
 }
 

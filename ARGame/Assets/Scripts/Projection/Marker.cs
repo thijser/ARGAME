@@ -67,5 +67,18 @@ namespace Projection
         {
             this.SendMessageUpwards("OnMarkerRegister", new MarkerRegister(this));
         }
+
+        /// <summary>
+        /// Returns a string representation of this Marker.
+        /// </summary>
+        /// <returns>A string describing this Marker.</returns>
+		public override string ToString()
+        {
+			return "<marker:id=" + this.ID + 
+                ", RemotePosition=" + this.RemotePosition.ToString() + 
+                ", LocalPosition=" + this.LocalPosition.ToString() + 
+                ", ObjectRotation=" + this.ObjectRotation + ">";
+		}
+
     }
 }

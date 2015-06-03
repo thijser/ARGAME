@@ -3,6 +3,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include "cvutils.hpp"
 #include <set>
+#include <iostream>
 
 namespace mirrors {
 
@@ -38,6 +39,21 @@ bool expectMarkers(const vector<Point>& expectedPivots, const vector<vector<Poin
     }
 
     return foundMarkers.size() == contoursFound.size() && foundMarkers.size() == expectedPivots.size();
+}
+
+int loadPatterns(MarkerRecognizer& recognizer, const std::string& path) {
+    int i = 0;
+    bool loaded;
+
+    do {
+        vector<char> buf;
+        buf.resize(path.size() + 20);
+        sprintf(&buf[0], path.c_str(), i);
+        loaded = recognizer.registerPattern(i, imread(buf.data(), IMREAD_GRAYSCALE));
+        i++;
+    } while (loaded);
+
+    return i - 1;
 }
 
 }

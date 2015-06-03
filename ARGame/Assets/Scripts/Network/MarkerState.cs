@@ -53,6 +53,8 @@ namespace Network
             this.Object.name = "Marker" + this.ID;
 
             // Assign number to mesh
+            Debug.Log(this.Object.transform);
+            Debug.Log(this.Object.transform.Find("NumberText"));
             TextMesh mesh = this.Object.transform.Find("NumberText").GetComponent<TextMesh>();
             mesh.text = this.ID.ToString();
         }
