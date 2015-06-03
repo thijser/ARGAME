@@ -23,7 +23,8 @@ namespace Projection
         /// <summary>
         /// Scale of the object.
         /// </summary>
-        public float scale = 1;
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public float Scale = 1;
 
         /// <summary>
         /// Collection of all registered to this class. 
@@ -109,7 +110,7 @@ namespace Projection
                 throw new ArgumentNullException("update");
             }
 
-            if ( update.Type == UpdateType.UpdatePosition)
+            if (update.Type == UpdateType.UpdatePosition)
             {
                 this.OnPositionUpdate(update as PositionUpdate);
             }
@@ -123,10 +124,9 @@ namespace Projection
         /// This marker has been seen by remote, informs the marker of this 
         /// </summary>
         /// <param name="position">The marker position.</param>
-        /// <param name="id">The identifier.</param>
         public void OnMarkerSeen(MarkerPosition position)
         {
-			int id = position.ID;
+            int id = position.ID;
             if (position == null)
             {
                 throw new ArgumentNullException("position");
@@ -184,10 +184,12 @@ namespace Projection
             {
                 throw new ArgumentNullException("target");
             }
-			if(target.LocalPosition== null){
-				throw new ArgumentNullException("parent has no localposition");
-			}                        
-			Debug.Log (target);
+
+            if (target.LocalPosition == null)
+            {
+                throw new ArgumentNullException("parent has no localposition");
+            }
+
             target.gameObject.transform.position = target.LocalPosition.Position;
             Vector3 localrotation = target.LocalPosition.Rotation.eulerAngles;
             Vector3 remoterotation = target.RemotePosition.Rotation.eulerAngles;
@@ -205,9 +207,11 @@ namespace Projection
             {
                 throw new ArgumentNullException("target");
             }
-			if(this.Parent.RemotePosition==null){
-				throw new NullReferenceException("parent has no remote");
-			}
+
+            if (this.Parent.RemotePosition == null)
+            {
+                throw new NullReferenceException("parent has no remote");
+            }
 
             target.gameObject.transform.position = target.RemotePosition.Position - this.Parent.RemotePosition.Position;
             //// TODO: If mirrored then swap operation params.

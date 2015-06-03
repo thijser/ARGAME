@@ -50,6 +50,7 @@ namespace Network
             if (update.Type == UpdateType.DeletePosition || update.Type == UpdateType.UpdatePosition)
             {
                 PositionUpdate position = update as PositionUpdate;
+
                 // Update marker state (and create initial one if this is the first sighting)
                 if (!this.markers.ContainsKey(position.ID))
                 {
