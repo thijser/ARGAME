@@ -144,3 +144,32 @@ TEST(MarkerDetectorTest, LightingGradient) {
 
     ASSERT_TRUE(expectMarkers(expectedPivots, contours));
 }
+
+TEST(MarkerDetectorTest, Table) {
+    BoardDetector boardDetector;
+    MarkerDetector markerDetector;
+    Mat frame = imread("UnitTests/boardtest_table_result.jpg");
+
+    ASSERT_TRUE(boardDetector.locateBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
+
+    auto contours = markerDetector.locateMarkers(board);
+
+    ASSERT_EQ(contours.size(), 11);
+
+    vector<Point> expectedPivots = {
+        Point(170, 275),
+        Point(296, 281),
+        Point(433, 308),
+        Point(42, 390),
+        Point(164, 429),
+        Point(279, 407),
+        Point(454, 421),
+        Point(59, 530),
+        Point(166, 605),
+        Point(343, 541),
+        Point(476, 531)
+    };
+
+    ASSERT_TRUE(expectMarkers(expectedPivots, contours));
+}

@@ -179,3 +179,42 @@ TEST(MarkerRecognizerTest, MultiSkewed) {
         }
     }
 }
+
+TEST(MarkerRecognizerTest, MultiTable) {
+    BoardDetector boardDetector;
+    MarkerDetector markerDetector;
+    MarkerRecognizer markerRecognizer;
+    loadPatterns(markerRecognizer, "markers/%d.png");
+
+    Mat frame = imread("UnitTests/boardtest_table_result.jpg");
+    boardDetector.locateBoard(frame);
+    Mat board = boardDetector.extractBoard(frame);
+
+    auto contours = markerDetector.locateMarkers(board);
+    ASSERT_EQ(contours.size(), 11);
+
+    vector<pair<Point, int>> expectedMatches = {
+        make_pair(Point(170, 275), 7),
+        make_pair(Point(296, 281), 11),
+        make_pair(Point(433, 308), 5),
+        make_pair(Point(42, 390), 8),
+        make_pair(Point(164, 429), 1),
+        make_pair(Point(279, 407), 0),
+        make_pair(Point(454, 421), 3),
+        make_pair(Point(59, 530), 9),
+        make_pair(Point(166, 605), 2),
+        make_pair(Point(343, 541), 10),
+        make_pair(Point(476, 531), 4)
+    };
+
+    for (auto& contour : contours) {
+        Point pivot = getPivot(contour);
+        auto match = markerRecognizer.recognizeMarker(board, contour);
+
+        for (auto& expect : expectedMatches) {
+            if (dist(pivot, expect.first) < 5) {
+                ASSERT_EQ(expect.second, match.id);
+            }
+        }
+    }
+}
