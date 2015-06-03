@@ -21,10 +21,9 @@ namespace Projection
     public class PositionUpdater : MonoBehaviour 
     {
         /// <summary>
-        /// Central level marker, this should be visible. 
+        /// Gets or sets the central level marker, this should be visible. 
         /// </summary>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public Marker Parent;
+        public Marker Parent { get; set; }
 
         /// <summary>
         /// Scale of the object.
@@ -42,7 +41,7 @@ namespace Projection
         private long patience = 1000 * 10000; //// 1000 milliseconds 
 
         /// <summary>
-        /// Registers a new marker
+        /// Registers a new marker.
         /// <param name="register">The marker register parameter that registers the new marker.</param>
         /// </summary>
         public void OnMarkerRegister(MarkerRegister register)
@@ -86,11 +85,9 @@ namespace Projection
 		/// </summary>
 		public void Update()
         {
-			if(Parent!=null && Parent.LocalPosition!=null && Parent.RemotePosition!=null){
 			foreach(KeyValuePair<int, Marker> entry in markerTable)
-				{
-					UpdatePosition(entry.Value);
-				}
+			{
+				UpdatePosition(entry.Value);
 			}
 		}
 
@@ -99,9 +96,8 @@ namespace Projection
         /// </summary>
         /// <param name="position">The marker position.</param>
         /// <param name="id">The identifier.</param>
-        public void OnMarkerSeen(MarkerPosition position)
+        public void OnMarkerSeen(MarkerPosition position, int id)
         {
-			int id = position.id;
             if (position == null)
             {
                 throw new ArgumentNullException("position");
@@ -127,8 +123,6 @@ namespace Projection
 
             this.GetMarker(update.ID).ObjectRotation = update.Rotation;
         }
-
-
 
         /// <summary>
         /// uses the market target and Parent to set the transform of target
@@ -161,9 +155,7 @@ namespace Projection
             {
                 throw new ArgumentNullException("target");
             }
-			if(target.LocalPosition==null){
-				throw new MissingComponentException("target lacks a localposition");
-			}
+
             target.gameObject.transform.position = target.LocalPosition.Position;
             Vector3 localrotation = target.LocalPosition.Rotation.eulerAngles;
             Vector3 remoterotation = target.RemotePosition.Rotation.eulerAngles;
