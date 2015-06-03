@@ -11,6 +11,14 @@ namespace Projection
 {
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Interface for providers of AR functionality.
+    /// <para>
+    /// Implementations of this interface detect markers in the world 
+    /// and returns a list of current markers when the <c>GetMarkerPositions()</c>
+    /// method is called.
+    /// </para>
+    /// </summary>
     public interface IARLink 
     {
         /// <summary>
