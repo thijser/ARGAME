@@ -36,6 +36,16 @@ namespace Network
         /// <returns>The PositionUpdate.</returns>
         public static PositionUpdate ReadUpdatePosition(byte[] buffer)
         {
+            if(buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
+
+            if(buffer.Length < 16)
+            {
+                throw new ArgumentException("The supplied byte array is not long enough to contain all the required data.");
+            }
+
             float x = MessageProcessor.ReadFloat(buffer, 0);
             float y = MessageProcessor.ReadFloat(buffer, 4);
             Vector2 coordinate = new Vector2(x, y);

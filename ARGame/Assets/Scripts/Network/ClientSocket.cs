@@ -207,26 +207,6 @@ namespace Network
         }
 
         /// <summary>
-        /// Reads a <c>Update</c> type PositionUpdate message.
-        /// </summary>
-        /// <returns>The PositionUpdate.</returns>
-        public PositionUpdate ReadUpdatePosition()
-        {
-            int received = this.socket.Receive(this.buffer, 16, SocketFlags.None);
-            if (received < 16)
-            {
-                return null;
-            }
-
-            float x = this.ReadFloat(0);
-            float y = this.ReadFloat(4);
-            Vector2 coordinate = new Vector2(x, y);
-            float rotation = this.ReadFloat(8);
-            int id = this.ReadInt(12);
-            return new PositionUpdate(UpdateType.UpdatePosition, coordinate, rotation, id);
-        }
-
-        /// <summary>
         /// Reads a <c>Delete</c> type PositionUpdate message.
         /// </summary>
         /// <returns>The PositionUpdate.</returns>
