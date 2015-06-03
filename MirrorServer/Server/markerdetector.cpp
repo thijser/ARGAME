@@ -27,7 +27,7 @@ namespace mirrors {
             // Threshold on greenish hue
             channels[HSV::H] > 35 & channels[HSV::H] < 90 &
             // Reasonable saturation of the green color
-            channels[HSV::S] > 50 &
+            channels[HSV::S] > 40 &
             // Reasonable lightness(not black)
             channels[HSV::V] > 40;
 
@@ -46,29 +46,19 @@ namespace mirrors {
         vector<Vec4i> hierarchy;
 
         // findContours mutates the input, so make a copy
-        findContours(Mat(mask), contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+        findContours(Mat(mask), contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
-        // Find contours that look like markers (outer contour with exactly one inner contour = child)
+        // Find contours that look like markers (first level inner contour)
         vector<vector<Point>> potentialMarkers;
 
         for (size_t i = 0; i < hierarchy.size(); i++) {
-            if (hierarchy[i][HierarchyElement::PARENT] < 0) {
-                vector<vector<Point>> childContours;
+            int parent = hierarchy[i][HierarchyElement::PARENT];
 
-                for (size_t j = 0; j < hierarchy.size(); j++) {
-                    if (hierarchy[j][HierarchyElement::PARENT] == (int) i) {
-                        childContours.push_back(contours[j]);
-                    }
-                }
+            bool isInnerContour = parent >= 0;
+            bool isFirstLevel = isInnerContour && hierarchy[parent][HierarchyElement::PARENT] < 0;
 
-                if (childContours.size() == 1) {
-                    // Find if contour is large enough
-                    auto rrect = cv::minAreaRect(childContours[0]);
-
-                    if (rrect.size.width >= 8 && rrect.size.height >= 8) {
-                        potentialMarkers.push_back(childContours[0]);
-                    }
-                }
+            if (isInnerContour && isFirstLevel) {
+                potentialMarkers.push_back(contours[i]);
             }
         }
 
