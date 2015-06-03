@@ -69,6 +69,8 @@ namespace mirrors {
 
     /**
     * @brief Rotate image by arbitrary angle.
+    * Do not use this method for right angle rotations, because it may not
+    * produce exact results.
     * @param src - Input image.
     * @param angle - Angle rotate image by in clockwise direction (may be negative for counter-clockwise).
     * @return Rotated image, which may be resized to fit the result.
