@@ -97,7 +97,7 @@ namespace Core.Receiver
             AndGate ag = Create<AndGate>();
             ag.Start();
             ag.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
-            ag.OnLaserHit(null, new HitEventArgs(CreateTestBeam(), Vector3.one, Vector3.back, CreateOrGate()));
+            ag.OnLaserHit(null, new HitEventArgs(CreateTestBeam(), Vector3.one, Vector3.back, Create<OrGate>()));
 
             Assert.True(ag.Hit);
             Assert.True(ag.BeamCreated);

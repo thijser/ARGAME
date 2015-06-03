@@ -30,7 +30,7 @@ namespace Core.Receiver
         [Test]
         public void StartTest()
         {
-            BeamSplitter bs = CreateBeamSplitter();
+            BeamSplitter bs = Create<BeamSplitter>();
             Assert.Null(bs.PassThroughEmitter);
             bs.Start();
             Assert.NotNull(bs.PassThroughEmitter);
@@ -44,7 +44,7 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullTest()
         {
-            BeamSplitter bs = CreateBeamSplitter();
+            BeamSplitter bs = Create<BeamSplitter>();
             bs.Start();
             bs.OnLaserHit(null, null);
         }
@@ -57,7 +57,7 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentException))]
         public void InvalidTest()
         {
-            BeamSplitter bs = CreateBeamSplitter();
+            BeamSplitter bs = Create<BeamSplitter>();
             bs.Start();
             bs.OnLaserHit(null, new HitEventArgs());
         }

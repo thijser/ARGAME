@@ -28,7 +28,7 @@ namespace Core.Receiver
         [Test]
         public void StartTest()
         {
-            OrGate og = CreateOrGate();
+            OrGate og = Create<OrGate>();
             Assert.True(og.PassThroughEmitter == null);
             og.Start();
             Assert.False(og.PassThroughEmitter == null);
@@ -41,7 +41,7 @@ namespace Core.Receiver
         [Test]
         public void StartTest2()
         {
-            OrGate og = CreateOrGate();
+            OrGate og = Create<OrGate>();
             og.Start();
             Assert.False(og.BeamCreated);
         }
@@ -54,7 +54,7 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentException))]
         public void InvalidOnLaserHit()
         {
-            OrGate og = CreateOrGate();
+            OrGate og = Create<OrGate>();
             og.OnLaserHit(null, new HitEventArgs());
         }
 
@@ -66,7 +66,7 @@ namespace Core.Receiver
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullOnLaserHit()
         {
-            OrGate og = CreateOrGate();
+            OrGate og = Create<OrGate>();
             og.OnLaserHit(null, null);
         }
 
@@ -77,7 +77,7 @@ namespace Core.Receiver
         [Test]
         public void OneLaserHit()
         {
-            OrGate og = CreateOrGate();
+            OrGate og = Create<OrGate>();
             og.Start();
             og.OnLaserHit(null, MirrorsUnitTest.CreateTestHit());
             Assert.True(og.BeamCreated);

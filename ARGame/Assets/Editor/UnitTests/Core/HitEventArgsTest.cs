@@ -52,7 +52,7 @@ namespace Core
         public static void ConstructorNoArgNull()
         {
             LaserBeam lb = new LaserBeam(Vector3.zero, Vector3.zero, CreateEmitter());
-            ILaserReceiver ilr = CreateOrGate();
+            ILaserReceiver ilr = Create<OrGate>();
             Vector3 zero1 = Vector3.zero;
             Vector3 zero2 = Vector3.zero;
             HitEventArgs hea = new HitEventArgs(lb, zero1, zero2, ilr);
