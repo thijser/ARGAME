@@ -51,11 +51,10 @@ namespace Network
         [Test]
         public void UpdateNullTest()
         {
-            GameObject go = new GameObject("Dummy");
-            GameObject go2 = new GameObject("NumberText");
-            go2.AddComponent<TextMesh>();
-            go2.transform.parent = go.transform;
-            MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), new GameObject());
+            GameObject parent = new GameObject("Dummy");
+            GameObject child = new GameObject("NumberText", typeof(TextMesh));
+            child.transform.parent = parent.transform;
+            MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), parent);
         }
     }
 }
