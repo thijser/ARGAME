@@ -94,17 +94,6 @@ namespace TestUtilities
         }
 
         /// <summary>
-        /// Creates a portal that is not linked to another portal.
-        /// </summary>
-        /// <returns>An unlinked portal</returns>
-        // FIXME Deprecated: Use Create<Portal>() instead.
-        public static Portal CreateUnlinkedPortal()
-        {
-            GameObject gameObject = new GameObject("Portal", typeof(Portal));
-            return gameObject.GetComponent<Portal>();
-        }
-
-        /// <summary>
         /// Creates a GameObject that has the single given Component type.
         /// </summary>
         /// <typeparam name="T">The Component Type</typeparam>

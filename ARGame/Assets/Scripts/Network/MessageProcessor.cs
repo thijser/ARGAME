@@ -31,17 +31,18 @@ namespace Network
         /// Reads a <c>Update</c> type PositionUpdate message.
         /// </summary>
         /// <param name="buffer">The byte array containing data.</param>
+        /// <param name="length">The length of the message.</param>
         /// <returns>The PositionUpdate.</returns>
-        public static PositionUpdate ReadUpdatePosition(byte[] buffer)
+        public static PositionUpdate ReadUpdatePosition(byte[] buffer, int length)
         {
             if (buffer == null)
             {
                 throw new ArgumentNullException("buffer");
             }
 
-            if (buffer.Length < 16)
+            if (length < 16)
             {
-                throw new ArgumentException("The supplied byte array is not long enough to contain all the required data.");
+                return null;
             }
 
             float x = MessageProcessor.ReadFloat(buffer, 0);
@@ -56,17 +57,18 @@ namespace Network
         /// Reads a <c>Delete</c> type PositionUpdate message.
         /// </summary>
         /// <param name="buffer">The byte array containing data.</param>
+        /// <param name="length">The length of the message.</param>
         /// <returns>The PositionUpdate.</returns>
-        public static PositionUpdate ReadDelete(byte[] buffer)
+        public static PositionUpdate ReadDelete(byte[] buffer, int length)
         {
             if (buffer == null)
             {
                 throw new ArgumentNullException("buffer");
             }
 
-            if (buffer.Length < 4)
+            if (length < 4)
             {
-                throw new ArgumentException("The supplied byte array is not long enough to contain all the required data.");
+                return null;
             }
 
             int id = MessageProcessor.ReadInt(buffer, 0);
@@ -77,17 +79,18 @@ namespace Network
         /// Reads a <c>UpdateRotation</c> type RotationUpdate message.
         /// </summary>
         /// <param name="buffer">The byte array containing data.</param>
+        /// <param name="length">The length of the message.</param>
         /// <returns>The RotationUpdate.</returns>
-        public static RotationUpdate ReadUpdateRotation(byte[] buffer)
+        public static RotationUpdate ReadUpdateRotation(byte[] buffer, int length)
         {
             if (buffer == null)
             {
                 throw new ArgumentNullException("buffer");
             }
 
-            if (buffer.Length < 8)
+            if (length < 8)
             {
-                throw new ArgumentException("The supplied byte array is not long enough to contain all the required data.");
+                return null;
             }
 
             int id = MessageProcessor.ReadInt(buffer, 0);

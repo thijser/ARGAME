@@ -177,30 +177,15 @@ namespace Network
             {
                 case UpdateType.DeletePosition:
                     received = this.socket.Receive(this.buffer, 4, SocketFlags.None);
-                    if (received < 4)
-                    {
-                        return null;
-                    }
-
-                    return MessageProcessor.ReadDelete(this.buffer);
+                    return MessageProcessor.ReadDelete(this.buffer, received);
                 case UpdateType.UpdatePosition:
-                    received = this.socket.Receive(this.buffer, 16, SocketFlags.None);
-                    if (received < 16)
-                    {
-                        return null;
-                    }
-
-                    return MessageProcessor.ReadUpdatePosition(this.buffer);
+                    received = this.socket.Receive(this.buffer, 16, SocketFlags.None);                   
+                    return MessageProcessor.ReadUpdatePosition(this.buffer, received);
                 case UpdateType.Ping:
                     return new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0, -1);
                 case UpdateType.UpdateRotation:
                     received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
-                    if (received < 8)
-                    {
-                        return null;
-                    }
-
-                    return MessageProcessor.ReadUpdateRotation(this.buffer);
+                    return MessageProcessor.ReadUpdateRotation(this.buffer, received);
                 default:
                     Debug.LogWarning("Received invalid type: " + type);
                     return null;

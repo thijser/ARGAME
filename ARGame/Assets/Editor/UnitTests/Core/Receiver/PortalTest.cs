@@ -28,7 +28,7 @@ namespace Core.Receiver
         [Test]
         public void StartUnlinkedTest()
         {
-            Portal p = CreateUnlinkedPortal();
+            Portal p = Create<Portal>();
             Assert.Null(p.PortalEmitter);
             p.Start();
             Assert.Null(p.LinkedPortal);
