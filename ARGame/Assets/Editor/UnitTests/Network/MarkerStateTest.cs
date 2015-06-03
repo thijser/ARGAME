@@ -68,7 +68,7 @@ namespace Network
         public void ConstructorInvalidArgsTest()
         {
             GameObject parent = new GameObject("Dummy");
-            MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), parent);
+            new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), parent);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Network
         public void ConstructorInvalidArgsTestPartTwo()
         {
             GameObject parent = new GameObject("Dummy");
-            MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), parent);
+            new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), parent);
         }
 
         /// <summary>
