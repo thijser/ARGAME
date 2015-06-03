@@ -23,7 +23,7 @@ namespace Projection
         /// <summary>
         /// Scale of the object.
         /// </summary>
-        private float scale = 1;
+        public float scale = 1;
 
         /// <summary>
         /// Collection of all registered to this class. 
