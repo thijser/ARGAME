@@ -2,9 +2,11 @@
 #define TESTUTILITIES_HPP
 
 #include <opencv2/core/core.hpp>
+#include <vector>
 
 namespace mirrors {
 using namespace cv;
+using namespace std;
 
 /**
  * @brief Counts the amount of non-zero values in the matrix.
@@ -17,7 +19,7 @@ using namespace cv;
 int countNonZeroMultichannel(Mat input);
 
 /**
- * @brief Tests whether the two given images are approximately equal.
+ * @brief Tests if the two given images are approximately equal.
  * @param expected     - The expected image
  * @param actual       - The actual image
  * @param minimalMatch - The factor of the expected image that should match.
@@ -25,6 +27,15 @@ int countNonZeroMultichannel(Mat input);
  * @return True if the images are approximately equal, false otherwise.
  */
 bool imagesApproximatelyEqual(Mat expected, Mat actual, float minimalMatch = 0.95f, float colorDiff = 10);
+
+/**
+ * @brief Test if the expected marker centers have been found.
+ * @param expectedPivots - Expected pivot points.
+ * @param contoursFound - Marker contours that should have matching pivot points.
+ * @param maxDistance - Maximum distance between marker contour and closest expected pivot.
+ * @return True if all of the expected pivots have been found exactly once.
+ */
+bool expectMarkers(const vector<Point>& expectedPivots, const vector<vector<Point>>& contoursFound, int maxDistance = 5);
 
 }
 
