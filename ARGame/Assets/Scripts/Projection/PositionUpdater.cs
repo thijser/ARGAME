@@ -98,6 +98,28 @@ namespace Projection
         }
 
         /// <summary>
+        /// Receives and handles all server updates.
+        /// </summary>
+        /// <param name="update">The update to be handled, can be either a
+        /// PositionUpdate or a RotationUpdate.</param>
+        public void OnServerUpdate(AbstractUpdate update)
+        {
+            if (update == null)
+            {
+                throw new ArgumentNullException("update");
+            }
+
+            if (update.Type == UpdateType.DeletePosition || update.Type == UpdateType.UpdatePosition)
+            {
+                this.OnPositionUpdate(update as PositionUpdate);
+            }
+            else if (update.Type == UpdateType.UpdateRotation)
+            {
+                this.OnRotationUpdate(update as RotationUpdate);
+            }
+        }
+
+        /// <summary>
         /// This marker has been seen by remote, informs the marker of this 
         /// </summary>
         /// <param name="position">The marker position.</param>

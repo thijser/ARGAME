@@ -9,8 +9,19 @@ using namespace cv;
 TEST(UtilsTest, Rotate) {
     Mat frame0 = imread("UnitTests/rotationtest_nonexact_0.png");
     Mat frame90 = imread("UnitTests/rotationtest_nonexact_90.png");
+    Mat rotated = rotateImage(frame0, 90);
 
-    ASSERT_EQ(countNonZeroMultichannel(frame90 == rotateImage(frame0, 90)), 64 * 64);
+    ASSERT_EQ(countNonZeroMultichannel(frame90 == rotated), frame90.rows * frame90.cols);
+}
+
+TEST(UtilsTest, RotateCrop) {
+    Mat marker = imread("UnitTests/rotationtest_non_square.png");
+    Mat marker0 = rotateImage(marker, 0);
+
+    ASSERT_EQ(marker.cols, marker0.cols);
+    ASSERT_EQ(marker.rows, marker0.rows);
+
+    ASSERT_EQ(countNonZeroMultichannel(marker == marker0), marker.cols * marker.rows);
 }
 
 TEST(UtilsTest, RotateExactly) {

@@ -10,7 +10,6 @@
 namespace Network
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Net.Sockets;
@@ -138,23 +137,12 @@ namespace Network
                 }
 
                 this.timestamp = DateTime.Now;
+                if(update.Type != UpdateType.Ping)
+                {
+                    this.SendMessage("OnServerUpdate", update, SendMessageOptions.DontRequireReceiver);
+                }
 
-                if (update.Type == UpdateType.DeletePosition || update.Type == UpdateType.UpdatePosition)
-                {
-                    this.SendMessage(
-                        "OnPositionUpdate", 
-                        (PositionUpdate)update, 
-                        SendMessageOptions.DontRequireReceiver);
-                    count++;
-                }
-                else if (update.Type == UpdateType.UpdateRotation)
-                {
-                    this.SendMessage(
-                        "OnRotationUpdate", 
-                        (RotationUpdate)update, 
-                        SendMessageOptions.DontRequireReceiver);
-                    count++;
-                }
+                count++;
             }
 
             long duration = (DateTime.Now - this.timestamp).Milliseconds;
@@ -188,93 +176,35 @@ namespace Network
             switch ((UpdateType)type)
             {
                 case UpdateType.DeletePosition:
-                    return this.ReadDelete();
+                    received = this.socket.Receive(this.buffer, 4, SocketFlags.None);
+                    if (received < 4)
+                    {
+                        return null;
+                    }
+
+                    return MessageProcessor.ReadDelete(this.buffer);
                 case UpdateType.UpdatePosition:
-                    return this.ReadUpdatePosition();
+                    received = this.socket.Receive(this.buffer, 16, SocketFlags.None);
+                    if (received < 16)
+                    {
+                        return null;
+                    }
+
+                    return MessageProcessor.ReadUpdatePosition(this.buffer);
                 case UpdateType.Ping:
                     return new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0, -1);
                 case UpdateType.UpdateRotation:
-                    return this.ReadUpdateRotation();
+                    received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
+                    if (received < 8)
+                    {
+                        return null;
+                    }
+
+                    return MessageProcessor.ReadUpdateRotation(this.buffer);
                 default:
                     Debug.LogWarning("Received invalid type: " + type);
                     return null;
             }
-        }
-
-        /// <summary>
-        /// Reads a <c>Update</c> type PositionUpdate message.
-        /// </summary>
-        /// <returns>The PositionUpdate.</returns>
-        public PositionUpdate ReadUpdatePosition()
-        {
-            int received = this.socket.Receive(this.buffer, 16, SocketFlags.None);
-            if (received < 16)
-            {
-                return null;
-            }
-
-            float x = this.ReadFloat(0);
-            float y = this.ReadFloat(4);
-            Vector2 coordinate = new Vector2(x, y);
-            float rotation = this.ReadFloat(8);
-            int id = this.ReadInt(12);
-            return new PositionUpdate(UpdateType.UpdatePosition, coordinate, rotation, id);
-        }
-
-        /// <summary>
-        /// Reads a <c>Delete</c> type PositionUpdate message.
-        /// </summary>
-        /// <returns>The PositionUpdate.</returns>
-        public PositionUpdate ReadDelete()
-        {
-            int received = this.socket.Receive(this.buffer, 4, SocketFlags.None);
-            if (received < 4)
-            {
-                return null;
-            }
-
-            int id = this.ReadInt(0);
-            return new PositionUpdate(UpdateType.DeletePosition, new Vector2(0, 0), 0, id);
-        }
-
-        /// <summary>
-        /// Reads a <c>UpdateRotation</c> type RotationUpdate message.
-        /// </summary>
-        /// <returns>The RotationUpdate.</returns>
-        public RotationUpdate ReadUpdateRotation()
-        {
-            int received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
-            if (received < 8)
-            {
-                return null;
-            }
-
-            int id = this.ReadInt(0);
-            float rotation = this.ReadFloat(4);
-            return new RotationUpdate(UpdateType.UpdateRotation, rotation, id);
-        }
-
-        /// <summary>
-        /// Reads and returns a float value from a network byte input, starting
-        /// from the given offset.
-        /// </summary>
-        /// <param name="offset">The given offset.</param>
-        /// <returns>The float that represents the bytes read.</returns>
-        private float ReadFloat(int offset) 
-        {
-            byte[] bytes = BitConverter.GetBytes(IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset)));
-            return BitConverter.ToSingle(bytes, 0);
-        }
-
-        /// <summary>
-        /// Reads and returns an integer value from a network byte input, starting
-        /// from the given offset.
-        /// </summary>
-        /// <param name="offset">The given offset.</param>
-        /// <returns>The integer that represents the bytes read.</returns>
-        private int ReadInt(int offset)
-        {
-            return IPAddress.NetworkToHostOrder(BitConverter.ToInt32(this.buffer, offset));
         }
     }
 }
