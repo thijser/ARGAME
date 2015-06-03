@@ -13,6 +13,7 @@ namespace Projection
     using TestUtilities;
     using UnityEngine;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Unit test for the <see cref="Projection.PositionUpdater"/> class.
@@ -47,7 +48,8 @@ namespace Projection
 
         /// <summary>
         /// Tests if calling <c>OnMarkerRegister</c> with an existing parent will cause
-        /// the existing parent to be used as parent.
+        /// the existing parent to be used as parent, and the parent of the second marker 
+        /// should be set to the parent Marker.
         /// </summary>
         [Test]
         public void TestOnMarkerRegisterWithParent()
@@ -59,7 +61,45 @@ namespace Projection
             child.ID = 4;
             updater.OnMarkerRegister(new MarkerRegister(parent));
             updater.OnMarkerRegister(new MarkerRegister(child));
-            Assert.AreEqual(parent, updater.Parent);
+            Assert.AreEqual(parent, updater.Parent, "PositionUpdater Parent");
+            Assert.AreEqual(parent.transform, child.transform.parent, "Marker Hierarchy");
+        }
+
+        [Test]
+        [ExpectedException(typeof(KeyNotFoundException))]
+        public void TestGetMarkerInvalidID()
+        {
+            PositionUpdater updater = GameObjectFactory.Create<PositionUpdater>();
+            Marker parent = GameObjectFactory.Create<Marker>();
+            updater.OnMarkerRegister(new MarkerRegister(parent));
+            updater.GetMarker(2);
+        }
+
+        [Test]
+        public void TestGetMarkerTypical()
+        {
+            PositionUpdater updater = GameObjectFactory.Create<PositionUpdater>();
+            Marker parent = GameObjectFactory.Create<Marker>();
+            parent.ID = 54;
+            updater.OnMarkerRegister(new MarkerRegister(parent));
+            Assert.AreEqual(parent, updater.GetMarker(54));
+        }
+
+        /// <summary>
+        /// Tests if changing the marker ID after registration leaves the PositionUpdater 
+        /// in a consistent state.
+        /// </summary>
+        [Test]
+        public void TestGetMarkerIDChange()
+        {
+            PositionUpdater updater = GameObjectFactory.Create<PositionUpdater>();
+            Marker marker = GameObjectFactory.Create<Marker>();
+            marker.ID = 54;
+            updater.OnMarkerRegister(new MarkerRegister(marker));
+            marker.ID = 23;
+
+            // I registered a Marker with ID 54, so it should exist with ID = 54.
+            Assert.AreEqual(54, updater.GetMarker(54).ID);
         }
     }
 }
