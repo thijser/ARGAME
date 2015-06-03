@@ -46,20 +46,24 @@ namespace mirrors {
     }
 
     vector<vector<Point>> BoardDetector::findMarkers(const Mat& cameraImage) const {
-        // Threshold on red
-        Mat channels[3];
-        cv::split(cameraImage, channels);
+        // Convert image to HSV channels
+        Mat imageHSV;
+        cvtColor(cameraImage, imageHSV, CV_BGR2HSV);
 
+        // Split image into H, S, V components
+        Mat channels[3];
+        split(imageHSV, channels);
+
+        // Threshold on red
         Mat mask =
-            // Significant red
-            channels[BGR::R] > 50 &
-            // Significantly higher red channel than other channels
-            channels[BGR::R] > channels[BGR::G] * 2 &
-            channels[BGR::R] > channels[BGR::B] * 2;
+            // Significant red and light
+            (channels[HSV::H] > 160 | channels[HSV::H] < 10) &
+            channels[HSV::S] > 120 &
+            channels[HSV::V] > 50;
 
         // Remove noise
         Mat maskClean;
-        Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, Size(3, 3));
+        Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, Size(5, 5));
         cv::morphologyEx(mask, maskClean, cv::MORPH_OPEN, kernel);
 
         vector<vector<Point>> contours;
