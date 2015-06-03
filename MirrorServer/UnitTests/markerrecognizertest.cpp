@@ -103,3 +103,40 @@ TEST(MarkerRecognizerTest, MultiMarkerGradient) {
         }
     }
 }
+
+TEST(MarkerRecognizerTest, MultiShades) {
+    BoardDetector boardDetector;
+    MarkerDetector markerDetector;
+    MarkerRecognizer markerRecognizer;
+    loadPatterns(markerRecognizer, "markers/%d.png");
+
+    Mat frame = imread("UnitTests/markertest_green_shades.jpg");
+    boardDetector.locateBoard(frame);
+    Mat board = boardDetector.extractBoard(frame);
+
+    auto contours = markerDetector.locateMarkers(board);
+    ASSERT_EQ(contours.size(), 9);
+
+    vector<pair<Point, int>> expectedMatches = {
+        make_pair(Point(119, 183), 7),
+        make_pair(Point(277, 183), 2),
+        make_pair(Point(441, 183), 5),
+        make_pair(Point(121, 353), 0),
+        make_pair(Point(279, 354), 10),
+        make_pair(Point(448, 352), 1),
+        make_pair(Point(116, 525), 9),
+        make_pair(Point(283, 536), 3),
+        make_pair(Point(450, 537), 4)
+    };
+
+    for (auto& contour : contours) {
+        Point pivot = getPivot(contour);
+        auto match = markerRecognizer.recognizeMarker(board, contour);
+
+        for (auto& expect : expectedMatches) {
+            if (dist(pivot, expect.first) < 5) {
+                ASSERT_EQ(expect.second, match.id);
+            }
+        }
+    }
+}

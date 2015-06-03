@@ -25,7 +25,7 @@ namespace Projection
         /// <summary>
         /// The ID of the Marker.
         /// </summary>
-        private int id = -1;
+        public int id = -1;
 
         /// <summary>
         /// Gets or sets the ID of this Marker.

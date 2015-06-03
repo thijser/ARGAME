@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 // <copyright file="Detector.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //

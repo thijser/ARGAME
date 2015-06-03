@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 // <copyright file="MarkerState.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
@@ -53,7 +53,18 @@ namespace Network
             this.Object.name = "Marker" + this.ID;
 
             // Assign number to mesh
-            TextMesh mesh = this.Object.transform.Find("NumberText").GetComponent<TextMesh>();
+            Transform t = this.Object.transform.Find("NumberText");
+            if(t == null)
+            {
+                throw new ArgumentException("The given GameObject does not have a NumberText child object.");
+            }
+
+            if(t.GetComponent<TextMesh>() == null)
+            {
+                throw new ArgumentException("The given GameObject does not have a NumberText child object with a TextMesh component.");
+            }
+
+            TextMesh mesh = t.GetComponent<TextMesh>();
             mesh.text = this.ID.ToString();
         }
 

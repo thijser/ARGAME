@@ -86,6 +86,11 @@ namespace Projection
         /// </summary>
         public void Update()
         {
+            if (this.Parent == null || this.Parent.LocalPosition == null)
+            {
+                return;
+            }
+
             foreach (Marker marker in this.markerTable.Values)
             {
                 this.UpdatePosition(marker);
@@ -97,8 +102,9 @@ namespace Projection
         /// </summary>
         /// <param name="position">The marker position.</param>
         /// <param name="id">The identifier.</param>
-        public void OnMarkerSeen(MarkerPosition position, int id)
+        public void OnMarkerSeen(MarkerPosition position)
         {
+			int id = position.ID;
             if (position == null)
             {
                 throw new ArgumentNullException("position");
@@ -156,7 +162,10 @@ namespace Projection
             {
                 throw new ArgumentNullException("target");
             }
-
+			if(target.LocalPosition== null){
+				throw new ArgumentNullException("parent has no localposition");
+			}                        
+			Debug.Log (target);
             target.gameObject.transform.position = target.LocalPosition.Position;
             Vector3 localrotation = target.LocalPosition.Rotation.eulerAngles;
             Vector3 remoterotation = target.RemotePosition.Rotation.eulerAngles;
@@ -174,6 +183,9 @@ namespace Projection
             {
                 throw new ArgumentNullException("target");
             }
+			if(this.Parent.RemotePosition==null){
+				throw new NullReferenceException("parent has no remote");
+			}
 
             target.gameObject.transform.position = target.RemotePosition.Position - this.Parent.RemotePosition.Position;
             //// TODO: If mirrored then swap operation params.
