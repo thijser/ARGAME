@@ -2,7 +2,7 @@ TEMPLATE = subdirs
 
 SUBDIRS = Main \
           Server \
-          UnitTests \
+          UnitTests
 
-Main.depends      = Server
-UnitTests.depends = Server
+Main.depends       = Server
+UnitTests.depends  = Server

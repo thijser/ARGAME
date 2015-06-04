@@ -3,9 +3,8 @@
 # Project created by QtCreator 2015-06-01T16:13:57
 #
 #-------------------------------------------------
-
-QT       += core gui network
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+lessThan(QT_MAJOR_VERSION, 5): error("This project requires at least Qt 5")
+QT       += core gui network widgets
 
 TARGET = MirrorServer
 TEMPLATE = app
@@ -43,3 +42,15 @@ win32: LIBS += -lopencv_videoio$$OPENCV_SUFFIX \
                -lopencv_imgcodecs$$OPENCV_SUFFIX
 INCLUDEPATH += $$OPENCV_PATH/include
 DEPENDPATH  += $$OPENCV_PATH/include
+
+# ------------- Deployment Options ------------
+# Output to 'dist' directory in the repository root.
+DESTDIR = $$PWD/../../dist
+
+win32 {
+    win32_debug: DEPLOY_MODE = debug
+    else:        DEPLOY_MODE = release
+    WIN_DESTDIR = $$replace(DESTDIR, /, \\)
+    # The 'deployWindows' batch file collects all dependant libraries and places them in $$DESTDIR
+    QMAKE_POST_LINK += $$PWD/../deployWindows.bat $$DEPLOY_MODE "$$(OPENCV_HOME)" "$$(QTDIR)" $$WIN_DESTDIR
+}
