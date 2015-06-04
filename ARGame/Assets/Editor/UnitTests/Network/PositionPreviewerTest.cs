@@ -55,6 +55,7 @@ namespace Network
             pp.ReferenceMarker = new UnityEngine.GameObject();
             pp.Start();
             Assert.False(pp.ReferenceMarker.activeSelf);
+            pp.ReferenceMarker.SetActive(true);
         }
     }
 }
