@@ -6604,7 +6604,7 @@ GameObject:
   - 114: {fileID: 11486310}
   - 114: {fileID: 11451744}
   m_Layer: 0
-  m_Name: MetaWorld 1
+  m_Name: MetaWorld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17822,7 +17822,7 @@ MonoBehaviour:
   m_FillOrigin: 0
 --- !u!114 &11446938
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 2
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 197870}
