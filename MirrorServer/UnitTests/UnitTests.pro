@@ -55,6 +55,8 @@ INCLUDEPATH += $$OPENCV_PATH/include
 DEPENDPATH  += $$OPENCV_PATH/include
 
 # ------ Add the dependency for the Server ------
-LIBS += -L$$OUT_PWD/../Server/ -lServer
+win32_debug: LIBS += -L$$OUT_PWD/../Server/debug   -lServer
+else:win32:  LIBS += -L$$OUT_PWD/../Server/release -lServer
+else:        LIBS += -L$$OUT_PWD/../Server/        -lServer
 INCLUDEPATH += $$PWD/../Server
 DEPENDPATH  += $$PWD/../Server
