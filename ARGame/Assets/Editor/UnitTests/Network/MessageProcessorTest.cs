@@ -83,10 +83,52 @@ namespace Network
         /// is insufficient.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void PosUpdateNullTest()
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void PosUpdateLengthTest()
         {
-            MessageProcessor.ReadUpdatePosition(new byte[16], 0);
+            MessageProcessor.ReadUpdatePosition(new byte[16], 1000);
+        }
+
+        /// <summary>
+        /// Test if correct exception is thrown when length
+        /// is insufficient.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void RotUpdateLengthTest()
+        {
+            MessageProcessor.ReadUpdateRotation(new byte[16], 1000);
+        }
+
+        /// <summary>
+        /// Test if correct exception is thrown when length
+        /// is insufficient.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void DeleteLengthTest()
+        {
+            MessageProcessor.ReadDelete(new byte[16], 1000);
+        }
+
+        /// <summary>
+        /// Test if correct exception is thrown when offset is illegal.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void ReadIntNegativeTest()
+        {
+            MessageProcessor.ReadInt(new byte[16], -1);
+        }
+
+        /// <summary>
+        /// Test if correct exception is thrown when offset is illegal.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void ReadIntOverflowTest()
+        {
+            MessageProcessor.ReadInt(new byte[16], 13);
         }
     }
 }

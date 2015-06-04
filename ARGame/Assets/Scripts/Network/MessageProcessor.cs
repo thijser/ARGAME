@@ -119,7 +119,7 @@ namespace Network
                 throw new ArgumentNullException("buffer");
             }
 
-            if (offset < 0 && offset > buffer.Length - 4)
+            if (offset < 0 || offset > buffer.Length - 4)
             {
                 throw new ArgumentOutOfRangeException("offset", offset, "The offset should be at least 0, and no greater than the size of the buffer minus 4.");
             }
@@ -142,7 +142,7 @@ namespace Network
                 throw new ArgumentNullException("buffer");
             }
 
-            if (offset < 0 && offset > buffer.Length - 4)
+            if (offset < 0 || offset > buffer.Length - 4)
             {
                 throw new ArgumentOutOfRangeException("offset", offset, "The offset should be at least 0, and no greater than the size of the buffer minus 4.");
             }
