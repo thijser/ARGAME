@@ -43,7 +43,7 @@ TEST(MarkerRecognizerTest, MultiMarker) {
     Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
-    ASSERT_EQ(contours.size(), 4);
+    ASSERT_EQ(contours.size(), 4ul);
 
     vector<pair<Point, int>> expectedMatches = {
         make_pair(Point(103, 99), 5),
