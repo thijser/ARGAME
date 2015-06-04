@@ -175,9 +175,10 @@ namespace Projection
         }
 
         /// <summary>
-        /// Updates position if supplied target is the Parent.
+        /// Updates the Marker position as if the supplied marker 
+        /// is a parent marker.
         /// </summary>
-        /// <param name="target">The supplied target.</param>
+        /// <param name="target">The supplied target Marker.</param>
         public void UpdateParentPosition(Marker target)
         {
             if (target == null)
@@ -187,7 +188,12 @@ namespace Projection
 
             if (target.LocalPosition == null)
             {
-                throw new ArgumentNullException("parent has no localposition");
+                throw new ArgumentException("Invalid LocalPosition in target", "target");
+            }
+
+            if (target.RemotePosition == null)
+            {
+                throw new ArgumentException("Invalid RemotePosition in target", "target");
             }
 
             target.gameObject.transform.position = target.LocalPosition.Position;

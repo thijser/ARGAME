@@ -125,14 +125,116 @@ namespace Projection
         {
             PositionUpdater updater = GameObjectFactory.Create<PositionUpdater>();
             Marker marker = GameObjectFactory.Create<Marker>();
-            Assume.That(marker.transform.position == Vector3.zero, "Marker position should be initialized to Vector3.zero");
             marker.ID = 12;
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 0, 12);
             updater.OnMarkerRegister(new MarkerRegister(marker));
             updater.OnPositionUpdate(update);
             Assert.AreEqual(new Vector3(2, 0, 2), marker.RemotePosition.Position);
-            Assert.AreEqual(Quaternion.identity, marker.RemotePosition.Rotation);
+            Assert.AreEqual(Vector3.zero, marker.RemotePosition.Rotation.eulerAngles);
             Assert.AreEqual(12, marker.RemotePosition.ID);
+        }
+
+        /// <summary>
+        /// Tests whether calling <c>UpdateParentPosition(null)</c> throws an 
+        /// appropriate exception.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestUpdateParentPositionNull()
+        {
+            GameObjectFactory.Create<PositionUpdater>().UpdateParentPosition(null);
+        }
+
+        /// <summary>
+        /// Tests whether calling <c>UpdateParentPosition(...)</c> with a marker that
+        /// has <c>LocalPosition</c> set to <c>null</c> throws an appropriate exception. 
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestUpdateParentPositionNullLocalPosition()
+        {
+            Marker marker = GameObjectFactory.Create<Marker>();
+            marker.LocalPosition = null;
+            marker.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 1);
+            
+            GameObjectFactory.Create<PositionUpdater>().UpdateParentPosition(marker);
+        }
+
+        /// <summary>
+        /// Tests whether calling <c>UpdateParentPosition(...)</c> with a marker that
+        /// has <c>RemotePosition</c> set to <c>null</c> throws an appropriate exception. 
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestUpdateParentPositionNullRemotePosition()
+        {
+            Marker marker = GameObjectFactory.Create<Marker>();
+            marker.LocalPosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 1);
+            marker.RemotePosition = null;
+
+            GameObjectFactory.Create<PositionUpdater>().UpdateParentPosition(marker);
+        }
+
+        /// <summary>
+        /// Tests whether calling <c>UpdateParentPosition(...)</c> with valid arguments 
+        /// updates the position of the marker as expected based on the LocalPosition.
+        /// </summary>
+        [Test]
+        public void TestUpdateParentPositionSetsCorrectLocalPosition()
+        {
+            Marker marker = GameObjectFactory.Create<Marker>();
+            marker.LocalPosition = new MarkerPosition(new Vector3(1, 0, 2), Quaternion.identity, DateTime.Now, Vector3.one, 8);
+            marker.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 8);
+
+            // We expect the position of the marker to be set to (1, 0, 2) and the rotation to be set to (0, 0, 0)
+            GameObjectFactory.Create<PositionUpdater>().UpdateParentPosition(marker);
+
+            Assert.AreEqual(new Vector3(1, 0, 2), marker.transform.position);
+            Assert.AreEqual(Vector3.zero, marker.transform.eulerAngles);
+        }
+
+        /// <summary>
+        /// Tests whether calling <c>UpdateParentPosition(...)</c> with valid arguments 
+        /// updates the rotation of the marker as expected based on the RemotePosition.
+        /// </summary>
+        [Test]
+        public void TestUpdateParentPositionSetsCorrectLocalRotation()
+        {
+            Marker marker = GameObjectFactory.Create<Marker>();
+            marker.LocalPosition = new MarkerPosition(
+                Vector3.zero, 
+                Quaternion.Euler(new Vector3(15, 345, 90)), 
+                DateTime.Now, 
+                Vector3.one, 
+                8);
+            marker.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 8);
+
+            // We expect the Position to be set to (0, 0, 0) and the rotation to be set to (15, -15, 90)
+            GameObjectFactory.Create<PositionUpdater>().UpdateParentPosition(marker);
+
+            Assert.AreEqual(Vector3.zero, marker.transform.position);
+            Assert.AreEqual(new Vector3(15, 345, 90), marker.transform.eulerAngles);
+        }
+
+        [Test]
+        public void TestUpdateParentPositionSetsCorrectRemoteRotation()
+        {
+            Marker marker = GameObjectFactory.Create<Marker>();
+            marker.RemotePosition = new MarkerPosition(
+                Vector3.zero,
+                Quaternion.Euler(new Vector3(16, 23, 54)),
+                DateTime.Now,
+                Vector3.one,
+                8);
+            marker.LocalPosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 8);
+
+            // The local rotation is 0, so the marker is exactly correct from our perspective. As such, the angle 
+            // between our camera's base line and the marker must be equal to 0, regardless of the rotation that the remote
+            // server reports (since this is the parent marker). So we expect the Position to be set to (0, 0, 0) and the 
+            // rotation to be set to (0, 0, 0).
+            GameObjectFactory.Create<PositionUpdater>().UpdateParentPosition(marker);
+            Assert.AreEqual(Vector3.zero, marker.transform.position);
+            Assert.AreEqual(Vector3.zero, marker.transform.eulerAngles);
         }
     }
 }
