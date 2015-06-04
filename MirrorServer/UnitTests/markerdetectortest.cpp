@@ -19,7 +19,7 @@ TEST(MarkerDetectorTest, NoMarkers) {
 
     auto contours = markerDetector.locateMarkers(board);
 
-    ASSERT_EQ(contours.size(), 0);
+    ASSERT_EQ(contours.size(), 0ul);
 }
 
 TEST(MarkerDetectorTest, SingleMarker) {
@@ -32,7 +32,7 @@ TEST(MarkerDetectorTest, SingleMarker) {
 
     auto contours = markerDetector.locateMarkers(board);
 
-    ASSERT_EQ(contours.size(), 1);
+    ASSERT_EQ(contours.size(), 1ul);
 
     Point pos = getPivot(contours[0]);
 
@@ -49,7 +49,7 @@ TEST(MarkerDetectorTest, MarkerGrid) {
 
     auto contours = markerDetector.locateMarkers(board);
 
-    ASSERT_EQ(contours.size(), 9);
+    ASSERT_EQ(contours.size(), 9ul);
 
     vector<Point> expectedPivots = {
         Point(115, 181),
@@ -76,7 +76,7 @@ TEST(MarkerDetectorTest, MarkerShades) {
 
     auto contours = markerDetector.locateMarkers(board);
 
-    ASSERT_EQ(contours.size(), 9);
+    ASSERT_EQ(contours.size(), 9ul);
 
     vector<Point> expectedPivots = {
         Point(119, 183),
@@ -103,7 +103,7 @@ TEST(MarkerDetectorTest, VaryingLighting) {
 
     auto contours = markerDetector.locateMarkers(board);
 
-    ASSERT_EQ(contours.size(), 4);
+    ASSERT_EQ(contours.size(), 4ul);
 
     vector<Point> expectedPivots = {
         Point(103, 99),
@@ -125,7 +125,7 @@ TEST(MarkerDetectorTest, LightingGradient) {
 
     auto contours = markerDetector.locateMarkers(board);
 
-    ASSERT_EQ(contours.size(), 12);
+    ASSERT_EQ(contours.size(), 12ul);
 
     vector<Point> expectedPivots = {
         Point(130, 85),
@@ -140,6 +140,35 @@ TEST(MarkerDetectorTest, LightingGradient) {
         Point(480, 523),
         Point(108, 591),
         Point(320, 616)
+    };
+
+    ASSERT_TRUE(expectMarkers(expectedPivots, contours));
+}
+
+TEST(MarkerDetectorTest, Table) {
+    BoardDetector boardDetector;
+    MarkerDetector markerDetector;
+    Mat frame = imread("UnitTests/boardtest_table.jpg");
+
+    ASSERT_TRUE(boardDetector.locateBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
+
+    auto contours = markerDetector.locateMarkers(board);
+
+    ASSERT_EQ(contours.size(), 11ul);
+
+    vector<Point> expectedPivots = {
+        Point(170, 275),
+        Point(296, 281),
+        Point(433, 308),
+        Point(42, 390),
+        Point(164, 429),
+        Point(279, 407),
+        Point(454, 421),
+        Point(59, 530),
+        Point(166, 605),
+        Point(343, 541),
+        Point(476, 531)
     };
 
     ASSERT_TRUE(expectMarkers(expectedPivots, contours));

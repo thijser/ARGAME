@@ -12,7 +12,7 @@ GameObject:
   - 65: {fileID: 6506322}
   - 114: {fileID: 11459552}
   - 114: {fileID: 11435702}
-  - 114: {fileID: 11421938}
+  - 114: {fileID: 11426262}
   m_Layer: 0
   m_Name: netmirror
   m_TagString: Untagged
@@ -78,7 +78,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 172896}
   m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: .0199999996}
+  m_LocalPosition: {x: 0, y: 2.81999993, z: .0199999996}
   m_LocalScale: {x: 1.60000002, y: 1.60000002, z: -8.18029213}
   m_Children: []
   m_Father: {fileID: 478500}
@@ -90,7 +90,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 187002}
   m_LocalRotation: {x: 0, y: -.707106829, z: 0, w: .707106829}
-  m_LocalPosition: {x: -.0799999982, y: 0, z: -.00999999978}
+  m_LocalPosition: {x: -.0799999982, y: 2.81999993, z: -.00999999978}
   m_LocalScale: {x: 1.60000002, y: 1.60000002, z: -8.18029213}
   m_Children: []
   m_Father: {fileID: 478500}
@@ -102,7 +102,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 179106}
   m_LocalRotation: {x: .71705085, y: .0069651478, z: -.0253545791, w: .696524739}
-  m_LocalPosition: {x: -.0799999982, y: -.180000007, z: .0199999996}
+  m_LocalPosition: {x: -.0799999982, y: 2.6400001, z: .0199999996}
   m_LocalScale: {x: -.44336018, y: -.445558608, z: -35.2331848}
   m_Children: []
   m_Father: {fileID: 478500}
@@ -115,7 +115,7 @@ Transform:
   m_GameObject: {fileID: 161894}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .00999999978, y: .00999999978, z: .00999999978}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 432956}
   - {fileID: 429000}
@@ -236,13 +236,13 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 161894}
-  m_Material: {fileID: 13400000, guid: d35b37e7667d34205b83e85449b6d6a4, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: .00173175335, z: -.0304059982}
---- !u!114 &11421938
+--- !u!114 &11426262
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -250,13 +250,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 161894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed37e9a5f6dc43248819ce2b746247b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c274d16e935b1a438cbfc7f3ceb1872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelMarker: 0
-  ID: -1
-  RemoteX: 0
-  RemoteY: 0
+  id: 6
 --- !u!114 &11435702
 MonoBehaviour:
   m_ObjectHideFlags: 1

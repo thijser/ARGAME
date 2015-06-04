@@ -83,3 +83,19 @@ TEST(BoardDetectorTest, RedChair) {
     ASSERT_EQ(board.cols, 0);
     ASSERT_EQ(board.rows, 0);
 }
+
+TEST(BoardDetectorTest, BoardOnTable) {
+    BoardDetector detector;
+    Mat frame = imread("UnitTests/boardtest_table.jpg");
+
+    ASSERT_TRUE(detector.locateBoard(frame));
+
+    Mat board = detector.extractBoard(frame);
+
+    ASSERT_EQ(board.cols, 570);
+    ASSERT_EQ(board.rows, 720);
+
+    Mat expected = imread("UnitTests/boardtest_table_result.jpg");
+
+    ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
+}
