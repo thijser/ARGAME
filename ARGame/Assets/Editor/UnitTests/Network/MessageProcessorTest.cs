@@ -180,5 +180,35 @@ namespace Network
         {
             Assert.Null(MessageProcessor.ReadDelete(new byte[16], 3));
         }
+
+        /// <summary>
+        /// Test if correct result is returned when length
+        /// is sufficient.
+        /// </summary>
+        [Test]
+        public void PosUpdateParamTestValid()
+        {
+            Assert.NotNull(MessageProcessor.ReadUpdatePosition(new byte[16], 16));
+        }
+
+        /// <summary>
+        /// Test if correct result is returned when length
+        /// is sufficient.
+        /// </summary>
+        [Test]
+        public void RotUpdateParamTestValid()
+        {
+            Assert.NotNull(MessageProcessor.ReadUpdateRotation(new byte[8], 8));
+        }
+
+        /// <summary>
+        /// Test if correct result is returned when length
+        /// is sufficient.
+        /// </summary>
+        [Test]
+        public void DeleteParamTestValid()
+        {
+            Assert.NotNull(MessageProcessor.ReadDelete(new byte[4], 4));
+        }
     }
 }
