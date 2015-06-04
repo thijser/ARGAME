@@ -32,14 +32,13 @@ namespace mirrors {
             (channels[HSV::V] > 40);
 
         // Clean up mask (remove noise, close holes)
-        Mat kernel = getStructuringElement(cv::MORPH_RECT, Size(5, 5));
-        Mat kernel2 = getStructuringElement(cv::MORPH_RECT, Size(10, 10));
-        Mat mask_clean;
-        cv::morphologyEx(mask, mask_clean, cv::MORPH_OPEN, kernel);
-        cv::morphologyEx(mask_clean, mask, cv::MORPH_CLOSE, kernel);
-        cv::morphologyEx(mask, mask_clean, cv::MORPH_OPEN, kernel);
+        Mat kernel = getStructuringElement(cv::MORPH_RECT, Size(3, 3));
+        Mat maskClean;
+        cv::morphologyEx(mask, maskClean, cv::MORPH_OPEN, kernel);
+        cv::morphologyEx(maskClean, mask, cv::MORPH_CLOSE, kernel);
+        cv::morphologyEx(mask, maskClean, cv::MORPH_OPEN, kernel);
 
-        return mask_clean;
+        return maskClean;
     }
 
     vector<vector<Point>> MarkerDetector::findMarkerContours(const Mat& original, const Mat& mask) {
@@ -47,10 +46,11 @@ namespace mirrors {
         vector<Vec4i> hierarchy;
 
         // findContours mutates the input, so make a copy
-        findContours(Mat(mask), contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+        findContours(Mat(mask), contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_NONE, Point(0, 0));
 
         // Find contours that look like markers (first level inner contour)
         vector<vector<Point>> potentialMarkers;
+        vector<std::pair<size_t, size_t>> circumferences;
 
         for (size_t i = 0; i < hierarchy.size(); i++) {
             int parent = hierarchy[i][HierarchyElement::PARENT];
@@ -58,12 +58,32 @@ namespace mirrors {
             bool isInnerContour = parent >= 0;
             bool isFirstLevel = isInnerContour && hierarchy[parent][HierarchyElement::PARENT] < 0;
 
-            cv::Rect bb = cv::boundingRect(contours[i]);
-            bool largeEnough = bb.width >= 8 && bb.height >= 8;
+            cv::RotatedRect bb = cv::minAreaRect(contours[i]);
+            bool largeEnough = bb.size.width >= 8 && bb.size.height >= 8;
+            bool isSquare = std::abs(bb.size.width - bb.size.height) / (float) bb.size.width < 0.15f;
 
-            if (isInnerContour && isFirstLevel && largeEnough) {
+            if (isInnerContour && isFirstLevel && largeEnough && isSquare) {
                 potentialMarkers.push_back(contours[i]);
+                circumferences.push_back(std::make_pair(contours[i].size(), potentialMarkers.size() - 1));
             }
+        }
+
+        if (potentialMarkers.size() > 0) {
+            // Calculate median circumference
+            std::sort(circumferences.begin(), circumferences.end());
+            int medianCircumference = circumferences[circumferences.size() / 2].first;
+
+            // Keep just the contours that are close to this median
+            // This removes any remaining noise identified as marker.
+            vector<vector<Point>> finalPotentialMarkers;
+
+            for (auto& pair : circumferences) {
+                if (std::abs((int) medianCircumference - (int) pair.first) / (float) medianCircumference < 0.15f) {
+                    finalPotentialMarkers.push_back(potentialMarkers[pair.second]);
+                }
+            }
+
+            potentialMarkers = finalPotentialMarkers;
         }
 
         return potentialMarkers;
