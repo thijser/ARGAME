@@ -130,5 +130,85 @@ namespace Network
         {
             MessageProcessor.ReadInt(new byte[16], 13);
         }
+
+        /// <summary>
+        /// Test if correct exception is thrown when offset is illegal.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void ReadFloatNegativeTest()
+        {
+            MessageProcessor.ReadFloat(new byte[16], -1);
+        }
+
+        /// <summary>
+        /// Test if correct exception is thrown when offset is illegal.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void ReadFloatOverflowTest()
+        {
+            MessageProcessor.ReadFloat(new byte[16], 13);
+        }
+
+        /// <summary>
+        /// Test if correct result is returned when length
+        /// is insufficient.
+        /// </summary>
+        [Test]
+        public void PosUpdateParamTest()
+        {
+            Assert.Null(MessageProcessor.ReadUpdatePosition(new byte[16], 15));
+        }
+
+        /// <summary>
+        /// Test if correct result is returned when length
+        /// is insufficient.
+        /// </summary>
+        [Test]
+        public void RotUpdateParamTest()
+        {
+            Assert.Null(MessageProcessor.ReadUpdateRotation(new byte[16], 7));
+        }
+
+        /// <summary>
+        /// Test if correct result is returned when length
+        /// is insufficient.
+        /// </summary>
+        [Test]
+        public void DeleteParamTest()
+        {
+            Assert.Null(MessageProcessor.ReadDelete(new byte[16], 3));
+        }
+
+        /// <summary>
+        /// Test if correct result is returned when length
+        /// is sufficient.
+        /// </summary>
+        [Test]
+        public void PosUpdateParamTestValid()
+        {
+            Assert.NotNull(MessageProcessor.ReadUpdatePosition(new byte[16], 16));
+        }
+
+        /// <summary>
+        /// Test if correct result is returned when length
+        /// is sufficient.
+        /// </summary>
+        [Test]
+        public void RotUpdateParamTestValid()
+        {
+            Assert.NotNull(MessageProcessor.ReadUpdateRotation(new byte[8], 8));
+        }
+
+        /// <summary>
+        /// Test if correct result is returned when length
+        /// is sufficient.
+        /// </summary>
+        [Test]
+        public void DeleteParamTestValid()
+        {
+            Assert.NotNull(MessageProcessor.ReadDelete(new byte[4], 4));
+        }
     }
 }
