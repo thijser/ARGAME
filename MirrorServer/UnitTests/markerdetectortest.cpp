@@ -173,3 +173,25 @@ TEST(MarkerDetectorTest, Table) {
 
     ASSERT_TRUE(expectMarkers(expectedPivots, contours));
 }
+
+TEST(MarkerDetectorTest, CloseTogether) {
+    MarkerDetector markerDetector;
+    Mat board = imread("UnitTests/markertest_together.png");
+
+    auto contours = markerDetector.locateMarkers(board);
+
+    ASSERT_EQ(8ul, contours.size());
+
+    vector<Point> expectedPivots = {
+        Point(105, 274),
+        Point(226, 302),
+        Point(349, 341),
+        Point(46, 389),
+        Point(154, 365),
+        Point(190, 479),
+        Point(289, 498),
+        Point(387, 526)
+    };
+
+    ASSERT_TRUE(expectMarkers(expectedPivots, contours));
+}

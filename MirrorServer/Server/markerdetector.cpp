@@ -10,7 +10,7 @@ namespace mirrors {
 
     vector<vector<Point>> MarkerDetector::locateMarkers(const Mat& boardImage) const {
         auto thresholdedImage = thresholdGreen(boardImage);
-        return findMarkerContours(thresholdedImage);
+        return findMarkerContours(boardImage, thresholdedImage);
     }
 
     Mat MarkerDetector::thresholdGreen(const Mat& image) {
@@ -37,11 +37,12 @@ namespace mirrors {
         Mat mask_clean;
         cv::morphologyEx(mask, mask_clean, cv::MORPH_OPEN, kernel);
         cv::morphologyEx(mask_clean, mask, cv::MORPH_CLOSE, kernel);
+        cv::morphologyEx(mask, mask_clean, cv::MORPH_OPEN, kernel);
 
-        return mask;
+        return mask_clean;
     }
 
-    vector<vector<Point>> MarkerDetector::findMarkerContours(const Mat& mask) {
+    vector<vector<Point>> MarkerDetector::findMarkerContours(const Mat& original, const Mat& mask) {
         vector<vector<Point>> contours;
         vector<Vec4i> hierarchy;
 

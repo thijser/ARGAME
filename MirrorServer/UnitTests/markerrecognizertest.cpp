@@ -257,3 +257,36 @@ TEST(MarkerRecognizerTest, LowRes) {
         }
     }
 }
+
+TEST(MarkerRecognizerTest, CloseTogether) {
+    MarkerDetector markerDetector;
+    MarkerRecognizer markerRecognizer;
+    loadPatterns(markerRecognizer, "markers/%d.png");
+
+    Mat board = imread("UnitTests/markertest_together.png");
+
+    auto contours = markerDetector.locateMarkers(board);
+    ASSERT_EQ(8ul, contours.size());
+
+    vector<pair<Point, int>> expectedMatches = {
+        make_pair(Point(105, 274), 2),
+        make_pair(Point(226, 302), 6),
+        make_pair(Point(349, 341), 5),
+        make_pair(Point(46, 389), 10),
+        make_pair(Point(154, 365), 1),
+        make_pair(Point(190, 479), 0),
+        make_pair(Point(289, 498), 3),
+        make_pair(Point(387, 526), 7)
+    };
+
+    for (auto& contour : contours) {
+        Point pivot = getPivot(contour);
+        auto match = markerRecognizer.recognizeMarker(board, contour);
+
+        for (auto& expect : expectedMatches) {
+            if (dist(pivot, expect.first) < 5) {
+                ASSERT_EQ(expect.second, match.id);
+            }
+        }
+    }
+}
