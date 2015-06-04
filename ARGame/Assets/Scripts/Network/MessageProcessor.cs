@@ -34,7 +34,7 @@ namespace Network
 
             if (buffer.Length < length)
             {
-                throw new ArgumentOutOfRangeException("buffer", buffer, "The buffer is not long enough to contain a message of the specified length.")
+                throw new ArgumentOutOfRangeException("buffer", buffer, "The buffer is not long enough to contain a message of the specified length.");
             }
 
             if (length < 16)
@@ -65,7 +65,7 @@ namespace Network
 
             if (buffer.Length < length)
             {
-                throw new ArgumentOutOfRangeException("buffer", buffer, "The buffer is not long enough to contain a message of the specified length.")
+                throw new ArgumentOutOfRangeException("buffer", buffer, "The buffer is not long enough to contain a message of the specified length.");
             }
 
             if (length < 4)
@@ -92,7 +92,7 @@ namespace Network
 
             if (buffer.Length < length)
             {
-                throw new ArgumentOutOfRangeException("buffer", buffer, "The buffer is not long enough to contain a message of the specified length.")
+                throw new ArgumentOutOfRangeException("buffer", buffer, "The buffer is not long enough to contain a message of the specified length.");
             }
 
             if (length < 8)
