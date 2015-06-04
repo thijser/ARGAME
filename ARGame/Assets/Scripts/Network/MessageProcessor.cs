@@ -17,16 +17,8 @@ namespace Network
     /// A class that processes the data sent over the network
     /// to create useful updates.
     /// </summary>
-    public class MessageProcessor
+    public static class MessageProcessor
     {
-        /// <summary>
-        /// Prevents a default instance of the <see cref="MessageProcessor"/> 
-        /// class from being created.
-        /// </summary>
-        private MessageProcessor()
-        { 
-        }
-
         /// <summary>
         /// Reads a <c>Update</c> type PositionUpdate message.
         /// </summary>
@@ -105,8 +97,18 @@ namespace Network
         /// <param name="buffer">The byte array containing data from the network.</param>
         /// <param name="offset">The given offset.</param>
         /// <returns>The float that represents the bytes read.</returns>
-        private static float ReadFloat(byte[] buffer, int offset)
+        public static float ReadFloat(byte[] buffer, int offset)
         {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
+
+            if (offset < 0 && offset > buffer.Length - 4)
+            {
+                throw new ArgumentOutOfRangeException("offset", offset, "The offset should be at least 0, and no greater than the size of the buffer minus 4.");
+            }
+
             byte[] bytes = BitConverter.GetBytes(IPAddress.NetworkToHostOrder(BitConverter.ToInt32(buffer, offset)));
             return BitConverter.ToSingle(bytes, 0);
         }
@@ -118,8 +120,18 @@ namespace Network
         /// <param name="buffer">The byte array containing data from the network.</param>
         /// <param name="offset">The given offset.</param>
         /// <returns>The integer that represents the bytes read.</returns>
-        private static int ReadInt(byte[] buffer, int offset)
+        public static int ReadInt(byte[] buffer, int offset)
         {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
+
+            if (offset < 0 && offset > buffer.Length - 4)
+            {
+                throw new ArgumentOutOfRangeException("offset", offset, "The offset should be at least 0, and no greater than the size of the buffer minus 4.");
+            }
+
             return IPAddress.NetworkToHostOrder(BitConverter.ToInt32(buffer, offset));
         }
     }
