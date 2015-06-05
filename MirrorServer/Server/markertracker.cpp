@@ -56,7 +56,7 @@ namespace mirrors {
 
                 // If the new match is more confidence, completely replace the current match
                 if (closest->velocity <= MARKER_MAX_RECOGNITION_VELOCITY &&
-                    detectedMarker.second.confidence > closest->match.confidence) {
+                    detectedMarker.second.confidence >= closest->match.confidence) {
 
                     // But first log a delete for the old marker (if the detected pattern has changed)
                     if (closest->match.id != detectedMarker.second.id) {
@@ -136,7 +136,7 @@ namespace mirrors {
             for (auto& trackedMarker : trackedMarkers) {
                 if (!trackedMarker.seenThisFrame && !trackedMarker.newThisFrame) {
                     trackedMarker.position = trackedMarker.positions.update(trackedMarkers.back().position);
-                    trackedMarker.lastSighting = clock();
+                    trackedMarker.lastSighting = timestamp;
 
                     updates.push_back(MarkerUpdate(MarkerUpdateType::CHANGE, trackedMarker.position, trackedMarker.rotation, trackedMarker.match));
 

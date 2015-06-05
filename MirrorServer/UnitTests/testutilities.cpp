@@ -3,7 +3,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include "cvutils.hpp"
 #include <set>
-#include <iostream>
 
 namespace mirrors {
 
@@ -50,14 +49,6 @@ bool expectMarkerUpdates(const vector<ExpectedMarkerUpdate>& expectedUpdates, co
                 matchedUpdates.insert(i);
             }
         }
-    }
-
-    for (size_t i : matchedUpdates) {
-        std::cout << "MATCH -> " << i << std::endl;
-    }
-
-    for (MarkerUpdate update : updates) {
-        std::cout << "UPDATE: " << update.type << ", " << update.id << ", " << update.rotation << ", " << update.position << std::endl;
     }
 
     return matchedUpdates.size() == updates.size() && matchedUpdates.size() == expectedUpdates.size();
