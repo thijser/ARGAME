@@ -270,12 +270,15 @@ namespace Projection
             }
 
             this.Parent = target;
+			target.transform.SetParent(this.transform);
             foreach (Marker marker in this.markerTable.Values)
             {
+				Debug.Log ("reparenting"+marker.id+" to:"+Parent.id);
                 if (marker != this.Parent)
                 {
-                    marker.transform.parent = target.transform;
-                    this.UpdateChildPosition(marker);
+					marker.transform.SetParent(this.transform);
+					marker.transform.SetParent(target.transform);
+                    this.UpdatePosition(marker);
                 }
             }
         }
