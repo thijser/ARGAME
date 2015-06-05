@@ -9,7 +9,7 @@
 # This project uses Google Test to provide the
 # testing framework. The Google Test source is
 # included in the project in the `gtest` folder
-# and is lecensed under the new BSD license.
+# and is licensed under the new BSD license.
 #
 #-------------------------------------------------
 

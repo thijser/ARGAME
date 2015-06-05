@@ -15,8 +15,6 @@
 #ifndef MARKER_DETECTOR_HPP
 #define MARKER_DETECTOR_HPP
 
-#include <opencv2/core/core.hpp>
-
 namespace mirrors {
 
     using cv::Mat;

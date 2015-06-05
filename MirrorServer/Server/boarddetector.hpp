@@ -15,8 +15,6 @@
 #ifndef BOARD_DETECTOR_HPP
 #define BOARD_DETECTOR_HPP
 
-#include <opencv2/core/core.hpp>
-
 namespace mirrors {
 
     using cv::Mat;

@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+#include <opencv2/core/core.hpp>
+
 #include "averager.hpp"
 
 using namespace mirrors;

@@ -15,7 +15,6 @@
 #ifndef MARKER_RECOGNIZER_HPP
 #define MARKER_RECOGNIZER_HPP
 
-#include <opencv2/core/core.hpp>
 #include <map>
 #include "cvutils.hpp"
 
