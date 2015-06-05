@@ -256,7 +256,6 @@ namespace Projection
         /// <param name="target">The new parent Marker, not null.</param>
         public void Reparent(Marker target)
         {
-			Debug.Log ("reparenting!@#%#$%%^%^&^*&^");
 
 			if (target == null)
             {
