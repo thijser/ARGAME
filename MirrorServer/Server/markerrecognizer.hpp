@@ -59,18 +59,19 @@ namespace mirrors {
         * @brief Construct an empty match (no known pattern).
         */
         PatternMatch()
-            : id(-1), rotation(ExactAngle::CLOCKWISE_0), confidence(0) {
+            : id(-1), rotation(ExactAngle::CLOCKWISE_0), scale(1.0f), confidence(0) {
         }
 
     private:
         /**
          * @brief Construct a match with a known pattern.
-         * @param id - ID of known marker that matches input.
-         * @param rotation - Rotation of detected marker relative to known marker.
+         * @param id         - ID of known marker that matches input.
+         * @param rotation   - Rotation of detected marker relative to known marker.
+         * @param scale      - The scale of the marker.
          * @param confidence - Confidence of match, interpretation depends on recognition method.
          */
-        PatternMatch(int id, float rotation, float confidence)
-            : id(id), rotation(rotation), confidence(confidence) {
+        PatternMatch(int id, float rotation, float scale, float confidence)
+            : id(id), rotation(rotation), scale(scale), confidence(confidence) {
         }
     };
 

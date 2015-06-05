@@ -58,7 +58,8 @@ namespace mirrors {
                 confidence /= input.rows * input.cols;
 
                 if (confidence > bestMatch.confidence) {
-                    bestMatch = PatternMatch(knownPattern.first, (float) permutation.first, confidence);
+                    //FIXME: Scale is set to constant value (1.0), but should be computed.
+                    bestMatch = PatternMatch(knownPattern.first, (float) permutation.first, 1.0f, confidence);
                 }
             }
         }
