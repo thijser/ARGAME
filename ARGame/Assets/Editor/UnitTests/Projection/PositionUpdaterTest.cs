@@ -291,20 +291,14 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests whether all object references are set correctly in a hypothetical 
-        /// scenario with two markers being seen from both the AR Link and the remote
-        /// server.
+        /// Tests whether calling <c>OnMarkerSeen(null)</c> throws the 
+        /// appropriate exception.
         /// </summary>
         [Test]
-        public void TestOnMarkerSeenWithTwoMarkers()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestOnMarkerSeenNull()
         {
-            Marker markerA = GameObjectFactory.Create<Marker>();
-            Marker markerB = GameObjectFactory.Create<Marker>();
-            
-            markerA.ID = 4;
-            markerB.ID = 8;
-
-
+            GameObjectFactory.Create<PositionUpdater>().OnMarkerSeen(null);
         }
     }
 }
