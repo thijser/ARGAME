@@ -51,7 +51,14 @@
 			\end{figure}
 			
 		\subsection{C++ Unit Tests} \label{ssec:cplusplusunittests}
-			...
+			The unit tests for the C++ server code are not written using the
+			NUnit framework, as that would not really work. The framework for
+			the tests in C++ is the Google Test framework. Google test is, like
+			NUnit for C\# and JUnit for Java, an xUnit-based testing framework.
+			As such, it also supports assertions, type parameterization, etc.
+			Also, it is open source, licensed under the new BSD license.
+			
+			% TODO: write more.
 		
 		\subsection{Integration Tests} \label{ssec:integrationtests}
 			Integration tests are not done via a formalized test procedure, but 
