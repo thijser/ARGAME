@@ -3,9 +3,8 @@
 # Project created by QtCreator 2015-06-01T16:13:57
 #
 #-------------------------------------------------
-
-QT       += core gui network
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+lessThan(QT_MAJOR_VERSION, 5): error("This project requires at least Qt 5")
+QT       += core gui network widgets
 
 TARGET = MirrorServer
 TEMPLATE = app
@@ -13,7 +12,6 @@ CONFIG -= app_bundle
 CONFIG += c++11
 
 win32 {
-    CONFIG += console
     !win32_debug: OUT_PWD = $$OUT_PWD/../build
 }
 
@@ -21,7 +19,9 @@ SOURCES += \
     main.cpp
 
 # ----- Add dependency for Server project -----
-LIBS += -L$$OUT_PWD/../Server/ -lServer
+win32_debug: LIBS += -L$$OUT_PWD/../Server/debug   -lServer
+else:win32:  LIBS += -L$$OUT_PWD/../Server/release -lServer
+else:        LIBS += -L$$OUT_PWD/../Server/        -lServer
 INCLUDEPATH += $$PWD/../Server
 DEPENDPATH  += $$PWD/../Server
 
@@ -42,3 +42,15 @@ win32: LIBS += -lopencv_videoio$$OPENCV_SUFFIX \
                -lopencv_imgcodecs$$OPENCV_SUFFIX
 INCLUDEPATH += $$OPENCV_PATH/include
 DEPENDPATH  += $$OPENCV_PATH/include
+
+# ------------- Deployment Options ------------
+# Output to 'dist' directory in the repository root.
+DESTDIR = $$PWD/../../dist
+
+win32 {
+    win32_debug: DEPLOY_MODE = debug
+    else:        DEPLOY_MODE = release
+    WIN_DESTDIR = $$replace(DESTDIR, /, \\)
+    # The 'deployWindows' batch file collects all dependant libraries and places them in $$DESTDIR
+    QMAKE_POST_LINK += $$PWD/../deployWindows.bat $$DEPLOY_MODE "$$(OPENCV_HOME)" "$$(QTDIR)" $$WIN_DESTDIR
+}

@@ -53,6 +53,8 @@ void MainWindow::startServer() {
             this,        SLOT(handleFrame(cv::Mat)));
     connect(controller,  SIGNAL(fatalErrorOccurred(QString)),
             errorDialog, SLOT(showMessage(QString)));
+    connect(controller,  SIGNAL(fpsChanged(int)),
+            this, SLOT(showFPS(int)));
 
     // Disable the configuration options.
     setConfigEnabled(false);
@@ -82,7 +84,7 @@ void MainWindow::handleFrame(const cv::Mat &matrix) {
     try {
         cv::Mat copy;
         cv::cvtColor(matrix, copy, CV_BGR2RGB);
-        QImage image(copy.data, copy.cols, copy.rows, copy.step, QImage::Format_RGB888);
+        QImage image(copy.data, copy.cols, copy.rows, static_cast<int>(copy.step), QImage::Format_RGB888);
         // Make sure the image fits on screen by scaling it to 500 px high.
         QPixmap pixmap = QPixmap::fromImage(image, Qt::ColorOnly).scaledToHeight(500);
 
@@ -93,6 +95,10 @@ void MainWindow::handleFrame(const cv::Mat &matrix) {
         qDebug() << tr("Unexpected OpenCV Exception in handleFrame:") << ex.what();
     }
 
+}
+
+void MainWindow::showFPS(int fps) {
+    ui->fps->setText(QString::number(fps));
 }
 
 void MainWindow::stopServer() {

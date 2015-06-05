@@ -45,6 +45,11 @@ public:
      */
     void setController(ServerController *controller);
 public slots:
+    /**
+     * @brief Display the framerate in this window.
+     * @param fps - The framerate to display
+     */
+    void showFPS(int fps);
 
     /**
      * @brief Starts the server.

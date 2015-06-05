@@ -117,8 +117,8 @@ namespace mirrors {
                 average += val;
             }
 
-            average.x /= storage.size();
-            average.y /= storage.size();
+            average.x /= static_cast<int>(storage.size());
+            average.y /= static_cast<int>(storage.size());
 
             // If average deviates too much from new value, then flush history
             if (dist(average, newValue) > flushDistance) {

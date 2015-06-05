@@ -122,6 +122,16 @@ void ServerController::detectFrame() {
         Mat board = boardDetector->extractBoard(frame);
         emit imageReady(board);
         detectorTimer->start();
+
+        // Determine FPS if new second has started
+        if (framesSecond != time(nullptr)) {
+            emit fpsChanged(framesCount);
+
+            framesSecond = time(nullptr);
+            framesCount = 0;
+        } else {
+            framesCount++;
+        }
     } else {
         changeState(Idle);
         delete capture;

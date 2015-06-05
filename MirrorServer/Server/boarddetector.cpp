@@ -57,9 +57,9 @@ namespace mirrors {
         // Threshold on red
         Mat mask =
             // Significant red and light
-            (channels[HSV::H] > 160 | channels[HSV::H] < 10) &
-            channels[HSV::S] > 120 &
-            channels[HSV::V] > 50;
+            ((channels[HSV::H] > 160) | (channels[HSV::H] < 10)) &
+            (channels[HSV::S] > 120) &
+            (channels[HSV::V] > 50);
 
         // Remove noise
         Mat maskClean;

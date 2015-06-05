@@ -8,6 +8,7 @@
 
 #include <QTimer>
 #include <vector>
+#include <ctime>
 
 #include "markertracker.hpp"
 #include "markerdetector.hpp"
@@ -99,6 +100,12 @@ signals:
      * @param state - The new ServerState.
      */
     void stateChanged(ServerState state);
+
+    /**
+     * @brief Signal emitted whenever a new framerate has been determined.
+     * @param fps - New framerate.
+     */
+    void fpsChanged(int fps);
 
     /**
      * @brief Signal emitted whenever an error occurs in a Socket.
@@ -194,6 +201,12 @@ private:
 
     /// The actual camera resolution.
     cv::Size cameraResolution;
+
+    /// Second for which frames are counted.
+    time_t framesSecond;
+
+    /// Amount of frames that have been processed this second.
+    int framesCount;
 };
 
 } // namespace mirrors

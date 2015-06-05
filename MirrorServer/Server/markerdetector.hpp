@@ -67,7 +67,7 @@ namespace mirrors {
          * @param mask - Mask with marker regions created from board image.
          * @return List of outer contours of likely markers.
          */
-        static vector<vector<Point>> findMarkerContours(const Mat& mask);
+        static vector<vector<Point>> findMarkerContours(const Mat& original, const Mat& mask);
     };
 
 }

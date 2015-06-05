@@ -5,6 +5,7 @@
 *_Data/
 *-build/
 build-*/
+dist*/
 
 # CMakeLists user-specific files
 CMakeLists.txt.user

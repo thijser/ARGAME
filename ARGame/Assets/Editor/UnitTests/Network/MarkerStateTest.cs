@@ -112,6 +112,7 @@ namespace Network
             MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0f, 0f), 0f, 1), parent);
             ms.Update(new PositionUpdate(UpdateType.DeletePosition, new Vector2(5f, 5f), 0f, 1));
             Assert.False(ms.Object.activeSelf);
+            ms.Object.SetActive(true);
         }
     }
 }

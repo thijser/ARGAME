@@ -195,7 +195,7 @@ namespace Projection
 
         /// <summary>
         /// Tests whether calling <c>UpdateParentPosition(...)</c> with valid arguments 
-        /// updates the rotation of the marker as expected based on the RemotePosition.
+        /// updates the rotation of the marker as expected based on the LocalPosition.
         /// </summary>
         [Test]
         public void TestUpdateParentPositionSetsCorrectLocalRotation()
@@ -209,13 +209,21 @@ namespace Projection
                 8);
             marker.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 8);
 
-            // We expect the Position to be set to (0, 0, 0) and the rotation to be set to (15, -15, 90)
+            // We expect the Position to be set to (0, 0, 0) and the rotation to be set to (15, 345, 90)
             GameObjectFactory.Create<PositionUpdater>().UpdateParentPosition(marker);
 
             Assert.AreEqual(Vector3.zero, marker.transform.position);
-            Assert.AreEqual(new Vector3(15, 345, 90), marker.transform.eulerAngles);
+            
+            Vector3 result = marker.transform.eulerAngles;
+            Assert.AreEqual(15, result.x, 0.01);
+            Assert.AreEqual(345, result.y, 0.01);
+            Assert.AreEqual(90, result.z, 0.01);
         }
 
+        /// <summary>
+        /// Tests whether calling <c>UpdateParentPosition(...)</c> with valid arguments 
+        /// updates the rotation of the marker as expected based on the RemotePosition.
+        /// </summary>
         [Test]
         public void TestUpdateParentPositionSetsCorrectRemoteRotation()
         {
@@ -233,6 +241,7 @@ namespace Projection
             // server reports (since this is the parent marker). So we expect the Position to be set to (0, 0, 0) and the 
             // rotation to be set to (0, 0, 0).
             GameObjectFactory.Create<PositionUpdater>().UpdateParentPosition(marker);
+            
             Assert.AreEqual(Vector3.zero, marker.transform.position);
             Assert.AreEqual(Vector3.zero, marker.transform.eulerAngles);
         }
