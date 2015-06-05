@@ -239,9 +239,14 @@ namespace Projection
                 throw new ArgumentNullException("target");
             }
 
+            if (target.RemotePosition == null)
+            {
+                throw new ArgumentException("target has no RemotePosition", "target");
+            }
+
             if (this.Parent.RemotePosition == null)
             {
-                throw new NullReferenceException("parent has no remote");
+                throw new InvalidOperationException("parent has no RemotePosition");
             }
 
             target.gameObject.transform.position = target.RemotePosition.Position - this.Parent.RemotePosition.Position;
