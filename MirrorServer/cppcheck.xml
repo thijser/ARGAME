@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+    <error file="Server\boarddetector.hpp" line="45" id="noExplicitConstructor" severity="style" msg="Class &amp;#039;BoardDetector&amp;#039; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided."/>
+    <error file="Server\markerrecognizer.hpp" line="62" id="uninitMemberVar" severity="warning" msg="Member variable &amp;#039;PatternMatch::scale&amp;#039; is not initialized in the constructor."/>
+    <error file="Server\markerrecognizer.hpp" line="87" id="noExplicitConstructor" severity="style" msg="Class &amp;#039;MarkerRecognizer&amp;#039; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided."/>
+    <error file="Server\averager.hpp" line="90" id="noConstructor" severity="style" msg="The class &amp;#039;Averager&amp;lt;Point&amp;gt;&amp;#039; does not have a constructor although it has private member variables. Member variables of builtin types are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior."/>
+    <error file="Server\markerdetector.hpp" line="44" id="noExplicitConstructor" severity="style" msg="Class &amp;#039;MarkerDetector&amp;#039; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided."/>
+    <error file="UnitTests\gtest\gtest-all.cc" line="8073" id="redundantAssignment" severity="performance" msg="Variable &amp;#039;result&amp;#039; is reassigned a value before the old one has been used."/>
+</results>
