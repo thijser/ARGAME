@@ -241,7 +241,7 @@ namespace Projection
 
             if (target.RemotePosition == null)
             {
-                throw new ArgumentException("target has no RemotePosition", "target");
+                throw new ArgumentException("target has no RemotePosition", "target:" + target.id);
             }
 
             if (this.Parent.RemotePosition == null)
@@ -261,7 +261,8 @@ namespace Projection
         /// <param name="target">The new parent Marker, not null.</param>
         public void Reparent(Marker target)
         {
-            if (target == null)
+
+			if (target == null)
             {
                 throw new ArgumentNullException("target");
             }
