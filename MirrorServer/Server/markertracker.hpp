@@ -21,6 +21,7 @@
 #include "averager.hpp"
 
 #include <ctime>
+#include <vector>
 
 namespace mirrors {
 

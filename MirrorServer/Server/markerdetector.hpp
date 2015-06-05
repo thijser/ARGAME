@@ -39,7 +39,7 @@ namespace mirrors {
          * @brief Constructs a marker contour detector using the specified technique.
          * @param approach - Technique for locating markers on the board.
          */
-        MarkerDetector(MarkerDetectionApproach::MarkerDetectionApproach approach = MarkerDetectionApproach::GREEN_BORDERS)
+        explicit MarkerDetector(MarkerDetectionApproach::MarkerDetectionApproach approach = MarkerDetectionApproach::GREEN_BORDERS)
             : approach(approach) {}
 
         /**

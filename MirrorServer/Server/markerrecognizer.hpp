@@ -83,7 +83,7 @@ namespace mirrors {
          * @brief Constructs a recognizer for markers using the specified technique.
          * @param approach - Technique for recognizing markers.
          */
-        MarkerRecognizer(MarkerRecognitionApproach::MarkerRecognitionApproach approach = MarkerRecognitionApproach::HAMMING_DISTANCE)
+        explicit MarkerRecognizer(MarkerRecognitionApproach::MarkerRecognitionApproach approach = MarkerRecognitionApproach::HAMMING_DISTANCE)
             : approach(approach) {}
 
         /**

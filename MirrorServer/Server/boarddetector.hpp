@@ -40,7 +40,7 @@ namespace mirrors {
          * @brief Constructs a board surface detector that uses the specified technique.
          * @param approach - Technique for locating the board surface.
          */
-        BoardDetector(BoardDetectionApproach::BoardDetectionApproach approach = BoardDetectionApproach::RED_MARKERS)
+        explicit BoardDetector(BoardDetectionApproach::BoardDetectionApproach approach = BoardDetectionApproach::RED_MARKERS)
             : approach(approach) {}
 
         /**
