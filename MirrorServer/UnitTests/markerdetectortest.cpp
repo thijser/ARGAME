@@ -4,7 +4,6 @@
 #include "markerdetector.hpp"
 #include "testutilities.hpp"
 #include "cvutils.hpp"
-#include <vector>
 
 using namespace mirrors;
 using namespace cv;

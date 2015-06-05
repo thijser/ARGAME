@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>470</width>
-    <height>737</height>
+    <height>746</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -99,7 +99,7 @@
           <item>
            <widget class="QLineEdit" name="camWidth">
             <property name="text">
-             <string>1600</string>
+             <string>800</string>
             </property>
             <property name="maxLength">
              <number>5</number>
@@ -116,7 +116,7 @@
           <item>
            <widget class="QLineEdit" name="camHeight">
             <property name="text">
-             <string>896</string>
+             <string>600</string>
             </property>
             <property name="maxLength">
              <number>5</number>
