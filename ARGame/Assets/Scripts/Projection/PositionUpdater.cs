@@ -48,11 +48,18 @@ namespace Projection
         /// Registers a new marker.
         /// </summary>
         /// <param name="register">The marker register parameter that registers the new marker.</param>
+        /// <exception cref="ArgumentNullException">If <c>register == null</c>.</exception>
+        /// <exception cref="ArgumentException">If <c>register.RegisteredMarker == null</c>.</exception>
         public void OnMarkerRegister(MarkerRegister register)
         {
             if (register == null)
             {
                 throw new ArgumentNullException("register");
+            }
+
+            if (register.RegisteredMarker == null)
+            {
+                throw new ArgumentException("Registered marker is null", "register");
             }
 
             if (this.Parent == null)

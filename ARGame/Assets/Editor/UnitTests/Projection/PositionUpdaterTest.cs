@@ -278,5 +278,33 @@ namespace Projection
         {
             GameObjectFactory.Create<PositionUpdater>().OnRotationUpdate(null);
         }
+
+        /// <summary>
+        /// Tests whether calling <c>OnMarkerRegister(...)</c> with an invalid 
+        /// MarkerRegister object throws the correct exception.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestOnMarkerRegisterWithNullRegister()
+        {
+            GameObjectFactory.Create<PositionUpdater>().OnMarkerRegister(new MarkerRegister(null));
+        }
+
+        /// <summary>
+        /// Tests whether all object references are set correctly in a hypothetical 
+        /// scenario with two markers being seen from both the AR Link and the remote
+        /// server.
+        /// </summary>
+        [Test]
+        public void TestOnMarkerSeenWithTwoMarkers()
+        {
+            Marker markerA = GameObjectFactory.Create<Marker>();
+            Marker markerB = GameObjectFactory.Create<Marker>();
+            
+            markerA.ID = 4;
+            markerB.ID = 8;
+
+
+        }
     }
 }
