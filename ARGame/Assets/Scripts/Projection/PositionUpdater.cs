@@ -160,12 +160,13 @@ namespace Projection
         }
 
         /// <summary>
-        /// Inform marker that it has received an rotationUpdate 
-        /// pre: received a RotationUpdate from another player via the socket 
-        /// post: the Object rotation from the marker with the same id as the update is changed, 
-        /// once UpdatePosition has been called this should affect the transform of the object. 
+        /// Called whenever a RotationUpdate is received from the remote server.
+        /// <para>
+        /// The <c>update</c> argument should not be null. This method will update the rotation 
+        /// of the object referenced by the update to reflect the change in rotation.
+        /// </para>
         /// </summary>
-        /// <param name="update">rotation update.</param>
+        /// <param name="update">The rotation update, not null.</param>
         public void OnRotationUpdate(RotationUpdate update)
         {
             if (update == null)
@@ -177,11 +178,14 @@ namespace Projection
         }
 
         /// <summary>
-        /// uses the market target and Parent to set the transform of target
-        /// pre: target is a marker is either a parent with a local position or there is a parent with a local position and marker has a remote position. 
-        /// post: Transform has been updated. TODO experimentally determine the specifics. 
+        /// Updates the position of the given Marker to reflect the current world state.
+        /// <para>
+        /// The <c>target</c> argument should not be null. If the <c>target</c> is the parent 
+        /// marker, then this method behaves as if <c>UpdateParentPosition(target)</c> was invoked.
+        /// Otherwise, this method behaves as if <c>UpdateChildPosition(target)</c> was invoked.
+        /// </para>
         /// </summary>
-        /// <param name="target">The target</param>
+        /// <param name="target">The target Marker, not null.</param>
         public void UpdatePosition(Marker target)
         {
             if (target == null)
@@ -200,8 +204,11 @@ namespace Projection
         }
 
         /// <summary>
-        /// Updates the Marker position as if the supplied marker 
-        /// is a parent marker.
+        /// Updates the Marker position as if the supplied marker is a parent marker.
+        /// <para>
+        /// The <c>target</c> argument should not be null, and should have a valid local
+        /// and remote position.
+        /// </para>
         /// pre: target is the parent marker, target has a local position 
         /// post: target has been placed on local position with it's rotation yet to be experimentally determined. 
         /// </summary>
@@ -231,11 +238,14 @@ namespace Projection
         }
 
         /// <summary>
-        /// Updates position if supplied target is not the Parent.
-        /// pre: there is a parent with a local and a remote position. And target is a marker with a remote position 
-        /// post: target has a correct yet to be experimentally determined position compared the parent. TODO experiment 
+        /// Updates the Marker position as if the supplied Marker is a child marker.
+        /// <para>
+        /// The <c>target</c> argument should not be null, and the current parent should exist and have 
+        /// a remote position. If the target does not have a remote position set, this method does nothing.
+        /// Otherwise, this method updates the position relative to the parent position.
+        /// </para> 
         /// </summary>
-        /// <param name="target">The supplied target.</param>
+        /// <param name="target">The supplied target, not null.</param>
         public void UpdateChildPosition(Marker target)
         {
             if (target == null)
@@ -257,8 +267,10 @@ namespace Projection
 
         /// <summary>
         /// Changes the parent to the given target Marker.
-        /// pre: target is a marker, there are markers in markerTable 
-        /// post: target is parent of all other markers and parent is target. 
+        /// <para>
+        /// The <c>target</c> argument should not be null and should have a remote position. This method
+        /// will translate all markers to relative positions of the target marker.
+        /// </para>
         /// </summary>
         /// <param name="target">The new parent Marker, not null.</param>
         public void Reparent(Marker target)
@@ -288,9 +300,13 @@ namespace Projection
         }
 
         /// <summary>
-        /// Updates the location of the marker based on the remote position. 
-        /// pre: update.id has been registered, if not registered log a warning, update is a PositionUpdate else throw exception 
-        /// post: the remotePosition is updated to be based on the update, see the construction for MarkerPosition(PositionUpdate). 
+        /// Updates the location of the marker based on the remote position.
+        /// <para>
+        /// The <c>update</c> argument should not be null. The marker with the ID referenced by the update should
+        /// be registered previously using the <c>OnMarkerRegister(...)</c> method, otherwise this method logs a warning
+        /// and returns without affecting any Markers. When the marker is registered, the Marker's remote position is set to 
+        /// a <see cref="MarkerPosition"/> object based on the argument.
+        /// </para>
         /// </summary>
         /// <param name="update">The <see cref="PositionUpdate"/>, not null.</param>
         public void OnPositionUpdate(PositionUpdate update)
