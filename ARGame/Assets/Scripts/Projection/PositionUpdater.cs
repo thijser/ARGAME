@@ -158,7 +158,7 @@ namespace Projection
 		/// post: the Object rotation from the marker with the same id as the update is changed, 
 		/// once UpdatePosition has been called this should affect the transform of the object. 
         /// </summary>
-        /// <param name="update">rotation update.</param>
+        /// <param name="update">The rotation update, not null.</param>
         public void OnRotationUpdate(RotationUpdate update)
         {
             if (update == null)
@@ -172,9 +172,10 @@ namespace Projection
         /// <summary>
         /// uses the market target and Parent to set the transform of target
 		/// pre: target is a marker is either a parent with a local position or there is a parent with a local position and marker has a remote position. 
-		/// post: Transform has been updated. TODO experimentally determine the specifics. 
+		/// post: Transform has been updated. 
 		/// </summary>
-        /// <param name="target">The target</param>
+        /// <param name="target">The target, not null.</param>
+        //TODO experimentally determine the specifics. 
         public void UpdatePosition(Marker target)
         {
             if (target == null)
@@ -226,7 +227,7 @@ namespace Projection
         /// <summary>
         /// Updates position if supplied target is not the Parent.
 		/// pre: there is a parent with a local and a remote position. And target is a marker with a remote position 
-		/// post: target has a correct yet to be experimentally determined position compared the parent. TODO experiment 
+		/// post: target has a correct yet to be experimentally determined position compared the parent.  
         /// </summary>
         /// <param name="target">The supplied target.</param>
         public void UpdateChildPosition(Marker target)
@@ -259,12 +260,12 @@ namespace Projection
             }
 
             this.Parent = target;
-            foreach (KeyValuePair<int, Marker> entry in this.markerTable)
+            foreach (Marker marker in this.markerTable.Values)
             {
-                if (entry.Value != this.Parent)
+                if (marker != this.Parent)
                 {
-                    entry.Value.transform.SetParent(target.transform);
-                    this.UpdatePosition(entry.Value);
+                    marker.transform.SetParent(target.transform);
+                    this.UpdatePosition(marker);
                 }
             }
         }

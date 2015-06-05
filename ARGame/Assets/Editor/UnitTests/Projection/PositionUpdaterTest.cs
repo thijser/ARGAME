@@ -135,6 +135,28 @@ namespace Projection
         }
 
         /// <summary>
+        /// Tests whether calling <c>OnPositionUpdate(...)</c> with a update for an
+        /// unknown marker does not affect the state of the PositionUpdater.
+        /// </summary>
+        [Test]
+        public void TestOnPositionUpdateNonexistingMarker()
+        {
+            PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 0, 5);
+            Marker marker = GameObjectFactory.Create<Marker>();
+            marker.ID = 6;
+            
+            PositionUpdater updater = GameObjectFactory.Create<PositionUpdater>();
+            updater.OnMarkerRegister(new MarkerRegister(marker));
+            updater.OnPositionUpdate(update);
+
+            // Assert the marker data is not changed.
+            Assert.AreEqual(6, marker.ID);
+            Assert.AreEqual(marker, updater.Parent);
+            Assert.IsNull(marker.LocalPosition);
+            Assert.IsNull(marker.RemotePosition);
+        }
+
+        /// <summary>
         /// Tests whether calling <c>UpdateParentPosition(null)</c> throws an 
         /// appropriate exception.
         /// </summary>
@@ -244,6 +266,17 @@ namespace Projection
             
             Assert.AreEqual(Vector3.zero, marker.transform.position);
             Assert.AreEqual(Vector3.zero, marker.transform.eulerAngles);
+        }
+
+        /// <summary>
+        /// Tests whether calling <c>OnRotationUpdate(null)</c> throws an
+        /// appropriate exception.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestOnRotationUpdateNull()
+        {
+            GameObjectFactory.Create<PositionUpdater>().OnRotationUpdate(null);
         }
     }
 }
