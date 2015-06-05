@@ -244,18 +244,16 @@ namespace Projection
                 throw new ArgumentNullException("target");
             }
 
-            if (target.RemotePosition == null)
-            {
-                throw new ArgumentException("target has no RemotePosition", "target:" + target.id);
-            }
-
             if (this.Parent.RemotePosition == null)
             {
                 throw new InvalidOperationException("parent has no RemotePosition");
             }
 
-            target.gameObject.transform.position = target.RemotePosition.Position - this.Parent.RemotePosition.Position;
-            //// TODO: If mirrored then swap operation params.
+            if (target.RemotePosition != null)
+            {
+                target.gameObject.transform.position = target.RemotePosition.Position - this.Parent.RemotePosition.Position;
+                //// TODO: If mirrored then swap operation params.
+            }
         }
 
         /// <summary>
@@ -277,7 +275,7 @@ namespace Projection
                 if (marker != this.Parent)
                 {
                     marker.transform.parent = target.transform;
-                    this.UpdatePosition(marker);
+                    this.UpdateChildPosition(marker);
                 }
             }
         }
