@@ -15,7 +15,7 @@ if "%1"=="debug" (
     xcopy %2\bin\opencv_video300d.dll %4 /D /I /Y
     xcopy %2\bin\opencv_videoio300d.dll %4 /D /I /Y
     xcopy %2\bin\opencv_imgcodecs300d.dll %4 /D /I /Y
-    xcopy %3\plugins\platforms\Qwindowsd.dll %4\platforms /D /I /Y
+    xcopy %3\plugins\platforms\qwindowsd.dll %4\platforms /D /I /Y
 ) 
 
 if "%1"=="release" (
@@ -36,5 +36,5 @@ if "%1"=="release" (
 
 REM - ICU doesn't have a debug version
 xcopy %3\bin\icu*.dll %4 /D /I /Y
-
+xcopy %4\..\MirrorServer\markers %4\markers /D /I /Y
 @echo on

@@ -34,14 +34,17 @@ namespace Projection
         /// <summary>
         /// How long are we willing to wait after losing track of a marker. 
         /// </summary>
-        private long patience = 1000 * 10000; //// 1000 milliseconds 
+		private long patience = 1;//1000 * 10000; //// 1000 milliseconds 
 
         /// <summary>
-        /// Gets or sets the central level marker, this should be visible. 
+        /// Gets or sets the central ;evel marker, this should be visible. 
         /// </summary>
         public Marker Parent { get; set; }
 
         /// <summary>
+		/// pre: receive a MarkerRegister object containing a marker.
+		/// post: the marker has been registered and can be retrieved by GetMarker
+		/// If no parent was active we might as well pick this marker as paretn
         /// Registers a new marker.
         /// </summary>
         /// <param name="register">The marker register parameter that registers the new marker.</param>
@@ -50,6 +53,11 @@ namespace Projection
             if (register == null)
             {
                 throw new ArgumentNullException("register");
+            }
+
+            if (register.RegisteredMarker == null)
+            {
+                throw new ArgumentException("Invalid marker", "register");
             }
 
             if (this.Parent == null)
@@ -65,6 +73,8 @@ namespace Projection
         }
 
         /// <summary>
+		/// pre: marker with ID has been registered 
+		/// post: returns the marker with id as ID, if none has been found throw exception. 
         /// Gets a marker by ID. 
         /// </summary>
         /// <returns>The Marker.</returns>
@@ -84,7 +94,9 @@ namespace Projection
 
         /// <summary>
         /// Updates the position of all markers.
-        /// </summary>
+		/// pre: We have a parent with known location 
+		/// post: UpdatePosition is called on all markers 
+		/// </summary>
         public void Update()
         {
             if (this.Parent == null || this.Parent.LocalPosition == null)
@@ -100,6 +112,8 @@ namespace Projection
 
         /// <summary>
         /// Receives and handles all server updates.
+		/// pre: receive an update from the server 
+		/// post: passed on either a position update or a rotationUpdate to the appropriate function 
         /// </summary>
         /// <param name="update">The update to be handled, can be either a
         /// PositionUpdate or a RotationUpdate.</param>
@@ -122,18 +136,25 @@ namespace Projection
 
         /// <summary>
         /// This marker has been seen by remote, informs the marker of this 
-        /// </summary>
+		/// pre: received a markerPosition from a localy seen marker 
+		/// post: The localposition of the marker has been updated, if the parent has not been seen in 
+		/// this.patience time then make the new marker into parent and make all other markers children of this new 
+		/// parent. Once UpdatePosition has been called on this marker the transform should be updated. 
+		/// </summary>
         /// <param name="position">The marker position.</param>
+        /// <exception cref="ArgumentNullException">If <c>position == null</c>.</exception>
+        /// <exception cref="ArgumentException">If the timestamp of the position is invalid.</exception>
         public void OnMarkerSeen(MarkerPosition position)
         {
-            int id = position.ID;
             if (position == null)
             {
                 throw new ArgumentNullException("position");
             }
 
+            int id = position.ID;
             this.GetMarker(id).LocalPosition = position;
-            if (this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
+            if (this.Parent.LocalPosition == null || 
+                this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
             {
                 this.Reparent(this.GetMarker(id));
             }
@@ -141,6 +162,9 @@ namespace Projection
 
         /// <summary>
         /// Inform marker that it has received an rotationUpdate 
+		/// pre: received a updationUpdate from another player via the socket 
+		/// post: the Object rotation from the marker with the same id as the update is changed, 
+		/// once UpdatePosition has been called this should affect the transform of the object. 
         /// </summary>
         /// <param name="update">rotation update.</param>
         public void OnRotationUpdate(RotationUpdate update)
@@ -155,7 +179,9 @@ namespace Projection
 
         /// <summary>
         /// uses the market target and Parent to set the transform of target
-        /// </summary>
+		/// pre: target is a marker is either a parent with a local position or there is a parent with a local position and marker has a remote position. 
+		/// post: Transform has been updated. TODO experimentally determine the specifics. 
+		/// </summary>
         /// <param name="target">The target</param>
         public void UpdatePosition(Marker target)
         {
@@ -177,7 +203,9 @@ namespace Projection
         /// <summary>
         /// Updates the Marker position as if the supplied marker 
         /// is a parent marker.
-        /// </summary>
+		/// pre: target is the parent marker, target has a local position 
+		/// post: target has been placed on local position with it's rotation yet to be experimentally determined. 
+		/// </summary>
         /// <param name="target">The supplied target Marker.</param>
         public void UpdateParentPosition(Marker target)
         {
@@ -205,6 +233,8 @@ namespace Projection
 
         /// <summary>
         /// Updates position if supplied target is not the Parent.
+		/// pre: there is a parent with a local and a remote position. And target is a marker with a remote position 
+		/// post: target has a correct yet to be experimentally determined position compared the parent. TODO experiment 
         /// </summary>
         /// <param name="target">The supplied target.</param>
         public void UpdateChildPosition(Marker target)
@@ -216,37 +246,47 @@ namespace Projection
 
             if (this.Parent.RemotePosition == null)
             {
-                throw new NullReferenceException("parent has no remote");
+                throw new InvalidOperationException("parent has no RemotePosition");
             }
 
-            target.gameObject.transform.position = target.RemotePosition.Position - this.Parent.RemotePosition.Position;
-            //// TODO: If mirrored then swap operation params.
+            if (target.RemotePosition != null)
+            {
+                target.gameObject.transform.position = target.RemotePosition.Position - this.Parent.RemotePosition.Position;
+                //// TODO: If mirrored then swap operation params.
+            }
         }
 
         /// <summary>
         /// Changes the parent to the given target Marker.
+		/// pre: target is a marker, there are markers in markerTable 
+		/// post: target is parent of all other markers and parent is target. 
         /// </summary>
         /// <param name="target">The new parent Marker, not null.</param>
         public void Reparent(Marker target)
         {
-            if (target == null)
+			if (target == null)
             {
                 throw new ArgumentNullException("target");
             }
 
             this.Parent = target;
-            foreach (KeyValuePair<int, Marker> entry in this.markerTable)
+			target.transform.SetParent(this.transform);
+            foreach (Marker marker in this.markerTable.Values)
             {
-                if (entry.Value != this.Parent)
+				Debug.Log ("reparenting"+marker.id+" to:"+Parent.id);
+                if (marker != this.Parent)
                 {
-                    entry.Value.transform.SetParent(target.transform);
-                    this.UpdatePosition(entry.Value);
+					marker.transform.SetParent(this.transform);
+					marker.transform.SetParent(target.transform);
+                    this.UpdatePosition(marker);
                 }
             }
         }
 
         /// <summary>
         /// Updates the location of the marker based on the remote position. 
+		/// pre: update.id has been registered, if not registered log a warning, update is a PositionUpdate else throw exception 
+		/// post: the remotePosition is updated to be based on the update, see the construction for MarkerPosition(PositionUpdate). 
         /// </summary>
         /// <param name="update">The <see cref="PositionUpdate"/>, not null.</param>
         public void OnPositionUpdate(PositionUpdate update)
