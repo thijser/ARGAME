@@ -315,7 +315,7 @@ namespace Projection
             Marker marker = GameObjectFactory.Create<Marker>();
             marker.ID = 4;
             
-            GameObjectFactory.Create<PositionUpdater>().UpdateChildPosition(marker.);
+            GameObjectFactory.Create<PositionUpdater>().UpdateChildPosition(marker);
         }
     }
 }
