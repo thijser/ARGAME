@@ -36,19 +36,6 @@ namespace Projection
         private MarkerTargetIndicator marketTargetindicator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MetaLink"/> class.
-        /// </summary>
-        public MetaLink()
-        {
-			lamb = new GameObject("lamb");
-            this.markerdetectorGO = MarkerDetector.Instance.gameObject;
-
-            // hide markerindicator
-            this.marketTargetindicator = this.markerdetectorGO.GetComponent<MarkerTargetIndicator>();
-            this.marketTargetindicator.enabled = false;
-        }
-
-        /// <summary>
         /// Sets up the detector and marker indicator to find this marker.
         /// </summary>
         public void Start()
