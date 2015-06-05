@@ -241,7 +241,7 @@ namespace Projection
 
             if (target.RemotePosition == null)
             {
-                throw new ArgumentException("target has no RemotePosition", "target", target.id);
+                throw new ArgumentException("target has no RemotePosition", "target:" + target.id);
             }
 
             if (this.Parent.RemotePosition == null)
