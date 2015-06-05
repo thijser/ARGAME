@@ -137,6 +137,8 @@ namespace Projection
 		/// parent. Once UpdatePosition has been called on this marker the transform should be updated. 
 		/// </summary>
         /// <param name="position">The marker position.</param>
+        /// <exception cref="ArgumentNullException">If <c>position == null</c>.</exception>
+        /// <exception cref="ArgumentException">If the timestamp of the position is invalid.</exception>
         public void OnMarkerSeen(MarkerPosition position)
         {
             int id = position.ID;
@@ -146,7 +148,8 @@ namespace Projection
             }
 
             this.GetMarker(id).LocalPosition = position;
-            if (this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
+            if (this.Parent.LocalPosition == null || 
+                this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
             {
                 this.Reparent(this.GetMarker(id));
             }

@@ -300,5 +300,6 @@ namespace Projection
         {
             GameObjectFactory.Create<PositionUpdater>().OnMarkerSeen(null);
         }
+
     }
 }
