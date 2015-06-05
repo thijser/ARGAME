@@ -141,12 +141,12 @@ namespace Projection
         /// <exception cref="ArgumentException">If the timestamp of the position is invalid.</exception>
         public void OnMarkerSeen(MarkerPosition position)
         {
-            int id = position.ID;
             if (position == null)
             {
                 throw new ArgumentNullException("position");
             }
 
+            int id = position.ID;
             this.GetMarker(id).LocalPosition = position;
             if (this.Parent.LocalPosition == null || 
                 this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
