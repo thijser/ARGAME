@@ -6,6 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
+    path: Assets/Scenes/Experiments/MetaNetworktests.unity
+  - enabled: 0
     path: Assets/Scenes/Experiments/projection2test.unity
   - enabled: 1
-    path: Assets/Scenes/Experiments/MetaNetworktests.unity
+    path: Assets/Scenes/Experiments/projection2test.unity
