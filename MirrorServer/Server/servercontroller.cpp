@@ -150,7 +150,8 @@ void ServerController::broadcastPosition(const MarkerUpdate& marker) {
         sock->broadcastDelete(marker.id);
     } else {
         // Scale marker positions based on their size for Meta 1 tracking
-        cv::Point2f scaledCoords(marker.position.x / marker.scale, marker.position.y / marker.scale);
+        float scale = markerTracker->getMarkerScale();
+        cv::Point2f scaledCoords(marker.position.x / scale, marker.position.y / scale);
 
         sock->broadcastPositionUpdate(
                     marker.id,

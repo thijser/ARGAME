@@ -17,9 +17,17 @@ namespace mirrors {
         for (auto& trackedMarker : trackedMarkers) {
             trackedMarker.newThisFrame = false;
             trackedMarker.seenThisFrame = false;
+
+            if (trackedMarker.match.id != -1) {
+                markerScale.update(trackedMarker.match.scale);
+            }
         }
 
         return updates;
+    }
+
+    float MarkerTracker::getMarkerScale() const {
+        return markerScale.get();
     }
 
     vector<pair<Point, PatternMatch>> MarkerTracker::detectMarkers(const Mat& frame) const {

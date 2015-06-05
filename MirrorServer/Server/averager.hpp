@@ -71,6 +71,22 @@ namespace mirrors {
             return average;
         }
 
+        /**
+         * @brief Get the current moving average value without adding a new one.
+         * @return Current moving average.
+         */
+        T get() const {
+            T average = T();
+
+            for (T val : storage) {
+                average += val;
+            }
+
+            average /= storage.size();
+
+            return average;
+        }
+
     private:
         /// Container for historic values.
         deque<T> storage;

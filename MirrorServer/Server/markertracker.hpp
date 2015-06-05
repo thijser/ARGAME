@@ -40,6 +40,9 @@ namespace mirrors {
     /// Amount of frames to average for marker positions and rotations.
     const int MARKER_HISTORY_LENGTH = 15;
 
+    /// Amount of frames * markers to average for marker scales.
+    const int MARKER_SCALE_HISTORY_LENGTH = 10 * 30;
+
     /// Minimum distance (pixels) between smoothed position and new position before
     /// smoothing is disabled and the new position is assumed directly.
     const float MARKER_POSITION_SMOOTH_THRESHOLD = 3;
@@ -119,6 +122,12 @@ namespace mirrors {
          */
         vector<MarkerUpdate> track(const Mat& frame, clock_t timestamp = clock());
 
+        /**
+         * @brief Gets the current moving average of the marker scale.
+         * @return Current moving average of marker scale.
+         */
+        float getMarkerScale() const;
+
     private:
         /// Detector for extracting the board from a frame.
         const BoardDetector& boardDetector;
@@ -176,6 +185,9 @@ namespace mirrors {
 
         /// List of persistently tracked markers.
         vector<TrackedMarker> trackedMarkers;
+
+        /// Moving average of marker size.
+        Averager<float> markerScale = Averager<float>(MARKER_SCALE_HISTORY_LENGTH);
 
         /**
          * @brief Detects and recognizes all the markers in a new frame.
