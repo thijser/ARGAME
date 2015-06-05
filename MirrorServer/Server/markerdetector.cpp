@@ -10,7 +10,7 @@ namespace mirrors {
 
     vector<vector<Point>> MarkerDetector::locateMarkers(const Mat& boardImage) const {
         auto thresholdedImage = thresholdGreen(boardImage);
-        return findMarkerContours(boardImage, thresholdedImage);
+        return findMarkerContours(thresholdedImage);
     }
 
     Mat MarkerDetector::thresholdGreen(const Mat& image) {
@@ -41,7 +41,7 @@ namespace mirrors {
         return maskClean;
     }
 
-    vector<vector<Point>> MarkerDetector::findMarkerContours(const Mat& original, const Mat& mask) {
+    vector<vector<Point>> MarkerDetector::findMarkerContours(const Mat& mask) {
         vector<vector<Point>> contours;
         vector<Vec4i> hierarchy;
 

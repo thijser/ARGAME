@@ -2,7 +2,7 @@
 #define TESTUTILITIES_HPP
 
 #include <opencv2/core/core.hpp>
-#include "markerrecognizer.hpp"
+#include "markertracker.hpp"
 #include <vector>
 
 namespace mirrors {
@@ -45,6 +45,39 @@ bool expectMarkers(const vector<Point>& expectedPivots, const vector<vector<Poin
  * @return Amount of patterns loaded.
  */
 int loadPatterns(MarkerRecognizer& recognizer, const std::string& path);
+
+/**
+ * @brief Describes an expected marker tracking update.
+ */
+class ExpectedMarkerUpdate {
+    MarkerUpdateType::MarkerUpdateType type;
+    int id;
+    float rotation;
+    Point position;
+
+public:
+    ExpectedMarkerUpdate(MarkerUpdateType::MarkerUpdateType type, int id, float rotation, Point position)
+        : type(type), id(id), rotation(rotation), position(position) {}
+
+    bool matches(const MarkerUpdate& update) const {
+        bool m = true;
+
+        m &= update.type == type;
+        m &= update.id == id;
+        m &= std::abs(update.rotation - rotation) <= 5;
+        m &= dist(update.position, position) <= 5;
+
+        return m;
+    }
+};
+
+/**
+ * @brief Checks if the updates match the expected updates (in any order).
+ * @param expectedUpdates - Expected updates.
+ * @param updates - Actual updates.
+ * @return True if updates match expectedUpdates without leftovers on either side.
+ */
+bool expectMarkerUpdates(const vector<ExpectedMarkerUpdate>& expectedUpdates, const vector<MarkerUpdate>& updates);
 
 }
 

@@ -33,7 +33,8 @@ SOURCES += \
     boarddetectortest.cpp \
     testutilities.cpp \
     markerdetectortest.cpp \
-    markerrecognizertest.cpp
+    markerrecognizertest.cpp \
+    markertrackertest.cpp
 
 # ---------- Add the dependency for OpenCV ----------
 OPENCV_PATH = $$(OPENCV_HOME)

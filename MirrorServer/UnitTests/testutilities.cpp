@@ -41,6 +41,28 @@ bool expectMarkers(const vector<Point>& expectedPivots, const vector<vector<Poin
     return foundMarkers.size() == contoursFound.size() && foundMarkers.size() == expectedPivots.size();
 }
 
+bool expectMarkerUpdates(const vector<ExpectedMarkerUpdate>& expectedUpdates, const vector<MarkerUpdate>& updates) {
+    set<size_t> matchedUpdates;
+
+    for (auto& update : updates) {
+        for (size_t i = 0; i < expectedUpdates.size(); i++) {
+            if (expectedUpdates[i].matches(update)) {
+                matchedUpdates.insert(i);
+            }
+        }
+    }
+
+    for (size_t i : matchedUpdates) {
+        std::cout << "MATCH -> " << i << std::endl;
+    }
+
+    for (MarkerUpdate update : updates) {
+        std::cout << "UPDATE: " << update.type << ", " << update.id << ", " << update.rotation << ", " << update.position << std::endl;
+    }
+
+    return matchedUpdates.size() == updates.size() && matchedUpdates.size() == expectedUpdates.size();
+}
+
 int loadPatterns(MarkerRecognizer& recognizer, const std::string& path) {
     int i = 0;
     bool loaded;
@@ -48,7 +70,7 @@ int loadPatterns(MarkerRecognizer& recognizer, const std::string& path) {
     do {
         vector<char> buf;
         buf.resize(path.size() + 20);
-        sprintf(&buf[0], path.c_str(), i);
+        sprintf_s(&buf[0], buf.size(), path.c_str(), i);
         loaded = recognizer.registerPattern(i, imread(buf.data(), IMREAD_GRAYSCALE));
         i++;
     } while (loaded);
