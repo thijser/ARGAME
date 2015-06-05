@@ -267,12 +267,12 @@ namespace Projection
             }
 
             this.Parent = target;
-            foreach (KeyValuePair<int, Marker> entry in this.markerTable)
+            foreach (Marker marker in this.markerTable.Values)
             {
-                if (entry.Value != this.Parent)
+                if (marker != this.Parent)
                 {
-                    entry.Value.transform.SetParent(target.transform);
-                    this.UpdatePosition(entry.Value);
+                    marker.transform.parent = target.transform;
+                    this.UpdatePosition(marker);
                 }
             }
         }

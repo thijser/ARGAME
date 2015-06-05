@@ -301,5 +301,21 @@ namespace Projection
             GameObjectFactory.Create<PositionUpdater>().OnMarkerSeen(null);
         }
 
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestUpdateChildPositionNull()
+        {
+            GameObjectFactory.Create<PositionUpdater>().UpdateChildPosition(null);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestUpdateChildPositionNullRemote()
+        {
+            Marker marker = GameObjectFactory.Create<Marker>();
+            marker.ID = 4;
+            
+            GameObjectFactory.Create<PositionUpdater>().UpdateChildPosition(marker.);
+        }
     }
 }
