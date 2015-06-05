@@ -309,7 +309,7 @@ namespace Projection
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestUpdateChildPositionNullRemote()
         {
             Marker marker = GameObjectFactory.Create<Marker>();

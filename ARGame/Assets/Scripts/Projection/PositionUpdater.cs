@@ -55,6 +55,11 @@ namespace Projection
                 throw new ArgumentNullException("register");
             }
 
+            if (register.RegisteredMarker == null)
+            {
+                throw new ArgumentException("Invalid marker", "register");
+            }
+
             if (this.Parent == null)
             {
                 this.Parent = register.RegisteredMarker;
