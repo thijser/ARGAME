@@ -36,6 +36,8 @@ public class MarkerTransformer : MonoBehaviour {
         {
             for (int i = 0; i < MetaMarkers.Length; i++)
             {
+                if (i == levelMarkerIdx) continue;
+
                 // Position relative to level marker in board space
                 Vector3 rel = BoardMarkers[i].position - BoardMarkers[levelMarkerIdx].position;
 
@@ -52,7 +54,7 @@ public class MarkerTransformer : MonoBehaviour {
                 MetaMarkers[i].position = MetaMarkers[levelMarkerIdx].position + MetaMarkers[levelMarkerIdx].rotation * Quaternion.Inverse(BoardMarkers[levelMarkerIdx].rotation) * rel;
 
                 // Give child markers the same rotation and scale as the level marker
-                MetaMarkers[i].rotation = MetaMarkers[levelMarkerIdx].rotation;
+                MetaMarkers[i].rotation = Quaternion.AngleAxis(-BoardMarkers[levelMarkerIdx].rotation.eulerAngles.y, MetaMarkers[levelMarkerIdx].up) * MetaMarkers[levelMarkerIdx].rotation;
                 MetaMarkers[i].localScale = MetaMarkers[levelMarkerIdx].localScale;
             }
         }
