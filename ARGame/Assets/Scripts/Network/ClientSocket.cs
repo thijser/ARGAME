@@ -200,7 +200,8 @@ namespace Network
         {
             if (this.socket != null)
             {
-                socket.Dispose();
+                // Method doesn't exist
+                //socket.Dispose();
             }
         }
     }
