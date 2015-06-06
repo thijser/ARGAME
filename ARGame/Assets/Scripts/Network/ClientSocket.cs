@@ -18,7 +18,7 @@ namespace Network
     /// <summary>
     /// Maintains a Socket connection to the OpenCV server.
     /// </summary>
-    public class ClientSocket : MonoBehaviour
+    public class ClientSocket : MonoBehaviour, IDisposable
     {
         /// <summary>
         /// The minimum size of a single packet.
@@ -105,6 +105,7 @@ namespace Network
             this.timestamp = DateTime.Now;
         }
 
+
         /// <summary>
         /// Retrieves the PositionUpdates from the server and broadcasts the messages.
         /// </summary>
@@ -189,6 +190,17 @@ namespace Network
                 default:
                     Debug.LogWarning("Received invalid type: " + type);
                     return null;
+            }
+        }
+
+        /// <summary>
+        /// Safely disposes the underlying Socket, if any.
+        /// </summary>
+        public void Dispose()
+        {
+            if (this.socket != null)
+            {
+                socket.Dispose();
             }
         }
     }
