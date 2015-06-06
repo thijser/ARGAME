@@ -49,7 +49,7 @@ public class MarkerTransformer : MonoBehaviour {
                 rel.Scale(MetaMarkers[levelMarkerIdx].localScale);
 
                 // Rotate position to Meta space rotation
-                MetaMarkers[i].position = MetaMarkers[levelMarkerIdx].position + MetaMarkers[levelMarkerIdx].rotation * rel;
+                MetaMarkers[i].position = MetaMarkers[levelMarkerIdx].position + Quaternion.Inverse(BoardMarkers[levelMarkerIdx].rotation) * MetaMarkers[levelMarkerIdx].rotation * rel;
 
                 // Give child markers the same rotation and scale as the level marker
                 MetaMarkers[i].rotation = MetaMarkers[levelMarkerIdx].rotation;
