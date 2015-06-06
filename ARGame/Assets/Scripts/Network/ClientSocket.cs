@@ -18,7 +18,7 @@ namespace Network
     /// <summary>
     /// Maintains a Socket connection to the OpenCV server.
     /// </summary>
-    public class ClientSocket : MonoBehaviour, IDisposable
+    public class ClientSocket : MonoBehaviour
     {
         /// <summary>
         /// The minimum size of a single packet.
