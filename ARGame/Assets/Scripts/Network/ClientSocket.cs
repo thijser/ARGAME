@@ -192,17 +192,5 @@ namespace Network
                     return null;
             }
         }
-
-        /// <summary>
-        /// Safely disposes the underlying Socket, if any.
-        /// </summary>
-        public void Dispose()
-        {
-            if (this.socket != null)
-            {
-                // Method doesn't exist
-                //socket.Dispose();
-            }
-        }
     }
 }
