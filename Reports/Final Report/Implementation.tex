@@ -70,8 +70,25 @@
 		...
 		
 	\section{Networking and the OpenCV server} \label{sec:network}
-		...
-		
+		The game depends on a server application with a master camera. The 
+        server application detects the position and rotation of markers in the 
+        playing area. It does this through the use of a central so-called master 
+        camera, that is position so that the entire playing area is visible from 
+        the camera.
+        
+        The server application is written in C++ and is based on OpenCV and the Qt 
+        framework, since Unity does much more than what we need of the server. 
+        The server only acts as a way to track all markers even if they aren't 
+        seen by any of the players, and to facilitate synchronizing state 
+        changes with all players. For example, if a remote player rotates an 
+        object in the game, the details about that rotation is sent to the 
+        server, which then distributes it to all other players.
+        
+        A more detailed description about the communication between the Unity 
+        clients and the server can be found in paragraph \ref{ssec:communication}.
+        The use of the master camera to detect markers is described in paragraph
+        \ref{ssec:mastercamera}.
+         		
 		\subsection{Communication between C\# and C++} \label{ssec:communication}
 			Communication between the Unity clients and the OpenCV server 
             happens through the use of sockets. For the Unity side, the Socket 
