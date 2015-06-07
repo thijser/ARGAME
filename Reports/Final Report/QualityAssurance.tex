@@ -58,7 +58,13 @@
 			As such, it also supports assertions, type parameterization, etc.
 			Also, it is open source, licensed under the new BSD license.
 			
-			% TODO: write more.
+            To implement the testing functionality into the server project, 
+            the unit tests are separated into their own subproject, which 
+            links to the server and runs the tests. As recommended by the 
+            Google Test guide, the Google test framework source and headers 
+            are included directly into the unit tests subproject, ensuring 
+            that the tests can be compiled and run regardless of the platform 
+            or compiler being used.
 		
 		\subsection{Integration Tests} \label{ssec:integrationtests}
 			Integration tests are not done via a formalized test procedure, but 
@@ -69,18 +75,30 @@
 		
 		\subsection{Code coverage} \label{ssec:codecoverage}
 			Code coverage is a metric that can be used to determine how thorough
-			the written code has been tested. There are several free software
-			packages available on the Internet that allow for generating code
-			coverage reports of NUnit test suites, such as NCover or PartCover.
-			These, however, are hard to use when combined with unit tests in
-			Unity. The reason behind this is that, to run the unit tests for
-			the game, the Unity Test Tools functionality has to be used (as most
-			tests use instantiation of gameplay objects, something that can
-			only happen in Unity). This functionality has no way of integrating
-			the NCover or PartCover software packages. It is possible to integrate
-			these with Microsoft Visual Studio, however it is impossible to run
-			the unit tests from that IDE. As such, we had to manually check
-			if the tests tested all possible branches of the code.
+			the written code has been tested. We have to consider generating 
+            code coverage reports for two languages: The C\# Unity project and 
+            the C++ server project. 
+            
+            Generating code coverage reports for the C\# code is unexpectedly 
+            difficuly: Even though here are several free software packages 
+            available on the Internet that allow for generating code
+			coverage reports of NUnit test suites, these are hard to use when 
+            combined with unit tests in Unity. The reason behind this is that, 
+            to run the unit tests for the game, the Unity Test Tools 
+            functionality has to be used (as most tests use instantiation of 
+            gameplay objects, something that canonly happen in Unity). This 
+            functionality has no way of integrating the NCover or OpenCover 
+            software packages. It is possible to integrate these with Microsoft 
+            Visual Studio, however it is impossible to run the unit tests from 
+            that IDE. As such, we had to manually check if the tests tested all 
+            possible branches of the code.
+            
+            On the other hand, however, analysing code coverage for the C++ 
+            project is almost trivial: For GNU compilers, including MinGW, 
+            there is a utility called gcov, which measures code coverage of 
+            GTest-based unit tests. And when using the Microsoft Visual C++ 
+            compiler, it is possible to use Visual Studio to analyse the 
+            coverage of the unit tests.
 			
 	\section{Code Style} \label{sec:codestyle}
 		We decided to stick to the code style guidelines defined by StyleCop and 
