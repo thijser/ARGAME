@@ -67,7 +67,34 @@
 		...
 		
 	\section{Synchronization of World State} \label{sec:synchronization}
-		...
+		Because the game is played by multiple people, the state of the world
+        somehow has to be synchronized between all players. To do this, we 
+        considered two major options:
+        
+        The first option was to use the built-in Network View component in 
+        Unity. This would allow Unity to take care of most synchronization,
+        which in turn could make implementing the synchronization particularly
+        easy. However, due to the way the Meta One glasses manipulate the 
+        positions and rotations of game objects to fit the orientation of the 
+        player's head, synchronizing these positions would result in incorrect
+        positions for other players. Instead, a custom serialization method 
+        would have to be implemented to undo the manipulation by the Meta One
+        and then apply the correct manipulation for each of the other players.
+        
+        Because of the issues the Network View component would give, a second
+        option was considered. This option would introduce the need for a 
+        master server that hosted the game, and could provide raw positions
+        and rotations of markers exactly as they were placed on the table.
+        The only thing left to do would be to move and rotate the objects for 
+        each player to match that player's view of the playing area. 
+        Additionally, the server approach also solved another recurring issue,
+        as highlighted in section \ref{sec:markerdetection}.
+        
+        In the end, we went for the second option because of the abovementioned
+        reasons, but also partly because it allowed us more control over the 
+        internal workings of the network functionality and the marker tracking.
+        See section \ref{sec:markerdetection} for the details about the marker
+        detection performed by the server.
 		
 	\section{Networking and the OpenCV server} \label{sec:network}
 		The game depends on a server application with a master camera. The 
@@ -76,13 +103,14 @@
         camera, that is position so that the entire playing area is visible from 
         the camera.
         
-        The server application is written in C++ and is based on OpenCV and the Qt 
-        framework, since Unity does much more than what we need of the server. 
-        The server only acts as a way to track all markers even if they aren't 
-        seen by any of the players, and to facilitate synchronizing state 
-        changes with all players. For example, if a remote player rotates an 
-        object in the game, the details about that rotation is sent to the 
-        server, which then distributes it to all other players.
+        The server application is written in C++ and is based on OpenCV and the 
+        Qt framework. We decided to implement the server outside of Unity, since 
+        Unity does much more than what we need of the server. The server only 
+        acts as a way to track all markers even if they aren't seen by any of 
+        the players, and to facilitate synchronizing state changes with all 
+        players. For example, if a remote player rotates an object in the game, 
+        the details about that rotation is sent to the server, which then 
+        distributes it to all other players.
         
         A more detailed description about the communication between the Unity 
         clients and the server can be found in paragraph \ref{ssec:communication}.
