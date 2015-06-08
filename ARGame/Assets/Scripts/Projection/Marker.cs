@@ -71,14 +71,29 @@ namespace Projection
         /// </summary>
         public void Start()
         {
-            this.SendMessageUpwards("OnMarkerRegister", new MarkerRegister(this));
+			this.SendMessageUpwards("OnMarkerRegister", new MarkerRegister(this));
         }
 
-        /// <summary>
-        /// Returns a string representation of this Marker.
-        /// </summary>
-        /// <returns>A string describing this Marker.</returns>
-        public override string ToString()
+		public void UpdatePosition(Marker parent){
+			if(this!=parent){
+				// Position relative to level marker in board space
+				Vector3 rel = this.RemotePosition.Position - parent.RemotePosition.Position;
+				rel.Scale(parent.LocalPosition.Scale);
+				// Rotate position to Meta space rotation
+				this.transform.position = parent.LocalPosition.Position + parent.LocalPosition.Rotation  *Quaternion.Inverse(parent.RemotePosition.Rotation)*rel;
+				// Give child markers the same rotation and scale as the level marker
+				Quaternion relativeRotation = Quaternion.AngleAxis(-parent.RemotePosition.Rotation.eulerAngles.y,parent.gameObject.transform.up);
+				this.transform.rotation = relativeRotation * parent.LocalPosition.Rotation;
+			}else{
+				this.transform.position=this.LocalPosition.Position;
+			}
+		
+		}
+		/// <summary>
+		/// Returns a string representation of this Marker.
+		/// </summary>
+		/// <returns>A string describing this Marker.</returns>
+		public override string ToString()
         {
             return "<marker:id=" + this.ID +
                 ", RemotePosition=" + this.RemotePosition.ToString() +
