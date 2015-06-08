@@ -33,12 +33,18 @@ namespace Core
         private LaserTarget[] targets;
 
         /// <summary>
+        /// All checkpoints in the level.
+        /// </summary>
+        private Checkpoint[] checks;
+
+        /// <summary>
         /// Initializes the target array.
         /// </summary>
         public void Start()
         {
             this.targets = GameObject.FindObjectsOfType<LaserTarget>();
-            Debug.Log(this.targets.Length);
+            this.checks = GameObject.FindObjectsOfType<Checkpoint>();
+            Debug.Log(this.checks.Length);
         }
 
         /// <summary>
@@ -53,6 +59,10 @@ namespace Core
             bool win = Array.TrueForAll(
                 this.targets, 
                 t => t.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opened"));
+
+            win = win && Array.TrueForAll(
+                this.checks,
+                t => t.Hit);
 
             if (win)
             {

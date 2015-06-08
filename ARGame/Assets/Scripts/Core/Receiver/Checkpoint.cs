@@ -46,6 +46,7 @@ namespace Core.Receiver
         /// <param name="args">The EventArgs object that describes the event.</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
+            Debug.Log("Check");
             if (args == null)
             {
                 throw new ArgumentNullException("args");
@@ -66,22 +67,6 @@ namespace Core.Receiver
             LaserProperties propertiesPre = args.Laser.Emitter.GetComponent<LaserProperties>();
             LaserProperties propertiesPost = passThroughEmitter.GetComponent<LaserProperties>();
             propertiesPost.RGBStrengths = propertiesPre.RGBStrengths;
-            this.CreateBeam(args.Laser);
-        }
-
-        /// <summary>
-        /// Creates the resulting beam.
-        /// </summary>
-        /// <returns>The resulting Laser beam segment.</returns>
-        /// <param name="laser">The Laser beam.</param>
-        public LaserBeam CreateBeam(LaserBeam laser)
-        {
-            if (laser == null)
-            {
-                throw new ArgumentNullException("laser");
-            }
-
-            return laser.Extend(transform.position, laser.Direction);
         }
 
         /// <summary>
