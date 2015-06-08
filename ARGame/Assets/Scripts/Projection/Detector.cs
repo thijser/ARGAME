@@ -9,7 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using UnityEngine;
 
     /// <summary>
@@ -38,7 +38,7 @@ namespace Projection
         /// </summary>
         public void LateUpdate()
         {
-            List<MarkerPosition> list = this.Link.GetMarkerPositions();
+            Collection<MarkerPosition> list = this.Link.GetMarkerPositions();
             foreach (MarkerPosition mp in list)
             {
                 Debug.Log(mp.ToString());

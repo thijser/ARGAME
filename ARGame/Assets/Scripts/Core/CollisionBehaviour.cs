@@ -53,8 +53,8 @@ namespace Core
         /// <summary>
         /// Sets the <c>Colliding</c> property to <c>true</c>.
         /// </summary>
-        /// <param name="coll">The parameter is ignored.</param>
-        public void OnCollisionEnter(Collision coll)
+        /// <param name="collision">The parameter is ignored.</param>
+        public void OnCollisionEnter(Collision collision)
         {
             this.Colliding = true;
         }
@@ -62,8 +62,8 @@ namespace Core
         /// <summary>
         /// Sets the <c>Colliding</c> property to <c>false</c>.
         /// </summary>
-        /// <param name="coll">The parameter is ignored.</param>
-        public void OnCollisionExit(Collision coll)
+        /// <param name="collision">The parameter is ignored.</param>
+        public void OnCollisionExit(Collision collision)
         {
             this.Colliding = false;
         }

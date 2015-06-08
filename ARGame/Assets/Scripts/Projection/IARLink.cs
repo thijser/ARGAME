@@ -9,7 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     /// Interface for providers of AR functionality.
@@ -25,6 +25,6 @@ namespace Projection
         /// return a list of all visible markers and their locations, can be empty if none are visible. 
         /// </summary>
         /// <returns>The marker positions.</returns>
-         List<MarkerPosition> GetMarkerPositions();
+         Collection<MarkerPosition> GetMarkerPositions();
     }
 }

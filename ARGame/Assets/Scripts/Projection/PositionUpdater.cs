@@ -255,7 +255,7 @@ namespace Projection
 
             if (this.Parent.RemotePosition == null)
             {
-                throw new InvalidOperationException("parent has no RemotePosition");
+                throw new InvalidOperationException("Parent has no remote position");
             }
 
             if (target.RemotePosition != null)

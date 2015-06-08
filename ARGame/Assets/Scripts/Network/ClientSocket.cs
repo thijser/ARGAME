@@ -105,7 +105,6 @@ namespace Network
             this.timestamp = DateTime.Now;
         }
 
-
         /// <summary>
         /// Retrieves the PositionUpdates from the server and broadcasts the messages.
         /// </summary>
@@ -183,7 +182,7 @@ namespace Network
                     received = this.socket.Receive(this.buffer, 16, SocketFlags.None);                   
                     return MessageProcessor.ReadUpdatePosition(this.buffer, received);
                 case UpdateType.Ping:
-                    return new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0, -1);
+                    return new PingUpdate();
                 case UpdateType.UpdateRotation:
                     received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
                     return MessageProcessor.ReadUpdateRotation(this.buffer, received);
@@ -191,6 +190,15 @@ namespace Network
                     Debug.LogWarning("Received invalid type: " + type);
                     return null;
             }
+        }
+
+        /// <summary>
+        /// Called whenever the remote player rotates an object.
+        /// </summary>
+        /// <param name="update">The RotationUpdate describing the change.</param>
+        public void OnRotationChanged(RotationUpdate update)
+        {
+            this.socket.Send(MessageProcessor.WriteRotationUpdate(update));
         }
     }
 }

@@ -95,6 +95,16 @@ namespace Network
         }
 
         /// <summary>
+        /// Sends a message with the current rotation of the selected mirror.
+        /// </summary>
+        public void SendRotationUpdate()
+        {
+            int id = this.SelectedMirror.GetComponent<Projection.Marker>().ID;
+            float rotation = this.SelectedMirror.transform.eulerAngles.y;
+            this.SendMessage("OnRotationChanged", new RotationUpdate(UpdateType.UpdateRotation, rotation, id));
+        }
+
+        /// <summary>
         /// Changes the selected Mirror to the next Mirror in sequence.
         /// </summary>
         private void UpdateSelectedMirror()
@@ -133,11 +143,13 @@ namespace Network
                 {
                     float t = Time.deltaTime * -90f;
                     this.SelectedMirror.transform.Rotate(0, t, 0);
+                    this.SendRotationUpdate();
                 }
                 else if (Input.GetKey(KeyCode.D))
                 {
                     float t = Time.deltaTime * 90f;
                     this.SelectedMirror.transform.Rotate(0, t, 0);
+                    this.SendRotationUpdate();
                 }
             }
         }
@@ -169,5 +181,6 @@ namespace Network
                 mesh.material = this.Original;
             }
         }
+
     }
 }

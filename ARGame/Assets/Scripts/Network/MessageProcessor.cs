@@ -106,6 +106,29 @@ namespace Network
         }
 
         /// <summary>
+        /// Writes the given <see cref="RotationUpdate"/> to a byte array.
+        /// </summary>
+        /// <param name="update">The <see cref="RotationUpdate"/>, not null.</param>
+        /// <returns>A byte array containing the data from the <see cref="RotationUpdate"/>.</returns>
+        public static byte[] WriteRotationUpdate(RotationUpdate update)
+        {
+            if (update == null)
+            {
+                throw new ArgumentNullException("update");
+            }
+
+            byte[] message = new byte[9];
+            byte[] tag = BitConverter.GetBytes((byte)UpdateType.UpdateRotation);
+            byte[] id = BitConverter.GetBytes(update.ID);
+            byte[] rotation = BitConverter.GetBytes(update.Rotation);
+
+            Array.Copy(tag, 0, message, 0, 1);
+            Array.Copy(id, 0, message, 1, 4);
+            Array.Copy(rotation, 0, message, 5, 4);
+            return message;
+        }
+
+        /// <summary>
         /// Reads and returns a float value from a network byte input, starting
         /// from the given offset.
         /// </summary>

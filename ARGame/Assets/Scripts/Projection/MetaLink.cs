@@ -10,8 +10,7 @@
 namespace Projection
 {
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using Meta;
     using UnityEngine;
 
@@ -69,11 +68,11 @@ namespace Projection
         /// Builds and returns the MarkerPositions detected by the Meta detector.
         /// </summary>
         /// <returns>The List of MarkerPositions.</returns>
-        public List<MarkerPosition> GetMarkerPositions()
+        public Collection<MarkerPosition> GetMarkerPositions()
         {
             this.EnsureMeta();
             Transform trans = this.lamb.transform;
-            List<MarkerPosition> list = new List<MarkerPosition>();
+            Collection<MarkerPosition> list = new Collection<MarkerPosition>();
 
             foreach (int id in MarkerDetector.Instance.updatedMarkerTransforms)
             {
