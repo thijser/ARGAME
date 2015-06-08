@@ -182,7 +182,7 @@ namespace Network
                     received = this.socket.Receive(this.buffer, 16, SocketFlags.None);                   
                     return MessageProcessor.ReadUpdatePosition(this.buffer, received);
                 case UpdateType.Ping:
-                    return new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0, -1);
+                    return new PingUpdate();
                 case UpdateType.UpdateRotation:
                     received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
                     return MessageProcessor.ReadUpdateRotation(this.buffer, received);
