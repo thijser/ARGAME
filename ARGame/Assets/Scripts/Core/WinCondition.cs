@@ -44,7 +44,6 @@ namespace Core
         {
             this.targets = GameObject.FindObjectsOfType<LaserTarget>();
             this.checks = GameObject.FindObjectsOfType<Checkpoint>();
-            Debug.Log(this.checks.Length);
         }
 
         /// <summary>
@@ -71,8 +70,6 @@ namespace Core
             {
                 Application.LoadLevel(this.NextLevelIndex);
             }
-
-            Debug.Log(win);
         }
     }
 }

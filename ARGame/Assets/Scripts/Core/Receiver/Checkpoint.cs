@@ -46,7 +46,6 @@ namespace Core.Receiver
         /// <param name="args">The EventArgs object that describes the event.</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
-            Debug.Log("Check");
             if (args == null)
             {
                 throw new ArgumentNullException("args");
