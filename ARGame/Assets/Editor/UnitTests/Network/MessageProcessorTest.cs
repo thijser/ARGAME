@@ -210,5 +210,35 @@ namespace Network
         {
             Assert.NotNull(MessageProcessor.ReadDelete(new byte[4], 4));
         }
+
+        /// <summary>
+        /// Tests if the <c>ReadInt</c> and <c>WriteInt</c> methods 
+        /// cycle.
+        /// </summary>
+        [Test]
+        public void ReadWriteIntCycles()
+        {
+            int expected = 77252784;
+            byte[] bytes = new byte[4];
+            MessageProcessor.WriteInt(expected, bytes, 0);
+            int actual = MessageProcessor.ReadInt(bytes, 0);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        /// Tests if the <c>ReadFloat</c> and <c>WriteFloat</c> methods 
+        /// cycle.
+        /// </summary>
+        [Test]
+        public void ReadWriteFloatTest()
+        {
+            float expected = 1.6265f;
+            byte[] bytes = new byte[4];
+            MessageProcessor.WriteFloat(expected, bytes, 0);
+            float actual = MessageProcessor.ReadFloat(bytes, 0);
+
+            Assert.AreEqual(expected, actual, 0.0001f);
+        }
     }
 }
