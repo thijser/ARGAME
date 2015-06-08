@@ -60,7 +60,7 @@ namespace Projection
 
             if (MarkerDetector.Instance == null)
             {
-                throw new MissingComponentException("Missing MarkerDetector instance");
+                throw new MissingComponentException("Missing marker detector instance");
             }
         }
 
