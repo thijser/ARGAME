@@ -30,11 +30,13 @@ void ServerSocket::setPortNumber(quint16 portNum) {
 
 void ServerSocket::start() {
     sock->listen(QHostAddress::Any, 23369);
+    pingTimer->start();
     emit started();
 }
 
 void ServerSocket::stop() {
     sock->close();
+    pingTimer->stop();
     emit stopped();
 }
 
