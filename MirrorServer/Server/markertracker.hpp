@@ -38,7 +38,7 @@ namespace mirrors {
     const clock_t MARKER_TIMEOUT_TIME = CLOCKS_PER_SEC / 2;
 
     /// Amount of frames to average for marker positions and rotations.
-    const int MARKER_HISTORY_LENGTH = 15;
+    const int MARKER_HISTORY_LENGTH = 30;
 
     /// Amount of frames * markers to average for marker scales.
     const int MARKER_SCALE_HISTORY_LENGTH = 10 * 30;
@@ -49,7 +49,10 @@ namespace mirrors {
 
     /// Minimum distance (pixels) between smoothed rotation and new rotation before
     /// smoothing is disabled and the new rotation is assumed directly.
-    const float MARKER_ROTATION_SMOOTH_THRESHOLD = 3;
+    const float MARKER_ROTATION_SMOOTH_THRESHOLD = 2;
+
+    /// Angle to round rotation to.
+    const float MARKER_ROTATION_ROUNDING = 22.5f;
 
     namespace MarkerUpdateType {
         /**
