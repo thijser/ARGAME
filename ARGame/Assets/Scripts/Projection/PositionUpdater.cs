@@ -68,7 +68,6 @@ namespace Projection
             {
                 register.RegisteredMarker.gameObject.transform.SetParent(this.Parent.gameObject.transform);
             }
-
             this.markerTable.Add(register.RegisteredMarker.ID, register.RegisteredMarker);
         }
 
@@ -106,6 +105,7 @@ namespace Projection
 
             foreach (Marker marker in this.markerTable.Values)
             {
+
                 this.UpdatePosition(marker);
             }
         }
