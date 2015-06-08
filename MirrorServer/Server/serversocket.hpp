@@ -153,6 +153,13 @@ public slots:
     void broadcastPositionUpdate(int id, cv::Point2f position, float rotation);
 
     /**
+     * @brief Sends a RotationUpdate message to all clients.
+     * @param id       - The marker ID
+     * @param rotation - The rotation of the object on the marker.
+     */
+    void broadcastRotationUpdate(int id, float rotation);
+
+    /**
      * @brief Sends a Delete message to all clients.
      * @param id - The marker ID.
      */
@@ -162,6 +169,28 @@ public slots:
      * @brief Sends a Ping message to all clients.
      */
     void broadcastPing();
+
+    /**
+     * @brief Processes the updates sent by all clients.
+     */
+    void processUpdates();
+
+    /**
+     * @brief Processes the updates sent by the given client.
+     * @param client - The client to check.
+     */
+    void processUpdates(QTcpSocket *client);
+
+    /**
+     * @brief Validates and broadcasts the provided message.
+     *
+     * If the provided QByteArray does not represent a valid
+     * rotation update, this function does nothing. Otherwise,
+     * the provided message will be broadcast to all connected
+     * clients.
+     * @param data - The QByteArray with the message data.
+     */
+    void resendRotationUpdate(QByteArray data);
 
 private slots:
     /**

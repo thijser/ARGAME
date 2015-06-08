@@ -58,16 +58,6 @@ namespace Network
         }
 
         /// <summary>
-        /// Initializes this MirrorController and disables state synchronization for this
-        /// object.
-        /// </summary>
-        public void Start()
-        {
-            NetworkView view = this.GetComponent<NetworkView>();
-            view.stateSynchronization = NetworkStateSynchronization.Off;
-        }
-
-        /// <summary>
         /// Updates the selected Mirror if the 'M' key is pressed and updates the 
         /// rotation of the selected Mirror.
         /// </summary>

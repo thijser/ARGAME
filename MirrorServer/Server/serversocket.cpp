@@ -4,6 +4,8 @@
 #include <QTcpSocket>
 #include <QDataStream>
 
+#include <iostream>
+
 namespace mirrors {
 
 ServerSocket::ServerSocket(QObject *parent)
@@ -30,11 +32,13 @@ void ServerSocket::setPortNumber(quint16 portNum) {
 
 void ServerSocket::start() {
     sock->listen(QHostAddress::Any, 23369);
+    pingTimer->start();
     emit started();
 }
 
 void ServerSocket::stop() {
     sock->close();
+    pingTimer->stop();
     emit stopped();
 }
 
@@ -68,6 +72,17 @@ void ServerSocket::broadcastPositionUpdate(int id, cv::Point2f position, float r
     broadcastBytes(bytes);
 }
 
+
+void ServerSocket::broadcastRotationUpdate(int id, float rotation) {
+    QByteArray bytes;
+    QDataStream stream(&bytes, QIODevice::WriteOnly);
+    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+    stream << (qint8) 3
+           << (qint32) id
+           << rotation;
+    broadcastBytes(bytes);
+}
+
 void ServerSocket::broadcastDelete(int id) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
@@ -79,6 +94,36 @@ void ServerSocket::broadcastDelete(int id) {
 void ServerSocket::broadcastPing() {
     broadcastBytes(QByteArray(1, 2));
 }
+
+void ServerSocket::processUpdates() {
+    foreach (QTcpSocket *sock, clients) {
+        processUpdates(sock);
+    }
+}
+
+void ServerSocket::processUpdates(QTcpSocket *client) {
+    Q_ASSERT(client != nullptr);
+    while (client->bytesAvailable() >= 9) {
+        QByteArray data = client->read(9);
+        if (data.size() == 9 && data[0] == (char)3) {
+            // This message is a rotation update
+            resendRotationUpdate(data);
+        }
+    }
+}
+
+void ServerSocket::resendRotationUpdate(QByteArray data) {
+    qint8 tag;
+    qint32 id;
+    float rotation;
+    QDataStream stream(&data, QIODevice::ReadOnly);
+    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+    stream >> tag;
+    stream >> id;
+    stream >> rotation;
+    broadcastRotationUpdate(id, rotation);
+}
+
 
 void ServerSocket::newConnection() {
     QTcpSocket *client = sock->nextPendingConnection();
