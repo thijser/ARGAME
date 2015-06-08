@@ -14,6 +14,7 @@ namespace Core.Emitter
     using NUnit.Framework;
     using TestUtilities;
     using UnityEngine;
+    using Graphics;
 
     /// <summary>
     /// A test class for the multi emitter.
@@ -40,7 +41,7 @@ namespace Core.Emitter
         [ExpectedException(typeof(ArgumentNullException))]
         public void ApplyTest2()
         {
-            MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<LineRenderer>(), null);
+            MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<VolumeLineRenderer>(), null);
         }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace Core.Emitter
         [Test]
         public void ApplyTestValid()
         {
-            Assert.NotNull(MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<LineRenderer>(), GameObjectFactory.CreateTestBeam()));
+            Assert.NotNull(MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<VolumeLineRenderer>(), GameObjectFactory.CreateTestBeam()));
         }
 
         /// <summary>

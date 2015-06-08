@@ -14,6 +14,7 @@ namespace Core.Emitter
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
+    using Graphics;
 
     /// <summary>
     /// Provides functionality to emit Laser beams with varying properties by
@@ -42,12 +43,12 @@ namespace Core.Emitter
         }
 
         /// <summary>
-        /// Applies the properties from the given Laser to the LineRenderer.
+        /// Applies the properties from the given Laser to the VolumeLineRenderer.
         /// </summary>
-        /// <param name="renderer">The LineRenderer to configure.</param>
+        /// <param name="renderer">The VolumeLineRenderer to configure.</param>
         /// <param name="laser">The Laser beam to use as template.</param>
         /// <returns>The configured LineRenderer.</returns>
-        public static LineRenderer ApplyProperties(LineRenderer renderer, LaserBeam laser)
+        public static VolumeLineRenderer ApplyProperties(VolumeLineRenderer renderer, LaserBeam laser)
         {
             if (renderer == null)
             {
@@ -59,9 +60,10 @@ namespace Core.Emitter
                 throw new ArgumentNullException("laser");
             }
 
-            renderer.useWorldSpace = true;
-            renderer.materials = laser.Emitter.LineRenderer.materials;
-            renderer.receiveShadows = false;
+            renderer.UseWorldSpace = true;
+            renderer.LineMaterial = laser.Emitter.LineRenderer.LineMaterial;
+            renderer.ReceiveShadows = false;
+            renderer.CastShadows = false;
             renderer.SetVertexCount(0);
             return renderer;
         }
@@ -141,7 +143,7 @@ namespace Core.Emitter
         {
             GameObject emitterObject = new GameObject("Emitter");
             emitterObject.transform.parent = this.gameObject.transform;
-            LineRenderer renderer = emitterObject.AddComponent<LineRenderer>();
+            VolumeLineRenderer renderer = emitterObject.AddComponent<VolumeLineRenderer>();
             LaserEmitter emitter = emitterObject.AddComponent<LaserEmitter>();
 
             emitterObject.AddComponent<LaserProperties>();

@@ -28,6 +28,9 @@ namespace Graphics
         // Indicates if generated line mesh should cast shadows.
         public bool CastShadows = true;
 
+        // Indicates if generated line mesh should receive shadows.
+        public bool ReceiveShadows = true;
+
         // Component that contains mesh.
         private MeshFilter meshFilter;
 
@@ -92,6 +95,7 @@ namespace Graphics
             mesh.RecalculateBounds();
 
             meshRenderer.shadowCastingMode = CastShadows ? ShadowCastingMode.On : ShadowCastingMode.Off;
+            meshRenderer.receiveShadows = ReceiveShadows;
         }
 
         /// <summary>
