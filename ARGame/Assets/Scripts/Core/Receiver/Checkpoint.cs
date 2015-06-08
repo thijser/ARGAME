@@ -72,7 +72,7 @@ namespace Core.Receiver
         /// <summary>
         /// Resets hit state at the end of every frame.
         /// </summary>
-        public void LateUpdate()
+        public void Reset()
         {
             this.Hit = false;
         }

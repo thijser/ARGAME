@@ -51,7 +51,7 @@ namespace Core
         /// Tracks if all targets have been opened.
         /// If so, moves on to the next level.
         /// </summary>
-        public void Update()
+        public void LateUpdate()
         {
             // If the length of targets is 0, the level cannot be completed.
             // As such, this should never happen in scenes where this script exists.
@@ -63,6 +63,9 @@ namespace Core
             win = win && Array.TrueForAll(
                 this.checks,
                 t => t.Hit);
+
+            Array.ForEach(this.targets, t => t.Reset());
+            Array.ForEach(this.checks, t => t.Reset());
 
             if (win)
             {

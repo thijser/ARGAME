@@ -75,7 +75,7 @@ namespace Core.Receiver
         /// <summary>
         /// Updates the animation properties.
         /// </summary>
-        public void LateUpdate()
+        public void Reset()
         {
             GetComponent<Animator>().SetBool("LaserHit", this.IsOpening);
             this.StartCoroutine(this.ResetState());
