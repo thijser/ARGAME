@@ -192,5 +192,14 @@ namespace Network
                     return null;
             }
         }
+
+        /// <summary>
+        /// Called whenever the remote player rotates an object.
+        /// </summary>
+        /// <param name="update">The RotationUpdate describing the change.</param>
+        public void OnRotationChanged(RotationUpdate update)
+        {
+            this.socket.Send(MessageProcessor.WriteRotationUpdate(update));
+        }
     }
 }
