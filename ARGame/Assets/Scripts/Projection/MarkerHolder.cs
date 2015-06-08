@@ -177,40 +177,7 @@ namespace Projection
             this.GetMarker(update.ID).ObjectRotation = update.Rotation;
         }
 
-        /// <summary>
-        /// Changes the parent to the given target Marker.
-        /// <para>
-        /// The <c>target</c> argument should not be null and should have a remote position. This method
-        /// will translate all markers to relative positions of the target marker.
-        /// </para>
-        /// </summary>
-        /// <param name="target">The new parent Marker, not null.</param>
-        public void Reparent(Marker target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (target.RemotePosition == null)
-            {
-                throw new ArgumentException("Parent set to " + target.ID + ", but that marker has no RemotePosition", "target");
-            }
-
-            this.Parent = target;
-            target.transform.SetParent(this.transform);
-            foreach (Marker marker in this.markerTable.Values)
-            {
-                Debug.Log("Reparenting" + marker.id + " to:" + this.Parent.id);
-                if (marker != this.Parent)
-                {
-                    marker.transform.SetParent(this.transform);
-                    marker.transform.SetParent(target.transform);
-                    this.UpdatePosition(marker);
-                }
-            }
-        }
-
+       
         /// <summary>
         /// Updates the location of the marker based on the remote position.
         /// <para>
