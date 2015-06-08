@@ -155,8 +155,8 @@ namespace Projection
             if (this.Parent.LocalPosition != null && 
                 this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
             {
-                this.Reparent(marker);
-            }
+				this.Parent=marker;
+			}
         }
 
         /// <summary>
@@ -209,3 +209,4 @@ namespace Projection
             }
         }
     }
+}
