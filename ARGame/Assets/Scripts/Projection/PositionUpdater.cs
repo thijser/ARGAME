@@ -155,8 +155,8 @@ namespace Projection
             if (this.Parent.LocalPosition != null && 
                 this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
             {
-                this.Reparent(marker);
-            }
+				this.Parent=marker;
+			}
         }
 
         /// <summary>
@@ -273,31 +273,6 @@ namespace Projection
         /// </para>
         /// </summary>
         /// <param name="target">The new parent Marker, not null.</param>
-        public void Reparent(Marker target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (target.RemotePosition == null)
-            {
-                throw new ArgumentException("Parent set to " + target.ID + ", but that marker has no RemotePosition", "target");
-            }
-
-            this.Parent = target;
-            target.transform.SetParent(this.transform);
-            foreach (Marker marker in this.markerTable.Values)
-            {
-                Debug.Log("Reparenting" + marker.id + " to:" + this.Parent.id);
-                if (marker != this.Parent)
-                {
-                    marker.transform.SetParent(this.transform);
-                    marker.transform.SetParent(target.transform);
-                    this.UpdatePosition(marker);
-                }
-            }
-        }
 
         /// <summary>
         /// Updates the location of the marker based on the remote position.
