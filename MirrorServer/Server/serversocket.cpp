@@ -118,14 +118,9 @@ void ServerSocket::resendRotationUpdate(QByteArray data) {
     float rotation;
     QDataStream stream(&data, QIODevice::ReadOnly);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
-    std::clog << "Receiving in Network Byte Order (big-endian): " << (stream.byteOrder() == QDataStream::BigEndian) << std::endl;
-
     stream >> tag;
     stream >> id;
     stream >> rotation;
-
-    std::clog << "<RotationUpdate[ID=" << id << ", Rotation=" << rotation << "]>" << std::endl;
-
     broadcastRotationUpdate(id, rotation);
 }
 
