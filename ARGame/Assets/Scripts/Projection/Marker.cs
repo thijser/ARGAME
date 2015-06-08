@@ -71,7 +71,7 @@ namespace Projection
         /// </summary>
         public void Start()
         {
-            this.SendMessageUpwards("OnMarkerRegister", new MarkerRegister(this));
+            this.SendMessageUpwards("OnMarkerRegister", new MarkerRegister(this), SendMessageOptions.DontRequireReceiver);
         }
 
         /// <summary>

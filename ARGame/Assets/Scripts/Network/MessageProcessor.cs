@@ -118,13 +118,9 @@ namespace Network
             }
 
             byte[] message = new byte[9];
-            byte[] tag = BitConverter.GetBytes((byte)UpdateType.UpdateRotation);
-            byte[] id = BitConverter.GetBytes(update.ID);
-            byte[] rotation = BitConverter.GetBytes(update.Rotation);
-
-            Array.Copy(tag, 0, message, 0, 1);
-            Array.Copy(id, 0, message, 1, 4);
-            Array.Copy(rotation, 0, message, 5, 4);
+            message[0] = (byte)UpdateType.UpdateRotation;
+            WriteInt(update.ID, message, 1);
+            WriteFloat(update.Rotation, message, 5);
             return message;
         }
 
@@ -149,6 +145,62 @@ namespace Network
 
             byte[] bytes = BitConverter.GetBytes(IPAddress.NetworkToHostOrder(BitConverter.ToInt32(buffer, offset)));
             return BitConverter.ToSingle(bytes, 0);
+        }
+
+        /// <summary>
+        /// Writes a float to a byte array.
+        /// <para>
+        /// The value is stored in the buffer in network byte order.
+        /// </para>
+        /// </summary>
+        /// <param name="value">The float value to write.</param>
+        /// <param name="buffer">The buffer to store the value in, not null.</param>
+        /// <param name="offset">The starting position where to store the value.</param>
+        /// <exception cref="ArgumentNullException">If the buffer is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the offset is out of range.</exception>
+        public static void WriteFloat(float value, byte[] buffer, int offset)
+        {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
+
+            if (offset < 0 || offset > buffer.Length - 4)
+            {
+                throw new ArgumentOutOfRangeException("offset", offset, "The offset should be at least 0, and no greater than the size of the buffer minus 4.");
+            }
+
+            int networkValue = IPAddress.HostToNetworkOrder(BitConverter.ToInt32(BitConverter.GetBytes(value), 0));
+            byte[] bytes = BitConverter.GetBytes(networkValue);
+            Array.Copy(bytes, 0, buffer, offset, bytes.Length);
+        }
+
+
+        /// <summary>
+        /// Writes an int to a byte array.
+        /// <para>
+        /// The value is stored in the buffer in network byte order.
+        /// </para>
+        /// </summary>
+        /// <param name="value">The int value to write.</param>
+        /// <param name="buffer">The buffer to store the value in, not null.</param>
+        /// <param name="offset">The starting position where to store the value.</param>
+        /// <exception cref="ArgumentNullException">If the buffer is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the offset is out of range.</exception>
+        public static void WriteInt(int value, byte[] buffer, int offset)
+        {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
+
+            if (offset < 0 || offset > buffer.Length - 4)
+            {
+                throw new ArgumentOutOfRangeException("offset", offset, "The offset should be at least 0, and no greater than the size of the buffer minus 4.");
+            }
+
+            byte[] bytes = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(value));
+            Array.Copy(bytes, 0, buffer, offset, bytes.Length);
         }
 
         /// <summary>

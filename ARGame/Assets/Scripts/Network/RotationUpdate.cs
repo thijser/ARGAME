@@ -32,5 +32,39 @@ namespace Network
         /// Gets the rotation if this update object.
         /// </summary>
         public float Rotation { get; private set; }
+
+        /// <summary>
+        /// Tests whether this RotationUpdate is equal to the given object
+        /// </summary>
+        /// <param name="obj">The object to test against.</param>
+        /// <returns>True if this RotationObject is equal to <c>obj</c>, false otherwise.</returns>
+        public override bool Equals(object obj)
+        {
+            RotationUpdate that = obj as RotationUpdate;
+            if (that == null)
+            {
+                return false;
+            }
+
+            return this.ID == that.ID && this.Rotation == that.Rotation;
+        }
+
+        /// <summary>
+        /// Returns a hash code for this RotationUpdate.
+        /// </summary>
+        /// <returns>a hash code.</returns>
+        public override int GetHashCode()
+        {
+            return (typeof(RotationUpdate).GetHashCode() * this.ID) ^ this.Rotation.GetHashCode();
+        }
+
+        /// <summary>
+        /// Returns a string representation of this RotationUpdate.
+        /// </summary>
+        /// <returns>A string describing this RotationUpdate.</returns>
+        public override string ToString()
+        {
+            return "<RotationUpdate[ID=" + this.ID + ", Rotation=" + this.Rotation + "]>";
+        }
     }
 }
