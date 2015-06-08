@@ -12,6 +12,7 @@ namespace Core
     using System.Collections;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
+    using Graphics;
 
     /// <summary>
     /// Updates the Color of a LineRenderer.
@@ -28,7 +29,7 @@ namespace Core
         /// <summary>
         /// Gets or sets the LineRenderer to use for the laser.
         /// </summary>
-        public LineRenderer LineRenderer { get; set; }
+        public VolumeLineRenderer LineRenderer { get; set; }
 
         /// <summary>
         /// Gets the color of the Laser beam.
@@ -68,7 +69,7 @@ namespace Core
         {
             if (LineRenderer == null) 
             {
-                LineRenderer = this.GetComponent<LineRenderer>();
+                LineRenderer = this.GetComponent<VolumeLineRenderer>();
             }
         }
 
@@ -88,11 +89,11 @@ namespace Core
         {
             float scale = transform.lossyScale.x;
             Color color = this.LaserColor;
-            this.LineRenderer.SetWidth(this.Strength * scale, this.Strength * scale);
-            this.LineRenderer.material.color = color;
-            this.LineRenderer.material.SetColor("_Albedo", color);
-            this.LineRenderer.material.SetColor("_Emission", color);
-            this.LineRenderer.material.SetColor("Main Color", color);
+            this.LineRenderer.LineWidth = this.Strength * scale;
+            this.LineRenderer.LineMaterial.color = color;
+            this.LineRenderer.LineMaterial.SetColor("_Albedo", color);
+            this.LineRenderer.LineMaterial.SetColor("_Emission", color);
+            this.LineRenderer.LineMaterial.SetColor("Main Color", color);
         }
     }
 }

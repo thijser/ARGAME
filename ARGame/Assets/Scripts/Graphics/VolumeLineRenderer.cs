@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -21,8 +22,11 @@ namespace Graphics
         // Width and height of line mesh.
         public float LineWidth = 1.0f;
 
-        // True if specified positions lie in world space.
+        // Indicates if specified positions lie in world space.
         public bool UseWorldSpace = false;
+
+        // Indicates if generated line mesh should cast shadows.
+        public bool CastShadows = true;
 
         // Component that contains mesh.
         private MeshFilter meshFilter;
@@ -86,6 +90,46 @@ namespace Graphics
 
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
+
+            meshRenderer.shadowCastingMode = CastShadows ? ShadowCastingMode.On : ShadowCastingMode.Off;
+        }
+
+        /// <summary>
+        /// Change the amount of positions in the line.
+        /// </summary>
+        /// <param name="count">Amount of positions in line.</param>
+        public void SetVertexCount(int count)
+        {
+            if (this.Positions.Length != count)
+            {
+                Vector3[] newPositions = new Vector3[count];
+
+                // Copy positions from original array if available,
+                // otherwise initialize to zero.
+                for (int i = 0; i < count; i++)
+                {
+                    if (i < this.Positions.Length)
+                    {
+                        newPositions[i] = this.Positions[i];
+                    }
+                    else
+                    {
+                        newPositions[i] = Vector3.zero;
+                    }
+                }
+
+                this.Positions = newPositions;
+            }
+        }
+
+        /// <summary>
+        /// Set a certain position in the line sequence.
+        /// </summary>
+        /// <param name="index">Position index.</param>
+        /// <param name="pos">New position value.</param>
+        public void SetPosition(int index, Vector3 pos)
+        {
+            this.Positions[index] = pos;
         }
 
         /// <summary>
