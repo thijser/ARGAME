@@ -1,4 +1,5 @@
 #include "markertracker.hpp"
+#include <iostream>
 
 namespace mirrors {
 
@@ -84,6 +85,7 @@ namespace mirrors {
 
                 // Smoothen rotation
                 closest->rotation = closest->rotations.update(closest->match.rotation);
+                closest->rotation = std::round(((int) closest->rotation) / MARKER_ROTATION_ROUNDING) * MARKER_ROTATION_ROUNDING;
 
                 // Finally, log a CHANGE or NEW depending on a change of detected pattern
                 if (closest->match.id != -1) {
