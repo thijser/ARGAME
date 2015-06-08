@@ -48,27 +48,83 @@ namespace Graphics
             mesh.triangles = triangles.ToArray();
 
             mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
         }
 
         private void AddLineSegment(Vector3 from, Vector3 to, List<Vector3> vertices, List<int> triangles)
         {
             int offset = vertices.Count;
 
+            // Bottom
+            triangles.Add(offset + 4);
+            triangles.Add(offset + 2);
+            triangles.Add(offset + 0);
+
+            triangles.Add(offset + 0);
+            triangles.Add(offset + 6);
+            triangles.Add(offset + 4);
+
+            // Top
+            triangles.Add(offset + 1);
+            triangles.Add(offset + 3);
+            triangles.Add(offset + 5);
+
+            triangles.Add(offset + 5);
+            triangles.Add(offset + 7);
+            triangles.Add(offset + 1);
+
+            // Left
+            triangles.Add(offset + 0);
+            triangles.Add(offset + 2);
+            triangles.Add(offset + 3);
+
+            triangles.Add(offset + 3);
+            triangles.Add(offset + 1);
+            triangles.Add(offset + 0);
+
+            // Right
+            triangles.Add(offset + 4);
+            triangles.Add(offset + 6);
+            triangles.Add(offset + 7);
+
+            triangles.Add(offset + 7);
+            triangles.Add(offset + 5);
+            triangles.Add(offset + 4);
+
+            // First endpoint
             triangles.Add(offset + 0);
             triangles.Add(offset + 1);
+            triangles.Add(offset + 7);
+
+            triangles.Add(offset + 7);
+            triangles.Add(offset + 6);
+            triangles.Add(offset + 0);
+
+            // Second endpoint
+            triangles.Add(offset + 5);
+            triangles.Add(offset + 3);
             triangles.Add(offset + 2);
 
             triangles.Add(offset + 2);
-            triangles.Add(offset + 3);
-            triangles.Add(offset + 0);
+            triangles.Add(offset + 4);
+            triangles.Add(offset + 5);
 
             Vector3 left = Vector3.Cross(from - to, Vector3.up).normalized;
             Vector3 up = Vector3.up;
 
-            vertices.Add(from - left * LineWidth / 2);
-            vertices.Add(to - left * LineWidth / 2);
-            vertices.Add(to + left * LineWidth / 2);
-            vertices.Add(from + left * LineWidth / 2);
+            float halfLineWidth = LineWidth / 2.0f;
+
+            vertices.Add(from - left * halfLineWidth - up * halfLineWidth); // 0
+            vertices.Add(from - left * halfLineWidth + up * halfLineWidth); // 1
+
+            vertices.Add(to - left * halfLineWidth - up * halfLineWidth); // 2
+            vertices.Add(to - left * halfLineWidth + up * halfLineWidth); // 3
+
+            vertices.Add(to + left * halfLineWidth - up * halfLineWidth); // 4
+            vertices.Add(to + left * halfLineWidth + up * halfLineWidth); // 5
+
+            vertices.Add(from + left * halfLineWidth - up * halfLineWidth); // 6
+            vertices.Add(from + left * halfLineWidth + up * halfLineWidth); // 7
         }
     }
 }

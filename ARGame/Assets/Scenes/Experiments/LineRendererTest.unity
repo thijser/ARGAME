@@ -330,7 +330,6 @@ MonoBehaviour:
   - {x: 10, y: 0, z: 10}
   LineMaterial: {fileID: 2100000, guid: ad90dc23c0c357042849f78736223bf0, type: 2}
   LineWidth: 1
-  UseWorldSpace: 0
 --- !u!4 &1637951664
 Transform:
   m_ObjectHideFlags: 0
