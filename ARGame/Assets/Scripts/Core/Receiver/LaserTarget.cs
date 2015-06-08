@@ -64,7 +64,7 @@ namespace Core.Receiver
         /// </summary>
         public void Start()
         {
-            this.IsOpening = false;
+            this.SetOpening(false);
             if (this.NextLevelIndex < 0 || this.NextLevelIndex >= Application.levelCount)
             {
                 Debug.LogError("NextLevelIndex is set to " + this.NextLevelIndex +
@@ -77,9 +77,8 @@ namespace Core.Receiver
         /// </summary>
         public void Reset()
         {
-            GetComponent<Animator>().SetBool("LaserHit", this.IsOpening);
+            this.SetOpening(false);
             this.StartCoroutine(this.ResetState());
-            this.IsOpening = false;
         }
 
         /// <summary>
@@ -101,9 +100,21 @@ namespace Core.Receiver
 
             if (this.IsHitColorSufficient(args.Laser.Emitter.Properties.LaserColor))
             {
-                Animator animator = GetComponent<Animator>();
-                animator.SetBool("LaserHit", true);
-                this.IsOpening = true;
+                this.SetOpening(true);
+            }
+        }
+
+        /// <summary>
+        /// Sets whether this LaserTarget is opening.
+        /// </summary>
+        /// <param name="opening">True to set that this target is opening, false otherwise.</param>
+        public void SetOpening(bool opening)
+        {
+            this.IsOpening = opening;
+            Animator animator = GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.SetBool("LaserHit", opening);
             }
         }
 
