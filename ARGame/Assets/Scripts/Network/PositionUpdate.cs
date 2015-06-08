@@ -21,13 +21,13 @@ namespace Network
         /// Initializes a new instance of the <see cref="Network.PositionUpdate"/> class.
         /// </summary>
         /// <param name="type">The type of the PositionUpdate.</param>
-        /// <param name="coord">A 2D coordinate containing the x- and y-coordinate.</param>
+        /// <param name="coordinate">A 2D coordinate containing the x- and y-coordinate.</param>
         /// <param name="rotation">The rotation.</param>
         /// <param name="id">The unique ID of the marker.</param>
-        public PositionUpdate(UpdateType type, Vector2 coord, float rotation, int id)
+        public PositionUpdate(UpdateType type, Vector2 coordinate, float rotation, int id)
         {
             this.Type = type;
-            this.Coordinate = coord;
+            this.Coordinate = coordinate;
             this.Rotation = rotation;
             this.ID = id;
         }

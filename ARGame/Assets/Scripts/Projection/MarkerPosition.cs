@@ -24,6 +24,11 @@ namespace Projection
         /// <param name="update">The update, must be of type UpdatePosition.</param>
         public MarkerPosition(PositionUpdate update)
         {
+            if (update == null)
+            {
+                throw new ArgumentNullException("update");
+            }
+
             if (update.Type != UpdateType.UpdatePosition)
             {
                 throw new ArgumentException("UpdateType is not UpdatePosition.", "update");
@@ -39,15 +44,15 @@ namespace Projection
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkerPosition"/> class.
         /// </summary>
-        /// <param name="pos">The position.</param>
-        /// <param name="rot">The rotation.</param>
+        /// <param name="position">The position.</param>
+        /// <param name="rotation">The rotation.</param>
         /// <param name="stamp">The timestamp of the update.</param>
         /// <param name="scale">The scale of the object.</param>
         /// <param name="id">The ID of the Marker.</param>
-        public MarkerPosition(Vector3 pos, Quaternion rot, DateTime stamp, Vector3 scale, int id)
+        public MarkerPosition(Vector3 position, Quaternion rotation, DateTime stamp, Vector3 scale, int id)
         {
-            this.Position = pos;
-            this.Rotation = rot;
+            this.Position = position;
+            this.Rotation = rotation;
             this.TimeStamp = stamp;
             this.Scale = scale;
             this.ID = id;
