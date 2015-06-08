@@ -139,6 +139,7 @@ namespace Network
                 this.timestamp = DateTime.Now;
                 if (update.Type != UpdateType.Ping)
                 {
+                    Debug.Log("Received message: " + update);
                     this.SendMessage("OnServerUpdate", update, SendMessageOptions.DontRequireReceiver);
                 }
 
@@ -198,6 +199,7 @@ namespace Network
         /// <param name="update">The RotationUpdate describing the change.</param>
         public void OnRotationChanged(RotationUpdate update)
         {
+            Debug.Log("Sending rotation update: " + update);
             this.socket.Send(MessageProcessor.WriteRotationUpdate(update));
         }
     }

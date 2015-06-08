@@ -4,6 +4,8 @@
 #include <QTcpSocket>
 #include <QDataStream>
 
+#include <iostream>
+
 namespace mirrors {
 
 ServerSocket::ServerSocket(QObject *parent)
@@ -70,6 +72,17 @@ void ServerSocket::broadcastPositionUpdate(int id, cv::Point2f position, float r
     broadcastBytes(bytes);
 }
 
+
+void ServerSocket::broadcastRotationUpdate(int id, float rotation) {
+    QByteArray bytes;
+    QDataStream stream(&bytes, QIODevice::WriteOnly);
+    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+    stream << (qint8) 3
+           << (qint32) id
+           << rotation;
+    broadcastBytes(bytes);
+}
+
 void ServerSocket::broadcastDelete(int id) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
@@ -94,10 +107,24 @@ void ServerSocket::processUpdates(QTcpSocket *client) {
         QByteArray data = client->read(9);
         if (data.size() == 9 && data[0] == (char)3) {
             // This message is a rotation update
-            broadcastBytes(data);
+            resendRotationUpdate(data);
         }
     }
 }
+
+void ServerSocket::resendRotationUpdate(QByteArray data) {
+    qint32 id;
+    float rotation;
+    QDataStream stream(&data, QIODevice::ReadOnly);
+    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+    stream >> id;
+    stream >> rotation;
+
+    std::clog << "<RotationUpdate[ID=" << id << ", Rotation=" << rotation << "]>" << std::endl;
+
+    broadcastRotationUpdate(id, rotation);
+}
+
 
 void ServerSocket::newConnection() {
     QTcpSocket *client = sock->nextPendingConnection();
