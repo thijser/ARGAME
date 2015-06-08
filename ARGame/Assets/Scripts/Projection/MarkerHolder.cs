@@ -68,10 +68,6 @@ namespace Projection
             {
                 this.Parent = register.RegisteredMarker;
             }
-            else
-            {
-                register.RegisteredMarker.transform.parent = this.Parent.transform;
-            }
             this.markerTable.Add(register.RegisteredMarker.ID, register.RegisteredMarker);
         }
 
