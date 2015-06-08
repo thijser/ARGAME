@@ -15,9 +15,8 @@
 #ifndef AVERAGER_HPP
 #define AVERAGER_HPP
 
-#include <opencv2/core/core.hpp>
-#include "cvutils.hpp"
 #include <deque>
+#include "cvutils.hpp"
 
 namespace mirrors {
 
@@ -39,8 +38,8 @@ namespace mirrors {
          * for triggering fast response where history is cleared and the new
          * value is used immediately.
          */
-        Averager(size_t history, T flushDistance = std::numeric_limits<T>::max())
-            : history(history), flushDistance(flushDistance) {}
+        explicit Averager(size_t history, T flushDistance = std::numeric_limits<T>::max())
+            : storage(), history(history), flushDistance(flushDistance) {}
 
         /**
          * @brief Extend history with new value and get new moving average.
@@ -72,6 +71,22 @@ namespace mirrors {
             return average;
         }
 
+        /**
+         * @brief Get the current moving average value without adding a new one.
+         * @return Current moving average.
+         */
+        T get() const {
+            T average = T();
+
+            for (T val : storage) {
+                average += val;
+            }
+
+            average /= storage.size();
+
+            return average;
+        }
+
     private:
         /// Container for historic values.
         deque<T> storage;
@@ -96,8 +111,8 @@ namespace mirrors {
         * for triggering fast response where history is cleared and the new
         * value is used immediately.
         */
-        Averager(size_t history, float flushDistance = std::numeric_limits<float>::max())
-            : history(history), flushDistance(flushDistance) {
+        explicit Averager(size_t history, float flushDistance = std::numeric_limits<float>::max())
+            : storage(), history(history), flushDistance(flushDistance) {
         }
 
         /**

@@ -15,8 +15,6 @@
 #ifndef BOARD_DETECTOR_HPP
 #define BOARD_DETECTOR_HPP
 
-#include <opencv2/core/core.hpp>
-
 namespace mirrors {
 
     using cv::Mat;
@@ -42,7 +40,7 @@ namespace mirrors {
          * @brief Constructs a board surface detector that uses the specified technique.
          * @param approach - Technique for locating the board surface.
          */
-        BoardDetector(BoardDetectionApproach::BoardDetectionApproach approach = BoardDetectionApproach::RED_MARKERS)
+        explicit BoardDetector(BoardDetectionApproach::BoardDetectionApproach approach = BoardDetectionApproach::RED_MARKERS)
             : approach(approach) {}
 
         /**

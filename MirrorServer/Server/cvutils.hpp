@@ -15,8 +15,6 @@
 #ifndef OPENCV_UTILS_HPP
 #define OPENCV_UTILS_HPP
 
-#include <opencv2/core/core.hpp>
-
 namespace mirrors {
 
     using cv::Mat;

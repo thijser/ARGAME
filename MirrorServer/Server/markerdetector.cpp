@@ -71,7 +71,7 @@ namespace mirrors {
         if (potentialMarkers.size() > 0) {
             // Calculate median circumference
             std::sort(circumferences.begin(), circumferences.end());
-            int medianCircumference = circumferences[circumferences.size() / 2].first;
+            size_t medianCircumference = circumferences[circumferences.size() / 2].first;
 
             // Keep just the contours that are close to this median
             // This removes any remaining noise identified as marker.

@@ -22,15 +22,15 @@ SOURCES += \
     markertracker.cpp
 
 HEADERS  += \
-    mainwindow.h \
     serversocket.hpp \
-    servercontroller.h \
     averager.hpp \
     boarddetector.hpp \
     cvutils.hpp \
     markerdetector.hpp \
     markerrecognizer.hpp \
-    markertracker.hpp
+    markertracker.hpp \
+    servercontroller.hpp \
+    mainwindow.hpp
 
 PRECOMPILED_HEADER = mirrors.h
 

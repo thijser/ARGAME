@@ -26,7 +26,6 @@ namespace Projection
         /// <summary>
         /// The ID of the Marker.
         /// </summary>
-        // FIXME: Encapsulate the `ID` field to prevent modification.
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public int id = -1;
 

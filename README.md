@@ -55,7 +55,7 @@ has been tested and confirmed working on OpenCV 2.4.11 and higher, using Qt 5.4
 or higher. Older Qt and OpenCV versions might work, but this is not tested.
 
 First, make sure OpenCV and Qt are installed for the compiler of your choice.
-The tested compilers are the MSVC 2015 compiler on Windows, and Apple's LLVM
+The tested compilers are the MSVC 2013 compiler on Windows, and Apple's LLVM
 compiler (clang) version 6.0, though others should also work.
 
 To build the application, run qmake on the MirrorServer.pro file. Make sure an

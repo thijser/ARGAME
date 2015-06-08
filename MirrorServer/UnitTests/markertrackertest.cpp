@@ -164,7 +164,7 @@ TEST_F(MarkerTrackerTest, RefreshMatch) {
 
     ASSERT_TRUE(expectMarkerUpdates(expectedUpdates, updates));
 
-    auto updates2 = markerTracker.track(frameRemove, 33);
+    auto updates2 = markerTracker.track(frameUpdatedMatch, 33);
 
     vector<ExpectedMarkerUpdate> expectedUpdates2 = {
         ExpectedMarkerUpdate(MarkerUpdateType::REMOVE, 8, 270, Point(282, 342)),

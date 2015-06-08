@@ -1,6 +1,6 @@
-#include "mainwindow.h"
+#include "mainwindow.hpp"
 #include "ui_mainwindow.h"
-#include "servercontroller.h"
+#include "servercontroller.hpp"
 
 #include <QImage>
 #include <QDialog>
@@ -89,8 +89,6 @@ void MainWindow::handleFrame(const cv::Mat &matrix) {
         QPixmap pixmap = QPixmap::fromImage(image, Qt::ColorOnly).scaledToHeight(500);
 
         ui->image->setPixmap(pixmap);
-        QRect rect = ui->image->geometry();
-        setFixedWidth(pixmap.width() + width() - rect.width());
     } catch (const cv::Exception& ex) {
         qDebug() << tr("Unexpected OpenCV Exception in handleFrame:") << ex.what();
     }

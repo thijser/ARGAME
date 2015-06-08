@@ -23,7 +23,7 @@ namespace Projection
         /// <summary>
         /// like cattle this class is driven all around it's very position consumed by the meta, please no cow tipping with the lamb
         /// </summary>
-		private GameObject lamb;
+        private GameObject lamb;
 
         /// <summary>
         /// meta object required for tracking 
@@ -39,9 +39,11 @@ namespace Projection
         /// Sets up the detector and marker indicator to find this marker.
         /// </summary>
         public void Start()
-		{	lamb = new GameObject("lamb");
+        {
+            this.lamb = new GameObject("lamb");
             this.markerdetectorGO = MarkerDetector.Instance.gameObject;
-            //// hide markerindicator
+
+            // Hide the markerindicator
             this.marketTargetindicator = this.markerdetectorGO.GetComponent<MarkerTargetIndicator>();
             this.marketTargetindicator.enabled = false;
         }
