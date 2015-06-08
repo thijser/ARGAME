@@ -62,7 +62,7 @@ namespace Network
         ///   Determines whether the specified <see cref="System.Object"/> is equal to the
         ///   current <see cref="Network.PositionUpdate"/>.
         /// </summary>
-        /// <param name="o">
+        /// <param name="obj">
         ///   The <see cref="System.Object"/> to compare with the current
         ///   <see cref="Network.PositionUpdate"/>.
         /// </param>
@@ -70,14 +70,14 @@ namespace Network
         ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to the current
         ///   <see cref="Network.PositionUpdate"/>; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object o)
+        public override bool Equals(object obj)
         {
-            if (o == null || o.GetType() != this.GetType())
+            if (obj == null || obj.GetType() != this.GetType())
             {
                 return false;
             }
 
-            PositionUpdate that = o as PositionUpdate;
+            PositionUpdate that = obj as PositionUpdate;
             return this.Type == that.Type
                 && this.Coordinate.x == that.Coordinate.x
                 && this.Coordinate.y == that.Coordinate.y
