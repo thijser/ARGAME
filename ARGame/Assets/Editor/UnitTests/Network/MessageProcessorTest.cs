@@ -126,7 +126,7 @@ namespace Network
         /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestReadIntOverflow()
+        public void TestReadIntBufferTooSmall()
         {
             MessageProcessor.ReadInt(new byte[16], 13);
         }
@@ -146,7 +146,7 @@ namespace Network
         /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestReadFloatOverflow()
+        public void TestReadFloatBufferTooSmall()
         {
             MessageProcessor.ReadFloat(new byte[16], 13);
         }
@@ -156,7 +156,7 @@ namespace Network
         /// is insufficient.
         /// </summary>
         [Test]
-        public void TestReadUpdatePositionInvalidLength()
+        public void TestReadUpdatePositionBufferTooSmall()
         {
             Assert.Null(MessageProcessor.ReadUpdatePosition(new byte[16], 15));
         }
@@ -166,7 +166,7 @@ namespace Network
         /// is insufficient.
         /// </summary>
         [Test]
-        public void TestReadUpdateRotationInvalidLength()
+        public void TestReadUpdateRotationBufferTooSmall()
         {
             Assert.Null(MessageProcessor.ReadUpdateRotation(new byte[16], 7));
         }
@@ -176,7 +176,7 @@ namespace Network
         /// is insufficient.
         /// </summary>
         [Test]
-        public void TestReadDeleteInvalidLength()
+        public void TestReadDeleteBufferTooSmall()
         {
             Assert.Null(MessageProcessor.ReadDelete(new byte[16], 3));
         }
@@ -242,6 +242,30 @@ namespace Network
             float actual = MessageProcessor.ReadFloat(bytes, 0);
 
             Assert.AreEqual(expected, actual, 0.0001f);
+        }
+
+        /// <summary>
+        /// Tests if the <c>ReadRotationUpdate</c> and <c>WriteRotationUpdate</c>
+        /// methods cycle.
+        /// </summary>
+        [Test]
+        public void TestReadWriteRotationUpdateCycles()
+        {
+            RotationUpdate expected = new RotationUpdate(UpdateType.UpdateRotation, 35.9f, 9);
+            byte[] bytes = MessageProcessor.WriteRotationUpdate(expected);
+
+            // The Write method adds a tag byte, but the read method expects it to be removed,
+            // so we remove it here.
+            byte tag = bytes[0];
+            byte[] message = bytes.Skip(1).ToArray<byte>();
+            RotationUpdate actual = MessageProcessor.ReadUpdateRotation(message, message.Length);
+
+            // The Equals(object) method of RotationUpdate checks for exact equality of its float parameter,
+            // Rotation. However, since this test case does not depend on any float arithmetic, but operates
+            // on byte level, we may assume rounding errors have not occurred and as such this check here is 
+            // valid.
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual((byte)UpdateType.UpdateRotation, tag);
         }
     }
 }
