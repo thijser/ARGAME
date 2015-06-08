@@ -163,6 +163,17 @@ public slots:
      */
     void broadcastPing();
 
+    /**
+     * @brief Processes the updates sent by all clients.
+     */
+    void processUpdates();
+
+    /**
+     * @brief Processes the updates sent by the given client.
+     * @param client - The client to check.
+     */
+    void processUpdates(QTcpSocket *client);
+
 private slots:
     /**
      * @brief Attempts to accept a pending connection.
