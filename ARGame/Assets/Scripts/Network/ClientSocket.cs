@@ -105,7 +105,6 @@ namespace Network
             this.timestamp = DateTime.Now;
         }
 
-
         /// <summary>
         /// Retrieves the PositionUpdates from the server and broadcasts the messages.
         /// </summary>

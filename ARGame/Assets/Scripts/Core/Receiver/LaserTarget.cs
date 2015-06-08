@@ -54,7 +54,7 @@ namespace Core.Receiver
         public int NextLevelIndex;
 
         /// <summary>
-        /// Gets or sets a value indicating whether the target is opening.
+        /// Gets a value indicating whether the target is opening.
         /// </summary>
         /// <value><c>true</c> if the target is opening; otherwise, <c>false</c>.</value>
         public bool IsOpening { get; private set; }
