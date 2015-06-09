@@ -82,6 +82,14 @@ namespace Projection
         /// </summary>
         public int ID { get; set; }
 
+        public Matrix4x4 Matrix
+        {
+            get
+            {
+                return Matrix4x4.TRS(this.Position, this.Rotation, this.Scale);
+            }
+        }
+
         /// <summary>
         /// Returns a string representation of this MarkerPosition.
         /// </summary>
