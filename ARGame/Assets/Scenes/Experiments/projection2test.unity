@@ -214,6 +214,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!1 &1109272699 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 197870, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+  m_PrefabInternal: {fileID: 1119871969}
+--- !u!114 &1109272702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1109272699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa62ce84ebedd046abca50b2075c86b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1109272707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1109272699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0d25a158b45c54d9878d1947530a6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1119871969
 Prefab:
   m_ObjectHideFlags: 0
@@ -468,7 +494,56 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .0199999996
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 11448970, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11453772, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11495470, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415984, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11446352, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11424804, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11472554, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 11498652, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 11489100, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 11478044, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11498960, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477348, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
+      propertyPath: MarkerID
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11486310, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5c624512ab319c54f9ce1a74a3dc1183, type: 2}
   m_IsPrefabParent: 0
 --- !u!114 &1119871970 stripped

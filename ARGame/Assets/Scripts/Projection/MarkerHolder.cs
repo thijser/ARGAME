@@ -92,6 +92,7 @@ namespace Projection
         {
             if (this.Parent == null || this.Parent.LocalPosition == null)
             {
+				Debug.Log ("No marker is visible");
                 return;
             }
 
@@ -140,7 +141,7 @@ namespace Projection
             {
                 throw new ArgumentNullException("position");
             }
-
+			Debug.Log("we have seen " + position.ToString());
             Marker marker = this.GetMarker(position.ID);
             this.SelectParent(marker);
             marker.LocalPosition = position;
