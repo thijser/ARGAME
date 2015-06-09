@@ -64,7 +64,6 @@ namespace Projection
                 throw new ArgumentException("Invalid marker", "register");
             }
 
-
             this.markerTable.Add(register.RegisteredMarker.ID, register.RegisteredMarker);
         }
 
@@ -143,7 +142,7 @@ namespace Projection
             }
 
             Marker marker = this.GetMarker(position.ID);
-			selectParent(marker);
+			SelectParent(marker);
 			marker.LocalPosition = position;
             if (this.Parent.LocalPosition != null && 
                 this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
@@ -152,16 +151,25 @@ namespace Projection
 			}
         }
 
-		/// <summary>
-		/// sees if the marker is more suited for being the levelMarker then the old marker. If updatedMarker has been seen more recently then the parent+patience and the updateMarker is complete then replace.
-		/// </summary>
-		public void selectParent(Marker updatedMarker){
-			if(this.Parent==null||this.Parent.LocalPosition.TimeStamp.Ticks+patience<updatedMarker.LocalPosition.TimeStamp.Ticks){
-				if(updatedMarker.LocalPosition!=null&&updatedMarker.RemotePosition!=null){
-					Parent=updatedMarker;
-				}
-			}
-		}
+        /// <summary>
+        /// Sees if the marker is more suited for being the level marker then the old marker. 
+        /// If updatedMarker has been seen more recently then the parent+patience and the updateMarker is complete then replace.
+        /// </summary>
+        public void SelectParent(Marker updatedMarker)
+        {
+            if (updatedMarker == null)
+            {
+                throw new ArgumentNullException("updatedMarker");
+            }
+
+            if (this.Parent==null || this.Parent.LocalPosition.TimeStamp.Ticks + patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
+            {
+                if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null)
+                {
+                    Parent = updatedMarker;
+                }
+            }
+        }
         /// <summary>
         /// Called whenever a RotationUpdate is received from the remote server.
         /// <para>

@@ -35,7 +35,7 @@ namespace Projection
 
         /// <summary>
         /// Tests if calling <c>OnMarkerRegister</c> with no parent set will cause 
-        /// the argument Marker to become parent.
+        /// the argument Marker to not yet become the parent.
         /// </summary>
         [Test]
         public void TestOnMarkerRegisterWithNoParent()
@@ -44,26 +44,7 @@ namespace Projection
             Marker marker = GameObjectFactory.Create<Marker>();
             marker.ID = 4;
             updater.OnMarkerRegister(new MarkerRegister(marker));
-            Assert.AreEqual(marker, updater.Parent);
-        }
-
-        /// <summary>
-        /// Tests if calling <c>OnMarkerRegister</c> with an existing parent will cause
-        /// the existing parent to be used as parent, and the parent of the second marker 
-        /// should be set to the parent Marker.
-        /// </summary>
-        [Test]
-        public void TestOnMarkerRegisterWithParent()
-        {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            Marker parent = GameObjectFactory.Create<Marker>();
-            Marker child = GameObjectFactory.Create<Marker>();
-            parent.ID = 2;
-            child.ID = 4;
-            updater.OnMarkerRegister(new MarkerRegister(parent));
-            updater.OnMarkerRegister(new MarkerRegister(child));
-            Assert.AreEqual(parent, updater.Parent, "PositionUpdater Parent");
-            Assert.AreEqual(parent.transform, child.transform.parent, "Marker Hierarchy");
+            Assert.Null(updater.Parent);
         }
 
         /// <summary>
@@ -151,9 +132,9 @@ namespace Projection
 
             // Assert the marker data is not changed.
             Assert.AreEqual(6, marker.ID);
-            Assert.AreEqual(marker, updater.Parent);
-            Assert.IsNull(marker.LocalPosition);
-            Assert.IsNull(marker.RemotePosition);
+            Assert.Null(updater.Parent);
+            Assert.Null(marker.LocalPosition);
+            Assert.Null(marker.RemotePosition);
         }
 
         /// <summary>
@@ -187,6 +168,28 @@ namespace Projection
         public void TestOnMarkerSeenNull()
         {
             GameObjectFactory.Create<MarkerHolder>().OnMarkerSeen(null);
+        }
+
+        /// <summary>
+        /// Tests whether calling <c>OnServerUpdate(null)</c> throws the 
+        /// appropriate exception.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestOnServerUpdateNull()
+        {
+            GameObjectFactory.Create<MarkerHolder>().OnServerUpdate(null);
+        }
+
+        /// <summary>
+        /// Tests whether calling <c>SelectParent(null)</c> throws the 
+        /// appropriate exception.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestSelectParentNull()
+        {
+            GameObjectFactory.Create<MarkerHolder>().SelectParent(null);
         }
     }
 }
