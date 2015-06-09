@@ -15,12 +15,12 @@
 		guidelines used by StyleCop (see \ref{sec:codestyle}), 
 	
 	\section{Testing} \label{sec:testing}
-		There are two main types of testing done during the project. These are
-		unit testing and integration testing. Unity has no native support for
-		running unit\slash integration tests that have been written, but there is 
-		a toolkit available for free on the Asset Store, called Unity Test Tools, 
-		that does have this support. The extension is developed by the Unity team, 
-		and can be found on the Unity Asset Store: 
+		There are three main types of testing done during the project. These are
+		unit testing, integration testing and user testing. Unity has no native
+		support for running unit\slash integration tests that have been written,
+		but there is a toolkit available for free on the Asset Store, called
+		Unity Test Tools,  that does have this support. The extension is
+		developed by the Unity team, and can be found on the Unity Asset Store: 
 		\url{https://www.assetstore.unity3d.com/en/#!/content/13802}.
 		Using this extension, a new menu bar item, called "Unity Test Tools"
 		will appear in the main Unity editor. Clicking on this item creates a drop
@@ -71,7 +71,40 @@
 			rather by creating simple scenes and observing that the subjects of 
 			the test work as they should when they are placed in an actual 
 			scene. It is also a lot harder to run these tests in a standardized 
-			way most of the time. 
+			way most of the time.
+
+		\subsection{User Tests}
+			Although testing the code is important and it helps ensure that the
+			software is working correctly, it doesn't tell us anything about the
+			actual usability of the product. Since we're developing a game, it's
+			especially important that the end users will have fun using the
+			product. Properties like these can be evaluated by doing user tests.
+
+			Most of the initial user testing will be done by us, the developers,
+			because external parties will not have a good experience while it's
+			still in the middle of development. This kind of user testing also
+			comes automatically with developing the features of the game.
+
+			In the last stage of development, when all of the technical
+			challenges have been solved, we will be primarily working on the
+			levels and gameplay of the game. It is no longer sufficient to just
+			have the developers test the game by that point, because they will
+			have an unrealistic playing experience. The developers will already
+			be very familiar with the levels and game mechanics, which means
+			that they won't be able to properly judge if the concepts are too
+			hard to figure out for new players. By having a lot of other people
+			playing the game, we'll be able to estimate if certain levels are
+			too easy or too hard, and if all of the different game objects are
+			fun to interact with. For example, if the beam splitter turns out to
+			be too complex to use, we might remove it from the game.
+
+			Finding other computer science students to play the game will not be
+			a problem, but we will also try to find other demographics to test
+			with. Computer science students are used to approaching logic
+			problems like those in our puzzle game, which may give us a skewed
+			idea of how hard the game is. If time allows for it, we could have
+			high school students try the game as well in the Delft Science
+			Center.
 		
 		\subsection{Code coverage} \label{ssec:codecoverage}
 			Code coverage is a metric that can be used to determine how thorough
