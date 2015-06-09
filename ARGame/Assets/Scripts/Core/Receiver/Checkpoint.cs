@@ -36,7 +36,7 @@ namespace Core.Receiver
         public void Start()
         {
             this.PassThroughEmitter = gameObject.AddComponent<MultiEmitter>();
-            Hit = false;
+            this.Hit = false;
         }
 
         /// <summary>

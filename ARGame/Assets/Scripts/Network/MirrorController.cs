@@ -171,6 +171,5 @@ namespace Network
                 mesh.material = this.Original;
             }
         }
-
     }
 }

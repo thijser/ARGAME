@@ -72,6 +72,7 @@ namespace Projection
             {
                 register.RegisteredMarker.transform.parent = this.Parent.transform;
             }
+
             this.markerTable.Add(register.RegisteredMarker.ID, register.RegisteredMarker);
         }
 
@@ -105,7 +106,6 @@ namespace Projection
 
             foreach (Marker marker in this.markerTable.Values)
             {
-
                 this.UpdatePosition(marker);
             }
         }
@@ -152,11 +152,11 @@ namespace Projection
 
             Marker marker = this.GetMarker(position.ID);
             marker.LocalPosition = position;
-            if (this.Parent.LocalPosition != null && 
+            if (this.Parent.LocalPosition != null &&
                 this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
             {
-				this.Parent=marker;
-			}
+                this.Parent = marker;
+            }
         }
 
         /// <summary>
@@ -264,15 +264,6 @@ namespace Projection
                 //// TODO: If mirrored then swap operation params.
             }
         }
-
-        /// <summary>
-        /// Changes the parent to the given target Marker.
-        /// <para>
-        /// The <c>target</c> argument should not be null and should have a remote position. This method
-        /// will translate all markers to relative positions of the target marker.
-        /// </para>
-        /// </summary>
-        /// <param name="target">The new parent Marker, not null.</param>
 
         /// <summary>
         /// Updates the location of the marker based on the remote position.

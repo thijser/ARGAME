@@ -175,14 +175,13 @@ namespace Network
             Array.Copy(bytes, 0, buffer, offset, bytes.Length);
         }
 
-
         /// <summary>
-        /// Writes an int to a byte array.
+        /// Writes an integer to a byte array.
         /// <para>
         /// The value is stored in the buffer in network byte order.
         /// </para>
         /// </summary>
-        /// <param name="value">The int value to write.</param>
+        /// <param name="value">The integer value to write.</param>
         /// <param name="buffer">The buffer to store the value in, not null.</param>
         /// <param name="offset">The starting position where to store the value.</param>
         /// <exception cref="ArgumentNullException">If the buffer is null.</exception>

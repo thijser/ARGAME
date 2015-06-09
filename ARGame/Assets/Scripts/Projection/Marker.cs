@@ -27,7 +27,7 @@ namespace Projection
         /// The ID of the Marker.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public int id = -1;
+        public int MarkerID = -1;
 
         /// <summary>
         /// Gets or sets the ID of this Marker.
@@ -39,14 +39,14 @@ namespace Projection
         {
             get
             {
-                return this.id;
+                return this.MarkerID;
             }
 
             set
             {
-                if (this.id < 0)
+                if (this.MarkerID < 0)
                 {
-                    this.id = value;
+                    this.MarkerID = value;
                 }
             }
         }
