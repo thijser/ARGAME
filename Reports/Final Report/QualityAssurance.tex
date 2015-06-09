@@ -65,6 +65,15 @@
             are included directly into the unit tests subproject, ensuring 
             that the tests can be compiled and run regardless of the platform 
             or compiler being used.
+
+            Because most of the functionality implemented in C++ involves
+            computer vision, we've prepared images so that situations can be
+            reliably reproduced for test cases. This allows us to test the
+            algorithms under many different lighting conditions at once, for
+            instance, which saves us a huge amount of time. Some of the tests
+            involve functionality that returns an image as result. We've created
+            the image we expect and have written utility functions to check if
+            two images are approximately equal.
 		
 		\subsection{Integration Tests} \label{ssec:integrationtests}
 			Integration tests are not done via a formalized test procedure, but 

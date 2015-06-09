@@ -54,9 +54,14 @@ namespace Vision
         /// <summary>
         /// Creates a virtual Marker for the marker registered in the given MarkerRegister.
         /// </summary>
-        /// <param name="register">The MarkerRegister.</param>
+        /// <param name="register">The MarkerRegister, not null.</param>
         public void OnMarkerRegister(MarkerRegister register)
         {
+            if (register == null)
+            {
+                throw new ArgumentNullException("register");
+            }
+
             this.CreateVirtualMarker(register.RegisteredMarker.ID);
         }
 

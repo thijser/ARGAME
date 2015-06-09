@@ -83,7 +83,7 @@ namespace Projection
         {
             if (parent == null)
             {
-                throw new ArgumentNullException("parent = null");
+                throw new ArgumentNullException("parent");
             }
 
             if (this != parent)
