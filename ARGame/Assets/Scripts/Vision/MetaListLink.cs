@@ -25,15 +25,10 @@ namespace Vision
         /// <summary>
         /// Gets the list of virtual markers used by the Meta for tracking.
         /// </summary>
-        public List<MetaBody> VirtualMarkers { get; private set; }
+		/// NOTE cannot be initalized in Start as doing so causes a race condition as the markers start registering themselves before start is done. 
+		private List<MetaBody> VirtualMarkers= new List<MetaBody>();
 
-        /// <summary>
-        /// Initializes the List of Virtual Markers.
-        /// </summary>
-        public void Start()
-        {
-            this.VirtualMarkers = new List<MetaBody>();
-        }
+      
 
         /// <summary>
         /// Creates a virtual marker for the given ID.

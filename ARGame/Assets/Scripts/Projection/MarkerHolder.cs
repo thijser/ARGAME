@@ -141,15 +141,9 @@ namespace Projection
             {
                 throw new ArgumentNullException("position");
             }
-			Debug.Log("we have seen " + position.ToString());
             Marker marker = this.GetMarker(position.ID);
             this.SelectParent(marker);
             marker.LocalPosition = position;
-            if (this.Parent.LocalPosition != null &&
-                this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
-            {
-                this.Parent = marker;
-            }
         }
 
         /// <summary>
