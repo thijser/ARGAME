@@ -151,20 +151,25 @@ namespace Projection
 			}
         }
 
-		/// <summary>
-		/// Sees if the marker is more suited for being the level marker then the old marker. 
+        /// <summary>
+        /// Sees if the marker is more suited for being the level marker then the old marker. 
         /// If updatedMarker has been seen more recently then the parent+patience and the updateMarker is complete then replace.
-		/// </summary>
-		public void SelectParent(Marker updatedMarker)
+        /// </summary>
+        public void SelectParent(Marker updatedMarker)
         {
-			if (this.Parent==null || this.Parent.LocalPosition.TimeStamp.Ticks + patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
+            if (updatedMarker == null)
             {
-				if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null)
+                throw new ArgumentNullException("updatedMarker");
+            }
+
+            if (this.Parent==null || this.Parent.LocalPosition.TimeStamp.Ticks + patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
+            {
+                if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null)
                 {
-					Parent = updatedMarker;
-				}
-			}
-		}
+                    Parent = updatedMarker;
+                }
+            }
+        }
         /// <summary>
         /// Called whenever a RotationUpdate is received from the remote server.
         /// <para>
