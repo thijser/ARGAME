@@ -14,7 +14,7 @@ namespace Graphics
     public class VolumeLineRenderer : MonoBehaviour
     {
         // Positions that line passes through.
-        public Vector3[] Positions;
+        public Vector3[] Positions = new Vector3[0];
 
         // Material to apply to line mesh.
         public Material LineMaterial;
@@ -76,15 +76,7 @@ namespace Graphics
             // Transform mesh vertices if using world space
             if (UseWorldSpace)
             {
-                for (int i = 0; i < vertices.Count; i++)
-                {
-                    Vector3 worldPos = Quaternion.Inverse(transform.rotation) * (vertices[i] - transform.position);
-                    vertices[i] = new Vector3(
-                        worldPos.x / transform.localScale.x,
-                        worldPos.y / transform.localScale.y,
-                        worldPos.z / transform.localScale.z
-                    );
-                }
+                TransformWorldToLocal(vertices);
             }
 
             // Update mesh and render bounds
@@ -96,6 +88,47 @@ namespace Graphics
 
             meshRenderer.shadowCastingMode = CastShadows ? ShadowCastingMode.On : ShadowCastingMode.Off;
             meshRenderer.receiveShadows = ReceiveShadows;
+        }
+
+        /// <summary>
+        /// Create the line mesh and add its vertices and triangles to the lists.
+        /// </summary>
+        /// <param name="triangles">List to append triangles to.</param>
+        /// <param name="vertices">List to append vertices to.</param>
+        private void CreateLineMesh(List<int> triangles, List<Vector3> vertices)
+        {
+            for (int i = 0; i < Positions.Length - 1; i++)
+            {
+                // Add a cube segment between two positions
+                AddLineSegment(Positions[i], Positions[i + 1], vertices, triangles);
+
+                // Add a connecting segment inbetween
+                if (i > 0)
+                {
+                    AddConnectingSegment(new Vector3[] {
+                        Positions[i - 1],
+                        Positions[i],
+                        Positions[i + 1],
+                    }, vertices, triangles);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Transform vertices from world coordinates to local coordinates.
+        /// </summary>
+        /// <param name="vertices">Vertices to transform.</param>
+        private void TransformWorldToLocal(List<Vector3> vertices)
+        {
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                Vector3 worldPos = Quaternion.Inverse(transform.rotation) * (vertices[i] - transform.position);
+                vertices[i] = new Vector3(
+                    worldPos.x / transform.localScale.x,
+                    worldPos.y / transform.localScale.y,
+                    worldPos.z / transform.localScale.z
+                );
+            }
         }
 
         /// <summary>
