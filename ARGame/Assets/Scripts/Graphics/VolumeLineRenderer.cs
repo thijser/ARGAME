@@ -133,12 +133,7 @@ namespace Graphics
         {
             for (int i = 0; i < vertices.Count; i++)
             {
-                Vector3 worldPos = Quaternion.Inverse(transform.rotation) * (vertices[i] - transform.position);
-                vertices[i] = new Vector3(
-                    worldPos.x / transform.localScale.x,
-                    worldPos.y / transform.localScale.y,
-                    worldPos.z / transform.localScale.z
-                );
+                vertices[i] = transform.InverseTransformPoint(vertices[i]);
             }
         }
 
