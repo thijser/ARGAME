@@ -7,9 +7,10 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Projection
+namespace Vision
 {
     using System.Collections.ObjectModel;
+    using Projection;
     using UnityEngine;
 
     /// <summary>
@@ -28,7 +29,9 @@ namespace Projection
         /// </summary>
         public void Start()
         {
-            this.Link = new GameObject("MetaLink", typeof(MetaLink)).GetComponent<MetaLink>();
+			Link= gameObject.GetComponent<MetaListLink>();
+			//if(Link==null)
+			//	this.Link = new GameObject("MetaLink", typeof(MetaListLink)).GetComponent<MetaListLink>();
         }
 
         /// <summary>
