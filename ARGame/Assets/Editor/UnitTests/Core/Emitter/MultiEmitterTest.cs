@@ -30,7 +30,8 @@ namespace Core.Emitter
         [ExpectedException(typeof(ArgumentNullException))]
         public void ApplyTest()
         {
-            MultiEmitter.ApplyProperties(null, GameObjectFactory.CreateTestBeam());
+            LaserBeam laser = GameObjectFactory.CreateTestBeam();
+            MultiEmitter.ApplyProperties(null, laser, laser.Emitter.Properties);
         }
 
         /// <summary>
@@ -41,7 +42,20 @@ namespace Core.Emitter
         [ExpectedException(typeof(ArgumentNullException))]
         public void ApplyTest2()
         {
-            MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<VolumeLineRenderer>(), null);
+            LaserBeam laser = GameObjectFactory.CreateTestBeam();
+            MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<VolumeLineRenderer>(), null, laser.Emitter.Properties);
+        }
+
+        /// <summary>
+        /// Tests if the correct exception is thrown when 
+        /// ApplyProperties is called with a null reference.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ApplyTest3()
+        {
+            LaserBeam laser = GameObjectFactory.CreateTestBeam();
+            MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<VolumeLineRenderer>(), laser, null);
         }
 
         /// <summary>
@@ -51,7 +65,8 @@ namespace Core.Emitter
         [Test]
         public void ApplyTestValid()
         {
-            Assert.NotNull(MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<VolumeLineRenderer>(), GameObjectFactory.CreateTestBeam()));
+            LaserBeam laser = GameObjectFactory.CreateTestBeam();
+            Assert.NotNull(MultiEmitter.ApplyProperties(CreateEmitter().GetComponent<VolumeLineRenderer>(), laser, laser.Emitter.Properties));
         }
 
         /// <summary>
