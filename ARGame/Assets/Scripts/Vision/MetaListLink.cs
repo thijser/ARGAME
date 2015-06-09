@@ -13,19 +13,19 @@
         List<GameObject> VirtualMarkers = new List<GameObject>();
         void MarkerGameObjectFactoryMethod(int id)
         {
-            GameObject marker = new GameObject("virtual marker" + id);
-            marker.AddComponent<MetaBody>();
-            MetaBody metabody = marker.GetComponent<MetaBody>();
-            metabody.markerTarget = true;
-            metabody.markerTargetID = id;
-            VirtualMarkers.Add(marker);
+            GameObject marker = new GameObject("virtual marker"+id);
+			marker.AddComponent<MetaBody>();
+			MetaBody metabody = marker.GetComponent<MetaBody>();
+			metabody.markerTarget=true;
+			metabody.markerTargetID=id;
+			marker.transform.position=new Vector3(13,666,1337);//it's dark magic
+			metabody.markerTargetPlaceable=false;
+			VirtualMarkers.Add(marker);
         }
         void OnMarkerRegister(MarkerRegister register)
         {
             MarkerGameObjectFactoryMethod(register.RegisteredMarker.ID);
-
         }
-
         public Collection<MarkerPosition> GetMarkerPositions()
         {
             Collection<MarkerPosition> list = new Collection<MarkerPosition>();
@@ -45,6 +45,5 @@
             return list;
 
         }
-
     }
 }

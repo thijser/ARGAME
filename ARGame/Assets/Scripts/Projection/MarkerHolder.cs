@@ -64,10 +64,7 @@ namespace Projection
                 throw new ArgumentException("Invalid marker", "register");
             }
 
-            if (this.Parent == null)
-            {
-                this.Parent = register.RegisteredMarker;
-            }
+
             this.markerTable.Add(register.RegisteredMarker.ID, register.RegisteredMarker);
         }
 
@@ -101,7 +98,6 @@ namespace Projection
 
             foreach (Marker marker in this.markerTable.Values)
             {
-
                 marker.UpdatePosition(this.Parent);
             }
         }
@@ -155,6 +151,16 @@ namespace Projection
 			}
         }
 
+		/// <summary>
+		/// sees if the marker is more suited for being the levelMarker then the old marker. If updatedMarker has been seen more recently then the parent+patience and the updateMarker is complete then replace.
+		/// </summary>
+		public void selectParent(Marker updatedMarker){
+			if(this.Parent==null||this.Parent.LocalPosition.TimeStamp.Ticks+patience<updatedMarker.LocalPosition.TimeStamp.Ticks){
+				if(updatedMarker.LocalPosition!=null&&updatedMarker.RemotePosition!=null){
+					Parent=updatedMarker;
+				}
+			}
+		}
         /// <summary>
         /// Called whenever a RotationUpdate is received from the remote server.
         /// <para>
