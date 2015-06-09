@@ -12,7 +12,7 @@ protected:
     virtual void SetUp() {
         loadPatterns(markerRecognizer, "markers/%d.png");
 
-        Mat frameStart = imread("UnitTests/trackertest_start.jpg");
+        Mat frameStart = imread("UnitTests/Resources/trackertest_start.jpg");
         boardDetector.locateBoard(frameStart);
     }
 
@@ -21,15 +21,15 @@ protected:
     MarkerRecognizer markerRecognizer;
     MarkerTracker markerTracker = MarkerTracker(boardDetector, markerDetector, markerRecognizer);
 
-    Mat frameStart = imread("UnitTests/trackertest_start.jpg");
-    Mat frameMoved = imread("UnitTests/trackertest_moved.jpg");
-    Mat frameFastMoved = imread("UnitTests/trackertest_fast_move.jpg");
-    Mat frameNew = imread("UnitTests/trackertest_new.jpg");
-    Mat frameNewMultiple = imread("UnitTests/trackertest_new_multiple.jpg");
-    Mat frameMoveMultiple = imread("UnitTests/trackertest_move_multiple.jpg");
-    Mat frameRemove = imread("UnitTests/trackertest_remove.jpg");
-    Mat frameOriginal = imread("UnitTests/trackertest_original.jpg");
-    Mat frameUpdatedMatch = imread("UnitTests/trackertest_updated_match.jpg");
+    Mat frameStart = imread("UnitTests/Resources/trackertest_start.jpg");
+    Mat frameMoved = imread("UnitTests/Resources/trackertest_moved.jpg");
+    Mat frameFastMoved = imread("UnitTests/Resources/trackertest_fast_move.jpg");
+    Mat frameNew = imread("UnitTests/Resources/trackertest_new.jpg");
+    Mat frameNewMultiple = imread("UnitTests/Resources/trackertest_new_multiple.jpg");
+    Mat frameMoveMultiple = imread("UnitTests/Resources/trackertest_move_multiple.jpg");
+    Mat frameRemove = imread("UnitTests/Resources/trackertest_remove.jpg");
+    Mat frameOriginal = imread("UnitTests/Resources/trackertest_original.jpg");
+    Mat frameUpdatedMatch = imread("UnitTests/Resources/trackertest_updated_match.jpg");
 };
 
 TEST_F(MarkerTrackerTest, NewMarker) {

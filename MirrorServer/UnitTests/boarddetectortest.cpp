@@ -8,7 +8,7 @@ using namespace cv;
 
 TEST(BoardDetectorTest, BoardWithMarkers) {
     BoardDetector detector;
-    Mat frame = imread("UnitTests/boardtest_markers.jpg");
+    Mat frame = imread("UnitTests/Resources/boardtest_markers.jpg");
 
     ASSERT_TRUE(detector.locateBoard(frame));
 
@@ -17,14 +17,14 @@ TEST(BoardDetectorTest, BoardWithMarkers) {
     ASSERT_EQ(board.cols, 570);
     ASSERT_EQ(board.rows, 720);
 
-    Mat expected = imread("UnitTests/boardtest_markers_result.jpg");
+    Mat expected = imread("UnitTests/Resources/boardtest_markers_result.jpg");
 
     ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
 }
 
 TEST(BoardDetectorTest, BoardWithoutMarkers) {
     BoardDetector detector;
-    Mat frame = imread("UnitTests/boardtest_no_markers.jpg");
+    Mat frame = imread("UnitTests/Resources/boardtest_no_markers.jpg");
 
     ASSERT_TRUE(detector.locateBoard(frame));
 
@@ -33,14 +33,14 @@ TEST(BoardDetectorTest, BoardWithoutMarkers) {
     ASSERT_EQ(board.cols, 570);
     ASSERT_EQ(board.rows, 720);
 
-    Mat expected = imread("UnitTests/boardtest_no_markers_result.jpg");
+    Mat expected = imread("UnitTests/Resources/boardtest_no_markers_result.jpg");
 
     ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
 }
 
 TEST(BoardDetectorTest, BoardWithoutLocate) {
     BoardDetector detector;
-    Mat frame = imread("UnitTests/boardtest_no_markers.jpg");
+    Mat frame = imread("UnitTests/Resources/boardtest_no_markers.jpg");
 
     Mat board = detector.extractBoard(frame);
 
@@ -50,7 +50,7 @@ TEST(BoardDetectorTest, BoardWithoutLocate) {
 
 TEST(BoardDetectorTest, NoBoard) {
     BoardDetector detector;
-    Mat frame = imread("UnitTests/boardtest_no_board.jpg");
+    Mat frame = imread("UnitTests/Resources/boardtest_no_board.jpg");
 
     ASSERT_FALSE(detector.locateBoard(frame));
 
@@ -62,7 +62,7 @@ TEST(BoardDetectorTest, NoBoard) {
 
 TEST(BoardDetectorTest, PartialBoard) {
     BoardDetector detector;
-    Mat frame = imread("UnitTests/boardtest_partial.jpg");
+    Mat frame = imread("UnitTests/Resources/boardtest_partial.jpg");
 
     ASSERT_FALSE(detector.locateBoard(frame));
 
@@ -74,7 +74,7 @@ TEST(BoardDetectorTest, PartialBoard) {
 
 TEST(BoardDetectorTest, RedChair) {
     BoardDetector detector;
-    Mat frame = imread("UnitTests/boardtest_red_chair.jpg");
+    Mat frame = imread("UnitTests/Resources/boardtest_red_chair.jpg");
 
     ASSERT_FALSE(detector.locateBoard(frame));
 
@@ -86,7 +86,7 @@ TEST(BoardDetectorTest, RedChair) {
 
 TEST(BoardDetectorTest, BoardOnTable) {
     BoardDetector detector;
-    Mat frame = imread("UnitTests/boardtest_table.jpg");
+    Mat frame = imread("UnitTests/Resources/boardtest_table.jpg");
 
     ASSERT_TRUE(detector.locateBoard(frame));
 
@@ -95,7 +95,7 @@ TEST(BoardDetectorTest, BoardOnTable) {
     ASSERT_EQ(board.cols, 570);
     ASSERT_EQ(board.rows, 720);
 
-    Mat expected = imread("UnitTests/boardtest_table_result.jpg");
+    Mat expected = imread("UnitTests/Resources/boardtest_table_result.jpg");
 
     ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
 }

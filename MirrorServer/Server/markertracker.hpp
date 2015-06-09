@@ -52,7 +52,8 @@ namespace mirrors {
     const float MARKER_ROTATION_SMOOTH_THRESHOLD = 2;
 
     /// Angle to round rotation to.
-    const float MARKER_ROTATION_ROUNDING = 22.5f;
+    //const float MARKER_ROTATION_ROUNDING = 22.5f;
+    const float MARKER_ROTATION_ROUNDING = 0.01f;
 
     namespace MarkerUpdateType {
         /**

@@ -11,7 +11,7 @@ using namespace cv;
 TEST(MarkerDetectorTest, NoMarkers) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/boardtest_no_markers.jpg");
+    Mat frame = imread("UnitTests/Resources/boardtest_no_markers.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
@@ -24,7 +24,7 @@ TEST(MarkerDetectorTest, NoMarkers) {
 TEST(MarkerDetectorTest, SingleMarker) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/markertest_single.jpg");
+    Mat frame = imread("UnitTests/Resources/markertest_single.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
@@ -41,7 +41,7 @@ TEST(MarkerDetectorTest, SingleMarker) {
 TEST(MarkerDetectorTest, MarkerGrid) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/markertest_grid.jpg");
+    Mat frame = imread("UnitTests/Resources/markertest_grid.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
@@ -68,7 +68,7 @@ TEST(MarkerDetectorTest, MarkerGrid) {
 TEST(MarkerDetectorTest, MarkerShades) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/markertest_green_shades.jpg");
+    Mat frame = imread("UnitTests/Resources/markertest_green_shades.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
@@ -95,7 +95,7 @@ TEST(MarkerDetectorTest, MarkerShades) {
 TEST(MarkerDetectorTest, VaryingLighting) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/markertest_varying_lighting.jpg");
+    Mat frame = imread("UnitTests/Resources/markertest_varying_lighting.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
@@ -117,7 +117,7 @@ TEST(MarkerDetectorTest, VaryingLighting) {
 TEST(MarkerDetectorTest, LightingGradient) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/markertest_lighting_gradient.jpg");
+    Mat frame = imread("UnitTests/Resources/markertest_lighting_gradient.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
@@ -147,7 +147,7 @@ TEST(MarkerDetectorTest, LightingGradient) {
 TEST(MarkerDetectorTest, Table) {
     BoardDetector boardDetector;
     MarkerDetector markerDetector;
-    Mat frame = imread("UnitTests/boardtest_table.jpg");
+    Mat frame = imread("UnitTests/Resources/boardtest_table.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
     Mat board = boardDetector.extractBoard(frame);
@@ -175,7 +175,7 @@ TEST(MarkerDetectorTest, Table) {
 
 TEST(MarkerDetectorTest, CloseTogether) {
     MarkerDetector markerDetector;
-    Mat board = imread("UnitTests/markertest_together.png");
+    Mat board = imread("UnitTests/Resources/markertest_together.png");
 
     auto contours = markerDetector.locateMarkers(board);
 
@@ -197,7 +197,7 @@ TEST(MarkerDetectorTest, CloseTogether) {
 
 TEST(MarkerDetectorTest, CloseHoles) {
     MarkerDetector markerDetector;
-    Mat board = imread("UnitTests/markertest_close_holes.jpg");
+    Mat board = imread("UnitTests/Resources/markertest_close_holes.jpg");
 
     auto contours = markerDetector.locateMarkers(board);
 

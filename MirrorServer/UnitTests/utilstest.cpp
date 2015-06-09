@@ -7,26 +7,26 @@ using namespace mirrors;
 using namespace cv;
 
 TEST(UtilsTest, Rotate) {
-    Mat frame0 = imread("UnitTests/rotationtest_nonexact_0.png");
-    Mat expected = imread("UnitTests/rotationtest_nonexact_90.png");
+    Mat frame0 = imread("UnitTests/Resources/rotationtest_nonexact_0.png");
+    Mat expected = imread("UnitTests/Resources/rotationtest_nonexact_90.png");
     Mat rotated = rotateImage(frame0, 90);
 
     ASSERT_EQ(countNonZeroMultichannel(rotated == expected), expected.rows * expected.cols);
 }
 
 TEST(UtilsTest, RotateCrop) {
-    Mat marker = imread("UnitTests/rotationtest_non_square.png");
-    Mat expected = imread("UnitTests/rotationtest_non_square_10.png");
+    Mat marker = imread("UnitTests/Resources/rotationtest_non_square.png");
+    Mat expected = imread("UnitTests/Resources/rotationtest_non_square_10.png");
     Mat rotated = rotateImage(marker, 10);
 
     ASSERT_EQ(countNonZeroMultichannel(rotated == expected), expected.cols * expected.rows);
 }
 
 TEST(UtilsTest, RotateExactly) {
-    Mat frame0 = imread("UnitTests/rotationtest_0.png");
-    Mat frame90 = imread("UnitTests/rotationtest_90.png");
-    Mat frame180 = imread("UnitTests/rotationtest_180.png");
-    Mat frame270 = imread("UnitTests/rotationtest_270.png");
+    Mat frame0 = imread("UnitTests/Resources/rotationtest_0.png");
+    Mat frame90 = imread("UnitTests/Resources/rotationtest_90.png");
+    Mat frame180 = imread("UnitTests/Resources/rotationtest_180.png");
+    Mat frame270 = imread("UnitTests/Resources/rotationtest_270.png");
 
     ASSERT_EQ(countNonZeroMultichannel(frame0 == rotateExactly(frame0, CLOCKWISE_0)), 6);
     ASSERT_EQ(countNonZeroMultichannel(frame90 == rotateExactly(frame0, CLOCKWISE_90)), 6);
