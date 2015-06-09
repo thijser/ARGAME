@@ -127,6 +127,7 @@ namespace Network
         /// <returns>The amount of updates parsed.</returns>
         public int ReadAllUpdates()
         {
+
             int count = 0;
             while (this.socket.Available >= MinPacketSize && count < MaxUpdates)
             {
@@ -139,7 +140,6 @@ namespace Network
                 this.timestamp = DateTime.Now;
                 if (update.Type != UpdateType.Ping)
                 {
-                    Debug.Log("Received message: " + update);
                     this.SendMessage("OnServerUpdate", update, SendMessageOptions.DontRequireReceiver);
                 }
 

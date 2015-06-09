@@ -82,7 +82,6 @@ namespace Projection
         public void UpdatePosition(Marker parent)
         {
 			if (this.RemotePosition==null){
-				Debug.Log("marker can be seen but has no remote position");
 				return;
 			}
             if (parent == null)
@@ -97,10 +96,10 @@ namespace Projection
 					this.RemotePosition.Position - 
 						parent.RemotePosition.Position;
                 rel.Scale(parent.LocalPosition.Scale);
-
+				rel.Scale (new Vector3(0.01f,0.01f,0.01f));
                 // Rotate position to Meta space rotation
                 this.transform.position = parent.LocalPosition.Position + (parent.LocalPosition.Rotation * Quaternion.Inverse(parent.RemotePosition.Rotation) * rel);
-                
+				Debug.Log (transform.position);
                 // Give child markers the same rotation and scale as the level marker
                 Quaternion relativeRotation = Quaternion.AngleAxis(-parent.RemotePosition.Rotation.eulerAngles.y, parent.gameObject.transform.up);
                 this.transform.rotation = relativeRotation * parent.LocalPosition.Rotation;
@@ -108,6 +107,7 @@ namespace Projection
             else
             {
                 this.transform.position = this.LocalPosition.Position;
+				this.transform.rotation = this.LocalPosition.Rotation;
             }
         }
 
