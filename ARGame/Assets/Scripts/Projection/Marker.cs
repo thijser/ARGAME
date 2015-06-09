@@ -100,8 +100,8 @@ namespace Projection
 		public override string ToString()
         {
             return "<marker:id=" + this.ID +
-                ", RemotePosition=" + this.RemotePosition.ToString() +
-                ", LocalPosition=" + this.LocalPosition.ToString() +
+                ", RemotePosition=" + this.RemotePosition +
+                ", LocalPosition=" + this.LocalPosition +
                 ", ObjectRotation=" + this.ObjectRotation + ">";
         }
     }
