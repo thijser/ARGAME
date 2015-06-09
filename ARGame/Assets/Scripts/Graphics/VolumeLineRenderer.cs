@@ -9,7 +9,9 @@
 //----------------------------------------------------------------------------
 namespace Graphics
 {
+    using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
     using UnityEngine.Rendering;
@@ -23,12 +25,6 @@ namespace Graphics
     /// </summary>
     public class VolumeLineRenderer : MonoBehaviour
     {
-        /// <summary>
-        /// Positions that line passes through.
-        /// </summary>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public Vector3[] Positions = new Vector3[0];
-
         /// <summary>
         /// Material to apply to line mesh.
         /// </summary>
@@ -68,6 +64,22 @@ namespace Graphics
         /// The MeshRenderer Component that renders the Mesh.
         /// </summary>
         private MeshRenderer meshRenderer;
+
+        /// <summary>
+        /// The corner points of the line segments in this VolumeLineRenderer.
+        /// </summary>
+        private Vector3[] positions = new Vector3[0];
+
+        /// <summary>
+        /// Gets a Read-Only Collection of all positions in this VolumeLineRenderer.
+        /// </summary>
+        public ReadOnlyCollection<Vector3> Positions
+        {
+            get
+            {
+                return Array.AsReadOnly(this.positions);
+            }
+        }
 
         /// <summary>
         /// Initializes this VolumeLineRenderer.
@@ -122,7 +134,7 @@ namespace Graphics
         /// <param name="count">Amount of positions in line.</param>
         public void SetVertexCount(int count)
         {
-            if (this.Positions.Length != count)
+            if (this.Positions.Count != count)
             {
                 Vector3[] newPositions = new Vector3[count];
 
@@ -130,9 +142,9 @@ namespace Graphics
                 // otherwise initialize to zero.
                 for (int i = 0; i < count; i++)
                 {
-                    if (i < this.Positions.Length)
+                    if (i < this.positions.Length)
                     {
-                        newPositions[i] = this.Positions[i];
+                        newPositions[i] = this.positions[i];
                     }
                     else
                     {
@@ -140,18 +152,23 @@ namespace Graphics
                     }
                 }
 
-                this.Positions = newPositions;
+                this.positions = newPositions;
             }
         }
 
         /// <summary>
         /// Set a certain position in the line sequence.
         /// </summary>
-        /// <param name="index">Position index.</param>
-        /// <param name="pos">New position value.</param>
-        public void SetPosition(int index, Vector3 pos)
+        /// <param name="index">Position index, between 0 and <c>Positions.Count</c>.</param>
+        /// <param name="position">New position value.</param>
+        public void SetPosition(int index, Vector3 position)
         {
-            this.Positions[index] = pos;
+            if (index < 0 || index >= this.Positions.Count)
+            {
+                throw new ArgumentOutOfRangeException("index", index, "index should be between 0 and " + this.Positions.Count);
+            }
+
+            this.positions[index] = position;
         }
 
         /// <summary>
@@ -228,10 +245,10 @@ namespace Graphics
         /// <param name="triangles">List to append triangles to.</param>
         private void CreateLineMesh(List<Vector3> vertices, List<int> triangles)
         {
-            for (int i = 0; i < this.Positions.Length - 1; i++)
+            for (int i = 0; i < this.positions.Length - 1; i++)
             {
                 // Add a cube segment between two positions
-                this.AddLineSegment(this.Positions[i], this.Positions[i + 1], vertices, triangles);
+                this.AddLineSegment(this.positions[i], this.positions[i + 1], vertices, triangles);
 
                 // Add a connecting segment inbetween
                 if (i > 0)
@@ -239,9 +256,9 @@ namespace Graphics
                     this.AddConnectingSegment(
                         new Vector3[] 
                         {
-                            this.Positions[i - 1],
-                            this.Positions[i],
-                            this.Positions[i + 1],
+                            this.positions[i - 1],
+                            this.positions[i],
+                            this.positions[i + 1],
                         }, 
                         vertices, 
                         triangles);
