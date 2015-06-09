@@ -14,6 +14,7 @@ namespace TestUtilities
     using Core.Receiver;
     using Network;
     using Projection;
+    using Graphics;
     using UnityEngine;
 
     /// <summary>
@@ -42,10 +43,10 @@ namespace TestUtilities
             GameObject gameObject = new GameObject(
                 "Emitter",
                 typeof(LaserEmitter),
-                typeof(LineRenderer),
+                typeof(VolumeLineRenderer),
                 typeof(LaserProperties));
             LaserEmitter emitter = gameObject.GetComponent<LaserEmitter>();
-            emitter.LineRenderer = gameObject.GetComponent<LineRenderer>();
+            emitter.LineRenderer = gameObject.GetComponent<VolumeLineRenderer>();
             return emitter;
         }
 

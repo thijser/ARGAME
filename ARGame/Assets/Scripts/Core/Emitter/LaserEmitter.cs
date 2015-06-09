@@ -14,6 +14,7 @@ namespace Core.Emitter
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
+    using Graphics;
 
     /// <summary>
     /// Emitter of Laser beams.
@@ -24,7 +25,7 @@ namespace Core.Emitter
         /// The LineRenderer used for drawing the Laser beams (optional).
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public LineRenderer LineRenderer;
+        public VolumeLineRenderer LineRenderer;
 
         /// <summary>
         /// Indicates whether this LaserEmitter should emit a Laser beam.
@@ -66,7 +67,7 @@ namespace Core.Emitter
         {
             if (this.LineRenderer == null)
             {
-                this.LineRenderer = this.GetComponent<LineRenderer>();
+                this.LineRenderer = this.GetComponent<VolumeLineRenderer>();
             }
 
             if (this.gameObject.GetComponent<LaserProperties>() == null)
