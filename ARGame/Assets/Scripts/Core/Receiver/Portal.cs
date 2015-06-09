@@ -97,14 +97,13 @@ namespace Core.Receiver
                 Quaternion rotation = Quaternion.FromToRotation(-1 * this.SurfaceNormal, this.LinkedPortal.SurfaceNormal);
                 Vector3 direction = args.Point - args.Laser.Origin;
 
-                // Determine Hit position relative to surface origin and transform
-                // it to the orientation of the other surface
-                Vector3 position = args.Point - this.transform.position;
-                position = Quaternion.Inverse(this.transform.rotation) * position;
-                position = this.LinkedPortal.transform.rotation * position;
-                position += this.LinkedPortal.transform.position;
+                // Transform laser hit point to local coordinates and flip to other side
+                Vector3 p = Quaternion.AngleAxis(180, transform.up) * transform.InverseTransformPoint(args.Point);
 
-                this.LinkedPortal.EmitLaserBeam(args.Laser, position, rotation * -direction.normalized);
+                // Transform back to world coordinates on the other portal
+                Vector3 p2 = this.LinkedPortal.transform.TransformPoint(p);
+
+                this.LinkedPortal.EmitLaserBeam(args.Laser, p2, rotation * -direction.normalized);
             }
         }
     }
