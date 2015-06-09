@@ -120,10 +120,6 @@ namespace Projection
             MarkerPosition expected = new MarkerPosition(new Vector3(30, 0, 45), Quaternion.identity, DateTime.Now, new Vector3(5, 5, 1), 3);
             child.UpdatePosition(parent);
 
-            Debug.Log("Position: " + child.transform.position);
-            Debug.Log("Rotation: " + child.transform.rotation.eulerAngles);
-            Debug.Log("Scaling:  " + child.transform.lossyScale);
-
             RoughAssert.AreEqual(expected.Position, child.transform.position, 0.01f);
             RoughAssert.AreEqual(expected.Rotation, child.transform.rotation, 0.01f);
             RoughAssert.AreEqual(expected.Scale, child.transform.lossyScale, 0.01f);
