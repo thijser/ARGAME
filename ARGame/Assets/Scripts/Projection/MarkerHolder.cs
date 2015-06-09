@@ -64,7 +64,6 @@ namespace Projection
                 throw new ArgumentException("Invalid marker", "register");
             }
 
-
             this.markerTable.Add(register.RegisteredMarker.ID, register.RegisteredMarker);
         }
 
