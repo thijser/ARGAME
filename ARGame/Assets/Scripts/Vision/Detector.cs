@@ -44,11 +44,10 @@ namespace Vision
             Collection<MarkerPosition> list = this.Link.GetMarkerPositions();
             foreach (MarkerPosition mp in list)
             {
-                Debug.Log(mp.ToString());
+                Debug.Log("seen: " +mp.ToString());
                 this.SendMessage(
                     "OnMarkerSeen",
-                    mp,
-                    SendMessageOptions.DontRequireReceiver);
+                    mp);
             }
         }
     }
