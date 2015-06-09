@@ -143,7 +143,8 @@ namespace Projection
             }
 
             Marker marker = this.GetMarker(position.ID);
-            marker.LocalPosition = position;
+			selectParent(marker);
+			marker.LocalPosition = position;
             if (this.Parent.LocalPosition != null && 
                 this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
             {
