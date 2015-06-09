@@ -101,7 +101,6 @@ namespace Projection
 
             foreach (Marker marker in this.markerTable.Values)
             {
-
                 marker.UpdatePosition(this.Parent);
             }
         }
