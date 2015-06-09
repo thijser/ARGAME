@@ -90,7 +90,7 @@ namespace Core
             HitEventArgs args = laser.DoRaycast();
 
             Assert.IsNull(args.Receiver);
-            Assert.IsNull(args.Laser);
+            Assert.AreEqual(laser, args.Laser);
             Assert.False(args.IsValid);
 
             GameObject.DestroyImmediate(collider);
