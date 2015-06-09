@@ -169,5 +169,16 @@ namespace Projection
         {
             GameObjectFactory.Create<MarkerHolder>().OnMarkerSeen(null);
         }
+
+        /// <summary>
+        /// Tests whether calling <c>OnServerUpdate(null)</c> throws the 
+        /// appropriate exception.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestOnServerUpdateNull()
+        {
+            GameObjectFactory.Create<MarkerHolder>().OnServerUpdate(null);
+        }
     }
 }
