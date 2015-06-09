@@ -57,21 +57,7 @@ namespace Graphics
             List<Vector3> vertices = new List<Vector3>();
             List<int> triangles = new List<int>();
 
-            for (int i = 0; i < Positions.Length - 1; i++)
-            {
-                // Add a cube segment between two positions
-                AddLineSegment(Positions[i], Positions[i + 1], vertices, triangles);
-
-                // Add a connecting segment inbetween
-                if (i > 0)
-                {
-                    AddConnectingSegment(new Vector3[] {
-                        Positions[i - 1],
-                        Positions[i],
-                        Positions[i + 1],
-                    }, vertices, triangles);
-                }
-            }
+            CreateLineMesh(vertices, triangles);
 
             // Transform mesh vertices if using world space
             if (UseWorldSpace)
@@ -93,9 +79,9 @@ namespace Graphics
         /// <summary>
         /// Create the line mesh and add its vertices and triangles to the lists.
         /// </summary>
-        /// <param name="triangles">List to append triangles to.</param>
         /// <param name="vertices">List to append vertices to.</param>
-        private void CreateLineMesh(List<int> triangles, List<Vector3> vertices)
+        /// <param name="triangles">List to append triangles to.</param>
+        private void CreateLineMesh(List<Vector3> vertices, List<int> triangles)
         {
             for (int i = 0; i < Positions.Length - 1; i++)
             {
