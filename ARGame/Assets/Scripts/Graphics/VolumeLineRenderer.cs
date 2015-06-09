@@ -8,35 +8,55 @@ namespace Graphics
     /// <summary>
     /// Custom LineRenderer for lasers that doesn't have the rendering problems
     /// that occur in the Unity LineRenderer implementation.
-    /// 
-    /// NOTE: Implementation assumes that line lies in the plane of the emitter.
+    /// <para>
+    /// This implementation assumes that lines lie in the plane of the emitter.
+    /// </para>
     /// </summary>
     public class VolumeLineRenderer : MonoBehaviour
     {
-        // Positions that line passes through.
+        /// <summary>
+        /// Positions that line passes through.
+        /// </summary>
         public Vector3[] Positions;
 
-        // Material to apply to line mesh.
+        /// <summary>
+        /// Material to apply to line mesh.
+        /// </summary>
         public Material LineMaterial;
 
-        // Width and height of line mesh.
+        /// <summary>
+        /// Width and height of line mesh.
+        /// </summary>
         public float LineWidth = 1.0f;
 
-        // Indicates if specified positions lie in world space.
+        /// <summary>
+        /// Indicates if specified positions lie in world space.
+        /// </summary>
         public bool UseWorldSpace = false;
 
-        // Indicates if generated line mesh should cast shadows.
+        /// <summary>
+        /// Indicates if generated line mesh should cast shadows.
+        /// </summary>
         public bool CastShadows = true;
 
-        // Indicates if generated line mesh should receive shadows.
+        /// <summary>
+        /// Indicates if generated line mesh should receive shadows.
+        /// </summary>
         public bool ReceiveShadows = true;
 
-        // Component that contains mesh.
+        /// <summary>
+        /// The MeshFilter Component that contains the Mesh.
+        /// </summary>
         private MeshFilter meshFilter;
 
-        // Component that renders mesh.
+        /// <summary>
+        /// The MeshRenderer Component that renders the Mesh.
+        /// </summary>
         private MeshRenderer meshRenderer;
 
+        /// <summary>
+        /// Initializes this VolumeLineRenderer.
+        /// </summary>
         public void Start()
         {
             // Create components for rendering line mesh
@@ -46,6 +66,9 @@ namespace Graphics
             meshFilter.mesh = new Mesh();
         }
 
+        /// <summary>
+        /// Updates the line Mesh and renders it.
+        /// </summary>
         public void Update()
         {
             // Update line material
