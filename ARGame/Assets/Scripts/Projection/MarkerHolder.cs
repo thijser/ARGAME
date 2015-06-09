@@ -160,7 +160,7 @@ namespace Projection
 
             if (this.Parent == null || this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
             {
-                if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null)
+                if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null && updatedMarker.RemotePosition!=null)
                 {
                     this.Parent = updatedMarker;
                 }
