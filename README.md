@@ -8,6 +8,17 @@ project is about designing and implementing a collaborative game to
 explore the different perception of situational awareness, presence and
 workload in a physical and an AR environment.
 
+Project structure
+-----------------
+
+ARGame/ - Unity project (C#)
+	ARGame/Assets/Editor/UnitTests - Tests
+	ARGame/Assets/External - Third-party code
+
+MirrorServer/ - Qt project (C++)
+	MirrorServer/UnitTests/ - Tests
+	MirrorServer/UnitTests/gtest - Third-party code
+
 Game Concept
 ------------
 The goal of the game is to solve a puzzle by controlling laser beams using mirrors
