@@ -17,7 +17,7 @@ namespace Graphics
         /// <summary>
         /// Positions that line passes through.
         /// </summary>
-        public Vector3[] Positions;
+        public Vector3[] Positions = new Vector3[0];
 
         /// <summary>
         /// Material to apply to line mesh.
@@ -80,6 +80,32 @@ namespace Graphics
             List<Vector3> vertices = new List<Vector3>();
             List<int> triangles = new List<int>();
 
+            CreateLineMesh(vertices, triangles);
+
+            // Transform mesh vertices if using world space
+            if (UseWorldSpace)
+            {
+                TransformWorldToLocal(vertices);
+            }
+
+            // Update mesh and render bounds
+            mesh.vertices = vertices.ToArray();
+            mesh.triangles = triangles.ToArray();
+
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+
+            meshRenderer.shadowCastingMode = CastShadows ? ShadowCastingMode.On : ShadowCastingMode.Off;
+            meshRenderer.receiveShadows = ReceiveShadows;
+        }
+
+        /// <summary>
+        /// Create the line mesh and add its vertices and triangles to the lists.
+        /// </summary>
+        /// <param name="vertices">List to append vertices to.</param>
+        /// <param name="triangles">List to append triangles to.</param>
+        private void CreateLineMesh(List<Vector3> vertices, List<int> triangles)
+        {
             for (int i = 0; i < Positions.Length - 1; i++)
             {
                 // Add a cube segment between two positions
@@ -95,30 +121,23 @@ namespace Graphics
                     }, vertices, triangles);
                 }
             }
+        }
 
-            // Transform mesh vertices if using world space
-            if (UseWorldSpace)
+        /// <summary>
+        /// Transform vertices from world coordinates to local coordinates.
+        /// </summary>
+        /// <param name="vertices">Vertices to transform.</param>
+        private void TransformWorldToLocal(List<Vector3> vertices)
+        {
+            for (int i = 0; i < vertices.Count; i++)
             {
-                for (int i = 0; i < vertices.Count; i++)
-                {
-                    Vector3 worldPos = Quaternion.Inverse(transform.rotation) * (vertices[i] - transform.position);
-                    vertices[i] = new Vector3(
-                        worldPos.x / transform.localScale.x,
-                        worldPos.y / transform.localScale.y,
-                        worldPos.z / transform.localScale.z
-                    );
-                }
+                Vector3 worldPos = Quaternion.Inverse(transform.rotation) * (vertices[i] - transform.position);
+                vertices[i] = new Vector3(
+                    worldPos.x / transform.localScale.x,
+                    worldPos.y / transform.localScale.y,
+                    worldPos.z / transform.localScale.z
+                );
             }
-
-            // Update mesh and render bounds
-            mesh.vertices = vertices.ToArray();
-            mesh.triangles = triangles.ToArray();
-
-            mesh.RecalculateNormals();
-            mesh.RecalculateBounds();
-
-            meshRenderer.shadowCastingMode = CastShadows ? ShadowCastingMode.On : ShadowCastingMode.Off;
-            meshRenderer.receiveShadows = ReceiveShadows;
         }
 
         /// <summary>
