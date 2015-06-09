@@ -11,12 +11,8 @@ namespace Network
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using NUnit.Framework;
-    using NSubstitute;
     using TestUtilities;
-    using UnityEngine;
 
     /// <summary>
     /// Test class for PositionPreviewer.
@@ -26,7 +22,7 @@ namespace Network
     {
         /// <summary>
         /// Tests if the correct exception is thrown when
-        /// a null refrence is used.
+        /// a null reference is used.
         /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -46,7 +42,7 @@ namespace Network
         }
 
         /// <summary>
-        /// Tests if the start behaviour is correct.
+        /// Tests if the start behavior is correct.
         /// </summary>
         [Test]
         public void StartTest()

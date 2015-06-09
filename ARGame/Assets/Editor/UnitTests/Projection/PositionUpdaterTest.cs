@@ -9,12 +9,12 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
+    using System;
+    using System.Collections.Generic;
     using Network;
     using NUnit.Framework;
     using TestUtilities;
     using UnityEngine;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Unit test for the <see cref="Projection.PositionUpdater"/> class.
@@ -301,6 +301,10 @@ namespace Projection
             GameObjectFactory.Create<PositionUpdater>().OnMarkerSeen(null);
         }
 
+        /// <summary>
+        /// Tests whether calling <c>UpdateChildPosition(null)</c> results in 
+        /// an <see cref="ArgumentNullException"/> to be thrown.
+        /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestUpdateChildPositionNull()
@@ -308,8 +312,12 @@ namespace Projection
             GameObjectFactory.Create<PositionUpdater>().UpdateChildPosition(null);
         }
 
+        /// <summary>
+        /// Tests whether calling <c>UpdateChildPosition(...)</c> with no 
+        /// remote set will result in an <see cref="InvalidOperationException"/>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void TestUpdateChildPositionNullRemote()
         {
             Marker marker = GameObjectFactory.Create<Marker>();

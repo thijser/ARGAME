@@ -188,7 +188,6 @@ namespace Network
         [Test]
         public void TestReadUpdatePositionValid()
         {
-            // TODO: Assert field contents are correct.
             Assert.NotNull(MessageProcessor.ReadUpdatePosition(new byte[16], 16));
         }
 
@@ -199,7 +198,6 @@ namespace Network
         [Test]
         public void TestReadUpdateRotationValid()
         {
-            // TODO: Assert field contents are correct.
             Assert.NotNull(MessageProcessor.ReadUpdateRotation(new byte[8], 8));
         }
 
@@ -210,7 +208,6 @@ namespace Network
         [Test]
         public void TestReadDeleteValid()
         {
-            // TODO: Assert field contents are correct.
             Assert.NotNull(MessageProcessor.ReadDelete(new byte[4], 4));
         }
 

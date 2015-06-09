@@ -48,6 +48,7 @@ namespace Network
         /// <summary>
         /// Test if correct exception is thrown when null ref
         /// is passed in update.
+        /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void UpdateNullTest()
@@ -84,7 +85,7 @@ namespace Network
         }
 
         /// <summary>
-        /// Test if correct behaviour is executed with an updateposition.
+        /// Test if correct behavior is executed with a <see cref="PositionUpdate"/>.
         /// </summary>
         [Test]
         public void UpdateValidTest()
@@ -100,7 +101,7 @@ namespace Network
         }
 
         /// <summary>
-        /// Test if correct behaviour is executed with an updateposition.
+        /// Test if correct behavior is executed with a <see cref="PositionUpdate"/>.
         /// </summary>
         [Test]
         public void UpdateValidTest2()
