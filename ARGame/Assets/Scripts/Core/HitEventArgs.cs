@@ -36,7 +36,7 @@ namespace Core
         /// <summary>
         /// Initializes a new instance of the <see cref="HitEventArgs"/> class.
         /// </summary>
-        /// <param name="laser">The Laser beam that Hit the object.</param>
+        /// <param name="laser">The Laser beam that Hit the object, not null.</param>
         /// <param name="point">The position where the Laser Hit the object.</param>
         /// <param name="normal">The normal of the surface that the Laser beam Hit.</param>
         /// <param name="receiver">The ILaserReceiver that got Hit.</param>
@@ -45,11 +45,6 @@ namespace Core
             if (laser == null)
             {
                 throw new ArgumentNullException("laser");
-            }
-
-            if (receiver == null)
-            {
-                throw new ArgumentNullException("receiver");
             }
 
             this.Laser = laser;

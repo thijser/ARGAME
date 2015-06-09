@@ -98,6 +98,13 @@ namespace Core
         public HitEventArgs DoRaycast()
         {
             RaycastHit[] hits = Physics.RaycastAll(this.Origin, this.Direction, MaxRaycastDist);
+            if (hits.Length == 0)
+            {
+                this.Endpoint = this.Origin + (MaxLaserLength * this.Direction);
+                this.Emitter.AddLaser(this);
+                return new HitEventArgs();
+            }
+
             foreach (RaycastHit hit in hits)
             {
                 ILaserReceiver receiver = GetValidReceiver(hit);
@@ -109,9 +116,10 @@ namespace Core
                 }
             }
 
-            this.Endpoint = this.Origin + (MaxLaserLength * this.Direction);
+            RaycastHit raycast = hits[0];
+            this.Endpoint = raycast.point;
             this.Emitter.AddLaser(this);
-            return new HitEventArgs();
+            return new HitEventArgs(this, raycast.point, raycast.normal, null);
         }
 
         /// <summary>
