@@ -18,7 +18,7 @@ namespace Projection
     /// <summary>
     /// A class that handles marker registration and updates positions.
     /// </summary>
-    public class PositionUpdater : MonoBehaviour
+    public class MarkerHolder : MonoBehaviour
     {
         /// <summary>
         /// Scale of the object.
@@ -64,15 +64,6 @@ namespace Projection
                 throw new ArgumentException("Invalid marker", "register");
             }
 
-            if (this.Parent == null)
-            {
-                this.Parent = register.RegisteredMarker;
-            }
-            else
-            {
-                register.RegisteredMarker.transform.parent = this.Parent.transform;
-            }
-
             this.markerTable.Add(register.RegisteredMarker.ID, register.RegisteredMarker);
         }
 
@@ -106,7 +97,7 @@ namespace Projection
 
             foreach (Marker marker in this.markerTable.Values)
             {
-                this.UpdatePosition(marker);
+                marker.UpdatePosition(this.Parent);
             }
         }
 
@@ -151,14 +142,34 @@ namespace Projection
             }
 
             Marker marker = this.GetMarker(position.ID);
-            marker.LocalPosition = position;
-            if (this.Parent.LocalPosition != null &&
+			SelectParent(marker);
+			marker.LocalPosition = position;
+            if (this.Parent.LocalPosition != null && 
                 this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
             {
-                this.Parent = marker;
-            }
+				this.Parent=marker;
+			}
         }
 
+        /// <summary>
+        /// Sees if the marker is more suited for being the level marker then the old marker. 
+        /// If updatedMarker has been seen more recently then the parent+patience and the updateMarker is complete then replace.
+        /// </summary>
+        public void SelectParent(Marker updatedMarker)
+        {
+            if (updatedMarker == null)
+            {
+                throw new ArgumentNullException("updatedMarker");
+            }
+
+            if (this.Parent==null || this.Parent.LocalPosition.TimeStamp.Ticks + patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
+            {
+                if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null)
+                {
+                    Parent = updatedMarker;
+                }
+            }
+        }
         /// <summary>
         /// Called whenever a RotationUpdate is received from the remote server.
         /// <para>
@@ -177,94 +188,7 @@ namespace Projection
             this.GetMarker(update.ID).ObjectRotation = update.Rotation;
         }
 
-        /// <summary>
-        /// Updates the position of the given Marker to reflect the current world state.
-        /// <para>
-        /// The <c>target</c> argument should not be null. If the <c>target</c> is the parent 
-        /// marker, then this method behaves as if <c>UpdateParentPosition(target)</c> was invoked.
-        /// Otherwise, this method behaves as if <c>UpdateChildPosition(target)</c> was invoked.
-        /// </para>
-        /// </summary>
-        /// <param name="target">The target Marker, not null.</param>
-        public void UpdatePosition(Marker target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (target == this.Parent)
-            {
-                this.UpdateParentPosition(target);
-            }
-            else
-            {
-                this.UpdateChildPosition(target);
-            }
-        }
-
-        /// <summary>
-        /// Updates the Marker position as if the supplied marker is a parent marker.
-        /// <para>
-        /// The <c>target</c> argument should not be null, and should have a valid local
-        /// and remote position.
-        /// </para>
-        /// pre: target is the parent marker, target has a local position 
-        /// post: target has been placed on local position with it's rotation yet to be experimentally determined. 
-        /// </summary>
-        /// <param name="target">The supplied target Marker.</param>
-        public void UpdateParentPosition(Marker target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (target.LocalPosition == null)
-            {
-                throw new ArgumentException("Invalid LocalPosition in target", "target");
-            }
-
-            if (target.RemotePosition == null)
-            {
-                throw new ArgumentException("Invalid RemotePosition in target", "target");
-            }
-
-            target.gameObject.transform.position = target.LocalPosition.Position;
-            Vector3 localrotation = target.LocalPosition.Rotation.eulerAngles;
-            Vector3 remoterotation = target.RemotePosition.Rotation.eulerAngles;
-            Vector3 finalrotation = localrotation - remoterotation;
-            target.gameObject.transform.rotation = Quaternion.Euler(finalrotation);
-        }
-
-        /// <summary>
-        /// Updates the Marker position as if the supplied Marker is a child marker.
-        /// <para>
-        /// The <c>target</c> argument should not be null, and the current parent should exist and have 
-        /// a remote position. If the target does not have a remote position set, this method does nothing.
-        /// Otherwise, this method updates the position relative to the parent position.
-        /// </para> 
-        /// </summary>
-        /// <param name="target">The supplied target, not null.</param>
-        public void UpdateChildPosition(Marker target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (this.Parent.RemotePosition == null)
-            {
-                throw new InvalidOperationException("Parent has no remote position");
-            }
-
-            if (target.RemotePosition != null)
-            {
-                target.gameObject.transform.position = target.RemotePosition.Position - this.Parent.RemotePosition.Position;
-                //// TODO: If mirrored then swap operation params.
-            }
-        }
-
+       
         /// <summary>
         /// Updates the location of the marker based on the remote position.
         /// <para>
