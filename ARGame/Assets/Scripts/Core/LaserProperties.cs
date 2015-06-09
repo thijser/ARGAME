@@ -87,9 +87,8 @@ namespace Core
         /// </summary>
         public void UpdateBeam()
         {
-            float scale = transform.lossyScale.x;
             Color color = this.LaserColor;
-            this.LineRenderer.LineWidth = this.Strength * scale;
+            this.LineRenderer.LineWidth = this.Strength;
             this.LineRenderer.LineMaterial.color = color;
             this.LineRenderer.LineMaterial.SetColor("_Albedo", color);
             this.LineRenderer.LineMaterial.SetColor("_Emission", color);
