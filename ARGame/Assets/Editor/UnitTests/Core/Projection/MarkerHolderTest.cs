@@ -191,5 +191,21 @@ namespace Projection
         {
             GameObjectFactory.Create<MarkerHolder>().SelectParent(null);
         }
+
+        /// <summary>
+        /// Tests whether <c>OnRotationUpdate</c> updates the position of a 
+        /// Marker as expected.
+        /// </summary>
+        [Test]
+        public void TestOnRotationUpdateTypical()
+        {
+            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
+            Marker marker = GameObjectFactory.Create<Marker>();
+            marker.ID = 12;
+            RotationUpdate update = new RotationUpdate(UpdateType.UpdateRotation, 180, 12);
+            updater.OnMarkerRegister(new MarkerRegister(marker));
+            updater.OnRotationUpdate(update);
+            Assert.AreEqual(180, marker.ObjectRotation);
+        }
     }
 }
