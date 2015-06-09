@@ -29,7 +29,7 @@ namespace Vision
         /// </summary>
         public void Start()
         {
-			Link= gameObject.GetComponent<IARLink>();
+			Link= gameObject.GetComponent<MetaListLink>();
 			//if(Link==null)
 			//	this.Link = new GameObject("MetaLink", typeof(MetaListLink)).GetComponent<MetaListLink>();
         }
