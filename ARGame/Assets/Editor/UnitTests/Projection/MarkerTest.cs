@@ -106,7 +106,7 @@ namespace Projection
         /// </para>
         /// </summary>
         [Test]
-        public void TestUpdatePositionAsChild()
+        public void TestUpdatePositionAsChildSimpleCase()
         {
             Marker parent = GameObjectFactory.Create<Marker>();
             parent.ID = 8;
@@ -118,6 +118,31 @@ namespace Projection
             child.RemotePosition = new MarkerPosition(new Vector3(25, 0, 30), Quaternion.Euler(0, -90, 0), DateTime.Now, new Vector3(5, 5, 1), 3);
 
             MarkerPosition expected = new MarkerPosition(new Vector3(30, 0, 45), Quaternion.identity, DateTime.Now, new Vector3(5, 5, 1), 3);
+            child.UpdatePosition(parent);
+
+            RoughAssert.AreEqual(expected.Position, child.transform.position, 0.01f);
+            RoughAssert.AreEqual(expected.Rotation, child.transform.rotation, 0.01f);
+            RoughAssert.AreEqual(expected.Scale, child.transform.lossyScale, 0.01f);
+        }
+
+        /// <summary>
+        /// Tests if calling <c>UpdatePosition</c> in a scenario where the level marker's remote and 
+        /// local positions are equal, will result in the remote and local positions of a child marker
+        /// to be equal as well.
+        /// </summary>
+        [Test]
+        public void TestUpdatePositionAsChildIdenticalCase()
+        {
+            Marker parent = GameObjectFactory.Create<Marker>();
+            parent.ID = 8;
+            parent.RemotePosition = new MarkerPosition(new Vector3(30, 0, 20), Quaternion.Euler(0, -23, 0), DateTime.Now, new Vector3(8, 5, 1), 8);
+            parent.LocalPosition = parent.RemotePosition;
+
+            Marker child = GameObjectFactory.Create<Marker>();
+            child.ID = 3;
+            MarkerPosition expected = new MarkerPosition(new Vector3(25, 0, 30), Quaternion.Euler(0, -87, 0), DateTime.Now, new Vector3(6, 10, 1), 3);
+            child.RemotePosition = expected;
+
             child.UpdatePosition(parent);
 
             RoughAssert.AreEqual(expected.Position, child.transform.position, 0.01f);
