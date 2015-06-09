@@ -28,6 +28,7 @@ namespace Projection
         /// </summary>
         public void Start()
         {
+			Link= gameObject.GetComponent<IARLink>();
 			if(Link==null)
 				this.Link = new GameObject("MetaLink", typeof(MetaListLink)).GetComponent<MetaListLink>();
         }

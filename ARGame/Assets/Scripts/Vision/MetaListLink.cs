@@ -15,6 +15,8 @@ public class MetaListLink : MonoBehaviour ,IARLink {
 			MetaBody metabody = marker.GetComponent<MetaBody>();
 			metabody.markerTarget=true;
 			metabody.markerTargetID=id;
+			marker.transform.position=new Vector3(13,666,1337);//it's dark magic
+			metabody.markerTargetPlaceable=false;
 			VirtualMarkers.Add(marker);
 		}
 		void OnMarkerRegister(MarkerRegister register){

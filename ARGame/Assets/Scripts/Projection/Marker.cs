@@ -9,7 +9,8 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
-    using System.Collections;
+	using System;
+	using System.Collections;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 
@@ -75,6 +76,9 @@ namespace Projection
         }
 
 		public void UpdatePosition(Marker parent){
+			if(parent==null){
+				throw new ArgumentNullException("parent = null");
+			}
 			if(this!=parent){
 				// Position relative to level marker in board space
 				Vector3 rel = this.RemotePosition.Position - parent.RemotePosition.Position;

@@ -3,6 +3,7 @@
     using Meta;
     using UnityEngine;
 
+namespace Projection{
     /// <summary>
     /// Class responsible for linking the Meta to the game world.
     /// </summary>
