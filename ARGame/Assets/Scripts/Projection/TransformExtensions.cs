@@ -8,6 +8,11 @@
     /// This class adds functionality to set the fields in the transform
     /// based on a Matrix4x4 which is the result of a 3D transformation.
     /// </para>
+    /// <para>
+    /// The implementation of the <c>ExtractXXX</c> methods is derived from a 
+    /// thread on the Unity forums. See the following link for the forum post:
+    /// http://forum.unity3d.com/threads/how-to-assign-matrix4x4-to-transform.121966/#post-1830992
+    /// </para>
     /// </summary>
     public static class TransformExtensions
     {
