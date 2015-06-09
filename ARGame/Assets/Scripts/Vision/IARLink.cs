@@ -7,9 +7,10 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Projection
+namespace Vision
 {
     using System.Collections.ObjectModel;
+    using Projection;
 
     /// <summary>
     /// Interface for providers of AR functionality.
