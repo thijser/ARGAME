@@ -9,12 +9,12 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
+    using System;
+    using System.Collections.Generic;
     using Network;
     using NUnit.Framework;
     using TestUtilities;
     using UnityEngine;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Unit test for the <see cref="Projection.PositionUpdater"/> class.

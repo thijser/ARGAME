@@ -10,11 +10,10 @@
 namespace Core.Emitter
 {
     using System;
-    using NSubstitute;
+    using Graphics;
     using NUnit.Framework;
     using TestUtilities;
     using UnityEngine;
-    using Graphics;
 
     /// <summary>
     /// A test class for the multi emitter.

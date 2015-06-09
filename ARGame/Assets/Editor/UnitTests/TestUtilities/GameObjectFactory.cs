@@ -12,8 +12,6 @@ namespace TestUtilities
     using Core;
     using Core.Emitter;
     using Core.Receiver;
-    using Network;
-    using Projection;
     using Graphics;
     using UnityEngine;
 
