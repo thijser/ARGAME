@@ -81,6 +81,10 @@ namespace Projection
         /// <param name="parent">The parent Marker, not null.</param>
         public void UpdatePosition(Marker parent)
         {
+			if (this.RemotePosition==null){
+				Debug.Log("marker can be seen but has no remote position");
+				return;
+			}
             if (parent == null)
             {
                 throw new ArgumentNullException("parent");
@@ -88,8 +92,10 @@ namespace Projection
 
             if (this != parent)
             {
-                // Position relative to level marker in board space
-                Vector3 rel = this.RemotePosition.Position - parent.RemotePosition.Position;
+				// Position relative to level marker in board space
+                Vector3 rel = 
+					this.RemotePosition.Position - 
+						parent.RemotePosition.Position;
                 rel.Scale(parent.LocalPosition.Scale);
 
                 // Rotate position to Meta space rotation
