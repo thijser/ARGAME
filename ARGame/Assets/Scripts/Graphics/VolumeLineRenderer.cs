@@ -1,10 +1,19 @@
-﻿using UnityEngine;
-using UnityEngine.Rendering;
-using System.Collections;
-using System.Collections.Generic;
-
+﻿//----------------------------------------------------------------------------
+// <copyright file="VolumeLineRenderer.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not,
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
 namespace Graphics
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using UnityEngine;
+    using UnityEngine.Rendering;
+
     /// <summary>
     /// Custom LineRenderer for lasers that doesn't have the rendering problems
     /// that occur in the Unity LineRenderer implementation.
@@ -17,31 +26,37 @@ namespace Graphics
         /// <summary>
         /// Positions that line passes through.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public Vector3[] Positions = new Vector3[0];
 
         /// <summary>
         /// Material to apply to line mesh.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public Material LineMaterial;
 
         /// <summary>
         /// Width and height of line mesh.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public float LineWidth = 1.0f;
 
         /// <summary>
         /// Indicates if specified positions lie in world space.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public bool UseWorldSpace = false;
 
         /// <summary>
         /// Indicates if generated line mesh should cast shadows.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public bool CastShadows = true;
 
         /// <summary>
         /// Indicates if generated line mesh should receive shadows.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public bool ReceiveShadows = true;
 
         /// <summary>
@@ -60,10 +75,10 @@ namespace Graphics
         public void Start()
         {
             // Create components for rendering line mesh
-            meshFilter = gameObject.AddComponent<MeshFilter>();
-            meshRenderer = gameObject.AddComponent<MeshRenderer>();
+            this.meshFilter = gameObject.AddComponent<MeshFilter>();
+            this.meshRenderer = gameObject.AddComponent<MeshRenderer>();
 
-            meshFilter.mesh = new Mesh();
+            this.meshFilter.mesh = new Mesh();
         }
 
         /// <summary>
@@ -72,20 +87,20 @@ namespace Graphics
         public void Update()
         {
             // Update line material
-            meshRenderer.material = LineMaterial;
+            this.meshRenderer.material = this.LineMaterial;
 
             // Create mesh that represents line
-            Mesh mesh = meshFilter.mesh;
+            Mesh mesh = this.meshFilter.mesh;
 
             List<Vector3> vertices = new List<Vector3>();
             List<int> triangles = new List<int>();
 
-            CreateLineMesh(vertices, triangles);
+            this.CreateLineMesh(vertices, triangles);
 
             // Transform mesh vertices if using world space
-            if (UseWorldSpace)
+            if (this.UseWorldSpace)
             {
-                TransformWorldToLocal(vertices);
+                this.TransformWorldToLocal(vertices);
             }
 
             // Update mesh and render bounds
@@ -97,44 +112,8 @@ namespace Graphics
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
 
-            meshRenderer.shadowCastingMode = CastShadows ? ShadowCastingMode.On : ShadowCastingMode.Off;
-            meshRenderer.receiveShadows = ReceiveShadows;
-        }
-
-        /// <summary>
-        /// Create the line mesh and add its vertices and triangles to the lists.
-        /// </summary>
-        /// <param name="vertices">List to append vertices to.</param>
-        /// <param name="triangles">List to append triangles to.</param>
-        private void CreateLineMesh(List<Vector3> vertices, List<int> triangles)
-        {
-            for (int i = 0; i < Positions.Length - 1; i++)
-            {
-                // Add a cube segment between two positions
-                AddLineSegment(Positions[i], Positions[i + 1], vertices, triangles);
-
-                // Add a connecting segment inbetween
-                if (i > 0)
-                {
-                    AddConnectingSegment(new Vector3[] {
-                        Positions[i - 1],
-                        Positions[i],
-                        Positions[i + 1],
-                    }, vertices, triangles);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Transform vertices from world coordinates to local coordinates.
-        /// </summary>
-        /// <param name="vertices">Vertices to transform.</param>
-        private void TransformWorldToLocal(List<Vector3> vertices)
-        {
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                vertices[i] = transform.InverseTransformPoint(vertices[i]);
-            }
+            this.meshRenderer.shadowCastingMode = this.CastShadows ? ShadowCastingMode.On : ShadowCastingMode.Off;
+            this.meshRenderer.receiveShadows = this.ReceiveShadows;
         }
 
         /// <summary>
@@ -176,88 +155,6 @@ namespace Graphics
         }
 
         /// <summary>
-        /// Adds a cube between the two positions alongside the plane of the emitter.
-        /// </summary>
-        /// <param name="from">Start position of cube.</param>
-        /// <param name="to">End position of cube.</param>
-        /// <param name="vertices">Vertex list to append to.</param>
-        /// <param name="triangles">Triangle list to append to.</param>
-        private void AddLineSegment(Vector3 from, Vector3 to, List<Vector3> vertices, List<int> triangles)
-        {
-            // Determine endpoints of segment cube
-            Vector3 up = transform.up;
-            Vector3 left = Vector3.Cross(from - to, up).normalized;
-
-            float halfLineWidth = LineWidth / 2.0f;
-
-            // Determine endpoints of segment cube
-            Vector3[] fromPoints = new Vector3[] {
-                from - left * halfLineWidth - up * halfLineWidth,
-                from - left * halfLineWidth + up * halfLineWidth,
-                from + left * halfLineWidth - up * halfLineWidth,
-                from + left * halfLineWidth + up * halfLineWidth
-            };
-
-            Vector3[] toPoints = new Vector3[] {
-                fromPoints[0] - from + to,
-                fromPoints[1] - from + to,
-                fromPoints[2] - from + to,
-                fromPoints[3] - from + to
-            };
-
-            List<Vector3> cubeVertices = CubeVerticesBetween(fromPoints, toPoints);
-
-            // Add generated cube to mesh
-            for (int i = 0; i < cubeVertices.Count; i++)
-            {
-                triangles.Add(vertices.Count + i);
-            }
-
-            vertices.AddRange(cubeVertices);
-        }
-
-        /// <summary>
-        /// Adds a cube between two segments to close the corner.
-        /// </summary>
-        /// <param name="between">Three points: from, center and to.</param>
-        /// <param name="vertices">Vertex list to append to.</param>
-        /// <param name="triangles">Triangle list to append to.</param>
-        private void AddConnectingSegment(Vector3[] between, List<Vector3> vertices, List<int> triangles)
-        {
-            // Determine endpoints of two segments
-            Vector3 up = transform.up;
-            Vector3 leftFrom = Vector3.Cross(between[1] - between[0], up).normalized;
-            Vector3 leftTo = Vector3.Cross(between[2] - between[1], up).normalized;
-
-            float halfLineWidth = LineWidth / 2.0f;
-
-            // Determine endpoints of cube connecting segments
-            Vector3[] fromPoints = new Vector3[] {
-                between[1] - leftFrom * halfLineWidth - up * halfLineWidth,
-                between[1] - leftFrom * halfLineWidth + up * halfLineWidth,
-                between[1] + leftFrom * halfLineWidth - up * halfLineWidth,
-                between[1] + leftFrom * halfLineWidth + up * halfLineWidth
-            };
-
-            Vector3[] toPoints = new Vector3[] {
-                between[1] - leftTo * halfLineWidth - up * halfLineWidth,
-                between[1] - leftTo * halfLineWidth + up * halfLineWidth,
-                between[1] + leftTo * halfLineWidth - up * halfLineWidth,
-                between[1] + leftTo * halfLineWidth + up * halfLineWidth
-            };
-
-            List<Vector3> cubeVertices = CubeVerticesBetween(fromPoints, toPoints);
-
-            // Add generated cube to mesh
-            for (int i = 0; i < cubeVertices.Count; i++)
-            {
-                triangles.Add(vertices.Count + i);
-            }
-
-            vertices.AddRange(cubeVertices);
-        }
-
-        /// <summary>
         /// Generate triangles for cube between two quads.
         /// </summary>
         /// <param name="from">Points of start quad.</param>
@@ -265,7 +162,7 @@ namespace Graphics
         /// <returns>List of triangle vertices.</returns>
         private static List<Vector3> CubeVerticesBetween(Vector3[] from, Vector3[] to)
         {
-            List<Vector3> vertices = new List<Vector3>();
+            List<Vector3> vertices = new List<Vector3>(24);
 
             // Bottom
             vertices.Add(to[2]);
@@ -322,6 +219,132 @@ namespace Graphics
             vertices.Add(to[3]);
 
             return vertices;
+        }
+
+        /// <summary>
+        /// Create the line mesh and add its vertices and triangles to the lists.
+        /// </summary>
+        /// <param name="vertices">List to append vertices to.</param>
+        /// <param name="triangles">List to append triangles to.</param>
+        private void CreateLineMesh(List<Vector3> vertices, List<int> triangles)
+        {
+            for (int i = 0; i < this.Positions.Length - 1; i++)
+            {
+                // Add a cube segment between two positions
+                this.AddLineSegment(this.Positions[i], this.Positions[i + 1], vertices, triangles);
+
+                // Add a connecting segment inbetween
+                if (i > 0)
+                {
+                    this.AddConnectingSegment(
+                        new Vector3[] 
+                        {
+                            this.Positions[i - 1],
+                            this.Positions[i],
+                            this.Positions[i + 1],
+                        }, 
+                        vertices, 
+                        triangles);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Transform vertices from world coordinates to local coordinates.
+        /// </summary>
+        /// <param name="vertices">Vertices to transform.</param>
+        private void TransformWorldToLocal(List<Vector3> vertices)
+        {
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                vertices[i] = this.transform.InverseTransformPoint(vertices[i]);
+            }
+        }
+
+        /// <summary>
+        /// Adds a cube between the two positions alongside the plane of the emitter.
+        /// </summary>
+        /// <param name="from">Start position of cube.</param>
+        /// <param name="to">End position of cube.</param>
+        /// <param name="vertices">Vertex list to append to.</param>
+        /// <param name="triangles">Triangle list to append to.</param>
+        private void AddLineSegment(Vector3 from, Vector3 to, List<Vector3> vertices, List<int> triangles)
+        {
+            // Determine endpoints of segment cube
+            Vector3 up = this.transform.up;
+            Vector3 left = Vector3.Cross(from - to, up).normalized;
+
+            float halfLineWidth = this.LineWidth / 2.0f;
+
+            // Determine endpoints of segment cube
+            Vector3[] fromPoints = new Vector3[] 
+            {
+                from - (left * halfLineWidth) - (up * halfLineWidth),
+                from - (left * halfLineWidth) + (up * halfLineWidth),
+                from + (left * halfLineWidth) - (up * halfLineWidth),
+                from + (left * halfLineWidth) + (up * halfLineWidth)
+            };
+
+            Vector3[] toPoints = new Vector3[] 
+            {
+                fromPoints[0] - from + to,
+                fromPoints[1] - from + to,
+                fromPoints[2] - from + to,
+                fromPoints[3] - from + to
+            };
+
+            List<Vector3> cubeVertices = CubeVerticesBetween(fromPoints, toPoints);
+
+            // Add generated cube to mesh
+            for (int i = 0; i < cubeVertices.Count; i++)
+            {
+                triangles.Add(vertices.Count + i);
+            }
+
+            vertices.AddRange(cubeVertices);
+        }
+
+        /// <summary>
+        /// Adds a cube between two segments to close the corner.
+        /// </summary>
+        /// <param name="between">Three points: from, center and to.</param>
+        /// <param name="vertices">Vertex list to append to.</param>
+        /// <param name="triangles">Triangle list to append to.</param>
+        private void AddConnectingSegment(Vector3[] between, List<Vector3> vertices, List<int> triangles)
+        {
+            // Determine endpoints of two segments
+            Vector3 up = transform.up;
+            Vector3 leftFrom = Vector3.Cross(between[1] - between[0], up).normalized;
+            Vector3 leftTo = Vector3.Cross(between[2] - between[1], up).normalized;
+
+            float halfLineWidth = this.LineWidth / 2.0f;
+
+            // Determine endpoints of cube connecting segments
+            Vector3[] fromPoints = new Vector3[] 
+            {
+                between[1] - (leftFrom * halfLineWidth) - (up * halfLineWidth),
+                between[1] - (leftFrom * halfLineWidth) + (up * halfLineWidth),
+                between[1] + (leftFrom * halfLineWidth) - (up * halfLineWidth),
+                between[1] + (leftFrom * halfLineWidth) + (up * halfLineWidth)
+            };
+
+            Vector3[] toPoints = new Vector3[] 
+            {
+                between[1] - (leftTo * halfLineWidth) - (up * halfLineWidth),
+                between[1] - (leftTo * halfLineWidth) + (up * halfLineWidth),
+                between[1] + (leftTo * halfLineWidth) - (up * halfLineWidth),
+                between[1] + (leftTo * halfLineWidth) + (up * halfLineWidth)
+            };
+
+            List<Vector3> cubeVertices = CubeVerticesBetween(fromPoints, toPoints);
+
+            // Add generated cube to mesh
+            for (int i = 0; i < cubeVertices.Count; i++)
+            {
+                triangles.Add(vertices.Count + i);
+            }
+
+            vertices.AddRange(cubeVertices);
         }
     }
 }

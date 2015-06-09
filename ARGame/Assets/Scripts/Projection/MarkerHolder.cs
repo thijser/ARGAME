@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="PositionUpdater.cs" company="Delft University of Technology">
+// <copyright file="MarkerHolder.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -142,19 +142,20 @@ namespace Projection
             }
 
             Marker marker = this.GetMarker(position.ID);
-			SelectParent(marker);
-			marker.LocalPosition = position;
-            if (this.Parent.LocalPosition != null && 
+            this.SelectParent(marker);
+            marker.LocalPosition = position;
+            if (this.Parent.LocalPosition != null &&
                 this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < position.TimeStamp.Ticks)
             {
-				this.Parent=marker;
-			}
+                this.Parent = marker;
+            }
         }
 
         /// <summary>
         /// Sees if the marker is more suited for being the level marker then the old marker. 
         /// If updatedMarker has been seen more recently then the parent+patience and the updateMarker is complete then replace.
         /// </summary>
+        /// <param name="updatedMarker">The new parent Marker, not null.</param>
         public void SelectParent(Marker updatedMarker)
         {
             if (updatedMarker == null)
@@ -162,14 +163,15 @@ namespace Projection
                 throw new ArgumentNullException("updatedMarker");
             }
 
-            if (this.Parent==null || this.Parent.LocalPosition.TimeStamp.Ticks + patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
+            if (this.Parent == null || this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
             {
                 if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null)
                 {
-                    Parent = updatedMarker;
+                    this.Parent = updatedMarker;
                 }
             }
         }
+
         /// <summary>
         /// Called whenever a RotationUpdate is received from the remote server.
         /// <para>
@@ -188,7 +190,6 @@ namespace Projection
             this.GetMarker(update.ID).ObjectRotation = update.Rotation;
         }
 
-       
         /// <summary>
         /// Updates the location of the marker based on the remote position.
         /// <para>

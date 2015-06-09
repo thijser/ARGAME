@@ -9,12 +9,11 @@
 //----------------------------------------------------------------------------
 namespace Core.Emitter
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
-    using UnityEngine;
     using Graphics;
+    using UnityEngine;
 
     /// <summary>
     /// Emitter of Laser beams.

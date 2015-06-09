@@ -10,11 +10,9 @@
 namespace Core.Emitter
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
-    using UnityEngine;
     using Graphics;
+    using UnityEngine;
 
     /// <summary>
     /// Provides functionality to emit Laser beams with varying properties by
@@ -47,6 +45,7 @@ namespace Core.Emitter
         /// </summary>
         /// <param name="renderer">The VolumeLineRenderer to configure.</param>
         /// <param name="laser">The Laser beam to use as template.</param>
+        /// <param name="prop">The LaserProperties describing the Laser beam.</param>
         /// <returns>The configured LineRenderer.</returns>
         public static VolumeLineRenderer ApplyProperties(VolumeLineRenderer renderer, LaserBeam laser, LaserProperties prop)
         {

@@ -11,8 +11,8 @@ namespace Core
 {
     using System.Collections;
     using System.Diagnostics.CodeAnalysis;
-    using UnityEngine;
     using Graphics;
+    using UnityEngine;
 
     /// <summary>
     /// Updates the Color of a LineRenderer.
@@ -67,9 +67,9 @@ namespace Core
         /// </summary>
         public void Start() 
         {
-            if (LineRenderer == null) 
+            if (this.LineRenderer == null) 
             {
-                LineRenderer = this.GetComponent<VolumeLineRenderer>();
+                this.LineRenderer = this.GetComponent<VolumeLineRenderer>();
             }
         }
 
