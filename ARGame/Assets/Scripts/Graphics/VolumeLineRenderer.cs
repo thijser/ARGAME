@@ -89,6 +89,8 @@ namespace Graphics
             }
 
             // Update mesh and render bounds
+            mesh.triangles = new int[0];
+
             mesh.vertices = vertices.ToArray();
             mesh.triangles = triangles.ToArray();
 
