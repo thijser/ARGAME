@@ -48,7 +48,7 @@ namespace Core.Emitter
         /// <param name="renderer">The VolumeLineRenderer to configure.</param>
         /// <param name="laser">The Laser beam to use as template.</param>
         /// <returns>The configured LineRenderer.</returns>
-        public static VolumeLineRenderer ApplyProperties(VolumeLineRenderer renderer, LaserBeam laser)
+        public static VolumeLineRenderer ApplyProperties(VolumeLineRenderer renderer, LaserBeam laser, LaserProperties prop)
         {
             if (renderer == null)
             {
@@ -60,11 +60,18 @@ namespace Core.Emitter
                 throw new ArgumentNullException("laser");
             }
 
+            if (prop == null)
+            {
+                throw new ArgumentNullException("prop");
+            }
+
             renderer.UseWorldSpace = true;
             renderer.LineMaterial = laser.Emitter.LineRenderer.LineMaterial;
             renderer.ReceiveShadows = false;
             renderer.CastShadows = false;
-            renderer.SetVertexCount(0);
+
+            prop.RGBStrengths = laser.Emitter.Properties.RGBStrengths;
+
             return renderer;
         }
 
@@ -116,7 +123,7 @@ namespace Core.Emitter
                 if (!emitter.Enabled)
                 {
                     emitter.Enabled = true;
-                    ApplyProperties(emitter.LineRenderer, laser);
+                    ApplyProperties(emitter.LineRenderer, laser, emitter.Properties);
                     return emitter;
                 }
             }
@@ -146,9 +153,9 @@ namespace Core.Emitter
             VolumeLineRenderer renderer = emitterObject.AddComponent<VolumeLineRenderer>();
             LaserEmitter emitter = emitterObject.AddComponent<LaserEmitter>();
 
-            emitterObject.AddComponent<LaserProperties>();
+            LaserProperties prop = emitterObject.AddComponent<LaserProperties>();
 
-            ApplyProperties(renderer, laser);
+            ApplyProperties(renderer, laser, prop);
             return emitter;
         }
     }
