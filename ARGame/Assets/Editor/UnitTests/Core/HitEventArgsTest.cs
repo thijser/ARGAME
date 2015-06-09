@@ -34,14 +34,14 @@ namespace Core
         }
 
         /// <summary>
-        /// Tests if the correct exception is thrown when the 
-        /// last argument is null.
+        /// Tests if the HitEventArgs is invalid when constructed with a
+        /// null ILaserReceiver.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public static void ConstructorLastArgNull()
         {
-            new HitEventArgs(new LaserBeam(Vector3.zero, Vector3.zero, CreateEmitter()), Vector3.zero, Vector3.zero, null);
+            HitEventArgs args = new HitEventArgs(new LaserBeam(Vector3.zero, Vector3.zero, CreateEmitter()), Vector3.zero, Vector3.zero, null);
+            Assert.False(args.IsValid);
         }
 
         /// <summary>
