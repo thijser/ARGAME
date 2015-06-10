@@ -179,6 +179,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 438640}
   - 95: {fileID: 9560020}
+  - 65: {fileID: 6508896}
+  - 65: {fileID: 6546510}
   m_Layer: 0
   m_Name: cornerwall
   m_TagString: Untagged
@@ -1004,6 +1006,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 104754}
   m_Mesh: {fileID: 4300014, guid: 50082ba34af7a2f438950e05a72c68b6, type: 3}
+--- !u!65 &6508896
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153906}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 13, y: 7.5, z: .899999976}
+  m_Center: {x: -6.5, y: 3, z: 2.20000005}
+--- !u!65 &6546510
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153906}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .899999976, y: 7.5, z: 13}
+  m_Center: {x: 0, y: 3, z: 8.5}
 --- !u!95 &9560020
 Animator:
   serializedVersion: 3
