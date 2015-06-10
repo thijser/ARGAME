@@ -425,6 +425,17 @@
 				\label{fig:elevator}
 			\end{figure}
 			
+		\subsection{Checkpoint}
+			The checkpoint is a very important game object. Once a checkpoint is
+			hit, it is registered that the checkpoint has been hit until the
+			laser beam hitting it is no longer aimed towards it. In order to
+			proceed to the next level, one needs to hit all the checkpoints
+			in the level as well as all the targets. Checkpoints do not require
+			that the laser beam has any specific color in order for them to register
+			that they have been hit. The checkpoints also allow lasers to pass
+			through them. An image of a checkpoint is shown in TODO
+			%TODO: IMAGE CHECKPOINT.
+			
 		\subsection{Portal} \label{ssec:portal}
 			The portal is a more advanced game object. It allows light that travels 
 			into it to travel out of the portal it is linked to, and vice versa. This
@@ -488,4 +499,17 @@
 	\section{Level design} \label{sec:leveldesign}
 		Levels are designed to be simple at first, requiring little collaboration,
 		while getting progressively harder, as well as introducing more and more
-		game objects. 
+		game objects. The following sections describe the level categories as
+		well as which game elements these levels introduce to the player.
+
+		\subsection{Levels 1 to 5: the basic tutorial levels} \label{ssec:basiclevels}
+			The first five levels introduce the player to the most basic game
+			elements that the game has to offer. These include walls, mirrors,
+			and the laser target. Mechanics introduced and explained in these
+			levels are: walls block incoming laser beams, mirrors reflect
+			incoming laser beams, one needs to hit all laser targets in order
+			to proceed to the next level, and the color of the emitted laser
+			beam should correspond to the color of the crystal it is hit with.
+			
+		\subsection{Levels 6 to 15: the easy levels} \label{ssec: easylevels}
+			...
