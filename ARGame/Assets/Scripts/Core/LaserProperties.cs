@@ -70,6 +70,7 @@ namespace Core
             if (this.LineRenderer == null) 
             {
                 this.LineRenderer = this.GetComponent<VolumeLineRenderer>();
+                this.LineRenderer.LineMaterial = new Material(this.LineRenderer.LineMaterial);
             }
         }
 
@@ -89,6 +90,7 @@ namespace Core
         {
             Color color = this.LaserColor;
             this.LineRenderer.LineWidth = this.Strength;
+
             this.LineRenderer.LineMaterial.color = color;
             this.LineRenderer.LineMaterial.SetColor("_Albedo", color);
             this.LineRenderer.LineMaterial.SetColor("_Emission", color);
