@@ -105,13 +105,19 @@
 		\ref{ssec:corenamespace}.
 
 		The "Network" namespace is responsible for synchronizing the game state
-		between all connected players. The layout of this namespace if discussed 
+		between all connected players. The layout of this namespace is discussed 
 		in paragraph \ref{ssec:networknamespace}.
 
 		The "Projection" namespace is responsible for providing the projection to
 		the VR glasses. This namespace provides the functionality required to project
 		the game world to the VR glasses. The layout of this namespace is discussed in
 		paragraph \ref{ssec:projectionnamespace}.
+		
+		The "Vision" namespace is responsible for containing tracked markers.
+		At first this was part of the responsibility of the "Projection"
+		namespace, but that namespace got too big and needed to be split,
+		resulting into this extra namespace. The layout of this namespace is
+		discussed in paragraph \ref{ssec:visionnamespace}.
 		
 		Additionally, the game depends on the deployment of a server application
 		written in C++. The purpose of this server application will be discussed 
@@ -237,6 +243,28 @@
 				\caption{Class diagram of the \texttt{Projection} namespace}
 				\label{fig:classdiagramprojection}
 			\end{figure}
+			
+		\subsection{The Vision namespace} \label{ssec:visionnamespace}
+			The \texttt{Vision} namespace is a small namespace responsible for
+			containing tracked markers and their ID's. It used to be a part
+			of the \texttt{Projection} namespace, but it got split off,
+			because it had little to do with fixing the projection of the
+			META One, and more with containing tracked markers. Also, the
+			\texttt{Projection} namespace became way too big during development
+			(it started with about four to five classes, and those got split
+			up into about fifteen classes, mainly because they violated software
+			engineering principles such as the single responsibility principle).
+			Because it got so big, some of the classes needed to be split off from
+			the namespace and put into another namespace.
+			
+			By design, and because of how it was conceived, the \texttt{Vision} 
+			namespace depends heavily on the \texttt{Projection} namespace.
+			However, this dependency is not cyclic, and should not cause too
+			much of a problem because of it, when viewed from a software
+			engineering standpoint. The only communication from the \texttt{Vision}
+			namespace to the \texttt{Projection} namespace is by sending out
+			messages into the object hierarchy, which are then received by 
+			components that can actually receive said messages. 
 			
 		\subsection{Experimental code: the RandomLevel namespace} \label{ssec:randomlevelnamespace}
 			The \texttt{RandomLevel} namespace is an abandoned and deleted
