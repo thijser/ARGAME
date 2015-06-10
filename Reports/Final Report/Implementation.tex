@@ -240,7 +240,21 @@
             confidence score \verb#0.0#.
 
         \subsection{Marker tracking}
-            ...
+            The marker tracker system takes the output from the marker detection
+            and recognition stages (position and match) from each frame and uses
+            this data to track the movement of markers across frames. It
+            primarily does this by checking which marker position from the
+            previous frame each new marker position is closest to. It uses the
+            pattern matching results only when a marker is not moving quickly.
+            It uses results from multiple frames to smoothen positions and
+            rotations using a moving average that is discarded when a marker
+            has sudden changes. It also detects if a marker has been removed by
+            measuring if it hasn't been seen for a long while.
+
+            All of the changes it detects, like new markers, moved markers and
+            removed markers are added to a list each frame and returned to the
+            main application. The main application then broadcasts these changes
+            over the server socket to the META One clients.
         
     \section{Networking and the OpenCV server} \label{sec:network}
         The game depends on a server application with a master camera. The 
