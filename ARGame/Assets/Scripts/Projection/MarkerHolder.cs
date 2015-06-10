@@ -204,6 +204,8 @@ namespace Projection
 
             try
             {
+                Vector3 position = update.Coordinate;
+                position.y *= -1;
                 this.GetMarker(update.ID).RemotePosition = new MarkerPosition(update);
             }
             catch (KeyNotFoundException ex)

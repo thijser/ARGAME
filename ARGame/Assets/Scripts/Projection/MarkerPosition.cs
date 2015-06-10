@@ -36,7 +36,7 @@ namespace Projection
 
             this.Scale = Vector3.one;
             this.TimeStamp = DateTime.Now;
-            this.Position = new Vector3(update.Coordinate[0], 0, update.Coordinate[1]);
+            this.Position = new Vector3(update.Coordinate[0], 0, -update.Coordinate[1]);
             this.Rotation = Quaternion.Euler(0, update.Rotation, 0);
             this.ID = update.ID;
         }
