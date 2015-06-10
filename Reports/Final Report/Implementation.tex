@@ -154,7 +154,7 @@
 
             \begin{figure}[!ht]
                 \centering
-                \includegraphics{BoardDetection}
+                \includegraphics[width=\textwidth]{BoardDetection}
                 \caption{Example of detecting playing surface and isolating it.}
                 \label{fig:boarddetection}
             \end{figure}
@@ -172,6 +172,48 @@
             correction is required to recognize markers and their location
             correctly by making the camera view look like it views the board
             from above.
+
+        \subsection{Marker detection}
+            The markers are first segmented from the playing surface using their
+            vibrant green borders, again through the HSV color space. The mask
+            that results from this is cleaned up again using morphological open
+            and close operations. An example of such a mask is shown in
+            figure \ref{fig:markerthresholding}.
+
+            \begin{figure}[!ht]
+                \centering
+                \includegraphics[width=\textwidth]{MarkerThresholding}
+                \caption{Example of thresholding markers with false holes highlighted.}
+                \label{fig:markerthresholding}
+            \end{figure}
+
+            It is evident from the example that finding the borders alone is not
+            sufficient, because they will connect when the markers are close
+            together. However, we know that each marker contains a non-green
+            center with the actual code, which shows up as holes in the mask. We
+            can detect these holes by using OpenCV's contour finding feature
+            using hierarchy mode and selecting just the contours that lie
+            directly within the outer contours.
+
+            Unfortunately, when markers are really close together, some other
+            holes appear as well (highlighted in the example). We remove these
+            by filtering the contours using the following criteria:
+
+            \begin{itemize}
+                \item Holes have a minimum width and height of 8 (minimum
+                required for reading a pattern)
+                \item Holes are square to within a tolerance of 15\%
+                \item Holes have the same size as the median size of all
+                detected holes to within a tolerance of 15\%
+            \end{itemize}
+
+            Especially the last one works very well for a playing surface with
+            many markers, where the signal to noise ratio is high. The process
+            finished by returning the contours of all the holes detected as
+            markers.
+
+        \subsection{Marker recognition}
+            ...
         
     \section{Networking and the OpenCV server} \label{sec:network}
         The game depends on a server application with a master camera. The 
