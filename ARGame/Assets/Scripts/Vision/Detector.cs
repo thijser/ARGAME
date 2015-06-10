@@ -29,7 +29,15 @@ namespace Vision
         /// </summary>
         public void Start()
         {
-            this.Link = gameObject.GetComponent<MetaListLink>();
+            IARLink[] links = GetComponents<IARLink>();
+            if (links.Length != 1)
+            {
+                Debug.LogWarning("Expected exactly one IARLink, but got" + links.Length + " (IARLink will be disabled)");
+            }
+            else
+            {
+                this.Link = links[0];
+            }
         }
 
         /// <summary>
@@ -39,6 +47,11 @@ namespace Vision
         /// </summary>
         public void LateUpdate()
         {
+            if (this.Link == null)
+            {
+                return;
+            }
+
             Collection<MarkerPosition> list = this.Link.GetMarkerPositions();
             foreach (MarkerPosition mp in list)
             {

@@ -111,7 +111,7 @@ namespace Projection
             updater.OnMarkerRegister(new MarkerRegister(marker));
             updater.OnPositionUpdate(update);
             Assert.AreEqual(new Vector3(2, 0, 2), marker.RemotePosition.Position);
-            Assert.AreEqual(Vector3.zero, marker.RemotePosition.Rotation.eulerAngles);
+            Assert.AreEqual(new Vector3(0, 0, 180), marker.RemotePosition.Rotation.eulerAngles);
             Assert.AreEqual(12, marker.RemotePosition.ID);
         }
 

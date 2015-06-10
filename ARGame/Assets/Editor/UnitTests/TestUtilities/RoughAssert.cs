@@ -52,7 +52,21 @@ namespace TestUtilities
         /// <param name="delta">The maximum difference (in degrees) of any rotation axis in the <see cref="Quaternion"/>.</param>
         public static void AreEqual(Quaternion expected, Quaternion actual, float delta)
         {
-            AreEqual(expected.eulerAngles, actual.eulerAngles, delta);
+            Vector3 eAngles = expected.eulerAngles;
+            Vector3 aAngles = actual.eulerAngles;
+
+            RotationEqual("x", eAngles.x, aAngles.x, delta);
+            RotationEqual("y", eAngles.y, aAngles.y, delta);
+            RotationEqual("z", eAngles.z, aAngles.z, delta);
+        }
+
+        public static void RotationEqual(string tag, float expected, float actual, float delta)
+        {
+            float diff = expected - actual;
+            if (Mathf.Abs(diff) > delta && Mathf.Abs(diff - 360) > delta) {
+                Assert.Fail("Expected {3} Rotation: \t{0} +/- {1}\n" +
+                            "But got:\t\t{2}", expected, delta, actual, tag);
+            }
         }
     }
 }
