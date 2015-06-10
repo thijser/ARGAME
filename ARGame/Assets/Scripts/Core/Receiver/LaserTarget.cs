@@ -48,12 +48,6 @@ namespace Core.Receiver
         public Color TargetColor;
 
         /// <summary>
-        /// The index of the next level.
-        /// </summary>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public int NextLevelIndex;
-
-        /// <summary>
         /// Gets a value indicating whether the target is opening.
         /// </summary>
         /// <value><c>true</c> if the target is opening; otherwise, <c>false</c>.</value>
@@ -65,11 +59,6 @@ namespace Core.Receiver
         public void Start()
         {
             this.SetOpening(false);
-            if (this.NextLevelIndex < 0 || this.NextLevelIndex >= Application.levelCount)
-            {
-                Debug.LogError("NextLevelIndex is set to " + this.NextLevelIndex +
-                    ", but should be between 0 and " + Application.levelCount);
-            }
         }
 
         /// <summary>

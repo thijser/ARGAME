@@ -44,6 +44,12 @@ namespace Core
         {
             this.targets = GameObject.FindObjectsOfType<LaserTarget>();
             this.checks = GameObject.FindObjectsOfType<Checkpoint>();
+
+            if (this.NextLevelIndex < 0 || this.NextLevelIndex >= Application.levelCount)
+            {
+                Debug.LogError("NextLevelIndex is set to " + this.NextLevelIndex +
+                    ", but should be between 0 and " + Application.levelCount);
+            }
         }
 
         /// <summary>
