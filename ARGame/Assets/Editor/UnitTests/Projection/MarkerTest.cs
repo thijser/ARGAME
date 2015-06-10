@@ -173,5 +173,60 @@ namespace Projection
             RoughAssert.AreEqual(expected.Rotation, child.transform.localRotation, 0.01f);
             RoughAssert.AreEqual(expected.Scale, child.transform.localScale, 0.01f);
         }
+
+        /// <summary>
+        /// Tests whether calling <c>UpdatePosition</c> for a rotation around the x-axis 
+        /// as well as a translation results in the correct coordinates for the child marker.
+        /// </summary>
+        [Test]
+        public void TestUpdatePositionWithRotationAndTranslation()
+        {
+            Marker parent = GameObjectFactory.Create<Marker>();
+            parent.ID = 10;
+            parent.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 10);
+            parent.LocalPosition = new MarkerPosition(new Vector3(10, 30, 20), Quaternion.Euler(-90, 0, 0), DateTime.Now, Vector3.one, 10);
+
+            Marker child = GameObjectFactory.Create<Marker>();
+            child.ID = 7;
+            child.RemotePosition = new MarkerPosition(new Vector3(20, 0, 10), Quaternion.identity, DateTime.Now, Vector3.one, 7);
+            child.UpdatePosition(parent);
+
+            MarkerPosition expected = new MarkerPosition(new Vector3(30, 40, 20), Quaternion.Euler(-90, 0, 0), DateTime.Now, Vector3.one, 7);
+
+            RoughAssert.AreEqual(expected.Position, child.transform.localPosition, 0.01f);
+            RoughAssert.AreEqual(expected.Rotation, child.transform.localRotation, 0.01f);
+            RoughAssert.AreEqual(expected.Scale, child.transform.localScale, 0.01f);
+        }
+
+        /// <summary>
+        /// Tests whether calling <c>UpdatePosition</c> for a translation 
+        /// as well as a scaling results in the correct coordinates for the child marker.
+        /// <para>
+        /// To assert the scaling and translation do not affect the rotation, an arbitrary 
+        /// rotation is chosen as the plane over which the translation and rotation happen.
+        /// </para>
+        /// </summary>
+        [Test]
+        public void TestUpdatePositionWithTranslationAndScale()
+        {
+            Quaternion rotation = Quaternion.Euler(87, 23, 15);
+            Marker parent = GameObjectFactory.Create<Marker>();
+            parent.ID = 10;
+            parent.RemotePosition = new MarkerPosition(new Vector3(40, 40, 0), rotation, DateTime.Now, Vector3.one, 10);
+            parent.LocalPosition = new MarkerPosition(new Vector3(-40, -20, 0), rotation, DateTime.Now, Vector3.one / 2, 10);
+
+            Marker child = GameObjectFactory.Create<Marker>();
+            child.ID = 7;
+            child.RemotePosition = new MarkerPosition(new Vector3(35, 20, 0), rotation, DateTime.Now, Vector3.one, 7);
+            child.UpdatePosition(parent);
+
+            MarkerPosition expected = new MarkerPosition(new Vector3(-42.5f, -30, 0), rotation, DateTime.Now, Vector3.one / 2, 7);
+
+            Debug.Log("Transform:" + child.transform.localPosition + ", " + child.transform.localEulerAngles + ", " + child.transform.localScale);
+
+            RoughAssert.AreEqual(expected.Position, child.transform.localPosition, 0.01f);
+            RoughAssert.AreEqual(expected.Rotation, child.transform.localRotation, 0.01f);
+            RoughAssert.AreEqual(expected.Scale, child.transform.localScale, 0.01f);
+        }
     }
 }
