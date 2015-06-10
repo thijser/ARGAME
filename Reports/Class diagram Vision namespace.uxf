@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>460</x>
+      <y>160</y>
+      <w>170</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Detector
+style=autoresize
+--
++ Link : IARLink (get; set)
+--
++ Start()
++ LateUpdate()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>730</x>
+      <y>190</y>
+      <w>330</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>/IARLink/
+style=autoresize
+--
+/GetMarkerPositions() : Collection&lt;MarkerPosition&gt;/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>730</x>
+      <y>300</y>
+      <w>340</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>MetaLink
+style=autoresize
+--
+- lamb : GameObject
+- markerDetector : GameObject
+- markerTargetIndicator : MarkerTargetIndicator
+--
++ Start()
++ EnsureMeta()
++ GetMarkerPositions() : Collection&lt;MarkerPosition&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>230</y>
+      <w>380</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>360.0;10.0;360.0;50.0;10.0;50.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>620</x>
+      <y>190</y>
+      <w>130</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>360</x>
+      <y>300</y>
+      <w>340</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>MetaListLink
+style=autoresize
+--
+_+ MetaScale : float_
+- VirtualMarkers : List&lt;MetaBody&gt;
+--
++ CreateVirtualMarker(id : int)
++ OnMarkerRegister(register : MarkerRegister)
++ GetMarkerPositions() : Collection&lt;MarkerPosition&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>230</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+</diagram>

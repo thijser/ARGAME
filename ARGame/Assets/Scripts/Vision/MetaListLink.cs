@@ -47,7 +47,6 @@ namespace Vision
 
             metabody.markerTarget = true;
             metabody.markerTargetID = id;
-            //// metabody.transform.position = new Vector3(13, 666, 1337);
             metabody.markerTargetPlaceable = true;
             this.VirtualMarkers.Add(metabody);
         }
