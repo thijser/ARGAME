@@ -213,6 +213,33 @@
             markers.
 
         \subsection{Marker recognition}
+            The marker recognition process takes the contours from the marker
+            detector stage. It starts by finding the minimum area bounding
+            rectangle around a contour to find its rotation. The source image is
+            then rotated to straighten the marker.
+
+            The next step is to isolate the pattern from the marker. It first
+            converts the image to grayscale and resizes it to 8 by 8 pixels (the
+            6 by 6 pattern with the 1 pixel wide border within the marker). The
+            average brightness across the pattern is found and used to threshold
+            the black and white pixels. The image is then cropped to just the 6
+            by 6 pixel pattern. The original scale of the marker is also stored
+            to later scale the marker positions.
+
+            The final step is to identify which known pattern the detected
+            pattern best matches. Although the marker has already been
+            straightened, it could still be rotated by 90, 180 or 270 degrees.
+            For that reason, the system searches all known patterns using the
+            four possible rotations of the input. It determines the best match
+            using the Hamming distance between 2 patterns. The detected best
+            matching rotation is then added to the rotation needed to straighten
+            it to compute the complete rotation.
+
+            The marker recognition system does not verify if the best pattern
+            match is good enough, it will happily return a best match with
+            confidence score \verb#0.0#.
+
+        \subsection{Marker tracking}
             ...
         
     \section{Networking and the OpenCV server} \label{sec:network}
