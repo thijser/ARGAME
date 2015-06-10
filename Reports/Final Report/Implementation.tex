@@ -304,7 +304,24 @@
             \end{description}
         
         \subsection{The master camera} \label{ssec:mastercamera}
-            ...
+            The master camera uses the tracking system described in section
+            \ref{sec:markerdetection}. This system outputs the positions of the
+            markers in pixels and rotations relative to the camera. The
+            positions are normalized such that the width and height of a marker
+            pattern is 1 unit. The detected scale from the marker recognition
+            module is used to do this and is averaged across all markers and a
+            couple of frames to ensure stability.
+
+            The normalized positions and relative rotations are sent to the META
+            clients using the communication protocol discussed in the previous
+            section. Once they arrive, they are transformed into the META
+            coordinate system using a \"level marker\". A \"level marker\" is an
+            arbitrary marker detected by both the master camera and META
+            built-in tracking system. The client can then transform the relative
+            position of the other markers compared to the level marker from the
+            server coordinate system to the META coordinate system. The rotation
+            of the markers is compensated using the META detected rotation and
+            the rotation received from the server.
             
     \section{Distinguishable markers} \label{sec:markers}
         ...
