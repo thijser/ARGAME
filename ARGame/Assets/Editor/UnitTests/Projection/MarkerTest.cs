@@ -222,8 +222,6 @@ namespace Projection
 
             MarkerPosition expected = new MarkerPosition(new Vector3(-42.5f, -30, 0), rotation, DateTime.Now, Vector3.one / 2, 7);
 
-            Debug.Log("Transform:" + child.transform.localPosition + ", " + child.transform.localEulerAngles + ", " + child.transform.localScale);
-
             RoughAssert.AreEqual(expected.Position, child.transform.localPosition, 0.01f);
             RoughAssert.AreEqual(expected.Rotation, child.transform.localRotation, 0.01f);
             RoughAssert.AreEqual(expected.Scale, child.transform.localScale, 0.01f);
