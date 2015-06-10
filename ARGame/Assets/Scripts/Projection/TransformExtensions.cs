@@ -1,4 +1,18 @@
-﻿namespace Projection
+﻿//----------------------------------------------------------------------------
+// <copyright file="TransformExtensions.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not,
+//     see http://opensource.org/licenses/MIT for the full license.
+//
+//     
+//     Some of the methods in the TransformExtensions class have been retrieved 
+//     from the Unity forums. See the following web page for the original post:
+//     http://forum.unity3d.com/threads/how-to-assign-matrix4x4-to-transform.121966/#post-1830992
+// </copyright>
+//----------------------------------------------------------------------------
+namespace Projection
 {
     using UnityEngine;
 

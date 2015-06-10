@@ -127,7 +127,6 @@ namespace Network
         /// <returns>The amount of updates parsed.</returns>
         public int ReadAllUpdates()
         {
-
             int count = 0;
             while (this.socket.Available >= MinPacketSize && count < MaxUpdates)
             {

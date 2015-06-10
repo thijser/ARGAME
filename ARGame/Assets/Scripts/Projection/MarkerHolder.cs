@@ -92,13 +92,14 @@ namespace Projection
         {
             if (this.Parent == null || this.Parent.LocalPosition == null)
             {
-				Debug.Log ("No marker is visible");
+                Debug.Log("No marker is visible");
                 return;
             }
 
+            Matrix4x4 transformMatrix = this.Parent.TransformMatrix;
             foreach (Marker marker in this.markerTable.Values)
             {
-                marker.UpdatePosition(this.Parent);
+                marker.UpdatePosition(transformMatrix);
             }
         }
 
@@ -141,6 +142,7 @@ namespace Projection
             {
                 throw new ArgumentNullException("position");
             }
+
             Marker marker = this.GetMarker(position.ID);
             this.SelectParent(marker);
             marker.LocalPosition = position;
@@ -160,7 +162,7 @@ namespace Projection
 
             if (this.Parent == null || this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
             {
-                if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null && updatedMarker.RemotePosition!=null)
+                if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null)
                 {
                     this.Parent = updatedMarker;
                 }
