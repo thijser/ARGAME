@@ -79,20 +79,43 @@ namespace Projection
         /// Updates the position of this Marker relative to the given parent Marker.
         /// </summary>
         /// <param name="level">The parent Marker, not null.</param>
+        ///
+        [Obsolete("Use UpdatePosition(Matrix4x4) for improved performance.")]
         public void UpdatePosition(Marker level)
         {
             if (level == null)
             {
                 throw new ArgumentNullException("level");
             }
-            
-            if (this.RemotePosition == null)
+
+            if (level.LocalPosition == null || level.RemotePosition == null)
             {
-                return;
+                throw new ArgumentException("The level marker should have both a local and remote position", "level");
+            }
+            
+            Matrix4x4 transformMatrix = level.LocalPosition.Matrix * level.RemotePosition.Matrix.inverse;
+            this.UpdatePosition(transformMatrix);
+        }
+
+        /// <summary>
+        /// Updates the position of the Marker using the provided transformation matrix.
+        /// <para>
+        /// The argument matrix represents the linear transformation from the remote coordinate
+        /// system to the local coordinate system.
+        /// </para>
+        /// </summary>
+        /// <param name="transformMatrix">The remote to local transformation matrix.</param>
+        public void UpdatePosition(Matrix4x4 transformMatrix)
+        {
+            if (transformMatrix == null)
+            {
+                throw new ArgumentNullException("transformMatrix");
             }
 
-            Matrix4x4 transformMatrix = level.LocalPosition.Matrix * level.RemotePosition.Matrix.inverse;
-            this.transform.SetFromMatrix(transformMatrix * this.RemotePosition.Matrix);
+            if (this.RemotePosition != null)
+            {
+                this.transform.SetFromMatrix(transformMatrix * this.RemotePosition.Matrix);
+            }
         }
             
         /// <summary>

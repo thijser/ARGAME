@@ -75,22 +75,17 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests whether calling <c>UpdatePosition</c> with itself as argument has no effect
-        /// if the marker does not have a remote location set.
+        /// Tests whether calling <c>UpdatePosition</c> with itself as argument throws
+        /// an Exception if the marker does not have a remote location set.
         /// </summary>
         [Test]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestUpdatePositionAsParentWithoutRemoteLocation()
         {
             Marker parent = GameObjectFactory.Create<Marker>();
             parent.ID = 4;
             parent.LocalPosition = new MarkerPosition(new Vector3(2, 5, 8), Quaternion.Euler(12, 15, 20), DateTime.Now, new Vector3(4, 5, 6), 4);
             parent.UpdatePosition(parent);
-
-            // If the remote camera does not see the marker (remote position == null), then
-            // this marker cannot be used as a level marker so this should not affect the transform.
-            RoughAssert.AreEqual(Vector3.zero, parent.transform.position, 0.01f);
-            RoughAssert.AreEqual(Quaternion.identity, parent.transform.rotation, 0.01f);
-            RoughAssert.AreEqual(Vector3.one, parent.transform.lossyScale, 0.01f);
         }
 
         /// <summary>
