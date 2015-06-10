@@ -80,18 +80,28 @@
         positions for other players. Instead, a custom serialization method 
         would have to be implemented to undo the manipulation by the Meta One
         and then apply the correct manipulation for each of the other players.
+
+        Another option was to introduce a master server with camera that hosts
+        the game, and provides raw positions and rotations of markers exactly as
+        they were placed on the table. The only thing left to do would be to
+        move and rotate the objects for each player to match that player's view
+        of the playing area.
+
+        We chose the second option for the following reasons:
+
+        \begin{itemize}
+        	\item A master camera can see all markers at any one time, which
+        	means that there is never any uncertainty.
+        	\item The first option requires complex peer-to-peer synchronization
+        	and conflict resolution when multiple players see an overlapping set
+        	of markers.
+        	\item Unlike the cameras worn by players, the master camera is not
+        	constantly moving, meaning that marker recognition is not affected
+        	by motion blur.
+        \end{itemize}
         
-        Because of the issues the Network View component would give, a second
-        option was considered. This option would introduce the need for a 
-        master server that hosted the game, and could provide raw positions
-        and rotations of markers exactly as they were placed on the table.
-        The only thing left to do would be to move and rotate the objects for 
-        each player to match that player's view of the playing area. 
-        Additionally, the server approach also solved another recurring issue,
-        as highlighted in section \ref{sec:markerdetection}.
-        
-        In the end, we went for the second option because of the abovementioned
-        reasons, but also partly because it allowed us more control over the 
+        Aside from the aforementioned reasons, we also made the decision to go
+        with the second approach because it allowed us more control over the 
         internal workings of the network functionality and the marker tracking.
         See section \ref{sec:markerdetection} for the details about the marker
         detection performed by the server.
