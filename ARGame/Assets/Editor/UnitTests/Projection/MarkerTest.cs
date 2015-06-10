@@ -226,5 +226,54 @@ namespace Projection
             RoughAssert.AreEqual(expected.Rotation, child.transform.localRotation, 0.01f);
             RoughAssert.AreEqual(expected.Scale, child.transform.localScale, 0.01f);
         }
+
+        /// <summary>
+        /// Tests if the <c>UpdatePosition(...)</c> method sets the correct position
+        /// based on real data retrieved from the Meta glasses and the server.
+        /// <para>
+        /// This data was retrieved by monitoring the local and remote positions as reported 
+        /// by the IARLink and Mirror Server implementations, respectively.
+        /// </para>
+        /// </summary>
+        [Test]
+        public void TestUpdatePositionRealData()
+        {
+            float scale = -0.005f;
+            Marker parent = GameObjectFactory.Create<Marker>();
+            parent.ID = 4;
+            parent.RemotePosition = new MarkerPosition(
+                new Vector3(32.4f, 0, 61.5f), 
+                Quaternion.identity, 
+                DateTime.Now, 
+                Vector3.one, 
+                4);
+            parent.LocalPosition = new MarkerPosition(
+                new Vector3(0, -0.3f, 0.6f), 
+                Quaternion.Euler(356.6f, 275.4f, 11.4f), 
+                DateTime.Now, 
+                scale * Vector3.one, 
+                4);
+
+            Marker child = GameObjectFactory.Create<Marker>();
+            child.ID = 5;
+            child.RemotePosition = new MarkerPosition(
+                new Vector3(28.4f, 0, 44.6f), 
+                Quaternion.Euler(0, -90f, -180f), 
+                DateTime.Now, 
+                Vector3.one, 
+                5);
+            child.UpdatePosition(parent);
+
+            MarkerPosition expected = new MarkerPosition(
+                new Vector3(-0.1f, -0.3f, 0.6f),
+                Quaternion.Euler(349.3f, 7.4f, 357.2f),
+                DateTime.Now,
+                scale * Vector3.one,
+                5);
+
+            RoughAssert.AreEqual(expected.Position, child.transform.localPosition, 0.1f);
+            RoughAssert.AreEqual(expected.Rotation, child.transform.localRotation, 36f);
+            RoughAssert.AreEqual(expected.Scale, child.transform.localScale, 0.1f);
+        }
     }
 }

@@ -94,7 +94,7 @@ namespace Projection
             Matrix4x4 transformMatrix = level.LocalPosition.Matrix * level.RemotePosition.Matrix.inverse;
             this.transform.SetFromMatrix(transformMatrix * this.RemotePosition.Matrix);
         }
-
+            
         /// <summary>
         /// Returns a string representation of this Marker.
         /// </summary>

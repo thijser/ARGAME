@@ -23,12 +23,18 @@ namespace Vision
     public class MetaListLink : MonoBehaviour, IARLink
     {
         /// <summary>
-        /// Gets the list of virtual markers used by the Meta for tracking.
+        /// The size of a Meta marker.
         /// </summary>
-		/// NOTE cannot be initalized in Start as doing so causes a race condition as the markers start registering themselves before start is done. 
-		private List<MetaBody> VirtualMarkers= new List<MetaBody>();
+        public const float MetaScale = 0.005f;
 
-      
+        /// <summary>
+        /// Gets the list of virtual markers used by the Meta for tracking.
+        /// <para>
+        /// This parameter cannot be initalized in Start as doing so causes a race condition as 
+        /// the markers start registering themselves before start is done. 
+		/// </para>
+        /// </summary>
+		private List<MetaBody> VirtualMarkers= new List<MetaBody>();
 
         /// <summary>
         /// Creates a virtual marker for the given ID.
@@ -41,8 +47,8 @@ namespace Vision
 
             metabody.markerTarget = true;
             metabody.markerTargetID = id;
-            metabody.transform.position = new Vector3(13, 666, 1337);
-            metabody.markerTargetPlaceable = false;
+            //// metabody.transform.position = new Vector3(13, 666, 1337);
+            metabody.markerTargetPlaceable = true;
             this.VirtualMarkers.Add(metabody);
         }
 
@@ -75,7 +81,7 @@ namespace Vision
                         body.transform.position,
                         body.transform.rotation,
                         DateTime.Now,
-                        body.transform.localScale,
+                        MetaScale * body.transform.localScale,
                         id);
                 list.Add(mp);
             }
