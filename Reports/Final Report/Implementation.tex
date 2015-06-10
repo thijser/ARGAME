@@ -1,73 +1,71 @@
 \chapter{Implementation} \label{cha:implementation}
-	The Bachelor Project course would not be a real Bachelor Project course if 
-	there were projects without technical challenges whatsoever regarding the 
-	implementation of the final result. Therefore, this chapter elaborates
-	on the technical challenges faced during development of the project and
-	the solutions that we have developed for these challenges.
-	%TODO Highlight technical challenges and elaborate on solutions for these challenges.
-	%     This includes (amongst others) how the AR functionality posed a problem and we
-	%     implemented a C++ server using OpenCV to take over that work (along with 
-	%     synchronizing on a central camera).
-	
-	% Sections are purely by example. This list might not be entirely correct or complete.
-	\section{AR Glasses} \label{sec:arglasses}
-		One of the first design choices that we had to make was about what
-		AR glass was going to be used with the project. As can be seen in
-		our research report, under appendix \ref{app:researchreport},
-		there two options to choose from. These were the Oculus and
-		the META One. We eventually settled for the META One, because
-		of the latency of the Oculus. A pair of META Glasses can be seen in
-		figure \ref{fig:metaone}.
-		
-		\begin{figure}[!ht]
-			\centering
-			\includegraphics[width=\textwidth]{MetaOneGlasses}
-			\caption{A pair of META One glasses.}
-			\label{fig:metaone}
-		\end{figure}
-		
-		The challenge with the META One was to get it working in Unity.
-		There is a Meta SDK which allows for Unity games to work with
-		the META One, but AR itself is still in development (as of
-		writing this report), and the META One glasses are experimental
-		at best. The SDK that we used first was also very buggy (due to the
-		experimental nature of the META One). Also, the META One has a very
-		limited field-of-view (the field-of-view was so limited that, during
-		one of our first tests with our coach, the coach had to sit back
-		to keep everything tracked, which, especially considering that they
-		had to move markers as well as track the environment continuously,
-		was less than ideal). However, the SLAM tracking built into the
-		META allows for game objects to continue to be rendered on a marker
-		even if the marker is outside of the view of the META. SLAM tracking
-		is explained in subsection \ref{ssec:slamloc}.
-		
-		\subsection{SLAM tracking} \label{ssec:slamloc}
-			SLAM is an acronym, which means Simultaneous Localization And
-			Mapping. It stands for a computational problem making a map
-			from an unknown environment while updating the location of the
-			agent in the same environment. These problems cannot be solved
-			independently from each other, as updating a map usually involves
-			knowing the location of the agent before any accurate updates
-			can be made, and vice versa. Several algorithms have been developed
-			for solving this problem, and there is even a platform, called OpenSLAM,
-			which contains several open source algorithms which solve this
-			problem.
-			
-			However, the algorithms are beside the point. the real benefit of 
-			using SLAM with AR is that SLAM tracking allows the META One to
-			render the game objects belonging to a marker while keeping them
-			rendered once the marker leaves the field-of-view of the META One.
-			Considering that the field-of-view of the META One is not that large
-			(As seen in our research report under Appendix \ref{app:researchreport}),
-			this is a huge benefit. The META One also has built-in support for
-			SLAM tracking of objects, which meant that no time had to be spent
-			on developing algorithms.
+    The Bachelor Project course would not be a real Bachelor Project course if 
+    there were projects without technical challenges whatsoever regarding the 
+    implementation of the final result. Therefore, this chapter elaborates
+    on the technical challenges faced during development of the project and
+    the solutions that we have developed for these challenges.
+    %TODO Highlight technical challenges and elaborate on solutions for these challenges.
+    %     This includes (amongst others) how the AR functionality posed a problem and we
+    %     implemented a C++ server using OpenCV to take over that work (along with 
+    %     synchronizing on a central camera).
+    
+    % Sections are purely by example. This list might not be entirely correct or complete.
+    \section{AR Glasses} \label{sec:arglasses}
+        One of the first design choices that we had to make was about what
+        AR glass was going to be used with the project. As can be seen in
+        our research report, under appendix \ref{app:researchreport},
+        there two options to choose from. These were the Oculus and
+        the META One. We eventually settled for the META One, because
+        of the latency of the Oculus. A pair of META Glasses can be seen in
+        figure \ref{fig:metaone}.
+        
+        \begin{figure}[!ht]
+            \centering
+            \includegraphics[width=\textwidth]{MetaOneGlasses}
+            \caption{A pair of META One glasses.}
+            \label{fig:metaone}
+        \end{figure}
+        
+        The challenge with the META One was to get it working in Unity.
+        There is a Meta SDK which allows for Unity games to work with
+        the META One, but AR itself is still in development (as of
+        writing this report), and the META One glasses are experimental
+        at best. The SDK that we used first was also very buggy (due to the
+        experimental nature of the META One). Also, the META One has a very
+        limited field-of-view (the field-of-view was so limited that, during
+        one of our first tests with our coach, the coach had to sit back
+        to keep everything tracked, which, especially considering that they
+        had to move markers as well as track the environment continuously,
+        was less than ideal). However, the SLAM tracking built into the
+        META allows for game objects to continue to be rendered on a marker
+        even if the marker is outside of the view of the META. SLAM tracking
+        is explained in subsection \ref{ssec:slamloc}.
+        
+        \subsection{SLAM tracking} \label{ssec:slamloc}
+            SLAM is an acronym, which means Simultaneous Localization And
+            Mapping. It stands for a computational problem making a map
+            from an unknown environment while updating the location of the
+            agent in the same environment. These problems cannot be solved
+            independently from each other, as updating a map usually involves
+            knowing the location of the agent before any accurate updates
+            can be made, and vice versa. Several algorithms have been developed
+            for solving this problem, and there is even a platform, called OpenSLAM,
+            which contains several open source algorithms which solve this
+            problem.
+            
+            However, the algorithms are beside the point. the real benefit of 
+            using SLAM with AR is that SLAM tracking allows the META One to
+            render the game objects belonging to a marker while keeping them
+            rendered once the marker leaves the field-of-view of the META One.
+            Considering that the field-of-view of the META One is not that large
+            (As seen in our research report under Appendix \ref{app:researchreport}),
+            this is a huge benefit. The META One also has built-in support for
+            SLAM tracking of objects, which meant that no time had to be spent
+            on developing algorithms.
 
-	\section{Marker Detection} \label{sec:markerdetection}
-		...
-		
-	\section{Synchronization of World State} \label{sec:synchronization}
-		Because the game is played by multiple people, the state of the world
+
+    \section{Synchronization of World State} \label{sec:synchronization}
+        Because the game is played by multiple people, the state of the world
         somehow has to be synchronized between all players. To do this, we 
         considered two major options:
         
@@ -90,14 +88,14 @@
         We chose the second option for the following reasons:
 
         \begin{itemize}
-        	\item A master camera can see all markers at any one time, which
-        	means that there is never any uncertainty.
-        	\item The first option requires complex peer-to-peer synchronization
-        	and conflict resolution when multiple players see an overlapping set
-        	of markers.
-        	\item Unlike the cameras worn by players, the master camera is not
-        	constantly moving, meaning that marker recognition is not affected
-        	by motion blur.
+            \item A master camera can see all markers at any one time, which
+            means that there is never any uncertainty.
+            \item The first option requires complex peer-to-peer synchronization
+            and conflict resolution when multiple players see an overlapping set
+            of markers.
+            \item Unlike the cameras worn by players, the master camera is not
+            constantly moving, meaning that marker recognition is not affected
+            by motion blur.
         \end{itemize}
         
         Aside from the aforementioned reasons, we also made the decision to go
@@ -105,9 +103,78 @@
         internal workings of the network functionality and the marker tracking.
         See section \ref{sec:markerdetection} for the details about the marker
         detection performed by the server.
-		
-	\section{Networking and the OpenCV server} \label{sec:network}
-		The game depends on a server application with a master camera. The 
+
+    \section{Marker Detection} \label{sec:markerdetection}
+        The META One glasses come with marker detection built-in and we had
+        difficulty replacing this detection with a custom system. That meant
+        that our master camera server has to detect the same type of marker.
+        Luckily the META markers have a very simple design. They're 6 by 6 bits
+        encoded as black and white squares with a black border around them, as
+        shown in figure \ref{fig:metaonemarker}.
+
+        \begin{figure}[!ht]
+            \centering
+            \includegraphics{MetaMarker}
+            \caption{A marker that can be recognized by the Meta.}
+            \label{fig:metaonemarker}
+        \end{figure}
+
+        These patterns map to an ID and are asymmetrical so that rotation can be
+        resolved when they are detected. To easily find these markers on a table
+        and board, we've also added a vibrant green border to them. This doesn't
+        affect the META, but it makes segmentation of the markers from the
+        background much more straightforward for the master camera. These final
+        markers are shown in figure \ref{fig:finalmarker}.
+
+        \begin{figure}[!ht]
+            \centering
+            \includegraphics{FinalMarker}
+            \caption{A marker that can be recognized by the Meta and the master camera.}
+            \label{fig:finalmarker}
+        \end{figure}
+
+        The corners of the playing surface are set using red markers, as shown
+        in figure \ref{fig:cornermarkers}. The need for these is explained in
+        the next sections, which also describe the rest of the marker tracking
+        process on the server.
+
+        \begin{figure}[!ht]
+            \centering
+            \includegraphics{CornerMarker}
+            \caption{A marker that indicates a playing surface corner.}
+            \label{fig:cornermarkers}
+        \end{figure}
+
+        \subsection{Board detection}
+            The first step to tracking is to isolate the playing surface from
+            the camera image and to apply perspective correction to it. The red
+            corner markers described above are used to find the bounds of the
+            rectangular playing surface. An example of the transformation is
+            shown in \ref{fig:boarddetection}.
+
+            \begin{figure}[!ht]
+                \centering
+                \includegraphics{BoardDetection}
+                \caption{Example of detecting playing surface and isolating it.}
+                \label{fig:boarddetection}
+            \end{figure}
+
+            The four red corner markers are located by converting the input
+            image to the HSV color space and thresholding on a red-like hue and
+            a high saturation. The noise is then removed using a morphological
+            open operation and the system verifies that 4 contours are found. If
+            an amount of contours other than 4 is found, the user is prompted to
+            move the camera such that the entire playing surface is visible and
+            there are no other vibrant red objects in view.
+
+            The corners of the playing surface are required to compute the
+            transformation for the perspective correction. The perspective
+            correction is required to recognize markers and their location
+            correctly by making the camera view look like it views the board
+            from above.
+        
+    \section{Networking and the OpenCV server} \label{sec:network}
+        The game depends on a server application with a master camera. The 
         server application detects the position and rotation of markers in the 
         playing area. It does this through the use of a central so-called master 
         camera, that is position so that the entire playing area is visible from 
@@ -126,9 +193,9 @@
         clients and the server can be found in paragraph \ref{ssec:communication}.
         The use of the master camera to detect markers is described in paragraph
         \ref{ssec:mastercamera}.
-         		
-		\subsection{Communication between C\# and C++} \label{ssec:communication}
-			Communication between the Unity clients and the OpenCV server 
+                
+        \subsection{Communication between C\# and C++} \label{ssec:communication}
+            Communication between the Unity clients and the OpenCV server 
             happens through the use of sockets. For the Unity side, the Socket 
             facility built into the C\# runtime is used. For the OpenCV server, 
             the TCP Socket facility of the Qt Network module is used for 
@@ -152,9 +219,9 @@
                 \item[Ping Message]    Sent by the server and clients to indicate 
                                        they are still connected and listening.
             \end{description}
-		
-		\subsection{The master camera} \label{ssec:mastercamera}
-			...
-			
-	\section{Distinguishable markers} \label{sec:markers}
-		...
+        
+        \subsection{The master camera} \label{ssec:mastercamera}
+            ...
+            
+    \section{Distinguishable markers} \label{sec:markers}
+        ...
