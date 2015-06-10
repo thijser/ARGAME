@@ -149,5 +149,29 @@ namespace Projection
             RoughAssert.AreEqual(expected.Rotation, child.transform.rotation, 0.01f);
             RoughAssert.AreEqual(expected.Scale, child.transform.lossyScale, 0.01f);
         }
+
+        /// <summary>
+        /// Tests whether calling <c>UpdatePosition</c> for a rotation around the x-axis 
+        /// results in the correct coordinates for the child marker.
+        /// </summary>
+        [Test]
+        public void TestUpdatePositionRotateAroundXAxis()
+        {
+            Marker parent = GameObjectFactory.Create<Marker>();
+            parent.ID = 10;
+            parent.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 10);
+            parent.LocalPosition = new MarkerPosition(Vector3.zero, Quaternion.Euler(-90, 0, 0), DateTime.Now, Vector3.one, 10);
+
+            Marker child = GameObjectFactory.Create<Marker>();
+            child.ID = 7;
+            child.RemotePosition = new MarkerPosition(new Vector3(20, 0, 10), Quaternion.identity, DateTime.Now, Vector3.one, 7);
+            child.UpdatePosition(parent);
+
+            MarkerPosition expected = new MarkerPosition(new Vector3(20, 10, 0), Quaternion.Euler(-90, 0, 0), DateTime.Now, Vector3.one, 7);
+            
+            RoughAssert.AreEqual(expected.Position, child.transform.localPosition, 0.01f);
+            RoughAssert.AreEqual(expected.Rotation, child.transform.localRotation, 0.01f);
+            RoughAssert.AreEqual(expected.Scale, child.transform.localScale, 0.01f);
+        }
     }
 }
