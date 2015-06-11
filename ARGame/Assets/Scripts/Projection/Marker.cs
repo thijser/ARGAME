@@ -118,12 +118,7 @@ namespace Projection
             }
 
 
-            this.UpdatePosition(level.TransformMatrix, Matrix4x4.TRS(Vector3.zero, level.RemotePosition.Rotation, Vector3.one));
-        }
-
-        public void UpdatePosition(Matrix4x4 projectionMatrix)
-        {
-            this.UpdatePosition(Matrix4x4.identity, projectionMatrix);
+            this.UpdatePosition(level.TransformMatrix);
         }
 
         /// <summary>
@@ -134,7 +129,7 @@ namespace Projection
         /// </para>
         /// </summary>
         /// <param name="transformMatrix">The remote to local transformation matrix.</param>
-        public void UpdatePosition(Matrix4x4 boardToLocal, Matrix4x4 localToMeta)
+        public void UpdatePosition(Matrix4x4 transformMatrix)
         {
             if (this.RemotePosition != null)
             {
@@ -142,7 +137,7 @@ namespace Projection
                     Vector3.zero,
                     this.LocalPosition.Rotation, 
                     Vector3.one).inverse;
-                this.transform.SetFromMatrix(localToMeta * boardToLocal * levelProjection);
+                this.transform.SetFromMatrix(transformMatrix * levelProjection);
             }
         }
             
