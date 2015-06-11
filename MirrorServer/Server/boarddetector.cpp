@@ -5,8 +5,7 @@
 
 namespace mirrors {
 
-    using cv::Point2f;
-    using cv::Size;
+    using namespace cv;
 
     bool BoardDetector::locateBoard(const Mat& cameraImage) {
         auto markerContours = findMarkers(cameraImage);
@@ -61,15 +60,47 @@ namespace mirrors {
             (channels[HSV::S] > 120) &
             (channels[HSV::V] > 50);
 
-        // Remove noise
         Mat maskClean;
-        Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, Size(5, 5));
-        cv::morphologyEx(mask, maskClean, cv::MORPH_OPEN, kernel);
 
-        vector<vector<Point>> contours;
-        cv::findContours(maskClean, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+        if (approach == BoardDetectionApproach::RED_YELLOW_MARKERS) {
+            // Remove noise
+            Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, Size(5, 5));
+            cv::morphologyEx(mask, maskClean, cv::MORPH_CLOSE, kernel);
 
-        return contours;
+            // Find contours that look like markers (first level inner contour)
+            vector<vector<Point>> contours;
+            vector<Vec4i> hierarchy;
+
+            findContours(maskClean, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_NONE, Point(0, 0));
+
+            vector<vector<Point>> potentialCorners;
+
+            for (size_t i = 0; i < hierarchy.size(); i++) {
+                int parent = hierarchy[i][HierarchyElement::PARENT];
+
+                bool isInnerContour = parent >= 0;
+                bool isFirstLevel = isInnerContour && hierarchy[parent][HierarchyElement::PARENT] < 0;
+
+                cv::RotatedRect bb = cv::minAreaRect(contours[i]);
+                bool largeEnough = bb.size.width >= 10 && bb.size.height >= 10;
+                bool isSquare = std::abs(bb.size.width - bb.size.height) / (float) bb.size.width < 0.3f;
+
+                if (isInnerContour && isFirstLevel && largeEnough && isSquare) {
+                    potentialCorners.push_back(contours[parent]);
+                }
+            }
+
+            return potentialCorners;
+        } else {
+            // Remove noise
+            Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, Size(5, 5));
+            cv::morphologyEx(mask, maskClean, cv::MORPH_OPEN, kernel);
+
+            vector<vector<Point>> contours;
+            cv::findContours(maskClean, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
+
+            return contours;
+        }
     }
 
     vector<Point> BoardDetector::classifyMarkers(const vector<vector<Point>>& markerContours) const {

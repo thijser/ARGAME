@@ -26,7 +26,8 @@ namespace mirrors {
         * @brief Method of detecting the bounds of the board surface.
         */
         enum BoardDetectionApproach {
-            RED_MARKERS
+            RED_MARKERS,
+            RED_YELLOW_MARKERS
         };
     }
 
