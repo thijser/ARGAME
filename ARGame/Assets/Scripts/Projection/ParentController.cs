@@ -78,12 +78,10 @@ public class ParentController : MonoBehaviour {
 		/// </summary>
 		void ConstructUsedMarkerList(){
 			UsedMarkers =new List<Marker>();
-            Debug.Log("call.");
 			Dictionary<int, Marker> dict = holder.markerTable;
 			foreach(KeyValuePair<int,Marker> pair in dict){
 				Marker mark = pair.Value;
 				if(mark.LocalPosition!=null&&mark.RemotePosition!=null){
-                    Debug.Log("Marker seen.");
 					if(mark.LocalPosition.TimeStamp.Ticks+patience>DateTime.Now.Ticks&&mark.RemotePosition.TimeStamp.Ticks>patience){
 						UsedMarkers.Add(mark);
 					}
