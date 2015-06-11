@@ -118,7 +118,12 @@ namespace Projection
             }
 
 
-            this.UpdatePosition(level.TransformMatrix);
+            this.UpdatePosition(level.TransformMatrix, Matrix4x4.TRS(Vector3.zero, level.RemotePosition.Rotation, Vector3.one));
+        }
+
+        public void UpdatePosition(Matrix4x4 projectionMatrix)
+        {
+            this.UpdatePosition(Matrix4x4.identity, projectionMatrix);
         }
 
         /// <summary>
@@ -129,26 +134,15 @@ namespace Projection
         /// </para>
         /// </summary>
         /// <param name="transformMatrix">The remote to local transformation matrix.</param>
-        public void UpdatePosition(Matrix4x4 transformMatrix)
+        public void UpdatePosition(Matrix4x4 boardToLocal, Matrix4x4 localToMeta)
         {
             if (this.RemotePosition != null)
             {
-                Vector3 originalRotation = this.transform.localEulerAngles;
-                this.transform.SetFromMatrix(transformMatrix * this.RemotePosition.Matrix);
-                this.RotateChildren(originalRotation - this.transform.localEulerAngles);
-            }
-        }
-
-        /// <summary>
-        /// Rotates the children of this Marker by the given rotation.
-        /// </summary>
-        /// <param name="rotation">The rotation in euler angles.</param>
-        public void RotateChildren(Vector3 rotation)
-        {
-            Quaternion inverse = Quaternion.Euler(rotation);
-            foreach (Transform t in this.GetComponentsInChildren<Transform>())
-            {
-                t.localRotation = t.localRotation * inverse;
+                Matrix4x4 levelProjection = this.RemotePosition.Matrix * Matrix4x4.TRS(
+                    Vector3.zero,
+                    this.LocalPosition.Rotation, 
+                    Vector3.one).inverse;
+                this.transform.SetFromMatrix(localToMeta * boardToLocal * levelProjection);
             }
         }
             

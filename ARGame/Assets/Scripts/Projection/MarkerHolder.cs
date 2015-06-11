@@ -96,10 +96,11 @@ namespace Projection
                 return;
             }
 
-            Matrix4x4 transformMatrix = this.Parent.TransformMatrix;
+            Matrix4x4 boardToLocal = this.Parent.RemotePosition.Matrix.inverse;
+            Matrix4x4 localToMeta = this.Parent.LocalPosition.Matrix;
             foreach (Marker marker in this.markerTable.Values)
             {
-                marker.UpdatePosition(transformMatrix);
+                marker.UpdatePosition(boardToLocal, localToMeta);
             }
         }
 
