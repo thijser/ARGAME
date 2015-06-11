@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this,            SLOT(startServer()));
     connect(ui->stopButton,  SIGNAL(clicked(bool)),
             this,            SLOT(stopServer()));
+    connect(ui->debugCheck,  SIGNAL(clicked(bool)),
+            this,            SLOT(setDebugOverlay(bool)));
 
     // Set the port number LineEdit to only accept numbers in
     // the range 0-65536
@@ -46,6 +48,10 @@ MainWindow::~MainWindow() {
 
 void MainWindow::setController(ServerController *controller) {
     this->controller = controller;
+}
+
+void MainWindow::setDebugOverlay(bool enable) {
+    this->controller->setDebugOverlay(enable);
 }
 
 void MainWindow::startServer() {

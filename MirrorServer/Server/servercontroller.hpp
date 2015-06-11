@@ -77,6 +77,12 @@ public:
      */
     cv::Size resolution() const { return cameraResolution; }
 
+    /**
+     * @brief Set if the debug overlay should be enabled.
+     * @param enable - True if debug overlay should be shown.
+     */
+    void setDebugOverlay(bool enable);
+
 signals:
     /**
      * @brief Signal emitted when the board has been detected.
@@ -207,6 +213,16 @@ private:
 
     /// Amount of frames that have been processed this second.
     int framesCount;
+
+    /// Boolean indicating if debug overlay should be shown.
+    bool showDebugOverlay = true;
+
+    /**
+     * @brief Draw the marker positions and IDs on top of the board image.
+     * @param board - Board image.
+     * @param markers - Marker positions and other info.
+     */
+    static void drawDebugOverlay(MarkerTracker& tracker, Mat& board, const vector<MarkerUpdate>& markers);
 };
 
 } // namespace mirrors
