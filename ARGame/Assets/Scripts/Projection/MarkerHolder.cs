@@ -162,6 +162,11 @@ namespace Projection
                 throw new ArgumentNullException("updatedMarker");
             }
 
+            if (updatedMarker.LocalPosition == null)
+            {
+                return;
+            }
+
             if (this.Parent == null || this.Parent.LocalPosition == null || this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
             {
                 if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null)
