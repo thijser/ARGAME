@@ -52,6 +52,11 @@ public slots:
     void showFPS(int fps);
 
     /**
+     * @brief Set if the debug overlay should be shown.
+     */
+    void setDebugOverlay(bool enable);
+
+    /**
      * @brief Starts the server.
      */
     void startServer();

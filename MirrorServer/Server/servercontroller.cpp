@@ -107,6 +107,10 @@ void ServerController::detectBoard() {
     detectorTimer->start();
 }
 
+void ServerController::setDebugOverlay(bool enable) {
+    showDebugOverlay = enable;
+}
+
 void ServerController::detectFrame() {
     // detectFrame should never be called when the server is not running.
     Q_ASSERT(serverState != Idle);
@@ -121,8 +125,15 @@ void ServerController::detectFrame() {
         vector<MarkerUpdate> markers = markerTracker->track(frame);
         emit markersUpdated(markers);
 
+        // Extract board view and render debug info on it
         Mat board = boardDetector->extractBoard(frame);
+
+        if (showDebugOverlay) {
+            drawDebugOverlay(*markerTracker, board, markers);
+        }
+
         emit imageReady(board);
+
         detectorTimer->start();
 
         // Determine FPS if new second has started
@@ -159,6 +170,34 @@ void ServerController::broadcastPosition(const MarkerUpdate& marker) {
                     marker.id,
                     scaledCoords,
                     marker.rotation);
+    }
+}
+
+void ServerController::drawDebugOverlay(MarkerTracker& tracker, Mat& board, const vector<MarkerUpdate>& markers) {
+    float scale = tracker.getMarkerScale();
+    cv::Size markerSize(scale * 8, scale * 8);
+
+    for (MarkerUpdate update : markers) {
+        // Draw border around recognized marker
+        cv::RotatedRect rrect(update.position, markerSize, update.rotation);
+        cv::Point2f rrectPoints[4];
+        rrect.points(rrectPoints);
+
+        cv::Point rectPoints[4];
+        for (int i = 0; i < 4; i++) {
+            rectPoints[i] = rrectPoints[i];
+        }
+
+        // Draw solid color rotated square on recognized marker
+        cv::fillConvexPoly(board, rectPoints, 4, cv::Scalar(0, 0, 0, 128));
+
+        // Draw centered text with recognized ID in it
+        int baseLine;
+        cv::Size textSize = cv::getTextSize(std::to_string(update.id), cv::FONT_HERSHEY_SIMPLEX, 1.2, 2, &baseLine);
+
+        Point textPos = update.position + Point(-textSize.width / 2, textSize.height / 2);
+
+        cv::putText(board, std::to_string(update.id), textPos, cv::FONT_HERSHEY_SIMPLEX, 1.2, cv::Scalar(255, 255, 255, 255), 2);
     }
 }
 
