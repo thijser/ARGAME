@@ -25,7 +25,7 @@ namespace Vision
         /// <summary>
         /// The size of a Meta marker.
         /// </summary>
-        public const float MetaScale = 0.005f;
+        public const float MetaScale = 0.0057f;
 
         /// <summary>
         /// Gets the list of virtual markers used by the Meta for tracking.
