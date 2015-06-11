@@ -25,7 +25,7 @@ public class ParentController : MonoBehaviour {
 		}
 
 		Marker ConstructMarker(){
-			Marker m = slave.GetComponent<marker>();
+			Marker m = slave.GetComponent<Marker>();
 			m.LocalPosition = ConstructLocalPosition();
 			m.RemotePosition = ConstructRemotePosition();
 			m.ID=421337666;
