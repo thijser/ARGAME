@@ -1,4 +1,4 @@
-//----------------------------------------------------------------------------
+﻿//----------------------------------------------------------------------------
 // <copyright file="MarkerHolder.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
@@ -29,7 +29,7 @@ namespace Projection
         /// <summary>
         /// Collection of all registered to this class. 
         /// </summary>
- 		public Dictionary<int, Marker> markerTable { get; private set; }
+        private Dictionary<int, Marker> markerTable = new Dictionary<int, Marker>();
 
         /// <summary>
         /// How long are we willing to wait after losing track of a marker. 
@@ -54,11 +54,6 @@ namespace Projection
         /// <param name="register">The marker register parameter that registers the new marker.</param>
         public void OnMarkerRegister(MarkerRegister register)
         {
-            if (markerTable == null)
-            {
-                markerTable = new Dictionary<int, Marker>();
-            }
-
             if (register == null)
             {
                 throw new ArgumentNullException("register");
@@ -86,7 +81,7 @@ namespace Projection
             }
             else
             {
-                throw new KeyNotFoundException("this marker is not registered. The id is " + id);
+                throw new KeyNotFoundException("this marker is not registered");
             }
         }
 
@@ -97,6 +92,7 @@ namespace Projection
         {
             if (this.Parent == null || this.Parent.LocalPosition == null)
             {
+                Debug.Log("No marker is visible");
                 return;
             }
 
@@ -150,7 +146,7 @@ namespace Projection
             }
 
             Marker marker = this.GetMarker(position.ID);
-            //this.SelectParent(marker);
+            this.SelectParent(marker);
             marker.LocalPosition = position;
         }
 

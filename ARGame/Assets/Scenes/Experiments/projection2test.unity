@@ -13338,7 +13338,6 @@ GameObject:
   - 114: {fileID: 1109272703}
   - 114: {fileID: 1109272702}
   - 114: {fileID: 1109272701}
-  - 114: {fileID: 1109272708}
   m_Layer: 0
   m_Name: MetaWorld
   m_TagString: Untagged
@@ -14671,18 +14670,6 @@ MonoBehaviour:
   m_Script: {fileID: -693114047, guid: c194b141a03c88649a39294c9c55f84c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1109272708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1109272699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03b1580fa8d037449849af4bb1ce1ec2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  patience: 1000000
 --- !u!114 &1119871970
 MonoBehaviour:
   m_ObjectHideFlags: 11
