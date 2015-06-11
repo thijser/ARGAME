@@ -14,7 +14,8 @@ namespace Projection
     using System.Diagnostics.CodeAnalysis;
     using Network;
     using UnityEngine;
-
+	using System.Collections.ObjectModel;
+	using System.Collections;
     /// <summary>
     /// A class that handles marker registration and updates positions.
     /// </summary>
@@ -29,7 +30,7 @@ namespace Projection
         /// <summary>
         /// Collection of all registered to this class. 
         /// </summary>
-        private Dictionary<int, Marker> markerTable = new Dictionary<int, Marker>();
+		public Dictionary<int, Marker> markerTable{get;private set;} //note should have costum get
 
         /// <summary>
         /// How long are we willing to wait after losing track of a marker. 
@@ -84,7 +85,9 @@ namespace Projection
                 throw new KeyNotFoundException("this marker is not registered");
             }
         }
-
+		public void Start(){
+			markerTable= new Dictionary<int, Marker>();
+		}
         /// <summary>
         /// Updates the position of all markers.
         /// </summary>
@@ -186,6 +189,8 @@ namespace Projection
 
             this.GetMarker(update.ID).ObjectRotation = update.Rotation;
         }
+
+
 
         /// <summary>
         /// Updates the location of the marker based on the remote position.
