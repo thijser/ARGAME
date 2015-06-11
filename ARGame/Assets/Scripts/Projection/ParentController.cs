@@ -21,8 +21,12 @@ public class ParentController : MonoBehaviour {
 		// Update is called once per frame
 		void Update () {
 			ConstructUsedMarkerList();	
+			if(UsedMarkers.Count>0){
 			holder.Parent=ConstructMarker();
-		}
+			}else{
+				holder.Parent=null;
+			}
+			}
 
 		Marker ConstructMarker(){
 			Marker m = slave.GetComponent<marker>();
