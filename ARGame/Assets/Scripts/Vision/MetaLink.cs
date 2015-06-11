@@ -21,6 +21,11 @@ namespace Vision
     public class MetaLink : MonoBehaviour, IARLink
     {
         /// <summary>
+        /// The scale of the Meta glasses with respect to the world.
+        /// </summary>
+        public const float MetaScale = 0.0057f;
+
+        /// <summary>
         /// like cattle this class is driven all around it's very position consumed by the meta, please no cow tipping with the lamb
         /// </summary>
         private GameObject lamb;
@@ -78,9 +83,13 @@ namespace Vision
             foreach (int id in MarkerDetector.Instance.updatedMarkerTransforms)
             {
                 MarkerDetector.Instance.GetMarkerTransform(id, ref trans);
-                MarkerPosition pos = new MarkerPosition(trans.position, trans.rotation, DateTime.Now, trans.localScale, id);
+                MarkerPosition pos = new MarkerPosition(
+                    trans.position, 
+                    trans.rotation, 
+                    DateTime.Now, 
+                    MetaScale * trans.localScale, 
+                    id);
                 list.Add(pos);
-                pos.ID = id;
             }
 
             return list;
