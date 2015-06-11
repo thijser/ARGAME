@@ -117,6 +117,7 @@ namespace Projection
                 throw new ArgumentNullException("level");
             }
 
+
             this.UpdatePosition(level.TransformMatrix);
         }
 
@@ -132,7 +133,22 @@ namespace Projection
         {
             if (this.RemotePosition != null)
             {
+                Vector3 originalRotation = this.transform.localEulerAngles;
                 this.transform.SetFromMatrix(transformMatrix * this.RemotePosition.Matrix);
+                this.RotateChildren(originalRotation - this.transform.localEulerAngles);
+            }
+        }
+
+        /// <summary>
+        /// Rotates the children of this Marker by the given rotation.
+        /// </summary>
+        /// <param name="rotation">The rotation in euler angles.</param>
+        public void RotateChildren(Vector3 rotation)
+        {
+            Quaternion inverse = Quaternion.Euler(rotation);
+            foreach (Transform t in this.GetComponentsInChildren<Transform>())
+            {
+                t.localRotation = t.localRotation * inverse;
             }
         }
             
