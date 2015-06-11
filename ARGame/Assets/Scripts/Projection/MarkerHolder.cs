@@ -147,7 +147,7 @@ namespace Projection
             }
 
             Marker marker = this.GetMarker(position.ID);
-            this.SelectParent(marker);
+            //this.SelectParent(marker);
             marker.LocalPosition = position;
         }
 
