@@ -7,10 +7,11 @@ public class ParentController : MonoBehaviour {
 		private MarkerHolder holder; 
 		private List<Marker> UsedMarkers;
 		public long patience=1000*1000;
-		GameObject slave = new GameObject("slave");
+		GameObject slave;
 		// Use this for initialization
 		void Start () {
-
+			slave = new GameObject("slave");
+			slave.AddComponent<Marker>();
 			holder=gameObject.GetComponent<MarkerHolder>();
 			if (holder==null){
 				throw new ArgumentNullException("no markerholder found");
@@ -24,7 +25,6 @@ public class ParentController : MonoBehaviour {
 		}
 
 		Marker ConstructMarker(){
-			slave.AddComponent<Marker>();
 			Marker m = slave.GetComponent<marker>();
 			m.LocalPosition = ConstructLocalPosition();
 			m.RemotePosition = ConstructRemotePosition();
