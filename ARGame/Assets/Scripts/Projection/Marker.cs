@@ -117,6 +117,7 @@ namespace Projection
                 throw new ArgumentNullException("level");
             }
 
+
             this.UpdatePosition(level.TransformMatrix);
         }
 
@@ -132,7 +133,15 @@ namespace Projection
         {
             if (this.RemotePosition != null)
             {
-                this.transform.SetFromMatrix(transformMatrix * this.RemotePosition.Matrix);
+                Matrix4x4 levelProjection = this.RemotePosition.Matrix;
+                if (this.LocalPosition != null)
+                {
+                    levelProjection *= Matrix4x4.TRS(
+                        Vector3.zero,
+                        this.LocalPosition.Rotation,
+                        Vector3.one).inverse;
+                }
+                this.transform.SetFromMatrix(transformMatrix * levelProjection);
             }
         }
             

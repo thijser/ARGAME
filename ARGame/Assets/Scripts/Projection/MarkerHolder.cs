@@ -96,10 +96,12 @@ namespace Projection
                 return;
             }
 
-            Matrix4x4 transformMatrix = this.Parent.TransformMatrix;
+            Matrix4x4 boardToLocal = this.Parent.RemotePosition.Matrix.inverse;
+            Matrix4x4 localToMeta = this.Parent.LocalPosition.Matrix;
+            Matrix4x4 trans = localToMeta * boardToLocal;
             foreach (Marker marker in this.markerTable.Values)
             {
-                marker.UpdatePosition(transformMatrix);
+                marker.UpdatePosition(trans);
             }
         }
 
@@ -160,7 +162,12 @@ namespace Projection
                 throw new ArgumentNullException("updatedMarker");
             }
 
-            if (this.Parent == null || this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
+            if (updatedMarker.LocalPosition == null)
+            {
+                return;
+            }
+
+            if (this.Parent == null || this.Parent.LocalPosition == null || this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
             {
                 if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null)
                 {
