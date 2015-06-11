@@ -30,12 +30,11 @@ namespace Vision
         /// <summary>
         /// Gets the list of virtual markers used by the Meta for tracking.
         /// <para>
-        /// This parameter cannot be initialized in a <c>Start()</c> method, as
-        /// doing so causes a race condition, because the markers can start 
-        /// registering themselves before the <c>Start()</c> method is done. 
-        /// </para>
+        /// This parameter cannot be initalized in Start as doing so causes a race condition as 
+        /// the markers start registering themselves before start is done. 
+		/// </para>
         /// </summary>
-        private List<MetaBody> virtualMarkers = new List<MetaBody>();
+		private List<MetaBody> VirtualMarkers= new List<MetaBody>();
 
         /// <summary>
         /// Creates a virtual marker for the given ID.
@@ -48,8 +47,9 @@ namespace Vision
 
             metabody.markerTarget = true;
             metabody.markerTargetID = id;
+            //// metabody.transform.position = new Vector3(13, 666, 1337);
             metabody.markerTargetPlaceable = true;
-            this.virtualMarkers.Add(metabody);
+            this.VirtualMarkers.Add(metabody);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Vision
         public Collection<MarkerPosition> GetMarkerPositions()
         {
             Collection<MarkerPosition> list = new Collection<MarkerPosition>();
-            foreach (MetaBody body in this.virtualMarkers)
+            foreach (MetaBody body in this.VirtualMarkers)
             {
                 int id = body.markerTargetID;
 
