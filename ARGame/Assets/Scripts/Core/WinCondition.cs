@@ -13,6 +13,7 @@ namespace Core
     using System.Collections;
     using System.Diagnostics.CodeAnalysis;
     using Core.Receiver;
+    using Network;
     using UnityEngine;
     using SysDebug = System.Diagnostics.Debug;
 
@@ -74,7 +75,8 @@ namespace Core
 
             if (win)
             {
-                Application.LoadLevel(this.NextLevelIndex);
+                this.SendMessageUpwards("OnLevelCompleted", new LevelUpdate(this.NextLevelIndex, Vector2.zero));
+                //Application.LoadLevel(this.NextLevelIndex);
             }
         }
     }

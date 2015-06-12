@@ -204,5 +204,15 @@ namespace Network
             Debug.Log("Sending rotation update: " + update);
             this.socket.Send(MessageProcessor.WriteRotationUpdate(update));
         }
+
+        /// <summary>
+        /// Called whenever one local player manages to complete the level.
+        /// </summary>
+        /// <param name="update">The LevelUpdate describing the change.</param>
+        public void OnLevelCompleted(LevelUpdate update)
+        {
+            Debug.Log("Sending level update: " + update);
+            this.socket.Send(MessageProcessor.WriteLevelUpdate(update));
+        }
     }
 }
