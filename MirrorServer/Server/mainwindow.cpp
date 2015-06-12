@@ -37,10 +37,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->camHeight->setValidator(sizeValidator);
     ui->camWidth->setValidator(sizeValidator);
 
-    // Add corner marker choices to list
-    ui->cornerMarkerType->addItem("Solid red");
-    ui->cornerMarkerType->addItem("Red with yellow center");
-
     // Enable configuration and set proper constraints for
     // a disabled server state.
     setConfigEnabled(true);
@@ -81,9 +77,8 @@ void MainWindow::startServer() {
 
     // Determine board detection approach based on user choice
     BoardDetectionApproach::BoardDetectionApproach boardDetectionApproach;
-    int cornerMarkerTypeIdx = ui->cornerMarkerType->currentIndex();
 
-    if (cornerMarkerTypeIdx == 0) {
+    if (ui->cornerChoiceRed->isChecked()) {
         boardDetectionApproach = BoardDetectionApproach::RED_MARKERS;
     } else {
         boardDetectionApproach = BoardDetectionApproach::RED_YELLOW_MARKERS;
@@ -135,7 +130,8 @@ void MainWindow::setConfigEnabled(bool enabled) {
     ui->stopButton->setEnabled(!enabled);
     ui->camWidth->setEnabled(enabled);
     ui->camHeight->setEnabled(enabled);
-    ui->cornerMarkerType->setEnabled(enabled);
+    ui->cornerChoiceRed->setEnabled(enabled);
+    ui->cornerChoiceRedYellow->setEnabled(enabled);
 
     if (enabled) {
         ui->image->setText(tr("Server stopped.\n\nClick the \"Start Server\" button."));
