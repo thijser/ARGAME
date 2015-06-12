@@ -164,7 +164,7 @@ public slots:
      * @param levelIndex - The index of the next level.
      * @param boardSize  - The board size.
      */
-    void broadcastLevelUpdate(int levelIndex, cv::Size boardSize);
+    void broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize);
 
     /**
      * @brief Sends a Delete message to all clients.
@@ -189,15 +189,24 @@ public slots:
     void processUpdates(QTcpSocket *client);
 
     /**
-     * @brief Validates and broadcasts the provided message.
+     * @brief Reads and processes a rotation update from the client.
      *
-     * If the provided QByteArray does not represent a valid
-     * rotation update, this function does nothing. Otherwise,
-     * the provided message will be broadcast to all connected
-     * clients.
-     * @param data - The QByteArray with the message data.
+     * The rotation update is broadcast to all clients, including
+     * the client who sent the message.
+     *
+     * @param client - The client that sent the message.
      */
-    void resendRotationUpdate(QByteArray data);
+    void readRotationUpdate(QTcpSocket *client);
+
+    /**
+     * @brief Reads and processes a rotation update from the client.
+     *
+     * The rotation update is broadcast to all clients, including
+     * the client who sent the message.
+     *
+     * @param client - The client that sent the message.
+     */
+    void readLevelUpdate(QTcpSocket *client);
 
 private slots:
     /**
