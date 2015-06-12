@@ -83,6 +83,16 @@ void ServerSocket::broadcastRotationUpdate(int id, float rotation) {
     broadcastBytes(bytes);
 }
 
+void ServerSocket::broadcastBoardSize(cv::Size size) {
+    QByteArray bytes;
+    QDataStream stream(&bytes, QIODevice::WriteOnly);
+    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+    stream << (qint8) 4
+           << static_cast<float>(size.width)
+           << static_cast<float>(size.height);
+    broadcastBytes(bytes);
+}
+
 void ServerSocket::broadcastDelete(int id) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
