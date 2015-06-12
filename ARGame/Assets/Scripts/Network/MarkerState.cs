@@ -51,21 +51,6 @@ namespace Network
             // Create mesh representing this marker
             this.Object = GameObject.Instantiate(referenceMarker);
             this.Object.name = "Marker" + this.ID;
-
-            // Assign number to mesh
-            Transform t = this.Object.transform.Find("NumberText");
-            if (t == null)
-            {
-                throw new ArgumentException("The given GameObject does not have a NumberText child object.");
-            }
-
-            if (t.GetComponent<TextMesh>() == null)
-            {
-                throw new ArgumentException("The given GameObject does not have a NumberText child object with a TextMesh component.");
-            }
-
-            TextMesh mesh = t.GetComponent<TextMesh>();
-            mesh.text = this.ID.ToString();
         }
 
         /// <summary>

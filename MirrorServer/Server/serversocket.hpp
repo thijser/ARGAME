@@ -160,6 +160,12 @@ public slots:
     void broadcastRotationUpdate(int id, float rotation);
 
     /**
+     * @brief Sends the size of the board to all clients.
+     * @param size - The board size.
+     */
+    void broadcastBoardSize(cv::Size size);
+
+    /**
      * @brief Sends a Delete message to all clients.
      * @param id - The marker ID.
      */

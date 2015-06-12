@@ -186,6 +186,9 @@ namespace Network
                 case UpdateType.UpdateRotation:
                     received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
                     return MessageProcessor.ReadUpdateRotation(this.buffer, received);
+                case UpdateType.BoardSize:
+                    received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
+                    return MessageProcessor.ReadBoardSize(this.buffer, received);
                 default:
                     Debug.LogWarning("Received invalid type: " + type);
                     return null;
