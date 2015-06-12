@@ -152,7 +152,7 @@ public slots:
      * @param cameraDevice - The camera to use.
      * @param camSize      - The desired camera resolution.
      */
-    void startServer(quint16 port, int cameraDevice = -1, cv::Size camSize = cv::Size(640,480));
+    void startServer(quint16 port, int cameraDevice = -1, cv::Size camSize = cv::Size(640,480), BoardDetectionApproach::BoardDetectionApproach boardDetectionApproach = BoardDetectionApproach::RED_MARKERS);
 
     /**
      * @brief Stops this ServerController.
@@ -185,7 +185,7 @@ private:
     ServerSocket *sock;
 
     /// The BoardDetector used to find the playing area.
-    BoardDetector *boardDetector;
+    BoardDetector *boardDetector = nullptr;
 
     /// The MarkerDetector instance used to find markers.
     MarkerDetector *markerDetector;
@@ -194,7 +194,7 @@ private:
     MarkerRecognizer *recognizer;
 
     /// The MarkerTracker instance used to follow markers.
-    MarkerTracker *markerTracker;
+    MarkerTracker *markerTracker = nullptr;
 
     /// The OpenCV VideoCapture object used to get video frames.
     cv::VideoCapture *capture;

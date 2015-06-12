@@ -7,10 +7,8 @@ namespace mirrors {
 ServerController::ServerController(QObject *parent)
     : QObject(parent),
       sock(new ServerSocket(this)),
-      boardDetector(new BoardDetector()),
       markerDetector(new MarkerDetector()),
       recognizer(new MarkerRecognizer()),
-      markerTracker(new MarkerTracker(*boardDetector, *markerDetector, *recognizer)),
       capture(nullptr),
       detectorTimer(new QTimer(this)),
       serverState(Idle)
@@ -55,7 +53,7 @@ void ServerController::fatalError(const QString &message) {
     emit fatalErrorOccurred(message);
 }
 
-void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camSize) {
+void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camSize, BoardDetectionApproach::BoardDetectionApproach boardDetectionApproach) {
     Q_ASSERT(serverState == Idle);
     Q_ASSERT(capture == nullptr); // Otherwise we get a memory leak.
     changeState(Starting);
@@ -71,6 +69,12 @@ void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camS
 
     cameraResolution.width = capture->get(CV_CAP_PROP_FRAME_WIDTH);
     cameraResolution.height = capture->get(CV_CAP_PROP_FRAME_HEIGHT);
+
+    // Reconfigure board detector and tracker
+    delete boardDetector;
+    delete markerTracker;
+    boardDetector = new BoardDetector(boardDetectionApproach);
+    markerTracker = new MarkerTracker(*boardDetector, *markerDetector, *recognizer);
 
     sock->setPortNumber(port);
     sock->start();
@@ -95,6 +99,7 @@ void ServerController::detectBoard() {
 
     Mat frame;
     capture->read(frame);
+    cv::imwrite("C:/Users/Alexander/Desktop/test.jpg", frame);
     if (boardDetector->locateBoard(frame)) {
         // When the board is found, we stop trying to locate
         // the board and start detecting markers instead.

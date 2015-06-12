@@ -45,7 +45,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>Server Port</string>
+             <string>Server Port:</string>
             </property>
            </widget>
           </item>
@@ -74,7 +74,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="resolutionLabel">
             <property name="text">
-             <string>Camera Resolution</string>
+             <string>Camera Resolution:</string>
             </property>
            </widget>
           </item>
@@ -132,7 +132,7 @@
           <item row="2" column="0">
            <widget class="QLabel" name="cameraLabel">
             <property name="text">
-             <string>Camera Device ID</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera Device ID:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -143,6 +143,20 @@
             </property>
             <property name="maxLength">
              <number>8</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Corner marker type:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="cornerMarkerType">
+            <property name="currentText">
+             <string/>
             </property>
            </widget>
           </item>
