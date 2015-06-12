@@ -20,6 +20,13 @@ using namespace std;
 int countNonZeroMultichannel(Mat input);
 
 /**
+ * @brief Normalize board image to original 570 x 720 size.
+ * @param raw - Raw board image.
+ * @return Board image resized to 570 x 720.
+ */
+Mat normalizeBoard(const Mat& raw);
+
+/**
  * @brief Tests if the two given images are approximately equal.
  * @param expected     - The expected image
  * @param actual       - The actual image

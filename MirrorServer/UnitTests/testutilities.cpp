@@ -1,6 +1,7 @@
 #include "testutilities.hpp"
 
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #include "cvutils.hpp"
 #include <set>
 
@@ -11,6 +12,12 @@ int countNonZeroMultichannel(Mat input) {
     split(input, channels);
 
     return countNonZero(channels[0] & channels[1] & channels[2]);
+}
+
+Mat normalizeBoard(const Mat& raw) {
+    Mat result;
+    cv::resize(raw, result, Size(570, 720));
+    return result;
 }
 
 bool imagesApproximatelyEqual(Mat expected, Mat actual, float minimalMatch, float colorDiff) {
