@@ -14,14 +14,16 @@
         /// <summary>
         /// Initializes a new object of the <see cref="BoardSizeUpdate"/> class.
         /// </summary>
-        /// <param name="size">The new size of the board.</param>
         /// <param name="index">The index of the next level.</param>
+        /// /// <param name="size">The new size of the board.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// If one of the values in the supplied <see cref="Vector2"/> is not positive,
         /// or if the supplied level index is not positive.
         /// </exception>
-        public LevelUpdate(Vector2 size, int index)
+        public LevelUpdate(int index, Vector2 size)
         {
+            this.Type = UpdateType.Level;
+            this.ID = -1;
             if (size.x <= 0 || size.y <= 0)
             {
                 throw new ArgumentOutOfRangeException("size", size, "The board must have positive dimensions");

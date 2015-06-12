@@ -111,7 +111,7 @@ namespace Network
         /// <param name="buffer">The byte array containing data.</param>
         /// <param name="length">The length of the message.</param>
         /// <returns>The RotationUpdate.</returns>
-        public static RotationUpdate ReadUpdateLevel(byte[] buffer, int length)
+        public static LevelUpdate ReadUpdateLevel(byte[] buffer, int length)
         {
             if (buffer == null)
             {
@@ -123,14 +123,16 @@ namespace Network
                 throw new ArgumentOutOfRangeException("buffer", buffer, "The buffer is not long enough to contain a message of the specified length.");
             }
 
-            if (length < 8)
+            if (length < 12)
             {
                 return null;
             }
 
-            int id = MessageProcessor.ReadInt(buffer, 0);
-            float rotation = MessageProcessor.ReadFloat(buffer, 4);
-            return new RotationUpdate(UpdateType.UpdateRotation, rotation, id);
+            int index = MessageProcessor.ReadInt(buffer, 0);
+            float width = MessageProcessor.ReadFloat(buffer, 4);
+            float height = MessageProcessor.ReadFloat(buffer, 8);
+
+            return new LevelUpdate(index, new Vector2(width, height));
         }
 
         /// <summary>
