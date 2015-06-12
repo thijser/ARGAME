@@ -63,8 +63,17 @@ namespace mirrors {
         /// Corners found in most recent locateBoard() call.
         vector<Point> corners;
 
+        /// Aspect ratio of board
+        float boardRatio = -1;
+
         /// Technique for finding board corners.
         BoardDetectionApproach::BoardDetectionApproach approach;
+
+        /**
+         * @brief Finds the latest aspect ratio of the board.
+         * @param cameraImage - Camera image that board was located in.
+         */
+        void findBoardRatio(const Mat& cameraImage);
 
         /**
          * @brief Finds the red markers that represent the corners of the board.

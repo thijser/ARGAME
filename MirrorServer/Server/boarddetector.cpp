@@ -11,7 +11,25 @@ namespace mirrors {
         auto markerContours = findMarkers(cameraImage);
         corners = classifyMarkers(markerContours);
 
+        findBoardRatio(cameraImage);
+
         return !corners.empty();
+    }
+
+    void BoardDetector::findBoardRatio(const Mat& cameraImage) {
+        if (boardRatio != -1) return;
+
+        // Use this aspect ratio to get original camera image
+        boardRatio = 1.0f;
+
+        Mat tmp = extractBoard(cameraImage);
+
+        if (tmp.rows != 0) {
+            // Determine actual aspect ratio from corner marker size
+            auto corners = findMarkers(tmp);
+            cv::RotatedRect bb = cv::minAreaRect(corners[0]);
+            boardRatio = bb.size.width / (float) bb.size.height;
+        }
     }
 
     Mat BoardDetector::extractBoard(const Mat& cameraImage) const {
@@ -39,7 +57,9 @@ namespace mirrors {
         // Extract the board from the camera image and resize it to standardized size.
         Mat tmp, output;
         warpPerspective(cameraImage, tmp, m, cameraImage.size());
-        resize(tmp, output, cv::Size(19 * 30, 24 * 30));
+
+        // Resize to correct aspect ratio
+        resize(tmp, output, cv::Size(tmp.cols / boardRatio, tmp.rows));
 
         return output;
     }
@@ -83,9 +103,8 @@ namespace mirrors {
 
                 cv::RotatedRect bb = cv::minAreaRect(contours[i]);
                 bool largeEnough = bb.size.width >= 10 && bb.size.height >= 10;
-                bool isSquare = std::abs(bb.size.width - bb.size.height) / (float) bb.size.width < 0.3f;
 
-                if (isInnerContour && isFirstLevel && largeEnough && isSquare) {
+                if (isInnerContour && isFirstLevel && largeEnough) {
                     potentialCorners.push_back(contours[parent]);
                 }
             }
