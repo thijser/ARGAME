@@ -136,3 +136,10 @@ TEST(BoardDetectorTest, RedYellowCornersCloth) {
 
     ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
 }
+
+TEST(BoardDetectorTest, RedYellowCornersHalf) {
+    BoardDetector detector(BoardDetectionApproach::RED_YELLOW_MARKERS);
+    Mat frame = imread("UnitTests/Resources/boardtest_redyellow_half.jpg");
+
+    ASSERT_FALSE(detector.locateBoard(frame));
+}
