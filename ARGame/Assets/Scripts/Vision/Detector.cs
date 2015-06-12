@@ -53,10 +53,10 @@ namespace Vision
             }
 
             Collection<MarkerPosition> list = this.Link.GetMarkerPositions();
-			Debug.Log("checking");
+			Debug.LogError("checking");
 			foreach (MarkerPosition mp in list)
             {
-				Debug.Log (mp);
+				Debug.LogError (mp);
                 this.SendMessage(
                     "OnMarkerSeen",
                     mp);
