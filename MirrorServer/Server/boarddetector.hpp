@@ -73,7 +73,7 @@ namespace mirrors {
         float boardRatio = -1;
 
         /// Size of the board in pixels
-        cv::Size boardSize;
+        cv::Size boardSize = cv::Size(0, 0);
 
         /// Technique for finding board corners.
         BoardDetectionApproach::BoardDetectionApproach approach;
