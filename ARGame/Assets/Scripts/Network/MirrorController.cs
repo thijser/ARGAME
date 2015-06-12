@@ -91,7 +91,7 @@ namespace Network
         {
             int id = this.SelectedMirror.GetComponent<Projection.Marker>().ID;
             float rotation = this.SelectedMirror.transform.eulerAngles.y;
-            this.SendMessage("OnRotationChanged", new RotationUpdate(UpdateType.UpdateRotation, rotation, id));
+            this.SendMessageUpwards("OnRotationChanged", new RotationUpdate(UpdateType.UpdateRotation, rotation, id));
         }
 
         /// <summary>
