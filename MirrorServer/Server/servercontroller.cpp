@@ -27,6 +27,8 @@ ServerController::ServerController(QObject *parent)
             this, SIGNAL(socketError(QString)));
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
             sock, SLOT(processUpdates()));
+    connect(sock, SIGNAL(levelChanged(int)),
+            this, SLOT(changeLevel(int));
 
     // A single-shot Timer with an interval of 0 will
     // directly fire the timeout when control goes back
