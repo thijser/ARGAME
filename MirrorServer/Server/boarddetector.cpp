@@ -16,6 +16,10 @@ namespace mirrors {
         return !corners.empty();
     }
 
+    cv::Size BoardDetector::getBoardSize() const {
+        return boardSize;
+    }
+
     void BoardDetector::findBoardRatio(const Mat& cameraImage) {
         if (boardRatio != -1) return;
 
@@ -29,6 +33,9 @@ namespace mirrors {
             auto corners = findMarkers(tmp);
             cv::Rect bb = cv::boundingRect(corners[0]);
             boardRatio = bb.width / (float) bb.height;
+
+            tmp = extractBoard(cameraImage);
+            boardSize = Size(tmp.cols, tmp.rows);
         }
     }
 

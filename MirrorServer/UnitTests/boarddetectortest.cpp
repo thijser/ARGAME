@@ -17,6 +17,11 @@ TEST(BoardDetectorTest, BoardWithMarkers) {
     ASSERT_EQ(board.cols, 693);
     ASSERT_EQ(board.rows, 896);
 
+    Size boardSize = detector.getBoardSize();
+
+    ASSERT_EQ(boardSize.width, 693);
+    ASSERT_EQ(boardSize.height, 896);
+
     Mat expected = imread("UnitTests/Resources/boardtest_markers_result.jpg");
 
     ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
