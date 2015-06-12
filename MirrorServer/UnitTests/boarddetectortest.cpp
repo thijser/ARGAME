@@ -14,8 +14,8 @@ TEST(BoardDetectorTest, BoardWithMarkers) {
 
     Mat board = detector.extractBoard(frame);
 
-    ASSERT_EQ(board.cols, 570);
-    ASSERT_EQ(board.rows, 720);
+    ASSERT_EQ(board.cols, 693);
+    ASSERT_EQ(board.rows, 896);
 
     Mat expected = imread("UnitTests/Resources/boardtest_markers_result.jpg");
 
@@ -30,8 +30,8 @@ TEST(BoardDetectorTest, BoardWithoutMarkers) {
 
     Mat board = detector.extractBoard(frame);
 
-    ASSERT_EQ(board.cols, 570);
-    ASSERT_EQ(board.rows, 720);
+    ASSERT_EQ(board.cols, 693);
+    ASSERT_EQ(board.rows, 896);
 
     Mat expected = imread("UnitTests/Resources/boardtest_no_markers_result.jpg");
 
@@ -92,8 +92,8 @@ TEST(BoardDetectorTest, BoardOnTable) {
 
     Mat board = detector.extractBoard(frame);
 
-    ASSERT_EQ(board.cols, 570);
-    ASSERT_EQ(board.rows, 720);
+    ASSERT_EQ(board.cols, 634);
+    ASSERT_EQ(board.rows, 896);
 
     Mat expected = imread("UnitTests/Resources/boardtest_table_result.jpg");
 
@@ -108,8 +108,8 @@ TEST(BoardDetectorTest, RedYellowCornersSimple) {
 
     Mat board = detector.extractBoard(frame);
 
-    ASSERT_EQ(board.cols, 570);
-    ASSERT_EQ(board.rows, 720);
+    ASSERT_EQ(board.cols, 470);
+    ASSERT_EQ(board.rows, 600);
 
     Mat expected = imread("UnitTests/Resources/boardtest_redyellow_simple_result.jpg");
 
@@ -124,8 +124,8 @@ TEST(BoardDetectorTest, RedYellowCornersCloth) {
 
     Mat board = detector.extractBoard(frame);
 
-    ASSERT_EQ(board.cols, 570);
-    ASSERT_EQ(board.rows, 720);
+    ASSERT_EQ(board.cols, 486);
+    ASSERT_EQ(board.rows, 600);
 
     Mat expected = imread("UnitTests/Resources/boardtest_redyellow_cloth_result.jpg");
 
