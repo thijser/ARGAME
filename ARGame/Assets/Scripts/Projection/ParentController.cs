@@ -22,10 +22,10 @@ public class ParentController : MonoBehaviour {
 		void Update () {
 			ConstructUsedMarkerList();	
 			if(UsedMarkers.Count>0){
-			holder.Parent=ConstructMarker();
+				holder.Parent=ConstructMarker();
 			}else{
-				holder.Parent=null;
-			}
+					holder.Parent=null;
+				}
 			}
 
 		Marker ConstructMarker(){
@@ -85,8 +85,10 @@ public class ParentController : MonoBehaviour {
 			Dictionary<int, Marker> dict = holder.markerTable;
 			foreach(KeyValuePair<int,Marker> pair in dict){
 				Marker mark = pair.Value;
+				Debug.Log (mark.LocalPosition.ToString() + "/" + mark.RemotePosition.ToString());
 				if(mark.LocalPosition!=null&&mark.RemotePosition!=null){
-					if(mark.LocalPosition.TimeStamp.Ticks+patience>DateTime.Now.Ticks&&mark.RemotePosition.TimeStamp.Ticks>patience){
+					Debug.Log (mark.LocalPosition.TimeStamp.Ticks+"/"+mark.LocalPosition.TimeStamp.Ticks+"patience="+patience+"= timestamp and patience"+DateTime.Now.Ticks);
+					if(mark.LocalPosition.TimeStamp.Ticks+patience>DateTime.Now.Ticks&&mark.RemotePosition.TimeStamp.Ticks+patience>DateTime.Now.Ticks){
 						UsedMarkers.Add(mark);
 					}
 				}
