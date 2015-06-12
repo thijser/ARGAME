@@ -27,8 +27,8 @@ namespace mirrors {
         if (tmp.rows != 0) {
             // Determine actual aspect ratio from corner marker size
             auto corners = findMarkers(tmp);
-            cv::RotatedRect bb = cv::minAreaRect(corners[0]);
-            boardRatio = bb.size.width / (float) bb.size.height;
+            cv::Rect bb = cv::boundingRect(corners[0]);
+            boardRatio = bb.width / (float) bb.height;
         }
     }
 
