@@ -9,7 +9,7 @@ using namespace mirrors;
 using namespace cv;
 
 TEST(MarkerDetectorTest, NoMarkers) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/boardtest_no_markers.jpg");
 
@@ -22,12 +22,12 @@ TEST(MarkerDetectorTest, NoMarkers) {
 }
 
 TEST(MarkerDetectorTest, SingleMarker) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/markertest_single.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
 
@@ -39,12 +39,12 @@ TEST(MarkerDetectorTest, SingleMarker) {
 }
 
 TEST(MarkerDetectorTest, MarkerGrid) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/markertest_grid.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
 
@@ -66,12 +66,12 @@ TEST(MarkerDetectorTest, MarkerGrid) {
 }
 
 TEST(MarkerDetectorTest, MarkerShades) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/markertest_green_shades.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
 
@@ -93,12 +93,12 @@ TEST(MarkerDetectorTest, MarkerShades) {
 }
 \
 TEST(MarkerDetectorTest, VaryingLighting) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/markertest_varying_lighting.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
 
@@ -115,12 +115,12 @@ TEST(MarkerDetectorTest, VaryingLighting) {
 }
 
 TEST(MarkerDetectorTest, LightingGradient) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/markertest_lighting_gradient.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
 
@@ -145,12 +145,12 @@ TEST(MarkerDetectorTest, LightingGradient) {
 }
 
 TEST(MarkerDetectorTest, Table) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/boardtest_table.jpg");
 
     ASSERT_TRUE(boardDetector.locateBoard(frame));
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
 
@@ -175,7 +175,7 @@ TEST(MarkerDetectorTest, Table) {
 
 TEST(MarkerDetectorTest, CloseTogether) {
     MarkerDetector markerDetector;
-    Mat board = normalizeBoard(imread("UnitTests/Resources/markertest_together.png"));
+    Mat board = imread("UnitTests/Resources/markertest_together.png");
 
     auto contours = markerDetector.locateMarkers(board);
 
@@ -197,7 +197,7 @@ TEST(MarkerDetectorTest, CloseTogether) {
 
 TEST(MarkerDetectorTest, CloseHoles) {
     MarkerDetector markerDetector;
-    Mat board = normalizeBoard(imread("UnitTests/Resources/markertest_close_holes.jpg"));
+    Mat board = imread("UnitTests/Resources/markertest_close_holes.jpg");
 
     auto contours = markerDetector.locateMarkers(board);
 

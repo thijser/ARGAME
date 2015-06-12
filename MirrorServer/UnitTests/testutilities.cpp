@@ -14,12 +14,6 @@ int countNonZeroMultichannel(Mat input) {
     return countNonZero(channels[0] & channels[1] & channels[2]);
 }
 
-Mat normalizeBoard(const Mat& raw) {
-    Mat result;
-    cv::resize(raw, result, Size(570, 720));
-    return result;
-}
-
 bool imagesApproximatelyEqual(Mat expected, Mat actual, float minimalMatch, float colorDiff) {
     if (expected.rows != actual.rows || expected.cols != actual.cols) {
         return false;

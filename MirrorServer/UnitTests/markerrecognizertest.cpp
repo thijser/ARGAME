@@ -16,14 +16,14 @@ TEST(MarkerRecognizerTest, RegisterPatterns) {
 }
 
 TEST(MarkerRecognizerTest, SingleMarker) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
 
     Mat frame = imread("UnitTests/Resources/markertest_single.jpg");
     boardDetector.locateBoard(frame);
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
     auto match = markerRecognizer.recognizeMarker(board, contours.at(0));
@@ -33,14 +33,14 @@ TEST(MarkerRecognizerTest, SingleMarker) {
 }
 
 TEST(MarkerRecognizerTest, MultiMarker) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
 
     Mat frame = imread("UnitTests/Resources/markertest_varying_lighting.jpg");
     boardDetector.locateBoard(frame);
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
     ASSERT_EQ(contours.size(), 4ul);
@@ -65,14 +65,14 @@ TEST(MarkerRecognizerTest, MultiMarker) {
 }
 
 TEST(MarkerRecognizerTest, MultiMarkerGradient) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
 
     Mat frame = imread("UnitTests/Resources/markertest_lighting_gradient.jpg");
     boardDetector.locateBoard(frame);
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
     ASSERT_EQ(contours.size(), 12);
@@ -105,14 +105,14 @@ TEST(MarkerRecognizerTest, MultiMarkerGradient) {
 }
 
 TEST(MarkerRecognizerTest, MultiShades) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
 
     Mat frame = imread("UnitTests/Resources/markertest_green_shades.jpg");
     boardDetector.locateBoard(frame);
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
     ASSERT_EQ(contours.size(), 9);
@@ -142,14 +142,14 @@ TEST(MarkerRecognizerTest, MultiShades) {
 }
 
 TEST(MarkerRecognizerTest, MultiSkewed) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
 
     Mat frame = imread("UnitTests/Resources/boardtest_markers.jpg");
     boardDetector.locateBoard(frame);
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
     ASSERT_EQ(contours.size(), 11);
@@ -181,14 +181,14 @@ TEST(MarkerRecognizerTest, MultiSkewed) {
 }
 
 TEST(MarkerRecognizerTest, MultiTable) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
 
     Mat frame = imread("UnitTests/Resources/boardtest_table.jpg");
     boardDetector.locateBoard(frame);
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
     ASSERT_EQ(contours.size(), 11);
@@ -220,14 +220,14 @@ TEST(MarkerRecognizerTest, MultiTable) {
 }
 
 TEST(MarkerRecognizerTest, LowRes) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
 
     Mat frame = imread("UnitTests/Resources/boardtest_table_small.jpg");
     boardDetector.locateBoard(frame);
-    Mat board = normalizeBoard(boardDetector.extractBoard(frame));
+    Mat board = boardDetector.extractBoard(frame);
 
     auto contours = markerDetector.locateMarkers(board);
     ASSERT_EQ(contours.size(), 11);
@@ -263,7 +263,7 @@ TEST(MarkerRecognizerTest, CloseTogether) {
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
 
-    Mat board = normalizeBoard(imread("UnitTests/Resources/markertest_together.png"));
+    Mat board = imread("UnitTests/Resources/markertest_together.png");
 
     auto contours = markerDetector.locateMarkers(board);
     ASSERT_EQ(8ul, contours.size());
