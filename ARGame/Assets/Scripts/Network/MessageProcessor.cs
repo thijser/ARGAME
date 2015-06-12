@@ -106,6 +106,34 @@ namespace Network
         }
 
         /// <summary>
+        /// Reads a <c>UpdateRotation</c> type RotationUpdate message.
+        /// </summary>
+        /// <param name="buffer">The byte array containing data.</param>
+        /// <param name="length">The length of the message.</param>
+        /// <returns>The RotationUpdate.</returns>
+        public static RotationUpdate ReadUpdateLevel(byte[] buffer, int length)
+        {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
+
+            if (buffer.Length < length)
+            {
+                throw new ArgumentOutOfRangeException("buffer", buffer, "The buffer is not long enough to contain a message of the specified length.");
+            }
+
+            if (length < 8)
+            {
+                return null;
+            }
+
+            int id = MessageProcessor.ReadInt(buffer, 0);
+            float rotation = MessageProcessor.ReadFloat(buffer, 4);
+            return new RotationUpdate(UpdateType.UpdateRotation, rotation, id);
+        }
+
+        /// <summary>
         /// Writes the given <see cref="RotationUpdate"/> to a byte array.
         /// </summary>
         /// <param name="update">The <see cref="RotationUpdate"/>, not null.</param>
