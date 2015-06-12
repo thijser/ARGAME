@@ -114,6 +114,12 @@ signals:
     void fpsChanged(int fps);
 
     /**
+     * @brief Signal emitted whenever the level changed.
+     * @param level - The new level.
+     */
+    void levelChanged(int level);
+
+    /**
      * @brief Signal emitted whenever an error occurs in a Socket.
      * @param message - The QString describing the error.
      */

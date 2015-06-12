@@ -71,6 +71,12 @@ public slots:
      * @brief Stops the server.
      */
     void stopServer();
+
+    /**
+     * @brief Updates the level index shown on the UI.
+     * @param level - The new level index.
+     */
+    void updateLevel(int level);
 private:
     /**
      * @brief Enables or disables the server configuration options.

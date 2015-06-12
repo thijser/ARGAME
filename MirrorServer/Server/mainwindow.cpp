@@ -61,6 +61,8 @@ void MainWindow::startServer() {
             errorDialog, SLOT(showMessage(QString)));
     connect(controller,  SIGNAL(fpsChanged(int)),
             this, SLOT(showFPS(int)));
+    connect(controller,  SIGNAL(levelChanged(int)),
+            this,        SLOT(updateLevel(int)));
 
     // Disable the configuration options.
     setConfigEnabled(false);
@@ -121,6 +123,10 @@ void MainWindow::stopServer() {
 
     // Enable the configuration options.
     setConfigEnabled(true);
+}
+
+void MainWindow::updateLevel(int level) {
+    ui->level->setText(QString::number(level));
 }
 
 void MainWindow::setConfigEnabled(bool enabled) {

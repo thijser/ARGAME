@@ -28,7 +28,7 @@ ServerController::ServerController(QObject *parent)
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
             sock, SLOT(processUpdates()));
     connect(sock, SIGNAL(levelChanged(int)),
-            this, SLOT(changeLevel(int));
+            this, SLOT(changeLevel(int)));
 
     // A single-shot Timer with an interval of 0 will
     // directly fire the timeout when control goes back
@@ -99,6 +99,7 @@ void ServerController::changeLevel(int nextLevel) {
             integerBoardSize.width / markerTracker->getMarkerScale(),
             integerBoardSize.height / markerTracker->getMarkerScale());
     sock->broadcastLevelUpdate(nextLevel, boardSize);
+    emit levelChanged(nextLevel);
 }
 
 void ServerController::detectBoard() {
