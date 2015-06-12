@@ -23,8 +23,6 @@ ServerController::ServerController(QObject *parent)
 
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
             this, SLOT(broadcastPositions(vector<MarkerUpdate>)));
-    connect(detectorTimer, SIGNAL(timeout()),
-            this,          SLOT(detectBoard()));
     connect(sock, SIGNAL(errorOccurred(QString)),
             this, SIGNAL(socketError(QString)));
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
@@ -81,18 +79,16 @@ void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camS
     sock->setPortNumber(port);
     sock->start();
     detectorTimer->start();
+
+    // Start detecting board
+    connect(detectorTimer, SIGNAL(timeout()),
+            this,          SLOT(detectBoard()));
 }
 
 void ServerController::stopServer() {
     Q_ASSERT(serverState == Started || serverState == Starting);
     changeState(Stopping);
     sock->stop();
-
-    // Reset board detection
-    disconnect(detectorTimer,    SIGNAL(timeout()),
-            this,             SLOT(detectFrame()));
-    connect(detectorTimer, SIGNAL(timeout()),
-               this,          SLOT(detectBoard()));
 }
 
 void ServerController::detectBoard() {
@@ -101,6 +97,10 @@ void ServerController::detectBoard() {
         delete capture;
         capture = nullptr;
         changeState(Idle);
+
+        disconnect(detectorTimer, SIGNAL(timeout()),
+                   this,          SLOT(detectBoard()));
+
         return;
     }
     Q_ASSERT(serverState == Starting);
@@ -167,6 +167,9 @@ void ServerController::detectFrame() {
         changeState(Idle);
         delete capture;
         capture = nullptr;
+
+        disconnect(detectorTimer,    SIGNAL(timeout()),
+                this,             SLOT(detectFrame()));
     }
 }
 
