@@ -41,8 +41,8 @@ namespace mirrors {
          * @brief Constructs a board surface detector that uses the specified technique.
          * @param approach - Technique for locating the board surface.
          */
-        explicit BoardDetector(BoardDetectionApproach::BoardDetectionApproach approach = BoardDetectionApproach::RED_MARKERS)
-            : approach(approach) {}
+        explicit BoardDetector(BoardDetectionApproach::BoardDetectionApproach approach = BoardDetectionApproach::RED_MARKERS, bool dynamicBoardSize = true)
+            : approach(approach), dynamicBoardSize(dynamicBoardSize) {}
 
         /**
          * @brief (Re)locates the bounds of the board surface from the specified camera image.
@@ -71,6 +71,9 @@ namespace mirrors {
 
         /// Aspect ratio of board
         float boardRatio = -1;
+
+        /// Whether to find board size dynamically or not
+        bool dynamicBoardSize;
 
         /// Size of the board in pixels
         cv::Size boardSize = cv::Size(0, 0);

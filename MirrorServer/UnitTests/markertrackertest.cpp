@@ -16,7 +16,7 @@ protected:
         boardDetector.locateBoard(frameStart);
     }
 
-    BoardDetector boardDetector;
+    BoardDetector boardDetector = BoardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     MarkerTracker markerTracker = MarkerTracker(boardDetector, markerDetector, markerRecognizer);

@@ -66,7 +66,11 @@ namespace mirrors {
         warpPerspective(cameraImage, tmp, m, cameraImage.size());
 
         // Resize to correct aspect ratio
-        resize(tmp, output, cv::Size(tmp.cols / boardRatio, tmp.rows));
+        if (dynamicBoardSize) {
+            resize(tmp, output, cv::Size(tmp.cols / boardRatio, tmp.rows));
+        } else {
+            resize(tmp, output, cv::Size(570, 720));
+        }
 
         return output;
     }
