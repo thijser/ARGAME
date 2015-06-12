@@ -75,8 +75,26 @@ namespace Core
 
             if (win)
             {
-                this.SendMessageUpwards("OnLevelCompleted", new LevelUpdate(this.NextLevelIndex, Vector2.zero));
+                this.SendMessageUpwards("OnLevelCompleted", new LevelUpdate(this.NextLevelIndex, Vector2.one));
                 //Application.LoadLevel(this.NextLevelIndex);
+            }
+        }
+
+        /// <summary>
+        /// Handles updates sent from the client socket.
+        /// </summary>
+        /// <param name="update">The update to be handled.</param>
+        public void OnServerUpdate(AbstractUpdate update)
+        {
+            if (update == null)
+            {
+                throw new ArgumentNullException("update");
+            }
+
+            if (update.Type == UpdateType.Level)
+            {
+                LevelUpdate level = update as LevelUpdate;
+                Application.LoadLevel(level.NextLevelIndex);
             }
         }
     }
