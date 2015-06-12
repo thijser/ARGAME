@@ -160,10 +160,11 @@ public slots:
     void broadcastRotationUpdate(int id, float rotation);
 
     /**
-     * @brief Sends the size of the board to all clients.
-     * @param size - The board size.
+     * @brief Sends a LevelUpdate message to all clients.
+     * @param levelIndex - The index of the next level.
+     * @param boardSize  - The board size.
      */
-    void broadcastBoardSize(cv::Size size);
+    void broadcastLevelUpdate(int levelIndex, cv::Size boardSize);
 
     /**
      * @brief Sends a Delete message to all clients.
