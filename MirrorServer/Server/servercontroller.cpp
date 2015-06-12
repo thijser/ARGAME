@@ -99,7 +99,7 @@ void ServerController::detectBoard() {
 
     Mat frame;
     capture->read(frame);
-    cv::imwrite("C:/Users/Alexander/Desktop/test.jpg", frame);
+
     if (boardDetector->locateBoard(frame)) {
         // When the board is found, we stop trying to locate
         // the board and start detecting markers instead.
