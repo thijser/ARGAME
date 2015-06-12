@@ -27,6 +27,8 @@ ServerController::ServerController(QObject *parent)
             this, SIGNAL(socketError(QString)));
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
             sock, SLOT(processUpdates()));
+    connect(sock, SIGNAL(levelChanged(int)),
+            this, SLOT(changeLevel(int));
 
     // A single-shot Timer with an interval of 0 will
     // directly fire the timeout when control goes back
@@ -89,6 +91,11 @@ void ServerController::stopServer() {
     Q_ASSERT(serverState == Started || serverState == Starting);
     changeState(Stopping);
     sock->stop();
+}
+
+void ServerController::changeLevel(int nextLevel) {
+    // TODO Retrieve board size from BoardDetector.
+    sock->broadcastLevelUpdate(nextLevel, cv::Size2f(300, 400));
 }
 
 void ServerController::detectBoard() {

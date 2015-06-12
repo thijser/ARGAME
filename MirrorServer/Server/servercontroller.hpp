@@ -160,6 +160,12 @@ public slots:
     void stopServer();
 
     /**
+     * @brief Sends a level update message to all clients.
+     * @param nextLevel - The next level index.
+     */
+    void changeLevel(int nextLevel);
+
+    /**
      * @brief Attempts to detect the board
      */
     void detectBoard();

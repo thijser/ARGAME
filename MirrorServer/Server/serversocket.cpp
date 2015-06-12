@@ -83,14 +83,15 @@ void ServerSocket::broadcastRotationUpdate(int id, float rotation) {
     broadcastBytes(bytes);
 }
 
-void ServerSocket::broadcastLevelUpdate(int levelIndex, cv::Size boardSize) {
+void ServerSocket::broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
     stream << (qint8) 4
            << (qint32) levelIndex
-           << static_cast<float>(size.width)
-           << static_cast<float>(size.height);
+           << boardSize.width
+           << boardSize.height;
+
     broadcastBytes(bytes);
 }
 
@@ -114,25 +115,57 @@ void ServerSocket::processUpdates() {
 
 void ServerSocket::processUpdates(QTcpSocket *client) {
     Q_ASSERT(client != nullptr);
-    while (client->bytesAvailable() >= 9) {
-        QByteArray data = client->read(9);
-        if (data.size() == 9 && data[0] == (char)3) {
-            // This message is a rotation update
-            resendRotationUpdate(data);
+    qint8 tag = -1;
+    bool readOk = client->read((char*) &tag, 1) == 1;
+
+    while (readOk) {
+        switch (tag) {
+        case 3: // Rotation Update
+            readRotationUpdate(client);
+            break;
+        case 4: // Level Update
+            readLevelUpdate(client);
+            break;
+        default:
+            qDebug() << "Received message with unknown tag:" << (int) tag;
         }
+
+        readOk = client->read((char*) &tag, 1) == 1;
     }
 }
 
-void ServerSocket::resendRotationUpdate(QByteArray data) {
-    qint8 tag;
-    qint32 id;
-    float rotation;
-    QDataStream stream(&data, QIODevice::ReadOnly);
-    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
-    stream >> tag;
-    stream >> id;
-    stream >> rotation;
-    broadcastRotationUpdate(id, rotation);
+void ServerSocket::readRotationUpdate(QTcpSocket *client) {
+    Q_ASSERT(client != nullptr);
+    if (client->bytesAvailable() >= 8) {
+        QByteArray data = client->read(8);
+        if (data.length() != 8) {
+            return;
+        }
+
+        qint32 id;
+        float rotation;
+        QDataStream stream(&data, QIODevice::ReadOnly);
+        stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+        stream >> id;
+        stream >> rotation;
+        broadcastRotationUpdate(id, rotation);
+    }
+}
+
+void ServerSocket::readLevelUpdate(QTcpSocket *client) {
+    Q_ASSERT(client != nullptr);
+    if (client->bytesAvailable() >= 12) {
+        QByteArray data = client->read(12);
+        if (data.length() != 12) {
+            return;
+        }
+
+        qint32 levelIndex;
+        QDataStream stream(&data, QIODevice::ReadOnly);
+        stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+        stream >> levelIndex;
+        emit levelChanged(levelIndex);
+    }
 }
 
 
