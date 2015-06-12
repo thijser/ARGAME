@@ -155,6 +155,26 @@ namespace Network
         }
 
         /// <summary>
+        /// Writes the given <see cref="LevelUpdate"/> to a byte array.
+        /// </summary>
+        /// <param name="update">The <see cref="LevelUpdate"/>, not null.</param>
+        /// <returns>A byte array containing the data from the <see cref="LevelUpdate"/>.</returns>
+        public static byte[] WriteLevelUpdate(LevelUpdate update)
+        {
+            if (update == null)
+            {
+                throw new ArgumentNullException("update");
+            }
+
+            byte[] message = new byte[13];
+            message[0] = (byte)UpdateType.Level;
+            WriteInt(update.NextLevelIndex, message, 1);
+            WriteFloat(update.Size.x, message, 5);
+            WriteFloat(update.Size.y, message, 9);
+            return message;
+        }
+
+        /// <summary>
         /// Reads and returns a float value from a network byte input, starting
         /// from the given offset.
         /// </summary>
