@@ -154,20 +154,17 @@ void ServerSocket::readRotationUpdate(QTcpSocket *client) {
 
 void ServerSocket::readLevelUpdate(QTcpSocket *client) {
     Q_ASSERT(client != nullptr);
-    if (client->bytesAvailable() >= 8) {
-        QByteArray data = client->read(8);
-        if (data.length() != 8) {
+    if (client->bytesAvailable() >= 12) {
+        QByteArray data = client->read(12);
+        if (data.length() != 12) {
             return;
         }
 
         qint32 levelIndex;
-        float width, height;
         QDataStream stream(&data, QIODevice::ReadOnly);
         stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
-        stream >> levelIndex
-               >> width
-               >> height;
-        broadcastLevelUpdate(levelIndex, cv::Size2f(width, height));
+        stream >> levelIndex;
+        emit levelChanged(levelIndex);
     }
 }
 

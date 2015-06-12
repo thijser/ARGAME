@@ -99,6 +99,12 @@ signals:
     void clientDisconnected(QTcpSocket *client);
 
     /**
+     * @brief Signal emitted whenever a client signals the level is completed.
+     * @param newLevel - The next level index.
+     */
+    void levelChanged(int newLevel);
+
+    /**
      * @brief Signal emitted when an internal server error occurs.
      *
      * This signal often indicates critical failures, and should be
@@ -199,10 +205,9 @@ public slots:
     void readRotationUpdate(QTcpSocket *client);
 
     /**
-     * @brief Reads and processes a rotation update from the client.
+     * @brief Reads and processes a level update from the client.
      *
-     * The rotation update is broadcast to all clients, including
-     * the client who sent the message.
+     * The update is emitted through the @c levelChanged(int) signal.
      *
      * @param client - The client that sent the message.
      */

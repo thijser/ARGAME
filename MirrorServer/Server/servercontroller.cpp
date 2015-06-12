@@ -91,6 +91,11 @@ void ServerController::stopServer() {
     sock->stop();
 }
 
+void ServerController::changeLevel(int nextLevel) {
+    // TODO Retrieve board size from BoardDetector.
+    sock->broadcastLevelUpdate(nextLevel, cv::Size2f(300, 400));
+}
+
 void ServerController::detectBoard() {
     Q_ASSERT(capture != nullptr);
     if (state() == Stopping) {
