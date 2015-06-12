@@ -4,6 +4,8 @@
 
 namespace mirrors {
 
+const std::string boardLocatingInstructions = "Position the camera to view the entire board.";
+
 ServerController::ServerController(QObject *parent)
     : QObject(parent),
       sock(new ServerSocket(this)),
@@ -106,6 +108,11 @@ void ServerController::detectBoard() {
     Mat frame;
     capture->read(frame);
 
+    drawBoardLocatingInstructions(frame);
+
+    // Show image to user
+    emit imageReady(frame);
+
     if (boardDetector->locateBoard(frame)) {
         // When the board is found, we stop trying to locate
         // the board and start detecting markers instead.
@@ -182,6 +189,22 @@ void ServerController::broadcastPosition(const MarkerUpdate& marker) {
                     scaledCoords,
                     marker.rotation);
     }
+}
+
+void ServerController::drawBoardLocatingInstructions(Mat& frame) {
+    // Determine bounds of instruction text
+    int baseLine;
+    cv::Size textSize = cv::getTextSize(boardLocatingInstructions, cv::FONT_HERSHEY_SIMPLEX, 0.5, 1, &baseLine);
+    Point textPos = Point(frame.cols / 2, frame.rows / 2) + Point(-textSize.width / 2, textSize.height / 2);
+
+    // Draw background rectangle
+    int padding = 10;
+    Point topLeft = Point(textPos.x - padding, textPos.y - textSize.height - padding);
+    Point bottomRight = Point(textPos.x + textSize.width + padding, textPos.y + padding);
+    cv::rectangle(frame, topLeft, bottomRight, cv::Scalar(0, 0, 0, 255), CV_FILLED);
+
+    // Draw text itself
+    cv::putText(frame, boardLocatingInstructions, textPos, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 255, 255, 255), 1);
 }
 
 void ServerController::drawDebugOverlay(MarkerTracker& tracker, Mat& board, const vector<MarkerUpdate>& markers) {

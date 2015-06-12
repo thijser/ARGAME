@@ -218,6 +218,12 @@ private:
     bool showDebugOverlay = true;
 
     /**
+     * @brief Draw instructions for locating the board on top of the camera image.
+     * @param frame - Camera image to draw instructions to.
+     */
+    static void drawBoardLocatingInstructions(Mat& frame);
+
+    /**
      * @brief Draw the marker positions and IDs on top of the board image.
      * @param board - Board image.
      * @param markers - Marker positions and other info.
