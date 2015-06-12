@@ -59,12 +59,30 @@ namespace mirrors {
          */
         Mat extractBoard(const Mat& cameraImage) const;
 
+        /**
+         * @brief Get the board size in pixels.
+         * @return Board size in pixels.
+         */
+        cv::Size getBoardSize() const;
+
     private:
         /// Corners found in most recent locateBoard() call.
         vector<Point> corners;
 
+        /// Aspect ratio of board
+        float boardRatio = -1;
+
+        /// Size of the board in pixels
+        cv::Size boardSize;
+
         /// Technique for finding board corners.
         BoardDetectionApproach::BoardDetectionApproach approach;
+
+        /**
+         * @brief Finds the latest aspect ratio of the board.
+         * @param cameraImage - Camera image that board was located in.
+         */
+        void findBoardRatio(const Mat& cameraImage);
 
         /**
          * @brief Finds the red markers that represent the corners of the board.

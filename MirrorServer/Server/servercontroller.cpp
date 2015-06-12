@@ -94,8 +94,11 @@ void ServerController::stopServer() {
 }
 
 void ServerController::changeLevel(int nextLevel) {
-    // TODO Retrieve board size from BoardDetector.
-    sock->broadcastLevelUpdate(nextLevel, cv::Size2f(300, 400));
+    cv::Size integerBoardSize = boardDetector->getBoardSize();
+    cv::Size2f boardSize(
+            integerBoardSize.width / markerTracker->getMarkerScale(),
+            integerBoardSize.height / markerTracker->getMarkerScale());
+    sock->broadcastLevelUpdate(nextLevel, boardSize);
 }
 
 void ServerController::detectBoard() {
