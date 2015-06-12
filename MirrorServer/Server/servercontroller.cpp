@@ -85,6 +85,12 @@ void ServerController::stopServer() {
     Q_ASSERT(serverState == Started || serverState == Starting);
     changeState(Stopping);
     sock->stop();
+
+    // Reset board detection
+    disconnect(detectorTimer,    SIGNAL(timeout()),
+            this,             SLOT(detectFrame()));
+    connect(detectorTimer, SIGNAL(timeout()),
+               this,          SLOT(detectBoard()));
 }
 
 void ServerController::detectBoard() {
