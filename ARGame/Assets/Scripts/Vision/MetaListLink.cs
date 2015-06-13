@@ -25,7 +25,7 @@ namespace Vision
         /// <summary>
         /// The size of a Meta marker.
         /// </summary>
-        public const float MetaScale = 0.005f;
+        public const float MetaScale = 0.0057f;
 
         /// <summary>
         /// Gets the list of virtual markers used by the Meta for tracking.
@@ -47,6 +47,7 @@ namespace Vision
 
             metabody.markerTarget = true;
             metabody.markerTargetID = id;
+            //// metabody.transform.position = new Vector3(13, 666, 1337);
             metabody.markerTargetPlaceable = true;
             this.VirtualMarkers.Add(metabody);
         }

@@ -29,7 +29,7 @@ namespace mirrors {
     const float MARKER_MAX_FRAME_DIST = 50;
 
     /// Minimum confidence for marker recognition before a marker is considered valid.
-    const float MARKER_MIN_CONFIDENCE = 0.7f;
+    const float MARKER_MIN_CONFIDENCE = 0.8f;
 
     /// Maximum speed before recognition of marker pattern is disabled (pixels/frame)
     const float MARKER_MAX_RECOGNITION_VELOCITY = 15;

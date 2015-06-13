@@ -68,6 +68,36 @@ namespace Projection
         public float ObjectRotation { get; set; }
 
         /// <summary>
+        /// Gets the remote to local transformation matrix.
+        /// <para>
+        /// This matrix can be used to transform markers relative to this marker. Both the 
+        /// <c>LocalPosition</c> and <c>RemotePosition</c> properties must be set for this 
+        /// method to return any useful result.
+        /// </para>
+        /// <para>
+        /// If the <c>RemotePosition</c> is not set, it is taken as the identity matrix.
+        /// If the <c>LocalPosition</c> is not set, this method returns the identity matrix.
+        /// </para>
+        /// </summary>
+        public Matrix4x4 TransformMatrix
+        {
+            get
+            {
+                if (this.LocalPosition == null)
+                {
+                    return Matrix4x4.identity;
+                }
+
+                if (this.RemotePosition == null)
+                {
+                    return this.LocalPosition.Matrix;
+                }
+
+                return this.LocalPosition.Matrix * this.RemotePosition.Matrix.inverse;
+            }
+        }
+
+        /// <summary>
         /// Registers this marker.
         /// </summary>
         public void Start()
@@ -79,20 +109,40 @@ namespace Projection
         /// Updates the position of this Marker relative to the given parent Marker.
         /// </summary>
         /// <param name="level">The parent Marker, not null.</param>
+        [Obsolete("Use UpdatePosition(Matrix4x4) for improved performance.")]
         public void UpdatePosition(Marker level)
         {
             if (level == null)
             {
                 throw new ArgumentNullException("level");
             }
-            
-            if (this.RemotePosition == null)
-            {
-                return;
-            }
 
-            Matrix4x4 transformMatrix = level.LocalPosition.Matrix * level.RemotePosition.Matrix.inverse;
-            this.transform.SetFromMatrix(transformMatrix * this.RemotePosition.Matrix);
+
+            this.UpdatePosition(level.TransformMatrix);
+        }
+
+        /// <summary>
+        /// Updates the position of the Marker using the provided transformation matrix.
+        /// <para>
+        /// The argument matrix represents the linear transformation from the remote coordinate
+        /// system to the local coordinate system.
+        /// </para>
+        /// </summary>
+        /// <param name="transformMatrix">The remote to local transformation matrix.</param>
+        public void UpdatePosition(Matrix4x4 transformMatrix)
+        {
+            if (this.RemotePosition != null)
+            {
+                Matrix4x4 levelProjection = this.RemotePosition.Matrix;
+                if (this.LocalPosition != null)
+                {
+                    levelProjection *= Matrix4x4.TRS(
+                        Vector3.zero,
+                        this.LocalPosition.Rotation,
+                        Vector3.one).inverse;
+                }
+                this.transform.SetFromMatrix(transformMatrix * levelProjection);
+            }
         }
             
         /// <summary>

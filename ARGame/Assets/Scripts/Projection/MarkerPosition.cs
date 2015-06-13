@@ -83,6 +83,10 @@ namespace Projection
         /// </summary>
         public int ID { get; set; }
 
+        /// <summary>
+        /// Gets a 3D transformation matrix based on the position, rotation 
+        /// and scale in this MarkerPosition.
+        /// </summary>
         public Matrix4x4 Matrix
         {
             get

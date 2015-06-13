@@ -1,9 +1,9 @@
 ﻿//----------------------------------------------------------------------------
 // <copyright file="MarkerHolderTest.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
-//     
+//
 //     This software is licensed under the terms of the MIT License.
-//     A copy of the license should be included with this software. If not, 
+//     A copy of the license should be included with this software. If not,
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
@@ -34,7 +34,7 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests if calling <c>OnMarkerRegister</c> with no parent set will cause 
+        /// Tests if calling <c>OnMarkerRegister</c> with no parent set will cause
         /// the argument Marker to not yet become the parent.
         /// </summary>
         [Test]
@@ -75,7 +75,7 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests whether the <c>GetMarker(int)</c> method succeeds if no markers are 
+        /// Tests whether the <c>GetMarker(int)</c> method succeeds if no markers are
         /// registered.
         /// </summary>
         [Test]
@@ -87,7 +87,7 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests whether <c>OnPositionUpdate(null)</c> throws 
+        /// Tests whether <c>OnPositionUpdate(null)</c> throws
         /// an <see cref="ArgumentNullException"/>.
         /// </summary>
         [Test]
@@ -98,7 +98,7 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests whether <c>OnPositionUpdate</c> updates the position of a 
+        /// Tests whether <c>OnPositionUpdate</c> updates the position of a
         /// Marker as expected.
         /// </summary>
         [Test]
@@ -110,6 +110,7 @@ namespace Projection
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 34, 12);
             updater.OnMarkerRegister(new MarkerRegister(marker));
             updater.OnPositionUpdate(update);
+            
             RoughAssert.AreEqual(new Vector3(2, 0, -2), marker.RemotePosition.Position, 0.01f);
             RoughAssert.AreEqual(new Vector3(0, 34, 0), marker.RemotePosition.Rotation.eulerAngles, 0.01f);
             Assert.AreEqual(12, marker.RemotePosition.ID);
@@ -149,7 +150,7 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests whether calling <c>OnMarkerRegister(...)</c> with an invalid 
+        /// Tests whether calling <c>OnMarkerRegister(...)</c> with an invalid
         /// MarkerRegister object throws the correct exception.
         /// </summary>
         [Test]
@@ -160,7 +161,7 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests whether calling <c>OnMarkerSeen(null)</c> throws the 
+        /// Tests whether calling <c>OnMarkerSeen(null)</c> throws the
         /// appropriate exception.
         /// </summary>
         [Test]
@@ -171,7 +172,7 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests whether calling <c>OnServerUpdate(null)</c> throws the 
+        /// Tests whether calling <c>OnServerUpdate(null)</c> throws the
         /// appropriate exception.
         /// </summary>
         [Test]
@@ -182,7 +183,7 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests whether calling <c>SelectParent(null)</c> throws the 
+        /// Tests whether calling <c>SelectParent(null)</c> throws the
         /// appropriate exception.
         /// </summary>
         [Test]
@@ -193,7 +194,7 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests whether <c>OnRotationUpdate</c> updates the position of a 
+        /// Tests whether <c>OnRotationUpdate</c> updates the position of a
         /// Marker as expected.
         /// </summary>
         [Test]

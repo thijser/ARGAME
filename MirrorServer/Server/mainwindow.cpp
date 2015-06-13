@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this,            SLOT(startServer()));
     connect(ui->stopButton,  SIGNAL(clicked(bool)),
             this,            SLOT(stopServer()));
+    connect(ui->debugCheck,  SIGNAL(clicked(bool)),
+            this,            SLOT(setDebugOverlay(bool)));
 
     // Set the port number LineEdit to only accept numbers in
     // the range 0-65536
@@ -48,6 +50,10 @@ void MainWindow::setController(ServerController *controller) {
     this->controller = controller;
 }
 
+void MainWindow::setDebugOverlay(bool enable) {
+    this->controller->setDebugOverlay(enable);
+}
+
 void MainWindow::startServer() {
     connect(controller,  SIGNAL(imageReady(cv::Mat)),
             this,        SLOT(handleFrame(cv::Mat)));
@@ -69,7 +75,16 @@ void MainWindow::startServer() {
         ui->camHeight->text().toInt()
     );
 
-    controller->startServer(port, device, requestedSize);
+    // Determine board detection approach based on user choice
+    BoardDetectionApproach::BoardDetectionApproach boardDetectionApproach;
+
+    if (ui->cornerChoiceRed->isChecked()) {
+        boardDetectionApproach = BoardDetectionApproach::RED_MARKERS;
+    } else {
+        boardDetectionApproach = BoardDetectionApproach::RED_YELLOW_MARKERS;
+    }
+
+    controller->startServer(port, device, requestedSize, boardDetectionApproach);
 
     // controller now has the actual camera resolution.
     // We update the UI to show the resolution being used.
@@ -115,6 +130,8 @@ void MainWindow::setConfigEnabled(bool enabled) {
     ui->stopButton->setEnabled(!enabled);
     ui->camWidth->setEnabled(enabled);
     ui->camHeight->setEnabled(enabled);
+    ui->cornerChoiceRed->setEnabled(enabled);
+    ui->cornerChoiceRedYellow->setEnabled(enabled);
 
     if (enabled) {
         ui->image->setText(tr("Server stopped.\n\nClick the \"Start Server\" button."));

@@ -14,8 +14,13 @@ TEST(BoardDetectorTest, BoardWithMarkers) {
 
     Mat board = detector.extractBoard(frame);
 
-    ASSERT_EQ(board.cols, 570);
-    ASSERT_EQ(board.rows, 720);
+    ASSERT_EQ(board.cols, 693);
+    ASSERT_EQ(board.rows, 896);
+
+    Size boardSize = detector.getBoardSize();
+
+    ASSERT_EQ(boardSize.width, 693);
+    ASSERT_EQ(boardSize.height, 896);
 
     Mat expected = imread("UnitTests/Resources/boardtest_markers_result.jpg");
 
@@ -30,8 +35,8 @@ TEST(BoardDetectorTest, BoardWithoutMarkers) {
 
     Mat board = detector.extractBoard(frame);
 
-    ASSERT_EQ(board.cols, 570);
-    ASSERT_EQ(board.rows, 720);
+    ASSERT_EQ(board.cols, 693);
+    ASSERT_EQ(board.rows, 896);
 
     Mat expected = imread("UnitTests/Resources/boardtest_no_markers_result.jpg");
 
@@ -92,10 +97,65 @@ TEST(BoardDetectorTest, BoardOnTable) {
 
     Mat board = detector.extractBoard(frame);
 
-    ASSERT_EQ(board.cols, 570);
-    ASSERT_EQ(board.rows, 720);
+    ASSERT_EQ(board.cols, 634);
+    ASSERT_EQ(board.rows, 896);
 
     Mat expected = imread("UnitTests/Resources/boardtest_table_result.jpg");
+
+    ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
+}
+
+TEST(BoardDetectorTest, RedYellowCornersSimple) {
+    BoardDetector detector(BoardDetectionApproach::RED_YELLOW_MARKERS);
+    Mat frame = imread("UnitTests/Resources/boardtest_redyellow_simple.jpg");
+
+    ASSERT_TRUE(detector.locateBoard(frame));
+
+    Mat board = detector.extractBoard(frame);
+
+    ASSERT_EQ(board.cols, 470);
+    ASSERT_EQ(board.rows, 600);
+
+    Mat expected = imread("UnitTests/Resources/boardtest_redyellow_simple_result.jpg");
+
+    ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
+}
+
+TEST(BoardDetectorTest, RedYellowCornersCloth) {
+    BoardDetector detector(BoardDetectionApproach::RED_YELLOW_MARKERS);
+    Mat frame = imread("UnitTests/Resources/boardtest_redyellow_cloth.jpg");
+
+    ASSERT_TRUE(detector.locateBoard(frame));
+
+    Mat board = detector.extractBoard(frame);
+
+    ASSERT_EQ(board.cols, 486);
+    ASSERT_EQ(board.rows, 600);
+
+    Mat expected = imread("UnitTests/Resources/boardtest_redyellow_cloth_result.jpg");
+
+    ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
+}
+
+TEST(BoardDetectorTest, RedYellowCornersHalf) {
+    BoardDetector detector(BoardDetectionApproach::RED_YELLOW_MARKERS);
+    Mat frame = imread("UnitTests/Resources/boardtest_redyellow_half.jpg");
+
+    ASSERT_FALSE(detector.locateBoard(frame));
+}
+
+TEST(BoardDetectorTest, RedYellowHorizontal) {
+    BoardDetector detector(BoardDetectionApproach::RED_YELLOW_MARKERS);
+    Mat frame = imread("UnitTests/Resources/boardtest_redyellow_horizontal.jpg");
+
+    ASSERT_TRUE(detector.locateBoard(frame));
+
+    Mat board = detector.extractBoard(frame);
+
+    ASSERT_EQ(board.cols, 780);
+    ASSERT_EQ(board.rows, 600);
+
+    Mat expected = imread("UnitTests/Resources/boardtest_redyellow_horizontal_result.jpg");
 
     ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
 }

@@ -266,6 +266,12 @@
 			messages into the object hierarchy, which are then received by 
 			components that can actually receive said messages. 
 			
+			\begin{figure}[ht]
+				\includegraphics[width=\textwidth]{ClassDiagramVision}
+				\caption{Class diagram of the \texttt{Vision} namespace}
+				\label{fig:classdiagramvision}
+			\end{figure}
+			
 		\subsection{Experimental code: the RandomLevel namespace} \label{ssec:randomlevelnamespace}
 			The \texttt{RandomLevel} namespace is an abandoned and deleted
 			namespace, which contained code that, when deployed, would create
@@ -302,31 +308,29 @@
 			
 			The random level generation was added very early on in the project,
 			and there was some value in developing it further (think of replay
-			value for the game, for example). It was also refactored later to
+			value for the game, for example). It was also changed later to
 			allow for more possible paths (not only spirals, but also paths with
 			less or more than four bends). However, it was scrapped after
-			talking about it with our coach, especially after talking about how it
-			would increase the replay value of the game (it would increase it,
-			but only by very little). Another reason to scrap it was because the
-			classes belonging to it were some of the most complex classes that were
-			written for this project. Even after several refactoring attempts,
-			the classes were still just barely under the maximum complexity that we
-			allowed for our classes (this was measured with SonarQube, explained
-			in the Quality Assurance part of this report). 
-
+			discussing it with our coach, especially after talking about how it
+			would increase the replay value of the game. Another reason to abandon 
+			it was because the classes belonging to it were some of the most complex
+			in the project. Even after several attempts to rewrite these classes, 
+			they were still just barely under the maximum complexity that we
+			allowed for our classes. This was measured with SonarQube, explained
+			in section \ref{cha:qa}.
+			
 	\section{Game elements} \label{sec:graphicaldesign}
-		For designing the 3D models, we used Blender. Blender is a free application
-		for 3D modeling, under the GPL license, and Unity natively support Blender 
-		models (provided Blender is installed on the system). We have chosen for a 
-		light looking style featuring nature inspired modeling and gold and crystal 
-		based materials. The light modeling style causes slight miss alignments with 
-		the ground to be less noticeable and makes the lack of feedback from moving a 
-		card feel less odd. The crystals and gold just feels good in combination with 
-		the beams of light.
+		For designing the 3D models, we used Blender. Blender is a free 
+		application for 3D modeling, under the GNU General Public License, and 
+		Unity natively supports Blender models (provided it is installed on
+		the system). We have chosen for a light looking style featuring nature 
+		inspired models and gold and crystal based materials. The light modeling
+		style causes slight misalignments with the ground to be less noticeable 
+		and makes the lack of feedback from moving a card feel less odd. The 
+		crystals and gold just feels good in combination with the beams of light.
 		
-		The following sections display and describe the graphics used in
-		the gameplay elements, as well as the function of
-		these elements.
+		The following sections display and describe the graphics used in the 
+		game play elements, as well as the function of these elements.
 		%TODO Explain why we chose this graphics style
 		
 		\subsection{Laser target} \label{ssec:lasertarget}
@@ -433,7 +437,12 @@
 			in the level as well as all the targets. Checkpoints do not require
 			that the laser beam has any specific color in order for them to register
 			that they have been hit. The checkpoints also allow lasers to pass
-			through them. An image of a checkpoint is shown in TODO
+			through them. Checkpoints have been added mainly to prevent sequence
+			breaking of a level (sequence breaking is a term used in video games
+			for being able to get to a goal using a different route than you were
+			supposed to, often making it far easier than it should be. Gamers making
+			use of this "break the sequence" of actions in the game, hence the term).
+			An image of a checkpoint is shown in TODO
 			%TODO: IMAGE CHECKPOINT.
 			
 		\subsection{Portal} \label{ssec:portal}

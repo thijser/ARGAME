@@ -52,20 +52,36 @@ namespace TestUtilities
         /// <param name="delta">The maximum difference (in degrees) of any rotation axis in the <see cref="Quaternion"/>.</param>
         public static void AreEqual(Quaternion expected, Quaternion actual, float delta)
         {
-            Vector3 eAngles = expected.eulerAngles;
-            Vector3 aAngles = actual.eulerAngles;
+            Vector3 expectedAngles = expected.eulerAngles;
+            Vector3 actualAngles = actual.eulerAngles;
 
-            RotationEqual("x", eAngles.x, aAngles.x, delta);
-            RotationEqual("y", eAngles.y, aAngles.y, delta);
-            RotationEqual("z", eAngles.z, aAngles.z, delta);
+            RotationEqual("x", expectedAngles.x, actualAngles.x, delta);
+            RotationEqual("y", expectedAngles.y, actualAngles.y, delta);
+            RotationEqual("z", expectedAngles.z, actualAngles.z, delta);
         }
 
+        /// <summary>
+        /// Tests whether the expected value is close enough to the actual value.
+        /// <para>
+        /// This method assumes <c>expected</c> and <c>actual</c> are rotations, and as such
+        /// this method assumes that (for example) 359.9 and 0.0 are only 0.1 apart.
+        /// </para>
+        /// </summary>
+        /// <param name="tag">A tag for the rotation axis to be evaluated. Used for constructing s useful failure message.</param>
+        /// <param name="expected">The expected rotation, between 0 and 360.</param>
+        /// <param name="actual">The actual rotation, between 0 and 360.</param>
+        /// <param name="delta">The maximum difference in degrees between the two rotations.</param>
         public static void RotationEqual(string tag, float expected, float actual, float delta)
         {
             float diff = expected - actual;
-            if (Mathf.Abs(diff) > delta && Mathf.Abs(diff - 360) > delta) {
-                Assert.Fail("Expected {3} Rotation: \t{0} +/- {1}\n" +
-                            "But got:\t\t{2}", expected, delta, actual, tag);
+            if (Mathf.Abs(diff) > delta && Mathf.Abs(diff - 360) > delta) 
+            {
+                Assert.Fail(
+                    "Expected {3} Rotation: \t{0} +/- {1}\nBut got:\t\t{2}", 
+                    expected, 
+                    delta, 
+                    actual, 
+                    tag);
             }
         }
     }

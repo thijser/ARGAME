@@ -1,5 +1,4 @@
 #include "markertracker.hpp"
-#include <iostream>
 
 namespace mirrors {
 
@@ -104,9 +103,9 @@ namespace mirrors {
 
                 if (detectedMarker.second.confidence >= MARKER_MIN_CONFIDENCE) {
                     updates.push_back(MarkerUpdate(MarkerUpdateType::NEW, detectedMarker.first, newMarker.rotation, detectedMarker.second));
-                }
 
-                trackedMarkers.push_back(newMarker);
+                    trackedMarkers.push_back(newMarker);
+                }
             }
         }
     }

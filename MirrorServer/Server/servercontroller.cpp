@@ -4,13 +4,13 @@
 
 namespace mirrors {
 
+const std::string boardLocatingInstructions = "Position the camera to view the entire board.";
+
 ServerController::ServerController(QObject *parent)
     : QObject(parent),
       sock(new ServerSocket(this)),
-      boardDetector(new BoardDetector()),
       markerDetector(new MarkerDetector()),
       recognizer(new MarkerRecognizer()),
-      markerTracker(new MarkerTracker(*boardDetector, *markerDetector, *recognizer)),
       capture(nullptr),
       detectorTimer(new QTimer(this)),
       serverState(Idle)
@@ -23,8 +23,6 @@ ServerController::ServerController(QObject *parent)
 
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
             this, SLOT(broadcastPositions(vector<MarkerUpdate>)));
-    connect(detectorTimer, SIGNAL(timeout()),
-            this,          SLOT(detectBoard()));
     connect(sock, SIGNAL(errorOccurred(QString)),
             this, SIGNAL(socketError(QString)));
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
@@ -55,7 +53,7 @@ void ServerController::fatalError(const QString &message) {
     emit fatalErrorOccurred(message);
 }
 
-void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camSize) {
+void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camSize, BoardDetectionApproach::BoardDetectionApproach boardDetectionApproach) {
     Q_ASSERT(serverState == Idle);
     Q_ASSERT(capture == nullptr); // Otherwise we get a memory leak.
     changeState(Starting);
@@ -72,9 +70,19 @@ void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camS
     cameraResolution.width = capture->get(CV_CAP_PROP_FRAME_WIDTH);
     cameraResolution.height = capture->get(CV_CAP_PROP_FRAME_HEIGHT);
 
+    // Reconfigure board detector and tracker
+    delete boardDetector;
+    delete markerTracker;
+    boardDetector = new BoardDetector(boardDetectionApproach);
+    markerTracker = new MarkerTracker(*boardDetector, *markerDetector, *recognizer);
+
     sock->setPortNumber(port);
     sock->start();
     detectorTimer->start();
+
+    // Start detecting board
+    connect(detectorTimer, SIGNAL(timeout()),
+            this,          SLOT(detectBoard()));
 }
 
 void ServerController::stopServer() {
@@ -89,12 +97,22 @@ void ServerController::detectBoard() {
         delete capture;
         capture = nullptr;
         changeState(Idle);
+
+        disconnect(detectorTimer, SIGNAL(timeout()),
+                   this,          SLOT(detectBoard()));
+
         return;
     }
     Q_ASSERT(serverState == Starting);
 
     Mat frame;
     capture->read(frame);
+
+    drawBoardLocatingInstructions(frame);
+
+    // Show image to user
+    emit imageReady(frame);
+
     if (boardDetector->locateBoard(frame)) {
         // When the board is found, we stop trying to locate
         // the board and start detecting markers instead.
@@ -105,6 +123,10 @@ void ServerController::detectBoard() {
         changeState(Started);
     }
     detectorTimer->start();
+}
+
+void ServerController::setDebugOverlay(bool enable) {
+    showDebugOverlay = enable;
 }
 
 void ServerController::detectFrame() {
@@ -121,8 +143,15 @@ void ServerController::detectFrame() {
         vector<MarkerUpdate> markers = markerTracker->track(frame);
         emit markersUpdated(markers);
 
+        // Extract board view and render debug info on it
         Mat board = boardDetector->extractBoard(frame);
+
+        if (showDebugOverlay) {
+            drawDebugOverlay(*markerTracker, board, markers);
+        }
+
         emit imageReady(board);
+
         detectorTimer->start();
 
         // Determine FPS if new second has started
@@ -138,6 +167,9 @@ void ServerController::detectFrame() {
         changeState(Idle);
         delete capture;
         capture = nullptr;
+
+        disconnect(detectorTimer,    SIGNAL(timeout()),
+                this,             SLOT(detectFrame()));
     }
 }
 
@@ -153,12 +185,56 @@ void ServerController::broadcastPosition(const MarkerUpdate& marker) {
     } else {
         // Scale marker positions based on their size for Meta 1 tracking
         float scale = markerTracker->getMarkerScale();
-        cv::Point2f scaledCoords(marker.position.x / scale, (24 * 30 - marker.position.y) / scale);
+        cv::Point2f scaledCoords(marker.position.x / scale, marker.position.y / scale);
 
         sock->broadcastPositionUpdate(
                     marker.id,
                     scaledCoords,
                     marker.rotation);
+    }
+}
+
+void ServerController::drawBoardLocatingInstructions(Mat& frame) {
+    // Determine bounds of instruction text
+    int baseLine;
+    cv::Size textSize = cv::getTextSize(boardLocatingInstructions, cv::FONT_HERSHEY_SIMPLEX, 0.5, 1, &baseLine);
+    Point textPos = Point(frame.cols / 2, frame.rows / 2) + Point(-textSize.width / 2, textSize.height / 2);
+
+    // Draw background rectangle
+    int padding = 10;
+    Point topLeft = Point(textPos.x - padding, textPos.y - textSize.height - padding);
+    Point bottomRight = Point(textPos.x + textSize.width + padding, textPos.y + padding);
+    cv::rectangle(frame, topLeft, bottomRight, cv::Scalar(0, 0, 0, 255), CV_FILLED);
+
+    // Draw text itself
+    cv::putText(frame, boardLocatingInstructions, textPos, cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 255, 255, 255), 1);
+}
+
+void ServerController::drawDebugOverlay(MarkerTracker& tracker, Mat& board, const vector<MarkerUpdate>& markers) {
+    float scale = tracker.getMarkerScale();
+    cv::Size markerSize(scale * 8, scale * 8);
+
+    for (MarkerUpdate update : markers) {
+        // Draw border around recognized marker
+        cv::RotatedRect rrect(update.position, markerSize, update.rotation);
+        cv::Point2f rrectPoints[4];
+        rrect.points(rrectPoints);
+
+        cv::Point rectPoints[4];
+        for (int i = 0; i < 4; i++) {
+            rectPoints[i] = rrectPoints[i];
+        }
+
+        // Draw solid color rotated square on recognized marker
+        cv::fillConvexPoly(board, rectPoints, 4, cv::Scalar(0, 0, 0, 128));
+
+        // Draw centered text with recognized ID in it
+        int baseLine;
+        cv::Size textSize = cv::getTextSize(std::to_string(update.id), cv::FONT_HERSHEY_SIMPLEX, 1.2, 2, &baseLine);
+
+        Point textPos = update.position + Point(-textSize.width / 2, textSize.height / 2);
+
+        cv::putText(board, std::to_string(update.id), textPos, cv::FONT_HERSHEY_SIMPLEX, 1.2, cv::Scalar(255, 255, 255, 255), 2);
     }
 }
 

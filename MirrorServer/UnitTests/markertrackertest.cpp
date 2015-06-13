@@ -16,7 +16,7 @@ protected:
         boardDetector.locateBoard(frameStart);
     }
 
-    BoardDetector boardDetector;
+    BoardDetector boardDetector = BoardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     MarkerTracker markerTracker = MarkerTracker(boardDetector, markerDetector, markerRecognizer);
@@ -30,6 +30,7 @@ protected:
     Mat frameRemove = imread("UnitTests/Resources/trackertest_remove.jpg");
     Mat frameOriginal = imread("UnitTests/Resources/trackertest_original.jpg");
     Mat frameUpdatedMatch = imread("UnitTests/Resources/trackertest_updated_match.jpg");
+    Mat frameBackgroundMatch = imread("UnitTests/Resources/trackertest_background_pattern.jpg");
 };
 
 TEST_F(MarkerTrackerTest, NewMarker) {
@@ -172,4 +173,14 @@ TEST_F(MarkerTrackerTest, RefreshMatch) {
     };
 
     ASSERT_TRUE(expectMarkerUpdates(expectedUpdates2, updates2));
+}
+
+TEST_F(MarkerTrackerTest, NonConfidentPatternLeakingThrough) {
+    auto updates = markerTracker.track(frameBackgroundMatch, 0);
+
+    ASSERT_EQ(5ul, updates.size());
+
+    auto updates2 = markerTracker.track(frameBackgroundMatch, 33);
+
+    ASSERT_EQ(5ul, updates2.size());
 }

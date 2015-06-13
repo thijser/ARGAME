@@ -77,6 +77,12 @@ public:
      */
     cv::Size resolution() const { return cameraResolution; }
 
+    /**
+     * @brief Set if the debug overlay should be enabled.
+     * @param enable - True if debug overlay should be shown.
+     */
+    void setDebugOverlay(bool enable);
+
 signals:
     /**
      * @brief Signal emitted when the board has been detected.
@@ -146,7 +152,7 @@ public slots:
      * @param cameraDevice - The camera to use.
      * @param camSize      - The desired camera resolution.
      */
-    void startServer(quint16 port, int cameraDevice = -1, cv::Size camSize = cv::Size(640,480));
+    void startServer(quint16 port, int cameraDevice = -1, cv::Size camSize = cv::Size(640,480), BoardDetectionApproach::BoardDetectionApproach boardDetectionApproach = BoardDetectionApproach::RED_MARKERS);
 
     /**
      * @brief Stops this ServerController.
@@ -179,7 +185,7 @@ private:
     ServerSocket *sock;
 
     /// The BoardDetector used to find the playing area.
-    BoardDetector *boardDetector;
+    BoardDetector *boardDetector = nullptr;
 
     /// The MarkerDetector instance used to find markers.
     MarkerDetector *markerDetector;
@@ -188,7 +194,7 @@ private:
     MarkerRecognizer *recognizer;
 
     /// The MarkerTracker instance used to follow markers.
-    MarkerTracker *markerTracker;
+    MarkerTracker *markerTracker = nullptr;
 
     /// The OpenCV VideoCapture object used to get video frames.
     cv::VideoCapture *capture;
@@ -207,6 +213,22 @@ private:
 
     /// Amount of frames that have been processed this second.
     int framesCount;
+
+    /// Boolean indicating if debug overlay should be shown.
+    bool showDebugOverlay = true;
+
+    /**
+     * @brief Draw instructions for locating the board on top of the camera image.
+     * @param frame - Camera image to draw instructions to.
+     */
+    static void drawBoardLocatingInstructions(Mat& frame);
+
+    /**
+     * @brief Draw the marker positions and IDs on top of the board image.
+     * @param board - Board image.
+     * @param markers - Marker positions and other info.
+     */
+    static void drawDebugOverlay(MarkerTracker& tracker, Mat& board, const vector<MarkerUpdate>& markers);
 };
 
 } // namespace mirrors
