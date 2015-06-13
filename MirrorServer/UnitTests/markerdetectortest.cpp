@@ -9,7 +9,7 @@ using namespace mirrors;
 using namespace cv;
 
 TEST(MarkerDetectorTest, NoMarkers) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/boardtest_no_markers.jpg");
 
@@ -22,7 +22,7 @@ TEST(MarkerDetectorTest, NoMarkers) {
 }
 
 TEST(MarkerDetectorTest, SingleMarker) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/markertest_single.jpg");
 
@@ -39,7 +39,7 @@ TEST(MarkerDetectorTest, SingleMarker) {
 }
 
 TEST(MarkerDetectorTest, MarkerGrid) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/markertest_grid.jpg");
 
@@ -66,7 +66,7 @@ TEST(MarkerDetectorTest, MarkerGrid) {
 }
 
 TEST(MarkerDetectorTest, MarkerShades) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/markertest_green_shades.jpg");
 
@@ -93,7 +93,7 @@ TEST(MarkerDetectorTest, MarkerShades) {
 }
 \
 TEST(MarkerDetectorTest, VaryingLighting) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/markertest_varying_lighting.jpg");
 
@@ -115,7 +115,7 @@ TEST(MarkerDetectorTest, VaryingLighting) {
 }
 
 TEST(MarkerDetectorTest, LightingGradient) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/markertest_lighting_gradient.jpg");
 
@@ -145,7 +145,7 @@ TEST(MarkerDetectorTest, LightingGradient) {
 }
 
 TEST(MarkerDetectorTest, Table) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     Mat frame = imread("UnitTests/Resources/boardtest_table.jpg");
 

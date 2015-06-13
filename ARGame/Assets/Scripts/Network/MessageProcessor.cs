@@ -223,5 +223,10 @@ namespace Network
 
             return IPAddress.NetworkToHostOrder(BitConverter.ToInt32(buffer, offset));
         }
+
+        public static AbstractUpdate ReadBoardSize(byte[] buffer, int received)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

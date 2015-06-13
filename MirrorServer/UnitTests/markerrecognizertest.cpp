@@ -16,7 +16,7 @@ TEST(MarkerRecognizerTest, RegisterPatterns) {
 }
 
 TEST(MarkerRecognizerTest, SingleMarker) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
@@ -33,7 +33,7 @@ TEST(MarkerRecognizerTest, SingleMarker) {
 }
 
 TEST(MarkerRecognizerTest, MultiMarker) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
@@ -65,7 +65,7 @@ TEST(MarkerRecognizerTest, MultiMarker) {
 }
 
 TEST(MarkerRecognizerTest, MultiMarkerGradient) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
@@ -105,7 +105,7 @@ TEST(MarkerRecognizerTest, MultiMarkerGradient) {
 }
 
 TEST(MarkerRecognizerTest, MultiShades) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
@@ -142,7 +142,7 @@ TEST(MarkerRecognizerTest, MultiShades) {
 }
 
 TEST(MarkerRecognizerTest, MultiSkewed) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
@@ -181,7 +181,7 @@ TEST(MarkerRecognizerTest, MultiSkewed) {
 }
 
 TEST(MarkerRecognizerTest, MultiTable) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");
@@ -220,7 +220,7 @@ TEST(MarkerRecognizerTest, MultiTable) {
 }
 
 TEST(MarkerRecognizerTest, LowRes) {
-    BoardDetector boardDetector;
+    BoardDetector boardDetector(BoardDetectionApproach::RED_MARKERS, false);
     MarkerDetector markerDetector;
     MarkerRecognizer markerRecognizer;
     loadPatterns(markerRecognizer, "markers/%d.png");

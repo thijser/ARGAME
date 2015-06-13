@@ -32,6 +32,11 @@ namespace Network
         /// <summary>
         /// Indicates that the rotation of the object is updated.
         /// </summary>
-        UpdateRotation = 3
+        UpdateRotation = 3,
+
+        /// <summary>
+        /// Indicates the board size is set.
+        /// </summary>
+        BoardSize = 4
     }
 }
