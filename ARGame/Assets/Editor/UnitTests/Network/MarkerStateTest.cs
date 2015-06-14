@@ -42,7 +42,7 @@ namespace Network
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorNullTest2()
         {
-            new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), null);
+            new MarkerState(new PositionUpdate(UpdateType.UpdatePosition, new Vector2(0, 0), 0f, 1), null);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Network
             GameObject parent = new GameObject("Dummy");
             GameObject child = new GameObject("NumberText", typeof(TextMesh));
             child.transform.parent = parent.transform;
-            MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), parent);
+            MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.UpdatePosition, new Vector2(0, 0), 0f, 1), parent);
             ms.Update(null);
         }
 
@@ -66,19 +66,7 @@ namespace Network
         /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void ConstructorInvalidArgsTest()
-        {
-            GameObject parent = new GameObject("Dummy");
-            new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), parent);
-        }
-
-        /// <summary>
-        /// Test if correct exception is thrown when invalid
-        /// args are used, again.
-        /// </summary>
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ConstructorInvalidArgsTestPartTwo()
+        public void ConstructorInvalidUpdateTypeTest()
         {
             GameObject parent = new GameObject("Dummy");
             new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0, 0), 0f, 1), parent);
@@ -94,7 +82,7 @@ namespace Network
             GameObject child = new GameObject("NumberText", typeof(TextMesh));
             child.transform.parent = parent.transform;
             parent.transform.position = Vector3.zero;
-            MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0f, 0f), 0f, 1), parent);
+            MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.UpdatePosition, new Vector2(0f, 0f), 0f, 1), parent);
             ms.Update(new PositionUpdate(UpdateType.UpdatePosition, new Vector2(5f, 5f), 0f, 1));
             Assert.True(Vector3.zero != ms.Object.transform.position);
             Assert.True(ms.Object.activeSelf);
@@ -110,7 +98,7 @@ namespace Network
             GameObject child = new GameObject("NumberText", typeof(TextMesh));
             child.transform.parent = parent.transform;
             parent.transform.position = Vector3.zero;
-            MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.Ping, new Vector2(0f, 0f), 0f, 1), parent);
+            MarkerState ms = new MarkerState(new PositionUpdate(UpdateType.UpdatePosition, new Vector2(0f, 0f), 0f, 1), parent);
             ms.Update(new PositionUpdate(UpdateType.DeletePosition, new Vector2(5f, 5f), 0f, 1));
             Assert.False(ms.Object.activeSelf);
             ms.Object.SetActive(true);

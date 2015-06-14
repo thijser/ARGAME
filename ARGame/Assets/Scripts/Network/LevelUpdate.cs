@@ -1,4 +1,13 @@
-﻿namespace Network
+﻿//----------------------------------------------------------------------------
+// <copyright file="BoardSizeUpdate.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not,
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
+namespace Network
 {
     using System;
     using UnityEngine;
@@ -12,7 +21,7 @@
     public class LevelUpdate : AbstractUpdate
     {
         /// <summary>
-        /// Initializes a new object of the <see cref="BoardSizeUpdate"/> class.
+        /// Initializes a new instance of the <see cref="BoardSizeUpdate"/> class.
         /// </summary>
         /// <param name="index">The index of the next level.</param>
         /// /// <param name="size">The new size of the board.</param>

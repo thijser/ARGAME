@@ -136,3 +136,26 @@ TEST(BoardDetectorTest, RedYellowCornersCloth) {
 
     ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
 }
+
+TEST(BoardDetectorTest, RedYellowCornersHalf) {
+    BoardDetector detector(BoardDetectionApproach::RED_YELLOW_MARKERS);
+    Mat frame = imread("UnitTests/Resources/boardtest_redyellow_half.jpg");
+
+    ASSERT_FALSE(detector.locateBoard(frame));
+}
+
+TEST(BoardDetectorTest, RedYellowHorizontal) {
+    BoardDetector detector(BoardDetectionApproach::RED_YELLOW_MARKERS);
+    Mat frame = imread("UnitTests/Resources/boardtest_redyellow_horizontal.jpg");
+
+    ASSERT_TRUE(detector.locateBoard(frame));
+
+    Mat board = detector.extractBoard(frame);
+
+    ASSERT_EQ(board.cols, 780);
+    ASSERT_EQ(board.rows, 600);
+
+    Mat expected = imread("UnitTests/Resources/boardtest_redyellow_horizontal_result.jpg");
+
+    ASSERT_TRUE(imagesApproximatelyEqual(board, expected));
+}

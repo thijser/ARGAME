@@ -46,6 +46,11 @@ namespace Network
                 throw new ArgumentNullException("referenceMarker");
             }
 
+            if (initialUpdate.Type != UpdateType.UpdatePosition)
+            {
+                throw new ArgumentException("The update type has to be UpdatePosition", "initialUpdate");
+            }
+
             this.ID = initialUpdate.ID;
 
             // Create mesh representing this marker
