@@ -117,7 +117,6 @@ namespace Projection
                 throw new ArgumentNullException("level");
             }
 
-
             this.UpdatePosition(level.TransformMatrix);
         }
 
@@ -141,6 +140,7 @@ namespace Projection
                         this.LocalPosition.Rotation,
                         Vector3.one).inverse;
                 }
+
                 this.transform.SetFromMatrix(transformMatrix * levelProjection);
             }
         }
