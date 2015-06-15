@@ -8,10 +8,10 @@ namespace Level{
 		int currentLevelIndex=0;
 
 		void Start() {
-				loadLevel(0);
+			restartGame();
 		}
 		public void nextLevel(){
-			loadLevel(currentLevelIndex);
+			loadLevel(++currentLevelIndex);
 		}
 		public void restartLevel(){
 			loadLevel(currentLevelIndex);	
@@ -19,7 +19,6 @@ namespace Level{
 		public void restartGame(){
 			loadLevel (0);
 		}
-
 		public void loadLevel(int index){
 				Destroy(level);
 				Debug.Log ("loading level"+index);
