@@ -140,7 +140,29 @@
             there is a utility called gcov, which measures code coverage of 
             GTest-based unit tests. And when using the Microsoft Visual C++ 
             compiler, it is possible to use Visual Studio to analyse the 
-            coverage of the unit tests.
+            coverage of the unit tests. The tool used for analyzing C++
+            code coverage through tests is called OpenCppCoverage, which
+            is compatible with Microsoft Visual Studio 2008 and later.
+            It easily measures unit test code coverage, and also does not
+            require any extra tools to actually generate the report that
+            describes the measuring results. These are immediately afterwards
+            given in a HTML file. An example of such a report and its results
+            is given in \ref{cpppie}, while an example of which lines of code have
+            been analyzed is given in \ref{cpplines}.
+            
+            \begin{figure}[!ht]
+            	\centering
+            	\includegraphics[width=\textwidth]{CPPCoveragePie}
+            	\caption{The C++ code coverage report.}
+            	\label{fig:cpppie}
+            \end{figure}
+            
+            \begin{figure}[!ht]
+                \centering
+                \includegraphics[scale = 0.5]{CPPCoverageLines}
+                \caption{The C++ code coverage report, with covered and uncovered lines.}
+                \label{fig:cpplines}
+            \end{figure}
 			
 	\section{Code Style} \label{sec:codestyle}
 		We decided to stick to the code style guidelines defined by StyleCop and 
