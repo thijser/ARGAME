@@ -55,8 +55,8 @@ void MainWindow::setDebugOverlay(bool enable) {
 }
 
 void MainWindow::startServer() {
-    connect(controller,  SIGNAL(imageReady(cv::Mat)),
-            this,        SLOT(handleFrame(cv::Mat)));
+    connect(controller,  SIGNAL(imageReady(QPixmap)),
+            this,        SLOT(handleFrame(QPixmap)));
     connect(controller,  SIGNAL(fpsChanged(int)),
             this,        SLOT(showFPS(int)));
     connect(controller,  SIGNAL(levelChanged(int)),
@@ -97,21 +97,8 @@ void MainWindow::startServer() {
     ui->camHeight->setText(QString::number(size.height));
 }
 
-void MainWindow::handleFrame(const cv::Mat &matrix) {
-    // OpenCV stores pixels in BGR order, but QImage expects RGB order.
-    // We make a copy that contains the correct order first.
-    try {
-        cv::Mat copy;
-        cv::cvtColor(matrix, copy, CV_BGR2RGB);
-        QImage image(copy.data, copy.cols, copy.rows, static_cast<int>(copy.step), QImage::Format_RGB888);
-        // Make sure the image fits on screen by scaling it to 500 px high.
-        QPixmap pixmap = QPixmap::fromImage(image, Qt::ColorOnly).scaledToHeight(500);
-
-        ui->image->setPixmap(pixmap);
-    } catch (const cv::Exception& ex) {
-        qDebug() << tr("Unexpected OpenCV Exception in handleFrame:") << ex.what();
-    }
-
+void MainWindow::handleFrame(const QPixmap& image) {
+    ui->image->setPixmap(image);
 }
 
 void MainWindow::showFPS(int fps) {
@@ -119,8 +106,8 @@ void MainWindow::showFPS(int fps) {
 }
 
 void MainWindow::stopServer() {
-    disconnect(controller, SIGNAL(imageReady(cv::Mat)),
-               this,       SLOT(handleFrame(cv::Mat)));
+    disconnect(controller, SIGNAL(imageReady(QPixmap)),
+               this,       SLOT(handleFrame(QPixmap)));
     controller->stopServer();
 
     // Enable the configuration options.

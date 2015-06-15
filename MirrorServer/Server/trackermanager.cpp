@@ -34,30 +34,36 @@ namespace mirrors {
         return fps;
     }
 
-    bool TrackerManager::locateBoard(Mat& resultImage, bool infoOverlay) {
-        cap.read(resultImage);
-
-        if (infoOverlay) {
-            drawLocateBoardInstructions(resultImage);
-        }
-
-        return boardDetector.locateBoard(resultImage);
-    }
-
-    std::vector<MarkerUpdate> TrackerManager::getMarkerUpdates(Mat& resultImage, bool infoOverlay) {
+    bool TrackerManager::locateBoard(QPixmap& resultImage, bool infoOverlay) {
         Mat frame;
         cap.read(frame);
 
-        resultImage = boardDetector.extractBoard(frame);
+        if (infoOverlay) {
+            Mat result = frame.clone();
+            drawLocateBoardInstructions(result);
+            resultImage = matToPixmap(result);
+        } else {
+            resultImage = matToPixmap(frame);
+        }
+
+        return boardDetector.locateBoard(frame);
+    }
+
+    std::vector<MarkerUpdate> TrackerManager::getMarkerUpdates(QPixmap& resultImage, bool infoOverlay) {
+        Mat frame;
+        cap.read(frame);
+
+        Mat result = boardDetector.extractBoard(frame);
 
         // Try to track only if board has already been located
         vector<MarkerUpdate> updates;
 
-        if (resultImage.rows != 0) {
+        if (result.rows != 0) {
             updates = tracker.track(frame);
 
             if (infoOverlay) {
-                drawTrackInfo(tracker, resultImage, updates);
+                drawTrackInfo(tracker, result, updates);
+                resultImage = matToPixmap(result);
             }
         }
 
@@ -126,5 +132,15 @@ namespace mirrors {
 
             cv::putText(board, std::to_string(update.id), textPos, cv::FONT_HERSHEY_SIMPLEX, 1.2, cv::Scalar(255, 255, 255, 255), 2);
         }
+    }
+
+    QPixmap TrackerManager::matToPixmap(Mat& input) {
+        // Convert image to RGB format to create QImage from it
+        cv::Mat copy;
+        cv::cvtColor(input, copy, CV_BGR2RGB);
+        QImage image(copy.data, copy.cols, copy.rows, static_cast<int>(copy.step), QImage::Format_RGB888);
+
+        // Create pixmap from it
+        return QPixmap::fromImage(image, Qt::ColorOnly);
     }
 }

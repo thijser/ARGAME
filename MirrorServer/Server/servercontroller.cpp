@@ -96,7 +96,7 @@ void ServerController::detectBoard() {
     }
     Q_ASSERT(serverState == Starting);
 
-    Mat result;
+    QPixmap result;
     bool boardLocated = trackerManager->locateBoard(result, true);
 
     // Show image to user
@@ -127,7 +127,7 @@ void ServerController::detectFrame() {
     }
 
     if (state() == Started) {
-        Mat result;
+        QPixmap result;
         vector<MarkerUpdate> markers = trackerManager->getMarkerUpdates(result, showDebugOverlay);
 
         emit markersUpdated(markers);
