@@ -15,7 +15,6 @@ namespace Core
     using Core.Receiver;
     using Network;
     using UnityEngine;
-    using SysDebug = System.Diagnostics.Debug;
 
     /// <summary>
     /// A class that tracks if the level has been won.
@@ -51,6 +50,11 @@ namespace Core
                 Debug.LogError("NextLevelIndex is set to " + this.NextLevelIndex +
                     ", but should be between 0 and " + Application.levelCount);
             }
+
+            if (this.targets.Length == 0)
+            {
+                Debug.LogError("This level has no targets, so this level is automatically solved.");
+            }
         }
 
         /// <summary>
@@ -59,9 +63,6 @@ namespace Core
         /// </summary>
         public void LateUpdate()
         {
-            // If the length of targets is 0, the level cannot be completed.
-            // As such, this should never happen in scenes where this script exists.
-            SysDebug.Assert(this.targets.Length > 0);
             bool win = Array.TrueForAll(
                 this.targets, 
                 t => t.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opened"));
@@ -76,7 +77,6 @@ namespace Core
             if (win)
             {
                 this.SendMessageUpwards("OnLevelCompleted", new LevelUpdate(this.NextLevelIndex, Vector2.one));
-                //Application.LoadLevel(this.NextLevelIndex);
             }
         }
 
@@ -86,14 +86,9 @@ namespace Core
         /// <param name="update">The update to be handled.</param>
         public void OnServerUpdate(AbstractUpdate update)
         {
-            if (update == null)
+            LevelUpdate level = update as LevelUpdate;
+            if (level != null && level.Type == UpdateType.Level)
             {
-                throw new ArgumentNullException("update");
-            }
-
-            if (update.Type == UpdateType.Level)
-            {
-                LevelUpdate level = update as LevelUpdate;
                 Application.LoadLevel(level.NextLevelIndex);
             }
         }
