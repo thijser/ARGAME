@@ -59,7 +59,7 @@ namespace mirrors {
         /**
         * @brief Type of marker state update that occured.
         */
-        enum MarkerUpdateType {
+        enum Type {
             NEW,
             CHANGE,
             REMOVE
@@ -76,7 +76,7 @@ namespace mirrors {
 
     public:
         /// Type of state update.
-        MarkerUpdateType::MarkerUpdateType type;
+        MarkerUpdateType::Type type;
 
         /// ID of detected pattern.
         int id;
@@ -98,7 +98,7 @@ namespace mirrors {
          * @param rotation - Rotation of marker relative to detected pattern.
          * @param match - Match result of marker (used for id and rotation).
          */
-        MarkerUpdate(MarkerUpdateType::MarkerUpdateType type, Point position, float rotation, PatternMatch match)
+        MarkerUpdate(MarkerUpdateType::Type type, Point position, float rotation, PatternMatch match)
             : type(type), id(match.id), position(position), rotation(rotation), scale(match.scale) {}
     };
 

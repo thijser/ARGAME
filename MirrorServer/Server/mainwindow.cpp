@@ -76,7 +76,7 @@ void MainWindow::startServer() {
     );
 
     // Determine board detection approach based on user choice
-    BoardDetectionApproach::BoardDetectionApproach boardDetectionApproach;
+    BoardDetectionApproach::Type boardDetectionApproach;
 
     if (ui->cornerChoiceRed->isChecked()) {
         boardDetectionApproach = BoardDetectionApproach::RED_MARKERS;

@@ -5,12 +5,14 @@
 #include <opencv2/videoio.hpp>
 #include "markertracker.hpp"
 
+// TODO: Resize image, draw overlay and then output QPixmap
+
 namespace mirrors {
     using namespace cv;
 
     class TrackerManager {
     public:
-        TrackerManager(int captureDevice, Size requestedResolution, BoardDetectionApproach::BoardDetectionApproach boardApproach);
+        TrackerManager(int captureDevice, Size requestedResolution, BoardDetectionApproach::Type boardApproach);
 
         bool loadPatterns(const std::string& directory, int count);
 
@@ -21,6 +23,8 @@ namespace mirrors {
         bool locateBoard(Mat& resultImage, bool infoOverlay);
 
         vector<MarkerUpdate> getMarkerUpdates(Mat& resultImage, bool infoOverlay);
+
+        Point2f scaledMarkerCoordinate(const MarkerUpdate& update);
 
     private:
         VideoCapture cap;

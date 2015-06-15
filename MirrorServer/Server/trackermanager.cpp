@@ -1,7 +1,7 @@
 #include "trackermanager.hpp"
 
 namespace mirrors {
-    TrackerManager::TrackerManager(int captureDevice, Size requestedResolution, BoardDetectionApproach::BoardDetectionApproach boardApproach)
+    TrackerManager::TrackerManager(int captureDevice, Size requestedResolution, BoardDetectionApproach::Type boardApproach)
         : boardDetector(boardApproach), tracker(boardDetector, detector, recognizer) {
 
         cap = VideoCapture(captureDevice);
@@ -41,8 +41,6 @@ namespace mirrors {
             drawLocateBoardInstructions(resultImage);
         }
 
-        // TODO: Resize, draw text and then output QImage
-
         return boardDetector.locateBoard(resultImage);
     }
 
@@ -74,6 +72,11 @@ namespace mirrors {
         }
 
         return updates;
+    }
+
+    Point2f TrackerManager::scaledMarkerCoordinate(const MarkerUpdate& update) {
+        float scale = tracker.getMarkerScale();
+        return Point2f(update.position.x / scale, update.position.y / scale);
     }
 
     void TrackerManager::drawLocateBoardInstructions(Mat& resultImage) {

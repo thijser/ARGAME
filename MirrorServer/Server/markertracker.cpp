@@ -50,7 +50,7 @@ namespace mirrors {
             TrackedMarker* closest = findClosestMarker(detectedMarker.first, MARKER_MAX_FRAME_DIST);
 
             if (closest != nullptr) {
-                MarkerUpdateType::MarkerUpdateType updateType = MarkerUpdateType::CHANGE;
+                MarkerUpdateType::Type updateType = MarkerUpdateType::CHANGE;
 
                 closest->lastSighting = timestamp;
                 closest->seenThisFrame = true;
