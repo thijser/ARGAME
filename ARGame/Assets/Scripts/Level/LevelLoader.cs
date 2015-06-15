@@ -15,7 +15,7 @@
         private List<InputEntry> entries;
        
         private GameObject level;
-
+		private Vector2 size=new Vector2(1,1);
         public void LoadObjects()
         {
             indexes = new Dictionary<char, GameObject>();
@@ -57,7 +57,11 @@
                     x++;
                     ie.dir = line[x];
                     ie.pos = new Vector2(x / 2, y);
-                    if (ie.type != '.')
+					if(x/2>size.x)
+						size.x=x/2;
+					if(y>size.y)
+						size.y=y;
+						if (ie.type != '.')
                     {
                         entries.Add(ie);
                     }   
@@ -77,7 +81,10 @@
         {
 
             level = new GameObject("level");
-            foreach (InputEntry ie in entries)
+			level.AddComponent<Levelcomp>();
+			Levelcomp levelcomp=level.GetComponent<Levelcomp>();
+			levelcomp.size=size;
+			foreach (InputEntry ie in entries)
             {
                 GameObject go = ConstructEntry(ie);
                 go.transform.SetParent(level.transform);
