@@ -15,6 +15,8 @@ namespace Level{
 			indexes.Add('w',(GameObject)Resources.Load("prefabs/BOXWALL"));
 			indexes.Add('e',(GameObject)Resources.Load("prefabs/Emitter"));
 			indexes.Add('t',(GameObject)Resources.Load("prefabs/Laser Target"));
+			indexes.Add('m',(GameObject)Resources.Load("prefabs/Mirror"));
+
 		}
 
 		public GameObject CreateLevel(string path){
