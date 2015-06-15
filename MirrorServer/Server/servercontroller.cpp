@@ -13,7 +13,8 @@ ServerController::ServerController(QObject *parent)
       recognizer(new MarkerRecognizer()),
       capture(nullptr),
       detectorTimer(new QTimer(this)),
-      serverState(Idle)
+      serverState(Idle),
+      currentLevel(-1)
 {
     // Load markers
     for (int i = 0; i < MARKER_COUNT; i++) {
@@ -94,12 +95,15 @@ void ServerController::stopServer() {
 }
 
 void ServerController::changeLevel(int nextLevel) {
-    cv::Size integerBoardSize = boardDetector->getBoardSize();
-    cv::Size2f boardSize(
-            integerBoardSize.width / markerTracker->getMarkerScale(),
-            integerBoardSize.height / markerTracker->getMarkerScale());
-    sock->broadcastLevelUpdate(nextLevel, boardSize);
-    emit levelChanged(nextLevel);
+    if (nextLevel != currentLevel) {
+        cv::Size integerBoardSize = boardDetector->getBoardSize();
+        cv::Size2f boardSize(
+                integerBoardSize.width / markerTracker->getMarkerScale(),
+                integerBoardSize.height / markerTracker->getMarkerScale());
+        sock->broadcastLevelUpdate(nextLevel, boardSize);
+        currentLevel = nextLevel;
+        emit levelChanged(nextLevel);
+    }
 }
 
 void ServerController::detectBoard() {

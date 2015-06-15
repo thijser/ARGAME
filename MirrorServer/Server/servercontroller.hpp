@@ -226,6 +226,9 @@ private:
     /// Amount of frames that have been processed this second.
     int framesCount;
 
+    /// The current level.
+    int currentLevel;
+
     /// Boolean indicating if debug overlay should be shown.
     bool showDebugOverlay = true;
 
