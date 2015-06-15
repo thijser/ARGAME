@@ -45,21 +45,20 @@ namespace mirrors {
     }
 
     std::vector<MarkerUpdate> TrackerManager::getMarkerUpdates(Mat& resultImage, bool infoOverlay) {
-        cap.read(resultImage);
+        Mat frame;
+        cap.read(frame);
 
-        resultImage = boardDetector.extractBoard(resultImage);
+        resultImage = boardDetector.extractBoard(frame);
 
         // Try to track only if board has already been located
         vector<MarkerUpdate> updates;
 
         if (resultImage.rows != 0) {
-            updates = tracker.track(resultImage);
+            updates = tracker.track(frame);
 
             if (infoOverlay) {
                 drawTrackInfo(tracker, resultImage, updates);
             }
-        } else {
-            resultImage = resultImage;
         }
 
         // Update framerate
