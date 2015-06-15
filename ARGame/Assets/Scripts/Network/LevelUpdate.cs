@@ -57,22 +57,36 @@ namespace Network
         /// </summary>
         public int NextLevelIndex { get; private set; }
 
+        /// <summary>
+        /// Gets the hash code for this object.
+        /// </summary>
+        /// <returns>The hash code for this object.</returns>
         public override int GetHashCode()
         {
             return (this.GetType().GetHashCode() * this.NextLevelIndex) ^ this.Size.GetHashCode();
         }
 
+        /// <summary>
+        /// Tests whether this object is equal to the argument.
+        /// </summary>
+        /// <param name="obj">The object to test for equality.</param>
+        /// <returns>True if this object is equal to the argument, false otherwise.</returns>
         public override bool Equals(object obj)
         {
-            LevelUpdate that = obj as LevelUpdate;
-            if (that == null)
+            if (obj == null || obj.GetType() != this.GetType())
             {
                 return false;
             }
+
+            LevelUpdate that = obj as LevelUpdate;
             return this.NextLevelIndex == that.NextLevelIndex
                 && this.Size == that.Size;
         }
 
+        /// <summary>
+        /// Returns a string representation of this LevelUpdate.
+        /// </summary>
+        /// <returns>A string describing this LevelUpdate.</returns>
         public override string ToString()
         {
             return "<LevelUpdate[NextLevelIndex=" + this.NextLevelIndex + ", Size=" + this.Size + "]>";
