@@ -126,10 +126,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11405014, guid: 4c466093b3e194f4c9676e4cb69e28c4, type: 2}
-      propertyPath: ServerAddress
-      value: 145.94.145.215
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4c466093b3e194f4c9676e4cb69e28c4, type: 2}
   m_IsPrefabParent: 0
