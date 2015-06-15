@@ -34,7 +34,7 @@ namespace Network
         public void TestConstructorTypical()
         {
             LevelUpdate update = new LevelUpdate(5, new Vector2(3, 4));
-            Assert.AreEqual(5, update.ID);
+            Assert.AreEqual(5, update.NextLevelIndex);
             Assert.AreEqual(new Vector2(3, 4), update.Size);
         }
 

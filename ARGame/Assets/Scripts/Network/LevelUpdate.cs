@@ -56,5 +56,26 @@ namespace Network
         /// Gets the index of the next level.
         /// </summary>
         public int NextLevelIndex { get; private set; }
+
+        public override int GetHashCode()
+        {
+            return (this.GetType().GetHashCode() * this.NextLevelIndex) ^ this.Size.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            LevelUpdate that = obj as LevelUpdate;
+            if (that == null)
+            {
+                return false;
+            }
+            return this.NextLevelIndex == that.NextLevelIndex
+                && this.Size == that.Size;
+        }
+
+        public override string ToString()
+        {
+            return "<LevelUpdate[NextLevelIndex=" + this.NextLevelIndex + ", Size=" + this.Size + "]>";
+        }
     }
 }
