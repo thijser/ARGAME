@@ -28,22 +28,22 @@ namespace Core
         public int NextLevelIndex;
 
         /// <summary>
-        /// All targets in the level.
+        /// Gets all targets in the level.
         /// </summary>
-        private LaserTarget[] targets;
+        public LaserTarget[] Targets { get; private set; }
 
         /// <summary>
-        /// All checkpoints in the level.
+        /// Gets all checkpoints in the level.
         /// </summary>
-        private Checkpoint[] checks;
+        public Checkpoint[] Checks { get; private set; }
 
         /// <summary>
         /// Initializes the target array.
         /// </summary>
         public void Start()
         {
-            this.targets = GameObject.FindObjectsOfType<LaserTarget>();
-            this.checks = GameObject.FindObjectsOfType<Checkpoint>();
+            this.Targets = GameObject.FindObjectsOfType<LaserTarget>();
+            this.Checks = GameObject.FindObjectsOfType<Checkpoint>();
 
             if (this.NextLevelIndex < 0 || this.NextLevelIndex >= Application.levelCount)
             {
@@ -51,7 +51,7 @@ namespace Core
                     ", but should be between 0 and " + Application.levelCount);
             }
 
-            if (this.targets.Length == 0)
+            if (this.Targets.Length == 0)
             {
                 Debug.LogError("This level has no targets, so this level is automatically solved.");
             }
@@ -64,15 +64,15 @@ namespace Core
         public void LateUpdate()
         {
             bool win = Array.TrueForAll(
-                this.targets, 
+                this.Targets, 
                 t => t.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opened"));
 
             win = win && Array.TrueForAll(
-                this.checks,
+                this.Checks,
                 t => t.Hit);
 
-            Array.ForEach(this.targets, t => t.Reset());
-            Array.ForEach(this.checks, t => t.Reset());
+            Array.ForEach(this.Targets, t => t.Reset());
+            Array.ForEach(this.Checks, t => t.Reset());
 
             if (win)
             {
