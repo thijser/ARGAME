@@ -2,80 +2,64 @@
 using System.Collections;
 using System.Collections.Generic;
 using StreamReader = System.IO.StreamReader;
+using System.Text.RegularExpressions;
+namespace Level{
+	public class LevelLoader{
 
-public class LevelLoader{
-	char[ , ] letters;
-	Vector2 size; 
-	public Dictionary<char,Object> objectMapper;
-	GameObject level;
-	public void loadPrefabs(){
-		objectMapper = new Dictionary<char,Object>();
-		objectMapper.Add('w',Resources.Load("wall"));
-		objectMapper.Add('t',Resources.Load("Laser Target"));
-		objectMapper.Add('e',Resources.Load("Emitter"));
+		Dictionary<char,GameObject> indexes;
+		List<InputEntry> entries;
+		GameObject level;
+		
+		public void loadObjects(){
+			indexes=new Dictionary<char, GameObject>();
+			indexes.Add('w',(GameObject)Resources.Load("prefabs/BOXWALL"));
+			indexes.Add('e',(GameObject)Resources.Load("prefabs/Emitter"));
+			indexes.Add('t',(GameObject)Resources.Load("prefabs/Laser Target"));
+		}
 
-	}
+		public GameObject CreateLevel(string path){
 
-	public void LoadLettersdif(string path){
-		StreamReader reader = new StreamReader(path);
-		int width= int.Parse(reader.ReadLine());
-		int height=int.Parse (reader.ReadLine());
-		string strlevel = reader.ReadToEnd();
-		letters = new char[height , 2*width];
-
-		int x=0;
-		int y=0;
-		for(int i=0;i<strlevel;i++){
-			if(!char.IsWhiteSpace(strlevel[i])){
-				x++;
-				if(x>=xsize){
-					x=0;
-					y++;
-				}
-				char type = strlevel[i];
-				char dir = strlevel[++i];
-
+			LoadLetters(path);
+			if(indexes==null){
+				loadObjects();
 			}
+			return ConstructLevel();
 		}
-	}
-	public void loadLetters(string path){
-		StreamReader reader = new StreamReader(path);
-		int xsize= int.Parse(reader.ReadLine());
-		int ysize=int.Parse (reader.ReadLine());
-		size=new Vector2(xsize,ysize);
-		letters = new char[ysize , 2*xsize];
-		for(int y=0;y<size.y;y++){
-			for(int x=0;x<size.x;x++){
+		public void LoadLetters(string path){
+			StreamReader reader = new StreamReader(path);
+			int y=0;
+			entries=new List<InputEntry>();
+				while(!reader.EndOfStream){
+					string line = reader.ReadLine();
+					line=Regex.Replace(line, @"\s+", "");
+					for(int x=0;x<line.Length;x++){
+						InputEntry ie=new InputEntry();
 
-				letters[y,x]=(char)reader.Read();
-				Debug.Log ("type="+letters[y,x]);
-				letters[y,x+1]=(char)reader.Read();
-				Debug.Log ("dir="+letters[y,x+1]);
-				Debug.Log ("skipping , space"+(char)reader.Read());
-
-			}
-			Debug.Log ("skipping , n;"+(char)reader.Read());
-			Debug.Log ("skipping , n;"+(char)reader.Read());
-		}
-	}
-	public void constructLevel(){
-		if((objectMapper)==null){
-			loadPrefabs();
-		}
-		level = new GameObject("level");
-		for(int y=0;y<size.y;y++){
-			for(int x=0;x<size.x;x++){
-				char type = letters[y,x];
-				int dirrection = '0'-letters[y,x+2];
-				if (type!='.'){
-					Debug.Log ("placing " + type + " at" +dirrection );
-					GameObject newObject=GameObject.Instantiate((GameObject)objectMapper[type]);
-					newObject.transform.position= new Vector3(x,0,y);
-					newObject.transform.rotation=Quaternion.Euler(0,45*dirrection,0);
-					newObject.transform.SetParent(level.transform);
+						Debug.Log (ie.type=line[x]);
+						x++;
+					Debug.Log (ie.dir=line[x]);
+						ie.pos=new Vector2(x/2,y);
+						if(ie.type!='.')
+							entries.Add(ie);
+					}
 				}
 			}
+
+			public GameObject constructEntry(InputEntry ie){
+				GameObject pref=indexes[ie.type];
+				GameObject go = GameObject.Instantiate(pref);
+				go.transform.rotation=Quaternion.Euler(0f,(float)ie.getAngle(),0f);
+			return go;
+		}
+			public GameObject ConstructLevel(){
+				
+			level = new GameObject("level");
+				foreach(InputEntry ie in entries){
+					GameObject go=constructEntry(ie);
+				go.transform.SetParent(level.transform);
+				go.transform.localPosition=new Vector3(ie.pos.x,0,ie.pos.y);
+			}
+			return level;
 		}
 	}
-
 }
