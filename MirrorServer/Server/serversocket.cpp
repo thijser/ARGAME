@@ -142,7 +142,11 @@ void ServerSocket::newConnection() {
 }
 
 void ServerSocket::handleError() {
-    emit errorOccurred(sock->errorString());
+    qDebug() << "Error in ServerSocket" << sock->errorString();
+    emit errorOccurred(
+                "The server has experienced an internal error.\n"
+                "\n"
+                "Please restart the server.");
 }
 
 void ServerSocket::handleClientError() {
