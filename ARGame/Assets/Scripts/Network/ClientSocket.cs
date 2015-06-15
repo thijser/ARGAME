@@ -186,11 +186,10 @@ namespace Network
                 case UpdateType.UpdateRotation:
                     received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
                     return MessageProcessor.ReadUpdateRotation(this.buffer, received);
-                case UpdateType.BoardSize:
-                    received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
-                    return MessageProcessor.ReadBoardSize(this.buffer, received);
+                case UpdateType.Level:
+                    received = this.socket.Receive(this.buffer, 12, SocketFlags.None);
+                    return MessageProcessor.ReadUpdateLevel(this.buffer, received);
                 default:
-                    Debug.LogWarning("Received invalid type: " + type);
                     return null;
             }
         }
@@ -203,6 +202,16 @@ namespace Network
         {
             Debug.Log("Sending rotation update: " + update);
             this.socket.Send(MessageProcessor.WriteRotationUpdate(update));
+        }
+
+        /// <summary>
+        /// Called whenever one local player manages to complete the level.
+        /// </summary>
+        /// <param name="update">The LevelUpdate describing the change.</param>
+        public void OnLevelCompleted(LevelUpdate update)
+        {
+            Debug.Log("Sending level update: " + update);
+            this.socket.Send(MessageProcessor.WriteLevelUpdate(update));
         }
     }
 }

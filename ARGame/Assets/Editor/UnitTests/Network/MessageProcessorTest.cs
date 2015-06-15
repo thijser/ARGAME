@@ -57,6 +57,18 @@ namespace Network
         }
 
         /// <summary>
+        /// Tests if the correct exception if thrown when null
+        /// is passed as the buffer argument.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Expected Exception.</exception>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestReadLevelUpdateNullBuffer()
+        {
+            MessageProcessor.ReadUpdateLevel(null, 12);
+        }
+
+        /// <summary>
         /// Test if correct exception is thrown when null ref
         /// is passed in method.
         /// </summary>
@@ -98,6 +110,18 @@ namespace Network
         public void TestReadUpdateRotationInvalidLength()
         {
             MessageProcessor.ReadUpdateRotation(new byte[16], 1000);
+        }
+
+        /// <summary>
+        /// Tests if the correct exception is thrown if the length
+        /// is larger than the buffer size.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Expected Exception.</exception>
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestReadLevelUpdateInvalidLength()
+        {
+            MessageProcessor.ReadUpdateLevel(new byte[12], 13);
         }
 
         /// <summary>
@@ -182,6 +206,15 @@ namespace Network
         }
 
         /// <summary>
+        /// Tests if null is returned if the length of the message is insufficient.
+        /// </summary>
+        [Test]
+        public void TestReadLevelUpdateBufferTooSmall()
+        {
+            Assert.Null(MessageProcessor.ReadUpdateLevel(new byte[12], 11));
+        }
+
+        /// <summary>
         /// Test if correct result is returned when length
         /// is sufficient.
         /// </summary>
@@ -263,6 +296,23 @@ namespace Network
             // valid.
             Assert.AreEqual(expected, actual);
             Assert.AreEqual((byte)UpdateType.UpdateRotation, tag);
+        }
+
+        /// <summary>
+        /// Tests if the <c>ReadLevelUpdate</c> and <c>WriteLevelUpdate</c> methods cycle.
+        /// </summary>
+        [Test]
+        public void TestReadWriteLevelUpdateCycles()
+        {
+            LevelUpdate expected = new LevelUpdate(24, new Vector2(34.5f, 76.2f));
+            byte[] bytes = MessageProcessor.WriteLevelUpdate(expected);
+
+            byte tag = bytes[0];
+            byte[] message = bytes.Skip(1).ToArray<byte>();
+            LevelUpdate actual = MessageProcessor.ReadUpdateLevel(message, message.Length);
+
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual((byte)UpdateType.Level, tag);
         }
     }
 }

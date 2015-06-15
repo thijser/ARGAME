@@ -106,6 +106,36 @@ namespace Network
         }
 
         /// <summary>
+        /// Reads a <c>UpdateRotation</c> type RotationUpdate message.
+        /// </summary>
+        /// <param name="buffer">The byte array containing data.</param>
+        /// <param name="length">The length of the message.</param>
+        /// <returns>The RotationUpdate.</returns>
+        public static LevelUpdate ReadUpdateLevel(byte[] buffer, int length)
+        {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer");
+            }
+
+            if (buffer.Length < length)
+            {
+                throw new ArgumentOutOfRangeException("buffer", buffer, "The buffer is not long enough to contain a message of the specified length.");
+            }
+
+            if (length < 12)
+            {
+                return null;
+            }
+
+            int index = MessageProcessor.ReadInt(buffer, 0);
+            float width = MessageProcessor.ReadFloat(buffer, 4);
+            float height = MessageProcessor.ReadFloat(buffer, 8);
+
+            return new LevelUpdate(index, new Vector2(width, height));
+        }
+
+        /// <summary>
         /// Writes the given <see cref="RotationUpdate"/> to a byte array.
         /// </summary>
         /// <param name="update">The <see cref="RotationUpdate"/>, not null.</param>
@@ -121,6 +151,26 @@ namespace Network
             message[0] = (byte)UpdateType.UpdateRotation;
             WriteInt(update.ID, message, 1);
             WriteFloat(update.Rotation, message, 5);
+            return message;
+        }
+
+        /// <summary>
+        /// Writes the given <see cref="LevelUpdate"/> to a byte array.
+        /// </summary>
+        /// <param name="update">The <see cref="LevelUpdate"/>, not null.</param>
+        /// <returns>A byte array containing the data from the <see cref="LevelUpdate"/>.</returns>
+        public static byte[] WriteLevelUpdate(LevelUpdate update)
+        {
+            if (update == null)
+            {
+                throw new ArgumentNullException("update");
+            }
+
+            byte[] message = new byte[13];
+            message[0] = (byte)UpdateType.Level;
+            WriteInt(update.NextLevelIndex, message, 1);
+            WriteFloat(update.Size.x, message, 5);
+            WriteFloat(update.Size.y, message, 9);
             return message;
         }
 
@@ -222,17 +272,6 @@ namespace Network
             }
 
             return IPAddress.NetworkToHostOrder(BitConverter.ToInt32(buffer, offset));
-        }
-
-        /// <summary>
-        /// Reads a BoardSizeUpdate message from the given byte array.
-        /// </summary>
-        /// <param name="buffer">The buffer to read from.</param>
-        /// <param name="received">The size of the message.</param>
-        /// <returns>The created Update.</returns>
-        public static BoardSizeUpdate ReadBoardSize(byte[] buffer, int received)
-        {
-            throw new NotImplementedException();
         }
     }
 }

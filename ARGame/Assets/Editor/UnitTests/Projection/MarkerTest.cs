@@ -75,8 +75,6 @@ namespace Projection
             parent.LocalPosition = new MarkerPosition(new Vector3(2, 5, 8), Quaternion.Euler(12, 15, 20), DateTime.Now, new Vector3(4, 5, 6), 4);
             parent.UpdatePosition(parent.TransformMatrix);
 
-            Debug.Log(parent.TransformMatrix);
-
             RoughAssert.AreEqual(Vector3.zero, parent.transform.localPosition, 0.01f);
             RoughAssert.AreEqual(Quaternion.identity, parent.transform.localRotation, 0.01f);
             RoughAssert.AreEqual(Vector3.one, parent.transform.localScale, 0.01f);

@@ -99,6 +99,12 @@ signals:
     void clientDisconnected(QTcpSocket *client);
 
     /**
+     * @brief Signal emitted whenever a client signals the level is completed.
+     * @param newLevel - The next level index.
+     */
+    void levelChanged(int newLevel);
+
+    /**
      * @brief Signal emitted when an internal server error occurs.
      *
      * This signal often indicates critical failures, and should be
@@ -160,10 +166,11 @@ public slots:
     void broadcastRotationUpdate(int id, float rotation);
 
     /**
-     * @brief Sends the size of the board to all clients.
-     * @param size - The board size.
+     * @brief Sends a LevelUpdate message to all clients.
+     * @param levelIndex - The index of the next level.
+     * @param boardSize  - The board size.
      */
-    void broadcastBoardSize(cv::Size size);
+    void broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize);
 
     /**
      * @brief Sends a Delete message to all clients.
@@ -188,15 +195,23 @@ public slots:
     void processUpdates(QTcpSocket *client);
 
     /**
-     * @brief Validates and broadcasts the provided message.
+     * @brief Reads and processes a rotation update from the client.
      *
-     * If the provided QByteArray does not represent a valid
-     * rotation update, this function does nothing. Otherwise,
-     * the provided message will be broadcast to all connected
-     * clients.
-     * @param data - The QByteArray with the message data.
+     * The rotation update is broadcast to all clients, including
+     * the client who sent the message.
+     *
+     * @param client - The client that sent the message.
      */
-    void resendRotationUpdate(QByteArray data);
+    void readRotationUpdate(QTcpSocket *client);
+
+    /**
+     * @brief Reads and processes a level update from the client.
+     *
+     * The update is emitted through the @c levelChanged(int) signal.
+     *
+     * @param client - The client that sent the message.
+     */
+    void readLevelUpdate(QTcpSocket *client);
 
 private slots:
     /**

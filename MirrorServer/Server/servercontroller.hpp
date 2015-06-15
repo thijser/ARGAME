@@ -110,6 +110,12 @@ signals:
     void fpsChanged(int fps);
 
     /**
+     * @brief Signal emitted whenever the level changed.
+     * @param level - The new level.
+     */
+    void levelChanged(int level);
+
+    /**
      * @brief Signal emitted whenever an error occurs in a Socket.
      * @param message - The QString describing the error.
      */
@@ -156,6 +162,12 @@ public slots:
     void stopServer();
 
     /**
+     * @brief Sends a level update message to all clients.
+     * @param nextLevel - The next level index.
+     */
+    void changeLevel(int nextLevel);
+
+    /**
      * @brief Attempts to detect the board
      */
     void detectBoard();
@@ -188,6 +200,9 @@ private:
 
     /// Flag indicating if the server is running.
     ServerState serverState;
+
+    /// The current level.
+    int currentLevel;
 
     /// Boolean indicating if debug overlay should be shown.
     bool showDebugOverlay = true;

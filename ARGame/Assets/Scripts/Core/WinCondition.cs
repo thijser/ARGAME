@@ -13,8 +13,8 @@ namespace Core
     using System.Collections;
     using System.Diagnostics.CodeAnalysis;
     using Core.Receiver;
+    using Network;
     using UnityEngine;
-    using SysDebug = System.Diagnostics.Debug;
 
     /// <summary>
     /// A class that tracks if the level has been won.
@@ -28,27 +28,32 @@ namespace Core
         public int NextLevelIndex;
 
         /// <summary>
-        /// All targets in the level.
+        /// Gets all targets in the level.
         /// </summary>
-        private LaserTarget[] targets;
+        public LaserTarget[] Targets { get; private set; }
 
         /// <summary>
-        /// All checkpoints in the level.
+        /// Gets all checkpoints in the level.
         /// </summary>
-        private Checkpoint[] checks;
+        public Checkpoint[] Checks { get; private set; }
 
         /// <summary>
         /// Initializes the target array.
         /// </summary>
         public void Start()
         {
-            this.targets = GameObject.FindObjectsOfType<LaserTarget>();
-            this.checks = GameObject.FindObjectsOfType<Checkpoint>();
+            this.Targets = GameObject.FindObjectsOfType<LaserTarget>();
+            this.Checks = GameObject.FindObjectsOfType<Checkpoint>();
 
             if (this.NextLevelIndex < 0 || this.NextLevelIndex >= Application.levelCount)
             {
                 Debug.LogError("NextLevelIndex is set to " + this.NextLevelIndex +
                     ", but should be between 0 and " + Application.levelCount);
+            }
+
+            if (this.Targets.Length == 0)
+            {
+                Debug.LogError("This level has no targets, so this level is automatically solved.");
             }
         }
 
@@ -58,23 +63,33 @@ namespace Core
         /// </summary>
         public void LateUpdate()
         {
-            // If the length of targets is 0, the level cannot be completed.
-            // As such, this should never happen in scenes where this script exists.
-            SysDebug.Assert(this.targets.Length > 0);
             bool win = Array.TrueForAll(
-                this.targets, 
+                this.Targets, 
                 t => t.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opened"));
 
             win = win && Array.TrueForAll(
-                this.checks,
+                this.Checks,
                 t => t.Hit);
 
-            Array.ForEach(this.targets, t => t.Reset());
-            Array.ForEach(this.checks, t => t.Reset());
+            Array.ForEach(this.Targets, t => t.Reset());
+            Array.ForEach(this.Checks, t => t.Reset());
 
             if (win)
             {
-                Application.LoadLevel(this.NextLevelIndex);
+                this.SendMessageUpwards("OnLevelCompleted", new LevelUpdate(this.NextLevelIndex, Vector2.one));
+            }
+        }
+
+        /// <summary>
+        /// Handles updates sent from the client socket.
+        /// </summary>
+        /// <param name="update">The update to be handled.</param>
+        public void OnServerUpdate(AbstractUpdate update)
+        {
+            LevelUpdate level = update as LevelUpdate;
+            if (level != null && level.Type == UpdateType.Level)
+            {
+                Application.LoadLevel(level.NextLevelIndex);
             }
         }
     }

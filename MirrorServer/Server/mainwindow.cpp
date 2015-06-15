@@ -127,6 +127,10 @@ void MainWindow::stopServer() {
     setConfigEnabled(true);
 }
 
+void MainWindow::updateLevel(int level) {
+    ui->level->setText(QString::number(level));
+}
+
 void MainWindow::setConfigEnabled(bool enabled) {
     ui->serverPort->setEnabled(enabled);
     ui->cameraDevice->setEnabled(enabled);
