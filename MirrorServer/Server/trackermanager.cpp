@@ -51,6 +51,7 @@ namespace mirrors {
 
         resultImage = boardDetector.extractBoard(resultImage);
 
+        // Try to track only if board has already been located
         vector<MarkerUpdate> updates;
 
         if (resultImage.rows != 0) {
@@ -61,6 +62,15 @@ namespace mirrors {
             }
         } else {
             resultImage = resultImage;
+        }
+
+        // Update framerate
+        if (time(nullptr) != latestSecond) {
+            latestSecond = time(nullptr);
+            fps = frames;
+            frames = 0;
+        } else {
+            frames++;
         }
 
         return updates;
