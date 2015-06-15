@@ -75,7 +75,7 @@ void ServerController::stopServer() {
 
 void ServerController::changeLevel(int nextLevel) {
     if (nextLevel != currentLevel) {
-        cv::Size2f boardSize; // TODO retrieve real board size.
+        cv::Size2f boardSize(trackerManager->scaledBoardSize());
         sock->broadcastLevelUpdate(nextLevel, boardSize);
         currentLevel = nextLevel;
         emit levelChanged(nextLevel);
