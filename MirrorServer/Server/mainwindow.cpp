@@ -11,7 +11,7 @@ namespace mirrors {
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow),
-        errorDialog(QErrorMessage::qtHandler()) {
+        errorDialog(new QErrorMessage()) {
     ui->setupUi(this);
 
     connect(ui->startButton, SIGNAL(clicked(bool)),
@@ -57,12 +57,14 @@ void MainWindow::setDebugOverlay(bool enable) {
 void MainWindow::startServer() {
     connect(controller,  SIGNAL(imageReady(cv::Mat)),
             this,        SLOT(handleFrame(cv::Mat)));
-    connect(controller,  SIGNAL(fatalErrorOccurred(QString)),
-            errorDialog, SLOT(showMessage(QString)));
     connect(controller,  SIGNAL(fpsChanged(int)),
-            this, SLOT(showFPS(int)));
+            this,        SLOT(showFPS(int)));
     connect(controller,  SIGNAL(levelChanged(int)),
             this,        SLOT(updateLevel(int)));
+    connect(controller,  SIGNAL(socketError(QString)),
+            errorDialog, SLOT(showMessage(QString)));
+    connect(controller,  SIGNAL(fatalErrorOccurred(QString)),
+            errorDialog, SLOT(showMessage(QString)));
 
     // Disable the configuration options.
     setConfigEnabled(false);
@@ -78,7 +80,7 @@ void MainWindow::startServer() {
     );
 
     // Determine board detection approach based on user choice
-    BoardDetectionApproach::BoardDetectionApproach boardDetectionApproach;
+    BoardDetectionApproach::Type boardDetectionApproach;
 
     if (ui->cornerChoiceRed->isChecked()) {
         boardDetectionApproach = BoardDetectionApproach::RED_MARKERS;

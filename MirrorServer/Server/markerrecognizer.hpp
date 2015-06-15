@@ -29,7 +29,7 @@ namespace mirrors {
         /**
         * @brief Method of recognizing a marker and its pattern.
         */
-        enum MarkerRecognitionApproach {
+        enum Type {
             HAMMING_DISTANCE
         };
     }
@@ -84,7 +84,7 @@ namespace mirrors {
          * @brief Constructs a recognizer for markers using the specified technique.
          * @param approach - Technique for recognizing markers.
          */
-        explicit MarkerRecognizer(MarkerRecognitionApproach::MarkerRecognitionApproach approach = MarkerRecognitionApproach::HAMMING_DISTANCE)
+        explicit MarkerRecognizer(MarkerRecognitionApproach::Type approach = MarkerRecognitionApproach::HAMMING_DISTANCE)
             : approach(approach) {}
 
         /**
@@ -106,7 +106,7 @@ namespace mirrors {
 
     private:
         /// Technique for recognizing markers.
-        MarkerRecognitionApproach::MarkerRecognitionApproach approach;
+        MarkerRecognitionApproach::Type approach;
 
         /// Registered known patterns.
         std::map<int, Mat> patterns;

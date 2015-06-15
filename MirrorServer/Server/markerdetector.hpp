@@ -25,7 +25,7 @@ namespace mirrors {
         /**
         * @brief Method of detecting the bounds of markers.
         */
-        enum MarkerDetectionApproach {
+        enum Type {
             GREEN_BORDERS
         };
     }
@@ -39,7 +39,7 @@ namespace mirrors {
          * @brief Constructs a marker contour detector using the specified technique.
          * @param approach - Technique for locating markers on the board.
          */
-        explicit MarkerDetector(MarkerDetectionApproach::MarkerDetectionApproach approach = MarkerDetectionApproach::GREEN_BORDERS)
+        explicit MarkerDetector(MarkerDetectionApproach::Type approach = MarkerDetectionApproach::GREEN_BORDERS)
             : approach(approach) {}
 
         /**
@@ -51,7 +51,7 @@ namespace mirrors {
 
     private:
         /// Technique for finding markers.
-        MarkerDetectionApproach::MarkerDetectionApproach approach;
+        MarkerDetectionApproach::Type approach;
 
         /**
          * @brief Create a mask with the large green regions in the specified image.

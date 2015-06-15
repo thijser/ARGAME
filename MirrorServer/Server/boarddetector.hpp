@@ -25,7 +25,7 @@ namespace mirrors {
         /**
         * @brief Method of detecting the bounds of the board surface.
         */
-        enum BoardDetectionApproach {
+        enum Type {
             RED_MARKERS,
             RED_YELLOW_MARKERS
         };
@@ -41,7 +41,7 @@ namespace mirrors {
          * @brief Constructs a board surface detector that uses the specified technique.
          * @param approach - Technique for locating the board surface.
          */
-        explicit BoardDetector(BoardDetectionApproach::BoardDetectionApproach approach = BoardDetectionApproach::RED_MARKERS, bool dynamicBoardSize = true)
+        explicit BoardDetector(BoardDetectionApproach::Type approach = BoardDetectionApproach::RED_MARKERS, bool dynamicBoardSize = true)
             : approach(approach), dynamicBoardSize(dynamicBoardSize) {}
 
         /**
@@ -79,7 +79,7 @@ namespace mirrors {
         cv::Size boardSize = cv::Size(0, 0);
 
         /// Technique for finding board corners.
-        BoardDetectionApproach::BoardDetectionApproach approach;
+        BoardDetectionApproach::Type approach;
 
         /**
          * @brief Finds the latest aspect ratio of the board.

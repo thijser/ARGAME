@@ -10,11 +10,7 @@
 #include <vector>
 #include <ctime>
 
-#include "markertracker.hpp"
-#include "markerdetector.hpp"
-#include "markerrecognizer.hpp"
-#include "boarddetector.hpp"
-
+#include "trackermanager.hpp"
 namespace mirrors {
 using std::vector;
 
@@ -75,7 +71,7 @@ public:
      * @brief The current camera resolution.
      * @return The camera resolution.
      */
-    cv::Size resolution() const { return cameraResolution; }
+    cv::Size resolution() const { Q_ASSERT(trackerManager != nullptr); return trackerManager->getCaptureResolution(); }
 
     /**
      * @brief Set if the debug overlay should be enabled.
@@ -158,7 +154,7 @@ public slots:
      * @param cameraDevice - The camera to use.
      * @param camSize      - The desired camera resolution.
      */
-    void startServer(quint16 port, int cameraDevice = -1, cv::Size camSize = cv::Size(640,480), BoardDetectionApproach::BoardDetectionApproach boardDetectionApproach = BoardDetectionApproach::RED_MARKERS);
+    void startServer(quint16 port, int cameraDevice = -1, cv::Size camSize = cv::Size(640,480), BoardDetectionApproach::Type boardDetectionApproach = BoardDetectionApproach::RED_MARKERS);
 
     /**
      * @brief Stops this ServerController.
@@ -196,20 +192,8 @@ private:
     /// The ServerSocket used to send messages
     ServerSocket *sock;
 
-    /// The BoardDetector used to find the playing area.
-    BoardDetector *boardDetector = nullptr;
-
-    /// The MarkerDetector instance used to find markers.
-    MarkerDetector *markerDetector;
-
-    /// The MarkerRecognizer instance used to recognize marker patterns.
-    MarkerRecognizer *recognizer;
-
-    /// The MarkerTracker instance used to follow markers.
-    MarkerTracker *markerTracker = nullptr;
-
-    /// The OpenCV VideoCapture object used to get video frames.
-    cv::VideoCapture *capture;
+    /// The TrackerManager used to do image and board processing.
+    TrackerManager* trackerManager;
 
     /// The QTimer used for scheduling marker detection
     QTimer *detectorTimer;
@@ -217,33 +201,11 @@ private:
     /// Flag indicating if the server is running.
     ServerState serverState;
 
-    /// The actual camera resolution.
-    cv::Size cameraResolution;
-
-    /// Second for which frames are counted.
-    time_t framesSecond;
-
-    /// Amount of frames that have been processed this second.
-    int framesCount;
-
     /// The current level.
     int currentLevel;
 
     /// Boolean indicating if debug overlay should be shown.
     bool showDebugOverlay = true;
-
-    /**
-     * @brief Draw instructions for locating the board on top of the camera image.
-     * @param frame - Camera image to draw instructions to.
-     */
-    static void drawBoardLocatingInstructions(Mat& frame);
-
-    /**
-     * @brief Draw the marker positions and IDs on top of the board image.
-     * @param board - Board image.
-     * @param markers - Marker positions and other info.
-     */
-    static void drawDebugOverlay(MarkerTracker& tracker, Mat& board, const vector<MarkerUpdate>& markers);
 };
 
 } // namespace mirrors

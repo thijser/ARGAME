@@ -19,7 +19,8 @@ SOURCES += \
     cvutils.cpp \
     markerdetector.cpp \
     markerrecognizer.cpp \
-    markertracker.cpp
+    markertracker.cpp \
+    trackermanager.cpp
 
 HEADERS  += \
     serversocket.hpp \
@@ -30,7 +31,8 @@ HEADERS  += \
     markerrecognizer.hpp \
     markertracker.hpp \
     servercontroller.hpp \
-    mainwindow.hpp
+    mainwindow.hpp \
+    trackermanager.hpp
 
 PRECOMPILED_HEADER = mirrors.h
 

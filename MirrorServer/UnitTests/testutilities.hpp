@@ -50,13 +50,13 @@ int loadPatterns(MarkerRecognizer& recognizer, const std::string& path);
  * @brief Describes an expected marker tracking update.
  */
 class ExpectedMarkerUpdate {
-    MarkerUpdateType::MarkerUpdateType type;
+    MarkerUpdateType::Type type;
     int id;
     float rotation;
     Point position;
 
 public:
-    ExpectedMarkerUpdate(MarkerUpdateType::MarkerUpdateType type, int id, float rotation, Point position)
+    ExpectedMarkerUpdate(MarkerUpdateType::Type type, int id, float rotation, Point position)
         : type(type), id(id), rotation(rotation), position(position) {}
 
     bool matches(const MarkerUpdate& update) const {
