@@ -10,6 +10,7 @@
 namespace Core
 {
     using Core.Emitter;
+    using Core.Receiver;
     using NUnit.Framework;
     using TestUtilities;
     using UnityEngine;
@@ -18,21 +19,48 @@ namespace Core
     /// Unit test for the <see cref="LaserBeam.LaserBeam"/> class.
     /// </summary>
     [TestFixture]
-    public class LaserBeamTest : MirrorsUnitTest
+    public class WinConditionTest : MirrorsUnitTest
     {
         /// <summary>
-        /// Tests the basic properties of the Laser and the <c>CreateLaser</c> method
-        /// used by other test cases.
+        /// Tests the basic properties of the win condition.
         /// </summary>
         [Test]
-        public void CreateLaserTest()
+        public void NotStartTest()
         {
-            Vector3 origin = new Vector3(0, 1, 2);
-            Vector3 direction = new Vector3(3, 4, 5);
-            LaserBeam laser = CreateLaser(origin, direction);
+            WinCondition cond = GameObjectFactory.Create<WinCondition>();
+            Assert.Null(cond.Targets);
+            Assert.Null(cond.Checks);
+        }
 
-            Assert.AreEqual(origin, laser.Origin);
-            Assert.AreEqual(direction, laser.Direction);
+        /// <summary>
+        /// Tests the basic properties of the win condition after starting the class.
+        /// </summary>
+        [Test]
+        public void StartTest()
+        {
+            WinCondition cond = GameObjectFactory.Create<WinCondition>();
+            cond.Start();
+            Assert.NotNull(cond.Targets);
+            Assert.NotNull(cond.Checks);
+            Assert.True(cond.Targets.Length == 0);
+            Assert.True(cond.Checks.Length == 0);
+        }
+
+        /// <summary>
+        /// Tests the basic properties of the win condition after starting the class,
+        /// while the scene has instantiated targets and checkpoints.
+        /// </summary>
+        [Test]
+        public void StartTestNotEmpty()
+        {
+            WinCondition cond = GameObjectFactory.Create<WinCondition>();
+            LaserTarget lt = Create<LaserTarget>();
+            Checkpoint check = Create<Checkpoint>();
+            cond.Start();
+            Assert.NotNull(cond.Targets);
+            Assert.NotNull(cond.Checks);
+            Assert.True(cond.Targets.Length > 0);
+            Assert.True(cond.Checks.Length > 0);
         }
     }
 }
