@@ -73,9 +73,13 @@ namespace mirrors {
         return updates;
     }
 
-    Point2f TrackerManager::scaledMarkerCoordinate(const Point& pos) {
+    Point2f TrackerManager::scaledMarkerCoordinate(const Point& pos) const {
         float scale = tracker.getMarkerScale();
         return Point2f(pos.x / scale, pos.y / scale);
+    }
+
+    Point2f TrackerManager::scaledBoardSize() const {
+        return scaledMarkerCoordinate(Point(boardDetector.getBoardSize()));
     }
 
     void TrackerManager::drawLocateBoardInstructions(Mat& resultImage) {

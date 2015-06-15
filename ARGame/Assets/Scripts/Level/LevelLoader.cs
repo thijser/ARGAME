@@ -1,5 +1,6 @@
 ﻿namespace Level
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using StreamReader = System.IO.StreamReader;
@@ -27,6 +28,10 @@
 
         public GameObject CreateLevel(string path)
         {
+            if (path == null)
+            {
+                throw new ArgumentNullException("The file path name is null.");
+            }
 
             LoadLetters(path);
             if (indexes == null)
