@@ -98,7 +98,7 @@ void MainWindow::startServer() {
 }
 
 void MainWindow::handleFrame(const QPixmap& image) {
-    ui->image->setPixmap(image);
+    ui->image->setPixmap(image.scaledToHeight(500));
 }
 
 void MainWindow::showFPS(int fps) {
