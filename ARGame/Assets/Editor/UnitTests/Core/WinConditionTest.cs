@@ -54,8 +54,8 @@ namespace Core
         public void StartTestNotEmpty()
         {
             WinCondition cond = GameObjectFactory.Create<WinCondition>();
-            LaserTarget lt = Create<LaserTarget>();
-            Checkpoint check = Create<Checkpoint>();
+            Create<LaserTarget>();
+            Create<Checkpoint>();
             cond.Start();
             Assert.NotNull(cond.Targets);
             Assert.NotNull(cond.Checks);
