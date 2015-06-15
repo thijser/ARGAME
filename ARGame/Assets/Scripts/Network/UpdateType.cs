@@ -35,8 +35,8 @@ namespace Network
         UpdateRotation = 3,
 
         /// <summary>
-        /// Indicates the board size is set.
+        /// Indicates that the level has changed.
         /// </summary>
-        BoardSize = 4
+        Level = 4
     }
 }

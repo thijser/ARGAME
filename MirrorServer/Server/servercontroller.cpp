@@ -11,7 +11,8 @@ ServerController::ServerController(QObject *parent)
       sock(new ServerSocket(this)),
       trackerManager(nullptr),
       detectorTimer(new QTimer(this)),
-      serverState(Idle)
+      serverState(Idle),
+      currentLevel(-1)
 {
 
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
@@ -20,6 +21,8 @@ ServerController::ServerController(QObject *parent)
             this, SIGNAL(socketError(QString)));
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
             sock, SLOT(processUpdates()));
+    connect(sock, SIGNAL(levelChanged(int)),
+            this, SLOT(changeLevel(int)));
 
     // A single-shot Timer with an interval of 0 will
     // directly fire the timeout when control goes back
@@ -68,6 +71,15 @@ void ServerController::stopServer() {
     Q_ASSERT(serverState == Started || serverState == Starting);
     changeState(Stopping);
     sock->stop();
+}
+
+void ServerController::changeLevel(int nextLevel) {
+    if (nextLevel != currentLevel) {
+        cv::Size2f boardSize(trackerManager->scaledBoardSize());
+        sock->broadcastLevelUpdate(nextLevel, boardSize);
+        currentLevel = nextLevel;
+        emit levelChanged(nextLevel);
+    }
 }
 
 void ServerController::detectBoard() {
