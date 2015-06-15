@@ -24,7 +24,7 @@ namespace mirrors {
 
         vector<MarkerUpdate> getMarkerUpdates(Mat& resultImage, bool infoOverlay);
 
-        Point2f scaledMarkerCoordinate(const MarkerUpdate& update);
+        Point2f scaledMarkerCoordinate(const Point& pos);
 
     private:
         VideoCapture cap;

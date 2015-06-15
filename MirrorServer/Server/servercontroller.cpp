@@ -147,7 +147,7 @@ void ServerController::broadcastPosition(const MarkerUpdate& marker) {
         // Scale marker positions based on their size for Meta 1 tracking
         sock->broadcastPositionUpdate(
                     marker.id,
-                    trackerManager->scaledMarkerCoordinate(marker),
+                    trackerManager->scaledMarkerCoordinate(marker.position),
                     marker.rotation);
     }
 }
