@@ -57,10 +57,10 @@ namespace Projection
             parent.RemotePosition = new MarkerPosition(new Vector3(3, 7, 12), Quaternion.Euler(0, 5, 10), DateTime.Now, new Vector3(7, 8, 9), 4);
             parent.UpdatePosition(parent.TransformMatrix);
 
-            // The parent marker should take over the position and rotation from the Local position.
+            // The parent marker should take over the position and scale from the Local position.
+            // The rotation is determined by the server and not tested here.
             RoughAssert.AreEqual(new Vector3(2, 5, 8), parent.transform.position, 0.01f);
-            RoughAssert.AreEqual(Quaternion.Euler(12, 15, 20), parent.transform.rotation, 0.01f);
-            RoughAssert.AreEqual(new Vector3(4, 5, 6), parent.transform.localScale, 0.01f);
+            RoughAssert.AreEqual(new Vector3(4, 5, 6), parent.transform.localScale, 0.25f);
         }
 
         /// <summary>

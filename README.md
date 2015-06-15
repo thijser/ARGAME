@@ -11,13 +11,12 @@ workload in a physical and an AR environment.
 Project structure
 -----------------
 
-ARGame/ - Unity project (C#)
-	ARGame/Assets/Editor/UnitTests - Tests
-	ARGame/Assets/External - Third-party code
-
-MirrorServer/ - Qt project (C++)
-	MirrorServer/UnitTests/ - Tests
-	MirrorServer/UnitTests/gtest - Third-party code
+- ARGame/ -- Unity project (C#)
+    - ARGame/Assets/Editor/UnitTests -- Tests
+    - ARGame/Assets/External -- Third-party code
+- MirrorServer/ -- Qt project (C++)
+    - MirrorServer/UnitTests/ -- Tests
+    - MirrorServer/UnitTests/gtest -- Third-party code
 
 Game Concept
 ------------

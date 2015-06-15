@@ -224,7 +224,13 @@ namespace Network
             return IPAddress.NetworkToHostOrder(BitConverter.ToInt32(buffer, offset));
         }
 
-        public static AbstractUpdate ReadBoardSize(byte[] buffer, int received)
+        /// <summary>
+        /// Reads a BoardSizeUpdate message from the given byte array.
+        /// </summary>
+        /// <param name="buffer">The buffer to read from.</param>
+        /// <param name="received">The size of the message.</param>
+        /// <returns>The created Update.</returns>
+        public static BoardSizeUpdate ReadBoardSize(byte[] buffer, int received)
         {
             throw new NotImplementedException();
         }
