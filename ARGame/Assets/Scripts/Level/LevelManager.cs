@@ -34,9 +34,9 @@ namespace Level{
 			float xproportions=boardsize.x/levelcomp.size.x;
 			float yproportions=boardsize.y/levelcomp.size.y;
 			if(xproportions<yproportions)
-				level.transform.localScale=new Vector3(xproportions,xproportions,xproportions);
+				level.transform.localScale=new Vector3(xproportions,xproportions,xproportions)*IARscale;
 			else
-				level.transform.localScale=new Vector3(yproportions,yproportions,yproportions);
+				level.transform.localScale=new Vector3(yproportions,yproportions,yproportions)*IARscale;
 
 		}	
 
