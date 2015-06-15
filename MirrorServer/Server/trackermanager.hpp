@@ -3,9 +3,8 @@
 
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
+#include <QPixmap>
 #include "markertracker.hpp"
-
-// TODO: Resize image, draw overlay and then output QPixmap
 
 namespace mirrors {
     using namespace cv;
@@ -20,9 +19,9 @@ namespace mirrors {
 
         int getUpdateRate() const;
 
-        bool locateBoard(Mat& resultImage, bool infoOverlay);
+        bool locateBoard(QPixmap& resultImage, bool infoOverlay);
 
-        vector<MarkerUpdate> getMarkerUpdates(Mat& resultImage, bool infoOverlay);
+        vector<MarkerUpdate> getMarkerUpdates(QPixmap& resultImage, bool infoOverlay);
 
         Point2f scaledMarkerCoordinate(const Point& pos) const;
 
@@ -43,6 +42,8 @@ namespace mirrors {
         static void drawLocateBoardInstructions(Mat& resultImage);
 
         static void drawTrackInfo(const MarkerTracker& tracker, Mat& board, const vector<MarkerUpdate>& markers);
+
+        static QPixmap matToPixmap(Mat& input);
     };
 }
 

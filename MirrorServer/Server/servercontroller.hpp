@@ -89,7 +89,7 @@ signals:
      * @brief Signal emitted whenever an image frame is processed.
      * @param image - The processed image.
      */
-    void imageReady(const cv::Mat& image);
+    void imageReady(const QPixmap& image);
 
     /**
      * @brief Signal emitted whenever marker positions have changed.

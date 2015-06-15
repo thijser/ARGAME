@@ -62,10 +62,10 @@ public slots:
     void startServer();
 
     /**
-     * @brief Displays the given CV Matrix image in this window.
-     * @param matrix - The matrix image to display
+     * @brief Displays the given image in this window.
+     * @param image - The image to display
      */
-    void handleFrame(const cv::Mat& matrix);
+    void handleFrame(const QPixmap& image);
 
     /**
      * @brief Stops the server.
