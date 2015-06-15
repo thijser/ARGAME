@@ -39,18 +39,14 @@ namespace TestUtilities
         /// </para>
         /// <para>
         /// The default implementation excludes the Main Camera and Directional Light 
-        /// (present in an empty scene) from being removed.</para>
+        /// (present in an empty scene) from being removed. Additionally, this method
+        /// returns true when null if provided as an argument.</para>
         /// </summary>
-        /// <param name="obj">The GameObject to check, not null.</param>
+        /// <param name="obj">The GameObject to check.</param>
         /// <returns>True if the GameObject does not interfere with the test execution, false otherwise.</returns>
         public virtual bool IsNonInterfering(GameObject obj)
         {
-            if (obj == null)
-            {
-                throw new ArgumentNullException("obj");
-            }
-
-            return obj.name == "Main Camera" || obj.name == "Directional Light";
+            return obj == null || obj.name == "Main Camera" || obj.name == "Directional Light";
         }
 
         /// <summary>
