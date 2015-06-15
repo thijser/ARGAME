@@ -71,6 +71,7 @@ void ServerController::stopServer() {
     Q_ASSERT(serverState == Started || serverState == Starting);
     changeState(Stopping);
     sock->stop();
+    currentLevel = -1;
 }
 
 void ServerController::changeLevel(int nextLevel) {

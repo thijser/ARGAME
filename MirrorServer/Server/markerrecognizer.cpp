@@ -36,7 +36,7 @@ namespace mirrors {
         int w = straightenedMarker.first.cols;
         int h = straightenedMarker.first.rows;
 
-        patternMatch.scale = ((w + h) / 2) / 8.0f;
+        patternMatch.scale = (w + h) / 2;
 
         return patternMatch;
     }

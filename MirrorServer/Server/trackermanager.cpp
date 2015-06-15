@@ -108,7 +108,7 @@ namespace mirrors {
 
     void TrackerManager::drawTrackInfo(const MarkerTracker& tracker, Mat& board, const vector<MarkerUpdate>& markers) {
         float scale = tracker.getMarkerScale();
-        cv::Size markerSize(scale * 8, scale * 8);
+        cv::Size markerSize(scale, scale);
 
         for (MarkerUpdate update : markers) {
             // Draw border around recognized marker
