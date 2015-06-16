@@ -2,6 +2,8 @@
 using System.Collections;
 using Vision;
 using System.Collections.Generic;
+using Network;
+
 namespace Level{
 	public class LevelManager : MonoBehaviour {
 		private LevelLoader levelLoader= new LevelLoader();
@@ -10,6 +12,7 @@ namespace Level{
 		Vector2 boardsize{get;set;}
 		float IARscale{get;set;}
 		void Start() {
+			IARscale=1;
 			restartGame();
 		}
 
@@ -26,8 +29,15 @@ namespace Level{
 				Destroy(level);
 				Debug.Log ("loading level"+index);
 				level=levelLoader.CreateLevel("Assets/resources/Levels/"+index+".txt");
-				
+				currentLevelIndex=index;
 		}
+		public void OnLevelUpdate(LevelUpdate levelup){
+			boardsize=levelup.Size;
+			if (currentLevelIndex!=levelup.NextLevelIndex){
+				loadLevel(levelup.NextLevelIndex);
+			}
+		}
+
 		public void scaleLevel(){
 			Levelcomp levelcomp=level.GetComponent<Levelcomp>();
 
@@ -37,7 +47,6 @@ namespace Level{
 				level.transform.localScale=new Vector3(xproportions,xproportions,xproportions)*IARscale;
 			else
 				level.transform.localScale=new Vector3(yproportions,yproportions,yproportions)*IARscale;
-
 		}	
 
 	}
