@@ -13,7 +13,11 @@ namespace Level{
 		float IARscale{get;set;}
 		void Start() {
 			IARscale=1;
+			IARLink IAL = gameObject.GetComponent<IARLink>();
+			IARscale=IAL.getScale();
 			restartGame();
+
+
 		}
 
 		public void nextLevel(){
@@ -30,7 +34,8 @@ namespace Level{
 				Debug.Log ("loading level"+index);
 				level=levelLoader.CreateLevel("Assets/resources/Levels/"+index+".txt");
 				currentLevelIndex=index;
-			level.transform.SetParent(transform);
+				level.transform.SetParent(transform);
+				scaleLevel();
 
 		}
 		public void OnLevelUpdate(LevelUpdate levelup){
@@ -42,7 +47,6 @@ namespace Level{
 
 		public void scaleLevel(){
 			Levelcomp levelcomp=level.GetComponent<Levelcomp>();
-
 			float xproportions=boardsize.x/levelcomp.size.x;
 			float yproportions=boardsize.y/levelcomp.size.y;
 			if(xproportions<yproportions)
