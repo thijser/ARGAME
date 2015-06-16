@@ -89,7 +89,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116538}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .5, y: 0, z: 0}
+  m_LocalPosition: {x: -5.13408852, y: 4.14139843, z: 16.7474747}
   m_LocalScale: {x: .300000012, y: .300000012, z: .300000012}
   m_Children:
   - {fileID: 483348}
@@ -237,7 +237,7 @@ MonoBehaviour:
   LineWidth: 1
   UseWorldSpace: 1
   CastShadows: 0
-  ReceiveShadows: 1
+  ReceiveShadows: 0
 --- !u!114 &11434410
 MonoBehaviour:
   m_ObjectHideFlags: 1
