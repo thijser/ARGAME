@@ -200,7 +200,6 @@ namespace Network
         /// <param name="update">The RotationUpdate describing the change.</param>
         public void OnRotationChanged(RotationUpdate update)
         {
-            Debug.Log("Sending rotation update: " + update);
             this.socket.Send(MessageProcessor.WriteRotationUpdate(update));
         }
 
@@ -210,7 +209,6 @@ namespace Network
         /// <param name="update">The LevelUpdate describing the change.</param>
         public void OnLevelCompleted(LevelUpdate update)
         {
-            Debug.Log("Sending level update: " + update);
             this.socket.Send(MessageProcessor.WriteLevelUpdate(update));
         }
     }
