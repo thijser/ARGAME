@@ -23,7 +23,7 @@ namespace Vision
         /// <summary>
         /// The scale of the Meta glasses with respect to the world.
         /// </summary>
-        public const float MetaScale = 0.0057f;
+        public const float MetaScale = 0.0057f * 8f;
 
         /// <summary>
         /// like cattle this class is driven all around it's very position consumed by the meta, please no cow tipping with the lamb
@@ -87,7 +87,7 @@ namespace Vision
                     trans.position, 
                     trans.rotation, 
                     DateTime.Now, 
-                    MetaScale * trans.localScale, 
+                    trans.localScale, 
                     id);
                 list.Add(pos);
             }
