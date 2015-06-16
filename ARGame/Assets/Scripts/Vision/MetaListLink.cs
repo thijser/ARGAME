@@ -27,7 +27,7 @@ namespace Vision
         /// The size of a Meta marker.
         /// </summary>
         public const float MetaScale = 0.0057f;
-		public float getScale(){
+		public float GetScale(){
 			return MetaScale;
 		}
         /// <summary>

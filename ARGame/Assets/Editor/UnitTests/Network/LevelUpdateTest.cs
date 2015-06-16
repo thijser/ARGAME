@@ -112,6 +112,5 @@ namespace Network
             LevelUpdate update = new LevelUpdate(0, new Vector2(3, 4));
             Assert.AreEqual(0, update.NextLevelIndex);
         }
-
     }
 }

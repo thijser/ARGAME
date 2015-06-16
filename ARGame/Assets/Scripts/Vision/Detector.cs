@@ -10,8 +10,10 @@
 namespace Vision
 {
     using System.Collections.ObjectModel;
+    using System.Linq;
     using Projection;
     using UnityEngine;
+    using System;
 
     /// <summary>
     /// Broadcasts the MarkerPositions from an <see cref="IARLink"/> instance
@@ -32,7 +34,7 @@ namespace Vision
             IARLink[] links = GetComponents<IARLink>();
             if (links.Length != 1)
             {
-                Debug.LogWarning("Expected exactly one IARLink, but got" + links.Length + " (IARLink will be disabled)");
+                Debug.LogWarning("Expected exactly one IARLink, but got " + links.Length + " (IARLink will be disabled)");
             }
             else
             {
@@ -52,13 +54,25 @@ namespace Vision
                 return;
             }
 
-            Collection<MarkerPosition> list = this.Link.GetMarkerPositions();
-            foreach (MarkerPosition mp in list)
+            foreach (MarkerPosition marker in this.Link.GetMarkerPositions())
             {
-                this.SendMessage(
-                    "OnMarkerSeen",
-                    mp);
+                this.EmitMarkerSeen(marker);
             }
+        }
+
+        /// <summary>
+        /// Sends a <c>OnMarkerSeen</c> Unity message upwards.
+        /// </summary>
+        /// <param name="position">The MarkerPosition describing the message, not null.</param>
+        /// <exception cref="ArgumentNullException">If <c>position</c> is null.</exception>
+        public void EmitMarkerSeen(MarkerPosition position)
+        {
+            if (position == null)
+            {
+                throw new ArgumentNullException("position");
+            }
+
+            this.SendMessageUpwards("OnMarkerSeen", position);
         }
     }
 }

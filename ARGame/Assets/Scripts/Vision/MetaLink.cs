@@ -40,7 +40,7 @@ namespace Vision
         /// </summary>
         private MarkerTargetIndicator marketTargetindicator;
 
-		public float getScale(){
+		public float GetScale(){
 			return MetaScale;
 		}
         /// <summary>

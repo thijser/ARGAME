@@ -14,7 +14,7 @@ namespace Level{
 		void Start() {
 			IARscale=1;
 			IARLink IAL = gameObject.GetComponent<IARLink>();
-			IARscale=IAL.getScale();
+			IARscale=IAL.GetScale();
 			restartGame();
 
 

@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="LaserBeamTest.cs" company="Delft University of Technology">
+// <copyright file="WinConditionTest.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //     
 //     This software is licensed under the terms of the MIT License.
@@ -54,8 +54,8 @@ namespace Core
         public void StartTestNotEmpty()
         {
             WinCondition cond = GameObjectFactory.Create<WinCondition>();
-            Create<LaserTarget>();
-            Create<Checkpoint>();
+            GameObjectFactory.Create<LaserTarget>();
+            GameObjectFactory.Create<Checkpoint>();
             cond.Start();
             Assert.NotNull(cond.Targets);
             Assert.NotNull(cond.Checks);

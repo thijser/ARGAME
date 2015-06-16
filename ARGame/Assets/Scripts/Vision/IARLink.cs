@@ -20,13 +20,22 @@ namespace Vision
     /// method is called.
     /// </para>
     /// </summary>
-    public interface IARLink 
+    public interface IARLink
     {
         /// <summary>
-        /// return a list of all visible markers and their locations, can be empty if none are visible. 
+        /// Returns a list of all visible markers and their locations.
+        /// <para>
+        /// The result can be empty if no markers are visible. 
+        /// </para>
         /// </summary>
         /// <returns>The marker positions.</returns>
-         Collection<MarkerPosition> GetMarkerPositions();
-		 float getScale();
+        Collection<MarkerPosition> GetMarkerPositions();
+
+        /// <summary>
+        /// Gets the scale by which objects need to be scaled to fit the
+        /// AR glasses.
+        /// </summary>
+        /// <returns>The ARLink scale.</returns>
+        float GetScale();
     }
 }

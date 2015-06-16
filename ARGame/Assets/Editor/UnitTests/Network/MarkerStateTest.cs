@@ -23,7 +23,6 @@ namespace Network
     [TestFixture]
     public class MarkerStateTest : MirrorsUnitTest
     {
-
         /// <summary>
         /// Test if correct exception is thrown when null ref
         /// is passed in constructor, again.
