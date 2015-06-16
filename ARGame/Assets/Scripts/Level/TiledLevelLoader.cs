@@ -34,15 +34,34 @@ public class TiledLevelLoader : MonoBehaviour
         }
     }
 
+    private Dictionary<TileType, GameObject> objectPrefabs = new Dictionary<TileType, GameObject>();
+
     void Start()
     {
+        // Load prefabs for each tile type
+        objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/wall") as GameObject;
+        objectPrefabs[TileType.Emitter] = Resources.Load("Prefabs/Emitter") as GameObject;
+        objectPrefabs[TileType.Target] = Resources.Load("Prefabs/Laser Target") as GameObject;
+        objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
+
+        // Parse and instantiate level
         string xml = (Resources.Load("levels/" + Level) as TextAsset).text;
         List<LevelObject> levelObjects = ParseLevel(xml);
 
         foreach (LevelObject obj in levelObjects)
         {
-            Debug.Log(obj);
+            InstantiateLevelObject(obj, objectPrefabs);
         }
+    }
+
+    private static GameObject InstantiateLevelObject(LevelObject levelObject, Dictionary<TileType, GameObject> objectPrefabs)
+    {
+        GameObject obj = GameObject.Instantiate(objectPrefabs[levelObject.Type]);
+
+        obj.transform.position = new Vector3(-levelObject.Position.x, 0, levelObject.Position.y);
+        obj.transform.rotation = Quaternion.AngleAxis(levelObject.Rotation, Vector3.up);
+
+        return obj;
     }
 
     private static List<LevelObject> ParseLevel(string xml)
@@ -65,6 +84,9 @@ public class TiledLevelLoader : MonoBehaviour
         {
             int gid = int.Parse(tileNode.Attributes["gid"].Value);
 
+            // Determine rotation of object
+            int rotation = (gid / 5) * 45;
+
             // Determine type of object
             int rawType = (gid - 1) % 5;
             TileType type = TileType.Nothing;
@@ -72,17 +94,14 @@ public class TiledLevelLoader : MonoBehaviour
             switch (rawType)
             {
                 case 0: type = TileType.Wall; break;
-                case 1: type = TileType.Emitter; break;
+                case 1: type = TileType.Emitter; rotation += 90; break;
                 case 2: type = TileType.Target; break;
-                case 3: type = TileType.Mirror; break;
+                case 3: type = TileType.Mirror; rotation += 90; break;
                 default: type = TileType.Nothing; break;
             }
 
-            // Determine rotation of object
-            int rotation = (gid / 5) * 45;
-
             // Determine position of object in world coordinates
-            Vector2 pos = new Vector2(x * 5, y * 5);
+            Vector2 pos = new Vector2(x, y);
 
             if (type != TileType.Nothing)
             {
