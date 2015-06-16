@@ -6,7 +6,6 @@
     using StreamReader = System.IO.StreamReader;
     using System.Text.RegularExpressions;
     using UnityEngine;
-
     public class LevelLoader
     {
 
