@@ -13,6 +13,8 @@ namespace Network
     using System.Diagnostics.CodeAnalysis;
     using Core.Receiver;
     using UnityEngine;
+    using Projection;
+    using UnityEngine.Assertions;
 
     /// <summary>
     /// Provides selection and rotation functionality to Mirrors.
@@ -86,10 +88,15 @@ namespace Network
 
         /// <summary>
         /// Sends a message with the current rotation of the selected mirror.
+        /// <para>
+        /// The selected mirror should not be null.
+        /// </para>
         /// </summary>
         public void SendRotationUpdate()
         {
-            int id = this.SelectedMirror.GetComponent<Projection.Marker>().ID;
+            Assert.IsNotNull(this.SelectedMirror, "SendRotationUpdate: No Mirror Selected");
+            Marker marker = this.SelectedMirror.GetComponent<Marker>();
+            int id = marker.ID;
             float rotation = this.SelectedMirror.transform.eulerAngles.y;
             this.SendMessageUpwards("OnRotationChanged", new RotationUpdate(UpdateType.UpdateRotation, rotation, id));
         }

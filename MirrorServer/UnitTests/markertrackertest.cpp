@@ -41,6 +41,8 @@ TEST_F(MarkerTrackerTest, NewMarker) {
     };
 
     ASSERT_TRUE(expectMarkerUpdates(expectedUpdates, updates));
+
+    ASSERT_NEAR(markerTracker.getMarkerScale(), 59, 3);
 }
 
 TEST_F(MarkerTrackerTest, MovedMarker) {
