@@ -39,7 +39,7 @@ public class TiledLevelLoader : MonoBehaviour
     void Start()
     {
         // Load prefabs for each tile type
-        objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/wall") as GameObject;
+        objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/BOXWALL") as GameObject;
         objectPrefabs[TileType.Emitter] = Resources.Load("Prefabs/Emitter") as GameObject;
         objectPrefabs[TileType.Target] = Resources.Load("Prefabs/Laser Target") as GameObject;
         objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
