@@ -36,6 +36,17 @@ namespace Level
 
         /// <summary>
         /// Test if correct exception is thrown when null ref
+        /// is passed in load letters.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void LoadLettersTestNull()
+        {
+            new LevelLoader().LoadLetters(null);
+        }
+
+        /// <summary>
+        /// Test if correct exception is thrown when null ref
         /// is passed in construct entry.
         /// </summary>
         [Test]

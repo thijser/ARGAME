@@ -14,14 +14,16 @@
         private List<InputEntry> entries;
        
         private GameObject level;
-		private Vector2 size=new Vector2(1,1);
+
+		private Vector2 size = new Vector2(1,1);
+
         public void LoadObjects()
         {
-            indexes = new Dictionary<char, GameObject>();
-            indexes.Add('w', (GameObject)Resources.Load("prefabs/BOXWALL"));
-            indexes.Add('e', (GameObject)Resources.Load("prefabs/Emitter"));
-            indexes.Add('t', (GameObject)Resources.Load("prefabs/Laser Target"));
-            indexes.Add('m', (GameObject)Resources.Load("prefabs/Mirror"));
+            this.indexes = new Dictionary<char, GameObject>();
+            this.indexes.Add('w', (GameObject)Resources.Load("prefabs/BOXWALL"));
+            this.indexes.Add('e', (GameObject)Resources.Load("prefabs/Emitter"));
+            this.indexes.Add('t', (GameObject)Resources.Load("prefabs/Laser Target"));
+            this.indexes.Add('m', (GameObject)Resources.Load("prefabs/Mirror"));
 
         }
 
@@ -37,6 +39,7 @@
             {
                 LoadObjects();
             }
+
             return ConstructLevel();
         }
 
@@ -56,10 +59,10 @@
                     x++;
                     ie.dir = line[x];
                     ie.pos = new Vector2(x / 2, y);
-					if(x/2>size.x)
-						size.x=x/2;
-					if(y>size.y)
-						size.y=y;
+					if(x/2 > size.x)
+						size.x = x/2;
+					if(y > size.y)
+						size.y = y;
 						if (ie.type != '.')
                     {
                         entries.Add(ie);

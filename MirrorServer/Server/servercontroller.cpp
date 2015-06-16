@@ -79,6 +79,8 @@ void ServerController::changeLevel(int nextLevel) {
         cv::Size2f boardSize(trackerManager->scaledBoardSize());
         sock->broadcastLevelUpdate(nextLevel, boardSize);
         currentLevel = nextLevel;
+
+        std::cout << boardSize.width << ", " << boardSize.height << std::endl;
         emit levelChanged(nextLevel);
     }
 }
