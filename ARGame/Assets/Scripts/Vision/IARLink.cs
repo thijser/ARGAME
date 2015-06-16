@@ -27,5 +27,6 @@ namespace Vision
         /// </summary>
         /// <returns>The marker positions.</returns>
          Collection<MarkerPosition> GetMarkerPositions();
+		 float getScale();
     }
 }

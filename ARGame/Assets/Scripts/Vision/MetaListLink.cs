@@ -16,6 +16,7 @@ namespace Vision
     using Projection;
     using UnityEngine;
 
+
     /// <summary>
     /// <see cref="IARLink"/> implementation that uses the Meta One glasses for providing
     /// AR functionality.
@@ -26,7 +27,9 @@ namespace Vision
         /// The size of a Meta marker.
         /// </summary>
         public const float MetaScale = 0.0057f;
-
+		public float getScale(){
+			return MetaScale;
+		}
         /// <summary>
         /// Gets the list of virtual markers used by the Meta for tracking.
         /// <para>

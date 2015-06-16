@@ -40,6 +40,9 @@ namespace Vision
         /// </summary>
         private MarkerTargetIndicator marketTargetindicator;
 
+		public float getScale(){
+			return MetaScale;
+		}
         /// <summary>
         /// Sets up the detector and marker indicator to find this marker.
         /// </summary>
