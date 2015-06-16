@@ -6,6 +6,7 @@
     using StreamReader = System.IO.StreamReader;
     using System.Text.RegularExpressions;
     using UnityEngine;
+	using Projection;
     public class LevelLoader
     {
 
@@ -89,7 +90,11 @@
                 go.transform.SetParent(level.transform);
                 go.transform.localPosition = new Vector3(ie.pos.x, 0, ie.pos.y);
             }
-            return level;
+			level.AddComponent<Marker>();
+			Marker m = level.GetComponent<Marker>();
+			m.ID=13379001;
+			m.LocalPosition=new MarkerPosition(new Vector3(0,0,0),Quaternion.identity,DateTime.Now,Vector3(0,0,0),13379001);
+			return level;
         }
     }
 }
