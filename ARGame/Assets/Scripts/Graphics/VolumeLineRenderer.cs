@@ -339,18 +339,18 @@ namespace Graphics
             // Determine endpoints of cube connecting segments
             Vector3[] fromPoints = new Vector3[] 
             {
-                between[1] - (leftFrom * halfLineWidth) - (up * halfLineWidth),
-                between[1] - (leftFrom * halfLineWidth) + (up * halfLineWidth),
-                between[1] + (leftFrom * halfLineWidth) - (up * halfLineWidth),
-                between[1] + (leftFrom * halfLineWidth) + (up * halfLineWidth)
-            };
-
-            Vector3[] toPoints = new Vector3[] 
-            {
                 between[1] - (leftTo * halfLineWidth) - (up * halfLineWidth),
                 between[1] - (leftTo * halfLineWidth) + (up * halfLineWidth),
                 between[1] + (leftTo * halfLineWidth) - (up * halfLineWidth),
                 between[1] + (leftTo * halfLineWidth) + (up * halfLineWidth)
+            };
+
+            Vector3[] toPoints = new Vector3[] 
+            {
+                between[1] - (leftFrom * halfLineWidth) - (up * halfLineWidth),
+                between[1] - (leftFrom * halfLineWidth) + (up * halfLineWidth),
+                between[1] + (leftFrom * halfLineWidth) - (up * halfLineWidth),
+                between[1] + (leftFrom * halfLineWidth) + (up * halfLineWidth)
             };
 
             List<Vector3> cubeVertices = CubeVerticesBetween(fromPoints, toPoints);
