@@ -13,6 +13,7 @@ namespace Network
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
+    using UnityEngine.Assertions;
 
     /// <summary>
     /// State of detected marker.
@@ -34,24 +35,14 @@ namespace Network
         /// </summary>
         /// <param name="initialUpdate">The PositionUpdate indicating the initial position.</param>
         /// <param name="referenceMarker">The GameObject that the PositionUpdate represents.</param>
-        public MarkerState(PositionUpdate initialUpdate, GameObject referenceMarker)
+        public MarkerState(int id, GameObject referenceMarker)
         {
-            if (initialUpdate == null)
-            {
-                throw new ArgumentNullException("initialUpdate");
-            }
-
             if (referenceMarker == null)
             {
                 throw new ArgumentNullException("referenceMarker");
             }
 
-            if (initialUpdate.Type != UpdateType.UpdatePosition)
-            {
-                throw new ArgumentException("The update type has to be UpdatePosition", "initialUpdate");
-            }
-
-            this.ID = initialUpdate.ID;
+            this.ID = id;
 
             // Create mesh representing this marker
             this.Object = GameObject.Instantiate(referenceMarker);
@@ -69,32 +60,67 @@ namespace Network
         public GameObject Object { get; private set; }
 
         /// <summary>
+        /// Moves the object to the given coordinates.
+        /// <para>
+        /// The object is enabled first if it was disabled.
+        /// </para>
+        /// </summary>
+        /// <param name="coordinate">The coordinates to move to.</param>
+        public void MoveObject(Vector2 coordinate)
+        {
+            this.Object.SetActive(true);
+            this.Object.transform.localPosition = new Vector3(
+                coordinate.x * ScaleFactor,
+                0,
+                coordinate.y * ScaleFactor);
+        }
+
+        /// <summary>
+        /// Disables the object.
+        /// </summary>
+        public void RemoveObject()
+        {
+            this.Object.SetActive(false);
+        }
+
+        /// <summary>
+        /// Changes the rotation of the object to the given rotation.
+        /// </summary>
+        /// <param name="newRotation">The new rotation.</param>
+        public void RotateObject(float newRotation)
+        {
+            this.Object.transform.localEulerAngles = new Vector3(0, newRotation, 0);
+        }
+
+        /// <summary>
         /// Updates the position of the GameObject with the given PositionUpdate.
         /// </summary>
-        /// <param name="positionupdate">The PositionUpdate.</param>
-        public void Update(PositionUpdate positionupdate)
+        /// <param name="update">The PositionUpdate.</param>
+        public void Update(AbstractUpdate update)
         {
-            if (positionupdate == null)
+            if (update == null)
             {
                 throw new ArgumentNullException("positionupdate");
             }
 
-            if (positionupdate.Type == UpdateType.UpdatePosition)
+            Assert.AreEqual(this.ID, update.ID, "ID mismatch");
+            switch (update.Type)
             {
-                // Update orientation of object
-                this.Object.SetActive(true);
-
-                this.Object.transform.position = new Vector3(
-                    positionupdate.Coordinate.x * ScaleFactor,
-                    0,
-                    positionupdate.Coordinate.y * ScaleFactor);
-
-                this.Object.transform.eulerAngles = new Vector3(0, positionupdate.Rotation, 0);
-            }
-            else if (positionupdate.Type == UpdateType.DeletePosition)
-            {
-                // Remove object
-                this.Object.SetActive(false);
+                case UpdateType.UpdatePosition:
+                    PositionUpdate positionUpdate = update as PositionUpdate;
+                    Assert.IsNotNull(positionUpdate);
+                    this.MoveObject(positionUpdate.Coordinate);
+                    break;
+                case UpdateType.DeletePosition:
+                    this.RemoveObject();
+                    break;
+                case UpdateType.UpdateRotation:
+                    RotationUpdate rotationUpdate = update as RotationUpdate;
+                    Assert.IsNotNull(rotationUpdate);
+                    this.RotateObject(rotationUpdate.Rotation);
+                    break;
+                default:
+                    break;
             }
         }
     }

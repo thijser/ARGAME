@@ -47,18 +47,12 @@ namespace Network
                 throw new ArgumentNullException("update");
             }
 
-            if (update.Type == UpdateType.DeletePosition || update.Type == UpdateType.UpdatePosition)
+            if (!this.markers.ContainsKey(update.ID))
             {
-                PositionUpdate position = update as PositionUpdate;
-
-                // Update marker state (and create initial one if this is the first sighting)
-                if (!this.markers.ContainsKey(position.ID))
-                {
-                    this.markers[position.ID] = new MarkerState(position, this.ReferenceMarker);
-                }
-
-                this.markers[position.ID].Update(position);
+                this.markers[update.ID] = new MarkerState(update.ID, this.ReferenceMarker);
             }
+
+            this.markers[update.ID].Update(update);
         }
 
         /// <summary>
