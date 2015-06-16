@@ -30,6 +30,8 @@ namespace Level{
 				Debug.Log ("loading level"+index);
 				level=levelLoader.CreateLevel("Assets/resources/Levels/"+index+".txt");
 				currentLevelIndex=index;
+			level.transform.SetParent(transform);
+
 		}
 		public void OnLevelUpdate(LevelUpdate levelup){
 			boardsize=levelup.Size;
