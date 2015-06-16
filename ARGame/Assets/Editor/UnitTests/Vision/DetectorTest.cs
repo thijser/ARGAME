@@ -51,8 +51,8 @@ namespace Vision
         public void TestStartTwoARLinks()
         {
             Detector detector = GameObjectFactory.Create<Detector>();
-            detector.gameObject.AddComponent<MockMetaARLink>();
-            detector.gameObject.AddComponent<MockMetaARLink>();
+            detector.gameObject.AddComponent<ARLinkAdapter>();
+            detector.gameObject.AddComponent<ARLinkAdapter>();
             detector.Start();
             Assert.IsNull(detector.Link);
         }
@@ -65,7 +65,7 @@ namespace Vision
         public void TestStartTypical()
         {
             Detector detector = GameObjectFactory.Create<Detector>();
-            IARLink link = detector.gameObject.AddComponent<MockMetaARLink>();
+            IARLink link = detector.gameObject.AddComponent<ARLinkAdapter>();
             detector.Start();
             Assert.IsNotNull(link);
             Assert.AreEqual(link, detector.Link);

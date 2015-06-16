@@ -10,21 +10,6 @@ using UnityEditor;
 
 namespace UnityTest
 {
-    public interface ITestComponent : IComparable<ITestComponent>
-    {
-        void EnableTest(bool enable);
-        bool IsTestGroup();
-        GameObject gameObject { get; }
-        string Name { get; }
-        ITestComponent GetTestGroup();
-        bool IsExceptionExpected(string exceptionType);
-        bool ShouldSucceedOnException();
-        double GetTimeout();
-        bool IsIgnored();
-        bool ShouldSucceedOnAssertions();
-        bool IsExludedOnThisPlatform();
-    }
-
     public class TestComponent : MonoBehaviour, ITestComponent
     {
         public static ITestComponent NullTestComponent = new NullTestComponentImpl();
@@ -405,5 +390,20 @@ namespace UnityTest
             yield break;
 #endif  // if !UNITY_METRO
         }
+    }
+
+    public interface ITestComponent : IComparable<ITestComponent>
+    {
+        void EnableTest(bool enable);
+        bool IsTestGroup();
+        GameObject gameObject { get; }
+        string Name { get; }
+        ITestComponent GetTestGroup();
+        bool IsExceptionExpected(string exceptionType);
+        bool ShouldSucceedOnException();
+        double GetTimeout();
+        bool IsIgnored();
+        bool ShouldSucceedOnAssertions();
+        bool IsExludedOnThisPlatform();
     }
 }

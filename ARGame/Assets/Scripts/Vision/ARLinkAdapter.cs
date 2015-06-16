@@ -17,28 +17,27 @@ namespace Vision
     using UnityEngine;
 
     /// <summary>
-    /// Mock implementation of IARLink that replicates the 
-    /// expected behavior of the Meta One glasses.
+    /// Implementation of <see cref="IARLink"/> that allows setting
+    /// Marker positions from code.
     /// <para>
-    /// This allows for easier testing of code that depends on 
-    /// a Meta-like ARLink implementation.
+    /// This class can be used to create an <see cref="IARLink"/>
+    /// implementation that uses a backing Collection for storing
+    /// the Marker positions, and implementations for which the
+    /// Marker position can be set using 
     /// </para>
     /// </summary>
-    public class MockMetaARLink : MonoBehaviour, IARLink
+    public class ARLinkAdapter : MonoBehaviour, IARLink
     {
         /// <summary>
-        /// The scale to use for the Meta.
-        /// <para>
-        /// This value replicates the Meta scale defined in MetaLink.
-        /// </para>
-        /// </summary>
-        public const float MetaScale = MetaLink.MetaScale;
-
-        /// <summary>
         /// Gets or sets the Positions returned by a call to the
-        /// <c>GetMarkerPositions()</c> method of this MockMetaARLink.
+        /// <c>GetMarkerPositions()</c> method of this ARLinkAdapter.
         /// </summary>
         public Collection<MarkerPosition> MarkerPositions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the scale to use for the AR objects.
+        /// </summary>
+        public float ARScale { get; set; }
 
         /// <summary>
         /// Sets the position, rotation and scale of a marker.
@@ -46,8 +45,9 @@ namespace Vision
         /// If no position exists yet for the Marker, a new MarkerPosition is created.
         /// </para>
         /// <para>
-        /// This method allows tests to place GameObjects in any way in the world, and
-        /// pass them into this method one by one to simulate markers as seen by the Meta.
+        /// This method allows placing GameObjects in any way in the world, and
+        /// update their corresponding MarkerPositions by calling this method
+        /// for all markers.
         /// </para>
         /// </summary>
         /// <param name="id">The ID of the Marker.</param>
@@ -83,7 +83,7 @@ namespace Vision
         /// The result can be empty if no markers are visible. 
         /// </para>
         /// <para>
-        /// This mock implementation returns the value of the 
+        /// This implementation returns the value of the 
         /// <c>MarkerPositions</c> property.
         /// </para>
         /// </summary>
@@ -97,10 +97,10 @@ namespace Vision
         /// Gets the scale by which objects need to be scaled to fit the
         /// AR glasses.
         /// </summary>
-        /// <returns>The Meta AR Link scale.</returns>
+        /// <returns>The AR scale.</returns>
         public float GetScale()
         {
-            return MetaScale;
+            return this.ARScale;
         }
     }
 }
