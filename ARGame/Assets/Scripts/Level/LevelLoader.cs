@@ -96,7 +96,7 @@
 			level.AddComponent<Marker>();
 			Marker m = level.GetComponent<Marker>();
 			m.ID=13379001;
-			m.LocalPosition=new MarkerPosition(Vector3.zero,Quaternion.identity,DateTime.Now,Vector3.zero,13379001);
+			m.RemotePosition=new MarkerPosition(Vector3.zero,Quaternion.identity,DateTime.Now,Vector3.zero,13379001);
 			return level;
         }
     }
