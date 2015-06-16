@@ -79,18 +79,5 @@ namespace Core
                 this.SendMessageUpwards("OnLevelCompleted", new LevelUpdate(this.NextLevelIndex, Vector2.one));
             }
         }
-
-        /// <summary>
-        /// Handles updates sent from the client socket.
-        /// </summary>
-        /// <param name="update">The update to be handled.</param>
-        public void OnServerUpdate(AbstractUpdate update)
-        {
-            LevelUpdate level = update as LevelUpdate;
-            if (level != null && level.Type == UpdateType.Level)
-            {
-                Application.LoadLevel(level.NextLevelIndex);
-            }
-        }
     }
 }

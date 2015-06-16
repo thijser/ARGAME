@@ -23,7 +23,7 @@ namespace mirrors {
         TrackerManager(int captureDevice, Size requestedResolution, BoardDetectionApproach::Type boardApproach);
 
         /**
-         * @brief Load *count* patterns from the specified directory.
+         * @brief Load @c count patterns from the specified directory.
          * @param directory - Directory to load patterns from.
          * @param count - Number of markers to load (directory/##.png).
          * @return Boolean indicating if all patterns were successfully loaded.
@@ -37,7 +37,7 @@ namespace mirrors {
         Size getCaptureResolution() const;
 
         /**
-         * @brief Get the rate at which getMarkerUpdates() finishes per second.
+         * @brief Get the rate at which @c getMarkerUpdates() finishes per second.
          * @return Updates per second.
          */
         int getUpdateRate() const;

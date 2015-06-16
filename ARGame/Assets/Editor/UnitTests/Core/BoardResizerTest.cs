@@ -43,7 +43,7 @@ using UnityEngine;
             board.transform.parent = resizer.transform;
             Assert.IsTrue(resizer.UpdateBoardSize(new Vector2(240, 320)));
 
-            Assert.AreEqual(new Vector3(240, 320, 1), board.transform.localScale);
+            Assert.AreEqual(new Vector3(240, 1, 320), board.transform.localScale);
         }
 
         /// <summary>
@@ -55,13 +55,13 @@ using UnityEngine;
         {
             GameObject board = new GameObject("board");
             board.tag = "PlayingBoard";
-            board.transform.localScale = new Vector3(300, 500, 20);
+            board.transform.localScale = new Vector3(300, 20, 500);
 
             BoardResizer resizer = GameObjectFactory.Create<BoardResizer>();
             board.transform.parent = resizer.transform;
             Assert.IsTrue(resizer.UpdateBoardSize(new Vector2(240, 320)));
 
-            Assert.AreEqual(new Vector3(240, 320, 20), board.transform.localScale);
+            Assert.AreEqual(new Vector3(240, 20, 320), board.transform.localScale);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ using UnityEngine;
             board.transform.parent = resizer.transform;
             resizer.OnServerUpdate(update);
 
-            Assert.AreEqual(new Vector3(240, 320, 1), board.transform.localScale);
+            Assert.AreEqual(new Vector3(240, 1, 320), board.transform.localScale);
         }
 
         /// <summary>

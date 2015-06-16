@@ -22,7 +22,7 @@ namespace Network
         /// <summary>
         /// The factor with which to scale the position.
         /// </summary>
-        public const float ScaleFactor = 0.6875f;
+        public const float ScaleFactor = 1f;
 
         /// <summary>
         /// The vertical offset for the Y coordinate.
@@ -87,7 +87,7 @@ namespace Network
                 this.Object.transform.position = new Vector3(
                     positionupdate.Coordinate.x * ScaleFactor,
                     0,
-                    VerticalOffset - (positionupdate.Coordinate.y * ScaleFactor));
+                    positionupdate.Coordinate.y * ScaleFactor);
 
                 this.Object.transform.eulerAngles = new Vector3(0, positionupdate.Rotation, 0);
             }

@@ -32,6 +32,7 @@ namespace Core
             LevelUpdate level = update as LevelUpdate;
             if (level != null)
             {
+                Debug.Log("Applying Board Size: " + level.Size);
                 this.UpdateBoardSize(level.Size);
             }
         }
@@ -47,7 +48,7 @@ namespace Core
                 .FirstOrDefault(t => t.gameObject.tag == "PlayingBoard");
             if (board != null)
             {
-                Vector3 scale = new Vector3(size.x, size.y, board.localScale.z);
+                Vector3 scale = new Vector3(size.x, board.localScale.y, size.y);
                 board.localScale = scale;
                 return true;
             }
