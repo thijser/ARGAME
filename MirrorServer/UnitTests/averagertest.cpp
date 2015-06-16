@@ -8,6 +8,7 @@ using namespace mirrors;
 TEST(AveragerTest, SingleValue) {
     Averager<float> averager(1);
     ASSERT_EQ(averager.update(3.0f), 3.0f);
+    ASSERT_EQ(averager.get(), 3.0f);
 }
 
 TEST(AveragerTest, TwoValues) {
