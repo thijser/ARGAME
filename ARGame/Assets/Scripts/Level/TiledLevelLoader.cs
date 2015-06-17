@@ -23,8 +23,12 @@ namespace Level
         {
             // Load prefabs for each tile type
             objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/BOXWALL") as GameObject;
-            objectPrefabs[TileType.Emitter] = Resources.Load("Prefabs/Emitter") as GameObject;
-            objectPrefabs[TileType.Target] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            objectPrefabs[TileType.EmitterR] = Resources.Load("Prefabs/Emitter") as GameObject;
+            objectPrefabs[TileType.EmitterG] = Resources.Load("Prefabs/Emitter") as GameObject;
+            objectPrefabs[TileType.EmitterB] = Resources.Load("Prefabs/Emitter") as GameObject;
+            objectPrefabs[TileType.TargetR] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            objectPrefabs[TileType.TargetG] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            objectPrefabs[TileType.TargetB] = Resources.Load("Prefabs/Laser Target") as GameObject;
             objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
 
             // Parse and instantiate level
@@ -33,7 +37,14 @@ namespace Level
 
             foreach (LevelObject obj in levelObjects)
             {
-                InstantiateLevelObject(obj, objectPrefabs);
+                try
+                {
+                    InstantiateLevelObject(obj, objectPrefabs);
+                }
+                catch (KeyNotFoundException)
+                {
+                    Debug.LogError("No prefab for " + obj.Type);
+                }
             }
         }
 
@@ -117,16 +128,7 @@ namespace Level
 
                 // Determine type of object
                 int rawType = (gid - 1) % level.HorizontalTiles;
-                TileType type = TileType.Nothing;
-
-                switch (rawType)
-                {
-                    case 0: type = TileType.Wall; break;
-                    case 1: type = TileType.Emitter; rotation += 90; break;
-                    case 2: type = TileType.Target; break;
-                    case 3: type = TileType.Mirror; rotation += 90; break;
-                    default: type = TileType.Nothing; break;
-                }
+                TileType type = (TileType) rawType;
 
                 // Determine position of object in world coordinates
                 Vector2 pos = new Vector2(x, y);
