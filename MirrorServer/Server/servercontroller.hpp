@@ -10,6 +10,10 @@
 #include <vector>
 #include <ctime>
 
+#include <qhttpserver.h>
+#include <qhttprequest.h>
+#include <qhttpresponse.h>
+
 #include "trackermanager.hpp"
 namespace mirrors {
 using std::vector;
@@ -147,6 +151,13 @@ protected slots:
      * @param message - A localized message describing the error.
      */
     void fatalError(const QString& message);
+
+    /**
+     * @brief Sends the board image to any incoming HTTP request.
+     * @param req - HTTP request.
+     * @param resp - HTTP response.
+     */
+    void sendBoard(QHttpRequest* req, QHttpResponse* resp);
 public slots:
     /**
      * @brief Starts this ServerController.
@@ -191,6 +202,12 @@ public slots:
 private:
     /// The ServerSocket used to send messages
     ServerSocket *sock;
+
+    /// Http server that serves board images.
+    QHttpServer* server;
+
+    /// Board image encoded as JPEG image.
+    QByteArray boardImageBytes;
 
     /// The TrackerManager used to do image and board processing.
     TrackerManager* trackerManager;

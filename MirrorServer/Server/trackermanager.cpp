@@ -63,8 +63,9 @@ namespace mirrors {
 
             if (infoOverlay) {
                 drawTrackInfo(tracker, result, updates);
-                resultImage = matToPixmap(result);
             }
+
+            resultImage = matToPixmap(result);
         }
 
         // Update framerate
