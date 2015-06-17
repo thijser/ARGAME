@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="BoardSizeUpdate.cs" company="Delft University of Technology">
+// <copyright file="LevelUpdate.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -21,10 +21,10 @@ namespace Network
     public class LevelUpdate : AbstractUpdate
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BoardSizeUpdate"/> class.
+        /// Initializes a new instance of the <see cref="LevelUpdate"/> class.
         /// </summary>
         /// <param name="index">The index of the next level.</param>
-        /// /// <param name="size">The new size of the board.</param>
+        /// <param name="size">The new size of the board.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// If one of the values in the supplied <see cref="Vector2"/> is not positive,
         /// or if the supplied level index is not positive.

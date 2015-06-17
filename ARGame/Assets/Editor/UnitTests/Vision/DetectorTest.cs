@@ -9,9 +9,9 @@
 //----------------------------------------------------------------------------
 namespace Vision
 {
+    using System;
     using NUnit.Framework;
     using Projection;
-    using System;
     using TestUtilities;
     using UnityEngine;
 
@@ -21,16 +21,6 @@ namespace Vision
     [TestFixture]
     public class DetectorTest : MirrorsUnitTest
     {
-        public class MarkerSeenListener : MonoBehaviour
-        {
-            public MarkerPosition Position { get; set; }
-
-            public void OnMarkerSeen(MarkerPosition position)
-            {
-                this.Position = position;
-            }
-        }
-
         /// <summary>
         /// Tests if calling the <c>Start()</c> method has no effect 
         /// if there is no ARLink present.
@@ -83,6 +73,10 @@ namespace Vision
             detector.EmitMarkerSeen(null);
         }
 
+        /// <summary>
+        /// Tests if calling <c>EmitMarkerSeen</c> sends the <c>OnMarkerSeen</c> message
+        /// properly.
+        /// </summary>
         [Test]
         public void TestEmitMarkerSeen()
         {
@@ -91,6 +85,26 @@ namespace Vision
             MarkerPosition position = new MarkerPosition(new Vector3(2, 3, 4), Quaternion.Euler(15, 45, 30), DateTime.Now, new Vector3(4, 7, 6), 8);
             detector.EmitMarkerSeen(position);
             Assert.AreEqual(position, listener.Position);
+        }
+
+        /// <summary>
+        /// Listener class for the <c>OnMarkerSeen(MarkerPosition)</c> message.
+        /// </summary>
+        public class MarkerSeenListener : MonoBehaviour
+        {
+            /// <summary>
+            /// Gets the last MarkerPosition for which <c>OnMarkerSeen</c> was called.
+            /// </summary>
+            public MarkerPosition Position { get; private set; }
+
+            /// <summary>
+            /// Sets the <c>Position</c> property to the argument <see cref="MarkerPosition"/>.
+            /// </summary>
+            /// <param name="position">The <see cref="MarkerPosition"/>.</param>
+            public void OnMarkerSeen(MarkerPosition position)
+            {
+                this.Position = position;
+            }
         }
     }
 }
