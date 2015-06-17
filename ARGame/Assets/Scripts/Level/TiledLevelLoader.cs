@@ -1,51 +1,48 @@
-﻿//----------------------------------------------------------------------------
-// <copyright file="TiledLevelLoader.cs" company="Delft University of Technology">
-//     Copyright 2015, Delft University of Technology
-//
-//     This software is licensed under the terms of the MIT License.
-//     A copy of the license should be included with this software. If not,
-//     see http://opensource.org/licenses/MIT for the full license.
-// </copyright>
-//----------------------------------------------------------------------------
+﻿using UnityEngine;
+using System.Collections.Generic;
+using System.Xml;
+
 namespace Level
 {
-    using System.Collections.Generic;
-    using System.Xml;
-    using UnityEngine;
-
     public class TiledLevelLoader : MonoBehaviour
     {
+        /// <summary>
+        /// Level to load in the Resources/Level directory.
+        /// </summary>
         public string Level = "basic";
 
+        /// <summary>
+        /// Mapping of level object types to prefabs.
+        /// </summary>
         private Dictionary<TileType, GameObject> objectPrefabs = new Dictionary<TileType, GameObject>();
 
-        private enum TileType
-        {
-            Wall,
-            Emitter,
-            Target,
-            Mirror,
-            Nothing
-        }
-
-        public void Start()
+        /// <summary>
+        /// Loads the level prefabs and the level itself.
+        /// </summary>
+        void Start()
         {
             // Load prefabs for each tile type
-            this.objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/BOXWALL") as GameObject;
-            this.objectPrefabs[TileType.Emitter] = Resources.Load("Prefabs/Emitter") as GameObject;
-            this.objectPrefabs[TileType.Target] = Resources.Load("Prefabs/Laser Target") as GameObject;
-            this.objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
+            objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/BOXWALL") as GameObject;
+            objectPrefabs[TileType.Emitter] = Resources.Load("Prefabs/Emitter") as GameObject;
+            objectPrefabs[TileType.Target] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
 
             // Parse and instantiate level
-            string xml = (Resources.Load("levels/" + this.Level) as TextAsset).text;
+            string xml = (Resources.Load("levels/" + Level) as TextAsset).text;
             List<LevelObject> levelObjects = ParseLevel(xml);
 
             foreach (LevelObject obj in levelObjects)
             {
-                InstantiateLevelObject(obj, this.objectPrefabs);
+                InstantiateLevelObject(obj, objectPrefabs);
             }
         }
 
+        /// <summary>
+        /// Instantiates a GameObject from a level object using the prefab mapping.
+        /// </summary>
+        /// <param name="levelObject">Level object to turn into GameObject.</param>
+        /// <param name="objectPrefabs">Mapping of level object types to prefabs.</param>
+        /// <returns></returns>
         private static GameObject InstantiateLevelObject(LevelObject levelObject, Dictionary<TileType, GameObject> objectPrefabs)
         {
             GameObject obj = GameObject.Instantiate(objectPrefabs[levelObject.Type]);
@@ -56,55 +53,79 @@ namespace Level
             return obj;
         }
 
+        /// <summary>
+        /// Parse a level created with Tiled and the objects within.
+        /// </summary>
+        /// <param name="xml">XML representation of level as written by Tiled editor.</param>
+        /// <returns>Descriptors of objects within the level.</returns>
         private static List<LevelObject> ParseLevel(string xml)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
 
-            // Find level size
-            XmlNode mapNode = doc.SelectSingleNode("map");
-            int width = int.Parse(mapNode.Attributes["width"].Value);
+            LevelDescriptor level = ParseLevelHeader(doc);
 
-            // Determine amount of tile types
-            XmlNode imageNode = doc.SelectSingleNode("//image");
-            int tileTypes = int.Parse(imageNode.Attributes["width"].Value) / 5;
+            return ParseLevelTiles(doc, level);
+        }
 
-            // Load tiles
+        /// <summary>
+        /// Read level info from XML exported by Tiled.
+        /// </summary>
+        /// <param name="levelDoc">XML document of level.</param>
+        /// <returns>Info about level.</returns>
+        private static LevelDescriptor ParseLevelHeader(XmlDocument levelDoc)
+        {
+            LevelDescriptor levelDescriptor = new LevelDescriptor();
+
+            // Find nodes containing relevant attributes
+            var mapNode = levelDoc.SelectSingleNode("map");
+            var imageNode = levelDoc.SelectSingleNode("//image");
+            var tilesetNode = levelDoc.SelectSingleNode("//tileset");
+
+            // Read data from them
+            levelDescriptor.Width = int.Parse(mapNode.Attributes["width"].Value);
+            levelDescriptor.Height = int.Parse(mapNode.Attributes["height"].Value);
+
+            levelDescriptor.TileWidth = int.Parse(tilesetNode.Attributes["tilewidth"].Value);
+            levelDescriptor.TileHeight = int.Parse(tilesetNode.Attributes["tileheight"].Value);
+
+            levelDescriptor.HorizontalTiles = int.Parse(imageNode.Attributes["width"].Value) / levelDescriptor.TileWidth;
+            levelDescriptor.VerticalTiles = int.Parse(imageNode.Attributes["height"].Value) / levelDescriptor.TileHeight;
+
+            return levelDescriptor;
+        }
+
+        /// <summary>
+        /// Load objects from tiles in level exported to XML.
+        /// </summary>
+        /// <param name="levelDoc">XML document of level.</param>
+        /// <param name="level">Level descriptor returned by ParseLevelHeader.</param>
+        /// <returns>List of objects placed within level.</returns>
+        private static List<LevelObject> ParseLevelTiles(XmlDocument levelDoc, LevelDescriptor level)
+        {
             int x = 0;
             int y = 0;
 
             var levelObjects = new List<LevelObject>();
 
-            foreach (XmlNode tileNode in doc.SelectNodes("//tile"))
+            foreach (XmlNode tileNode in levelDoc.SelectNodes("//tile"))
             {
                 int gid = int.Parse(tileNode.Attributes["gid"].Value);
 
                 // Determine rotation of object
-                int rotation = (gid / tileTypes) * 45;
+                int rotation = (gid / level.HorizontalTiles) * 45;
 
                 // Determine type of object
-                int rawType = (gid - 1) % tileTypes;
-                TileType type;
+                int rawType = (gid - 1) % level.HorizontalTiles;
+                TileType type = TileType.Nothing;
 
                 switch (rawType)
                 {
-                    case 0:
-                        type = TileType.Wall;
-                        break;
-                    case 1:
-                        type = TileType.Emitter;
-                        rotation += 90;
-                        break;
-                    case 2:
-                        type = TileType.Target;
-                        break;
-                    case 3:
-                        type = TileType.Mirror;
-                        rotation += 90;
-                        break;
-                    default:
-                        type = TileType.Nothing;
-                        break;
+                    case 0: type = TileType.Wall; break;
+                    case 1: type = TileType.Emitter; rotation += 90; break;
+                    case 2: type = TileType.Target; break;
+                    case 3: type = TileType.Mirror; rotation += 90; break;
+                    default: type = TileType.Nothing; break;
                 }
 
                 // Determine position of object in world coordinates
@@ -116,34 +137,11 @@ namespace Level
                 }
 
                 // Update X, Y position
-                if (x + 1 == width)
-                {
-                    y++;
-                }
-
-                x = (x + 1) % width;
+                if (x + 1 == level.Width) y++;
+                x = (x + 1) % level.Width;
             }
 
             return levelObjects;
-        }
-
-        private class LevelObject
-        {
-            public readonly TileType Type;
-            public readonly Vector2 Position;
-            public readonly float Rotation;
-
-            public LevelObject(TileType type, Vector2 position, float rotation)
-            {
-                this.Type = type;
-                this.Position = position;
-                this.Rotation = rotation;
-            }
-
-            public override string ToString()
-            {
-                return "LevelObject[Type = " + this.Type + ", Position = " + this.Position + ", Rotation = " + this.Rotation + "]";
-            }
         }
     }
 }
