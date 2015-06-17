@@ -37,6 +37,8 @@ ServerController::ServerController(QObject *parent)
 }
 
 void ServerController::sendBoard(QHttpRequest* req, QHttpResponse* resp) {
+    Q_UNUSED(req);
+
     resp->setHeader("Content-Type", "image/jpeg");
     resp->setHeader("Content-Length", QString::number(boardImageBytes.size()));
     resp->writeHead(200);
