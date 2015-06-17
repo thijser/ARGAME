@@ -89,7 +89,7 @@ namespace Core
         public void UpdateBeam()
         {
             Color color = this.LaserColor;
-            this.LineRenderer.LineWidth = this.Strength;
+            this.LineRenderer.LineWidth = this.Strength * this.transform.lossyScale.magnitude;
 
             this.LineRenderer.LineMaterial.color = color;
             this.LineRenderer.LineMaterial.SetColor("_Albedo", color);
