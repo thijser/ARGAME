@@ -132,12 +132,14 @@ namespace Projection
         {
             if (this.RemotePosition != null)
             {
-                Matrix4x4 levelProjection = this.RemotePosition.Matrix;
+                Matrix4x4 levelProjection = Matrix4x4.TRS(
+                        this.RemotePosition.Position,
+                        Quaternion.Euler(0, this.ObjectRotation, 0),
+                        this.RemotePosition.Scale);
                 this.transform.SetFromMatrix(transformMatrix * levelProjection);
-                this.transform.LogAs("Marker projection (" + this.ID + ")");
             }
         }
-            
+
         /// <summary>
         /// Returns a string representation of this Marker.
         /// </summary>
