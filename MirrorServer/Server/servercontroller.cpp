@@ -1,5 +1,6 @@
 #include "servercontroller.hpp"
 #include "serversocket.hpp"
+#include <QBuffer>
 #include <iostream>
 
 namespace mirrors {
@@ -12,7 +13,8 @@ ServerController::ServerController(QObject *parent)
       trackerManager(nullptr),
       detectorTimer(new QTimer(this)),
       serverState(Idle),
-      currentLevel(-1)
+      currentLevel(-1),
+      server(new QHttpServer)
 {
 
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
@@ -23,6 +25,8 @@ ServerController::ServerController(QObject *parent)
             sock, SLOT(processUpdates()));
     connect(sock, SIGNAL(levelChanged(int)),
             this, SLOT(changeLevel(int)));
+    connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
+            this, SLOT(sendBoard(QHttpRequest*, QHttpResponse*)));
 
     // A single-shot Timer with an interval of 0 will
     // directly fire the timeout when control goes back
@@ -31,6 +35,15 @@ ServerController::ServerController(QObject *parent)
     // keeping the detector active as much as possible.
     detectorTimer->setInterval(0);
     detectorTimer->setSingleShot(true);
+}
+
+void ServerController::sendBoard(QHttpRequest* req, QHttpResponse* resp) {
+    resp->setHeader("Content-Type", "image/jpeg");
+    resp->setHeader("Content-Length", QString::number(boardImageBytes.size()));
+    resp->writeHead(200);
+    resp->write(boardImageBytes);
+
+    resp->end();
 }
 
 ServerController::~ServerController() {
@@ -65,6 +78,9 @@ void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camS
     // Start detecting board
     connect(detectorTimer, SIGNAL(timeout()),
             this,          SLOT(detectBoard()));
+
+    // Start server that broadcasts board image
+    server->listen(port + 1);
 }
 
 void ServerController::stopServer() {
@@ -106,6 +122,15 @@ void ServerController::detectBoard() {
     emit imageReady(result);
 
     if (boardLocated) {
+        // Save an image of the board without text overlay
+        QPixmap board;
+        trackerManager->getMarkerUpdates(board, false);
+
+        boardImageBytes.clear();
+        QBuffer buffer(&boardImageBytes);
+        buffer.open(QIODevice::WriteOnly);
+        board.save(&buffer, "JPG");
+
         // When the board is found, we stop trying to locate
         // the board and start detecting markers instead.
         disconnect(detectorTimer, SIGNAL(timeout()),
