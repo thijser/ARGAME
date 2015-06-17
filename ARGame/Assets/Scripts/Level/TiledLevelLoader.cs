@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Xml;
+using Core;
 
 namespace Level
 {
@@ -61,7 +62,25 @@ namespace Level
             obj.transform.position = new Vector3(-levelObject.Position.x, 0, levelObject.Position.y);
             obj.transform.rotation = Quaternion.AngleAxis(levelObject.Rotation, Vector3.up);
 
+            InitializeObjectColor(obj, levelObject);
+
             return obj;
+        }
+
+        private static void InitializeObjectColor(GameObject obj, LevelObject levelObject)
+        {
+            switch (levelObject.Type)
+            {
+                case TileType.EmitterR:
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0.2f, 0f, 0f);
+                    break;
+                case TileType.EmitterG:
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0.2f, 0f);
+                    break;
+                case TileType.EmitterB:
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0f, 0.2f);
+                    break;
+            }
         }
 
         /// <summary>
