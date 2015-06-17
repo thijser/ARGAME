@@ -74,6 +74,10 @@ public class TiledLevelLoader : MonoBehaviour
         int width = int.Parse(mapNode.Attributes["width"].Value);
         int height = int.Parse(mapNode.Attributes["height"].Value);
 
+        // Determine amount of tile types
+        var imageNode = doc.SelectSingleNode("//image");
+        int tileTypes = int.Parse(imageNode.Attributes["width"].Value) / 5;
+
         // Load tiles
         int x = 0;
         int y = 0;
@@ -85,10 +89,10 @@ public class TiledLevelLoader : MonoBehaviour
             int gid = int.Parse(tileNode.Attributes["gid"].Value);
 
             // Determine rotation of object
-            int rotation = (gid / 5) * 45;
+            int rotation = (gid / tileTypes) * 45;
 
             // Determine type of object
-            int rawType = (gid - 1) % 5;
+            int rawType = (gid - 1) % tileTypes;
             TileType type = TileType.Nothing;
 
             switch (rawType)
