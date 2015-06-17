@@ -47,11 +47,13 @@ win32_debug: OPENCV_SUFFIX = 300d
 else:win32:  OPENCV_SUFFIX = 300
 
 LIBS += -L$$OPENCV_PATH/lib \
+        -L../Dependencies/qhttpserver/lib \
         -lopencv_core$$OPENCV_SUFFIX \
         -lopencv_imgproc$$OPENCV_SUFFIX \
-        -lopencv_highgui$$OPENCV_SUFFIX
+        -lopencv_highgui$$OPENCV_SUFFIX \
+        -lqhttpserver
 win32: LIBS += -lopencv_videoio$$OPENCV_SUFFIX \
                -lopencv_video$$OPENCV_SUFFIX \
                -lopencv_imgcodecs$$OPENCV_SUFFIX
-INCLUDEPATH += $$OPENCV_PATH/include
-DEPENDPATH += $$OPENCV_PATH/include
+INCLUDEPATH += $$OPENCV_PATH/include ../Dependencies/qhttpserver/include
+DEPENDPATH += $$OPENCV_PATH/include ../Dependencies/qhttpserver/include
