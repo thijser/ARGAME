@@ -36,11 +36,14 @@ namespace Vision
         /// </summary>
         private MarkerDetector markerDetector;
 
-		
+        /// <summary>
+        /// Returns the scale of the Meta One glasses.
+        /// </summary>
+        /// <returns>The Meta One scale.</returns>
         public float GetScale()
         {
-			return MetaScale;
-		}
+            return MetaScale;
+        }
 
         /// <summary>
         /// Sets up the detector and marker indicator to find this marker.
@@ -87,9 +90,9 @@ namespace Vision
                 this.markerDetector.GetMarkerTransform(id, ref this.lamb);
                 MarkerPosition pos = new MarkerPosition(
                     this.lamb.position,
-                    this.lamb.rotation, 
+                    this.lamb.rotation,
                     DateTime.Now,
-                    MetaScale * this.lamb.lossyScale, 
+                    MetaScale * this.lamb.lossyScale,
                     id);
                 list.Add(pos);
             }

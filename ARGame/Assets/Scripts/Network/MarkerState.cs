@@ -9,7 +9,6 @@
 //----------------------------------------------------------------------------
 namespace Network
 {
-    
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -35,8 +34,8 @@ namespace Network
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkerState"/> class.
         /// </summary>
-        /// <param name="initialUpdate">The PositionUpdate indicating the initial position.</param>
-        /// <param name="referenceMarker">The GameObject that the PositionUpdate represents.</param>
+        /// <param name="id">The marker ID.</param>
+        /// <param name="referenceMarker">The GameObject that the MarkerState represents.</param>
         public MarkerState(int id, GameObject referenceMarker)
         {
             if (referenceMarker == null)

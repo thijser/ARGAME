@@ -111,8 +111,6 @@ namespace Projection
             }
         }
 
- 
-
         /// <summary>
         /// Called whenever a marker is seen by the detector.
         /// <para>

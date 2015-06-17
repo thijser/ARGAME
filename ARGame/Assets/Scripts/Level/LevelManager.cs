@@ -1,74 +1,132 @@
-﻿namespace Level
+﻿//----------------------------------------------------------------------------
+// <copyright file="LevelManager.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not,
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
+namespace Level
 {
     using Network;
     using UnityEngine;
     using Vision;
 
+    /// <summary>
+    /// Manages loading and changing of levels.
+    /// </summary>
     public class LevelManager : MonoBehaviour
     {
-        public int currentLevelIndex = 0;
-        public Vector2 boardsize { get; set; }
-        public float IARscale { get; set; }
+        /// <summary>
+        /// The current level index.
+        /// </summary>
+        public int CurrentLevelIndex = 0;
 
+        /// <summary>
+        /// The LevelLoader used for the loading of levels.
+        /// </summary>
         private LevelLoader levelLoader = new LevelLoader();
+        
+        /// <summary>
+        /// The level GameObject.
+        /// </summary>
         private GameObject level;
 
+        /// <summary>
+        /// Gets or sets the size of the board.
+        /// </summary>
+        public Vector2 BoardSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets the scale of the underlying <see cref="IARLink"/> implementation.
+        /// </summary>
+        public float IARscale { get; set; }
+
+        /// <summary>
+        /// Initializes this LevelManager and loads the first level.
+        /// </summary>
         public void Start()
         {
-            IARscale = 1;
+            this.IARscale = 1;
             IARLink link = gameObject.GetComponent<IARLink>();
             if (link != null)
             {
-                IARscale = link.GetScale();
+                this.IARscale = link.GetScale();
             }
 
-            this.restartGame();
+            this.RestartGame();
         }
 
-        public void nextLevel()
+        /// <summary>
+        /// Loads the next level in sequence.
+        /// </summary>
+        public void NextLevel()
         {
-            loadLevel(++currentLevelIndex);
+            this.LoadLevel(++this.CurrentLevelIndex);
         }
 
-        public void restartLevel()
+        /// <summary>
+        /// Restarts the current level.
+        /// </summary>
+        public void RestartLevel()
         {
-            loadLevel(currentLevelIndex);
+            this.LoadLevel(this.CurrentLevelIndex);
         }
 
-        public void restartGame()
+        /// <summary>
+        /// Restarts the game, loading the first level.
+        /// </summary>
+        public void RestartGame()
         {
-            this.loadLevel(0);
+            this.LoadLevel(0);
         }
 
-        public void loadLevel(int index)
+        /// <summary>
+        /// Loads the level indicated by the given index.
+        /// </summary>
+        /// <param name="index">The index of the level to load.</param>
+        public void LoadLevel(int index)
         {
             GameObject.Destroy(this.level);
             Debug.Log("loading level" + index);
             this.level = this.levelLoader.CreateLevel("Assets/resources/Levels/" + index + ".txt");
-            this.currentLevelIndex = index;
-            this.level.transform.SetParent(transform);
-            this.scaleLevel();
+            this.CurrentLevelIndex = index;
+            this.level.transform.SetParent(this.transform);
+            this.ScaleLevel();
         }
 
+        /// <summary>
+        /// Loads the level indicated by the <see cref="LevelUpdate"/> if
+        /// that level is not yet loaded. If the same level is already loaded,
+        /// this method does nothing.
+        /// </summary>
+        /// <param name="levelup">The <see cref="LevelUpdate"/>.</param>
         public void OnLevelUpdate(LevelUpdate levelup)
         {
-            boardsize = levelup.Size;
-            if (currentLevelIndex != levelup.NextLevelIndex)
+            this.BoardSize = levelup.Size;
+            if (this.CurrentLevelIndex != levelup.NextLevelIndex)
             {
-                loadLevel(levelup.NextLevelIndex);
+                this.LoadLevel(levelup.NextLevelIndex);
             }
         }
 
-        public void scaleLevel()
+        /// <summary>
+        /// Scales the level along with the board size.
+        /// </summary>
+        public void ScaleLevel()
         {
-            Levelcomp levelcomp = level.GetComponent<Levelcomp>();
-            float xproportions = boardsize.x / levelcomp.size.x;
-            float yproportions = boardsize.y / levelcomp.size.y;
+            Levelcomp levelcomp = this.level.GetComponent<Levelcomp>();
+            float xproportions = this.BoardSize.x / levelcomp.Size.x;
+            float yproportions = this.BoardSize.y / levelcomp.Size.y;
             if (xproportions < yproportions)
-                level.transform.localScale = new Vector3(xproportions, xproportions, xproportions) * IARscale;
+            {
+                this.level.transform.localScale = new Vector3(xproportions, xproportions, xproportions) * this.IARscale;
+            }
             else
-                level.transform.localScale = new Vector3(yproportions, yproportions, yproportions) * IARscale;
+            {
+                this.level.transform.localScale = new Vector3(yproportions, yproportions, yproportions) * this.IARscale;
+            }
         }
-
     }
 }

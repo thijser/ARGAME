@@ -52,6 +52,7 @@ namespace Core
                 board.localScale = scale;
                 return true;
             }
+
             return false;
         }
     }
