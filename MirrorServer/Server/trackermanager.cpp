@@ -90,7 +90,7 @@ namespace mirrors {
     }
 
     void TrackerManager::drawLocateBoardInstructions(Mat& resultImage) {
-        const std::string boardLocatingInstructions = "Position the camera to view the entire board.";
+        const std::string boardLocatingInstructions = "Position the camera to view the board without markers.";
 
         // Determine bounds of instruction text
         int baseLine;

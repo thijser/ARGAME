@@ -4,8 +4,6 @@
 
 namespace mirrors {
 
-const std::string boardLocatingInstructions = "Position the camera to view the entire board.";
-
 ServerController::ServerController(QObject *parent)
     : QObject(parent),
       sock(new ServerSocket(this)),
@@ -123,20 +121,23 @@ void ServerController::detectBoard() {
     if (boardLocated) {
         // Save an image of the board without text overlay
         QPixmap board;
-        trackerManager->getMarkerUpdates(board, false);
+        auto updates = trackerManager->getMarkerUpdates(board, false);
 
-        boardImageBytes.clear();
-        QBuffer buffer(&boardImageBytes);
-        buffer.open(QIODevice::WriteOnly);
-        board.save(&buffer, "JPG");
+        // If there are markers on the board, abort
+        if (updates.size() == 0) {
+            boardImageBytes.clear();
+            QBuffer buffer(&boardImageBytes);
+            buffer.open(QIODevice::WriteOnly);
+            board.save(&buffer, "JPG");
 
-        // When the board is found, we stop trying to locate
-        // the board and start detecting markers instead.
-        disconnect(detectorTimer, SIGNAL(timeout()),
-                   this,          SLOT(detectBoard()));
-        connect(detectorTimer,    SIGNAL(timeout()),
-                this,             SLOT(detectFrame()));
-        changeState(Started);
+            // When the board is found, we stop trying to locate
+            // the board and start detecting markers instead.
+            disconnect(detectorTimer, SIGNAL(timeout()),
+                       this,          SLOT(detectBoard()));
+            connect(detectorTimer,    SIGNAL(timeout()),
+                    this,             SLOT(detectFrame()));
+            changeState(Started);
+        }
     }
     detectorTimer->start();
 }
