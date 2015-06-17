@@ -104,7 +104,10 @@ namespace Network
             Debug.Log("Socket connected to " + this.endPoint.Address);
             this.timestamp = DateTime.Now;
         }
+		void start(){
+			this.SendMessage("onSocketStart", this.ServerAddress, SendMessageOptions.DontRequireReceiver);
 
+		}
         /// <summary>
         /// Retrieves the PositionUpdates from the server and broadcasts the messages.
         /// </summary>
