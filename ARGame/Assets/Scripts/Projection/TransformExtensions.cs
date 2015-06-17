@@ -46,6 +46,12 @@ namespace Projection
             transform.localScale = ExtractScaleFromMatrix(ref matrix);
         }
 
+
+        public static void LogAs(this Transform transform, string label)
+        {
+            Debug.LogError(label + ": " + transform.position + ", " + transform.eulerAngles + ", " + transform.lossyScale);
+        }
+
         /// <summary>
         /// Extract translation from transform matrix.
         /// </summary>

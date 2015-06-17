@@ -1,59 +1,74 @@
-﻿using UnityEngine;
-using System.Collections;
-using Vision;
-using System.Collections.Generic;
-using Network;
+﻿namespace Level
+{
+    using Network;
+    using UnityEngine;
+    using Vision;
 
-namespace Level{
-	public class LevelManager : MonoBehaviour {
-		private LevelLoader levelLoader= new LevelLoader();
-		private GameObject level;
-		int currentLevelIndex=0;
-		Vector2 boardsize{get;set;}
-		float IARscale{get;set;}
-		void Start() {
-			IARscale=1;
-			IARLink IAL = gameObject.GetComponent<IARLink>();
-			IARscale=IAL.GetScale();
-			restartGame();
+    public class LevelManager : MonoBehaviour
+    {
+        public int currentLevelIndex = 0;
+        public Vector2 boardsize { get; set; }
+        public float IARscale { get; set; }
 
+        private LevelLoader levelLoader = new LevelLoader();
+        private GameObject level;
 
-		}
+        public void Start()
+        {
+            IARscale = 1;
+            IARLink link = gameObject.GetComponent<IARLink>();
+            if (link != null)
+            {
+                IARscale = link.GetScale();
+            }
 
-		public void nextLevel(){
-			loadLevel(++currentLevelIndex);
-		}
-		public void restartLevel(){
-			loadLevel(currentLevelIndex);	
-		}
-		public void restartGame(){
-			loadLevel (0);
-		}
-		public void loadLevel(int index){
-				Destroy(level);
-				Debug.Log ("loading level"+index);
-				level=levelLoader.CreateLevel("Assets/resources/Levels/"+index+".txt");
-				currentLevelIndex=index;
-				level.transform.SetParent(transform);
-				scaleLevel();
+            this.restartGame();
+        }
 
-		}
-		public void OnLevelUpdate(LevelUpdate levelup){
-			boardsize=levelup.Size;
-			if (currentLevelIndex!=levelup.NextLevelIndex){
-				loadLevel(levelup.NextLevelIndex);
-			}
-		}
+        public void nextLevel()
+        {
+            loadLevel(++currentLevelIndex);
+        }
 
-		public void scaleLevel(){
-			Levelcomp levelcomp=level.GetComponent<Levelcomp>();
-			float xproportions=boardsize.x/levelcomp.size.x;
-			float yproportions=boardsize.y/levelcomp.size.y;
-			if(xproportions<yproportions)
-				level.transform.localScale=new Vector3(xproportions,xproportions,xproportions)*IARscale;
-			else
-				level.transform.localScale=new Vector3(yproportions,yproportions,yproportions)*IARscale;
-		}	
+        public void restartLevel()
+        {
+            loadLevel(currentLevelIndex);
+        }
 
-	}
+        public void restartGame()
+        {
+            this.loadLevel(0);
+        }
+
+        public void loadLevel(int index)
+        {
+            GameObject.Destroy(this.level);
+            Debug.Log("loading level" + index);
+            this.level = this.levelLoader.CreateLevel("Assets/resources/Levels/" + index + ".txt");
+            this.currentLevelIndex = index;
+            this.level.transform.SetParent(transform);
+            this.scaleLevel();
+        }
+
+        public void OnLevelUpdate(LevelUpdate levelup)
+        {
+            boardsize = levelup.Size;
+            if (currentLevelIndex != levelup.NextLevelIndex)
+            {
+                loadLevel(levelup.NextLevelIndex);
+            }
+        }
+
+        public void scaleLevel()
+        {
+            Levelcomp levelcomp = level.GetComponent<Levelcomp>();
+            float xproportions = boardsize.x / levelcomp.size.x;
+            float yproportions = boardsize.y / levelcomp.size.y;
+            if (xproportions < yproportions)
+                level.transform.localScale = new Vector3(xproportions, xproportions, xproportions) * IARscale;
+            else
+                level.transform.localScale = new Vector3(yproportions, yproportions, yproportions) * IARscale;
+        }
+
+    }
 }

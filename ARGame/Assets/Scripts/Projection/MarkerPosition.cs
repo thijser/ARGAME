@@ -34,10 +34,10 @@ namespace Projection
                 throw new ArgumentException("UpdateType is not UpdatePosition.", "update");
             }
 
-            this.Scale = Vector3.one;
             this.TimeStamp = DateTime.Now;
-            this.Position = new Vector3(update.Coordinate[0], 0, -update.Coordinate[1]);
+            this.Position = new Vector3(8 * update.Coordinate[0], 0, 8 * -update.Coordinate[1]);
             this.Rotation = Quaternion.Euler(0, update.Rotation, 0);
+            this.Scale = Vector3.one;
             this.ID = update.ID;
         }
 

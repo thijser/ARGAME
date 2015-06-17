@@ -133,15 +133,8 @@ namespace Projection
             if (this.RemotePosition != null)
             {
                 Matrix4x4 levelProjection = this.RemotePosition.Matrix;
-                if (this.LocalPosition != null)
-                {
-                    levelProjection *= Matrix4x4.TRS(
-                        Vector3.zero,
-                        this.LocalPosition.Rotation,
-                        Vector3.one).inverse;
-                }
-
                 this.transform.SetFromMatrix(transformMatrix * levelProjection);
+                this.transform.LogAs("Marker projection (" + this.ID + ")");
             }
         }
             

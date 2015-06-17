@@ -14,6 +14,7 @@ namespace Vision
     using Meta;
     using Projection;
     using UnityEngine;
+    using UnityEngine.Assertions;
 
     /// <summary>
     /// Class responsible for linking the Meta to the game world.
@@ -23,37 +24,40 @@ namespace Vision
         /// <summary>
         /// The scale of the Meta glasses with respect to the world.
         /// </summary>
-        public const float MetaScale = 0.0057f * 8f;
+        public const float MetaScale = 0.0057f;
 
         /// <summary>
         /// like cattle this class is driven all around it's very position consumed by the meta, please no cow tipping with the lamb
         /// </summary>
-        private GameObject lamb;
+        private Transform lamb;
 
         /// <summary>
         /// meta object required for tracking 
         /// </summary>
-        private GameObject markerdetectorGO;
+        private MarkerDetector markerDetector;
 
-        /// <summary>
-        /// meta object required for tracking 
-        /// </summary>
-        private MarkerTargetIndicator marketTargetindicator;
-
-		public float GetScale(){
+		
+        public float GetScale()
+        {
 			return MetaScale;
 		}
+
         /// <summary>
         /// Sets up the detector and marker indicator to find this marker.
         /// </summary>
         public void Start()
         {
-            this.lamb = new GameObject("lamb");
-            this.markerdetectorGO = MarkerDetector.Instance.gameObject;
+            this.lamb = new GameObject("lamb").transform;
+            this.markerDetector = MarkerDetector.Instance;
+
+            if (this.markerDetector == null)
+            {
+                throw new InvalidOperationException("The MarkerDetector cannot be loaded. Is the Meta connected?");
+            }
 
             // Hide the markerindicator
-            this.marketTargetindicator = this.markerdetectorGO.GetComponent<MarkerTargetIndicator>();
-            this.marketTargetindicator.enabled = false;
+            MarkerTargetIndicator indicator = this.markerDetector.GetComponent<MarkerTargetIndicator>();
+            indicator.enabled = false;
         }
 
         /// <summary>
@@ -62,14 +66,10 @@ namespace Vision
         /// </summary>
         public void EnsureMeta()
         {
-            if (!this.markerdetectorGO.activeSelf)
+            Assert.IsNotNull(this.markerDetector);
+            if (!this.markerDetector.gameObject.activeSelf)
             {
-                this.markerdetectorGO.SetActive(true);
-            }
-
-            if (MarkerDetector.Instance == null)
-            {
-                throw new MissingComponentException("Missing marker detector instance");
+                this.markerDetector.gameObject.SetActive(true);
             }
         }
 
@@ -80,17 +80,16 @@ namespace Vision
         public Collection<MarkerPosition> GetMarkerPositions()
         {
             this.EnsureMeta();
-            Transform trans = this.lamb.transform;
             Collection<MarkerPosition> list = new Collection<MarkerPosition>();
 
-            foreach (int id in MarkerDetector.Instance.updatedMarkerTransforms)
+            foreach (int id in this.markerDetector.updatedMarkerTransforms)
             {
-                MarkerDetector.Instance.GetMarkerTransform(id, ref trans);
+                this.markerDetector.GetMarkerTransform(id, ref this.lamb);
                 MarkerPosition pos = new MarkerPosition(
-                    trans.position, 
-                    trans.rotation, 
-                    DateTime.Now, 
-                    trans.localScale, 
+                    this.lamb.position,
+                    this.lamb.rotation, 
+                    DateTime.Now,
+                    MetaScale * this.lamb.lossyScale, 
                     id);
                 list.Add(pos);
             }

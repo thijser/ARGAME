@@ -6,17 +6,17 @@
     using StreamReader = System.IO.StreamReader;
     using System.Text.RegularExpressions;
     using UnityEngine;
-	using Projection;
+    using Projection;
     public class LevelLoader
     {
 
         private Dictionary<char, GameObject> indexes;
-        
+
         private List<InputEntry> entries;
-       
+
         private GameObject level;
 
-		private Vector2 size = new Vector2(1,1);
+        private Vector2 size = new Vector2(1, 1);
 
         public void LoadObjects()
         {
@@ -60,14 +60,14 @@
                     x++;
                     ie.dir = line[x];
                     ie.pos = new Vector2(x / 2, y);
-					if(x/2 > size.x)
-						size.x = x/2;
-					if(y > size.y)
-						size.y = y;
-						if (ie.type != '.')
+                    if (x / 2 > size.x)
+                        size.x = x / 2;
+                    if (y > size.y)
+                        size.y = y;
+                    if (ie.type != '.')
                     {
                         entries.Add(ie);
-                    }   
+                    }
                 }
             }
         }
@@ -76,7 +76,8 @@
         {
             GameObject pref = indexes[ie.type];
             GameObject go = GameObject.Instantiate(pref);
-            go.transform.rotation = Quaternion.Euler(0f, (float)ie.getAngle(), 0f);
+            go.transform.localScale = Vector3.one;
+            go.transform.localRotation = Quaternion.Euler(0f, ie.getAngle(), 0f);
             return go;
         }
 
@@ -84,20 +85,20 @@
         {
 
             level = new GameObject("level");
-			level.AddComponent<Levelcomp>();
-			Levelcomp levelcomp=level.GetComponent<Levelcomp>();
-			levelcomp.size=size;
-			foreach (InputEntry ie in entries)
+            level.AddComponent<Levelcomp>();
+            Levelcomp levelcomp = level.GetComponent<Levelcomp>();
+            levelcomp.size = size;
+            foreach (InputEntry ie in entries)
             {
                 GameObject go = ConstructEntry(ie);
                 go.transform.SetParent(level.transform);
                 go.transform.localPosition = new Vector3(ie.pos.x, 0, ie.pos.y);
             }
-			level.AddComponent<Marker>();
-			Marker m = level.GetComponent<Marker>();
-			m.ID=13379001;
-			m.RemotePosition=new MarkerPosition(Vector3.zero,Quaternion.identity,DateTime.Now,Vector3.zero,13379001);
-			return level;
+            level.AddComponent<Marker>();
+            Marker m = level.GetComponent<Marker>();
+            m.ID = 13379001;
+            m.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 13379001);
+            return level;
         }
     }
 }

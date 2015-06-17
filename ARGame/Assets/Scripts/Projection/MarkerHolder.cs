@@ -99,6 +99,12 @@ namespace Projection
             Matrix4x4 boardToLocal = this.Parent.RemotePosition.Matrix.inverse;
             Matrix4x4 localToMeta = this.Parent.LocalPosition.Matrix;
             Matrix4x4 trans = localToMeta * boardToLocal;
+
+            GameObject tmp = new GameObject("tmp");
+            tmp.transform.SetFromMatrix(trans);
+            tmp.transform.LogAs("Board Projection (" + this.Parent.ID + ")");
+            GameObject.Destroy(tmp);
+
             foreach (Marker marker in this.markerTable.Values)
             {
                 marker.UpdatePosition(trans);
