@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using Core;
+using Core.Receiver;
 
 namespace Level
 {
@@ -79,6 +80,16 @@ namespace Level
                     break;
                 case TileType.EmitterB:
                     obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0f, 0.2f);
+                    break;
+
+                case TileType.TargetR:
+                    obj.GetComponent<LaserTarget>().TargetColor = new Color(1, 0, 0);
+                    break;
+                case TileType.TargetG:
+                    obj.GetComponent<LaserTarget>().TargetColor = new Color(0, 1, 0);
+                    break;
+                case TileType.TargetB:
+                    obj.GetComponent<LaserTarget>().TargetColor = new Color(0, 0, 1);
                     break;
             }
         }
