@@ -1,43 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿//----------------------------------------------------------------------------
+// <copyright file="LevelDescriptor.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not,
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
 namespace Level
 {
     /// <summary>
-    /// Descriptor of level.
+    /// Container class describing details about a level.
     /// </summary>
     public class LevelDescriptor
     {
         /// <summary>
-        /// Width of the level in tiles.
+        /// Gets or sets the width of the level in tiles.
         /// </summary>
-        public int Width;
+        public int Width { get; set; }
 
         /// <summary>
-        /// Height of the level in tiles.
+        /// Gets or sets the height of the level in tiles.
         /// </summary>
-        public int Height;
+        public int Height { get; set; }
 
         /// <summary>
-        /// Width of a single tile in pixels.
+        /// Gets or sets the width of a single tile in pixels.
         /// </summary>
-        public int TileWidth;
+        public int TileWidth { get; set; }
 
         /// <summary>
-        /// Height of a single tile in pixels.
+        /// Gets or sets the height of a single tile in pixels.
         /// </summary>
-        public int TileHeight;
+        public int TileHeight { get; set; }
 
         /// <summary>
-        /// Amount of tiles in horizontal direction.
+        /// Gets or sets the amount of tiles in horizontal direction.
         /// </summary>
-        public int HorizontalTiles;
+        public int HorizontalTiles { get; set; }
 
         /// <summary>
-        /// Amount of tiles in vertical direction.
+        /// Gets or sets the amount of tiles in vertical direction.
         /// </summary>
-        public int VerticalTiles;
+        public int VerticalTiles { get; set; }
     }
 }

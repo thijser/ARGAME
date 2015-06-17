@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="MessageDistrubuter.cs" company="Delft University of Technology">
+// <copyright file="MessageDistributer.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -12,6 +12,9 @@ namespace Network
     using System;
     using UnityEngine;
 
+    /// <summary>
+    /// Distributes general messages from the server as specific messages.
+    /// </summary>
     public class MessageDistributer : MonoBehaviour
     {
         /// <summary>

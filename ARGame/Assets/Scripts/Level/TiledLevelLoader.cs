@@ -1,11 +1,23 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Xml;
-using Core;
-using Core.Receiver;
-
+﻿//----------------------------------------------------------------------------
+// <copyright file="TiledLevelLoader.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not,
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
 namespace Level
 {
+    using System.Collections.Generic;
+    using System.Xml;
+    using Core;
+    using Core.Receiver;
+    using UnityEngine;
+
+    /// <summary>
+    /// Level loader that loads levels created with the Tiled map editor.
+    /// </summary>
     public class TiledLevelLoader : MonoBehaviour
     {
         /// <summary>
@@ -21,27 +33,27 @@ namespace Level
         /// <summary>
         /// Loads the level prefabs and the level itself.
         /// </summary>
-        void Start()
+        public void Start()
         {
             // Load prefabs for each tile type
-            objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/BOXWALL") as GameObject;
-            objectPrefabs[TileType.EmitterR] = Resources.Load("Prefabs/Emitter") as GameObject;
-            objectPrefabs[TileType.EmitterG] = Resources.Load("Prefabs/Emitter") as GameObject;
-            objectPrefabs[TileType.EmitterB] = Resources.Load("Prefabs/Emitter") as GameObject;
-            objectPrefabs[TileType.TargetR] = Resources.Load("Prefabs/Laser Target") as GameObject;
-            objectPrefabs[TileType.TargetG] = Resources.Load("Prefabs/Laser Target") as GameObject;
-            objectPrefabs[TileType.TargetB] = Resources.Load("Prefabs/Laser Target") as GameObject;
-            objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
+            this.objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/BOXWALL") as GameObject;
+            this.objectPrefabs[TileType.EmitterR] = Resources.Load("Prefabs/Emitter") as GameObject;
+            this.objectPrefabs[TileType.EmitterG] = Resources.Load("Prefabs/Emitter") as GameObject;
+            this.objectPrefabs[TileType.EmitterB] = Resources.Load("Prefabs/Emitter") as GameObject;
+            this.objectPrefabs[TileType.TargetR] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            this.objectPrefabs[TileType.TargetG] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            this.objectPrefabs[TileType.TargetB] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            this.objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
 
             // Parse and instantiate level
-            string xml = (Resources.Load("levels/" + Level) as TextAsset).text;
+            string xml = (Resources.Load("levels/" + this.Level) as TextAsset).text;
             List<LevelObject> levelObjects = ParseLevel(xml);
 
             foreach (LevelObject obj in levelObjects)
             {
                 try
                 {
-                    InstantiateLevelObject(obj, objectPrefabs);
+                    InstantiateLevelObject(obj, this.objectPrefabs);
                 }
                 catch (KeyNotFoundException)
                 {
@@ -55,7 +67,7 @@ namespace Level
         /// </summary>
         /// <param name="levelObject">Level object to turn into GameObject.</param>
         /// <param name="objectPrefabs">Mapping of level object types to prefabs.</param>
-        /// <returns></returns>
+        /// <returns>The created level GameObject.</returns>
         private static GameObject InstantiateLevelObject(LevelObject levelObject, Dictionary<TileType, GameObject> objectPrefabs)
         {
             GameObject obj = GameObject.Instantiate(objectPrefabs[levelObject.Type]);
@@ -68,7 +80,13 @@ namespace Level
             return obj;
         }
 
-        private static void InitializeObjectColor(GameObject obj, LevelObject levelObject)
+        /// <summary>
+        /// Sets the object color of the given GameObject, if applicable.
+        /// </summary>
+        /// <param name="obj">The GameObject.</param>
+        /// <param name="levelObject">The LevelObject describing the type of the GameObject.</param>
+        /// <returns>True if the color could be changed for the GameObject, false if the operation was not applicable.</returns>
+        private static bool InitializeObjectColor(GameObject obj, LevelObject levelObject)
         {
             switch (levelObject.Type)
             {
@@ -81,7 +99,6 @@ namespace Level
                 case TileType.EmitterB:
                     obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0f, 0.2f);
                     break;
-
                 case TileType.TargetR:
                     obj.GetComponent<LaserTarget>().TargetColor = new Color(1, 0, 0);
                     break;
@@ -91,7 +108,11 @@ namespace Level
                 case TileType.TargetB:
                     obj.GetComponent<LaserTarget>().TargetColor = new Color(0, 0, 1);
                     break;
+                default:
+                    return false;
             }
+
+            return true;
         }
 
         /// <summary>
@@ -158,7 +179,7 @@ namespace Level
 
                 // Determine type of object
                 int rawType = (gid - 1) % level.HorizontalTiles;
-                TileType type = (TileType) rawType;
+                TileType type = (TileType)rawType;
 
                 // Determine position of object in world coordinates
                 Vector2 pos = new Vector2(x, y);
@@ -169,7 +190,11 @@ namespace Level
                 }
 
                 // Update X, Y position
-                if (x + 1 == level.Width) y++;
+                if (x + 1 == level.Width)
+                {
+                    y++;
+                }
+
                 x = (x + 1) % level.Width;
             }
 

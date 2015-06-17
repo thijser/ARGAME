@@ -47,6 +47,11 @@ namespace Level
         private Vector2 size = new Vector2(1, 1);
 
         /// <summary>
+        /// Gets or sets the parent of the level GameObject.
+        /// </summary>
+        public Transform LevelParent { get; set; }
+
+        /// <summary>
         /// Initializes the Prefab GameObject Dictionary.
         /// </summary>
         public void LoadObjects()
@@ -140,9 +145,12 @@ namespace Level
         public GameObject ConstructLevel()
         {
             this.level = new GameObject("level");
+            this.level.transform.parent = this.LevelParent;
+
             this.level.AddComponent<Levelcomp>();
             Levelcomp levelcomp = this.level.GetComponent<Levelcomp>();
             levelcomp.Size = this.size;
+
             foreach (InputEntry ie in this.entries)
             {
                 GameObject go = this.ConstructEntry(ie);

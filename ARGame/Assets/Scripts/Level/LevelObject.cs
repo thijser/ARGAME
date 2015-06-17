@@ -1,23 +1,79 @@
-﻿using UnityEngine;
-
+﻿//----------------------------------------------------------------------------
+// <copyright file="LevelObject.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//     
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not, 
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
 namespace Level
 {
+    using UnityEngine;
+    
     /// <summary>
     /// Type of a tile loaded from level file.
     /// </summary>
     public enum TileType
     {
+        /// <summary>
+        /// Indicates a wall tile.
+        /// </summary>
         Wall = 0,
+
+        /// <summary>
+        /// Indicates a green emitter tile.
+        /// </summary>
         EmitterG = 1,
+
+        /// <summary>
+        /// Indicates a red emitter tile.
+        /// </summary>
         EmitterR = 2,
+        
+        /// <summary>
+        /// Indicates a blue emitter tile.
+        /// </summary>
         EmitterB = 3,
+
+        /// <summary>
+        /// Indicates a green target tile.
+        /// </summary>
         TargetG = 4,
+
+        /// <summary>
+        /// Indicates a red target tile.
+        /// </summary>
         TargetR = 5,
+
+        /// <summary>
+        /// Indicates a blue target tile.
+        /// </summary>
         TargetB = 6,
+
+        /// <summary>
+        /// Indicates a mirror tile.
+        /// </summary>
         Mirror = 7,
+
+        /// <summary>
+        /// Indicates a splitter tile.
+        /// </summary>
         Splitter = 8,
+
+        /// <summary>
+        /// Indicates an emitter tile.
+        /// </summary>
         Elevator = 9,
+
+        /// <summary>
+        /// Indicates a portal tile.
+        /// </summary>
         Portal = 10,
+
+        /// <summary>
+        /// Indicates an empty tile.
+        /// </summary>
         Nothing = 11
     }
 
@@ -32,7 +88,7 @@ namespace Level
         public readonly TileType Type;
 
         /// <summary>
-        /// Position of object in tilespace.
+        /// Position of object in level coordinates.
         /// </summary>
         public readonly Vector2 Position;
 
@@ -42,11 +98,11 @@ namespace Level
         public readonly float Rotation;
 
         /// <summary>
-        /// Create description of object found in level.
+        /// Initializes a new instance of the <see cref="LevelObject"/> class.
         /// </summary>
-        /// <param name="type">Type of object.</param>
-        /// <param name="position">Position of object in tilespace.</param>
-        /// <param name="rotation">Rotation of object in level.</param>
+        /// <param name="type">The <see cref="TileType"/> of the object.</param>
+        /// <param name="position">The position of the object in level coordinates.</param>
+        /// <param name="rotation">The rotation of the object in the level.</param>
         public LevelObject(TileType type, Vector2 position, float rotation)
         {
             this.Type = type;
@@ -55,12 +111,12 @@ namespace Level
         }
 
         /// <summary>
-        /// Returns string representation of level object descriptor.
+        /// Returns a string representation of this <see cref="LevelObject"/>.
         /// </summary>
-        /// <returns>String representation of level object descriptor.</returns>
+        /// <returns>A string describing this <see cref="LevelObject"/>.</returns>
         public override string ToString()
         {
-            return "LevelObject[Type = " + Type + ", Position = " + Position + ", Rotation = " + Rotation + "]";
+            return "LevelObject[Type = " + this.Type + ", Position = " + this.Position + ", Rotation = " + this.Rotation + "]";
         }
     }
 }
