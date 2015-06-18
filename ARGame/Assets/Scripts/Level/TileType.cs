@@ -88,6 +88,11 @@
         /// <summary>
         /// Indicates a portal exit tile of pair 3.
         /// </summary>
-        PortalExitThree = 16
+        PortalExitThree = 16,
+
+        /// <summary>
+        /// Indicates a checkpoint tile.
+        /// </summary>
+        Checkpoint = 17
     }
 }
