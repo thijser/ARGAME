@@ -46,6 +46,7 @@ namespace Level
             this.objectPrefabs[TileType.TargetB] = Resources.Load("Prefabs/Laser Target") as GameObject;
             this.objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
             this.objectPrefabs[TileType.Splitter] = Resources.Load("Prefabs/LensSplitter") as GameObject;
+            this.objectPrefabs[TileType.Checkpoint] = Resources.Load("Prefabs/Checkpoint") as GameObject;
 
             // Parse and instantiate level
             string xml = (Resources.Load("levels/" + this.Level) as TextAsset).text;
@@ -180,7 +181,7 @@ namespace Level
                 gid = Math.Max(1, gid);
 
                 // Determine rotation of object
-                int rotation = (gid / level.HorizontalTiles) * 45;
+                int rotation = ((gid - 1) / level.HorizontalTiles) * 45;
 
                 // Determine type of object
                 int rawType = (gid - 1) % level.HorizontalTiles;
