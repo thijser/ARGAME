@@ -22,6 +22,8 @@ ServerController::ServerController(QObject *parent)
             sock, SLOT(processUpdates()));
     connect(sock, SIGNAL(levelChanged(int)),
             this, SLOT(changeLevel(int)));
+    connect(sock, SIGNAL(clientConnected(QTcpSocket*)),
+            this, SLOT(handleNewClient()));
     connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
             this, SLOT(sendBoard(QHttpRequest*, QHttpResponse*)));
 
@@ -43,6 +45,10 @@ void ServerController::sendBoard(QHttpRequest* req, QHttpResponse* resp) {
     resp->write(boardImageBytes);
 
     resp->end();
+}
+
+void ServerController::handleNewClient() {
+    sock->broadcastLevelUpdate(currentLevel, trackerManager->scaledBoardSize());
 }
 
 ServerController::~ServerController() {
@@ -124,7 +130,7 @@ void ServerController::detectBoard() {
         auto updates = trackerManager->getMarkerUpdates(board, false);
 
         // If there are markers on the board, abort
-        if (updates.size() == 0) {
+        //if (updates.size() == 0) {
             boardImageBytes.clear();
             QBuffer buffer(&boardImageBytes);
             buffer.open(QIODevice::WriteOnly);
@@ -137,7 +143,7 @@ void ServerController::detectBoard() {
             connect(detectorTimer,    SIGNAL(timeout()),
                     this,             SLOT(detectFrame()));
             changeState(Started);
-        }
+        //}
     }
     detectorTimer->start();
 }
