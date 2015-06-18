@@ -44,17 +44,6 @@ namespace Core
         {
             this.Targets = GameObject.FindObjectsOfType<LaserTarget>();
             this.Checks = GameObject.FindObjectsOfType<Checkpoint>();
-
-            if (this.NextLevelIndex < 0 || this.NextLevelIndex >= Application.levelCount)
-            {
-                Debug.LogError("NextLevelIndex is set to " + this.NextLevelIndex +
-                    ", but should be between 0 and " + Application.levelCount);
-            }
-
-            if (this.Targets.Length == 0)
-            {
-                Debug.LogError("This level has no targets, so this level is automatically solved.");
-            }
         }
 
         /// <summary>

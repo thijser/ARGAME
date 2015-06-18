@@ -75,7 +75,7 @@ namespace Network
         {
             this.Object.SetActive(true);
             this.Object.transform.localPosition = new Vector3(
-                coordinate.x * ScaleFactor,
+                -coordinate.x * ScaleFactor,
                 0,
                 coordinate.y * ScaleFactor);
         }

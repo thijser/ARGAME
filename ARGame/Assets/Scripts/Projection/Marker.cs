@@ -106,21 +106,6 @@ namespace Projection
         }
 
         /// <summary>
-        /// Updates the position of this Marker relative to the given parent Marker.
-        /// </summary>
-        /// <param name="level">The parent Marker, not null.</param>
-        [Obsolete("Use UpdatePosition(Matrix4x4) for improved performance.")]
-        public void UpdatePosition(Marker level)
-        {
-            if (level == null)
-            {
-                throw new ArgumentNullException("level");
-            }
-
-            this.UpdatePosition(level.TransformMatrix);
-        }
-
-        /// <summary>
         /// Updates the position of the Marker using the provided transformation matrix.
         /// <para>
         /// The argument matrix represents the linear transformation from the remote coordinate

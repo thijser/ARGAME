@@ -14,6 +14,7 @@ namespace Projection
     using System.Diagnostics.CodeAnalysis;
     using Network;
     using UnityEngine;
+    using UnityEngine.Assertions;
 
     /// <summary>
     /// A class that handles marker registration and updates positions.
@@ -64,6 +65,8 @@ namespace Projection
                 throw new ArgumentException("Invalid marker", "register");
             }
 
+            // We try to remove an old marker binding first. This allows us to overwrite marker IDs.
+            this.markerTable.Remove(register.RegisteredMarker.ID);
             this.markerTable.Add(register.RegisteredMarker.ID, register.RegisteredMarker);
         }
 
@@ -111,6 +114,11 @@ namespace Projection
             foreach (Marker marker in this.markerTable.Values)
             {
                 marker.UpdatePosition(remoteToLocal);
+
+                if (marker.ID == 13379001)
+                {
+                    Debug.Log("Placed level marker at: " + marker.transform.localPosition);
+                }
             }
         }
 

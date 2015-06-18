@@ -89,11 +89,11 @@ namespace Level
         public void LoadLevel(int index)
         {
             GameObject.Destroy(this.level);
-            Debug.Log("loading level" + index);
+            this.levelLoader.BoardSize = this.BoardSize;
             this.level = this.levelLoader.CreateLevel("Assets/resources/Levels/" + index + ".txt");
             this.CurrentLevelIndex = index;
             this.level.transform.SetParent(this.transform);
-            this.ScaleLevel();
+            this.level.transform.localScale = this.IARscale * Vector3.one;
         }
 
         /// <summary>
@@ -104,9 +104,11 @@ namespace Level
         /// <param name="levelup">The <see cref="LevelUpdate"/>.</param>
         public void OnLevelUpdate(LevelUpdate levelup)
         {
-            this.BoardSize = levelup.Size;
-            if (this.CurrentLevelIndex != levelup.NextLevelIndex)
+            
+            if (this.CurrentLevelIndex != levelup.NextLevelIndex || 
+                this.BoardSize != levelup.Size)
             {
+                this.BoardSize = levelup.Size;
                 this.LoadLevel(levelup.NextLevelIndex);
             }
         }
@@ -119,14 +121,7 @@ namespace Level
             Levelcomp levelcomp = this.level.GetComponent<Levelcomp>();
             float xproportions = this.BoardSize.x / levelcomp.Size.x;
             float yproportions = this.BoardSize.y / levelcomp.Size.y;
-            if (xproportions < yproportions)
-            {
-                this.level.transform.localScale = new Vector3(xproportions, xproportions, xproportions) * this.IARscale;
-            }
-            else
-            {
-                this.level.transform.localScale = new Vector3(yproportions, yproportions, yproportions) * this.IARscale;
-            }
+            this.level.transform.localScale = Mathf.Min(xproportions, yproportions) * Vector3.one * this.IARscale;
         }
     }
 }
