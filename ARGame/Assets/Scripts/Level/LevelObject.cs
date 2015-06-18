@@ -3,25 +3,6 @@
 namespace Level
 {
     /// <summary>
-    /// Type of a tile loaded from level file.
-    /// </summary>
-    public enum TileType
-    {
-        Wall = 0,
-        EmitterG = 1,
-        EmitterR = 2,
-        EmitterB = 3,
-        TargetG = 4,
-        TargetR = 5,
-        TargetB = 6,
-        Mirror = 7,
-        Splitter = 8,
-        Elevator = 9,
-        Portal = 10,
-        Nothing = 11
-    }
-
-    /// <summary>
     /// Description of object found in the level.
     /// </summary>
     public class LevelObject
