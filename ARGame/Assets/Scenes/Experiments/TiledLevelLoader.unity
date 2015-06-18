@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16540a4feb796ea45811e2bbdb81df42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level: EmitterTest
+  Level: StressTest
 --- !u!4 &779560331
 Transform:
   m_ObjectHideFlags: 0
