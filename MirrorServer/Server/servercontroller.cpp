@@ -130,7 +130,7 @@ void ServerController::detectBoard() {
         auto updates = trackerManager->getMarkerUpdates(board, false);
 
         // If there are markers on the board, abort
-        //if (updates.size() == 0) {
+        if (updates.size() == 0) {
             boardImageBytes.clear();
             QBuffer buffer(&boardImageBytes);
             buffer.open(QIODevice::WriteOnly);
@@ -143,7 +143,7 @@ void ServerController::detectBoard() {
             connect(detectorTimer,    SIGNAL(timeout()),
                     this,             SLOT(detectFrame()));
             changeState(Started);
-        //}
+        }
     }
     detectorTimer->start();
 }
