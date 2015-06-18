@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Level
 {
+    using System;
     using System.Collections.Generic;
     using System.Xml;
     using Core;
@@ -44,6 +45,16 @@ namespace Level
             this.objectPrefabs[TileType.TargetG] = Resources.Load("Prefabs/Laser Target") as GameObject;
             this.objectPrefabs[TileType.TargetB] = Resources.Load("Prefabs/Laser Target") as GameObject;
             this.objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
+            this.objectPrefabs[TileType.Splitter] = Resources.Load("Prefabs/LensSplitter") as GameObject;
+            this.objectPrefabs[TileType.Checkpoint] = Resources.Load("Prefabs/Checkpoint") as GameObject;
+
+            this.objectPrefabs[TileType.PortalEntryOne] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalEntryTwo] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalEntryThree] = Resources.Load("Prefabs/Portal") as GameObject;
+
+            this.objectPrefabs[TileType.PortalExitOne] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalExitTwo] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalExitThree] = Resources.Load("Prefabs/Portal") as GameObject;
 
             // Parse and instantiate level
             string xml = (Resources.Load("levels/" + this.Level) as TextAsset).text;
@@ -58,6 +69,38 @@ namespace Level
                 catch (KeyNotFoundException)
                 {
                     Debug.LogError("No prefab for " + obj.Type);
+                }
+            }
+
+            LinkPortals(levelObjects);
+        }
+
+        /// <summary>
+        /// Link all of the portals in pairs together.
+        /// </summary>
+        /// <param name="levelObjects">Level objects containing portal pairs.</param>
+        private static void LinkPortals(List<LevelObject> levelObjects)
+        {
+            GameObject[] portals = new GameObject[3];
+
+            foreach (LevelObject obj in levelObjects)
+            {
+                if (obj.IsPortal())
+                {
+                    int pair = obj.GetPortalPair();
+
+                    if (portals[pair] == null)
+                    {
+                        portals[pair] = obj.Instance;
+                    }
+                    else
+                    {
+                        Portal a = portals[pair].GetComponentInChildren<Portal>();
+                        Portal b = obj.Instance.GetComponentInChildren<Portal>();
+
+                        a.LinkedPortal = b;
+                        b.LinkedPortal = a;
+                    }
                 }
             }
         }
@@ -76,6 +119,8 @@ namespace Level
             obj.transform.rotation = Quaternion.AngleAxis(levelObject.Rotation, Vector3.up);
 
             InitializeObjectColor(obj, levelObject);
+
+            levelObject.Instance = obj;
 
             return obj;
         }
@@ -174,8 +219,11 @@ namespace Level
             {
                 int gid = int.Parse(tileNode.Attributes["gid"].Value);
 
+                // Bug in Tiled where it sometimes outputs tiles with gid 1 as 0
+                gid = Math.Max(1, gid);
+
                 // Determine rotation of object
-                int rotation = (gid / level.HorizontalTiles) * 45;
+                int rotation = ((gid - 1) / level.HorizontalTiles) * 45;
 
                 // Determine type of object
                 int rawType = (gid - 1) % level.HorizontalTiles;

@@ -10,72 +10,6 @@
 namespace Level
 {
     using UnityEngine;
-    
-    /// <summary>
-    /// Type of a tile loaded from level file.
-    /// </summary>
-    public enum TileType
-    {
-        /// <summary>
-        /// Indicates a wall tile.
-        /// </summary>
-        Wall = 0,
-
-        /// <summary>
-        /// Indicates a green emitter tile.
-        /// </summary>
-        EmitterG = 1,
-
-        /// <summary>
-        /// Indicates a red emitter tile.
-        /// </summary>
-        EmitterR = 2,
-        
-        /// <summary>
-        /// Indicates a blue emitter tile.
-        /// </summary>
-        EmitterB = 3,
-
-        /// <summary>
-        /// Indicates a green target tile.
-        /// </summary>
-        TargetG = 4,
-
-        /// <summary>
-        /// Indicates a red target tile.
-        /// </summary>
-        TargetR = 5,
-
-        /// <summary>
-        /// Indicates a blue target tile.
-        /// </summary>
-        TargetB = 6,
-
-        /// <summary>
-        /// Indicates a mirror tile.
-        /// </summary>
-        Mirror = 7,
-
-        /// <summary>
-        /// Indicates a splitter tile.
-        /// </summary>
-        Splitter = 8,
-
-        /// <summary>
-        /// Indicates an emitter tile.
-        /// </summary>
-        Elevator = 9,
-
-        /// <summary>
-        /// Indicates a portal tile.
-        /// </summary>
-        Portal = 10,
-
-        /// <summary>
-        /// Indicates an empty tile.
-        /// </summary>
-        Nothing = 11
-    }
 
     /// <summary>
     /// Description of object found in the level.
@@ -98,6 +32,11 @@ namespace Level
         public readonly float Rotation;
 
         /// <summary>
+        /// Game object instantiated from this level object.
+        /// </summary>
+        public GameObject Instance;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LevelObject"/> class.
         /// </summary>
         /// <param name="type">The <see cref="TileType"/> of the object.</param>
@@ -108,6 +47,40 @@ namespace Level
             this.Type = type;
             this.Position = position;
             this.Rotation = rotation;
+        }
+
+        /// <summary>
+        /// Returns pair ID of portal if this object is one.
+        /// </summary>
+        /// <returns>Portal pair ID of this object.</returns>
+        public int GetPortalPair()
+        {
+            switch (Type)
+            {
+                case TileType.PortalEntryOne:
+                case TileType.PortalExitOne:
+                    return 0;
+
+                case TileType.PortalEntryTwo:
+                case TileType.PortalExitTwo:
+                    return 1;
+
+                case TileType.PortalEntryThree:
+                case TileType.PortalExitThree:
+                    return 2;
+
+                default:
+                    return -1;
+            }
+        }
+
+        /// <summary>
+        /// Check if this level object is a portal.
+        /// </summary>
+        /// <returns>True if this level object is a portal entry or exit.</returns>
+        public bool IsPortal()
+        {
+            return Type >= TileType.PortalEntryOne && Type <= TileType.PortalExitThree;
         }
 
         /// <summary>
