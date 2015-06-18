@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Level
 {
+    using System;
     using System.Collections.Generic;
     using System.Xml;
     using Core;
@@ -173,6 +174,9 @@ namespace Level
             foreach (XmlNode tileNode in levelDoc.SelectNodes("//tile"))
             {
                 int gid = int.Parse(tileNode.Attributes["gid"].Value);
+
+                // Bug in Tiled where it sometimes outputs tiles with gid 1 as 0
+                gid = Math.Max(1, gid);
 
                 // Determine rotation of object
                 int rotation = (gid / level.HorizontalTiles) * 45;
