@@ -158,6 +158,11 @@ protected slots:
      * @param resp - HTTP response.
      */
     void sendBoard(QHttpRequest* req, QHttpResponse* resp);
+
+    /**
+     * @brief Brings the new client up to speed with the current level.
+     */
+    void handleNewClient();
 public slots:
     /**
      * @brief Starts this ServerController.
