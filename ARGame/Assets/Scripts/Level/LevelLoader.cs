@@ -176,7 +176,6 @@ namespace Level
                 go.transform.localPosition = new Vector3((int)ie.Position.x, 0, (int)ie.Position.y);
             }
 
-            this.BoardSize = new Vector2(10.4f, 12f);
             Vector2 origin = this.BoardSize / 2f - this.size / 2f;
             Vector3 position = new Vector3(-this.BoardSize.x + origin.x, 0, origin.y);
 
