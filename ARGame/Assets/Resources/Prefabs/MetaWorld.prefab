@@ -7152,7 +7152,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 125502}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.959999979, y: .0199999996, z: -2.25}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 481996}
@@ -11066,7 +11066,7 @@ BoxCollider:
   m_GameObject: {fileID: 129984}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -11078,7 +11078,7 @@ BoxCollider:
   m_GameObject: {fileID: 185994}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -11198,7 +11198,7 @@ BoxCollider:
   m_GameObject: {fileID: 114468}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -11282,7 +11282,7 @@ BoxCollider:
   m_GameObject: {fileID: 125502}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -11426,7 +11426,7 @@ BoxCollider:
   m_GameObject: {fileID: 135560}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -11498,7 +11498,7 @@ BoxCollider:
   m_GameObject: {fileID: 149848}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -11534,7 +11534,7 @@ BoxCollider:
   m_GameObject: {fileID: 145660}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -11570,7 +11570,7 @@ BoxCollider:
   m_GameObject: {fileID: 160882}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -11630,7 +11630,7 @@ BoxCollider:
   m_GameObject: {fileID: 152994}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -11702,7 +11702,7 @@ BoxCollider:
   m_GameObject: {fileID: 113220}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -11822,7 +11822,7 @@ BoxCollider:
   m_GameObject: {fileID: 159138}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -11894,7 +11894,7 @@ BoxCollider:
   m_GameObject: {fileID: 151660}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: .332728863, y: 3.76338911, z: 3.75792837}
   m_Center: {x: -.118569911, y: 2.76999998, z: -.0304059982}
@@ -17447,7 +17447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a186731744c974cf3bbca6fc8e841a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerAddress: 145.94.144.243
+  ServerAddress: 145.94.146.74
   ServerPort: 23369
 --- !u!114 &11445498
 MonoBehaviour:
@@ -19713,7 +19713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08926f242b5664946be1bf918859b997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextLevelIndex: 0
+  NextLevelIndex: 1
 --- !u!114 &11454576
 MonoBehaviour:
   m_ObjectHideFlags: 1
