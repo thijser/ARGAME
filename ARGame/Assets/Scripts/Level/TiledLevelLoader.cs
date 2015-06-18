@@ -48,6 +48,14 @@ namespace Level
             this.objectPrefabs[TileType.Splitter] = Resources.Load("Prefabs/LensSplitter") as GameObject;
             this.objectPrefabs[TileType.Checkpoint] = Resources.Load("Prefabs/Checkpoint") as GameObject;
 
+            this.objectPrefabs[TileType.PortalEntryOne] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalEntryTwo] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalEntryThree] = Resources.Load("Prefabs/Portal") as GameObject;
+
+            this.objectPrefabs[TileType.PortalExitOne] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalExitTwo] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalExitThree] = Resources.Load("Prefabs/Portal") as GameObject;
+
             // Parse and instantiate level
             string xml = (Resources.Load("levels/" + this.Level) as TextAsset).text;
             List<LevelObject> levelObjects = ParseLevel(xml);
@@ -61,6 +69,38 @@ namespace Level
                 catch (KeyNotFoundException)
                 {
                     Debug.LogError("No prefab for " + obj.Type);
+                }
+            }
+
+            LinkPortals(levelObjects);
+        }
+
+        /// <summary>
+        /// Link all of the portals in pairs together.
+        /// </summary>
+        /// <param name="levelObjects">Level objects containing portal pairs.</param>
+        private static void LinkPortals(List<LevelObject> levelObjects)
+        {
+            GameObject[] portals = new GameObject[3];
+
+            foreach (LevelObject obj in levelObjects)
+            {
+                if (obj.IsPortal())
+                {
+                    int pair = obj.GetPortalPair();
+
+                    if (portals[pair] == null)
+                    {
+                        portals[pair] = obj.Instance;
+                    }
+                    else
+                    {
+                        Portal a = portals[pair].GetComponentInChildren<Portal>();
+                        Portal b = obj.Instance.GetComponentInChildren<Portal>();
+
+                        a.LinkedPortal = b;
+                        b.LinkedPortal = a;
+                    }
                 }
             }
         }
@@ -79,6 +119,8 @@ namespace Level
             obj.transform.rotation = Quaternion.AngleAxis(levelObject.Rotation, Vector3.up);
 
             InitializeObjectColor(obj, levelObject);
+
+            levelObject.Instance = obj;
 
             return obj;
         }
