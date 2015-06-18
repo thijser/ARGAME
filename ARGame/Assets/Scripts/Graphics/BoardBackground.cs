@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Graphics
 {
+    using System.Net;
     using UnityEngine;
 
     /// <summary>
@@ -16,16 +17,6 @@ namespace Graphics
     /// </summary>
     public class BoardBackground : MonoBehaviour
     {
-        /// <summary>
-        /// The address to connect to.
-        /// </summary>
-        public string IPAddress;
-
-        /// <summary>
-        /// The port to connect to.
-        /// </summary>
-        public string Port;
-
         /// <summary>
         /// Indicates whether to load a board texture remotely.
         /// </summary>
@@ -37,15 +28,14 @@ namespace Graphics
         private WWW webpage;
 
         /// <summary>
-        /// Start the downloading of the image if UseRemote 
+        /// Gets or sets the address to connect to.
         /// </summary>
-        public void Start()
-        {
-            if (this.UseRemote && !string.IsNullOrEmpty(this.IPAddress))
-            {
-                this.GrabImage();
-            }
-        }
+        public string IPAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the port to connect to.
+        /// </summary>
+        public string Port { get; set; }
 
         /// <summary>
         /// If we are using the remote check if image is done and use. 
@@ -59,15 +49,21 @@ namespace Graphics
         }
 
         /// <summary>
-        /// Sets the IPAddress to the provided address.
+        /// Sets the IPAddress and Port to match the IPEndPoint and creates
+        /// the <see cref="WWW"/> instance to retrieve the texture from.
         /// <para>
         /// Called from ClientSocket when the server is ready.
         /// </para>
         /// </summary>
-        /// <param name="address">The IP Address.</param>
-        public void OnSocketStart(string address)
+        /// <param name="endPoint">The IP EndPoint of the Socket.</param>
+        public void OnSocketStart(IPEndPoint endPoint)
         {
-            this.IPAddress = address;
+            this.IPAddress = endPoint.Address.ToString();
+            this.Port = (endPoint.Port + 1).ToString();
+            if (this.webpage == null)
+            {
+                this.GrabImage();
+            }
         }
 
         /// <summary>

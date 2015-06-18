@@ -19,11 +19,6 @@ namespace Level
     public class LevelManager : MonoBehaviour
     {
         /// <summary>
-        /// The current level index.
-        /// </summary>
-        public int CurrentLevelIndex = 0;
-
-        /// <summary>
         /// The LevelLoader used for the loading of levels.
         /// </summary>
         private LevelLoader levelLoader = new LevelLoader();
@@ -42,6 +37,11 @@ namespace Level
         /// Gets or sets the scale of the underlying <see cref="IARLink"/> implementation.
         /// </summary>
         public float IARscale { get; set; }
+
+        /// <summary>
+        /// Gets the current level index.
+        /// </summary>
+        public int CurrentLevelIndex { get; private set; }
 
         /// <summary>
         /// Initializes this LevelManager and loads the first level.

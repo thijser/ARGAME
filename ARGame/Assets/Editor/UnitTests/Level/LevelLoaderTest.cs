@@ -10,10 +10,8 @@
 namespace Level
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using NUnit.Framework;
+    using Projection;
     using TestUtilities;
     using UnityEngine;
 
@@ -54,6 +52,23 @@ namespace Level
         public void ConstructEntryTestNull()
         {
             new LevelLoader().ConstructEntry(null);
+        }
+
+        /// <summary>
+        /// Tests if constructing an empty level will create 
+        /// a properly initialized level GameObject.
+        /// </summary>
+        [Test]
+        public void TestConstructLevelEmpty()
+        {
+            GameObject level = new LevelLoader().ConstructLevel();
+
+            // The Marker should have a valid RemotePosition set to (0, 0, 0),
+            // but the LocalPosition should be set to null.
+            Marker marker = level.GetComponent<Marker>();
+            Assert.AreEqual(LevelLoader.LevelMarkerID, marker.ID);
+            Assert.IsNull(marker.LocalPosition);
+            Assert.AreEqual(Vector3.zero, marker.RemotePosition.Position);
         }
     }
 }
