@@ -158,6 +158,11 @@ protected slots:
      * @param resp - HTTP response.
      */
     void sendBoard(QHttpRequest* req, QHttpResponse* resp);
+
+    /**
+     * @brief Brings the new client up to speed with the current level.
+     */
+    void handleNewClient();
 public slots:
     /**
      * @brief Starts this ServerController.
@@ -165,7 +170,7 @@ public slots:
      * @param cameraDevice - The camera to use.
      * @param camSize      - The desired camera resolution.
      */
-    void startServer(quint16 port, int cameraDevice = -1, cv::Size camSize = cv::Size(640,480), BoardDetectionApproach::Type boardDetectionApproach = BoardDetectionApproach::RED_MARKERS);
+    void startServer(quint16 port, int cameraDevice = -1, cv::Size camSize = cv::Size(640,480), BoardDetectionApproach::Type boardDetectionApproach = BoardDetectionApproach::RED_MARKERS, bool requireEmptyBoard = true);
 
     /**
      * @brief Stops this ServerController.
@@ -217,6 +222,9 @@ private:
 
     /// Flag indicating if the server is running.
     ServerState serverState;
+
+    /// Flag indicating if board detection step should check if the board is empty.
+    bool requireEmptyBoard;
 
     /// The current level.
     int currentLevel;

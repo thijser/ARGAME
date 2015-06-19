@@ -61,8 +61,38 @@
         Elevator = 10,
 
         /// <summary>
-        /// Indicates a portal tile.
+        /// Indicates a portal entry tile of pair 1.
         /// </summary>
-        Portal = 11
+        PortalEntryOne = 11,
+
+        /// <summary>
+        /// Indicates a portal exit tile of pair 1.
+        /// </summary>
+        PortalExitOne = 12,
+
+        /// <summary>
+        /// Indicates a portal entry tile of pair 2.
+        /// </summary>
+        PortalEntryTwo = 13,
+
+        /// <summary>
+        /// Indicates a portal exit tile of pair 2.
+        /// </summary>
+        PortalExitTwo = 14,
+
+        /// <summary>
+        /// Indicates a portal entry tile of pair 3.
+        /// </summary>
+        PortalEntryThree = 15,
+
+        /// <summary>
+        /// Indicates a portal exit tile of pair 3.
+        /// </summary>
+        PortalExitThree = 16,
+
+        /// <summary>
+        /// Indicates a checkpoint tile.
+        /// </summary>
+        Checkpoint = 17
     }
 }

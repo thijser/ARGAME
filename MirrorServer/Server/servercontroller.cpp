@@ -10,7 +10,7 @@ ServerController::ServerController(QObject *parent)
       trackerManager(nullptr),
       detectorTimer(new QTimer(this)),
       serverState(Idle),
-      currentLevel(-1),
+      currentLevel(0),
       server(new QHttpServer)
 {
 
@@ -22,6 +22,8 @@ ServerController::ServerController(QObject *parent)
             sock, SLOT(processUpdates()));
     connect(sock, SIGNAL(levelChanged(int)),
             this, SLOT(changeLevel(int)));
+    connect(sock, SIGNAL(clientConnected(QTcpSocket*)),
+            this, SLOT(handleNewClient()));
     connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
             this, SLOT(sendBoard(QHttpRequest*, QHttpResponse*)));
 
@@ -45,6 +47,10 @@ void ServerController::sendBoard(QHttpRequest* req, QHttpResponse* resp) {
     resp->end();
 }
 
+void ServerController::handleNewClient() {
+    sock->broadcastLevelUpdate(currentLevel, trackerManager->scaledBoardSize());
+}
+
 ServerController::~ServerController() {
     if (trackerManager != nullptr) {
         delete trackerManager;
@@ -61,10 +67,12 @@ void ServerController::fatalError(const QString &message) {
     emit fatalErrorOccurred(message);
 }
 
-void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camSize, BoardDetectionApproach::Type boardDetectionApproach) {
+void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camSize, BoardDetectionApproach::Type boardDetectionApproach, bool requireEmptyBoard) {
     Q_ASSERT(serverState == Idle);
     Q_ASSERT(trackerManager == nullptr); // Otherwise we get a memory leak.
     changeState(Starting);
+
+    this->requireEmptyBoard = requireEmptyBoard;
 
     // (Re)Initialize tracking
     trackerManager = new TrackerManager(cameraDevice, camSize, boardDetectionApproach);
@@ -124,7 +132,7 @@ void ServerController::detectBoard() {
         auto updates = trackerManager->getMarkerUpdates(board, false);
 
         // If there are markers on the board, abort
-        if (updates.size() == 0) {
+        if (updates.size() == 0 || !requireEmptyBoard) {
             boardImageBytes.clear();
             QBuffer buffer(&boardImageBytes);
             buffer.open(QIODevice::WriteOnly);

@@ -47,9 +47,25 @@ namespace Level
         private Vector2 size = new Vector2(1, 1);
 
         /// <summary>
+        /// Gets the size of the level.
+        /// </summary>
+        public Vector2 LevelSize
+        {
+            get
+            {
+                return this.size;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the parent of the level GameObject.
         /// </summary>
         public Transform LevelParent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the size of the board, used for aligning the level.
+        /// </summary>
+        public Vector2 BoardSize { get; set; }
 
         /// <summary>
         /// Initializes the Prefab GameObject Dictionary.
@@ -104,7 +120,8 @@ namespace Level
                     ie.Type = line[x];
                     x++;
                     ie.Direction = line[x];
-                    ie.Position = new Vector2(x / 2, y);
+                    ie.Position =  new Vector2(x / 2, y);
+                    
                     if (x / 2 > this.size.x)
                     {
                         this.size.x = x / 2;
@@ -120,6 +137,8 @@ namespace Level
                         this.entries.Add(ie);
                     }
                 }
+
+                y++;
             }
         }
 
@@ -132,7 +151,6 @@ namespace Level
         {
             GameObject prefab = this.indexes[entry.Type];
             GameObject levelObject = GameObject.Instantiate(prefab);
-            levelObject.transform.localScale = Vector3.one;
             levelObject.transform.localRotation = Quaternion.Euler(0f, entry.Angle, 0f);
             return levelObject;
         }
@@ -144,7 +162,7 @@ namespace Level
         /// <returns>The created level GameObject.</returns>
         public GameObject ConstructLevel()
         {
-            this.level = new GameObject("level");
+            this.level = new GameObject("Level");
             this.level.transform.parent = this.LevelParent;
 
             this.level.AddComponent<Levelcomp>();
@@ -155,13 +173,23 @@ namespace Level
             {
                 GameObject go = this.ConstructEntry(ie);
                 go.transform.SetParent(this.level.transform);
-                go.transform.localPosition = new Vector3(ie.Position.x, 0, ie.Position.y);
+                go.transform.localPosition = new Vector3((int)ie.Position.x, 0, (int)ie.Position.y);
             }
 
+            Vector2 origin = this.BoardSize / 2f - this.size / 2f;
+            Vector3 position = new Vector3(-this.BoardSize.x + origin.x, 0, origin.y);
+
+            // The remote player does not use the `Marker.RemotePosition`, but we can update that case by simply 
+            // setting the position here.
+            this.level.transform.localPosition = position;
+
+            position.x = -position.x;
+            position.z = -position.z;
             this.level.AddComponent<Marker>();
             Marker marker = this.level.GetComponent<Marker>();
             marker.ID = LevelMarkerID;
-            marker.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 13379001);
+            marker.RemotePosition = new MarkerPosition(8f * position, Quaternion.Euler(0, 0, 0), DateTime.Now, 8f * new Vector3(-1, 1, -1), 13379001);
+
             return this.level;
         }
     }

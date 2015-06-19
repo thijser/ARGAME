@@ -97,29 +97,23 @@ namespace Core
         /// <returns>The HitEventArgs containing details about the collision.</returns>
         public HitEventArgs DoRaycast()
         {
-            RaycastHit[] hits = Physics.RaycastAll(this.Origin, this.Direction, MaxRaycastDist);
-            if (hits.Length == 0)
+            RaycastHit hitInfo = new RaycastHit();
+            bool hit = Physics.Raycast(this.Origin, this.Direction, out hitInfo, MaxRaycastDist);
+
+            if (hit)
+            {
+                ILaserReceiver receiver = GetValidReceiver(hitInfo);
+
+                this.Endpoint = hitInfo.point;
+                this.emitter.AddLaser(this);
+                return new HitEventArgs(this, hitInfo.point, hitInfo.normal, receiver);
+            }
+            else
             {
                 this.Endpoint = this.Origin + (MaxLaserLength * this.Direction);
                 this.Emitter.AddLaser(this);
                 return new HitEventArgs();
             }
-
-            foreach (RaycastHit hit in hits)
-            {
-                ILaserReceiver receiver = GetValidReceiver(hit);
-                if (receiver != null)
-                {
-                    this.Endpoint = hit.point;
-                    this.emitter.AddLaser(this);
-                    return new HitEventArgs(this, hit.point, hit.normal, receiver);
-                }
-            }
-
-            RaycastHit raycast = hits[0];
-            this.Endpoint = raycast.point;
-            this.Emitter.AddLaser(this);
-            return new HitEventArgs(this, raycast.point, raycast.normal, null);
         }
 
         /// <summary>

@@ -27,11 +27,6 @@ namespace Network
         public const float ScaleFactor = 1f;
 
         /// <summary>
-        /// The vertical offset for the Y coordinate.
-        /// </summary>
-        public const int VerticalOffset = 72;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MarkerState"/> class.
         /// </summary>
         /// <param name="id">The marker ID.</param>
@@ -75,9 +70,9 @@ namespace Network
         {
             this.Object.SetActive(true);
             this.Object.transform.localPosition = new Vector3(
-                coordinate.x * ScaleFactor,
+                -(coordinate.x - 0.5f) * ScaleFactor,
                 0,
-                coordinate.y * ScaleFactor);
+                (coordinate.y - 0.5f) * ScaleFactor);
         }
 
         /// <summary>

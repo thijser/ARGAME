@@ -38,7 +38,7 @@ namespace Network
             }
             else if (update.Type == UpdateType.Level)
             {
-                this.SendMessage("LevelUpdate", update as LevelUpdate);
+                this.SendMessage("OnLevelUpdate", update as LevelUpdate);
             }
         }
     }
