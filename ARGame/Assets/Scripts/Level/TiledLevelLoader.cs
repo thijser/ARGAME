@@ -19,42 +19,25 @@ namespace Level
     /// <summary>
     /// Level loader that loads levels created with the Tiled map editor.
     /// </summary>
-    public class TiledLevelLoader : MonoBehaviour
+    public class TiledLevelLoader
     {
         /// <summary>
-        /// Level to load in the Resources/Level directory.
+        /// Gets or sets the size of the board, used for aligning the level.
         /// </summary>
-        public string Level = "basic";
+        public Vector2 BoardSize { get; set; }
 
         /// <summary>
         /// Mapping of level object types to prefabs.
         /// </summary>
-        private Dictionary<TileType, GameObject> objectPrefabs = new Dictionary<TileType, GameObject>();
+        private Dictionary<TileType, GameObject> objectPrefabs = null;
 
         /// <summary>
         /// Loads the level prefabs and the level itself.
         /// </summary>
-        public void Start()
+        /*public void Start()
         {
             // Load prefabs for each tile type
-            this.objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/BOXWALL") as GameObject;
-            this.objectPrefabs[TileType.EmitterR] = Resources.Load("Prefabs/Emitter") as GameObject;
-            this.objectPrefabs[TileType.EmitterG] = Resources.Load("Prefabs/Emitter") as GameObject;
-            this.objectPrefabs[TileType.EmitterB] = Resources.Load("Prefabs/Emitter") as GameObject;
-            this.objectPrefabs[TileType.TargetR] = Resources.Load("Prefabs/Laser Target") as GameObject;
-            this.objectPrefabs[TileType.TargetG] = Resources.Load("Prefabs/Laser Target") as GameObject;
-            this.objectPrefabs[TileType.TargetB] = Resources.Load("Prefabs/Laser Target") as GameObject;
-            this.objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
-            this.objectPrefabs[TileType.Splitter] = Resources.Load("Prefabs/LensSplitter") as GameObject;
-            this.objectPrefabs[TileType.Checkpoint] = Resources.Load("Prefabs/Checkpoint") as GameObject;
-
-            this.objectPrefabs[TileType.PortalEntryOne] = Resources.Load("Prefabs/Portal") as GameObject;
-            this.objectPrefabs[TileType.PortalEntryTwo] = Resources.Load("Prefabs/Portal") as GameObject;
-            this.objectPrefabs[TileType.PortalEntryThree] = Resources.Load("Prefabs/Portal") as GameObject;
-
-            this.objectPrefabs[TileType.PortalExitOne] = Resources.Load("Prefabs/Portal") as GameObject;
-            this.objectPrefabs[TileType.PortalExitTwo] = Resources.Load("Prefabs/Portal") as GameObject;
-            this.objectPrefabs[TileType.PortalExitThree] = Resources.Load("Prefabs/Portal") as GameObject;
+            
 
             // Parse and instantiate level
             string xml = (Resources.Load("levels/" + this.Level) as TextAsset).text;
@@ -73,6 +56,91 @@ namespace Level
             }
 
             LinkPortals(levelObjects);
+        }*/
+
+        /// <summary>
+        /// Loads and creates a level from the file at the given path.
+        /// </summary>
+        /// <param name="path">The path to load from.</param>
+        /// <returns>The created level GameObject.</returns>
+        public GameObject CreateLevel(string path)
+        {
+            if (path == null)
+            {
+                throw new ArgumentNullException("path");
+            }
+
+            if (this.objectPrefabs == null)
+            {
+                this.LoadPrefabs();
+            }
+
+            List<LevelObject> levelObjects = LoadLevel(path);
+            GameObject level = ConstructLevel(levelObjects);
+
+            return level;
+        }
+
+        private GameObject ConstructLevel(List<LevelObject> levelObjects)
+        {
+            GameObject parent = new GameObject("Level");
+
+            foreach (LevelObject obj in levelObjects)
+            {
+                try
+                {
+                    GameObject instance = InstantiateLevelObject(obj, this.objectPrefabs);
+                    instance.transform.parent = parent.transform;
+                }
+                catch (KeyNotFoundException)
+                {
+                    Debug.LogError("No prefab for " + obj.Type);
+                }
+            }
+
+            LinkPortals(levelObjects);
+
+            return parent;
+        }
+
+        private List<LevelObject> LoadLevel(string path)
+        {
+            try
+            {
+                string xml = (Resources.Load(path) as TextAsset).text;
+                return ParseLevel(xml);
+            }
+            catch (NullReferenceException)
+            {
+                throw new ArgumentException("Invalid level path.");
+            }
+        }
+
+        /// <summary>
+        /// Initializes the Prefab GameObject Dictionary.
+        /// </summary>
+        private void LoadPrefabs()
+        {
+            this.objectPrefabs = new Dictionary<TileType, GameObject>();
+
+            this.objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/BOXWALL") as GameObject;
+            this.objectPrefabs[TileType.EmitterR] = Resources.Load("Prefabs/Emitter") as GameObject;
+            this.objectPrefabs[TileType.EmitterG] = Resources.Load("Prefabs/Emitter") as GameObject;
+            this.objectPrefabs[TileType.EmitterB] = Resources.Load("Prefabs/Emitter") as GameObject;
+            this.objectPrefabs[TileType.TargetR] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            this.objectPrefabs[TileType.TargetG] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            this.objectPrefabs[TileType.TargetB] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            this.objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
+            this.objectPrefabs[TileType.Splitter] = Resources.Load("Prefabs/LensSplitter") as GameObject;
+            this.objectPrefabs[TileType.Checkpoint] = Resources.Load("Prefabs/Checkpoint") as GameObject;
+
+            this.objectPrefabs[TileType.PortalEntryOne] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalEntryTwo] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalEntryThree] = Resources.Load("Prefabs/Portal") as GameObject;
+
+            this.objectPrefabs[TileType.PortalExitOne] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalExitTwo] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalExitThree] = Resources.Load("Prefabs/Portal") as GameObject;
         }
 
         /// <summary>
