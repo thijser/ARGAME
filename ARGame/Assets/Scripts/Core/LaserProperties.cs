@@ -92,9 +92,6 @@ namespace Core
             this.LineRenderer.LineWidth = this.Strength * this.transform.lossyScale.magnitude;
 
             this.LineRenderer.LineMaterial.color = color;
-            this.LineRenderer.LineMaterial.SetColor("_Albedo", color);
-            this.LineRenderer.LineMaterial.SetColor("_Emission", color);
-            this.LineRenderer.LineMaterial.SetColor("Main Color", color);
         }
     }
 }
