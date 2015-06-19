@@ -12,8 +12,8 @@ namespace Network
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Core.Receiver;
-    using UnityEngine;
     using Projection;
+    using UnityEngine;
     using UnityEngine.Assertions;
 
     /// <summary>

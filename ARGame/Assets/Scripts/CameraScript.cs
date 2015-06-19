@@ -13,6 +13,7 @@ public class CameraScript : MonoBehaviour {
 	public float zoom;
 	public float Speed;
 	Transform board;
+	public float AutoSpeed = 0.1f;
 	void Start(){
 		board=GameObject.FindGameObjectsWithTag("PlayingBoard")[0].transform;
 	}
@@ -33,6 +34,8 @@ public class CameraScript : MonoBehaviour {
 			return;
 		}
 	}
+	public void FollowPlayer(){
+	}
 
 	public void arrowMove(){
 		if(Input.GetKey(KeyCode.RightArrow)){
@@ -50,22 +53,30 @@ public class CameraScript : MonoBehaviour {
 		}
 	}
 	public void CentreRotate(){
-		float distance=Mathf.Abs((transform.position-board.position).magnitude);
-		Debug.Log (distance);
-		float toMove=distance-zoom;
-		transform.LookAt(board);
-		transform.Translate(transform.forward*toMove);
+		SmoothLookAt(board);
+		SmoothmoveToTarget(board,zoom,AutoSpeed);
+		arrowMove();
+	}
+
+	public void SmoothmoveToTarget(Transform target,float Desireddistance,float speed){
+		Vector3 dist=target.position-transform.position;
+		float spc=dist.magnitude-Desireddistance;
+		Debug.Log (spc);
+		transform.Translate(dist*spc*speed);
+
+	}
+	public Quaternion SmoothLookAt(Transform target){
+		Vector3 dir = transform.position-target.position;
+		Quaternion qdir= Quaternion.Euler(dir);
+		return Quaternion.Slerp(transform.rotation,qdir,Time.deltaTime*AutoSpeed);
+	}
+
+	public void FreeArrowCam(){
 		arrowMove();
 
-		
 	}
-	public void FreeArrowCam(){
-		
-	}
-	public void FollowPlayer(){
 
-	}
 	public void FixedPosition(){
-		
+			
 	}
 }

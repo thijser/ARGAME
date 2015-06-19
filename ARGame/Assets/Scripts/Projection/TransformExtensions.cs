@@ -46,7 +46,16 @@ namespace Projection
             transform.localScale = ExtractScaleFromMatrix(ref matrix);
         }
 
-
+        /// <summary>
+        /// Logs the position, rotation and scale of the Transform marked with the provided label
+        /// to the error stream.
+        /// <para>
+        /// This method is purely intended for debugging purposes, as it will have little purpose 
+        /// in other situations.
+        /// </para>
+        /// </summary>
+        /// <param name="transform">The transform to log, not null.</param>
+        /// <param name="label">The label to apply to the transform.</param>
         public static void LogAs(this Transform transform, string label)
         {
             Debug.LogError(label + ": " + transform.position + ", " + transform.eulerAngles + ", " + transform.lossyScale);

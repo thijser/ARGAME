@@ -34,7 +34,7 @@ namespace Projection
         /// <summary>
         /// How long are we willing to wait after losing track of a marker. 
         /// </summary>
-        private long patience = 1; // 1000 * 10000; // 1000 milliseconds 
+        private long patience = 1;
 
         /// <summary>
         /// Gets or sets the central level marker, this should be visible. 
@@ -96,22 +96,23 @@ namespace Projection
                 return;
             }
 
-            Matrix4x4 boardToLocal = this.Parent.RemotePosition.Matrix.inverse;
-            Matrix4x4 localToMeta = this.Parent.LocalPosition.Matrix;
-            Matrix4x4 trans = localToMeta * boardToLocal;
-
-            GameObject tmp = new GameObject("tmp");
-            tmp.transform.SetFromMatrix(trans);
-            tmp.transform.LogAs("Board Projection (" + this.Parent.ID + ")");
-            GameObject.Destroy(tmp);
+            // We perform a linear transform on markers using three bases:
+            //   - the Remote base, which is based on remote positions.
+            //   - the Local base, which is based on local positions.
+            //   - and the zero base, which is the base with the level marker at the origin.
+            //
+            // Through these bases, a Matrix 'remote to local' can be constructed to transform 
+            // remote positions to local positions because we have the 'remote to zero' and 
+            // 'zero to local' transformations.
+            Matrix4x4 remoteToZero = this.Parent.RemotePosition.Matrix.inverse;
+            Matrix4x4 zeroToLocal = this.Parent.LocalPosition.Matrix;
+            Matrix4x4 remoteToLocal = zeroToLocal * remoteToZero;
 
             foreach (Marker marker in this.markerTable.Values)
             {
-                marker.UpdatePosition(trans);
+                marker.UpdatePosition(remoteToLocal);
             }
         }
-
- 
 
         /// <summary>
         /// Called whenever a marker is seen by the detector.

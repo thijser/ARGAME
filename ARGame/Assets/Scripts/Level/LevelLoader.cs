@@ -1,23 +1,59 @@
-﻿namespace Level
+﻿//----------------------------------------------------------------------------
+// <copyright file="LevelLoader.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not,
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
+namespace Level
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using StreamReader = System.IO.StreamReader;
     using System.Text.RegularExpressions;
-    using UnityEngine;
     using Projection;
+    using UnityEngine;
+    using StreamReader = System.IO.StreamReader;
+
+    /// <summary>
+    /// Loads plain text levels using a grid-based encoding.
+    /// </summary>
     public class LevelLoader
     {
+        /// <summary>
+        /// The ID of the virtual level marker.
+        /// </summary>
+        public const int LevelMarkerID = 13379001;
 
+        /// <summary>
+        /// The Dictionary containing the Prefab objects for instantiation.
+        /// </summary>
         private Dictionary<char, GameObject> indexes;
 
+        /// <summary>
+        /// The entries in the level.
+        /// </summary>
         private List<InputEntry> entries;
 
+        /// <summary>
+        /// The GameObject to which the level components are added as children.
+        /// </summary>
         private GameObject level;
 
+        /// <summary>
+        /// The size of the level.
+        /// </summary>
         private Vector2 size = new Vector2(1, 1);
 
+        /// <summary>
+        /// Gets or sets the parent of the level GameObject.
+        /// </summary>
+        public Transform LevelParent { get; set; }
+
+        /// <summary>
+        /// Initializes the Prefab GameObject Dictionary.
+        /// </summary>
         public void LoadObjects()
         {
             this.indexes = new Dictionary<char, GameObject>();
@@ -25,9 +61,13 @@
             this.indexes.Add('e', (GameObject)Resources.Load("prefabs/Emitter"));
             this.indexes.Add('t', (GameObject)Resources.Load("prefabs/Laser Target"));
             this.indexes.Add('m', (GameObject)Resources.Load("prefabs/Mirror"));
-
         }
 
+        /// <summary>
+        /// Loads and creates a level from the file at the given path.
+        /// </summary>
+        /// <param name="path">The path to load from.</param>
+        /// <returns>The created level GameObject.</returns>
         public GameObject CreateLevel(string path)
         {
             if (path == null)
@@ -35,70 +75,94 @@
                 throw new ArgumentNullException("The file path name is null.");
             }
 
-            LoadLetters(path);
-            if (indexes == null)
+            this.LoadLetters(path);
+            if (this.indexes == null)
             {
-                LoadObjects();
+                this.LoadObjects();
             }
 
-            return ConstructLevel();
+            return this.ConstructLevel();
         }
 
+        /// <summary>
+        /// Parses the contents of the file and stores the contents as a list of
+        /// <see cref="InputEntry"/> objects.
+        /// </summary>
+        /// <param name="path">The path to load from.</param>
         public void LoadLetters(string path)
         {
             StreamReader reader = new StreamReader(path);
             int y = 0;
-            entries = new List<InputEntry>();
+            this.entries = new List<InputEntry>();
             while (!reader.EndOfStream)
             {
                 string line = reader.ReadLine();
-                line = Regex.Replace(line, @"\s+", "");
+                line = Regex.Replace(line, @"\s+", string.Empty);
                 for (int x = 0; x < line.Length; x++)
                 {
                     InputEntry ie = new InputEntry();
-                    ie.type = line[x];
+                    ie.Type = line[x];
                     x++;
-                    ie.dir = line[x];
-                    ie.pos = new Vector2(x / 2, y);
-                    if (x / 2 > size.x)
-                        size.x = x / 2;
-                    if (y > size.y)
-                        size.y = y;
-                    if (ie.type != '.')
+                    ie.Direction = line[x];
+                    ie.Position = new Vector2(x / 2, y);
+                    if (x / 2 > this.size.x)
                     {
-                        entries.Add(ie);
+                        this.size.x = x / 2;
+                    }
+
+                    if (y > this.size.y)
+                    {
+                        this.size.y = y;
+                    }
+
+                    if (ie.Type != '.')
+                    {
+                        this.entries.Add(ie);
                     }
                 }
             }
         }
 
-        public GameObject ConstructEntry(InputEntry ie)
+        /// <summary>
+        /// Constructs a GameObject based on the provided <see cref="InputEntry"/>.
+        /// </summary>
+        /// <param name="entry">The <see cref="InputEntry"/>.</param>
+        /// <returns>The created GameObject.</returns>
+        public GameObject ConstructEntry(InputEntry entry)
         {
-            GameObject pref = indexes[ie.type];
-            GameObject go = GameObject.Instantiate(pref);
-            go.transform.localScale = Vector3.one;
-            go.transform.localRotation = Quaternion.Euler(0f, ie.getAngle(), 0f);
-            return go;
+            GameObject prefab = this.indexes[entry.Type];
+            GameObject levelObject = GameObject.Instantiate(prefab);
+            levelObject.transform.localScale = Vector3.one;
+            levelObject.transform.localRotation = Quaternion.Euler(0f, entry.Angle, 0f);
+            return levelObject;
         }
 
+        /// <summary>
+        /// Constructs the level object from a previously parsed list of 
+        /// <see cref="InputEntry"/> instances.
+        /// </summary>
+        /// <returns>The created level GameObject.</returns>
         public GameObject ConstructLevel()
         {
+            this.level = new GameObject("level");
+            this.level.transform.parent = this.LevelParent;
 
-            level = new GameObject("level");
-            level.AddComponent<Levelcomp>();
-            Levelcomp levelcomp = level.GetComponent<Levelcomp>();
-            levelcomp.size = size;
-            foreach (InputEntry ie in entries)
+            this.level.AddComponent<Levelcomp>();
+            Levelcomp levelcomp = this.level.GetComponent<Levelcomp>();
+            levelcomp.Size = this.size;
+
+            foreach (InputEntry ie in this.entries)
             {
-                GameObject go = ConstructEntry(ie);
-                go.transform.SetParent(level.transform);
-                go.transform.localPosition = new Vector3(ie.pos.x, 0, ie.pos.y);
+                GameObject go = this.ConstructEntry(ie);
+                go.transform.SetParent(this.level.transform);
+                go.transform.localPosition = new Vector3(ie.Position.x, 0, ie.Position.y);
             }
-            level.AddComponent<Marker>();
-            Marker m = level.GetComponent<Marker>();
-            m.ID = 13379001;
-            m.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 13379001);
-            return level;
+
+            this.level.AddComponent<Marker>();
+            Marker marker = this.level.GetComponent<Marker>();
+            marker.ID = LevelMarkerID;
+            marker.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 13379001);
+            return this.level;
         }
     }
 }

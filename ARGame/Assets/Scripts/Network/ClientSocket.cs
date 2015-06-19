@@ -91,23 +91,22 @@ namespace Network
 
             IPAddress address = addresses[0];
             this.endPoint = new IPEndPoint(address, this.ServerPort);
-
+            
             // Acquires permission to use a Socket for the desired connection.
             SocketPermission permission = new SocketPermission(
                     System.Security.Permissions.PermissionState.Unrestricted);
             permission.Demand();
 
-            this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.socket = new Socket(this.endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             this.socket.NoDelay = false;
             this.socket.ReceiveTimeout = 10000;
             this.socket.Connect(this.endPoint);
             Debug.Log("Socket connected to " + this.endPoint.Address);
             this.timestamp = DateTime.Now;
-        }
-		void start(){
-			this.SendMessage("onSocketStart", this.ServerAddress, SendMessageOptions.DontRequireReceiver);
 
-		}
+            this.SendMessage("OnSocketStart", this.endPoint, SendMessageOptions.DontRequireReceiver);
+        }
+
         /// <summary>
         /// Retrieves the PositionUpdates from the server and broadcasts the messages.
         /// </summary>

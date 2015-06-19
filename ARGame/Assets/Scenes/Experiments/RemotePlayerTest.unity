@@ -87,6 +87,25 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &827470868 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 139072, guid: b678665f429d0694cb68468b1c85b470, type: 2}
+  m_PrefabInternal: {fileID: 1545639706}
+--- !u!114 &827470870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 827470868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b100eac0fe69687458cadebcc2870b49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameratype: 1
+  AllowZoom: 0
+  zoom: 3
+  Speed: 0
 --- !u!1 &1021338895 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 172066, guid: b678665f429d0694cb68468b1c85b470, type: 2}
@@ -102,8 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e2a96c5e7dd2c4dac0a4f51e9341fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipAdress: 145.94.144.243
-  port: 23370
   UseRemote: 1
 --- !u!1001 &1545639706
 Prefab:

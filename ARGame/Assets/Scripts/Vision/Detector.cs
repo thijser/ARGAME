@@ -9,12 +9,12 @@
 //----------------------------------------------------------------------------
 namespace Vision
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Linq;
     using Projection;
     using UnityEngine;
-    using System;
-
+    
     /// <summary>
     /// Broadcasts the MarkerPositions from an <see cref="IARLink"/> instance
     /// as Unity messages.
