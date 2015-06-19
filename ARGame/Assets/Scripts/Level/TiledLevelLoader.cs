@@ -15,12 +15,18 @@ namespace Level
     using Core;
     using Core.Receiver;
     using UnityEngine;
+    using Projection;
 
     /// <summary>
     /// Level loader that loads levels created with the Tiled map editor.
     /// </summary>
     public class TiledLevelLoader
     {
+        /// <summary>
+        /// The ID of the virtual level marker.
+        /// </summary>
+        private const int levelMarkerID = 13379001;
+
         /// <summary>
         /// Gets or sets the size of the board, used for aligning the level.
         /// </summary>
@@ -85,6 +91,7 @@ namespace Level
         {
             GameObject parent = new GameObject("Level");
 
+            // Instantiate prefab for every level object
             foreach (LevelObject obj in levelObjects)
             {
                 try
@@ -98,7 +105,13 @@ namespace Level
                 }
             }
 
+            // Link paired portals together
             LinkPortals(levelObjects);
+
+            // Add level marker
+            Marker marker = parent.AddComponent<Marker>();
+            marker.ID = levelMarkerID;
+            marker.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.Euler(0, 0, 0), DateTime.Now, 8f * Vector3.one, levelMarkerID);
 
             return parent;
         }
