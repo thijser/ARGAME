@@ -105,6 +105,13 @@ signals:
     void levelChanged(int newLevel);
 
     /**
+     * @brief Signal emitted whenever a remote client rotates a mirror.
+     * @param id - Mirror index.
+     * @param rotation - New rotation of mirror.
+     */
+    void mirrorRotated(int id, float rotation);
+
+    /**
      * @brief Signal emitted when an internal server error occurs.
      *
      * This signal often indicates critical failures, and should be
