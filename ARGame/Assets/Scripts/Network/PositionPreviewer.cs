@@ -40,7 +40,7 @@ namespace Network
         /// </summary>
         /// <param name="update">The update to be handled, can be either a
         /// PositionUpdate or a RotationUpdate.</param>
-        public void OnServerUpdate(AbstractUpdate update)
+        public void OnPositionUpdate(AbstractUpdate update)
         {
             if (update == null)
             {
