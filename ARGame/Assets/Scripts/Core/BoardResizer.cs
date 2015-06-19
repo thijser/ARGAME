@@ -48,7 +48,7 @@ namespace Core
                 .FirstOrDefault(t => t.gameObject.tag == "PlayingBoard");
             if (board != null)
             {
-                Vector3 scale = new Vector3(-size.x, board.localScale.y, size.y);
+				Vector3 scale = new Vector3(-size.x, (size.x+size.y)/2, size.y);
                 board.localScale = scale;
                 return true;
             }
