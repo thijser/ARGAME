@@ -10,7 +10,7 @@ ServerController::ServerController(QObject *parent)
       trackerManager(nullptr),
       detectorTimer(new QTimer(this)),
       serverState(Idle),
-      currentLevel(-1),
+      currentLevel(0),
       server(new QHttpServer)
 {
 

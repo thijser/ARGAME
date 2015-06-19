@@ -38,7 +38,7 @@ namespace Core
         public Checkpoint[] Checks { get; private set; }
 
         /// <summary>
-        /// Initializes the target array.
+        /// Find any initial targets and checkpoints.
         /// </summary>
         public void Start()
         {
@@ -47,11 +47,16 @@ namespace Core
         }
 
         /// <summary>
-        /// Tracks if all targets have been opened.
+        /// Tracks if all targets have been opened and all checkpoints have been passed.
         /// If so, moves on to the next level.
         /// </summary>
         public void LateUpdate()
         {
+            this.Targets = GameObject.FindObjectsOfType<LaserTarget>();
+            this.Checks = GameObject.FindObjectsOfType<Checkpoint>();
+
+            if (this.Targets.Length == 0 && this.Checks.Length == 0) return;
+
             bool win = Array.TrueForAll(
                 this.Targets, 
                 t => t.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opened"));
