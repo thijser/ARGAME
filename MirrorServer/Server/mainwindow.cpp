@@ -88,7 +88,7 @@ void MainWindow::startServer() {
         boardDetectionApproach = BoardDetectionApproach::RED_YELLOW_MARKERS;
     }
 
-    controller->startServer(port, device, requestedSize, boardDetectionApproach);
+    controller->startServer(port, device, requestedSize, boardDetectionApproach, ui->emptyBoardCheck->isChecked());
 
     // controller now has the actual camera resolution.
     // We update the UI to show the resolution being used.

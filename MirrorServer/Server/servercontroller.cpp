@@ -67,10 +67,12 @@ void ServerController::fatalError(const QString &message) {
     emit fatalErrorOccurred(message);
 }
 
-void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camSize, BoardDetectionApproach::Type boardDetectionApproach) {
+void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camSize, BoardDetectionApproach::Type boardDetectionApproach, bool requireEmptyBoard) {
     Q_ASSERT(serverState == Idle);
     Q_ASSERT(trackerManager == nullptr); // Otherwise we get a memory leak.
     changeState(Starting);
+
+    this->requireEmptyBoard = requireEmptyBoard;
 
     // (Re)Initialize tracking
     trackerManager = new TrackerManager(cameraDevice, camSize, boardDetectionApproach);
@@ -130,7 +132,7 @@ void ServerController::detectBoard() {
         auto updates = trackerManager->getMarkerUpdates(board, false);
 
         // If there are markers on the board, abort
-        if (updates.size() == 0) {
+        if (updates.size() == 0 || !requireEmptyBoard) {
             boardImageBytes.clear();
             QBuffer buffer(&boardImageBytes);
             buffer.open(QIODevice::WriteOnly);

@@ -198,6 +198,23 @@
             </item>
            </layout>
           </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="emptyBoardLabel">
+            <property name="text">
+             <string>Remote board photo:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QCheckBox" name="emptyBoardCheck">
+            <property name="text">
+             <string>Require empty board</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
