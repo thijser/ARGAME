@@ -127,6 +127,7 @@ void MainWindow::setConfigEnabled(bool enabled) {
     ui->camHeight->setEnabled(enabled);
     ui->cornerChoiceRed->setEnabled(enabled);
     ui->cornerChoiceRedYellow->setEnabled(enabled);
+    ui->emptyBoardCheck->setEnabled(enabled);
 
     if (enabled) {
         ui->image->setText(tr("Server stopped.\n\nClick the \"Start Server\" button."));
