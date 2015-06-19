@@ -42,7 +42,7 @@ namespace AltProg.CleanEmptyDir
         {
             get 
             {
-                return EditorPrefs.GetBool( CLEAN_ON_SAVE_KEY, false );
+                return EditorPrefs.GetBool( CLEAN_ON_SAVE_KEY, true );
             }
             set
             {
