@@ -1,0 +1,16 @@
+\chapter{SIG Final Evaluation} \label{app:sig2}
+
+% Fix hyphenation of Dutch words.
+\selectlanguage{dutch}
+
+	In de tweede upload zien we dat het codevolume met ongeveer 50 procent is gestegen, terwijl de score voor onderhoudbaarheid ongeveer gelijk is gebleven.
+	
+	Bij Unit Size en Unit Complexity valt op dat de deelscores voor de C++ code zijn gestegen, maar voor de C\# code zijn gedaald. Die daling wordt vernamelijk veroorzaakt door een aantal lange en complexe methodes die jullie sinds de vorige upload hebben toegevoegd. Voorbeelden zijn MarkerTransformer.Update en ClientSocket.ReadMessage. Aan de namen van die methodes kun je al zien dat ze erg veel doen, en het opsplitsen in deelproblemen zou deze methodes beter onderhoudbaar en vooral beter testbaar maken.
+	
+	Bij Unit Interfacing zien we geen structurele verbetering voor zowel de C\# als de C++ code. Zoals bij de eerste upload al aangegeven wijst dit vaak op een gebrek aan abstractie. In MarkerTracker komen bijvoorbeeld vier methodes voor die allemaal dezelfde lijst van vier parameters aan elkaar doorgeven.
+	
+	Tot slot is het goed om te zien dat jullie sinds de vorige upload unit testcode hebben toegevoegd. De hoeveelheid testcode is nog wel vrij beperkt, maar dit is wel te verklaren aangezien jullie vrij laat begonnen zijn.
+	
+	Uit deze observaties kunnen we concluderen dat de aanbevelingen van de vorige evaluatie deels zijn meegenomen in het ontwikkeltraject.
+	
+	\selectlanguage{english}

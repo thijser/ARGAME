@@ -27,6 +27,16 @@ namespace Network
         public const float ScaleFactor = 1f;
 
         /// <summary>
+        /// The horizontal offset for marker positions.
+        /// </summary>
+        public const float HorizontalOffset = -0.2f;
+
+        /// <summary>
+        /// The vertical offset for marker positions.
+        /// </summary>
+        public const float VerticalOffset = -0.05f;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MarkerState"/> class.
         /// </summary>
         /// <param name="id">The marker ID.</param>
@@ -70,9 +80,9 @@ namespace Network
         {
             this.Object.SetActive(true);
             this.Object.transform.localPosition = new Vector3(
-                -(coordinate.x - 0.5f) * ScaleFactor,
+                -(coordinate.x + HorizontalOffset) * ScaleFactor,
                 0,
-                (coordinate.y - 0.5f) * ScaleFactor);
+                (coordinate.y + VerticalOffset) * ScaleFactor);
         }
 
         /// <summary>

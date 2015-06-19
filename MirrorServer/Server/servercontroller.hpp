@@ -9,6 +9,7 @@
 #include <QTimer>
 #include <vector>
 #include <ctime>
+#include <map>
 
 #include <qhttpserver.h>
 #include <qhttprequest.h>
@@ -160,7 +161,7 @@ protected slots:
     void sendBoard(QHttpRequest* req, QHttpResponse* resp);
 
     /**
-     * @brief Brings the new client up to speed with the current level.
+     * @brief Brings the new client up to speed with the current level and mirror rotations.
      */
     void handleNewClient();
 public slots:
@@ -182,6 +183,13 @@ public slots:
      * @param nextLevel - The next level index.
      */
     void changeLevel(int nextLevel);
+
+    /**
+     * @brief Sends a mirror rotation update message to all clients.
+     * @param id - Index of rotated mirror.
+     * @param rotation - New rotation of mirror.
+     */
+    void setMirrorRotation(int id, float rotation);
 
     /**
      * @brief Attempts to detect the board
@@ -228,6 +236,9 @@ private:
 
     /// The current level.
     int currentLevel;
+
+    /// The current mirror rotations.
+    std::map<int, float> mirrorRotations;
 
     /// Boolean indicating if debug overlay should be shown.
     bool showDebugOverlay = true;

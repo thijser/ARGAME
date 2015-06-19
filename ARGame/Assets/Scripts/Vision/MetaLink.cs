@@ -27,6 +27,11 @@ namespace Vision
         public const float MetaScale = 0.0057f;
 
         /// <summary>
+        /// Offset of Meta One positions with respect to the marker center.
+        /// </summary>
+        public static readonly Vector3 PositionOffset = new Vector3(-0.5f * MetaScale, 0, 0);
+
+        /// <summary>
         /// like cattle this class is driven all around it's very position consumed by the meta, please no cow tipping with the lamb
         /// </summary>
         private Transform lamb;
@@ -89,7 +94,7 @@ namespace Vision
             {
                 this.markerDetector.GetMarkerTransform(id, ref this.lamb);
                 MarkerPosition pos = new MarkerPosition(
-                    this.lamb.position,
+                    this.lamb.position + PositionOffset,
                     this.lamb.rotation,
                     DateTime.Now,
                     MetaScale * this.lamb.lossyScale,
