@@ -120,8 +120,8 @@ namespace Level
                     ie.Type = line[x];
                     x++;
                     ie.Direction = line[x];
-                    ie.Position =  new Vector2(x / 2, y);
-                    
+                    ie.Position = new Vector2(x / 2, y);
+
                     if (x / 2 > this.size.x)
                     {
                         this.size.x = x / 2;
@@ -176,7 +176,7 @@ namespace Level
                 go.transform.localPosition = new Vector3((int)ie.Position.x, 0, (int)ie.Position.y);
             }
 
-            Vector2 origin = this.BoardSize / 2f - this.size / 2f;
+            Vector2 origin = (this.BoardSize - this.size) / 2f;
             Vector3 position = new Vector3(-this.BoardSize.x + origin.x, 0, origin.y);
 
             // The remote player does not use the `Marker.RemotePosition`, but we can update that case by simply 

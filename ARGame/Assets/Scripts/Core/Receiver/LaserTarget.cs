@@ -15,7 +15,7 @@ namespace Core.Receiver
     using UnityEngine;
 
     /// <summary>
-    /// A Laser target that loads the next level when Hit with a Laser beam.
+    /// A Laser Target that loads the next level when Hit with a Laser beam.
     /// </summary>
     public class LaserTarget : MonoBehaviour, ILaserReceiver
     {
@@ -42,15 +42,15 @@ namespace Core.Receiver
         public MeshRenderer Crystal;
 
         /// <summary>
-        /// The required laser color of this target.
+        /// The required laser color of this Target.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public Color TargetColor;
 
         /// <summary>
-        /// Gets a value indicating whether the target is opening.
+        /// Gets a value indicating whether the Target is opening.
         /// </summary>
-        /// <value><c>true</c> if the target is opening; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if the Target is opening; otherwise, <c>false</c>.</value>
         public bool IsOpening { get; private set; }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Core.Receiver
         }
 
         /// <summary>
-        /// Consumes the Laser beam and loads the next level if the target is fully opened.
+        /// Consumes the Laser beam and loads the next level if the Target is fully opened.
         /// </summary>
         /// <param name="sender">The object that sent this event</param>
         /// <param name="args">The arguments that describe the event</param>
@@ -96,7 +96,7 @@ namespace Core.Receiver
         /// <summary>
         /// Sets whether this LaserTarget is opening.
         /// </summary>
-        /// <param name="opening">True to set that this target is opening, false otherwise.</param>
+        /// <param name="opening">True to set that this Target is opening, false otherwise.</param>
         public void SetOpening(bool opening)
         {
             this.IsOpening = opening;
@@ -134,9 +134,9 @@ namespace Core.Receiver
         }
 
         /// <summary>
-        /// Determines if the color of the laser hitting the target is sufficient.
+        /// Determines if the color of the laser hitting the Target is sufficient.
         /// </summary>
-        /// <param name="hit">The color of the beam hitting the target.</param>
+        /// <param name="hit">The color of the beam hitting the Target.</param>
         /// <returns>True if the supplied color is within range (10% off at most
         /// on all RGB strengths), false otherwise.</returns>
         private bool IsHitColorSufficient(Color hit)

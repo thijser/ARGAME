@@ -22,7 +22,7 @@ namespace Level
         public readonly TileType Type;
 
         /// <summary>
-        /// Position of object in level coordinates.
+        /// position of object in level coordinates.
         /// </summary>
         public readonly Vector2 Position;
 
@@ -55,7 +55,7 @@ namespace Level
         /// <returns>Portal pair ID of this object.</returns>
         public int GetPortalPair()
         {
-            switch (Type)
+            switch (this.Type)
             {
                 case TileType.PortalEntryOne:
                 case TileType.PortalExitOne:
@@ -80,7 +80,7 @@ namespace Level
         /// <returns>True if this level object is a portal entry or exit.</returns>
         public bool IsPortal()
         {
-            return Type >= TileType.PortalEntryOne && Type <= TileType.PortalExitThree;
+            return this.Type >= TileType.PortalEntryOne && this.Type <= TileType.PortalExitThree;
         }
 
         /// <summary>

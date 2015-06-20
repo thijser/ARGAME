@@ -159,7 +159,7 @@ namespace Graphics
         /// <summary>
         /// Set a certain position in the line sequence.
         /// </summary>
-        /// <param name="index">Position index, between 0 and <c>Positions.Count</c>.</param>
+        /// <param name="index">position index, between 0 and <c>Positions.Count</c>.</param>
         /// <param name="position">New position value.</param>
         public void SetPosition(int index, Vector3 position)
         {
