@@ -46,7 +46,7 @@ namespace Projection
 
         /// <summary>
         /// Tests whether calling <c>UpdatePosition</c> with itself as argument causes a position
-        /// update that updates the transform of the Marker correctly.
+        /// serverUpdate that updates the transform of the Marker correctly.
         /// </summary>
         [Test]
         public void TestUpdatePositionAsParent()

@@ -13,7 +13,7 @@ namespace Network
     using UnityEngine;
 
     /// <summary>
-    /// Represents an update of a marker position.
+    /// Represents an serverUpdate of a marker position.
     /// </summary>
     public class PositionUpdate : AbstractUpdate
     {
@@ -33,12 +33,12 @@ namespace Network
         }
 
         /// <summary>
-        /// Gets the 2D coordinate of this update.
+        /// Gets the 2D coordinate of this serverUpdate.
         /// </summary>
         public Vector2 Coordinate { get; private set; }
 
         /// <summary>
-        /// Gets the rotation of this update.
+        /// Gets the rotation of this serverUpdate.
         /// </summary>
         public float Rotation { get; private set; }
 

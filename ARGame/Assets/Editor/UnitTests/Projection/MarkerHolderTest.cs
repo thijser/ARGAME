@@ -117,7 +117,7 @@ namespace Projection
         }
 
         /// <summary>
-        /// Tests whether calling <c>OnPositionUpdate(...)</c> with a update for an
+        /// Tests whether calling <c>OnPositionUpdate(...)</c> with a serverUpdate for an
         /// unknown marker does not affect the state of the PositionUpdater.
         /// </summary>
         [Test]

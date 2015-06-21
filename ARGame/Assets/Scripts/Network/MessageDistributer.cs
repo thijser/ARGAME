@@ -20,7 +20,7 @@ namespace Network
         /// <summary>
         /// Receives and handles all server updates, by sending them forward to other handlers
         /// </summary>
-        /// <param name="update">The update to be handled.</param>
+        /// <param name="serverUpdate">The serverUpdate to be handled.</param>
         public void OnServerUpdate(AbstractUpdate update)
         {
             if (update == null)

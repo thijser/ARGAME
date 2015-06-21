@@ -238,7 +238,7 @@ namespace Level
                     levelObjects.Add(new LevelObject(type, pos, rotation));
                 }
 
-                // Update X, Y position
+                // UpdatePosition X, Y position
                 if (x + 1 == level.Width)
                 {
                     y++;

@@ -13,7 +13,7 @@ namespace Network
     using UnityEngine;
 
     /// <summary>
-    /// Update sent by the server whenever the board size is changed.
+    /// UpdatePosition sent by the server whenever the board size is changed.
     /// <para>
     /// Usually, this message is sent only once just after the client connects.
     /// </para>

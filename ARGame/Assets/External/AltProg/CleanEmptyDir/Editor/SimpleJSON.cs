@@ -30,7 +30,7 @@
  * - the parser try to avoid errors, but if malformed JSON is parsed the result is undefined
  * 
  * 
- * 2012-12-17 Update:
+ * 2012-12-17 UpdatePosition:
  * - Added internal JSONLazyCreator class which simplifies the construction of a JSON tree
  *   Now you can simple reference any item that doesn't exist yet and it will return a JSONLazyCreator
  *   The class determines the required type by it's further use, creates the type and removes itself.

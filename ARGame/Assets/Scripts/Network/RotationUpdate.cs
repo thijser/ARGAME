@@ -10,7 +10,7 @@
 namespace Network
 {
     /// <summary>
-    /// An update object that describes a changed rotation of a game object.
+    /// An serverUpdate object that describes a changed rotation of a game object.
     /// The rotation is caused by the remote player.
     /// </summary>
     public class RotationUpdate : AbstractUpdate 
@@ -18,9 +18,9 @@ namespace Network
         /// <summary>
         /// Initializes a new instance of the <see cref="Network.RotationUpdate"/> class.
         /// </summary>
-        /// <param name="type">The update type.</param>
+        /// <param name="type">The serverUpdate type.</param>
         /// <param name="rotation">The rotation.</param>
-        /// <param name="id">The ID of this update.</param>
+        /// <param name="id">The ID of this serverUpdate.</param>
         public RotationUpdate(UpdateType type, float rotation, int id)
         {
             this.Type = type;
@@ -29,7 +29,7 @@ namespace Network
         }
 
         /// <summary>
-        /// Gets the rotation if this update object.
+        /// Gets the rotation if this serverUpdate object.
         /// </summary>
         public float Rotation { get; private set; }
 

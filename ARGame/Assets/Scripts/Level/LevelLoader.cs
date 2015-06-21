@@ -186,7 +186,7 @@ namespace Level
             Vector2 origin = (this.BoardSize - this.size) / 2f;
             Vector3 position = new Vector3(-this.BoardSize.x + origin.x, 0, origin.y);
 
-            // The remote player does not use the `Marker.RemotePosition`, but we can update that case by simply 
+            // The remote player does not use the `Marker.RemotePosition`, but we can serverUpdate that case by simply 
             // setting the position here.
             this.level.transform.localPosition = position;
 
