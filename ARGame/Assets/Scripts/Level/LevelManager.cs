@@ -98,7 +98,7 @@ namespace Level
         {
             GameObject.Destroy(this.level);
             this.levelLoader.BoardSize = this.BoardSize;
-            this.level = this.levelLoader.CreateLevel("Levels/" + levelMappings[index]);
+            this.level = this.levelLoader.CreateLevel("Levels/" + this.levelMappings[index]);
             this.CurrentLevelIndex = index;
             this.level.transform.SetParent(this.transform);
             this.level.transform.localScale = this.IARscale * Vector3.one;
@@ -137,7 +137,7 @@ namespace Level
         private void LoadLevelMappings()
         {
             string data = (Resources.Load("Levels/Index") as TextAsset).text;
-            levelMappings = Regex.Split(data, "\r?\n");
+            this.levelMappings = Regex.Split(data, "\r?\n");
         }
     }
 }
