@@ -723,7 +723,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 125744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.73398447, y: -2.73846722, z: -1.47299671}
+  m_LocalPosition: {x: -1.54793739, y: 0, z: 7.59517956}
   m_LocalScale: {x: .150000006, y: .150000006, z: .150000006}
   m_Children:
   - {fileID: 451834}
@@ -2357,7 +2357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OriginalMaterial: {fileID: 2100000, guid: 0f078adfbd110a7011005aba44295342, type: 2}
   Crystal: {fileID: 2350548}
-  TargetColor: {r: 1, g: 0, b: 0, a: 0}
+  TargetColor: {r: 0, g: 1, b: 0, a: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

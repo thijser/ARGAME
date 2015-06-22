@@ -19,9 +19,9 @@ namespace Level
     public class LevelManager : MonoBehaviour
     {
         /// <summary>
-        /// The LevelLoader used for the loading of levels.
+        /// The TiledLevelLoader used for the loading of levels.
         /// </summary>
-        private LevelLoader levelLoader = new LevelLoader();
+        private TiledLevelLoader levelLoader = new TiledLevelLoader();
         
         /// <summary>
         /// The level GameObject.
@@ -90,7 +90,7 @@ namespace Level
         {
             GameObject.Destroy(this.level);
             this.levelLoader.BoardSize = this.BoardSize;
-            this.level = this.levelLoader.CreateLevel("Assets/resources/Levels/" + index + ".txt");
+            this.level = this.levelLoader.CreateLevel("Levels/" + index);
             this.CurrentLevelIndex = index;
             this.level.transform.SetParent(this.transform);
             this.level.transform.localScale = this.IARscale * Vector3.one;
