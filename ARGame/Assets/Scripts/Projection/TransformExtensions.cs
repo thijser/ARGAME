@@ -64,6 +64,22 @@ namespace Projection
         }
 
         /// <summary>
+        /// Extracts the highest parent from this transform.
+        /// </summary>
+        /// <param name="t">The transform to extract the parent from.</param>
+        /// <returns>The highest parent.</returns>
+        public static Transform GetHighestParent(this Transform t)
+        {
+            Transform t1 = t;
+            while (t1.parent != null)
+            {
+                t1 = t1.parent;
+            }
+
+            return t1;
+        }
+
+        /// <summary>
         /// Extract translation from transform matrix.
         /// </summary>
         /// <param name="matrix">Transform matrix. This parameter is passed by reference
@@ -118,22 +134,6 @@ namespace Projection
             scale.y = new Vector4(matrix.m01, matrix.m11, matrix.m21, matrix.m31).magnitude;
             scale.z = new Vector4(matrix.m02, matrix.m12, matrix.m22, matrix.m32).magnitude;
             return scale;
-        }
-
-        /// <summary>
-        /// Extracts the highest parent from this transform.
-        /// </summary>
-        /// <param name="t">The transform to extract the parent from.</param>
-        /// <returns>The highest parent.</returns>
-        public static Transform GetHighestParent(this Transform t)
-        {
-            Transform t1 = t;
-            while(t1.parent != null)
-            {
-                t1 = t1.parent;
-            }
-
-            return t1;
         }
     }
 }

@@ -15,8 +15,8 @@ namespace Level
     using System.Xml;
     using Core;
     using Core.Receiver;
-    using UnityEngine;
     using Projection;
+    using UnityEngine;
 
     /// <summary>
     /// Level loader that loads levels created with the Tiled map editor.
@@ -26,17 +26,17 @@ namespace Level
         /// <summary>
         /// The ID of the virtual level marker.
         /// </summary>
-        private const int levelMarkerID = 13379001;
-
-        /// <summary>
-        /// Gets or sets the size of the board, used for aligning the level.
-        /// </summary>
-        public Vector2 BoardSize { get; set; }
+        private const int LevelMarkerID = 13379001;
 
         /// <summary>
         /// Mapping of level object types to prefabs.
         /// </summary>
         private Dictionary<TileType, GameObject> objectPrefabs = null;
+
+        /// <summary>
+        /// Gets or sets the size of the board, used for aligning the level.
+        /// </summary>
+        public Vector2 BoardSize { get; set; }
 
         /// <summary>
         /// Loads and creates a level from the file at the given path.
@@ -55,94 +55,10 @@ namespace Level
                 this.LoadPrefabs();
             }
 
-            KeyValuePair<LevelDescriptor, List<LevelObject>> levelInfo = LoadLevel(path);
-            GameObject level = ConstructLevel(levelInfo.Key, levelInfo.Value);
+            KeyValuePair<LevelDescriptor, List<LevelObject>> levelInfo = this.LoadLevel(path);
+            GameObject level = this.ConstructLevel(levelInfo.Key, levelInfo.Value);
 
             return level;
-        }
-
-        /// <summary>
-        /// Constructs the game objects from objects within a level.
-        /// </summary>
-        /// <param name="level">Level descriptor.</param>
-        /// <param name="levelObjects">List of level objects.</param>
-        /// <returns>Parent GameObject that represents level.</returns>
-        private GameObject ConstructLevel(LevelDescriptor level, List<LevelObject> levelObjects)
-        {
-            GameObject parent = new GameObject("Level");
-
-            // Instantiate prefab for every level object
-            foreach (LevelObject obj in levelObjects)
-            {
-                try
-                {
-                    GameObject instance = InstantiateLevelObject(obj, this.objectPrefabs);
-                    instance.transform.parent = parent.transform;
-                }
-                catch (KeyNotFoundException)
-                {
-                    Debug.LogError("No prefab for " + obj.Type);
-                }
-            }
-
-            // Link paired portals together
-            LinkPortals(levelObjects);
-
-            // Determine offset to center level on board
-            Vector3 levelPosition = new Vector3(-(BoardSize.x / 2 - level.Width / 2), 0, BoardSize.y / 2 - level.Height / 2);
-            parent.transform.localPosition = levelPosition;
-
-            // Add level marker
-            Marker marker = parent.AddComponent<Marker>();
-            marker.ID = levelMarkerID;
-            marker.RemotePosition = new MarkerPosition(-8f * levelPosition, Quaternion.identity, DateTime.Now, 8f * new Vector3(-1, 1, -1), levelMarkerID);
-
-            return parent;
-        }
-
-        /// <summary>
-        /// Loads the Tiled level given by the specified path.
-        /// </summary>
-        /// <param name="path">Path to level file in Resources.</param>
-        /// <returns>Info about parsed level.</returns>
-        private KeyValuePair<LevelDescriptor, List<LevelObject>> LoadLevel(string path)
-        {
-            try
-            {
-                string xml = (Resources.Load(path) as TextAsset).text;
-                return ParseLevel(xml);
-            }
-            catch (NullReferenceException)
-            {
-                throw new ArgumentException("Invalid level path (" + path + ").");
-            }
-        }
-
-        /// <summary>
-        /// Initializes the Prefab GameObject Dictionary.
-        /// </summary>
-        private void LoadPrefabs()
-        {
-            this.objectPrefabs = new Dictionary<TileType, GameObject>();
-
-            this.objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/BOXWALL") as GameObject;
-            this.objectPrefabs[TileType.EmitterR] = Resources.Load("Prefabs/Emitter") as GameObject;
-            this.objectPrefabs[TileType.EmitterG] = Resources.Load("Prefabs/Emitter") as GameObject;
-            this.objectPrefabs[TileType.EmitterB] = Resources.Load("Prefabs/Emitter") as GameObject;
-            this.objectPrefabs[TileType.TargetR] = Resources.Load("Prefabs/Laser Target") as GameObject;
-            this.objectPrefabs[TileType.TargetG] = Resources.Load("Prefabs/Laser Target") as GameObject;
-            this.objectPrefabs[TileType.TargetB] = Resources.Load("Prefabs/Laser Target") as GameObject;
-            this.objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
-            this.objectPrefabs[TileType.Splitter] = Resources.Load("Prefabs/LensSplitter") as GameObject;
-            this.objectPrefabs[TileType.Checkpoint] = Resources.Load("Prefabs/Checkpoint") as GameObject;
-
-            this.objectPrefabs[TileType.PortalEntryOne] = Resources.Load("Prefabs/Portal") as GameObject;
-            this.objectPrefabs[TileType.PortalEntryTwo] = Resources.Load("Prefabs/Portal") as GameObject;
-            this.objectPrefabs[TileType.PortalEntryThree] = Resources.Load("Prefabs/Portal") as GameObject;
-
-            this.objectPrefabs[TileType.PortalExitOne] = Resources.Load("Prefabs/Portal") as GameObject;
-            this.objectPrefabs[TileType.PortalExitTwo] = Resources.Load("Prefabs/Portal") as GameObject;
-            this.objectPrefabs[TileType.PortalExitThree] = Resources.Load("Prefabs/Portal") as GameObject;
         }
 
         /// <summary>
@@ -318,6 +234,90 @@ namespace Level
             }
 
             return levelObjects;
+        }
+
+        /// <summary>
+        /// Constructs the game objects from objects within a level.
+        /// </summary>
+        /// <param name="level">Level descriptor.</param>
+        /// <param name="levelObjects">List of level objects.</param>
+        /// <returns>Parent GameObject that represents level.</returns>
+        private GameObject ConstructLevel(LevelDescriptor level, List<LevelObject> levelObjects)
+        {
+            GameObject parent = new GameObject("Level");
+
+            // Instantiate prefab for every level object
+            foreach (LevelObject obj in levelObjects)
+            {
+                try
+                {
+                    GameObject instance = InstantiateLevelObject(obj, this.objectPrefabs);
+                    instance.transform.parent = parent.transform;
+                }
+                catch (KeyNotFoundException)
+                {
+                    Debug.LogError("No prefab for " + obj.Type);
+                }
+            }
+
+            // Link paired portals together
+            LinkPortals(levelObjects);
+
+            // Determine offset to center level on board
+            Vector3 levelPosition = new Vector3(-(this.BoardSize.x - level.Width) / 2, 0, (this.BoardSize.y - level.Height) / 2);
+            parent.transform.localPosition = levelPosition;
+
+            // Add level marker
+            Marker marker = parent.AddComponent<Marker>();
+            marker.ID = LevelMarkerID;
+            marker.RemotePosition = new MarkerPosition(-8f * levelPosition, Quaternion.identity, DateTime.Now, 8f * new Vector3(-1, 1, -1), LevelMarkerID);
+
+            return parent;
+        }
+
+        /// <summary>
+        /// Loads the Tiled level given by the specified path.
+        /// </summary>
+        /// <param name="path">Path to level file in Resources.</param>
+        /// <returns>Info about parsed level.</returns>
+        private KeyValuePair<LevelDescriptor, List<LevelObject>> LoadLevel(string path)
+        {
+            try
+            {
+                string xml = (Resources.Load(path) as TextAsset).text;
+                return ParseLevel(xml);
+            }
+            catch (NullReferenceException)
+            {
+                throw new ArgumentException("Invalid level path (" + path + ").");
+            }
+        }
+
+        /// <summary>
+        /// Initializes the Prefab GameObject Dictionary.
+        /// </summary>
+        private void LoadPrefabs()
+        {
+            this.objectPrefabs = new Dictionary<TileType, GameObject>();
+
+            this.objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/BOXWALL") as GameObject;
+            this.objectPrefabs[TileType.EmitterR] = Resources.Load("Prefabs/Emitter") as GameObject;
+            this.objectPrefabs[TileType.EmitterG] = Resources.Load("Prefabs/Emitter") as GameObject;
+            this.objectPrefabs[TileType.EmitterB] = Resources.Load("Prefabs/Emitter") as GameObject;
+            this.objectPrefabs[TileType.TargetR] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            this.objectPrefabs[TileType.TargetG] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            this.objectPrefabs[TileType.TargetB] = Resources.Load("Prefabs/Laser Target") as GameObject;
+            this.objectPrefabs[TileType.Mirror] = Resources.Load("Prefabs/Mirror") as GameObject;
+            this.objectPrefabs[TileType.Splitter] = Resources.Load("Prefabs/LensSplitter") as GameObject;
+            this.objectPrefabs[TileType.Checkpoint] = Resources.Load("Prefabs/Checkpoint") as GameObject;
+
+            this.objectPrefabs[TileType.PortalEntryOne] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalEntryTwo] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalEntryThree] = Resources.Load("Prefabs/Portal") as GameObject;
+
+            this.objectPrefabs[TileType.PortalExitOne] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalExitTwo] = Resources.Load("Prefabs/Portal") as GameObject;
+            this.objectPrefabs[TileType.PortalExitThree] = Resources.Load("Prefabs/Portal") as GameObject;
         }
     }
 }

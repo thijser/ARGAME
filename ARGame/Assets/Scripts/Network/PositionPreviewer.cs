@@ -38,7 +38,7 @@ namespace Network
         /// <summary>
         /// Receives and handles all server updates.
         /// </summary>
-        /// <param name="serverUpdate">The serverUpdate to be handled, can be either a
+        /// <param name="update">The serverUpdate to be handled, can be either a
         /// PositionUpdate or a RotationUpdate.</param>
         public void OnPositionUpdate(AbstractUpdate update)
         {

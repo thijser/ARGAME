@@ -138,7 +138,7 @@ namespace Network
         /// <summary>
         /// Writes the given <see cref="RotationUpdate"/> to a byte array.
         /// </summary>
-        /// <param name="serverUpdate">The <see cref="RotationUpdate"/>, not null.</param>
+        /// <param name="update">The <see cref="RotationUpdate"/>, not null.</param>
         /// <returns>A byte array containing the data from the <see cref="RotationUpdate"/>.</returns>
         public static byte[] WriteRotationUpdate(RotationUpdate update)
         {
@@ -157,7 +157,7 @@ namespace Network
         /// <summary>
         /// Writes the given <see cref="LevelUpdate"/> to a byte array.
         /// </summary>
-        /// <param name="serverUpdate">The <see cref="LevelUpdate"/>, not null.</param>
+        /// <param name="update">The <see cref="LevelUpdate"/>, not null.</param>
         /// <returns>A byte array containing the data from the <see cref="LevelUpdate"/>.</returns>
         public static byte[] WriteLevelUpdate(LevelUpdate update)
         {
