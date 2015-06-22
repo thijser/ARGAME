@@ -137,7 +137,7 @@ namespace Level
         private void LoadLevelMappings()
         {
             string data = (Resources.Load("Levels/Index") as TextAsset).text;
-            levelMappings = Regex.Split(data, "\r?\n");
+            this.levelMappings = Regex.Split(data, "\r?\n");
         }
     }
 }
