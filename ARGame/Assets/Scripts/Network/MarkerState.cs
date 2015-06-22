@@ -55,7 +55,7 @@ namespace Network
             this.Object.name = "Marker" + id;
 
             // Add reference to this state to game object
-            RemoteMarker remoteMarker = this.Object.GetComponent<RemoteMarker>();
+            RemoteMarker remoteMarker = this.Object.AddComponent<RemoteMarker>();
             remoteMarker.State = this;
         }
 

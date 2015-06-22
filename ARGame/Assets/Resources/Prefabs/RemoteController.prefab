@@ -98,7 +98,6 @@ GameObject:
   - 54: {fileID: 5471178}
   - 65: {fileID: 6512526}
   - 114: {fileID: 11441750}
-  - 114: {fileID: 11488704}
   m_Layer: 0
   m_Name: MarkerTemplate
   m_TagString: Untagged
@@ -524,17 +523,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Highlight: {fileID: 2100000, guid: 108d91fbe2d19e4488a3050473cbdb19, type: 2}
   Original: {fileID: 2100000, guid: 83a21b131569d4c4bb93d98e9b11834a, type: 2}
---- !u!114 &11488704
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 171870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 254ce69e270b64e40a915285eee5ddf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11491228
 MonoBehaviour:
   m_ObjectHideFlags: 1
