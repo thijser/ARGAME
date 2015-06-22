@@ -267,10 +267,13 @@ namespace Level
             Vector3 levelPosition = new Vector3(-(this.BoardSize.x - level.Width) / 2, 0, (this.BoardSize.y - level.Height) / 2);
             parent.transform.localPosition = levelPosition;
 
-            // Add level marker
-            Marker marker = parent.AddComponent<Marker>();
-            marker.ID = LevelMarkerID;
-            marker.RemotePosition = new MarkerPosition(-8f * levelPosition, Quaternion.identity, DateTime.Now, 8f * new Vector3(-1, 1, -1), LevelMarkerID);
+            // Add level marker if this is a local player
+            if (GameObject.Find("MetaWorld") != null)
+            {
+                Marker marker = parent.AddComponent<Marker>();
+                marker.ID = LevelMarkerID;
+                marker.RemotePosition = new MarkerPosition(-8f * levelPosition, Quaternion.identity, DateTime.Now, 8f * new Vector3(-1, 1, -1), LevelMarkerID);
+            }
 
             return parent;
         }
