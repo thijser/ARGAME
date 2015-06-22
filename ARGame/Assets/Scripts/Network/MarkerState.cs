@@ -53,10 +53,6 @@ namespace Network
             // Create mesh representing this marker
             this.Object = GameObject.Instantiate(referenceMarker);
             this.Object.name = "Marker" + id;
-
-            Marker marker = this.Object.GetComponent<Marker>();
-            Assert.IsNotNull(marker, "Provided reference marker has no Marker Component");
-            marker.ID = id;
         }
 
         /// <summary>
