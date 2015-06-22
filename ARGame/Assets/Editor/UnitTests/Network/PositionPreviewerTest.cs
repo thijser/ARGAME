@@ -28,7 +28,7 @@ namespace Network
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullTest()
         {
-            GameObjectFactory.Create<PositionPreviewer>().OnServerUpdate(null);
+            GameObjectFactory.Create<RemoteMarkerHolder>().OnServerUpdate(null);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Network
         [ExpectedException(typeof(KeyNotFoundException))]
         public void NullMarkerStateTest()
         {
-            GameObjectFactory.Create<PositionPreviewer>().GetMarkerState(0);
+            GameObjectFactory.Create<RemoteMarkerHolder>().GetMarkerState(0);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Network
         [Test]
         public void StartTest()
         {
-            PositionPreviewer pp = GameObjectFactory.Create<PositionPreviewer>();
+            RemoteMarkerHolder pp = GameObjectFactory.Create<RemoteMarkerHolder>();
             pp.ReferenceMarker = new UnityEngine.GameObject();
             pp.Start();
             Assert.False(pp.ReferenceMarker.activeSelf);

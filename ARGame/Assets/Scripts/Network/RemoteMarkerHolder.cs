@@ -17,7 +17,7 @@ namespace Network
     /// <summary>
     /// Previews the position of PositionUpdate objects.
     /// </summary>
-    public class PositionPreviewer : MonoBehaviour
+    public class RemoteMarkerHolder : MonoBehaviour
     {
         /// <summary>
         /// Time in milliseconds before 
