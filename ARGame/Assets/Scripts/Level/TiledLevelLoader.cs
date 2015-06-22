@@ -11,33 +11,120 @@ namespace Level
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Xml;
     using Core;
     using Core.Receiver;
     using UnityEngine;
-    using System.Globalization;
+    using Projection;
 
     /// <summary>
     /// Level loader that loads levels created with the Tiled map editor.
     /// </summary>
-    public class TiledLevelLoader : MonoBehaviour
+    public class TiledLevelLoader
     {
         /// <summary>
-        /// Level to load in the Resources/Level directory.
+        /// The ID of the virtual level marker.
         /// </summary>
-        public string Level = "basic";
+        private const int levelMarkerID = 13379001;
+
+        /// <summary>
+        /// Gets or sets the size of the board, used for aligning the level.
+        /// </summary>
+        public Vector2 BoardSize { get; set; }
 
         /// <summary>
         /// Mapping of level object types to prefabs.
         /// </summary>
-        private Dictionary<TileType, GameObject> objectPrefabs = new Dictionary<TileType, GameObject>();
+        private Dictionary<TileType, GameObject> objectPrefabs = null;
 
         /// <summary>
-        /// Loads the level prefabs and the level itself.
+        /// Loads and creates a level from the file at the given path.
         /// </summary>
-        public void Start()
+        /// <param name="path">The path to load from.</param>
+        /// <returns>The created level GameObject.</returns>
+        public GameObject CreateLevel(string path)
         {
-            // Load prefabs for each tile type
+            if (path == null)
+            {
+                throw new ArgumentNullException("path");
+            }
+
+            if (this.objectPrefabs == null)
+            {
+                this.LoadPrefabs();
+            }
+
+            KeyValuePair<LevelDescriptor, List<LevelObject>> levelInfo = LoadLevel(path);
+            GameObject level = ConstructLevel(levelInfo.Key, levelInfo.Value);
+
+            return level;
+        }
+
+        /// <summary>
+        /// Constructs the game objects from objects within a level.
+        /// </summary>
+        /// <param name="level">Level descriptor.</param>
+        /// <param name="levelObjects">List of level objects.</param>
+        /// <returns>Parent GameObject that represents level.</returns>
+        private GameObject ConstructLevel(LevelDescriptor level, List<LevelObject> levelObjects)
+        {
+            GameObject parent = new GameObject("Level");
+
+            // Instantiate prefab for every level object
+            foreach (LevelObject obj in levelObjects)
+            {
+                try
+                {
+                    GameObject instance = InstantiateLevelObject(obj, this.objectPrefabs);
+                    instance.transform.parent = parent.transform;
+                }
+                catch (KeyNotFoundException)
+                {
+                    Debug.LogError("No prefab for " + obj.Type);
+                }
+            }
+
+            // Link paired portals together
+            LinkPortals(levelObjects);
+
+            // Determine offset to center level on board
+            Vector3 levelPosition = new Vector3(-(BoardSize.x / 2 - level.Width / 2), 0, BoardSize.y / 2 - level.Height / 2);
+            parent.transform.localPosition = levelPosition;
+
+            // Add level marker
+            Marker marker = parent.AddComponent<Marker>();
+            marker.ID = levelMarkerID;
+            marker.RemotePosition = new MarkerPosition(-8f * levelPosition, Quaternion.identity, DateTime.Now, 8f * new Vector3(-1, 1, -1), levelMarkerID);
+
+            return parent;
+        }
+
+        /// <summary>
+        /// Loads the Tiled level given by the specified path.
+        /// </summary>
+        /// <param name="path">Path to level file in Resources.</param>
+        /// <returns>Info about parsed level.</returns>
+        private KeyValuePair<LevelDescriptor, List<LevelObject>> LoadLevel(string path)
+        {
+            try
+            {
+                string xml = (Resources.Load(path) as TextAsset).text;
+                return ParseLevel(xml);
+            }
+            catch (NullReferenceException)
+            {
+                throw new ArgumentException("Invalid level path.");
+            }
+        }
+
+        /// <summary>
+        /// Initializes the Prefab GameObject Dictionary.
+        /// </summary>
+        private void LoadPrefabs()
+        {
+            this.objectPrefabs = new Dictionary<TileType, GameObject>();
+
             this.objectPrefabs[TileType.Wall] = Resources.Load("Prefabs/BOXWALL") as GameObject;
             this.objectPrefabs[TileType.EmitterR] = Resources.Load("Prefabs/Emitter") as GameObject;
             this.objectPrefabs[TileType.EmitterG] = Resources.Load("Prefabs/Emitter") as GameObject;
@@ -56,24 +143,6 @@ namespace Level
             this.objectPrefabs[TileType.PortalExitOne] = Resources.Load("Prefabs/Portal") as GameObject;
             this.objectPrefabs[TileType.PortalExitTwo] = Resources.Load("Prefabs/Portal") as GameObject;
             this.objectPrefabs[TileType.PortalExitThree] = Resources.Load("Prefabs/Portal") as GameObject;
-
-            // Parse and instantiate level
-            string xml = (Resources.Load("levels/" + this.Level) as TextAsset).text;
-            List<LevelObject> levelObjects = ParseLevel(xml);
-
-            foreach (LevelObject obj in levelObjects)
-            {
-                try
-                {
-                    InstantiateLevelObject(obj, this.objectPrefabs);
-                }
-                catch (KeyNotFoundException)
-                {
-                    Debug.LogError("No prefab for " + obj.Type);
-                }
-            }
-
-            LinkPortals(levelObjects);
         }
 
         /// <summary>
@@ -165,15 +234,16 @@ namespace Level
         /// Parse a level created with Tiled and the objects within.
         /// </summary>
         /// <param name="xml">XML representation of level as written by Tiled editor.</param>
-        /// <returns>Descriptors of objects within the level.</returns>
-        private static List<LevelObject> ParseLevel(string xml)
+        /// <returns>Level descriptor and descriptors of objects within the level.</returns>
+        private static KeyValuePair<LevelDescriptor, List<LevelObject>> ParseLevel(string xml)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
 
             LevelDescriptor level = ParseLevelHeader(doc);
+            List<LevelObject> levelObjects = ParseLevelTiles(doc, level);
 
-            return ParseLevelTiles(doc, level);
+            return new KeyValuePair<LevelDescriptor, List<LevelObject>>(level, levelObjects);
         }
 
         /// <summary>
