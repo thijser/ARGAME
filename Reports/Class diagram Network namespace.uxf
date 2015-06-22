@@ -1,103 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="12.2">
+<diagram program="umlet" version="13.2">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>520</x>
-      <y>20</y>
-      <w>360</w>
-      <h>290</h>
-    </coordinates>
-    <panel_attributes>NetworkManager :: MonoBehaviour
-elementstyle=autoresize
---
-_+ ServerAddress : string_
-_+ ServerPort : int_
-_+ TypeName : string_
-_+ MaxPlayers : int_
-
-- hosts : HostData[]
---
-+ Hosts (get) : ReadOnlyCollection&lt;HostData&gt;
-
-_+ InitializeServer(address : string)_
-_+ InitializeClient(host : HostData)_
-
-+ Start()
-+ OnGUI()
-+ OnMasterServerEvent(event : MasterServerEvent)
-
-- RefreshHostList()</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>270</x>
-      <y>20</y>
-      <w>240</w>
-      <h>240</h>
+      <x>350</x>
+      <y>60</y>
+      <w>230</w>
+      <h>250</h>
     </coordinates>
     <panel_attributes>MirrorController :: MonoBehaviour
-elementstyle=autoresize
+style=autoresize
 --
 + Highlight : Material
 + Original : Material
 
 - selected : bool
 --
-+ SelectedMirror (get,set) : Mirror
++ SelectedMirror : Mirror
 
 + Start()
 + Update()
-
++ SendRotationUpdate()
 - UpdateSelectedMirror()
 - Rotate()
 - HighlightMirror(Mirror)
-- ResetHighlight(Mirror)
-</panel_attributes>
+- ResetHighlight(Mirror)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>20</y>
-      <w>240</w>
-      <h>270</h>
+      <x>30</x>
+      <y>120</y>
+      <w>310</w>
+      <h>350</h>
     </coordinates>
     <panel_attributes>ClientSocket :: MonoBehaviour
-elementstyle=autoresize
+style=autoresize
 --
-_+ PacketSize : int_
+_+ MinPacketSize : int_
+_+ MaxPacketSize : int_
 _+ MaxUpdates : int_
+_+ Timeout : long_
 
 + ServerAddress : string
 + ServerPort : int
-
 - socket : Socket
 - endPoint : IPEndPoint
 - buffer : byte[]
+- timeStamp : DateTime
 --
 + Start()
 + Update()
 
 + DisconnectSocket()
 + ReadAllUpdates() : int
-+ ReadUpdate() : PositionUpdate</panel_attributes>
++ ReadMessage() : PositionUpdate
++ OnRotationChanged(update : RotationUpdate)
++ OnLevelCompleted(update : LevelUpdate)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>470</x>
-      <y>320</y>
-      <w>320</w>
+      <x>30</x>
+      <y>60</y>
+      <w>300</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>PositionPreviewer :: MonoBehaviour
-elementstyle=autoresize
+style=autoresize
 --
 + OnPositionUpdate(update : PositionUpdate)</panel_attributes>
     <additional_attributes/>
@@ -105,24 +78,140 @@ elementstyle=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>300</y>
-      <w>440</w>
-      <h>190</h>
+      <x>350</x>
+      <y>410</y>
+      <w>390</w>
+      <h>170</h>
     </coordinates>
-    <panel_attributes>PositionUpdate
-elementstyle=autoresize
+    <panel_attributes>PositionUpdate :: AbstractUpdate
+style=autoresize
 --
-+ PositionUpdate(id : int, x : float, y : float, timestamp : long)
++ PositionUpdate(id : int, position : Vector2, timestamp : long)
 
-+ X (get) : float
-+ Y (get) : float
-+ ID (get) : int
-+ TimeStamp (get) : long
++ X : float
++ Y : float
 
 + GetHashCode() : int
 + Equals(other : object)
 + ToString() : string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>600</x>
+      <y>250</y>
+      <w>140</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>/AbstractUpdate/
+style=autoresize
+--
++ Type : UpdateType
++ ID : int
++ TimeStamp : long</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>750</x>
+      <y>210</y>
+      <w>130</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>enum UpdateType
+style=autoresize
+--
++ UpdatePosition
++ DeletePosition
++ Ping
++ UpdateRotation
++ Level</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>750</x>
+      <y>410</y>
+      <w>270</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>LevelUpdate :: AbstractUpdate
+style=autoresize
+--
++ LevelUpdate(index : int, size : Vector2)
+
++ Size : Vector2
++ NextLevelIndex : int
+
++ GetHashCode() : int
++ Equals(other : object)
++ ToString() : string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>390</x>
+      <y>600</y>
+      <w>290</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>MessageDistributer
+style=autoresize
+--
++ OnServerUpdate(update : AbstractUpdate)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>600</y>
+      <w>350</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>MarkerState
+style=autoresize
+--
+_+ ScaleFactor : float_
+_+ HorizontalOffset : float_
+_+ VerticalOffset : float_
+--
++ MarkerState(id : int, referenceMarker : GameObject)
++ ID : int
++ Object : GameObject
+
++ MoveObject(coordinate : Vector2)
++ RemoveObject()
++ RotateObject(newRotation : float)
++ Update(update : AbstractUpdate)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>390</x>
+      <y>660</y>
+      <w>430</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>_MessageProcessor_
+style=autoresize
+--
+_+ ReadUpdatePosition(buffer : byte[], length : int) : PositionUpdate_
+_+ ReadDelete(buffer : byte[], length : int) : PositionUpdate_
+_+ ReadUpdateRotation(buffer : byte[], length : int) : RotationUpdate_
+_+ ReadUpdateLevel(buffer : byte[], length : int) : LevelUpdate_
+_+ ReadFloat(buffer : byte[], offset : int) : float_
+_+ ReadInt(buffer : byte[], offset : int) : int_
+
+_+ WriteRotationUpdate(update : RotationUpdate) : byte[]_
+_+ WriteLevelUpdate(update : LevelUpdate) : byte[]_
+_+ WriteFloat(value : float, buffer : byte[], offset : int)_
+_+ WriteInt(value : int, buffer : byte[], offset : int)_</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

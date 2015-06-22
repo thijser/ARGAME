@@ -1,6 +1,12 @@
 #include "servercontroller.hpp"
 #include "serversocket.hpp"
+
+#include "qhttpserver.h"
+#include "qhttprequest.h"
+#include "qhttpresponse.h"
+
 #include <QBuffer>
+
 
 namespace mirrors {
 
