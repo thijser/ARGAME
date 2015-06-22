@@ -109,14 +109,19 @@ namespace Level
         /// that level is not yet loaded. If the same level is already loaded,
         /// this method does nothing.
         /// </summary>
-        /// <param name="levelup">The <see cref="LevelUpdate"/>.</param>
-        public void OnLevelUpdate(LevelUpdate levelup)
+        /// <param name="update">The server update.</param>
+        public void OnServerUpdate(AbstractUpdate update)
         {
-            if (this.CurrentLevelIndex != levelup.NextLevelIndex ||
-                this.BoardSize != levelup.Size)
+            LevelUpdate levelup = update as LevelUpdate;
+
+            if (levelup != null)
             {
-                this.BoardSize = levelup.Size;
-                this.LoadLevel(levelup.NextLevelIndex);
+                if (this.CurrentLevelIndex != levelup.NextLevelIndex ||
+                    this.BoardSize != levelup.Size)
+                {
+                    this.BoardSize = levelup.Size;
+                    this.LoadLevel(levelup.NextLevelIndex);
+                }
             }
         }
 
