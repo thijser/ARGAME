@@ -12,6 +12,7 @@ namespace Core
     using System.Collections;
     using System.Diagnostics.CodeAnalysis;
     using Graphics;
+    using Projection;
     using UnityEngine;
 
     /// <summary>
@@ -89,7 +90,8 @@ namespace Core
         public void UpdateBeam()
         {
             Color color = this.LaserColor;
-            this.LineRenderer.LineWidth = this.Strength * this.transform.lossyScale.magnitude;
+
+            this.LineRenderer.LineWidth = this.Strength * this.transform.GetHighestParent().lossyScale.Average();
 
             this.LineRenderer.LineMaterial.color = color;
         }
