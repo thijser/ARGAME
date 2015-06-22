@@ -38,7 +38,7 @@ namespace Projection
             this.Position = new Vector3(8 * update.Coordinate[0], 0, 8 * -update.Coordinate[1]);
             this.Rotation = Quaternion.Euler(0, update.Rotation, 0);
             this.Scale = Vector3.one;
-            this.ID = update.ID;
+            this.ID = update.Id;
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Projection
         /// <param name="rotation">The rotation.</param>
         /// <param name="stamp">The timestamp of the serverUpdate.</param>
         /// <param name="scale">The scale of the object.</param>
-        /// <param name="id">The ID of the Marker.</param>
+        /// <param name="id">The Id of the Marker.</param>
         public MarkerPosition(Vector3 position, Quaternion rotation, DateTime stamp, Vector3 scale, int id)
         {
             this.Position = position;
@@ -79,7 +79,7 @@ namespace Projection
         public Vector3 Scale { get; set; }
 
         /// <summary>
-        /// Gets or sets the ID of the Marker.
+        /// Gets or sets the Id of the Marker.
         /// </summary>
         public int ID { get; set; }
 

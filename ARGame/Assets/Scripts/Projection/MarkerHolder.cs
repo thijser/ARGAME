@@ -66,15 +66,15 @@ namespace Projection
             }
 
             // We try to remove an old marker binding first. This allows us to overwrite marker IDs.
-            this.markerTable.Remove(register.RegisteredMarker.ID);
-            this.markerTable.Add(register.RegisteredMarker.ID, register.RegisteredMarker);
+            this.markerTable.Remove(register.RegisteredMarker.Id);
+            this.markerTable.Add(register.RegisteredMarker.Id, register.RegisteredMarker);
         }
 
         /// <summary>
-        /// Gets a marker by ID.
+        /// Gets a marker by Id.
         /// </summary>
         /// <returns>The Marker.</returns>
-        /// <param name="id">The ID.</param>
+        /// <param name="id">The Id.</param>
         /// <exception cref="KeyNotFoundException">If the marker is not (yet) registered.</exception>
         public Marker GetMarker(int id)
         {
@@ -115,7 +115,7 @@ namespace Projection
             {
                 marker.UpdatePosition(remoteToLocal);
 
-                if (marker.ID == 13379001)
+                if (marker.Id == 13379001)
                 {
                     Debug.Log("Placed level marker at: " + marker.transform.localPosition);
                 }
@@ -187,13 +187,13 @@ namespace Projection
                 throw new ArgumentNullException("update");
             }
 
-            this.GetMarker(update.ID).ObjectRotation = update.Rotation;
+            this.GetMarker(update.Id).ObjectRotation = update.Rotation;
         }
 
         /// <summary>
         /// Updates the location of the marker based on the remote position.
         /// <para>
-        /// The <c>serverUpdate</c> argument should not be null. The marker with the ID referenced by the serverUpdate should
+        /// The <c>serverUpdate</c> argument should not be null. The marker with the Id referenced by the serverUpdate should
         /// be registered previously using the <c>OnMarkerRegister(...)</c> method, otherwise this method logs a warning
         /// and returns without affecting any Markers. When the marker is registered, the Marker's remote position is set to 
         /// a <see cref="MarkerPosition"/> object based on the argument.
@@ -211,7 +211,7 @@ namespace Projection
             {
                 Vector3 position = update.Coordinate;
                 position.y *= -1;
-                this.GetMarker(update.ID).RemotePosition = new MarkerPosition(update);
+                this.GetMarker(update.Id).RemotePosition = new MarkerPosition(update);
             }
             catch (KeyNotFoundException ex)
             {

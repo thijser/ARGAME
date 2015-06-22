@@ -42,11 +42,11 @@ namespace Network
                 return null;
             }
 
-            float x = MessageProcessor.ReadFloat(buffer, 0);
-            float y = MessageProcessor.ReadFloat(buffer, 4);
+            float x = MessageProcessor.ReadSingle(buffer, 0);
+            float y = MessageProcessor.ReadSingle(buffer, 4);
             Vector2 coordinate = new Vector2(x, y);
-            float rotation = MessageProcessor.ReadFloat(buffer, 8);
-            int id = MessageProcessor.ReadInt(buffer, 12);
+            float rotation = MessageProcessor.ReadSingle(buffer, 8);
+            int id = MessageProcessor.ReadInt32(buffer, 12);
             return new PositionUpdate(UpdateType.UpdatePosition, coordinate, rotation, id);
         }
 
@@ -73,7 +73,7 @@ namespace Network
                 return null;
             }
 
-            int id = MessageProcessor.ReadInt(buffer, 0);
+            int id = MessageProcessor.ReadInt32(buffer, 0);
             return new PositionUpdate(UpdateType.DeletePosition, new Vector2(0, 0), 0, id);
         }
 
@@ -100,8 +100,8 @@ namespace Network
                 return null;
             }
 
-            int id = MessageProcessor.ReadInt(buffer, 0);
-            float rotation = MessageProcessor.ReadFloat(buffer, 4);
+            int id = MessageProcessor.ReadInt32(buffer, 0);
+            float rotation = MessageProcessor.ReadSingle(buffer, 4);
             return new RotationUpdate(UpdateType.UpdateRotation, rotation, id);
         }
 
@@ -128,9 +128,9 @@ namespace Network
                 return null;
             }
 
-            int index = MessageProcessor.ReadInt(buffer, 0);
-            float width = MessageProcessor.ReadFloat(buffer, 4);
-            float height = MessageProcessor.ReadFloat(buffer, 8);
+            int index = MessageProcessor.ReadInt32(buffer, 0);
+            float width = MessageProcessor.ReadSingle(buffer, 4);
+            float height = MessageProcessor.ReadSingle(buffer, 8);
 
             return new LevelUpdate(index, new Vector2(width, height));
         }
@@ -149,8 +149,8 @@ namespace Network
 
             byte[] message = new byte[9];
             message[0] = (byte)UpdateType.UpdateRotation;
-            WriteInt(update.ID, message, 1);
-            WriteFloat(update.Rotation, message, 5);
+            WriteInt32(update.Id, message, 1);
+            WriteSingle(update.Rotation, message, 5);
             return message;
         }
 
@@ -168,9 +168,9 @@ namespace Network
 
             byte[] message = new byte[13];
             message[0] = (byte)UpdateType.Level;
-            WriteInt(update.NextLevelIndex, message, 1);
-            WriteFloat(update.Size.x, message, 5);
-            WriteFloat(update.Size.y, message, 9);
+            WriteInt32(update.NextLevelIndex, message, 1);
+            WriteSingle(update.Size.x, message, 5);
+            WriteSingle(update.Size.y, message, 9);
             return message;
         }
 
@@ -181,7 +181,7 @@ namespace Network
         /// <param name="buffer">The byte array containing data from the network.</param>
         /// <param name="offset">The given offset.</param>
         /// <returns>The float that represents the bytes read.</returns>
-        public static float ReadFloat(byte[] buffer, int offset)
+        public static float ReadSingle(byte[] buffer, int offset)
         {
             if (buffer == null)
             {
@@ -208,7 +208,7 @@ namespace Network
         /// <param name="offset">The starting position where to store the value.</param>
         /// <exception cref="ArgumentNullException">If the buffer is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the offset is out of range.</exception>
-        public static void WriteFloat(float value, byte[] buffer, int offset)
+        public static void WriteSingle(float value, byte[] buffer, int offset)
         {
             if (buffer == null)
             {
@@ -236,7 +236,7 @@ namespace Network
         /// <param name="offset">The starting position where to store the value.</param>
         /// <exception cref="ArgumentNullException">If the buffer is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the offset is out of range.</exception>
-        public static void WriteInt(int value, byte[] buffer, int offset)
+        public static void WriteInt32(int value, byte[] buffer, int offset)
         {
             if (buffer == null)
             {
@@ -259,7 +259,7 @@ namespace Network
         /// <param name="buffer">The byte array containing data from the network.</param>
         /// <param name="offset">The given offset.</param>
         /// <returns>The integer that represents the bytes read.</returns>
-        public static int ReadInt(byte[] buffer, int offset)
+        public static int ReadInt32(byte[] buffer, int offset)
         {
             if (buffer == null)
             {

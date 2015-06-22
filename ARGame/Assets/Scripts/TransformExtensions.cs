@@ -13,6 +13,7 @@
 // </copyright>
 //----------------------------------------------------------------------------
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /// <summary>
 /// Extension methods for the Transform class.
@@ -39,6 +40,7 @@ public static class TransformExtensions
     /// <param name="matrix">The Matrix to apply, not null</param>
     public static void SetFromMatrix(this Transform transform, Matrix4x4 matrix)
     {
+        Assert.IsNotNull(transform);
         transform.localPosition = ExtractTranslationFromMatrix(ref matrix);
         transform.localRotation = ExtractRotationFromMatrix(ref matrix);
         transform.localScale = ExtractScaleFromMatrix(ref matrix);
@@ -56,6 +58,7 @@ public static class TransformExtensions
     /// <param name="label">The label to apply to the transform.</param>
     public static void LogAs(this Transform transform, string label)
     {
+        Assert.IsNotNull(transform);
         Debug.LogError(label + ": " + transform.position.ToString("G4")
             + ", " + transform.eulerAngles.ToString("G4")
             + ", " + transform.lossyScale.ToString("G4"));
@@ -64,17 +67,18 @@ public static class TransformExtensions
     /// <summary>
     /// Extracts the highest parent from this transform.
     /// </summary>
-    /// <param name="t">The transform to extract the parent from.</param>
+    /// <param name="transform">The transform to extract the parent from.</param>
     /// <returns>The highest parent.</returns>
-    public static Transform GetHighestParent(this Transform t)
+    public static Transform GetHighestParent(this Transform transform)
     {
-        Transform t1 = t;
-        while (t1.parent != null)
+        Assert.IsNotNull(transform);
+        Transform current = transform;
+        while (current.parent != null)
         {
-            t1 = t1.parent;
+            current = current.parent;
         }
 
-        return t1;
+        return current;
     }
 
     /// <summary>

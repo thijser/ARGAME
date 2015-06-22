@@ -14,7 +14,7 @@ namespace AltProg.CleanEmptyDir
         const string CLEAN_ON_SAVE_KEY = "k1";
         static bool cleanOnSave;
 
-        public static event Action OnAutoClean;
+        public static event Action<object,EventArgs> OnAutoClean;
 
         // UnityEditor.AssetModificationProcessor
         public static string[] OnWillSaveAssets(string[] paths)
@@ -30,7 +30,7 @@ namespace AltProg.CleanEmptyDir
                     Debug.Log( "[Clean] Cleaned Empty Directories on Save" );
 
                     if ( OnAutoClean != null )
-                        OnAutoClean();
+                        OnAutoClean(typeof(Core), new EventArgs());
                 }
             }
 

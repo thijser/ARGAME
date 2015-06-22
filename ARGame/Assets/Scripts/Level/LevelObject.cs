@@ -50,27 +50,34 @@ namespace Level
         }
 
         /// <summary>
-        /// Returns pair ID of portal if this object is one.
+        /// Gets the pair Id of portal if this object is one.
+        /// <para>
+        /// This property is <c>-1</c> if this <see cref="LevelObject"/> is not 
+        /// a portal.
+        /// </para>
         /// </summary>
-        /// <returns>Portal pair ID of this object.</returns>
-        public int GetPortalPair()
+        /// <seealso cref="LevelObject.IsPortal"/>
+        public int PortalPair
         {
-            switch (this.Type)
+            get
             {
-                case TileType.PortalEntryOne:
-                case TileType.PortalExitOne:
-                    return 0;
+                switch (this.Type)
+                {
+                    case TileType.PortalEntryOne:
+                    case TileType.PortalExitOne:
+                        return 0;
 
-                case TileType.PortalEntryTwo:
-                case TileType.PortalExitTwo:
-                    return 1;
+                    case TileType.PortalEntryTwo:
+                    case TileType.PortalExitTwo:
+                        return 1;
 
-                case TileType.PortalEntryThree:
-                case TileType.PortalExitThree:
-                    return 2;
+                    case TileType.PortalEntryThree:
+                    case TileType.PortalExitThree:
+                        return 2;
 
-                default:
-                    return -1;
+                    default:
+                        return -1;
+                }
             }
         }
 

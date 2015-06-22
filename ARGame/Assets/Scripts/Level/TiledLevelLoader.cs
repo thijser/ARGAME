@@ -24,7 +24,7 @@ namespace Level
     public class TiledLevelLoader
     {
         /// <summary>
-        /// The ID of the virtual level marker.
+        /// The Id of the virtual level marker.
         /// </summary>
         private const int LevelMarkerID = 13379001;
 
@@ -55,7 +55,7 @@ namespace Level
                 this.LoadPrefabs();
             }
 
-            KeyValuePair<LevelDescriptor, List<LevelObject>> levelInfo = this.LoadLevel(path);
+            KeyValuePair<LevelDescriptor, List<LevelObject>> levelInfo = LoadLevel(path);
             GameObject level = this.ConstructLevel(levelInfo.Key, levelInfo.Value);
 
             return level;
@@ -73,7 +73,7 @@ namespace Level
             {
                 if (obj.IsPortal())
                 {
-                    int pair = obj.GetPortalPair();
+                    int pair = obj.PortalPair;
 
                     if (portals[pair] == null)
                     {
@@ -237,6 +237,24 @@ namespace Level
         }
 
         /// <summary>
+        /// Loads the Tiled level given by the specified path.
+        /// </summary>
+        /// <param name="path">Path to level file in Resources.</param>
+        /// <returns>Info about parsed level.</returns>
+        private static KeyValuePair<LevelDescriptor, List<LevelObject>> LoadLevel(string path)
+        {
+            try
+            {
+                string xml = (Resources.Load(path) as TextAsset).text;
+                return ParseLevel(xml);
+            }
+            catch (NullReferenceException)
+            {
+                throw new ArgumentException("Invalid level path (" + path + ").");
+            }
+        }
+
+        /// <summary>
         /// Constructs the game objects from objects within a level.
         /// </summary>
         /// <param name="level">Level descriptor.</param>
@@ -271,29 +289,11 @@ namespace Level
             if (GameObject.Find("MetaWorld") != null)
             {
                 Marker marker = parent.AddComponent<Marker>();
-                marker.ID = LevelMarkerID;
+                marker.Id = LevelMarkerID;
                 marker.RemotePosition = new MarkerPosition(-8f * levelPosition, Quaternion.identity, DateTime.Now, 8f * new Vector3(-1, 1, -1), LevelMarkerID);
             }
 
             return parent;
-        }
-
-        /// <summary>
-        /// Loads the Tiled level given by the specified path.
-        /// </summary>
-        /// <param name="path">Path to level file in Resources.</param>
-        /// <returns>Info about parsed level.</returns>
-        private KeyValuePair<LevelDescriptor, List<LevelObject>> LoadLevel(string path)
-        {
-            try
-            {
-                string xml = (Resources.Load(path) as TextAsset).text;
-                return ParseLevel(xml);
-            }
-            catch (NullReferenceException)
-            {
-                throw new ArgumentException("Invalid level path (" + path + ").");
-            }
         }
 
         /// <summary>

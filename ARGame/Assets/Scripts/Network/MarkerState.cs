@@ -39,7 +39,7 @@ namespace Network
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkerState"/> class.
         /// </summary>
-        /// <param name="id">The marker ID.</param>
+        /// <param name="id">The marker Id.</param>
         /// <param name="referenceMarker">The GameObject that the MarkerState represents.</param>
         public MarkerState(int id, GameObject referenceMarker)
         {
@@ -60,7 +60,7 @@ namespace Network
         }
 
         /// <summary>
-        /// Gets the ID of the Marker.
+        /// Gets the Id of the Marker.
         /// </summary>
         public int ID { get; private set; }
 
@@ -113,7 +113,7 @@ namespace Network
                 throw new ArgumentNullException("serverUpdate");
             }
 
-            Assert.AreEqual(this.ID, serverUpdate.ID, "ID mismatch");
+            Assert.AreEqual(this.ID, serverUpdate.Id, "ID mismatch");
             switch (serverUpdate.Type)
             {
                 case UpdateType.UpdatePosition:

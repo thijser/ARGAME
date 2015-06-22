@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="PositionPreviewer.cs" company="Delft University of Technology">
+// <copyright file="RemoteMarkerHolder.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -47,12 +47,12 @@ namespace Network
                 throw new ArgumentNullException("update");
             }
 
-            if (!this.markers.ContainsKey(update.ID))
+            if (!this.markers.ContainsKey(update.Id))
             {
-                this.markers[update.ID] = new MarkerState(update.ID, this.ReferenceMarker);
+                this.markers[update.Id] = new MarkerState(update.Id, this.ReferenceMarker);
             }
 
-            this.markers[update.ID].Update(update);
+            this.markers[update.Id].Update(update);
         }
 
         /// <summary>

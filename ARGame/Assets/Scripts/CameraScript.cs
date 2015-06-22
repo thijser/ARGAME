@@ -7,7 +7,9 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
+using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /// <summary>
 /// Enumeration describing the movement style of the camera.
@@ -93,19 +95,13 @@ public class CameraScript : MonoBehaviour
                 this.CentreRotate();
                 return;
             case Cameratype.FollowPlayerMode:
-                this.FollowPlayer();
+                //// this.FollowPlayer();
                 return;
             case Cameratype.FixedPositionMode:
-                this.FreeArrowCam();
                 return;
+            default:
+                throw new InvalidOperationException("Unsupported Camera Type");
         }
-    }
-
-    /// <summary>
-    /// Make the camera follow the player.
-    /// </summary>
-    public void FollowPlayer()
-    {
     }
 
     /// <summary>
@@ -152,6 +148,7 @@ public class CameraScript : MonoBehaviour
     /// <param name="speed">The Speed with which to move.</param>
     public void SmoothMoveToTarget(Transform target, float desiredDistance, float speed)
     {
+        Assert.IsNotNull(target);
         Vector3 dist = target.position - transform.position;
         float spc = dist.magnitude - desiredDistance;
         transform.Translate(dist * spc * speed);
@@ -169,6 +166,7 @@ public class CameraScript : MonoBehaviour
     /// <returns>The new rotation for this camera.</returns>
     public Quaternion SmoothLookAt(Transform target)
     {
+        Assert.IsNotNull(target);
         Vector3 dir = transform.position - target.position;
         Quaternion qdir = Quaternion.Euler(dir);
         return Quaternion.Slerp(transform.rotation, qdir, Time.deltaTime * this.AutoSpeed);
@@ -180,12 +178,5 @@ public class CameraScript : MonoBehaviour
     public void FreeArrowCam()
     {
         this.ArrowMove();
-    }
-
-    /// <summary>
-    /// Does nothing.
-    /// </summary>
-    public void FixedPosition()
-    {
     }
 }

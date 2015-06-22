@@ -334,7 +334,7 @@ namespace UnityTest
                 Debug.Log(currentTest.gameObject.name + " is excluded on this platform");
             }
 
-            // don't ignore test if user initiated it from the runner and it's the only test that is being run
+            // don'transform ignore test if user initiated it from the runner and it's the only test that is being run
             if (currentTest != null
                 && (currentTest.IsIgnored()
                     && !(isInitializedByRunner && m_ResultList.Count == 1)))

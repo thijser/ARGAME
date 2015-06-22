@@ -23,13 +23,13 @@ namespace Network
         /// <param name="type">The type of the PositionUpdate.</param>
         /// <param name="coordinate">A 2D coordinate containing the x- and y-coordinate.</param>
         /// <param name="rotation">The rotation.</param>
-        /// <param name="id">The unique ID of the marker.</param>
+        /// <param name="id">The unique Id of the marker.</param>
         public PositionUpdate(UpdateType type, Vector2 coordinate, float rotation, int id)
         {
             this.Type = type;
             this.Coordinate = coordinate;
             this.Rotation = rotation;
-            this.ID = id;
+            this.Id = id;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Network
         public override int GetHashCode()
         {
             int hash = this.Type.GetHashCode();
-            hash = (5 * hash) + this.ID;
+            hash = (5 * hash) + this.Id;
             hash = (5 * hash) + this.Coordinate.x.GetHashCode();
             hash = (5 * hash) + this.Coordinate.y.GetHashCode();
             return hash;
@@ -81,7 +81,7 @@ namespace Network
             return this.Type == that.Type
                 && this.Coordinate.x == that.Coordinate.x
                 && this.Coordinate.y == that.Coordinate.y
-                && this.ID == that.ID;
+                && this.Id == that.Id;
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Network
         /// </returns>
         public override string ToString()
         {
-            return "[PositionUpdate: Type<" + this.Type + ">, ID<" + this.ID +
+            return "[PositionUpdate: Type<" + this.Type + ">, ID<" + this.Id +
                 ">, X<" + this.Coordinate.x + ">, Y<" + this.Coordinate.y + ">]";
         }
     }

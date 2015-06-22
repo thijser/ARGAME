@@ -32,7 +32,7 @@ namespace Network
         public LevelUpdate(int index, Vector2 size)
         {
             this.Type = UpdateType.Level;
-            this.ID = -1;
+            this.Id = -1;
             if (size.x <= 0 || size.y <= 0)
             {
                 throw new ArgumentOutOfRangeException("size", size, "The board must have positive dimensions");

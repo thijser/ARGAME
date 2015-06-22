@@ -116,6 +116,18 @@ namespace Core.Receiver
         }
 
         /// <summary>
+        /// Tests whether the <c>actual</c> color channel value is close enough 
+        /// to the <c>expected</c> value to be considered equal.
+        /// </summary>
+        /// <param name="expected">The expected value.</param>
+        /// <param name="actual">The actual value.</param>
+        /// <returns>True if they are roughly equal, false otherwise.</returns>
+        private static bool MatchExpectedChannel(float expected, float actual)
+        {
+            return actual >= expected * 0.9f && actual <= expected * 1.1f;
+        }
+
+        /// <summary>
         /// Ensures the color of the crystal is correct.
         /// </summary>
         private void EnsureCrystalColor()
@@ -141,21 +153,9 @@ namespace Core.Receiver
         /// on all RGB strengths), false otherwise.</returns>
         private bool IsHitColorSufficient(Color hit)
         {
-            return this.MatchExpectedChannel(this.TargetColor.r, hit.r)
-                && this.MatchExpectedChannel(this.TargetColor.g, hit.g)
-                && this.MatchExpectedChannel(this.TargetColor.b, hit.b);
-        }
-
-        /// <summary>
-        /// Tests whether the <c>actual</c> color channel value is close enough 
-        /// to the <c>expected</c> value to be considered equal.
-        /// </summary>
-        /// <param name="expected">The expected value.</param>
-        /// <param name="actual">The actual value.</param>
-        /// <returns>True if they are roughly equal, false otherwise.</returns>
-        private bool MatchExpectedChannel(float expected, float actual)
-        {
-            return actual >= expected * 0.9f && actual <= expected * 1.1f;
+            return MatchExpectedChannel(this.TargetColor.r, hit.r)
+                && MatchExpectedChannel(this.TargetColor.g, hit.g)
+                && MatchExpectedChannel(this.TargetColor.b, hit.b);
         }
     }
 }

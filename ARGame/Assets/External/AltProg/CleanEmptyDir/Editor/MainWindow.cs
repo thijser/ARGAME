@@ -50,7 +50,7 @@ namespace AltProg.CleanEmptyDir
             this.updateMsg = updateMsg;
         }*/
 
-        void Core_OnAutoClean()
+        void Core_OnAutoClean(object sender, EventArgs e)
         {
             delayedNotiMsg = "Cleaned on Save";
         }

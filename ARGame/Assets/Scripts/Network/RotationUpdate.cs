@@ -20,12 +20,12 @@ namespace Network
         /// </summary>
         /// <param name="type">The serverUpdate type.</param>
         /// <param name="rotation">The rotation.</param>
-        /// <param name="id">The ID of this serverUpdate.</param>
+        /// <param name="id">The Id of this serverUpdate.</param>
         public RotationUpdate(UpdateType type, float rotation, int id)
         {
             this.Type = type;
             this.Rotation = rotation;
-            this.ID = id;
+            this.Id = id;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Network
                 return false;
             }
 
-            return this.ID == that.ID && this.Rotation == that.Rotation;
+            return this.Id == that.Id && this.Rotation == that.Rotation;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Network
         /// <returns>a hash code.</returns>
         public override int GetHashCode()
         {
-            return (typeof(RotationUpdate).GetHashCode() * this.ID) ^ this.Rotation.GetHashCode();
+            return (typeof(RotationUpdate).GetHashCode() * this.Id) ^ this.Rotation.GetHashCode();
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Network
         /// <returns>A string describing this RotationUpdate.</returns>
         public override string ToString()
         {
-            return "<RotationUpdate[ID=" + this.ID + ", Rotation=" + this.Rotation + "]>";
+            return "<RotationUpdate[ID=" + this.Id + ", Rotation=" + this.Rotation + "]>";
         }
     }
 }

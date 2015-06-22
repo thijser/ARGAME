@@ -21,27 +21,27 @@ namespace Projection
     public class MarkerTest : MirrorsUnitTest
     {
         /// <summary>
-        /// Tests if setting the marker ID also updates the ID.
+        /// Tests if setting the marker Id also updates the Id.
         /// </summary>
         [Test]
         public void TestGetSetIDOnce()
         {
             Marker marker = GameObjectFactory.Create<Marker>();
-            marker.ID = 12;
-            Assert.AreEqual(12, marker.ID);
+            marker.Id = 12;
+            Assert.AreEqual(12, marker.Id);
         }
 
         /// <summary>
-        /// Tests if setting the marker ID multiple times does not 
-        /// change the marker ID after the first set.
+        /// Tests if setting the marker Id multiple times does not 
+        /// change the marker Id after the first set.
         /// </summary>
         [Test]
         public void TestGetSetIDMultipleTimes()
         {
             Marker marker = GameObjectFactory.Create<Marker>();
-            marker.ID = 3;
-            marker.ID = 12;
-            Assert.AreEqual(3, marker.ID);
+            marker.Id = 3;
+            marker.Id = 12;
+            Assert.AreEqual(3, marker.Id);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Projection
         public void TestUpdatePositionAsParent()
         {
             Marker parent = GameObjectFactory.Create<Marker>();
-            parent.ID = 4;
+            parent.Id = 4;
             parent.LocalPosition = new MarkerPosition(new Vector3(2, 5, 8), Quaternion.Euler(12, 15, 20), DateTime.Now, new Vector3(4, 5, 6), 4);
             parent.RemotePosition = new MarkerPosition(new Vector3(3, 7, 12), Quaternion.Euler(0, 5, 10), DateTime.Now, new Vector3(7, 8, 9), 4);
             parent.UpdatePosition(parent.TransformMatrix);
@@ -71,7 +71,7 @@ namespace Projection
         public void TestUpdatePositionAsParentWithoutRemoteLocation()
         {
             Marker parent = GameObjectFactory.Create<Marker>();
-            parent.ID = 4;
+            parent.Id = 4;
             parent.LocalPosition = new MarkerPosition(new Vector3(2, 5, 8), Quaternion.Euler(12, 15, 20), DateTime.Now, new Vector3(4, 5, 6), 4);
             parent.UpdatePosition(parent.TransformMatrix);
 
@@ -96,12 +96,12 @@ namespace Projection
         public void TestUpdatePositionAsChildSimpleCase()
         {
             Marker parent = GameObjectFactory.Create<Marker>();
-            parent.ID = 8;
+            parent.Id = 8;
             parent.RemotePosition = new MarkerPosition(new Vector3(30, 0, 20), Quaternion.identity, DateTime.Now, new Vector3(5, 5, 1), 8);
             parent.LocalPosition = new MarkerPosition(new Vector3(20, 0, 40), Quaternion.Euler(0, 90, 0), DateTime.Now, new Vector3(5, 5, 1), 8);
 
             Marker child = GameObjectFactory.Create<Marker>();
-            child.ID = 3;
+            child.Id = 3;
             child.RemotePosition = new MarkerPosition(new Vector3(25, 0, 30), Quaternion.Euler(0, -90, 0), DateTime.Now, new Vector3(5, 5, 1), 3);
 
             MarkerPosition expected = new MarkerPosition(new Vector3(30, 0, 45), Quaternion.identity, DateTime.Now, new Vector3(5, 5, 1), 3);
@@ -121,12 +121,12 @@ namespace Projection
         public void TestUpdatePositionAsChildIdenticalCase()
         {
             Marker parent = GameObjectFactory.Create<Marker>();
-            parent.ID = 8;
+            parent.Id = 8;
             parent.RemotePosition = new MarkerPosition(new Vector3(30, 0, 20), Quaternion.Euler(0, -23, 0), DateTime.Now, new Vector3(8, 5, 1), 8);
             parent.LocalPosition = parent.RemotePosition;
 
             Marker child = GameObjectFactory.Create<Marker>();
-            child.ID = 3;
+            child.Id = 3;
             MarkerPosition expected = new MarkerPosition(new Vector3(25, 0, 30), Quaternion.Euler(0, -87, 0), DateTime.Now, new Vector3(6, 10, 1), 3);
             child.RemotePosition = expected;
 
@@ -145,12 +145,12 @@ namespace Projection
         public void TestUpdatePositionRotateAroundXAxis()
         {
             Marker parent = GameObjectFactory.Create<Marker>();
-            parent.ID = 10;
+            parent.Id = 10;
             parent.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 10);
             parent.LocalPosition = new MarkerPosition(Vector3.zero, Quaternion.Euler(-90, 0, 0), DateTime.Now, Vector3.one, 10);
 
             Marker child = GameObjectFactory.Create<Marker>();
-            child.ID = 7;
+            child.Id = 7;
             child.RemotePosition = new MarkerPosition(new Vector3(20, 0, 10), Quaternion.identity, DateTime.Now, Vector3.one, 7);
             child.UpdatePosition(parent.TransformMatrix);
 
@@ -169,12 +169,12 @@ namespace Projection
         public void TestUpdatePositionWithRotationAndTranslation()
         {
             Marker parent = GameObjectFactory.Create<Marker>();
-            parent.ID = 10;
+            parent.Id = 10;
             parent.RemotePosition = new MarkerPosition(Vector3.zero, Quaternion.identity, DateTime.Now, Vector3.one, 10);
             parent.LocalPosition = new MarkerPosition(new Vector3(10, 30, 20), Quaternion.Euler(-90, 0, 0), DateTime.Now, Vector3.one, 10);
 
             Marker child = GameObjectFactory.Create<Marker>();
-            child.ID = 7;
+            child.Id = 7;
             child.RemotePosition = new MarkerPosition(new Vector3(20, 0, 10), Quaternion.identity, DateTime.Now, Vector3.one, 7);
             child.UpdatePosition(parent.TransformMatrix);
 
@@ -198,12 +198,12 @@ namespace Projection
         {
             Quaternion rotation = Quaternion.Euler(87, 23, 15);
             Marker parent = GameObjectFactory.Create<Marker>();
-            parent.ID = 10;
+            parent.Id = 10;
             parent.RemotePosition = new MarkerPosition(new Vector3(40, 40, 0), rotation, DateTime.Now, Vector3.one, 10);
             parent.LocalPosition = new MarkerPosition(new Vector3(-40, -20, 0), rotation, DateTime.Now, Vector3.one / 2, 10);
 
             Marker child = GameObjectFactory.Create<Marker>();
-            child.ID = 7;
+            child.Id = 7;
             child.RemotePosition = new MarkerPosition(new Vector3(35, 20, 0), rotation, DateTime.Now, Vector3.one, 7);
             child.UpdatePosition(parent.TransformMatrix);
 
@@ -227,7 +227,7 @@ namespace Projection
         {
             float scale = -0.005f;
             Marker parent = GameObjectFactory.Create<Marker>();
-            parent.ID = 4;
+            parent.Id = 4;
             parent.RemotePosition = new MarkerPosition(
                 new Vector3(32.4f, 0, 61.5f), 
                 Quaternion.identity, 
@@ -242,7 +242,7 @@ namespace Projection
                 4);
 
             Marker child = GameObjectFactory.Create<Marker>();
-            child.ID = 5;
+            child.Id = 5;
             child.RemotePosition = new MarkerPosition(
                 new Vector3(28.4f, 0, 44.6f), 
                 Quaternion.Euler(0, -90f, -180f), 

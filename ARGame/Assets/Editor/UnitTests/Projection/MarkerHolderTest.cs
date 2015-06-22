@@ -42,13 +42,13 @@ namespace Projection
         {
             MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
             Marker marker = GameObjectFactory.Create<Marker>();
-            marker.ID = 4;
+            marker.Id = 4;
             updater.OnMarkerRegister(new MarkerRegister(marker));
             Assert.Null(updater.Parent);
         }
 
         /// <summary>
-        /// Tests whether the correct exception is thrown when an invalid ID
+        /// Tests whether the correct exception is thrown when an invalid Id
         /// is requested.
         /// </summary>
         [Test]
@@ -69,7 +69,7 @@ namespace Projection
         {
             MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
             Marker parent = GameObjectFactory.Create<Marker>();
-            parent.ID = 54;
+            parent.Id = 54;
             updater.OnMarkerRegister(new MarkerRegister(parent));
             Assert.AreEqual(parent, updater.GetMarker(54));
         }
@@ -106,7 +106,7 @@ namespace Projection
         {
             MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
             Marker marker = GameObjectFactory.Create<Marker>();
-            marker.ID = 12;
+            marker.Id = 12;
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 34, 12);
             updater.OnMarkerRegister(new MarkerRegister(marker));
             updater.OnPositionUpdate(update);
@@ -125,14 +125,14 @@ namespace Projection
         {
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 0, 5);
             Marker marker = GameObjectFactory.Create<Marker>();
-            marker.ID = 6;
+            marker.Id = 6;
 
             MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
             updater.OnMarkerRegister(new MarkerRegister(marker));
             updater.OnPositionUpdate(update);
 
             // Assert the marker data is not changed.
-            Assert.AreEqual(6, marker.ID);
+            Assert.AreEqual(6, marker.Id);
             Assert.Null(updater.Parent);
             Assert.Null(marker.LocalPosition);
             Assert.Null(marker.RemotePosition);
@@ -191,7 +191,7 @@ namespace Projection
         {
             MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
             Marker marker = GameObjectFactory.Create<Marker>();
-            marker.ID = 12;
+            marker.Id = 12;
             RotationUpdate update = new RotationUpdate(UpdateType.UpdateRotation, 180, 12);
             updater.OnMarkerRegister(new MarkerRegister(marker));
             updater.OnRotationUpdate(update);

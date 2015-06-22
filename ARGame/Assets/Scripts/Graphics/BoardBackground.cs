@@ -9,8 +9,10 @@
 //----------------------------------------------------------------------------
 namespace Graphics
 {
+    using System.Globalization;
     using System.Net;
     using UnityEngine;
+    using UnityEngine.Assertions;
 
     /// <summary>
     /// Loads a dynamic board texture from a HTTP webserver.
@@ -58,8 +60,9 @@ namespace Graphics
         /// <param name="endPoint">The IP EndPoint of the Socket.</param>
         public void OnSocketStart(IPEndPoint endPoint)
         {
+            Assert.IsNotNull(endPoint);
             this.IPAddress = endPoint.Address.ToString();
-            this.Port = (endPoint.Port + 1).ToString();
+            this.Port = (endPoint.Port + 1).ToString(CultureInfo.InvariantCulture);
             if (this.webpage == null)
             {
                 this.GrabImage();
