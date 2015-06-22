@@ -66,7 +66,7 @@ namespace AltProg.CleanEmptyDir
             /* Format:
             {
                 "last_ver" : "1.0",
-                "last_ver_msg" : ["New Update 1.0", "Learn More", "http://altprog.com/unity-asset"];
+                "last_ver_msg" : ["New UpdatePosition 1.0", "Learn More", "http://altprog.com/unity-asset"];
                 "msgs" : [ 
                         ["msg 1", "btn 1", "link1"],
                         ["msg 2", "btn 2", "link1"]]

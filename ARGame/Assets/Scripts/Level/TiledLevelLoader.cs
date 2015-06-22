@@ -15,6 +15,7 @@ namespace Level
     using Core;
     using Core.Receiver;
     using UnityEngine;
+    using System.Globalization;
 
     /// <summary>
     /// Level loader that loads levels created with the Tiled map editor.
@@ -190,14 +191,14 @@ namespace Level
             var tilesetNode = levelDoc.SelectSingleNode("//tileset");
 
             // Read data from them
-            levelDescriptor.Width = int.Parse(mapNode.Attributes["width"].Value);
-            levelDescriptor.Height = int.Parse(mapNode.Attributes["height"].Value);
+            levelDescriptor.Width = int.Parse(mapNode.Attributes["width"].Value, CultureInfo.InvariantCulture);
+            levelDescriptor.Height = int.Parse(mapNode.Attributes["height"].Value, CultureInfo.InvariantCulture);
 
-            levelDescriptor.TileWidth = int.Parse(tilesetNode.Attributes["tilewidth"].Value);
-            levelDescriptor.TileHeight = int.Parse(tilesetNode.Attributes["tileheight"].Value);
+            levelDescriptor.TileWidth = int.Parse(tilesetNode.Attributes["tilewidth"].Value, CultureInfo.InvariantCulture);
+            levelDescriptor.TileHeight = int.Parse(tilesetNode.Attributes["tileheight"].Value, CultureInfo.InvariantCulture);
 
-            levelDescriptor.HorizontalTiles = int.Parse(imageNode.Attributes["width"].Value) / levelDescriptor.TileWidth;
-            levelDescriptor.VerticalTiles = int.Parse(imageNode.Attributes["height"].Value) / levelDescriptor.TileHeight;
+            levelDescriptor.HorizontalTiles = int.Parse(imageNode.Attributes["width"].Value, CultureInfo.InvariantCulture) / levelDescriptor.TileWidth;
+            levelDescriptor.VerticalTiles = int.Parse(imageNode.Attributes["height"].Value, CultureInfo.InvariantCulture) / levelDescriptor.TileHeight;
 
             return levelDescriptor;
         }
@@ -217,7 +218,7 @@ namespace Level
 
             foreach (XmlNode tileNode in levelDoc.SelectNodes("//tile"))
             {
-                int gid = int.Parse(tileNode.Attributes["gid"].Value);
+                int gid = int.Parse(tileNode.Attributes["gid"].Value, CultureInfo.InvariantCulture);
 
                 // Bug in Tiled where it sometimes outputs tiles with gid 1 as 0
                 gid = Math.Max(1, gid);
@@ -237,7 +238,7 @@ namespace Level
                     levelObjects.Add(new LevelObject(type, pos, rotation));
                 }
 
-                // Update X, Y position
+                // UpdatePosition X, Y position
                 if (x + 1 == level.Width)
                 {
                     y++;

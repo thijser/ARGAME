@@ -14,7 +14,7 @@ namespace Core
     using UnityEngine;
 
     /// <summary>
-    /// Resizes the board when a level update is received with a new board size.
+    /// Resizes the board when a level serverUpdate is received with a new board size.
     /// </summary>
     public class BoardResizer : MonoBehaviour
     {
@@ -26,7 +26,7 @@ namespace Core
         /// does nothing.
         /// </para>
         /// </summary>
-        /// <param name="update">The server update.</param>
+        /// <param name="serverUpdate">The server serverUpdate.</param>
         public void OnServerUpdate(AbstractUpdate update)
         {
             LevelUpdate level = update as LevelUpdate;
@@ -48,7 +48,7 @@ namespace Core
                 .FirstOrDefault(t => t.gameObject.tag == "PlayingBoard");
             if (board != null)
             {
-				Vector3 scale = new Vector3(-size.x, (size.x+size.y)/2, size.y);
+                Vector3 scale = new Vector3(-size.x, board.localScale.y, size.y);
                 board.localScale = scale;
                 return true;
             }

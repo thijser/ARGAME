@@ -98,7 +98,7 @@ namespace Graphics
         /// </summary>
         public void Update()
         {
-            // Update line material
+            // UpdatePosition line material
             this.meshRenderer.material = this.LineMaterial;
 
             // Create mesh that represents line
@@ -115,7 +115,7 @@ namespace Graphics
                 this.TransformWorldToLocal(vertices);
             }
 
-            // Update mesh and render bounds
+            // UpdatePosition mesh and render bounds
             mesh.triangles = new int[0];
 
             mesh.vertices = vertices.ToArray();
@@ -159,7 +159,7 @@ namespace Graphics
         /// <summary>
         /// Set a certain position in the line sequence.
         /// </summary>
-        /// <param name="index">Position index, between 0 and <c>Positions.Count</c>.</param>
+        /// <param name="index">position index, between 0 and <c>Positions.Count</c>.</param>
         /// <param name="position">New position value.</param>
         public void SetPosition(int index, Vector3 position)
         {

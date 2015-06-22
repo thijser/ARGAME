@@ -98,7 +98,7 @@ namespace Vision
             public MarkerPosition Position { get; private set; }
 
             /// <summary>
-            /// Sets the <c>Position</c> property to the argument <see cref="MarkerPosition"/>.
+            /// Sets the <c>position</c> property to the argument <see cref="MarkerPosition"/>.
             /// </summary>
             /// <param name="position">The <see cref="MarkerPosition"/>.</param>
             public void OnMarkerSeen(MarkerPosition position)

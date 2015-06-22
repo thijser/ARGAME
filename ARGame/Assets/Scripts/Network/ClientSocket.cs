@@ -199,7 +199,7 @@ namespace Network
         /// <summary>
         /// Called whenever the remote player rotates an object.
         /// </summary>
-        /// <param name="update">The RotationUpdate describing the change.</param>
+        /// <param name="serverUpdate">The RotationUpdate describing the change.</param>
         public void OnRotationChanged(RotationUpdate update)
         {
             this.socket.Send(MessageProcessor.WriteRotationUpdate(update));
@@ -208,7 +208,7 @@ namespace Network
         /// <summary>
         /// Called whenever one local player manages to complete the level.
         /// </summary>
-        /// <param name="update">The LevelUpdate describing the change.</param>
+        /// <param name="serverUpdate">The LevelUpdate describing the change.</param>
         public void OnLevelCompleted(LevelUpdate update)
         {
             this.socket.Send(MessageProcessor.WriteLevelUpdate(update));

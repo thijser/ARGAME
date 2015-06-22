@@ -55,7 +55,10 @@ namespace Core
             this.Targets = GameObject.FindObjectsOfType<LaserTarget>();
             this.Checks = GameObject.FindObjectsOfType<Checkpoint>();
 
-            if (this.Targets.Length == 0 && this.Checks.Length == 0) return;
+            if (this.Targets.Length == 0 && this.Checks.Length == 0)
+            {
+                return;
+            }
 
             bool win = Array.TrueForAll(
                 this.Targets, 

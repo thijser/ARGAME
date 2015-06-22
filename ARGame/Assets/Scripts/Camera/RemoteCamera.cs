@@ -1,11 +1,35 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /// <summary>
 /// Camera movement behavior for the remote camera view.
 /// </summary>
 public class RemoteCamera : MonoBehaviour
 {
+    /// <summary>
+    /// The Target around which to rotate.
+    /// </summary>
+    public Transform Target;
+
+    /// <summary>
+    /// Whether to enable zooming the camera.
+    /// </summary>
+    public bool AllowZoom;
+
+    /// <summary>
+    /// Gets or sets the horizontal rotation Speed.
+    /// </summary>
+    public float HorizontalAngleSpeed;
+
+    /// <summary>
+    /// Gets or sets the vertical rotation Speed.
+    /// </summary>
+    public float VerticalAngleSpeed;
+
+    /// <summary>
+    /// Gets or sets the Speed with which the distance changes.
+    /// </summary>
+    public float DistanceSpeed;
+
     /// <summary>
     /// Gets or sets the angle of the camera.
     /// </summary>
@@ -16,37 +40,19 @@ public class RemoteCamera : MonoBehaviour
     /// </summary>
     public float Altitude { get; set; }
 
-	public Transform target ;
     /// <summary>
     /// Gets or sets the distance of the camera.
     /// </summary>
-	public float Distance{ get; set; }
-
-    /// <summary>
-    /// Gets or sets the horizontal rotation speed.
-    /// </summary>
-	public float HorizontalAngleSpeed;
-
-    /// <summary>
-    /// Gets or sets the vertical rotation speed.
-    /// </summary>
-	public float VerticalAngleSpeed;
-
-    /// <summary>
-    /// Gets or sets the speed with which the distance changes.
-    /// </summary>
-	public float DistanceSpeed;
-
-	public bool AllowZoom;
+    public float Distance { get; set; }
 
     /// <summary>
     /// Initializes the camera to default values.
     /// </summary>
     public void Start()
     {
-        this.HorizontalAngleSpeed = 2.5f*transform.parent.lossyScale.magnitude;
+        this.HorizontalAngleSpeed = 2.5f * transform.parent.lossyScale.magnitude;
         this.VerticalAngleSpeed = 1.25f;
-		this.DistanceSpeed = 0.18f*transform.parent.lossyScale.magnitude;
+        this.DistanceSpeed = 0.18f * transform.parent.lossyScale.magnitude;
         this.ResetCamera();
     }
 
@@ -102,17 +108,20 @@ public class RemoteCamera : MonoBehaviour
         {
             vertical -= this.VerticalAngleSpeed;
         }
-		if(AllowZoom){
-	        if (Input.GetKey(KeyCode.Minus))
-	        {
-	            distance += this.DistanceSpeed;
-	        }
 
-	        if (Input.GetKey(KeyCode.Equals))
-	        {
-	            distance -= this.DistanceSpeed;
-	        }
-		}
+        if (this.AllowZoom)
+        {
+            if (Input.GetKey(KeyCode.Minus))
+            {
+                distance += this.DistanceSpeed;
+            }
+
+            if (Input.GetKey(KeyCode.Equals))
+            {
+                distance -= this.DistanceSpeed;
+            }
+        }
+
         this.Angle = this.Angle + horizontal;
         this.Altitude = Mathf.Clamp(this.Altitude + vertical, 15, 85);
         this.Distance = Mathf.Clamp(this.Distance + distance, 2.3f, float.PositiveInfinity);
@@ -122,12 +131,9 @@ public class RemoteCamera : MonoBehaviour
     /// Updates the camera position and rotation based on the current values.
     /// </summary>
     public void UpdateCamera()
-	{
-		//Vector3 Globalscale=transform.parent.lossyScale;
-		//transform.localScale=(new Vector3(1/Globalscale.x,1/Globalscale.y,1/Globalscale.z))*transform.parent.lossyScale.magnitude;
-		Vector3 Position= new Vector3(0, 0, -this.Distance);
-		//Position.Scale(transform.localScale);
-		this.GetComponentInChildren<Camera>().transform.position = Position+target.position;
+    {
+        Vector3 position = new Vector3(0, 0, -this.Distance);
+        this.GetComponentInChildren<Camera>().transform.position = position + this.Target.position;
         this.transform.localRotation = Quaternion.Euler(this.Altitude, this.Angle, 0);
     }
 }

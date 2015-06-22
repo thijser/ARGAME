@@ -103,21 +103,21 @@ namespace Network
         }
 
         /// <summary>
-        /// Updates the position of the GameObject with the given PositionUpdate.
+        /// Updates the position of the GameObject with the given update.
         /// </summary>
-        /// <param name="update">The PositionUpdate.</param>
-        public void Update(AbstractUpdate update)
+        /// <param name="serverUpdate">The update from the server.</param>
+        public void UpdatePosition(AbstractUpdate serverUpdate)
         {
-            if (update == null)
+            if (serverUpdate == null)
             {
-                throw new ArgumentNullException("positionupdate");
+                throw new ArgumentNullException("serverUpdate");
             }
 
-            Assert.AreEqual(this.ID, update.ID, "ID mismatch");
-            switch (update.Type)
+            Assert.AreEqual(this.ID, serverUpdate.ID, "ID mismatch");
+            switch (serverUpdate.Type)
             {
                 case UpdateType.UpdatePosition:
-                    PositionUpdate positionUpdate = update as PositionUpdate;
+                    PositionUpdate positionUpdate = serverUpdate as PositionUpdate;
                     Assert.IsNotNull(positionUpdate);
                     this.MoveObject(positionUpdate.Coordinate);
                     break;
@@ -125,7 +125,7 @@ namespace Network
                     this.RemoveObject();
                     break;
                 case UpdateType.UpdateRotation:
-                    RotationUpdate rotationUpdate = update as RotationUpdate;
+                    RotationUpdate rotationUpdate = serverUpdate as RotationUpdate;
                     Assert.IsNotNull(rotationUpdate);
                     this.RotateObject(rotationUpdate.Rotation);
                     break;

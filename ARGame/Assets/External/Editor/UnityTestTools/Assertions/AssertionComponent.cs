@@ -349,15 +349,15 @@ namespace UnityTest
     public interface IAssertionComponentConfigurator
     {
         /// <summary>
-        /// If the assertion is evaluated in Update, after how many frame should the evaluation start. Deafult is 1 (first frame)
+        /// If the assertion is evaluated in UpdatePosition, after how many frame should the evaluation start. Deafult is 1 (first frame)
         /// </summary>
         int UpdateCheckStartOnFrame { set; }
         /// <summary>
-        /// If the assertion is evaluated in Update and UpdateCheckRepeat is true, how many frame should pass between evaluations
+        /// If the assertion is evaluated in UpdatePosition and UpdateCheckRepeat is true, how many frame should pass between evaluations
         /// </summary>
         int UpdateCheckRepeatFrequency { set; }
         /// <summary>
-        /// If the assertion is evaluated in Update, should the evaluation be repeated after UpdateCheckRepeatFrequency frames
+        /// If the assertion is evaluated in UpdatePosition, should the evaluation be repeated after UpdateCheckRepeatFrequency frames
         /// </summary>
         bool UpdateCheckRepeat { set; }
 

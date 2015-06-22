@@ -38,9 +38,9 @@ namespace Network
         /// <summary>
         /// Receives and handles all server updates.
         /// </summary>
-        /// <param name="update">The update to be handled, can be either a
+        /// <param name="serverUpdate">The serverUpdate to be handled, can be either a
         /// PositionUpdate or a RotationUpdate.</param>
-        public void OnServerUpdate(AbstractUpdate update)
+        public void OnPositionUpdate(AbstractUpdate update)
         {
             if (update == null)
             {
@@ -52,7 +52,7 @@ namespace Network
                 this.markers[update.ID] = new MarkerState(update.ID, this.ReferenceMarker);
             }
 
-            this.markers[update.ID].Update(update);
+            this.markers[update.ID].UpdatePosition(update);
         }
 
         /// <summary>

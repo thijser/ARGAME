@@ -1,18 +1,39 @@
 using UnityEngine;
-using System.Collections;
 
-public class GemSpawner : MonoBehaviour {
-	public Transform gem1, gem2, gem3, gem4;
-	public float spread = 5;
+public class GemSpawner : MonoBehaviour
+{
+    public Transform Gem1;
+    
+    public Transform Gem2;
+    
+    public Transform Gem3;
+    
+    public Transform Gem4;
 
-	void Update () {
-		if (Input.GetKey ("1"))
-			((Transform)Instantiate (gem1)).position = transform.position + Random.insideUnitSphere * spread;
-		if (Input.GetKey ("2"))
-			((Transform)Instantiate (gem2)).position = transform.position + Random.insideUnitSphere * spread;
-		if (Input.GetKey ("3"))
-			((Transform)Instantiate (gem3)).position = transform.position + Random.insideUnitSphere * spread;
-		if (Input.GetKey ("4"))
-			((Transform)Instantiate (gem4)).position = transform.position + Random.insideUnitSphere * spread;
-	}
+    public float Spread = 5;
+
+    public void Update()
+    {
+        Vector3 gemPosition = transform.position + (Random.insideUnitSphere * this.Spread);
+
+        if (Input.GetKey("1"))
+        {
+            Instantiate(this.Gem1).transform.position = gemPosition;
+        }
+
+        if (Input.GetKey("2"))
+        {
+            Instantiate(this.Gem2).transform.position = gemPosition;
+        }
+
+        if (Input.GetKey("3"))
+        {
+            Instantiate(this.Gem3).transform.position = gemPosition;
+        }
+
+        if (Input.GetKey("4"))
+        {
+            Instantiate(this.Gem4).transform.position = gemPosition;
+        }
+    }
 }

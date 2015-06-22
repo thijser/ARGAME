@@ -107,38 +107,40 @@ namespace Level
         /// <param name="path">The path to load from.</param>
         public void LoadLetters(string path)
         {
-            StreamReader reader = new StreamReader(path);
-            int y = 0;
-            this.entries = new List<InputEntry>();
-            while (!reader.EndOfStream)
+            using (StreamReader reader = new StreamReader(path))
             {
-                string line = reader.ReadLine();
-                line = Regex.Replace(line, @"\s+", string.Empty);
-                for (int x = 0; x < line.Length; x++)
+                int y = 0;
+                this.entries = new List<InputEntry>();
+                while (!reader.EndOfStream)
                 {
-                    InputEntry ie = new InputEntry();
-                    ie.Type = line[x];
-                    x++;
-                    ie.Direction = line[x];
-                    ie.Position =  new Vector2(x / 2, y);
-                    
-                    if (x / 2 > this.size.x)
+                    string line = reader.ReadLine();
+                    line = Regex.Replace(line, @"\s+", string.Empty);
+                    for (int x = 0; x < line.Length; x += 2)
                     {
-                        this.size.x = x / 2;
+                        InputEntry ie = new InputEntry();
+                        ie.Type = line[x];
+
+                        ie.Direction = line[x + 1];
+                        ie.Position = new Vector2(x / 2, y);
+
+                        if (x / 2 > this.size.x)
+                        {
+                            this.size.x = x / 2;
+                        }
+
+                        if (y > this.size.y)
+                        {
+                            this.size.y = y;
+                        }
+
+                        if (ie.Type != '.')
+                        {
+                            this.entries.Add(ie);
+                        }
                     }
 
-                    if (y > this.size.y)
-                    {
-                        this.size.y = y;
-                    }
-
-                    if (ie.Type != '.')
-                    {
-                        this.entries.Add(ie);
-                    }
+                    y++;
                 }
-
-                y++;
             }
         }
 
@@ -149,6 +151,11 @@ namespace Level
         /// <returns>The created GameObject.</returns>
         public GameObject ConstructEntry(InputEntry entry)
         {
+            if (entry == null)
+            {
+                throw new ArgumentNullException("entry");
+            }
+
             GameObject prefab = this.indexes[entry.Type];
             GameObject levelObject = GameObject.Instantiate(prefab);
             levelObject.transform.localRotation = Quaternion.Euler(0f, entry.Angle, 0f);
@@ -176,10 +183,10 @@ namespace Level
                 go.transform.localPosition = new Vector3((int)ie.Position.x, 0, (int)ie.Position.y);
             }
 
-            Vector2 origin = this.BoardSize / 2f - this.size / 2f;
+            Vector2 origin = (this.BoardSize - this.size) / 2f;
             Vector3 position = new Vector3(-this.BoardSize.x + origin.x, 0, origin.y);
 
-            // The remote player does not use the `Marker.RemotePosition`, but we can update that case by simply 
+            // The remote player does not use the `Marker.RemotePosition`, but we can serverUpdate that case by simply 
             // setting the position here.
             this.level.transform.localPosition = position;
 

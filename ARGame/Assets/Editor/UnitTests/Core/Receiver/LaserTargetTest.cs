@@ -22,7 +22,7 @@ namespace Core.Receiver
     public class LaserTargetTest : MirrorsUnitTest
     {
         /// <summary>
-        /// Tests if the laser target is not opening when 
+        /// Tests if the laser Target is not opening when 
         /// no laser hits it.
         /// </summary>
         [Test]

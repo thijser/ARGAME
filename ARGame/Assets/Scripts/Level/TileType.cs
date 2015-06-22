@@ -31,17 +31,17 @@
         EmitterB = 4,
 
         /// <summary>
-        /// Indicates a green target tile.
+        /// Indicates a green Target tile.
         /// </summary>
         TargetG = 5,
 
         /// <summary>
-        /// Indicates a red target tile.
+        /// Indicates a red Target tile.
         /// </summary>
         TargetR = 6,
 
         /// <summary>
-        /// Indicates a blue target tile.
+        /// Indicates a blue Target tile.
         /// </summary>
         TargetB = 7,
 

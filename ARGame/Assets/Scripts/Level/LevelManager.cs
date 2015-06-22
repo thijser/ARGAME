@@ -104,7 +104,6 @@ namespace Level
         /// <param name="levelup">The <see cref="LevelUpdate"/>.</param>
         public void OnLevelUpdate(LevelUpdate levelup)
         {
-            
             if (this.CurrentLevelIndex != levelup.NextLevelIndex || 
                 this.BoardSize != levelup.Size)
             {

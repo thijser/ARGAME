@@ -175,11 +175,11 @@ namespace Projection
         /// <summary>
         /// Called whenever a RotationUpdate is received from the remote server.
         /// <para>
-        /// The <c>update</c> argument should not be null. This method will update the rotation 
-        /// of the object referenced by the update to reflect the change in rotation.
+        /// The <c>serverUpdate</c> argument should not be null. This method will serverUpdate the rotation 
+        /// of the object referenced by the serverUpdate to reflect the change in rotation.
         /// </para>
         /// </summary>
-        /// <param name="update">The rotation update, not null.</param>
+        /// <param name="serverUpdate">The rotation serverUpdate, not null.</param>
         public void OnRotationUpdate(RotationUpdate update)
         {
             if (update == null)
@@ -193,13 +193,13 @@ namespace Projection
         /// <summary>
         /// Updates the location of the marker based on the remote position.
         /// <para>
-        /// The <c>update</c> argument should not be null. The marker with the ID referenced by the update should
+        /// The <c>serverUpdate</c> argument should not be null. The marker with the ID referenced by the serverUpdate should
         /// be registered previously using the <c>OnMarkerRegister(...)</c> method, otherwise this method logs a warning
         /// and returns without affecting any Markers. When the marker is registered, the Marker's remote position is set to 
         /// a <see cref="MarkerPosition"/> object based on the argument.
         /// </para>
         /// </summary>
-        /// <param name="update">The <see cref="PositionUpdate"/>, not null.</param>
+        /// <param name="serverUpdate">The <see cref="PositionUpdate"/>, not null.</param>
         public void OnPositionUpdate(PositionUpdate update)
         {
             if (update == null)

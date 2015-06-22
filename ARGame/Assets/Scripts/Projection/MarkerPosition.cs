@@ -21,7 +21,7 @@ namespace Projection
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkerPosition"/> class.
         /// </summary>
-        /// <param name="update">The update, must be of type UpdatePosition.</param>
+        /// <param name="serverUpdate">The serverUpdate, must be of type UpdatePosition.</param>
         public MarkerPosition(PositionUpdate update)
         {
             if (update == null)
@@ -46,7 +46,7 @@ namespace Projection
         /// </summary>
         /// <param name="position">The position.</param>
         /// <param name="rotation">The rotation.</param>
-        /// <param name="stamp">The timestamp of the update.</param>
+        /// <param name="stamp">The timestamp of the serverUpdate.</param>
         /// <param name="scale">The scale of the object.</param>
         /// <param name="id">The ID of the Marker.</param>
         public MarkerPosition(Vector3 position, Quaternion rotation, DateTime stamp, Vector3 scale, int id)

@@ -24,7 +24,7 @@ namespace TestUtilities
         /// <summary>
         /// Creates and returns a LaserTarget game object.
         /// </summary>
-        /// <returns>The laser target.</returns>
+        /// <returns>The laser Target.</returns>
         public static LaserTarget CreateLaserTarget()
         {
             GameObject gameObject = new GameObject("LaserTarget", typeof(LaserTarget));

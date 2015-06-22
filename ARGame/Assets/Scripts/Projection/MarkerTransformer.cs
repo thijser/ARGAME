@@ -56,7 +56,7 @@ namespace Projection
                         continue;
                     }
                     
-                    // Position relative to level marker in board space
+                    // position relative to level marker in board space
                     Vector3 rel = this.BoardMarkers[i].position - this.BoardMarkers[levelMarkerIdx].position;
 
                     // Transform position to Meta space scale

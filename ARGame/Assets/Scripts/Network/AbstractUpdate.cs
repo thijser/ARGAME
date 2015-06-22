@@ -16,17 +16,17 @@ namespace Network
     public abstract class AbstractUpdate
     {
         /// <summary>
-        /// Gets or sets the type of this update.
+        /// Gets or sets the type of this serverUpdate.
         /// </summary>
         public UpdateType Type { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the ID of this update.
+        /// Gets or sets the ID of this serverUpdate.
         /// </summary>
         public int ID { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the timestamp of this update.
+        /// Gets or sets the timestamp of this serverUpdate.
         /// </summary>
         public long TimeStamp { get; protected set; }
     }

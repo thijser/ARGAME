@@ -18,7 +18,7 @@ namespace Core
     public class TargetColorPicker : MonoBehaviour
     {
         /// <summary>
-        /// The color to update the Renderer with.
+        /// The color to serverUpdate the Renderer with.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public Color Color;
