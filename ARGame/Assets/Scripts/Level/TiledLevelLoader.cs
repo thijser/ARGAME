@@ -94,7 +94,7 @@ namespace Level
             // Add level marker
             Marker marker = parent.AddComponent<Marker>();
             marker.ID = levelMarkerID;
-            marker.RemotePosition = new MarkerPosition(8f * levelPosition, Quaternion.Euler(0, 0, 0), DateTime.Now, 8f * Vector3.one, levelMarkerID);
+            marker.RemotePosition = new MarkerPosition(-8f * levelPosition, Quaternion.identity, DateTime.Now, 8f * new Vector3(-1, 1, -1), levelMarkerID);
 
             return parent;
         }
