@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="20" tileheight="20" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="20" tileheight="20" nextobjectid="1">
  <tileset firstgid="1" name="tiles" tilewidth="20" tileheight="20">
   <image source="tiles.png" width="360" height="160"/>
  </tileset>
- <layer name="Tilelaag 1" width="10" height="10">
+ <layer name="Tilelaag 1" width="9" height="10">
   <data>
    <tile gid="37"/>
    <tile gid="37"/>
    <tile gid="37"/>
    <tile gid="37"/>
-   <tile gid="37"/>
-   <tile gid="37"/>
-   <tile gid="37"/>
-   <tile gid="37"/>
-   <tile gid="37"/>
-   <tile gid="37"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
    <tile gid="7"/>
+   <tile gid="37"/>
+   <tile gid="37"/>
+   <tile gid="37"/>
+   <tile gid="37"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -39,13 +36,11 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
-   <tile gid="2"/>
    <tile gid="1"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
-   <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="55"/>
    <tile gid="55"/>
@@ -59,23 +54,20 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
-   <tile gid="54"/>
    <tile gid="1"/>
-   <tile gid="54"/>
+   <tile gid="1"/>
    <tile gid="55"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
+   <tile gid="18"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
+   <tile gid="18"/>
    <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="109"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="109"/>
@@ -90,17 +82,15 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="109"/>
+   <tile gid="1"/>
+   <tile gid="55"/>
    <tile gid="112"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="109"/>
-   <tile gid="1"/>
-   <tile gid="55"/>
-   <tile gid="1"/>
    <tile gid="109"/>
    <tile gid="109"/>
    <tile gid="109"/>

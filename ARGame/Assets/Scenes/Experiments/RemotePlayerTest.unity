@@ -589,7 +589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a186731744c974cf3bbca6fc8e841a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerAddress: 145.94.146.129
+  ServerAddress: localhost
   ServerPort: 23369
 --- !u!114 &1545639715
 MonoBehaviour:
@@ -664,6 +664,18 @@ Prefab:
       value: Main Camera
       objectReference: {fileID: 0}
     - target: {fileID: 156438, guid: c5cfa8351c2eaf94db7de6f23cf18a06, type: 2}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 156438, guid: c5cfa8351c2eaf94db7de6f23cf18a06, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11498032, guid: c5cfa8351c2eaf94db7de6f23cf18a06, type: 2}
+      propertyPath: Target
+      value: 
+      objectReference: {fileID: 21206010}
+    - target: {fileID: 190220, guid: c5cfa8351c2eaf94db7de6f23cf18a06, type: 2}
       propertyPath: m_TagString
       value: MainCamera
       objectReference: {fileID: 0}

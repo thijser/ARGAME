@@ -20,7 +20,14 @@ namespace Core.Receiver
     /// </summary>
     public class Checkpoint : MonoBehaviour, ILaserReceiver
     {
+        /// <summary>
+        /// The animator providing animations for the checkpoint.
+        /// </summary>
         private Animator animator;
+
+        /// <summary>
+        /// Indicates whether the checkpoint is being hit by a laser beam.
+        /// </summary>
         private bool laserHit;
 
         /// <summary>
@@ -37,6 +44,7 @@ namespace Core.Receiver
             {
                 return this.laserHit;
             }
+
             private set
             {
                 if (this.animator != null)
@@ -54,7 +62,7 @@ namespace Core.Receiver
         public void Start()
         {
             this.PassThroughEmitter = gameObject.AddComponent<MultiEmitter>();
-            this.animator = GetComponent<Animator>();
+            this.animator = this.GetComponent<Animator>();
             this.Hit = false;
         }
 
@@ -102,7 +110,6 @@ namespace Core.Receiver
         public void Reset()
         {
             this.Hit = false;
-            
         }
     }
 }
