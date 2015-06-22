@@ -11,11 +11,12 @@
 #include <ctime>
 #include <map>
 
-#include <qhttpserver.h>
-#include <qhttprequest.h>
-#include <qhttpresponse.h>
-
 #include "trackermanager.hpp"
+
+class QHttpServer;
+class QHttpRequest;
+class QHttpResponse;
+
 namespace mirrors {
 using std::vector;
 

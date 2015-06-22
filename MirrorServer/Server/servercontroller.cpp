@@ -1,6 +1,12 @@
 #include "servercontroller.hpp"
 #include "serversocket.hpp"
+
+#include "qhttpserver.h"
+#include "qhttprequest.h"
+#include "qhttpresponse.h"
+
 #include <QBuffer>
+
 
 namespace mirrors {
 
@@ -26,8 +32,11 @@ ServerController::ServerController(QObject *parent)
             this, SLOT(setMirrorRotation(int, float)));
     connect(sock, SIGNAL(clientConnected(QTcpSocket*)),
             this, SLOT(handleNewClient()));
+    connect(sock, SIGNAL(arViewUpdated(int,cv::Point3f,cv::Point3f)),
+            sock, SLOT(broadcastARViewUpdate(int,cv::Point3f,cv::Point3f)));
     connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
             this, SLOT(sendBoard(QHttpRequest*, QHttpResponse*)));
+
 
     // A single-shot Timer with an interval of 0 will
     // directly fire the timeout when control goes back

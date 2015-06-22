@@ -112,6 +112,14 @@ signals:
     void mirrorRotated(int id, float rotation);
 
     /**
+     * @brief Signal emitted whenever the view of a local player changes.
+     * @param id       - The player ID.
+     * @param position - The player position in board coordinates.
+     * @param rotation - The player (euler) rotation.
+     */
+    void arViewUpdated(int id, cv::Point3f position, cv::Point3f rotation);
+
+    /**
      * @brief Signal emitted when an internal server error occurs.
      *
      * This signal often indicates critical failures, and should be
@@ -180,6 +188,14 @@ public slots:
     void broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize);
 
     /**
+     * @brief Sends an ARViewUpdate message to all clients.
+     * @param id       - The id of the player whose view changed.
+     * @param position - The player position.
+     * @param rotation - The player rotation.
+     */
+    void broadcastARViewUpdate(int id, cv::Point3f position, cv::Point3f rotation);
+
+    /**
      * @brief Sends a Delete message to all clients.
      * @param id - The marker ID.
      */
@@ -219,6 +235,12 @@ public slots:
      * @param client - The client that sent the message.
      */
     void readLevelUpdate(QTcpSocket *client);
+
+    /**
+     * @brief Reads and processes an AR view update from the client.
+     * @param client - The client that sent the message.
+     */
+    void readARViewUpdate(QTcpSocket *client);
 
 private slots:
     /**
