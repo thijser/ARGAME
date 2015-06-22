@@ -188,7 +188,7 @@ namespace Network
                 case UpdateType.UpdateRotation:
                     received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
                     return MessageProcessor.ReadUpdateRotation(this.buffer, received);
-                case UpdateType.Level:
+                case UpdateType.UpdateLevel:
                     received = this.socket.Receive(this.buffer, 12, SocketFlags.None);
                     return MessageProcessor.ReadUpdateLevel(this.buffer, received);
                 default:

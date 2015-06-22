@@ -167,7 +167,7 @@ namespace Network
             }
 
             byte[] message = new byte[13];
-            message[0] = (byte)UpdateType.Level;
+            message[0] = (byte)UpdateType.UpdateLevel;
             WriteInt(update.NextLevelIndex, message, 1);
             WriteFloat(update.Size.x, message, 5);
             WriteFloat(update.Size.y, message, 9);

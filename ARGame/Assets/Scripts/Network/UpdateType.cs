@@ -10,7 +10,7 @@
 namespace Network
 {
     /// <summary>
-    /// Indicates the type of the PositionUpdate message.
+    /// Indicates the type of the <see cref="AbstractUpdate"/> message.
     /// </summary>
     public enum UpdateType
     {
@@ -37,6 +37,11 @@ namespace Network
         /// <summary>
         /// Indicates that the level has changed.
         /// </summary>
-        Level = 4
+        UpdateLevel = 4,
+
+        /// <summary>
+        /// Indicates that the view of a local player has changed.
+        /// </summary>
+        UpdateARView = 5
     }
 }
