@@ -28,7 +28,7 @@ namespace Network
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullTest()
         {
-            GameObjectFactory.Create<PositionPreviewer>().OnPositionUpdate(null);
+            GameObjectFactory.Create<PositionPreviewer>().OnServerUpdate(null);
         }
 
         /// <summary>

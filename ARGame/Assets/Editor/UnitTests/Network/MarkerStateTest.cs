@@ -46,7 +46,7 @@ namespace Network
             GameObject child = new GameObject("NumberText", typeof(TextMesh));
             child.transform.parent = parent.transform;
             MarkerState ms = new MarkerState(1, parent);
-            ms.UpdatePosition(null);
+            ms.Update(null);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Network
             child.transform.parent = parent.transform;
             parent.transform.position = Vector3.zero;
             MarkerState ms = new MarkerState(1, parent);
-            ms.UpdatePosition(new PositionUpdate(UpdateType.UpdatePosition, new Vector2(5f, 5f), 0f, 1));
+            ms.Update(new PositionUpdate(UpdateType.UpdatePosition, new Vector2(5f, 5f), 0f, 1));
             Assert.True(Vector3.zero != ms.Object.transform.position);
             Assert.True(ms.Object.activeSelf);
         }
@@ -76,7 +76,7 @@ namespace Network
             child.transform.parent = parent.transform;
             parent.transform.position = Vector3.zero;
             MarkerState ms = new MarkerState(1, parent);
-            ms.UpdatePosition(new PositionUpdate(UpdateType.DeletePosition, new Vector2(5f, 5f), 0f, 1));
+            ms.Update(new PositionUpdate(UpdateType.DeletePosition, new Vector2(5f, 5f), 0f, 1));
             Assert.False(ms.Object.activeSelf);
             ms.Object.SetActive(true);
         }

@@ -40,7 +40,7 @@ namespace Network
         /// </summary>
         /// <param name="update">The serverUpdate to be handled, can be either a
         /// PositionUpdate or a RotationUpdate.</param>
-        public void OnPositionUpdate(AbstractUpdate update)
+        public void OnServerUpdate(AbstractUpdate update)
         {
             if (update == null)
             {
@@ -52,7 +52,7 @@ namespace Network
                 this.markers[update.ID] = new MarkerState(update.ID, this.ReferenceMarker);
             }
 
-            this.markers[update.ID].UpdatePosition(update);
+            this.markers[update.ID].Update(update);
         }
 
         /// <summary>

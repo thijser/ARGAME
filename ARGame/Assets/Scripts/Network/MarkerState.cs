@@ -53,6 +53,10 @@ namespace Network
             // Create mesh representing this marker
             this.Object = GameObject.Instantiate(referenceMarker);
             this.Object.name = "Marker" + id;
+
+            // Add reference to this state to game object
+            RemoteMarker remoteMarker = this.Object.GetComponent<RemoteMarker>();
+            remoteMarker.State = this;
         }
 
         /// <summary>
@@ -99,10 +103,10 @@ namespace Network
         }
 
         /// <summary>
-        /// Updates the position of the GameObject with the given update.
+        /// Updates the position/rotation of the GameObject with the given update.
         /// </summary>
         /// <param name="serverUpdate">The update from the server.</param>
-        public void UpdatePosition(AbstractUpdate serverUpdate)
+        public void Update(AbstractUpdate serverUpdate)
         {
             if (serverUpdate == null)
             {
