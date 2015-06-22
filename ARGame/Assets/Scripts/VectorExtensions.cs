@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Utility class with extension methods for the Vector3 class.
+/// </summary>
 public static class VectorExtensions
 {
     /// <summary>
