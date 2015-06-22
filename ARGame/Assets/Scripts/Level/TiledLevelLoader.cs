@@ -122,13 +122,13 @@ namespace Level
             switch (levelObject.Type)
             {
                 case TileType.EmitterR:
-                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0.2f, 0f, 0f);
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0.1f, 0f, 0f);
                     break;
                 case TileType.EmitterG:
-                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0.2f, 0f);
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0.1f, 0f);
                     break;
                 case TileType.EmitterB:
-                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0f, 0.2f);
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0f, 0.1f);
                     break;
                 case TileType.TargetR:
                     obj.GetComponent<LaserTarget>().TargetColor = new Color(1, 0, 0);
