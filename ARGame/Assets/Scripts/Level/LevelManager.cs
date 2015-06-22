@@ -9,7 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Level
 {
-    using System.IO;
+    using System.Text.RegularExpressions;
     using Network;
     using UnityEngine;
     using Vision;
@@ -64,16 +64,6 @@ namespace Level
             }
 
             this.RestartGame();
-        }
-
-        /// <summary>
-        /// Loads the mappings from level IDs to names.
-        /// </summary>
-        private void LoadLevelMappings()
-        {
-            string data = (Resources.Load("Levels/Index") as TextAsset).text;
-
-            levelMappings = data.Split(new string[] {"\r\n"}, System.StringSplitOptions.RemoveEmptyEntries);
         }
 
         /// <summary>
@@ -139,6 +129,15 @@ namespace Level
             float xproportions = this.BoardSize.x / levelcomp.Size.x;
             float yproportions = this.BoardSize.y / levelcomp.Size.y;
             this.level.transform.localScale = Mathf.Min(xproportions, yproportions) * Vector3.one * this.IARscale;
+        }
+
+        /// <summary>
+        /// Loads the mappings from level IDs to names.
+        /// </summary>
+        private void LoadLevelMappings()
+        {
+            string data = (Resources.Load("Levels/Index") as TextAsset).text;
+            levelMappings = Regex.Split(data, "\r?\n");
         }
     }
 }
