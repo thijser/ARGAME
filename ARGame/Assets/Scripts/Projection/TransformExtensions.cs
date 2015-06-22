@@ -58,7 +58,9 @@ namespace Projection
         /// <param name="label">The label to apply to the transform.</param>
         public static void LogAs(this Transform transform, string label)
         {
-            Debug.LogError(label + ": " + transform.position + ", " + transform.eulerAngles + ", " + transform.lossyScale);
+            Debug.LogError(label + ": " + transform.position.ToString("G4") 
+                + ", " + transform.eulerAngles.ToString("G4") 
+                + ", " + transform.lossyScale.ToString("G4"));
         }
 
         /// <summary>
