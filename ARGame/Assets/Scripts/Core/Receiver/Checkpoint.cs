@@ -20,6 +20,9 @@ namespace Core.Receiver
     /// </summary>
     public class Checkpoint : MonoBehaviour, ILaserReceiver
     {
+        private Animator animator;
+        private bool laserHit;
+
         /// <summary>
         /// Gets or sets the LaserEmitter used for creating new Laser beam segments.
         /// </summary>
@@ -28,7 +31,22 @@ namespace Core.Receiver
         /// <summary>
         /// Gets a value indicating whether or not the checkpoint has been hit.
         /// </summary>
-        public bool Hit { get; private set; }
+        public bool Hit
+        {
+            get
+            {
+                return this.laserHit;
+            }
+            private set
+            {
+                if (this.animator != null)
+                {
+                    this.animator.SetBool("LaserHit", value);
+                }
+
+                this.laserHit = value;
+            }
+        }
 
         /// <summary>
         /// Initialize by creating emitter object.
@@ -36,7 +54,16 @@ namespace Core.Receiver
         public void Start()
         {
             this.PassThroughEmitter = gameObject.AddComponent<MultiEmitter>();
+            this.animator = GetComponent<Animator>();
             this.Hit = false;
+        }
+
+        /// <summary>
+        /// Resets the state of this <see cref="Checkpoint"/> instance.
+        /// </summary>
+        public void LateUpdate()
+        {
+            this.Reset();
         }
 
         /// <summary>
@@ -75,6 +102,7 @@ namespace Core.Receiver
         public void Reset()
         {
             this.Hit = false;
+            
         }
     }
 }
