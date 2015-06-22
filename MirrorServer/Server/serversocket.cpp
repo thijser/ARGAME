@@ -109,10 +109,11 @@ void ServerSocket::broadcastPing() {
 
 void ServerSocket::broadcastARViewUpdate(int id, cv::Point3f position, cv::Point3f rotation) {
     QByteArray bytes;
-    bytes.reserve(28);
+    bytes.reserve(29);
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
-    stream << (qint32) id
+    stream << (qint8) 5
+           << (qint32) id
            << position.x
            << position.y
            << position.z
