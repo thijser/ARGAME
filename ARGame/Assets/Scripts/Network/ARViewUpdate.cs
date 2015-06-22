@@ -26,8 +26,6 @@ namespace Network
         /// <param name="rotation">The rotation of the player.</param>
         public ARViewUpdate(int id, Vector3 position, Vector3 rotation)
         {
-            Assert.IsTrue(id >= 0);
-
             this.Type = UpdateType.UpdateARView;
             this.ID = id;
             this.Position = position;
