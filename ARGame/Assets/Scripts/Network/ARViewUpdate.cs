@@ -43,5 +43,45 @@ namespace Network
         /// Gets the rotation of the local player.
         /// </summary>
         public Vector3 Rotation { get; private set; }
+
+        /// <summary>
+        /// Tests whether this <see cref="ARViewUpdate"/> is equal to the 
+        /// provided object.
+        /// </summary>
+        /// <param name="obj">The object to test against.</param>
+        /// <returns>True if this <see cref="ARViewUpdate"/> is equal to <c>obj</c>, false otherwise.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null || obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+            ARViewUpdate that = obj as ARViewUpdate;
+            return this.ID == that.ID
+                && this.Position == that.Position
+                && this.Rotation == that.Rotation;
+        }
+
+        /// <summary>
+        /// Returns a hash code for this object.
+        /// </summary>
+        /// <returns>The hash code.</returns>
+        public override int GetHashCode()
+        {
+            int hash = this.GetType().GetHashCode();
+            hash = 23 * hash + this.ID;
+            hash = 23 * hash + this.Position.GetHashCode();
+            hash = 23 * hash + this.Rotation.GetHashCode();
+            return hash;
+        }
+
+        /// <summary>
+        /// Returns a string representation of this <see cref="ARViewUpdate"/>.
+        /// </summary>
+        /// <returns>A string describing this <see cref="ARViewUpdate"/>.</returns>
+        public override string ToString()
+        {
+            return "<ARViewUpdate[ID=" + this.ID + ", Position=" + this.Position + ", Rotation=" + this.Rotation + "]>";
+        }
     }
 }

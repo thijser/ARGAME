@@ -191,6 +191,9 @@ namespace Network
                 case UpdateType.UpdateLevel:
                     received = this.socket.Receive(this.buffer, 12, SocketFlags.None);
                     return MessageProcessor.ReadUpdateLevel(this.buffer, received);
+                case UpdateType.UpdateARView:
+                    received = this.socket.Receive(this.buffer, 28, SocketFlags.None);
+                    return MessageProcessor.ReadARViewUpdate(this.buffer, received);
                 default:
                     return null;
             }
