@@ -133,7 +133,7 @@ public class RemoteCamera : MonoBehaviour
     public void UpdateCamera()
     {
         Vector3 position = new Vector3(0, 0, -this.Distance);
-        this.GetComponentInChildren<Camera>().transform.position = position + this.Target.position;
+        this.GetComponentInChildren<Camera>().transform.position = position + this.Target.transform.position;
         this.transform.localRotation = Quaternion.Euler(this.Altitude, this.Angle, 0);
     }
 }
