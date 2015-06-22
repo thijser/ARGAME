@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Level
 {
+    using System.IO;
     using Network;
     using UnityEngine;
     using Vision;
@@ -22,7 +23,12 @@ namespace Level
         /// The TiledLevelLoader used for the loading of levels.
         /// </summary>
         private TiledLevelLoader levelLoader = new TiledLevelLoader();
-        
+
+        /// <summary>
+        /// Mappings from level IDs to names.
+        /// </summary>
+        private string[] levelMappings = null;
+
         /// <summary>
         /// The level GameObject.
         /// </summary>
@@ -48,6 +54,8 @@ namespace Level
         /// </summary>
         public void Start()
         {
+            this.LoadLevelMappings();
+
             this.IARscale = 1;
             IARLink link = gameObject.GetComponent<IARLink>();
             if (link != null)
@@ -56,6 +64,16 @@ namespace Level
             }
 
             this.RestartGame();
+        }
+
+        /// <summary>
+        /// Loads the mappings from level IDs to names.
+        /// </summary>
+        private void LoadLevelMappings()
+        {
+            string data = (Resources.Load("Levels/Index") as TextAsset).text;
+
+            levelMappings = data.Split(new string[] {"\r\n"}, System.StringSplitOptions.RemoveEmptyEntries);
         }
 
         /// <summary>
@@ -90,7 +108,7 @@ namespace Level
         {
             GameObject.Destroy(this.level);
             this.levelLoader.BoardSize = this.BoardSize;
-            this.level = this.levelLoader.CreateLevel("Levels/" + index);
+            this.level = this.levelLoader.CreateLevel("Levels/" + levelMappings[index]);
             this.CurrentLevelIndex = index;
             this.level.transform.SetParent(this.transform);
             this.level.transform.localScale = this.IARscale * Vector3.one;
@@ -104,7 +122,7 @@ namespace Level
         /// <param name="levelup">The <see cref="LevelUpdate"/>.</param>
         public void OnLevelUpdate(LevelUpdate levelup)
         {
-            if (this.CurrentLevelIndex != levelup.NextLevelIndex || 
+            if (this.CurrentLevelIndex != levelup.NextLevelIndex ||
                 this.BoardSize != levelup.Size)
             {
                 this.BoardSize = levelup.Size;

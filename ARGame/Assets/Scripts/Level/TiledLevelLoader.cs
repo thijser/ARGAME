@@ -114,7 +114,7 @@ namespace Level
             }
             catch (NullReferenceException)
             {
-                throw new ArgumentException("Invalid level path.");
+                throw new ArgumentException("Invalid level path (" + path + ").");
             }
         }
 
