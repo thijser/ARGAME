@@ -10,6 +10,7 @@
 namespace Network
 {
     using UnityEngine;
+	using Projection;
     using UnityEngine.Assertions;
 
     /// <summary>
@@ -31,7 +32,18 @@ namespace Network
             this.Position = position;
             this.Rotation = rotation;
         }
-
+		public ARViewUpdate(int id,MarkerHolder mh){
+			this.Type=UpdateType.UpdateARView;
+			this.ID=id;
+			Marker parent=mh.Parent;
+			Matrix4x4 posmatrix=parent.TransformMatrix.inverse;
+			GameObject l = new GameObject("lamb");
+			Transform lamb = l.transform;
+			lamb.SetFromMatrix(posmatrix);
+			this.Position=lamb.position;
+			this.Rotation=lamb.rotation.eulerAngles;
+			GameObject.Destroy(l);
+		}
         /// <summary>
         /// Gets the position of the local player.
         /// </summary>
@@ -41,6 +53,7 @@ namespace Network
         /// Gets the rotation of the local player.
         /// </summary>
         public Vector3 Rotation { get; private set; }
+
 
         /// <summary>
         /// Tests whether this <see cref="ARViewUpdate"/> is equal to the 

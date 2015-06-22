@@ -110,7 +110,7 @@ namespace Projection
             Matrix4x4 remoteToZero = this.Parent.RemotePosition.Matrix.inverse;
             Matrix4x4 zeroToLocal = this.Parent.LocalPosition.Matrix;
             Matrix4x4 remoteToLocal = zeroToLocal * remoteToZero;
-
+			sendPossitin();
             foreach (Marker marker in this.markerTable.Values)
             {
                 marker.UpdatePosition(remoteToLocal);
@@ -122,6 +122,9 @@ namespace Projection
             }
         }
 
+		public void sendPossitin(){
+			this.SendMessage("OnSendPosition", new ARViewUpdate(Parent.ID,this) as ARViewUpdate);
+		}
         /// <summary>
         /// Called whenever a marker is seen by the detector.
         /// <para>
