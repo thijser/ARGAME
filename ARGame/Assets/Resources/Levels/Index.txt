@@ -16,3 +16,10 @@ LevelEasy10
 LevelAdvanced1
 LevelAdvanced2
 LevelAdvanced3
+LevelAdvanced4
+LevelAdvanced5
+LevelAdvanced6
+LevelAdvanced7
+LevelAdvanced8
+LevelAdvanced9
+LevelAdvanced10
