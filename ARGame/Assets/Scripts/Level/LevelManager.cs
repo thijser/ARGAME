@@ -22,7 +22,7 @@ namespace Level
         /// <summary>
         /// The TiledLevelLoader used for the loading of levels.
         /// </summary>
-        private TiledLevelLoader levelLoader = new TiledLevelLoader();
+        private LevelLoader levelLoader = new LevelLoader();
 
         /// <summary>
         /// Mappings from level IDs to names.
