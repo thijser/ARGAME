@@ -10,6 +10,7 @@
 namespace Level
 {
     using UnityEngine;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Description of object found in the level.
@@ -61,19 +62,22 @@ namespace Level
         {
             get
             {
-                if (this.Type == TileType.PortalEntryOne || this.Type == TileType.PortalExitOne)
+                Dictionary<TileType, int> portals = new Dictionary<TileType, int>()
                 {
-                    return 0;
-                }
-                else if (this.Type == TileType.PortalEntryTwo || this.Type == TileType.PortalExitTwo)
+                    {TileType.PortalEntryOne, 0},
+                    {TileType.PortalEntryTwo, 1},
+                    {TileType.PortalEntryThree, 2},
+
+                    {TileType.PortalExitOne, 0},
+                    {TileType.PortalExitTwo, 1},
+                    {TileType.PortalExitThree, 2}
+                };
+
+                try
                 {
-                    return 1;
+                    return portals[this.Type];
                 }
-                else if (this.Type == TileType.PortalEntryThree || this.Type == TileType.PortalExitThree)
-                {
-                    return 2;
-                }
-                else
+                catch (KeyNotFoundException)
                 {
                     return -1;
                 }
