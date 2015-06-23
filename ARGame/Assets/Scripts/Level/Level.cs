@@ -1,6 +1,6 @@
 ﻿namespace Level
 {
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     /// Information about a level.
@@ -15,14 +15,14 @@
         /// <summary>
         /// List of objects within the level.
         /// </summary>
-        public readonly List<LevelObject> Objects;
+        public readonly ReadOnlyCollection<LevelObject> Objects;
 
         /// <summary>
         /// Create a new level description object.
         /// </summary>
         /// <param name="properties">Level properties.</param>
         /// <param name="objects">Objects within level.</param>
-        public Level(LevelProperties properties, List<LevelObject> objects)
+        public Level(LevelProperties properties, ReadOnlyCollection<LevelObject> objects)
         {
             this.Properties = properties;
             this.Objects = objects;

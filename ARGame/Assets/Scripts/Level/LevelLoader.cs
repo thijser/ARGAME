@@ -10,6 +10,7 @@
 namespace Level
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.Collections.Generic;
     using UnityEngine;
     using Core;
@@ -63,7 +64,7 @@ namespace Level
         /// Link all of the portals in pairs together.
         /// </summary>
         /// <param name="levelObjects">Level objects containing portal pairs.</param>
-        private static void LinkPortals(List<LevelObject> levelObjects)
+        private static void LinkPortals(ReadOnlyCollection<LevelObject> levelObjects)
         {
             GameObject[] portals = new GameObject[3];
 
@@ -150,7 +151,7 @@ namespace Level
         /// <param name="level">Level descriptor.</param>
         /// <param name="levelObjects">List of level objects.</param>
         /// <returns>Parent GameObject that represents level.</returns>
-        private GameObject ConstructLevel(LevelProperties level, List<LevelObject> levelObjects)
+        private GameObject ConstructLevel(LevelProperties level, ReadOnlyCollection<LevelObject> levelObjects)
         {
             GameObject parent = new GameObject("Level");
 

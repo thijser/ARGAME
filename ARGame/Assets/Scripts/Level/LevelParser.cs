@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Xml;
     using UnityEngine;
@@ -22,7 +23,7 @@
             doc.LoadXml(xml);
 
             LevelProperties level = ParseLevelHeader(doc);
-            List<LevelObject> levelObjects = ParseLevelTiles(doc, level);
+            ReadOnlyCollection<LevelObject> levelObjects = ParseLevelTiles(doc, level);
 
             return new Level(level, levelObjects);
         }
@@ -60,7 +61,7 @@
         /// <param name="levelDoc">XML document of level.</param>
         /// <param name="level">Level descriptor returned by ParseLevelHeader.</param>
         /// <returns>List of objects placed within level.</returns>
-        private static List<LevelObject> ParseLevelTiles(XmlDocument levelDoc, LevelProperties level)
+        private static ReadOnlyCollection<LevelObject> ParseLevelTiles(XmlDocument levelDoc, LevelProperties level)
         {
             int x = 0;
             int y = 0;
@@ -98,7 +99,7 @@
                 x = (x + 1) % level.Width;
             }
 
-            return levelObjects;
+            return levelObjects.AsReadOnly();
         }
 
         /// <summary>
