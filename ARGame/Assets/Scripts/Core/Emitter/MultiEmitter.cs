@@ -70,7 +70,7 @@ namespace Core.Emitter
             renderer.CastShadows = false;
 
             prop.RGBStrengths = laser.Emitter.Properties.RGBStrengths;
-
+            
             return renderer;
         }
 

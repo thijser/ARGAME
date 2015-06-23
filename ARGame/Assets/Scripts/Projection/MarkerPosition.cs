@@ -21,7 +21,7 @@ namespace Projection
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkerPosition"/> class.
         /// </summary>
-        /// <param name="serverUpdate">The serverUpdate, must be of type UpdatePosition.</param>
+        /// <param name="update">The serverUpdate, must be of type UpdatePosition.</param>
         public MarkerPosition(PositionUpdate update)
         {
             if (update == null)

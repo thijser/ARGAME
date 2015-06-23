@@ -182,7 +182,7 @@ namespace Projection
         /// of the object referenced by the serverUpdate to reflect the change in rotation.
         /// </para>
         /// </summary>
-        /// <param name="serverUpdate">The rotation serverUpdate, not null.</param>
+        /// <param name="update">The rotation serverUpdate, not null.</param>
         public void OnRotationUpdate(RotationUpdate update)
         {
             if (update == null)
@@ -202,7 +202,7 @@ namespace Projection
         /// a <see cref="MarkerPosition"/> object based on the argument.
         /// </para>
         /// </summary>
-        /// <param name="serverUpdate">The <see cref="PositionUpdate"/>, not null.</param>
+        /// <param name="update">The <see cref="PositionUpdate"/>, not null.</param>
         public void OnPositionUpdate(PositionUpdate update)
         {
             if (update == null)
