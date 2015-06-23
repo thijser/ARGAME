@@ -28,7 +28,7 @@ namespace Network
                 throw new ArgumentNullException("update");
             }
 
-            if (update.Type == UpdateType.UpdatePosition)
+            if (update.Type == UpdateType.UpdatePosition || update.Type == UpdateType.DeletePosition)
             {
                 this.SendMessage("OnPositionUpdate", update as PositionUpdate);
             }
