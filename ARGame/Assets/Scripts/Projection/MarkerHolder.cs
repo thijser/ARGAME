@@ -110,21 +110,21 @@ namespace Projection
             Matrix4x4 remoteToZero = this.Parent.RemotePosition.Matrix.inverse;
             Matrix4x4 zeroToLocal = this.Parent.LocalPosition.Matrix;
             Matrix4x4 remoteToLocal = zeroToLocal * remoteToZero;
-			sendPossitin();
+			this.SendPosition();
             foreach (Marker marker in this.markerTable.Values)
             {
                 marker.UpdatePosition(remoteToLocal);
-
-                if (marker.Id == 13379001)
-                {
-                    Debug.Log("Placed level marker at: " + marker.transform.localPosition);
-                }
             }
         }
 
-		public void sendPossitin(){
+        /// <summary>
+        /// Sends the position of the player as a 'OnSendPosition' Unity message.
+        /// </summary>
+		public void SendPosition()
+        {
 			this.SendMessage("OnSendPosition", new ARViewUpdate(Parent.Id,this) as ARViewUpdate);
 		}
+
         /// <summary>
         /// Called whenever a marker is seen by the detector.
         /// <para>
