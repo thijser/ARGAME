@@ -50,8 +50,8 @@ namespace Vision
         /// pass them into this method one by one to simulate markers as seen by the Meta.
         /// </para>
         /// </summary>
-        /// <param name="id">The ID of the Marker.</param>
-        /// <param name="t">The Transform for the Marker, not null.</param>
+        /// <param name="id">The Id of the Marker.</param>
+        /// <param name="transform">The Transform for the Marker, not null.</param>
         public void SetMarker(int id, Transform t)
         {
             if (this.MarkerPositions == null)

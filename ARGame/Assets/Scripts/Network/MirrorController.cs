@@ -95,10 +95,9 @@ namespace Network
         public void SendRotationUpdate()
         {
             Assert.IsNotNull(this.SelectedMirror, "SendRotationUpdate: No Mirror Selected");
-            Marker marker = this.SelectedMirror.GetComponent<Marker>();
-            int id = marker.ID;
+            MarkerState marker = this.SelectedMirror.GetComponent<RemoteMarker>().State;
             float rotation = this.SelectedMirror.transform.eulerAngles.y;
-            this.SendMessageUpwards("OnRotationChanged", new RotationUpdate(UpdateType.UpdateRotation, rotation, id));
+            this.SendMessageUpwards("OnRotationChanged", new RotationUpdate(UpdateType.UpdateRotation, rotation, marker.ID));
         }
 
         /// <summary>

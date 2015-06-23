@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="PositionPreviewer.cs" company="Delft University of Technology">
+// <copyright file="RemoteMarkerHolder.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -17,7 +17,7 @@ namespace Network
     /// <summary>
     /// Previews the position of PositionUpdate objects.
     /// </summary>
-    public class PositionPreviewer : MonoBehaviour
+    public class RemoteMarkerHolder : MonoBehaviour
     {
         /// <summary>
         /// Time in milliseconds before 
@@ -40,19 +40,19 @@ namespace Network
         /// </summary>
         /// <param name="update">The serverUpdate to be handled, can be either a
         /// PositionUpdate or a RotationUpdate.</param>
-        public void OnPositionUpdate(AbstractUpdate update)
+        public void OnServerUpdate(AbstractUpdate update)
         {
             if (update == null)
             {
                 throw new ArgumentNullException("update");
             }
 
-            if (!this.markers.ContainsKey(update.ID))
+            if (!this.markers.ContainsKey(update.Id))
             {
-                this.markers[update.ID] = new MarkerState(update.ID, this.ReferenceMarker);
+                this.markers[update.Id] = new MarkerState(update.Id, this.ReferenceMarker);
             }
 
-            this.markers[update.ID].UpdatePosition(update);
+            this.markers[update.Id].Update(update);
         }
 
         /// <summary>

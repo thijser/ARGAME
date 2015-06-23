@@ -39,7 +39,7 @@ namespace Network
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkerState"/> class.
         /// </summary>
-        /// <param name="id">The marker ID.</param>
+        /// <param name="id">The marker Id.</param>
         /// <param name="referenceMarker">The GameObject that the MarkerState represents.</param>
         public MarkerState(int id, GameObject referenceMarker)
         {
@@ -54,13 +54,13 @@ namespace Network
             this.Object = GameObject.Instantiate(referenceMarker);
             this.Object.name = "Marker" + id;
 
-            Marker marker = this.Object.GetComponent<Marker>();
-            Assert.IsNotNull(marker, "Provided reference marker has no Marker Component");
-            marker.ID = id;
+            // Add reference to this state to game object
+            RemoteMarker remoteMarker = this.Object.AddComponent<RemoteMarker>();
+            remoteMarker.State = this;
         }
 
         /// <summary>
-        /// Gets the ID of the Marker.
+        /// Gets the Id of the Marker.
         /// </summary>
         public int ID { get; private set; }
 
@@ -103,17 +103,17 @@ namespace Network
         }
 
         /// <summary>
-        /// Updates the position of the GameObject with the given update.
+        /// Updates the position/rotation of the GameObject with the given update.
         /// </summary>
         /// <param name="serverUpdate">The update from the server.</param>
-        public void UpdatePosition(AbstractUpdate serverUpdate)
+        public void Update(AbstractUpdate serverUpdate)
         {
             if (serverUpdate == null)
             {
                 throw new ArgumentNullException("serverUpdate");
             }
 
-            Assert.AreEqual(this.ID, serverUpdate.ID, "ID mismatch");
+            Assert.AreEqual(this.ID, serverUpdate.Id, "ID mismatch");
             switch (serverUpdate.Type)
             {
                 case UpdateType.UpdatePosition:

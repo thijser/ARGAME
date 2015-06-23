@@ -21,9 +21,9 @@ namespace Network
         public UpdateType Type { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the ID of this serverUpdate.
+        /// Gets or sets the Id of this serverUpdate.
         /// </summary>
-        public int ID { get; protected set; }
+        public int Id { get; protected set; }
 
         /// <summary>
         /// Gets or sets the timestamp of this serverUpdate.

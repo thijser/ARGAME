@@ -43,7 +43,7 @@ using UnityEngine;
             board.transform.parent = resizer.transform;
             Assert.IsTrue(resizer.UpdateBoardSize(new Vector2(240, 320)));
 
-            Assert.AreEqual(new Vector3(240, 1, 320), board.transform.localScale);
+            Assert.AreEqual(new Vector3(-240, 1, 320), board.transform.localScale);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ using UnityEngine;
             board.transform.parent = resizer.transform;
             Assert.IsTrue(resizer.UpdateBoardSize(new Vector2(240, 320)));
 
-            Assert.AreEqual(new Vector3(240, 20, 320), board.transform.localScale);
+            Assert.AreEqual(new Vector3(-240, 20, 320), board.transform.localScale);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ using UnityEngine;
             board.transform.parent = resizer.transform;
             resizer.OnServerUpdate(update);
 
-            Assert.AreEqual(new Vector3(240, 1, 320), board.transform.localScale);
+            Assert.AreEqual(new Vector3(-240, 1, 320), board.transform.localScale);
         }
 
         /// <summary>

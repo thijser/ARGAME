@@ -45,7 +45,7 @@ namespace UnityTest
 				if (result == null) return null;
 				var type = result.GetType();
 
-				//String is not a value type but we don't want to cache it
+				//String is not a value type but we don'transform want to cache it
 				if (!IsValueType(type) && type != typeof(System.String))
                 {
                     tempCallstack.Clear();

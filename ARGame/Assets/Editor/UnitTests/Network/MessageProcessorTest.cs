@@ -76,7 +76,7 @@ namespace Network
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestReadIntNull()
         {
-            MessageProcessor.ReadInt(null, 0);
+            MessageProcessor.ReadInt32(null, 0);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Network
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestReadFloatNull()
         {
-            MessageProcessor.ReadFloat(null, 0);
+            MessageProcessor.ReadSingle(null, 0);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Network
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void TestReadIntNegative()
         {
-            MessageProcessor.ReadInt(new byte[16], -1);
+            MessageProcessor.ReadInt32(new byte[16], -1);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Network
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void TestReadIntBufferTooSmall()
         {
-            MessageProcessor.ReadInt(new byte[16], 13);
+            MessageProcessor.ReadInt32(new byte[16], 13);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Network
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void TestReadFloatNegative()
         {
-            MessageProcessor.ReadFloat(new byte[16], -1);
+            MessageProcessor.ReadSingle(new byte[16], -1);
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Network
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void TestReadFloatBufferTooSmall()
         {
-            MessageProcessor.ReadFloat(new byte[16], 13);
+            MessageProcessor.ReadSingle(new byte[16], 13);
         }
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace Network
         }
 
         /// <summary>
-        /// Tests if the <c>ReadInt</c> and <c>WriteInt</c> methods 
+        /// Tests if the <c>ReadInt32</c> and <c>WriteInt32</c> methods 
         /// cycle.
         /// </summary>
         [Test]
@@ -253,14 +253,14 @@ namespace Network
         {
             int expected = 77252784;
             byte[] bytes = new byte[4];
-            MessageProcessor.WriteInt(expected, bytes, 0);
-            int actual = MessageProcessor.ReadInt(bytes, 0);
+            MessageProcessor.WriteInt32(expected, bytes, 0);
+            int actual = MessageProcessor.ReadInt32(bytes, 0);
 
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        /// Tests if the <c>ReadFloat</c> and <c>WriteFloat</c> methods 
+        /// Tests if the <c>ReadSingle</c> and <c>WriteSingle</c> methods 
         /// cycle.
         /// </summary>
         [Test]
@@ -268,8 +268,8 @@ namespace Network
         {
             float expected = 1.6265f;
             byte[] bytes = new byte[4];
-            MessageProcessor.WriteFloat(expected, bytes, 0);
-            float actual = MessageProcessor.ReadFloat(bytes, 0);
+            MessageProcessor.WriteSingle(expected, bytes, 0);
+            float actual = MessageProcessor.ReadSingle(bytes, 0);
 
             Assert.AreEqual(expected, actual, 0.0001f);
         }

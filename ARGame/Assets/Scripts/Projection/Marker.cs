@@ -25,29 +25,29 @@ namespace Projection
     public class Marker : MonoBehaviour
     {
         /// <summary>
-        /// The ID of the Marker.
+        /// The Id of the Marker.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public int MarkerID = -1;
+        public int MarkerId = -1;
 
         /// <summary>
-        /// Gets or sets the ID of this Marker.
+        /// Gets or sets the Id of this Marker.
         /// <para>
-        /// If the ID is already set to a valid ID, the setter does nothing.
+        /// If the Id is already set to a valid Id, the setter does nothing.
         /// </para>
         /// </summary>
-        public int ID
+        public int Id
         {
             get
             {
-                return this.MarkerID;
+                return this.MarkerId;
             }
 
             set
             {
-                if (this.MarkerID < 0)
+                if (this.MarkerId < 0)
                 {
-                    this.MarkerID = value;
+                    this.MarkerId = value;
                 }
             }
         }
@@ -131,7 +131,7 @@ namespace Projection
         /// <returns>A string describing this Marker.</returns>
         public override string ToString()
         {
-            return "<marker:id=" + this.ID +
+            return "<marker:id=" + this.Id +
                 ", RemotePosition=" + this.RemotePosition +
                 ", LocalPosition=" + this.LocalPosition +
                 ", ObjectRotation=" + this.ObjectRotation + ">";

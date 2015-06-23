@@ -60,7 +60,7 @@ namespace Vision
 
             if (this.markerDetector == null)
             {
-                throw new InvalidOperationException("The MarkerDetector cannot be loaded. Is the Meta connected?");
+                throw new InvalidOperationException("The marker detector cannot be loaded. Is the Meta connected?");
             }
 
             // Hide the markerindicator

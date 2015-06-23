@@ -79,7 +79,7 @@ namespace UnityTest
             if (m_ActionBase == null) return;
             var oldActionList = Resources.FindObjectsOfTypeAll(typeof(AssertionComponent)).Where(o => ((AssertionComponent)o).m_ActionBase == m_ActionBase && o != this);
 
-            // if it's not a copy but a new component don't do anything
+            // if it's not a copy but a new component don'transform do anything
             if (!oldActionList.Any()) return;
             if (oldActionList.Count() > 1)
                 Debug.LogWarning("More than one refence to comparer found. This shouldn't happen");

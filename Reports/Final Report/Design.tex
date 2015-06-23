@@ -406,27 +406,13 @@
 			What the emitter looks like exactly is shown in figure 
 			\ref{fig:emitter}. Also shown here is a laser beam
 			coming from the emitter. The laser beam is colored red per 
-			standard. There are game objects that can change the coloring of 
-			the beam, these will also be described in this part of the report.
+			standard. It is also possible to alter the color of the beam coming
+			from the laser, to be either blue or green.
 			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.25]{Emitter}
 				\caption{The emitter.}
 				\label{fig:emitter}
-			\end{figure}
-			
-		\subsection{Elevator} \label{ssec:elevator}
-			The elevator is a game object that uses mirrors to elevate laser beams
-			to a new height. This then allows laser beams to pass over walls that 
-			stand on the ground. Therefore, elevators can function as a bridge over
-			walls. An elevator is depicted in \ref{fig:elevator}. Both the upper and 
-			lower plate have a mirror (represented on the bottom plate as a light 
-			blue plate), which reflects laser beams.
-			\begin{figure}[!ht]
-				\centering
-				\includegraphics[scale = 0.3]{Elevator}
-				\caption{An elevator}
-				\label{fig:elevator}
 			\end{figure}
 			
 		\subsection{Checkpoint}
@@ -505,6 +491,13 @@
 			were developed for this functionality, and the idea was eventually
 			scrapped.
 			
+			A final idea that was actually implemented and tested, but didn't
+			meet the standard we set for it, was the elevator. This was a
+			game object that used mirrors to elevate laser beams, to allow for
+			passing over walls. The elevator was never used again, as it didn't
+			work properly, and also because the portals overtook its function
+			entirely.
+			
 	\section{Level design} \label{sec:leveldesign}
 		Levels are designed to be simple at first, requiring little collaboration,
 		while getting progressively harder, as well as introducing more and more
@@ -522,23 +515,24 @@
 			
 		\subsection{Levels 6 to 15: the easy levels} \label{ssec: easylevels}
 			These levels serve to introduce the player to slightly more advanced
-			game objects and their functions. As such, they introduce elevators
+			game objects and their functions. As such, they introduce portals
 			and lens splitters, as well as checkpoints. Game mechanics introduced
-			in these levels are: elevators allow a laser beam to pass over objects,
-			lens splitters create two beams from one, and all checkpoints in a
-			map need to be hit before one can proceed to the next level. The
-			levels that introduce these features are designed to be impossible
-			to complete without making use of these new features (this is an
-			inherent function of the checkpoints, as one can only advance to the
-			next level if all checkpoints have been hit, thus making use of
-			the checkpoints). For example, when introducing the elevator, the
-			laser target is in a closed off area and can only be reached by
-			using an elevator to elevate the beam, before lowering the beam using
-			another elevator, when the beam has reached the closed area.
+			in these levels are: portals allow a laser beam to travel instantaneously
+			from A to B, lens splitters create two beams from one, and all 
+			checkpoints in a map need to be hit before one can proceed to the 
+			next level. The levels that introduce these features are designed 
+			to be impossible to complete without making use of these new features 
+			(this is an inherent function of the checkpoints, as one can only 
+			advance to the next level if all checkpoints have been hit, thus 
+			making use of the checkpoints). For example, when introducing the 
+			portal, the laser target is in a closed off area and can only be 
+			reached by using a portal to let the beam travel from A to B, with A
+			being reachable by the laser beam on its own and B being in a closed
+			off area, containing the target.
 			
 		\subsection{Levels 16 to 25: the advanced levels}
-			These levels introduce the players to the last game object remaining:
-			the portal. Also, the levels are a lot more difficult and require
+			These levels incorporate all the used game objects to create hard
+			levels. The levels are a lot more difficult and require
 			far more cooperation than the easy levels, from both the local
-			and the remote players. Game mechanics introduced in these levels
-			are: portals allow beams to travel to places normally unreachable.
+			and the remote players. No new game mechanics are introduced, but
+			instead the cooperation skills of the players are tested.

@@ -1,0 +1,15 @@
+<Dictionary>
+    <Words>
+        <Recognized>
+            <!-- Raycast is used as a normal word in Unity, so we allow using it
+                 as such as well. -->
+            <Word>Raycast</Word>
+
+            <!-- Exception for incorrect (that is: British English) spelling
+                 of the word 'behavior', which is commonly used throughout
+                 Unity. -->
+            <Word>Behaviour</Word>
+            <Word>Behaviours</Word>
+        </Recognized>
+    </Words>
+</Dictionary>

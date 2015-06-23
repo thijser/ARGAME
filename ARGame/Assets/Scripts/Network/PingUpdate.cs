@@ -23,7 +23,7 @@ namespace Network
         public PingUpdate()
         {
             this.Type = UpdateType.Ping;
-            this.ID = -1;
+            this.Id = -1;
             this.TimeStamp = DateTime.Now.Ticks;
         }
     }

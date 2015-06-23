@@ -36,7 +36,7 @@ namespace Core
         /// <summary>
         /// Initializes this <see cref="Core.CollisionBehaviour"/>.
         /// </summary>
-        public void Start()
+        public virtual void Start()
         {
             this.Colliding = false;
         }
@@ -45,7 +45,7 @@ namespace Core
         /// Enables or disables Behaviors based on whether this GameObject collides with
         /// other objects.
         /// </summary>
-        public void Update()
+        public virtual void Update()
         {
             this.SetEnableBehaviours(!this.Colliding);
         }
@@ -54,7 +54,7 @@ namespace Core
         /// Sets the <c>Colliding</c> property to <c>true</c>.
         /// </summary>
         /// <param name="collision">The parameter is ignored.</param>
-        public void OnCollisionEnter(Collision collision)
+        public virtual void OnCollisionEnter(Collision collision)
         {
             this.Colliding = true;
         }
@@ -63,7 +63,7 @@ namespace Core
         /// Sets the <c>Colliding</c> property to <c>false</c>.
         /// </summary>
         /// <param name="collision">The parameter is ignored.</param>
-        public void OnCollisionExit(Collision collision)
+        public virtual void OnCollisionExit(Collision collision)
         {
             this.Colliding = false;
         }

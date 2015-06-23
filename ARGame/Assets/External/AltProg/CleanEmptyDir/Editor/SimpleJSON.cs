@@ -32,7 +32,7 @@
  * 
  * 2012-12-17 UpdatePosition:
  * - Added internal JSONLazyCreator class which simplifies the construction of a JSON tree
- *   Now you can simple reference any item that doesn't exist yet and it will return a JSONLazyCreator
+ *   Now you can simple reference any item that doesn'transform exist yet and it will return a JSONLazyCreator
  *   The class determines the required type by it's further use, creates the type and removes itself.
  * - Added binary serialization / deserialization.
  * - Added support for BZip2 zipped binary format. Requires the SharpZipLib ( http://www.icsharpcode.net/opensource/sharpziplib/ )
