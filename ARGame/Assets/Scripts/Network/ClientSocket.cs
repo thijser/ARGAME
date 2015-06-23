@@ -208,14 +208,6 @@ namespace Network
             this.socket.Send(MessageProcessor.WriteRotationUpdate(update));
         }
 
-		/// <summary>
-		/// Called whenever the remote player rotates an object.
-		/// </summary>
-		/// <param name="serverUpdate">The RotationUpdate describing the change.</param>
-		public void OnSendPosition(ARViewUpdate update)
-		{
-			this.socket.Send(MessageProcessor.WriteARViewUpdate(update));
-		}
         /// <summary>
         /// Called whenever one local player manages to complete the level.
         /// </summary>
@@ -223,6 +215,15 @@ namespace Network
         public void OnLevelCompleted(LevelUpdate update)
         {
             this.socket.Send(MessageProcessor.WriteLevelUpdate(update));
+        }
+
+        /// <summary>
+        /// Called whenever a local player changes its position.
+        /// </summary>
+        /// <param name="update"></param>
+        public void OnSendPosition(ARViewUpdate update)
+        {
+            this.socket.Send(MessageProcessor.WriteARViewUpdate(update));
         }
     }
 }
