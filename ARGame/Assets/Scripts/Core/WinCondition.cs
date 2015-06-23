@@ -15,18 +15,13 @@ namespace Core
     using Core.Receiver;
     using Network;
     using UnityEngine;
+    using Level;
 
     /// <summary>
     /// A class that tracks if the level has been won.
     /// </summary>
     public class WinCondition : MonoBehaviour
     {
-        /// <summary>
-        /// The index of the next level.
-        /// </summary>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public int NextLevelIndex;
-
         /// <summary>
         /// Gets all targets in the level.
         /// </summary>
@@ -38,12 +33,19 @@ namespace Core
         public Checkpoint[] Checks { get; private set; }
 
         /// <summary>
+        /// Reference to LevelManager component.
+        /// </summary>
+        private LevelManager levelManager;
+
+        /// <summary>
         /// Find any initial targets and checkpoints.
         /// </summary>
         public void Start()
         {
             this.Targets = GameObject.FindObjectsOfType<LaserTarget>();
             this.Checks = GameObject.FindObjectsOfType<Checkpoint>();
+
+            this.levelManager = gameObject.GetComponent<LevelManager>();
         }
 
         /// <summary>
@@ -73,7 +75,7 @@ namespace Core
 
             if (win)
             {
-                this.SendMessageUpwards("OnLevelCompleted", new LevelUpdate(this.NextLevelIndex, Vector2.one));
+                this.SendMessageUpwards("OnLevelCompleted", new LevelUpdate(this.levelManager.CurrentLevelIndex + 1, Vector2.one));
             }
         }
     }
