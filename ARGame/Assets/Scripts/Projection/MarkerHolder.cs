@@ -202,16 +202,22 @@ namespace Projection
         /// <param name="update">The <see cref="PositionUpdate"/>, not null.</param>
         public void OnPositionUpdate(PositionUpdate update)
         {
-            if (update == null)
-            {
-                throw new ArgumentNullException("update");
-            }
-
+            Assert.IsNotNull(update);
             try
             {
-                Vector3 position = update.Coordinate;
-                position.y *= -1;
-                this.GetMarker(update.Id).RemotePosition = new MarkerPosition(update);
+                Marker marker = this.GetMarker(update.Id);
+                if (update.Type == UpdateType.UpdatePosition)
+                {
+                    Vector3 position = update.Coordinate;
+                    position.y *= -1;
+                    marker.RemotePosition = new MarkerPosition(update);
+                    marker.gameObject.SetActive(true);
+                }
+                else 
+                {
+                    Assert.AreEqual(UpdateType.DeletePosition, update.Type);
+                    marker.gameObject.SetActive(false);
+                }
             }
             catch (KeyNotFoundException ex)
             {
