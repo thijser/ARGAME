@@ -7,6 +7,7 @@
  */
 
 #include <QTimer>
+#include <functional>
 
 class QTcpServer;
 class QTcpSocket;
@@ -153,51 +154,49 @@ public slots:
     void disconnect(QTcpSocket *client);
 
     /**
-     * @brief Sends the given QByteArray to all clients.
-     * @param bytes - The QByteArray with the data to send.
-     */
-    void broadcastBytes(QByteArray bytes);
-
-    /**
      * @brief Sends the given QByteArray to all clients except the specified one.
-     * @param bytes - The QByteArray with the data to send.
-     * @param exceptPeer - The peerPort of the client to not send data to.
+     * @param bytes  - The QByteArray with the data to send.
+     * @param filter - Callback for determining which sockets to send to.
      */
-    void broadcastBytes(QByteArray bytes, int exceptPeer);
+    void broadcastBytes(QByteArray bytes, std::function<bool(QTcpSocket*)> filter = [](QTcpSocket*){ return true; });
 
     /**
      * @brief Sends a PositionUpdate message to all clients.
      * @param id       - The marker ID.
      * @param position - The position of the marker.
      * @param rotation - The rotation of the marker.
+     * @param filter   - Callback for determing which sockets to send to.
      */
-    void broadcastPositionUpdate(int id, cv::Point2f position, float rotation);
+    void broadcastPositionUpdate(int id, cv::Point2f position, float rotation, std::function<bool(QTcpSocket*)> filter = [](QTcpSocket*){ return true; });
 
     /**
      * @brief Sends a RotationUpdate message to all clients.
      * @param id       - The marker ID
      * @param rotation - The rotation of the object on the marker.
-     * @param peer - Client that sent the original rotation, which update will not be sent to (optional).
+     * @param filter   - Callback for determining which sockets to send to.
      */
-    void broadcastRotationUpdate(int id, float rotation, int peer = -1);
+    void broadcastRotationUpdate(int id, float rotation, std::function<bool(QTcpSocket*)> filter = [](QTcpSocket*){ return true; });
 
     /**
      * @brief Sends a LevelUpdate message to all clients.
      * @param levelIndex - The index of the next level.
      * @param boardSize  - The board size.
+     * @param filter     - Callback for determining which sockets to send to.
      */
-    void broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize);
+    void broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize, std::function<bool(QTcpSocket*)> filter = [](QTcpSocket*){ return true; });
 
     /**
      * @brief Sends a Delete message to all clients.
-     * @param id - The marker ID.
+     * @param id     - The marker ID.
+     * @param filter - Callback for determining which sockets to send to.
      */
-    void broadcastDelete(int id);
+    void broadcastDelete(int id, std::function<bool(QTcpSocket*)> filter = [](QTcpSocket*){ return true; });
 
     /**
      * @brief Sends a Ping message to all clients.
+     * @param filter - Callback for determining which sockets to send to.
      */
-    void broadcastPing();
+    void broadcastPing(std::function<bool(QTcpSocket*)> filter = [](QTcpSocket*){ return true; });
 
     /**
      * @brief Processes the updates sent by all clients.

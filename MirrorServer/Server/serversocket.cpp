@@ -53,21 +53,15 @@ void ServerSocket::disconnect(QTcpSocket *client) {
     }
 }
 
-void ServerSocket::broadcastBytes(QByteArray bytes) {
+void ServerSocket::broadcastBytes(QByteArray bytes, std::function<bool(QTcpSocket*)> filter) {
     foreach (QTcpSocket *client, clients) {
-        client->write(bytes);
-    }
-}
-
-void ServerSocket::broadcastBytes(QByteArray bytes, int exceptPeer) {
-    foreach (QTcpSocket *client, clients) {
-        if (client->peerPort() != exceptPeer) {
+        if (filter(client)) {
             client->write(bytes);
         }
     }
 }
 
-void ServerSocket::broadcastPositionUpdate(int id, cv::Point2f position, float rotation) {
+void ServerSocket::broadcastPositionUpdate(int id, cv::Point2f position, float rotation, std::function<bool(QTcpSocket*)> filter) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
@@ -77,21 +71,22 @@ void ServerSocket::broadcastPositionUpdate(int id, cv::Point2f position, float r
            << rotation
            << (qint32) id;
 
-    broadcastBytes(bytes);
+    broadcastBytes(bytes, filter);
 }
 
 
-void ServerSocket::broadcastRotationUpdate(int id, float rotation, int peer) {
+void ServerSocket::broadcastRotationUpdate(int id, float rotation, std::function<bool(QTcpSocket*)> filter) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
     stream << (qint8) 3
            << (qint32) id
            << rotation;
-    broadcastBytes(bytes, peer);
+
+    broadcastBytes(bytes, filter);
 }
 
-void ServerSocket::broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize) {
+void ServerSocket::broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize, std::function<bool(QTcpSocket*)> filter) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
@@ -100,19 +95,19 @@ void ServerSocket::broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize) {
            << boardSize.width
            << boardSize.height;
 
-    broadcastBytes(bytes);
+    broadcastBytes(bytes, filter);
 }
 
-void ServerSocket::broadcastDelete(int id) {
+void ServerSocket::broadcastDelete(int id, std::function<bool(QTcpSocket*)> filter) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     stream << (qint8) 1
            << (qint32) id;
-    broadcastBytes(bytes);
+    broadcastBytes(bytes, filter);
 }
 
-void ServerSocket::broadcastPing() {
-    broadcastBytes(QByteArray(1, 2));
+void ServerSocket::broadcastPing(std::function<bool(QTcpSocket*)> filter) {
+    broadcastBytes(QByteArray(1, 2), filter);
 }
 
 void ServerSocket::processUpdates() {

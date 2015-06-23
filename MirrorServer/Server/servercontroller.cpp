@@ -1,6 +1,7 @@
 #include "servercontroller.hpp"
 #include "serversocket.hpp"
 #include <QBuffer>
+#include <QTcpSocket>
 
 namespace mirrors {
 
@@ -114,7 +115,10 @@ void ServerController::changeLevel(int nextLevel) {
 
 void ServerController::setMirrorRotation(int id, float rotation, int peer) {
     mirrorRotations[id] = rotation;
-    sock->broadcastRotationUpdate(id, rotation, peer);
+
+    sock->broadcastRotationUpdate(id, rotation, [&](QTcpSocket* client) {
+        return client->peerPort() != peer;
+    });
 }
 
 void ServerController::detectBoard() {
