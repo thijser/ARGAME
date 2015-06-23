@@ -31,7 +31,7 @@ namespace Network
         /// This is used as the size of the message buffer.
         /// </para>
         /// </summary>
-        public const int MaxPacketSize = 17;
+        public const int MaxPacketSize = 30;
 
         /// <summary>
         /// The maximum amount of updates to read in a single step.
