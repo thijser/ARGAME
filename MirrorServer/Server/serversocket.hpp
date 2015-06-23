@@ -109,9 +109,9 @@ signals:
      * @brief Signal emitted whenever a remote client rotates a mirror.
      * @param id - Mirror index.
      * @param rotation - New rotation of mirror.
-     * @param peer - Peer that sent the mirror rotation update.
+     * @param client - Client that sent the mirror rotation update.
      */
-    void mirrorRotated(int id, float rotation, int peer);
+    void mirrorRotated(int id, float rotation, QTcpSocket* client);
 
     /**
      * @brief Signal emitted when an internal server error occurs.

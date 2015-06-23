@@ -151,7 +151,7 @@ void ServerSocket::readRotationUpdate(QTcpSocket *client) {
         stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
         stream >> id;
         stream >> rotation;
-        emit mirrorRotated(id, rotation, client->peerPort());
+        emit mirrorRotated(id, rotation, client);
     }
 }
 
