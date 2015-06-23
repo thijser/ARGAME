@@ -133,16 +133,23 @@
             \label{fig:finalmarker}
         \end{figure}
 
-        The corners of the playing surface are set using red markers, as shown
-        in figure \ref{fig:cornermarkers}. The need for these is explained in
-        the next sections, which also describe the rest of the marker tracking
-        process on the server.
+        The corners of the playing surface were originally set using red
+        markers, as shown in figure \ref{fig:cornermarkers}. The need for these
+        corner markers is explained in the next sections, which also describe
+        the rest of the marker tracking process on the server.
 
         \begin{figure}[!ht]
             \centering
             \includegraphics{CornerMarker}
-            \caption{A marker that indicates a playing surface corner.}
+            \caption{Original marker that indicates a playing surface corner.}
             \label{fig:cornermarkers}
+        \end{figure}
+
+        \begin{figure}[!ht]
+            \centering
+            \includegraphics{CornerMarker2}
+            \caption{New marker that indicates a playing surface corner.}
+            \label{fig:cornermarkers2}
         \end{figure}
 
         \subsection{Board detection}
@@ -172,6 +179,13 @@
             correction is required to recognize markers and their location
             correctly by making the camera view look like it views the board
             from above.
+
+            We had some issues with these solid red markers. For example, a red
+            chair near the testing setup was often also recognized as a corner
+            marker. For that reason we designed a slightly more complex corner
+            marker that has a yellow center, as depicted in figure
+            \ref{fig:cornermarkers2}. Detection of this marker is the same as
+            above along with a check for the yellow hole.
 
         \subsection{Marker detection}
             The markers are first segmented from the playing surface using their

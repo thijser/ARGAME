@@ -43,6 +43,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 415354}
   - 95: {fileID: 9502410}
+  - 136: {fileID: 13669226}
+  - 114: {fileID: 11456728}
   m_Layer: 0
   m_Name: waypoint
   m_TagString: Untagged
@@ -74,7 +76,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 195674}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: .100000001, y: .100000001, z: .100000001}
   m_Children:
   - {fileID: 462350}
@@ -152,7 +154,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: d2a02c24e1e6df44ea03b31a6f7e90b2, type: 2}
+  - {fileID: 2100000, guid: abafa1312c9a0174ba6c59659733db30, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -220,7 +222,7 @@ Animator:
   m_GameObject: {fileID: 195674}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: a4fdefc432d2e594ea2ac459f68ff287, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: db95094e573cd324c9806598801e4105, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -228,6 +230,30 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11456728
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36191da9563a925408bf2bd71a0fe85e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &13669226
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195674}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 6
+  m_Height: 21.5985336
+  m_Direction: 1
+  m_Center: {x: 0, y: 7, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

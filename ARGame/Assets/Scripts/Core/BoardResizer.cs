@@ -26,7 +26,7 @@ namespace Core
         /// does nothing.
         /// </para>
         /// </summary>
-        /// <param name="serverUpdate">The server serverUpdate.</param>
+        /// <param name="update">The server serverUpdate.</param>
         public void OnServerUpdate(AbstractUpdate update)
         {
             LevelUpdate level = update as LevelUpdate;

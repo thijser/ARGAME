@@ -21,7 +21,11 @@ namespace Network
         /// <summary>
         /// Receives and handles all server updates, by sending them forward to other handlers
         /// </summary>
+<<<<<<< HEAD
         /// <param name="update">The serverUpdate to be handled, not null.</param>
+=======
+        /// <param name="update">The serverUpdate to be handled.</param>
+>>>>>>> master
         public void OnServerUpdate(AbstractUpdate update)
         {
             Assert.IsNotNull(update);
