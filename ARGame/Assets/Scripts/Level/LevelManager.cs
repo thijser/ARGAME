@@ -130,7 +130,7 @@ namespace Level
         /// </summary>
         public void ScaleLevel()
         {
-            Levelcomp levelcomp = this.level.GetComponent<Levelcomp>();
+            LevelComponent levelcomp = this.level.GetComponent<LevelComponent>();
             float xproportions = this.BoardSize.x / levelcomp.Size.x;
             float yproportions = this.BoardSize.y / levelcomp.Size.y;
             this.level.transform.localScale = Mathf.Min(xproportions, yproportions) * Vector3.one * this.IARscale;

@@ -12,7 +12,7 @@ namespace Level
     /// <summary>
     /// Container class describing details about a level.
     /// </summary>
-    public class LevelDescriptor
+    public class LevelProperties
     {
         /// <summary>
         /// Gets or sets the width of the level in tiles.

@@ -53,8 +53,8 @@ namespace Level
                 this.LoadPrefabs();
             }
 
-            KeyValuePair<LevelDescriptor, List<LevelObject>> levelInfo = LevelParser.LoadLevel(path);
-            GameObject level = this.ConstructLevel(levelInfo.Key, levelInfo.Value);
+            Level levelInfo = LevelParser.LoadLevel(path);
+            GameObject level = this.ConstructLevel(levelInfo.Properties, levelInfo.Objects);
 
             return level;
         }
@@ -150,7 +150,7 @@ namespace Level
         /// <param name="level">Level descriptor.</param>
         /// <param name="levelObjects">List of level objects.</param>
         /// <returns>Parent GameObject that represents level.</returns>
-        private GameObject ConstructLevel(LevelDescriptor level, List<LevelObject> levelObjects)
+        private GameObject ConstructLevel(LevelProperties level, List<LevelObject> levelObjects)
         {
             GameObject parent = new GameObject("Level");
 

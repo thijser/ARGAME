@@ -16,15 +16,15 @@
         /// </summary>
         /// <param name="xml">XML representation of level as written by Tiled editor.</param>
         /// <returns>Level descriptor and descriptors of objects within the level.</returns>
-        private static KeyValuePair<LevelDescriptor, List<LevelObject>> ParseLevel(string xml)
+        private static Level ParseLevel(string xml)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
 
-            LevelDescriptor level = ParseLevelHeader(doc);
+            LevelProperties level = ParseLevelHeader(doc);
             List<LevelObject> levelObjects = ParseLevelTiles(doc, level);
 
-            return new KeyValuePair<LevelDescriptor, List<LevelObject>>(level, levelObjects);
+            return new Level(level, levelObjects);
         }
 
         /// <summary>
@@ -32,9 +32,9 @@
         /// </summary>
         /// <param name="levelDoc">XML document of level.</param>
         /// <returns>Info about level.</returns>
-        private static LevelDescriptor ParseLevelHeader(XmlDocument levelDoc)
+        private static LevelProperties ParseLevelHeader(XmlDocument levelDoc)
         {
-            LevelDescriptor levelDescriptor = new LevelDescriptor();
+            LevelProperties properties = new LevelProperties();
 
             // Find nodes containing relevant attributes
             var mapNode = levelDoc.SelectSingleNode("map");
@@ -42,16 +42,16 @@
             var tilesetNode = levelDoc.SelectSingleNode("//tileset");
 
             // Read data from them
-            levelDescriptor.Width = int.Parse(mapNode.Attributes["width"].Value, CultureInfo.InvariantCulture);
-            levelDescriptor.Height = int.Parse(mapNode.Attributes["height"].Value, CultureInfo.InvariantCulture);
+            properties.Width = int.Parse(mapNode.Attributes["width"].Value, CultureInfo.InvariantCulture);
+            properties.Height = int.Parse(mapNode.Attributes["height"].Value, CultureInfo.InvariantCulture);
 
-            levelDescriptor.TileWidth = int.Parse(tilesetNode.Attributes["tilewidth"].Value, CultureInfo.InvariantCulture);
-            levelDescriptor.TileHeight = int.Parse(tilesetNode.Attributes["tileheight"].Value, CultureInfo.InvariantCulture);
+            properties.TileWidth = int.Parse(tilesetNode.Attributes["tilewidth"].Value, CultureInfo.InvariantCulture);
+            properties.TileHeight = int.Parse(tilesetNode.Attributes["tileheight"].Value, CultureInfo.InvariantCulture);
 
-            levelDescriptor.HorizontalTiles = int.Parse(imageNode.Attributes["width"].Value, CultureInfo.InvariantCulture) / levelDescriptor.TileWidth;
-            levelDescriptor.VerticalTiles = int.Parse(imageNode.Attributes["height"].Value, CultureInfo.InvariantCulture) / levelDescriptor.TileHeight;
+            properties.HorizontalTiles = int.Parse(imageNode.Attributes["width"].Value, CultureInfo.InvariantCulture) / properties.TileWidth;
+            properties.VerticalTiles = int.Parse(imageNode.Attributes["height"].Value, CultureInfo.InvariantCulture) / properties.TileHeight;
 
-            return levelDescriptor;
+            return properties;
         }
 
         /// <summary>
@@ -60,7 +60,7 @@
         /// <param name="levelDoc">XML document of level.</param>
         /// <param name="level">Level descriptor returned by ParseLevelHeader.</param>
         /// <returns>List of objects placed within level.</returns>
-        private static List<LevelObject> ParseLevelTiles(XmlDocument levelDoc, LevelDescriptor level)
+        private static List<LevelObject> ParseLevelTiles(XmlDocument levelDoc, LevelProperties level)
         {
             int x = 0;
             int y = 0;
@@ -106,7 +106,7 @@
         /// </summary>
         /// <param name="path">Path to level file in Resources.</param>
         /// <returns>Info about parsed level.</returns>
-        public static KeyValuePair<LevelDescriptor, List<LevelObject>> LoadLevel(string path)
+        public static Level LoadLevel(string path)
         {
             try
             {

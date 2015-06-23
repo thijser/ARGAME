@@ -17,7 +17,7 @@ namespace Level
     /// Instances of this class are used by the LevelLoader class.
     /// </para>
     /// </summary>
-    public class Levelcomp : MonoBehaviour
+    public class LevelComponent : MonoBehaviour
     {
         /// <summary>
         /// Gets or sets the size of this component.
