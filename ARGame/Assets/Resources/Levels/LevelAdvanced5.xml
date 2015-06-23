@@ -6,8 +6,8 @@
  <layer name="Tilelaag 1" width="10" height="10">
   <data>
    <tile gid="56"/>
-   <tile gid="1"/>
    <tile gid="5"/>
+   <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="56"/>
@@ -48,7 +48,7 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="56"/>
-   <tile gid="1"/>
+   <tile gid="88"/>
    <tile gid="56"/>
    <tile gid="56"/>
    <tile gid="1"/>
@@ -81,7 +81,7 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
-   <tile gid="56"/>
+   <tile gid="1"/>
    <tile gid="56"/>
    <tile gid="1"/>
    <tile gid="6"/>
@@ -91,10 +91,6 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
-   <tile gid="56"/>
-   <tile gid="88"/>
-   <tile gid="56"/>
-   <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="56"/>
@@ -102,6 +98,10 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="56"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="75"/>
    <tile gid="56"/>
