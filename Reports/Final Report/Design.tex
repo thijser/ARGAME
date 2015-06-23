@@ -112,11 +112,13 @@
 		the game world to the VR glasses. The layout of this component is discussed in
 		paragraph \ref{ssec:projectioncomponent}.
 		
-		The "Vision" component is responsible for containing tracked markers.
+		The "Vision" component is responsible for providing a Augmented Reality back-end.
 		At first this was part of the responsibility of the "Projection"
 		component, but that got too big and needed to be split,
 		resulting into this extra component. The layout of this component is
 		discussed in paragraph \ref{ssec:visioncomponent}.
+        
+        
 		
 		Additionally, the game depends on the deployment of a server application
 		written in C++. The purpose of this server application will be discussed 
@@ -244,17 +246,18 @@
 			\end{figure}
 			
 		\subsection{The Vision component} \label{ssec:visioncomponent}
-			The \texttt{Vision} component is a small component responsible for
-			containing tracked markers and their ID's. It used to be a part
-			of the \texttt{Projection} component, but it got split off,
-			because it had little to do with fixing the projection of the
-			META One, and more with containing tracked markers. Also, the
-			\texttt{Projection} component became way too big during development
-			(it started with about four to five classes, and those got split
-			up into about fifteen classes, mainly because they violated software
-			engineering principles such as the single responsibility principle).
-			Because it got so big, some of the classes needed to be split off from
-			the component and put into another component.
+			The \texttt{Vision} component is a small component responsible 
+            providing hardware-specific details regarding marker tracking. 
+            It used to be a part of the \texttt{Projection} component, but 
+            it got split off, because it had little to do with the projection 
+            of the game objects into the world, and more with tracking the 
+            actual markers. Also, the \texttt{Projection} component became way 
+            too big during development: it started with about four to five 
+            classes, and those got split up into about fifteen classes, mainly 
+            because they violated software engineering principles such as the 
+            single responsibility principle. Because it got so big, some of the 
+            classes needed to be split off from the component and put into 
+            another component.
 			
 			By design, and because of how it was conceived, the \texttt{Vision} 
 			component depends heavily on the \texttt{Projection} component.
@@ -272,13 +275,29 @@
 			\end{figure}
 			
 		\subsection{The Level component} 
-			\dots %TODO Write Level component section.
+            The \texttt{Level} component contains the functionality to load 
+            and build levels for the players to solve. It contains a way to 
+            load levels created using a map editor application called 
+            Tiled \cite{tiled}. Using this map editor, it becomes possible
+            to create levels fairly easily using a visual editor. See figure
+            \ref{fig:tilededitor} for an example level opened in the Tiled
+            editor. The tiles representing various game objects can be seen in
+            the lower right of the window, and the level itself is displayed in
+            the center.
+            
+            \begin{figure}[ht]
+                \includegraphics[width=\textwidth]{TiledEditorWindow}
+                \caption{Tiled Map Editor Window}
+                \label{fig:tilededitor}
+            \end{figure}
 			
 		\subsection{The Graphics component}
-			The component that provides graphical functionality to the game.
-			Since most graphics-related functions are provided by Unity, this
-			component is very small, containing only very limited functionality
-			that Unity did not already provide.
+			The \texttt{Graphics} component provides graphical functionality to 
+            the game. Since most graphics-related functions are provided by 
+            Unity, this component is very small, containing only very limited 
+            functionality that Unity did not already provide. The main 
+            function included in this component is the code that draws the laser 
+            beam. 
 
 \subsection{Experimental code: the RandomLevel component} \label{ssec:randomlevelcomponent}
 			The \texttt{RandomLevel} component is an abandoned and deleted

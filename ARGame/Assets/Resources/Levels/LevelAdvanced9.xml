@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="20" tileheight="20" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="20" tileheight="20" backgroundcolor="#4d4d4d" nextobjectid="1">
  <tileset firstgid="1" name="tiles" tilewidth="20" tileheight="20">
   <image source="tiles.png" width="360" height="160"/>
  </tileset>
  <layer name="Tilelaag 1" width="10" height="10">
   <data>
    <tile gid="43"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="1"/>
-   <tile gid="0"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -24,7 +24,7 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="18"/>
-   <tile gid="0"/>
+   <tile gid="1"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -34,35 +34,16 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="1"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="4"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="2"/>
    <tile gid="19"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="54"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="2"/>
-   <tile gid="1"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="54"/>
@@ -71,21 +52,18 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="2"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
    <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="1"/>
    <tile gid="54"/>
    <tile gid="1"/>
@@ -93,18 +71,40 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="54"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
   </data>
  </layer>
 </map>
