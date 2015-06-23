@@ -108,8 +108,9 @@ signals:
      * @brief Signal emitted whenever a remote client rotates a mirror.
      * @param id - Mirror index.
      * @param rotation - New rotation of mirror.
+     * @param peer - Peer that sent the mirror rotation update.
      */
-    void mirrorRotated(int id, float rotation);
+    void mirrorRotated(int id, float rotation, int peer);
 
     /**
      * @brief Signal emitted when an internal server error occurs.
@@ -158,6 +159,13 @@ public slots:
     void broadcastBytes(QByteArray bytes);
 
     /**
+     * @brief Sends the given QByteArray to all clients except the specified one.
+     * @param bytes - The QByteArray with the data to send.
+     * @param exceptPeer - The peerPort of the client to not send data to.
+     */
+    void broadcastBytes(QByteArray bytes, int exceptPeer);
+
+    /**
      * @brief Sends a PositionUpdate message to all clients.
      * @param id       - The marker ID.
      * @param position - The position of the marker.
@@ -169,8 +177,9 @@ public slots:
      * @brief Sends a RotationUpdate message to all clients.
      * @param id       - The marker ID
      * @param rotation - The rotation of the object on the marker.
+     * @param peer - Client that sent the original rotation, which update will not be sent to (optional).
      */
-    void broadcastRotationUpdate(int id, float rotation);
+    void broadcastRotationUpdate(int id, float rotation, int peer = -1);
 
     /**
      * @brief Sends a LevelUpdate message to all clients.

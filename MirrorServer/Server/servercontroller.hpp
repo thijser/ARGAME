@@ -188,8 +188,9 @@ public slots:
      * @brief Sends a mirror rotation update message to all clients.
      * @param id - Index of rotated mirror.
      * @param rotation - New rotation of mirror.
+     * @param peer - Client that sent the rotation update.
      */
-    void setMirrorRotation(int id, float rotation);
+    void setMirrorRotation(int id, float rotation, int peer);
 
     /**
      * @brief Attempts to detect the board

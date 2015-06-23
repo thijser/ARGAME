@@ -22,8 +22,8 @@ ServerController::ServerController(QObject *parent)
             sock, SLOT(processUpdates()));
     connect(sock, SIGNAL(levelChanged(int)),
             this, SLOT(changeLevel(int)));
-    connect(sock, SIGNAL(mirrorRotated(int, float)),
-            this, SLOT(setMirrorRotation(int, float)));
+    connect(sock, SIGNAL(mirrorRotated(int, float, int)),
+            this, SLOT(setMirrorRotation(int, float, int)));
     connect(sock, SIGNAL(clientConnected(QTcpSocket*)),
             this, SLOT(handleNewClient()));
     connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
@@ -112,9 +112,9 @@ void ServerController::changeLevel(int nextLevel) {
     }
 }
 
-void ServerController::setMirrorRotation(int id, float rotation) {
+void ServerController::setMirrorRotation(int id, float rotation, int peer) {
     mirrorRotations[id] = rotation;
-    sock->broadcastRotationUpdate(id, rotation);
+    sock->broadcastRotationUpdate(id, rotation, peer);
 }
 
 void ServerController::detectBoard() {

@@ -59,6 +59,14 @@ void ServerSocket::broadcastBytes(QByteArray bytes) {
     }
 }
 
+void ServerSocket::broadcastBytes(QByteArray bytes, int exceptPeer) {
+    foreach (QTcpSocket *client, clients) {
+        if (client->peerPort() != exceptPeer) {
+            client->write(bytes);
+        }
+    }
+}
+
 void ServerSocket::broadcastPositionUpdate(int id, cv::Point2f position, float rotation) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
@@ -73,14 +81,14 @@ void ServerSocket::broadcastPositionUpdate(int id, cv::Point2f position, float r
 }
 
 
-void ServerSocket::broadcastRotationUpdate(int id, float rotation) {
+void ServerSocket::broadcastRotationUpdate(int id, float rotation, int peer) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
     stream << (qint8) 3
            << (qint32) id
            << rotation;
-    broadcastBytes(bytes);
+    broadcastBytes(bytes, peer);
 }
 
 void ServerSocket::broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize) {
@@ -148,7 +156,7 @@ void ServerSocket::readRotationUpdate(QTcpSocket *client) {
         stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
         stream >> id;
         stream >> rotation;
-        emit mirrorRotated(id, rotation);
+        emit mirrorRotated(id, rotation, client->peerPort());
     }
 }
 
