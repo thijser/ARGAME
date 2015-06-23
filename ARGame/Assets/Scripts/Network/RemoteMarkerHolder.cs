@@ -36,23 +36,21 @@ namespace Network
         private Dictionary<int, MarkerState> markers = new Dictionary<int, MarkerState>();
 
         /// <summary>
-        /// Receives and handles all server updates.
+        /// Receives and handles position updates.
         /// </summary>
-        /// <param name="update">The serverUpdate to be handled, can be either a
-        /// PositionUpdate or a RotationUpdate.</param>
-        public void OnServerUpdate(AbstractUpdate update)
+        /// <param name="update">The position update to be handled.</param>
+        public void OnPositionUpdate(PositionUpdate update)
         {
-            if (update == null)
-            {
-                throw new ArgumentNullException("update");
-            }
+            RequireMarkerState(update.Id).Update(update);
+        }
 
-            if (!this.markers.ContainsKey(update.Id))
-            {
-                this.markers[update.Id] = new MarkerState(update.Id, this.ReferenceMarker);
-            }
-
-            this.markers[update.Id].Update(update);
+        /// <summary>
+        /// Receives and handles rotation updates.
+        /// </summary>
+        /// <param name="update">The rotation update to be handled.</param>
+        public void OnRotationUpdate(RotationUpdate update)
+        {
+            RequireMarkerState(update.Id).Update(update);
         }
 
         /// <summary>
@@ -64,6 +62,21 @@ namespace Network
         public MarkerState GetMarkerState(int key)
         {
             return this.markers[key];
+        }
+
+        /// <summary>
+        /// Get state of marker with given id (will be automatically created if it doesn't exist yet).
+        /// </summary>
+        /// <param name="id">Id of (new) marker.</param>
+        /// <returns>Marker state of marker.</returns>
+        public MarkerState RequireMarkerState(int id)
+        {
+            if (!this.markers.ContainsKey(id))
+            {
+                this.markers[id] = new MarkerState(id, this.ReferenceMarker);
+            }
+
+            return this.markers[id];
         }
 
         /// <summary>

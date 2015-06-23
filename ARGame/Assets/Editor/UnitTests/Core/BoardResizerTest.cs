@@ -78,26 +78,9 @@ using UnityEngine;
             
             LevelUpdate update = new LevelUpdate(34, new Vector2(240, 320));
             board.transform.parent = resizer.transform;
-            resizer.OnServerUpdate(update);
+            resizer.OnLevelUpdate(update);
 
             Assert.AreEqual(new Vector3(-240, 1, 320), board.transform.localScale);
-        }
-
-        /// <summary>
-        /// Tests if the <c>OnServerUpdate</c> method performs no operation
-        /// with a non-LevelUpdate argument.
-        /// </summary>
-        [Test]
-        public void TestOnServerUpdateWithOtherUpdateType()
-        {
-            GameObject board = new GameObject("board");
-            board.tag = "PlayingBoard";
-
-            BoardResizer resizer = GameObjectFactory.Create<BoardResizer>();
-            board.transform.parent = resizer.transform;
-            resizer.OnServerUpdate(new RotationUpdate(UpdateType.UpdateRotation, 86, 8));
-
-            Assert.AreEqual(Vector3.one, board.transform.localScale);
         }
     }
 }

@@ -19,22 +19,13 @@ namespace Core
     public class BoardResizer : MonoBehaviour
     {
         /// <summary>
-        /// Updates the board size with the size in the argument
-        /// if the argument is a LevelUpdate instance. 
-        /// <para>
-        /// If the argument is not a LevelUpdate instance, this method
-        /// does nothing.
-        /// </para>
+        /// Updates the board size with the size in the argument.
         /// </summary>
-        /// <param name="update">The server update.</param>
-        public void OnServerUpdate(AbstractUpdate update)
+        /// <param name="level">The level update.</param>
+        public void OnLevelUpdate(LevelUpdate level)
         {
-            LevelUpdate level = update as LevelUpdate;
-            if (level != null)
-            {
-                Debug.Log("Applying Board Size: " + level.Size);
-                this.UpdateBoardSize(level.Size);
-            }
+            Debug.Log("Applying Board Size: " + level.Size);
+            this.UpdateBoardSize(level.Size);
         }
 
         /// <summary>

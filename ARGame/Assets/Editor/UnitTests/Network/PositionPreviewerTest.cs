@@ -28,7 +28,7 @@ namespace Network
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullTest()
         {
-            GameObjectFactory.Create<RemoteMarkerHolder>().OnServerUpdate(null);
+            GameObjectFactory.Create<RemoteMarkerHolder>().OnPositionUpdate(null);
         }
 
         /// <summary>
