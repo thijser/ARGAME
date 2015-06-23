@@ -272,6 +272,21 @@
 				\label{fig:classdiagramvision}
 			\end{figure}
 			
+		\subsection{The Level namespace}
+			The \texttt{Level} namespace is the namespace responsible for
+			loading levels into the game world. Levels are made using Tiled,
+			a free level design tool that can be used to visually create 
+			tile-based levels. These levels can then be exported to XML files,
+			which the code in the namespace can use to recreate the levels
+			in Unity scenes.
+			
+		\subsection{The Graphics namespace}
+			The \texttt{Graphics} namespace is a small namespace containing
+			classes that render the laser beams better. Before usage of the
+			classes in this namespace, the laser beams did not look too good
+			after being emitted from an emitter. Just the LineRenderer
+			functionality in Unity did not do them much justice.
+			
 		\subsection{Experimental code: the RandomLevel namespace} \label{ssec:randomlevelnamespace}
 			The \texttt{RandomLevel} namespace is an abandoned and deleted
 			namespace, which contained code that, when deployed, would create
