@@ -39,6 +39,11 @@ namespace Network
         private Mirror selected;
 
         /// <summary>
+        /// Current rotation speed of mirror.
+        /// </summary>
+        private float rotationSpeed = 0.0f;
+
+        /// <summary>
         /// Gets or sets the selected Mirror.
         /// </summary>
         public Mirror SelectedMirror
@@ -135,15 +140,24 @@ namespace Network
         {
             if (this.SelectedMirror != null)
             {
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                {
+                    rotationSpeed = 0.0f;
+                }
+
                 if (Input.GetKey(KeyCode.A))
                 {
-                    float t = Time.deltaTime * -90f;
+                    float t = Time.deltaTime * -rotationSpeed;
+                    rotationSpeed = Mathf.Min(90f, rotationSpeed + Time.deltaTime * 45.0f);
+
                     this.SelectedMirror.transform.Rotate(0, t, 0);
                     this.SendRotationUpdate();
                 }
                 else if (Input.GetKey(KeyCode.D))
                 {
-                    float t = Time.deltaTime * 90f;
+                    float t = Time.deltaTime * rotationSpeed;
+                    rotationSpeed = Mathf.Min(90.0f, rotationSpeed + Time.deltaTime * 45.0f);
+
                     this.SelectedMirror.transform.Rotate(0, t, 0);
                     this.SendRotationUpdate();
                 }
