@@ -61,22 +61,21 @@ namespace Level
         {
             get
             {
-                switch (this.Type)
+                if (this.Type == TileType.PortalEntryOne || this.Type == TileType.PortalExitOne)
                 {
-                    case TileType.PortalEntryOne:
-                    case TileType.PortalExitOne:
-                        return 0;
-
-                    case TileType.PortalEntryTwo:
-                    case TileType.PortalExitTwo:
-                        return 1;
-
-                    case TileType.PortalEntryThree:
-                    case TileType.PortalExitThree:
-                        return 2;
-
-                    default:
-                        return -1;
+                    return 0;
+                }
+                else if (this.Type == TileType.PortalEntryTwo || this.Type == TileType.PortalExitTwo)
+                {
+                    return 1;
+                }
+                else if (this.Type == TileType.PortalEntryThree || this.Type == TileType.PortalExitThree)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return -1;
                 }
             }
         }
