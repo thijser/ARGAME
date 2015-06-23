@@ -148,15 +148,15 @@ namespace Network
             Assert.IsFalse(length < 28, "ARViewUpdate length needs to be at least 28");
             Assert.IsFalse(bytes.Length < length, "byte array length is insufficient");
 
-            int id = MessageProcessor.ReadInt(bytes, 0);
+            int id = MessageProcessor.ReadInt32(bytes, 0);
             Vector3 position = new Vector3(
-                MessageProcessor.ReadFloat(bytes, 4),
-                MessageProcessor.ReadFloat(bytes, 8),
-                MessageProcessor.ReadFloat(bytes, 12));
+                MessageProcessor.ReadSingle(bytes, 4),
+                MessageProcessor.ReadSingle(bytes, 8),
+                MessageProcessor.ReadSingle(bytes, 12));
             Vector3 rotation = new Vector3(
-                MessageProcessor.ReadFloat(bytes, 16),
-                MessageProcessor.ReadFloat(bytes, 20),
-                MessageProcessor.ReadFloat(bytes, 24));
+                MessageProcessor.ReadSingle(bytes, 16),
+                MessageProcessor.ReadSingle(bytes, 20),
+                MessageProcessor.ReadSingle(bytes, 24));
 
             return new ARViewUpdate(id, position, rotation);
         }
@@ -194,7 +194,7 @@ namespace Network
 
             byte[] message = new byte[13];
 
-            message[0] = (byte)UpdateType.Level;
+            message[0] = (byte)UpdateType.UpdateLevel;
             WriteInt32(update.NextLevelIndex, message, 1);
             WriteSingle(update.Size.x, message, 5);
             WriteSingle(update.Size.y, message, 9);
@@ -212,15 +212,15 @@ namespace Network
 
             byte[] message = new byte[29];
             message[0] = (byte)UpdateType.UpdateARView;
-            WriteInt(update.ID, message, 1);
+            WriteInt32(update.Id, message, 1);
 
-            WriteFloat(update.Position.x, message, 5);
-            WriteFloat(update.Position.y, message, 9);
-            WriteFloat(update.Position.z, message, 13);
+            WriteSingle(update.Position.x, message, 5);
+            WriteSingle(update.Position.y, message, 9);
+            WriteSingle(update.Position.z, message, 13);
 
-            WriteFloat(update.Rotation.x, message, 17);
-            WriteFloat(update.Rotation.y, message, 21);
-            WriteFloat(update.Rotation.z, message, 25);
+            WriteSingle(update.Rotation.x, message, 17);
+            WriteSingle(update.Rotation.y, message, 21);
+            WriteSingle(update.Rotation.z, message, 25);
 
             return message;
         }

@@ -10,7 +10,7 @@
 namespace Network
 {
     using UnityEngine;
-	using Projection;
+    using Projection;
     using UnityEngine.Assertions;
 
     /// <summary>
@@ -28,22 +28,25 @@ namespace Network
         public ARViewUpdate(int id, Vector3 position, Vector3 rotation)
         {
             this.Type = UpdateType.UpdateARView;
-            this.ID = id;
+            this.Id = id;
             this.Position = position;
             this.Rotation = rotation;
         }
-		public ARViewUpdate(int id,MarkerHolder mh){
-			this.Type=UpdateType.UpdateARView;
-			this.ID=id;
-			Marker parent=mh.Parent;
-			Matrix4x4 posmatrix=parent.TransformMatrix.inverse;
-			GameObject l = new GameObject("lamb");
-			Transform lamb = l.transform;
-			lamb.SetFromMatrix(posmatrix);
-			this.Position=lamb.position;
-			this.Rotation=lamb.rotation.eulerAngles;
-			GameObject.Destroy(l);
-		}
+
+        public ARViewUpdate(int id, MarkerHolder mh)
+        {
+            this.Type = UpdateType.UpdateARView;
+            this.Id = id;
+            Marker parent = mh.Parent;
+            Matrix4x4 posmatrix = parent.TransformMatrix.inverse;
+            GameObject l = new GameObject("lamb");
+            Transform lamb = l.transform;
+            lamb.SetFromMatrix(posmatrix);
+            this.Position = lamb.position;
+            this.Rotation = lamb.rotation.eulerAngles;
+            GameObject.Destroy(l);
+        }
+
         /// <summary>
         /// Gets the position of the local player.
         /// </summary>
@@ -53,7 +56,6 @@ namespace Network
         /// Gets the rotation of the local player.
         /// </summary>
         public Vector3 Rotation { get; private set; }
-
 
         /// <summary>
         /// Tests whether this <see cref="ARViewUpdate"/> is equal to the 
@@ -68,7 +70,7 @@ namespace Network
                 return false;
             }
             ARViewUpdate that = obj as ARViewUpdate;
-            return this.ID == that.ID
+            return this.Id == that.Id
                 && this.Position == that.Position
                 && this.Rotation == that.Rotation;
         }
@@ -80,7 +82,7 @@ namespace Network
         public override int GetHashCode()
         {
             int hash = this.GetType().GetHashCode();
-            hash = 23 * hash + this.ID;
+            hash = 23 * hash + this.Id;
             hash = 23 * hash + this.Position.GetHashCode();
             hash = 23 * hash + this.Rotation.GetHashCode();
             return hash;
@@ -92,7 +94,7 @@ namespace Network
         /// <returns>A string describing this <see cref="ARViewUpdate"/>.</returns>
         public override string ToString()
         {
-            return "<ARViewUpdate[ID=" + this.ID + ", Position=" + this.Position + ", Rotation=" + this.Rotation + "]>";
+            return "<ARViewUpdate[ID=" + this.Id + ", Position=" + this.Position + ", Rotation=" + this.Rotation + "]>";
         }
     }
 }

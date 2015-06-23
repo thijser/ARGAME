@@ -123,7 +123,7 @@ namespace Projection
         }
 
 		public void sendPossitin(){
-			this.SendMessage("OnSendPosition", new ARViewUpdate(Parent.ID,this) as ARViewUpdate);
+			this.SendMessage("OnSendPosition", new ARViewUpdate(Parent.Id,this) as ARViewUpdate);
 		}
         /// <summary>
         /// Called whenever a marker is seen by the detector.
