@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------
 namespace Network
 {
+    using Projection;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -33,7 +34,7 @@ namespace Network
         /// <summary>
         /// State of markers in game.
         /// </summary>
-        private Dictionary<int, MarkerState> markers = new Dictionary<int, MarkerState>();
+        private Dictionary<int, RemoteMarker> markers = new Dictionary<int, RemoteMarker>();
 
         /// <summary>
         /// Receives and handles position updates.
@@ -41,7 +42,7 @@ namespace Network
         /// <param name="update">The position update to be handled.</param>
         public void OnPositionUpdate(PositionUpdate update)
         {
-            RequireMarkerState(update.Id).Update(update);
+            RequireMarker(update.Id).HandleServerUpdate(update);
         }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace Network
         /// <param name="update">The rotation update to be handled.</param>
         public void OnRotationUpdate(RotationUpdate update)
         {
-            RequireMarkerState(update.Id).Update(update);
+            RequireMarker(update.Id).HandleServerUpdate(update);
         }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace Network
         /// </summary>
         /// <param name="key">The key for searching in the dictionary.</param>
         /// <returns>The marker state corresponding with that key.</returns>
-        public MarkerState GetMarkerState(int key)
+        public RemoteMarker GetMarker(int key)
         {
             return this.markers[key];
         }
@@ -69,11 +70,12 @@ namespace Network
         /// </summary>
         /// <param name="id">Id of (new) marker.</param>
         /// <returns>Marker state of marker.</returns>
-        public MarkerState RequireMarkerState(int id)
+        public RemoteMarker RequireMarker(int id)
         {
             if (!this.markers.ContainsKey(id))
             {
-                this.markers[id] = new MarkerState(id, this.ReferenceMarker);
+                this.markers[id] = Instantiate(this.ReferenceMarker).GetComponent<RemoteMarker>();
+                this.markers[id].ID = id;
             }
 
             return this.markers[id];

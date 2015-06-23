@@ -1,5 +1,5 @@
-//----------------------------------------------------------------------------
-// <copyright file="MarkerState.cs" company="Delft University of Technology">
+﻿//----------------------------------------------------------------------------
+// <copyright file="RemoteMarker.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -7,7 +7,7 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Network
+namespace Projection
 {
     using System;
     using System.Collections.Generic;
@@ -15,11 +15,12 @@ namespace Network
     using Projection;
     using UnityEngine;
     using UnityEngine.Assertions;
+    using Network;
 
     /// <summary>
-    /// State of detected marker.
+    /// Represents a marker for a remote player.
     /// </summary>
-    public class MarkerState
+    public class RemoteMarker : MonoBehaviour
     {
         /// <summary>
         /// The factor with which to scale the position.
@@ -37,37 +38,9 @@ namespace Network
         public const float VerticalOffset = -0.05f;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MarkerState"/> class.
-        /// </summary>
-        /// <param name="id">The marker Id.</param>
-        /// <param name="referenceMarker">The GameObject that the MarkerState represents.</param>
-        public MarkerState(int id, GameObject referenceMarker)
-        {
-            if (referenceMarker == null)
-            {
-                throw new ArgumentNullException("referenceMarker");
-            }
-
-            this.ID = id;
-
-            // Create mesh representing this marker
-            this.Object = GameObject.Instantiate(referenceMarker);
-            this.Object.name = "Marker" + id;
-
-            // Add reference to this state to game object
-            RemoteMarker remoteMarker = this.Object.AddComponent<RemoteMarker>();
-            remoteMarker.State = this;
-        }
-
-        /// <summary>
         /// Gets the Id of the Marker.
         /// </summary>
-        public int ID { get; private set; }
-
-        /// <summary>
-        /// Gets the GameObject assigned to this marker.
-        /// </summary>
-        public GameObject Object { get; private set; }
+        public int ID { get; set; }
 
         /// <summary>
         /// Moves the object to the given coordinates.
@@ -78,8 +51,8 @@ namespace Network
         /// <param name="coordinate">The coordinates to move to.</param>
         public void MoveObject(Vector2 coordinate)
         {
-            this.Object.SetActive(true);
-            this.Object.transform.localPosition = new Vector3(
+            gameObject.SetActive(true);
+            transform.localPosition = new Vector3(
                 -(coordinate.x + HorizontalOffset) * ScaleFactor,
                 0,
                 (coordinate.y + VerticalOffset) * ScaleFactor);
@@ -90,7 +63,7 @@ namespace Network
         /// </summary>
         public void RemoveObject()
         {
-            this.Object.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -99,14 +72,14 @@ namespace Network
         /// <param name="newRotation">The new rotation.</param>
         public void RotateObject(float newRotation)
         {
-            this.Object.transform.localEulerAngles = new Vector3(0, newRotation, 0);
+            transform.localEulerAngles = new Vector3(0, newRotation, 0);
         }
 
         /// <summary>
         /// Updates the position/rotation of the GameObject with the given update.
         /// </summary>
         /// <param name="serverUpdate">The update from the server.</param>
-        public void Update(AbstractUpdate serverUpdate)
+        public void HandleServerUpdate(AbstractUpdate serverUpdate)
         {
             if (serverUpdate == null)
             {
@@ -132,6 +105,14 @@ namespace Network
                 default:
                     break;
             }
+        }
+
+        /// <summary>
+        /// Show the marker Id in the object name.
+        /// </summary>
+        void Update()
+        {
+            gameObject.name = "Marker" + this.ID;
         }
     }
 }

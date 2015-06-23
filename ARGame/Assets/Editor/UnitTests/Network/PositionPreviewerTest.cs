@@ -38,7 +38,7 @@ namespace Network
         [ExpectedException(typeof(KeyNotFoundException))]
         public void NullMarkerStateTest()
         {
-            GameObjectFactory.Create<RemoteMarkerHolder>().GetMarkerState(0);
+            GameObjectFactory.Create<RemoteMarkerHolder>().GetMarker(0);
         }
 
         /// <summary>
