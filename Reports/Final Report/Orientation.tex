@@ -55,6 +55,10 @@
 			\item Physically co-located players each get only a part of the
 			mirror bases required to solve the puzzle, requiring input
 			from all of these players.
+			\item If there are multiple physically remote players, each of
+			these can only rotate a subset of the mirrors, and
+			as such input from all physically remote players is
+			required for solving the puzzle.
 			\item Physically remote players have the ability to rotate
 			mirrors while the physically co-located players do not have
 			this ability, requiring input from both physically co-located
@@ -63,7 +67,7 @@
 	
 	\section{Software Design Methods} \label{sec:designmethods}
 		This section describes the design methods that were used during the
-		project. It illustrates the methodology that was used to develop and
+		project. It illustrates the methodology that wasere d to develop and
 		coordinate the project during the development phase.
 	
 		\subsection{Design Process} \label{ssec:designprocess}
@@ -171,7 +175,7 @@
 			After some testing with markers and AR glasses, as well game objects, a 
 			first demo was also developed during this time. This phase also saw unit testing of game
 			elements, as well as heavy usage of StyleCop and SonarQube to clean up
-			respectively reorganize code in order to deliver clean code to SIG, for our first
+			respectively reorganized code in order to deliver clean code to SIG, for our first
 			submission.  
 		
 		\subsection{The OpenCV server} \label{ssec:firstdemo}
