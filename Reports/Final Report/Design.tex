@@ -96,67 +96,68 @@
 	\section{Back-end design} \label{sec:backenddesign}
 		The system is composed of three main parts: The Laser mechanics, the network
 		functionality and the projection to 3D glasses. For this purpose, we divided
-		the C\# code over three namespaces, named "Core", "Network" and
-		"Projection", respectively.
+		the C\# code over various components, which will be highlighted below.
 
-		The "Core" namespace is responsible for drawing the Laser beams and
+		The "Core" component is responsible for drawing the Laser beams and
 		providing the interactions of laser beams with the other game objects.
-		The layout of this namespace is discussed in paragraph 
-		\ref{ssec:corenamespace}.
+		The layout of this component is discussed in paragraph 
+		\ref{ssec:corecomponent}.
 
-		The "Network" namespace is responsible for synchronizing the game state
-		between all connected players. The layout of this namespace is discussed 
-		in paragraph \ref{ssec:networknamespace}.
+		The "Network" component is responsible for synchronizing the game state
+		between all connected players. The layout of this component is discussed 
+		in paragraph \ref{ssec:networkcomponent}.
 
-		The "Projection" namespace is responsible for providing the projection to
-		the VR glasses. This namespace provides the functionality required to project
-		the game world to the VR glasses. The layout of this namespace is discussed in
-		paragraph \ref{ssec:projectionnamespace}.
+		The "Projection" component is responsible for providing the projection to
+		the VR glasses. This component provides the functionality required to project
+		the game world to the VR glasses. The layout of this component is discussed in
+		paragraph \ref{ssec:projectioncomponent}.
 		
-		The "Vision" namespace is responsible for containing tracked markers.
+		The "Vision" component is responsible for providing a Augmented Reality back-end.
 		At first this was part of the responsibility of the "Projection"
-		namespace, but that namespace got too big and needed to be split,
-		resulting into this extra namespace. The layout of this namespace is
-		discussed in paragraph \ref{ssec:visionnamespace}.
+		component, but that got too big and needed to be split,
+		resulting into this extra component. The layout of this component is
+		discussed in paragraph \ref{ssec:visioncomponent}.
+        
+        
 		
 		Additionally, the game depends on the deployment of a server application
 		written in C++. The purpose of this server application will be discussed 
-		along with the Network namespace in \ref{ssec:networknamespace}. Also,
+		along with the Network component in \ref{ssec:networkcomponent}. Also,
 		in the past we wanted to potentially add random levels for replay value,
-		and this is discussed in paragraph \ref{ssec:randomlevelnamespace}
+		and this is discussed in paragraph \ref{ssec:randomlevelcomponent}
 		
-		\subsection{The Core namespace} \label{ssec:corenamespace}
-			The \texttt{Core} namespace contains all the code for all the core gameplay
-			elements. The term "core gameplay elements" refers to all the
-			elements necessary to play the basic game with, basically the code
-			for the game objects. Using only the code from the \texttt{Core} namespace,
+		\subsection{The Core component} \label{ssec:corecomponent}
+			The \texttt{Core} component contains all the code for all the core game play
+			elements. The term "core game play elements" refers to all objects 
+			necessary to play the basic game with, basically the code
+			for the game objects. Using only the code from the \texttt{Core} component,
 			it would be possible to create the same game without using AR
 			technology or using markers to play the game with, for that matter.
 			
-			The \texttt{Core} namespace is further subdivided into three namespaces:
-			the \texttt{Core} namespace itself, which contains code relating to the laser
-			and code that helps the other two namespaces, the 
-			\texttt{Core.Emitter} namespace, which contains code for objects 
-			that emit laser beams, and the \texttt{Core.Receiver} namespace, 
+			The \texttt{Core} component is further subdivided into three components:
+			the \texttt{Core} component itself, which contains code relating to the laser
+			and code that helps the other two components, the 
+			\texttt{Core.Emitter} component, which contains code for objects 
+			that emit laser beams, and the \texttt{Core.Receiver} component, 
 			which contains code for objects that receive laser beams and have to 
 			do something with these beams.
 			
 			There are several game objects that emit laser beams as well as 
 			receive them (as seen in \ref{sec:graphicaldesign}). This causes the
-			\texttt{Core.Emitter} and \texttt{Core.Receiver} namespaces to have 
+			\texttt{Core.Emitter} and \texttt{Core.Receiver} components to have 
 			some coupling. However, the coupling is minor, and coupling is only 
-			between sub-namespaces in the same main namespace. As such, this 
+			between sub-components in the same main component. As such, this 
 			should not cause that much of a problem, when considered in a 
 			software engineering context.
 			
 			\begin{figure}[ht]
 				\includegraphics[width=\textwidth]{ClassDiagramCore}
-				\caption{Class diagram of the \texttt{Core} namespace}
+				\caption{Class diagram of the \texttt{Core} component}
 				\label{fig:classdiagramcore}
 			\end{figure}
 			
-		\subsection{The Network namespace} \label{ssec:networknamespace}
-			The \texttt{Network} namespace has undergone several changes since the start
+		\subsection{The Network component} \label{ssec:networkcomponent}
+			The \texttt{Network} component has undergone several changes since the start
 			of the project. These changes are described in this part.
 			
 			The first take on creating a network functionality in the game
@@ -168,7 +169,7 @@
 			and sent them to all the players, synchronizing the game world.
 			There are several tutorials on how to write such a networking
 			script and how to use it in a multiplayer game, the tutorial that
-			was used for the script in the namespace can be found here:
+			was used for the script in the component can be found here:
 			\url{http://www.paladinstudios.com/2013/07/10/how-to-create-an-online-multiplayer-game-with-unity/}
 			
 			The base networking functionality of Unity, however, was not enough
@@ -204,12 +205,12 @@
 			
 			\begin{figure}[ht]
 				\includegraphics[width=\textwidth]{ClassDiagramNetwork}
-				\caption{Class diagram of the \texttt{Network} namespace}
+				\caption{Class diagram of the \texttt{Network} component}
 				\label{fig:classdiagramnetwork}
 			\end{figure}
 			
-		\subsection{The Projection namespace} \label{ssec:projectionnamespace}
-			The \texttt{Projection} namespace is responsible for projecting the 
+		\subsection{The Projection component} \label{ssec:projectioncomponent}
+			The \texttt{Projection} component is responsible for projecting the 
 			world to the Meta One glasses. It takes care of detecting 
 			markers in the playing area and projects all objects relative
 			to those markers. 
@@ -221,9 +222,9 @@
 			of vision of the Meta One glasses, not all markers can be seen at 
 			the same time. In order to ensure the game objects and 
 			corresponding laser beams still appear at the correct positions,
-			the Network namespace provides relative positions and rotations for 
+			the Network component provides relative positions and rotations for 
 			all game markers in the playing area (also see paragraph 
-			\ref{ssec:networknamespace}). The \texttt{Projection} namespace then uses
+			\ref{ssec:networkcomponent}). The \texttt{Projection} component then uses
 			this information to place the objects in correct positions relative
 			to any marker detected by the Meta SDK. This ensures that all objects
 			remain visible and in the correct locations, as long as the Meta SDK 
@@ -236,60 +237,71 @@
 			localization works.
 			
 			See figure \ref{fig:classdiagramprojection} for the class diagram for 
-			the Projection namespace.
+			the Projection component.
 			
 			\begin{figure}[ht]
 				\includegraphics[width=\textwidth]{ClassDiagramProjection}
-				\caption{Class diagram of the \texttt{Projection} namespace}
+				\caption{Class diagram of the \texttt{Projection} component}
 				\label{fig:classdiagramprojection}
 			\end{figure}
 			
-		\subsection{The Vision namespace} \label{ssec:visionnamespace}
-			The \texttt{Vision} namespace is a small namespace responsible for
-			containing tracked markers and their ID's. It used to be a part
-			of the \texttt{Projection} namespace, but it got split off,
-			because it had little to do with fixing the projection of the
-			META One, and more with containing tracked markers. Also, the
-			\texttt{Projection} namespace became way too big during development
-			(it started with about four to five classes, and those got split
-			up into about fifteen classes, mainly because they violated software
-			engineering principles such as the single responsibility principle).
-			Because it got so big, some of the classes needed to be split off from
-			the namespace and put into another namespace.
+		\subsection{The Vision component} \label{ssec:visioncomponent}
+			The \texttt{Vision} component is a small component responsible 
+            providing hardware-specific details regarding marker tracking. 
+            It used to be a part of the \texttt{Projection} component, but 
+            it got split off, because it had little to do with the projection 
+            of the game objects into the world, and more with tracking the 
+            actual markers. Also, the \texttt{Projection} component became way 
+            too big during development: it started with about four to five 
+            classes, and those got split up into about fifteen classes, mainly 
+            because they violated software engineering principles such as the 
+            single responsibility principle. Because it got so big, some of the 
+            classes needed to be split off from the component and put into 
+            another component.
 			
 			By design, and because of how it was conceived, the \texttt{Vision} 
-			namespace depends heavily on the \texttt{Projection} namespace.
+			component depends heavily on the \texttt{Projection} component.
 			However, this dependency is not cyclic, and should not cause too
 			much of a problem because of it, when viewed from a software
 			engineering standpoint. The only communication from the \texttt{Vision}
-			namespace to the \texttt{Projection} namespace is by sending out
+			component to the \texttt{Projection} component is by sending out
 			messages into the object hierarchy, which are then received by 
 			components that can actually receive said messages. 
 			
 			\begin{figure}[ht]
 				\includegraphics[width=\textwidth]{ClassDiagramVision}
-				\caption{Class diagram of the \texttt{Vision} namespace}
+				\caption{Class diagram of the \texttt{Vision} component}
 				\label{fig:classdiagramvision}
 			\end{figure}
 			
-		\subsection{The Level namespace}
-   the namespace responsible for
-ed,
+		\subsection{The Level component} 
+            The \texttt{Level} component contains the functionality to load 
+            and build levels for the players to solve. It contains a way to 
+            load levels created using a map editor application called 
+            Tiled \cite{tiled}. Using this map editor, it becomes possible
+            to create levels fairly easily using a visual editor. See figure
+            \ref{fig:tilededitor} for an example level opened in the Tiled
+            editor. The tiles representing various game objects can be seen in
+            the lower right of the window, and the level itself is displayed in
+            the center.
+            
+            \begin{figure}[ht]
+                \includegraphics[width=\textwidth]{TiledEditorWindow}
+                \caption{Tiled Map Editor Window}
+                \label{fig:tilededitor}
+            \end{figure}
+			
+		\subsection{The Graphics component}
+			The \texttt{Graphics} component provides graphical functionality to 
+            the game. Since most graphics-related functions are provided by 
+            Unity, this component is very small, containing only very limited 
+            functionality that Unity did not already provide. The main 
+            function included in this component is the code that draws the laser 
+            beam. 
 
-			tile-based levels. These levels can then be exported to XML files,
-
-			in Unity scenes.
-
-		\subsection{The Graphics namespace}
- a small namespace containing
-
-d
-
-			functionality in Unity did not do them much justice.
-
-\subsection{Experimental code: the RandomLevel namespace} \label{ssec:randomlevelnamespace}
-			The \texttt{RandomLevel} namespace is an abandoned and deleted
-			namespace, which contained code that, when deployed, would create
+\subsection{Experimental code: the RandomLevel component} \label{ssec:randomlevelcomponent}
+			The \texttt{RandomLevel} component is an abandoned and deleted
+			component, which contained code that, when deployed, would create
 			rather simple but random levels with one target and one laser.
 			The levels are always solvable, and would be created according 
 			to an algorithm that is explained in this section.
