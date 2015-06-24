@@ -34,9 +34,26 @@ namespace Projection
         public const float VerticalOffset = -0.05f;
 
         /// <summary>
-        /// Gets the Id of the Marker.
+        /// The marker id.
         /// </summary>
-        public int ID { get; set; }
+        private int id = -1;
+
+        /// <summary>
+        /// Gets or sets the Id of the Marker.
+        /// </summary>
+        public int Id 
+        {
+            get 
+            {
+                return this.id;
+            }
+
+            set 
+            {
+                this.id = value;
+                gameObject.name = "Marker" + value;
+            } 
+        }
 
         /// <summary>
         /// Gets or sets the remote position from the server.
@@ -99,14 +116,6 @@ namespace Projection
                         this.RemotePosition.Scale);
                 this.transform.SetFromMatrix(transformMatrix * levelProjection);
             }
-        }
-
-        /// <summary>
-        /// Show the marker Id in the object name.
-        /// </summary>
-        public void Update()
-        {
-            gameObject.name = "Marker" + this.ID;
         }
     }
 }

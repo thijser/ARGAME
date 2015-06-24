@@ -102,7 +102,7 @@ namespace Network
             Assert.IsNotNull(this.SelectedMirror, "SendRotationUpdate: No Mirror Selected");
             RemoteMarker marker = this.SelectedMirror.GetComponent<RemoteMarker>();
             float rotation = this.SelectedMirror.transform.eulerAngles.y;
-            this.SendMessageUpwards("OnRotationChanged", new RotationUpdate(UpdateType.UpdateRotation, rotation, marker.ID));
+            this.SendMessageUpwards("OnRotationChanged", new RotationUpdate(UpdateType.UpdateRotation, rotation, marker.Id));
         }
 
         /// <summary>

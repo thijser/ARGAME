@@ -44,7 +44,7 @@ namespace Projection
             else if (!instantiatedMarkers.ContainsKey(update.Id))
             {
                 RemoteMarker marker = Instantiate(this.ReferenceMarker).GetComponent<RemoteMarker>();
-                marker.ID = update.Id;
+                marker.Id = update.Id;
 
                 marker.transform.parent = this.transform;
                 marker.gameObject.SetActive(true);
