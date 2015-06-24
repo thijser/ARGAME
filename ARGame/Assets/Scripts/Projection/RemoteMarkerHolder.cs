@@ -18,7 +18,7 @@ namespace Projection
     /// Previews the position of PositionUpdate objects.
     /// TODO: Make sure very first update is handled too (can be RotationUpdate!)
     /// </summary>
-    public class RemoteMarkerHolder : MonoBehaviour
+    public class RemoteMarkerHolder : MarkerHolder<RemoteMarker>
     {
         /// <summary>
         /// Object representing the mesh to use for markers.

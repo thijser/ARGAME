@@ -19,7 +19,7 @@ namespace Projection
     /// <summary>
     /// A class that handles marker registration and updates positions.
     /// </summary>
-    public class LocalMarkerHolder : MonoBehaviour
+    public class LocalMarkerHolder : MarkerHolder<LocalMarker>
     {
         /// <summary>
         /// Scale of the object.
