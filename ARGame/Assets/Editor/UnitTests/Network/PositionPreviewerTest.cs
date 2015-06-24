@@ -13,6 +13,7 @@ namespace Network
     using System.Collections.Generic;
     using NUnit.Framework;
     using TestUtilities;
+    using Projection;
 
     /// <summary>
     /// Test class for PositionPreviewer.
@@ -29,16 +30,6 @@ namespace Network
         public void ArgumentNullTest()
         {
             GameObjectFactory.Create<RemoteMarkerHolder>().OnPositionUpdate(null);
-        }
-
-        /// <summary>
-        /// Tests if none of the marker states have been initialized after creation.
-        /// </summary>
-        [Test]
-        [ExpectedException(typeof(KeyNotFoundException))]
-        public void NullMarkerStateTest()
-        {
-            GameObjectFactory.Create<RemoteMarkerHolder>().GetMarkerState(0);
         }
 
         /// <summary>
