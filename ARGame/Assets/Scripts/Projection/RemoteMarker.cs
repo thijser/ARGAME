@@ -16,7 +16,7 @@ namespace Projection
     /// <summary>
     /// Represents a marker for a remote player.
     /// </summary>
-    public class RemoteMarker : MonoBehaviour
+    public class RemoteMarker : Marker
     {
         /// <summary>
         /// The factor with which to scale the position.

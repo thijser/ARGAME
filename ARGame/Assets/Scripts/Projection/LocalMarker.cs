@@ -22,7 +22,7 @@ namespace Projection
     /// implementation.
     /// </para>
     /// </summary>
-    public class LocalMarker : MonoBehaviour
+    public class LocalMarker : Marker
     {
         /// <summary>
         /// The Id of the Marker.
