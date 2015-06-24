@@ -16,6 +16,7 @@ namespace Level
     using Core;
     using Core.Receiver;
     using Projection;
+    using Network;
 
     /// <summary>
     /// Level loader that loads levels created with the Tiled map editor.
@@ -185,11 +186,9 @@ namespace Level
         /// <returns>The constructed marker.</returns>
         private Marker ConstructMarker(GameObject level, LevelProperties properties)
         {
-            Vector3 levelPosition = new Vector3(
-                (this.BoardSize.x - properties.Width) / 2, 
-                0, 
+            Vector2 position = new Vector2(
+                (this.BoardSize.x - properties.Width) / 2,
                 (this.BoardSize.y - properties.Height) / 2);
-            level.transform.localPosition = levelPosition;
 
             Marker marker;
             if (GameObject.Find("MetaWorld") == null)
@@ -209,13 +208,9 @@ namespace Level
                             .AddMarker(marker as LocalMarker);
             }
 
-            marker.RemotePosition = new MarkerPosition(
-                8f * levelPosition, 
-                Quaternion.identity, 
-                DateTime.Now, 
-                8f * new Vector3(1, 1, -1), 
-                LevelMarkerID);
-
+            // Simulate a PositionUpdate from the server.
+            PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, position, 0, LevelMarkerID);
+            marker.RemotePosition = new MarkerPosition(update);
             return marker;
         }
 
