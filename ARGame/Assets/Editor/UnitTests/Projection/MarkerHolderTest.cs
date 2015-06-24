@@ -30,7 +30,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestOnMarkerRegisterNull()
         {
-            GameObjectFactory.Create<MarkerHolder>().OnMarkerRegister(null);
+            GameObjectFactory.Create<LocalMarkerHolder>().OnMarkerRegister(null);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Projection
         [Test]
         public void TestOnMarkerRegisterWithNoParent()
         {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
+            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
             LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 4;
             updater.OnMarkerRegister(new MarkerRegister(marker));
@@ -55,7 +55,7 @@ namespace Projection
         [ExpectedException(typeof(KeyNotFoundException))]
         public void TestGetMarkerInvalidID()
         {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
+            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
             LocalMarker parent = GameObjectFactory.Create<LocalMarker>();
             updater.OnMarkerRegister(new MarkerRegister(parent));
             updater.GetMarker(2);
@@ -67,7 +67,7 @@ namespace Projection
         [Test]
         public void TestGetMarkerTypical()
         {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
+            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
             LocalMarker parent = GameObjectFactory.Create<LocalMarker>();
             parent.Id = 54;
             updater.OnMarkerRegister(new MarkerRegister(parent));
@@ -82,7 +82,7 @@ namespace Projection
         [ExpectedException(typeof(KeyNotFoundException))]
         public void TestGetMarkerWithNoMarkersRegistered()
         {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
+            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
             updater.GetMarker(0);
         }
 
@@ -94,7 +94,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestOnPositionUpdateNull()
         {
-            GameObjectFactory.Create<MarkerHolder>().OnPositionUpdate(null);
+            GameObjectFactory.Create<LocalMarkerHolder>().OnPositionUpdate(null);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Projection
         [Test]
         public void TestOnPositionUpdateTypical()
         {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
+            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
             LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 12;
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 34, 12);
@@ -127,7 +127,7 @@ namespace Projection
             LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 6;
 
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
+            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
             updater.OnMarkerRegister(new MarkerRegister(marker));
             updater.OnPositionUpdate(update);
 
@@ -146,7 +146,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestOnRotationUpdateNull()
         {
-            GameObjectFactory.Create<MarkerHolder>().OnRotationUpdate(null);
+            GameObjectFactory.Create<LocalMarkerHolder>().OnRotationUpdate(null);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentException))]
         public void TestOnMarkerRegisterWithNullRegister()
         {
-            GameObjectFactory.Create<MarkerHolder>().OnMarkerRegister(new MarkerRegister(null));
+            GameObjectFactory.Create<LocalMarkerHolder>().OnMarkerRegister(new MarkerRegister(null));
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestOnMarkerSeenNull()
         {
-            GameObjectFactory.Create<MarkerHolder>().OnMarkerSeen(null);
+            GameObjectFactory.Create<LocalMarkerHolder>().OnMarkerSeen(null);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestSelectParentNull()
         {
-            GameObjectFactory.Create<MarkerHolder>().SelectParent(null);
+            GameObjectFactory.Create<LocalMarkerHolder>().SelectParent(null);
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace Projection
         [Test]
         public void TestOnRotationUpdateTypical()
         {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
+            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
             LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 12;
             RotationUpdate update = new RotationUpdate(UpdateType.UpdateRotation, 180, 12);
