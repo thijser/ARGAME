@@ -13,6 +13,7 @@ namespace Projection
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
     using Network;
+    using UnityEngine.Assertions;
 
     /// <summary>
     /// Previews the position of PositionUpdate objects.
@@ -27,11 +28,6 @@ namespace Projection
         public GameObject ReferenceMarker;
 
         /// <summary>
-        /// Collection of markers that have already been instantiated.
-        /// </summary>
-        private Dictionary<int, RemoteMarker> instantiatedMarkers = new Dictionary<int, RemoteMarker>();
-
-        /// <summary>
         /// Creates a marker when the first update is received for it (that is not a delete).
         /// </summary>
         /// <param name="update">The server update to be handled.</param>
@@ -39,9 +35,9 @@ namespace Projection
         {
             if (update.Type == UpdateType.DeletePosition)
             {
-                instantiatedMarkers.Remove(update.Id);
+                this.RemoveMarker(update.Id);
             }
-            else if (!instantiatedMarkers.ContainsKey(update.Id))
+            else if (!this.Contains(update.Id))
             {
                 RemoteMarker marker = Instantiate(this.ReferenceMarker).GetComponent<RemoteMarker>();
                 marker.Id = update.Id;
@@ -49,7 +45,7 @@ namespace Projection
                 marker.transform.parent = this.transform;
                 marker.gameObject.SetActive(true);
 
-                instantiatedMarkers.Add(update.Id, marker);
+                this.AddMarker(marker);
             }
         }
 
@@ -59,13 +55,14 @@ namespace Projection
         /// <param name="update">Position update to handle.</param>
         public void OnPositionUpdate(PositionUpdate update)
         {
+            RemoteMarker marker = this.GetMarker(update.Id);
             if (update.Type == UpdateType.DeletePosition)
             {
-                instantiatedMarkers[update.Id].RemoveObject();
+                marker.RemoveObject();
             }
             else
             {
-                instantiatedMarkers[update.Id].MoveObject(update.Coordinate);
+                marker.MoveObject(update.Coordinate);
             }
         }
 
@@ -75,7 +72,7 @@ namespace Projection
         /// <param name="update">Rotation update to handle.</param>
         public void OnRotationUpdate(RotationUpdate update)
         {
-            instantiatedMarkers[update.Id].RotateObject(update.Rotation);
+            this.GetMarker(update.Id).RotateObject(update.Rotation);
         }
 
         /// <summary>

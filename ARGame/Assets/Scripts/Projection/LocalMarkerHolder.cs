@@ -28,11 +28,6 @@ namespace Projection
         public float Scale = 1;
 
         /// <summary>
-        /// Collection of all registered to this class. 
-        /// </summary>
-        private Dictionary<int, LocalMarker> markerTable = new Dictionary<int, LocalMarker>();
-
-        /// <summary>
         /// How long are we willing to wait after losing track of a marker. 
         /// </summary>
         private long patience = 1;
@@ -66,26 +61,8 @@ namespace Projection
             }
 
             // We try to remove an old marker binding first. This allows us to overwrite marker IDs.
-            this.markerTable.Remove(register.RegisteredMarker.Id);
-            this.markerTable.Add(register.RegisteredMarker.Id, register.RegisteredMarker);
-        }
-
-        /// <summary>
-        /// Gets a marker by Id.
-        /// </summary>
-        /// <returns>The Marker.</returns>
-        /// <param name="id">The Id.</param>
-        /// <exception cref="KeyNotFoundException">If the marker is not (yet) registered.</exception>
-        public LocalMarker GetMarker(int id)
-        {
-            if (this.markerTable.ContainsKey(id))
-            {
-                return this.markerTable[id];
-            }
-            else
-            {
-                throw new KeyNotFoundException("this marker is not registered");
-            }
+            this.RemoveMarker(register.RegisteredMarker.Id);
+            this.AddMarker(register.RegisteredMarker);
         }
 
         /// <summary>
@@ -109,17 +86,8 @@ namespace Projection
             // 'zero to local' transformations.
             Matrix4x4 remoteToZero = this.Parent.RemotePosition.Matrix.inverse;
             Matrix4x4 zeroToLocal = this.Parent.LocalPosition.Matrix;
-            Matrix4x4 remoteToLocal = zeroToLocal * remoteToZero;
 
-            foreach (LocalMarker marker in this.markerTable.Values)
-            {
-                marker.UpdatePosition(remoteToLocal);
-
-                if (marker.Id == 13379001)
-                {
-                    Debug.Log("Placed level marker at: " + marker.transform.localPosition);
-                }
-            }
+            this.UpdateMarkerPositions(zeroToLocal * remoteToZero);
         }
 
         /// <summary>
