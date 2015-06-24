@@ -81,13 +81,13 @@ namespace Network
                 RaycastHit hitInfo;
                 bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
 
-                if (hit)
-                {
-                    if (hitInfo.collider.gameObject.GetComponent<Mirror>() != null)
+
+					if (hit&&hitInfo.collider.gameObject.GetComponent<Mirror>() != null)
                     {
                         this.SelectedMirror = hitInfo.collider.gameObject.GetComponent<Mirror>();
-                    }
-                }
+                    }else{
+						this.SelectedMirror = null;
+					}
             }
         }
 
@@ -140,12 +140,12 @@ namespace Network
         {
             if (this.SelectedMirror != null)
             {
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+				if (Input.GetKeyDown(KeyCode.A) ||Input.GetKeyDown(KeyCode.Mouse1)||Input.GetKeyDown(KeyCode.Mouse0)|| Input.GetKeyDown(KeyCode.D))
                 {
                     rotationSpeed = 0.0f;
                 }
 
-                if (Input.GetKey(KeyCode.A))
+				if (Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.Mouse0))
                 {
                     float t = Time.deltaTime * -rotationSpeed;
                     rotationSpeed = Mathf.Min(90f, rotationSpeed + Time.deltaTime * 45.0f);
@@ -153,7 +153,7 @@ namespace Network
                     this.SelectedMirror.transform.Rotate(0, t, 0);
                     this.SendRotationUpdate();
                 }
-                else if (Input.GetKey(KeyCode.D))
+				else if (Input.GetKey(KeyCode.D)||Input.GetKey(KeyCode.Mouse1))
                 {
                     float t = Time.deltaTime * rotationSpeed;
                     rotationSpeed = Mathf.Min(90.0f, rotationSpeed + Time.deltaTime * 45.0f);
