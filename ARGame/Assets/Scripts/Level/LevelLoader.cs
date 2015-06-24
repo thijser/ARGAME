@@ -179,7 +179,7 @@ namespace Level
             // Add level marker if this is a local player
             if (GameObject.Find("MetaWorld") != null)
             {
-                Marker marker = parent.AddComponent<Marker>();
+                LocalMarker marker = parent.AddComponent<LocalMarker>();
                 marker.Id = LevelMarkerID;
                 marker.RemotePosition = new MarkerPosition(-8f * levelPosition, Quaternion.identity, DateTime.Now, 8f * new Vector3(-1, 1, -1), LevelMarkerID);
             }

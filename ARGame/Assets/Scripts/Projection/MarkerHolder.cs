@@ -30,7 +30,7 @@ namespace Projection
         /// <summary>
         /// Collection of all registered to this class. 
         /// </summary>
-        private Dictionary<int, Marker> markerTable = new Dictionary<int, Marker>();
+        private Dictionary<int, LocalMarker> markerTable = new Dictionary<int, LocalMarker>();
 
         /// <summary>
         /// How long are we willing to wait after losing track of a marker. 
@@ -40,7 +40,7 @@ namespace Projection
         /// <summary>
         /// Gets or sets the central level marker, this should be visible. 
         /// </summary>
-        public Marker Parent { get; set; }
+        public LocalMarker Parent { get; set; }
 
         /// <summary>
         /// Registers a new marker.
@@ -76,7 +76,7 @@ namespace Projection
         /// <returns>The Marker.</returns>
         /// <param name="id">The Id.</param>
         /// <exception cref="KeyNotFoundException">If the marker is not (yet) registered.</exception>
-        public Marker GetMarker(int id)
+        public LocalMarker GetMarker(int id)
         {
             if (this.markerTable.ContainsKey(id))
             {
@@ -111,7 +111,7 @@ namespace Projection
             Matrix4x4 zeroToLocal = this.Parent.LocalPosition.Matrix;
             Matrix4x4 remoteToLocal = zeroToLocal * remoteToZero;
 
-            foreach (Marker marker in this.markerTable.Values)
+            foreach (LocalMarker marker in this.markerTable.Values)
             {
                 marker.UpdatePosition(remoteToLocal);
 
@@ -141,7 +141,7 @@ namespace Projection
                 throw new ArgumentNullException("position");
             }
 
-            Marker marker = this.GetMarker(position.ID);
+            LocalMarker marker = this.GetMarker(position.ID);
             this.SelectParent(marker);
             marker.LocalPosition = position;
         }
@@ -151,7 +151,7 @@ namespace Projection
         /// If updatedMarker has been seen more recently then the parent+patience and the updateMarker is complete then replace.
         /// </summary>
         /// <param name="updatedMarker">The new parent Marker, not null.</param>
-        public void SelectParent(Marker updatedMarker)
+        public void SelectParent(LocalMarker updatedMarker)
         {
             if (updatedMarker == null)
             {

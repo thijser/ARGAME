@@ -41,7 +41,7 @@ namespace Projection
         public void TestOnMarkerRegisterWithNoParent()
         {
             MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            Marker marker = GameObjectFactory.Create<Marker>();
+            LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 4;
             updater.OnMarkerRegister(new MarkerRegister(marker));
             Assert.Null(updater.Parent);
@@ -56,7 +56,7 @@ namespace Projection
         public void TestGetMarkerInvalidID()
         {
             MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            Marker parent = GameObjectFactory.Create<Marker>();
+            LocalMarker parent = GameObjectFactory.Create<LocalMarker>();
             updater.OnMarkerRegister(new MarkerRegister(parent));
             updater.GetMarker(2);
         }
@@ -68,7 +68,7 @@ namespace Projection
         public void TestGetMarkerTypical()
         {
             MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            Marker parent = GameObjectFactory.Create<Marker>();
+            LocalMarker parent = GameObjectFactory.Create<LocalMarker>();
             parent.Id = 54;
             updater.OnMarkerRegister(new MarkerRegister(parent));
             Assert.AreEqual(parent, updater.GetMarker(54));
@@ -105,7 +105,7 @@ namespace Projection
         public void TestOnPositionUpdateTypical()
         {
             MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            Marker marker = GameObjectFactory.Create<Marker>();
+            LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 12;
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 34, 12);
             updater.OnMarkerRegister(new MarkerRegister(marker));
@@ -124,7 +124,7 @@ namespace Projection
         public void TestOnPositionUpdateNonexistingMarker()
         {
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 0, 5);
-            Marker marker = GameObjectFactory.Create<Marker>();
+            LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 6;
 
             MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
@@ -190,7 +190,7 @@ namespace Projection
         public void TestOnRotationUpdateTypical()
         {
             MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            Marker marker = GameObjectFactory.Create<Marker>();
+            LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 12;
             RotationUpdate update = new RotationUpdate(UpdateType.UpdateRotation, 180, 12);
             updater.OnMarkerRegister(new MarkerRegister(marker));

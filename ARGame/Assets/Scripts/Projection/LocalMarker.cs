@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="Marker.cs" company="Delft University of Technology">
+// <copyright file="LocalMarker.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -22,7 +22,7 @@ namespace Projection
     /// implementation.
     /// </para>
     /// </summary>
-    public class Marker : MonoBehaviour
+    public class LocalMarker : MonoBehaviour
     {
         /// <summary>
         /// The Id of the Marker.

@@ -22,7 +22,7 @@ namespace Projection
         /// Initializes a new instance of the <see cref="MarkerRegister"/> class.
         /// </summary>
         /// <param name="mark">The Marker to be registered.</param>
-        public MarkerRegister(Marker mark)
+        public MarkerRegister(LocalMarker mark)
         {
             this.RegisteredMarker = mark;
         }
@@ -30,6 +30,6 @@ namespace Projection
         /// <summary>
         /// Gets the Marker that needs to be registered.
         /// </summary>
-        public Marker RegisteredMarker { get; private set; }
+        public LocalMarker RegisteredMarker { get; private set; }
     }
 }
