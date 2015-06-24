@@ -9,13 +9,8 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using Projection;
-    using UnityEngine;
-    using UnityEngine.Assertions;
     using Network;
+    using UnityEngine;
 
     /// <summary>
     /// Represents a marker for a remote player.
@@ -73,38 +68,6 @@ namespace Projection
         public void RotateObject(float newRotation)
         {
             transform.localEulerAngles = new Vector3(0, newRotation, 0);
-        }
-
-        /// <summary>
-        /// Updates the position/rotation of the GameObject with the given update.
-        /// </summary>
-        /// <param name="serverUpdate">The update from the server.</param>
-        public void HandleServerUpdate(AbstractUpdate serverUpdate)
-        {
-            if (serverUpdate == null)
-            {
-                throw new ArgumentNullException("serverUpdate");
-            }
-
-            Assert.AreEqual(this.ID, serverUpdate.Id, "ID mismatch");
-            switch (serverUpdate.Type)
-            {
-                case UpdateType.UpdatePosition:
-                    PositionUpdate positionUpdate = serverUpdate as PositionUpdate;
-                    Assert.IsNotNull(positionUpdate);
-                    this.MoveObject(positionUpdate.Coordinate);
-                    break;
-                case UpdateType.DeletePosition:
-                    this.RemoveObject();
-                    break;
-                case UpdateType.UpdateRotation:
-                    RotationUpdate rotationUpdate = serverUpdate as RotationUpdate;
-                    Assert.IsNotNull(rotationUpdate);
-                    this.RotateObject(rotationUpdate.Rotation);
-                    break;
-                default:
-                    break;
-            }
         }
 
         /// <summary>
