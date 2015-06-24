@@ -211,7 +211,7 @@ void ServerSocket::readARViewUpdate(QTcpSocket *client) {
 
         // We do not use the ID in the message, but assign the ID based on
         // the client's port number.
-        id = client->localPort();
+        id = client->peerPort();
 
         emit arViewUpdated(id, position, rotation);
     }

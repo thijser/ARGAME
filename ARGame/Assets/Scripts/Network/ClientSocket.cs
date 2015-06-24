@@ -112,7 +112,10 @@ namespace Network
         /// </summary>
         public void Update()
         {
-            this.ReadAllUpdates();
+            if (this.socket != null)
+            {
+                this.ReadAllUpdates();
+            }
         }
 
         /// <summary>
@@ -224,6 +227,7 @@ namespace Network
         public void OnSendPosition(ARViewUpdate update)
         {
             this.socket.Send(MessageProcessor.WriteARViewUpdate(update));
+            Debug.LogError("Sending message: " + update);
         }
     }
 }
