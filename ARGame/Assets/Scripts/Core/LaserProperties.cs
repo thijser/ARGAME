@@ -13,7 +13,7 @@ namespace Core
     using System.Diagnostics.CodeAnalysis;
     using Graphics;
     using UnityEngine;
-
+	using Projection;
     /// <summary>
     /// Updates the Color of a LineRenderer.
     /// </summary>
@@ -83,14 +83,21 @@ namespace Core
             this.UpdateBeam();
         }
 
+		public Vector3 markerScale(){
+			Marker[] m = this.transform.GetHighestParent().gameObject.GetComponentsInChildren<Marker>();
+			if (m.Length!=0){
+				return m[0].transform.lossyScale;
+			}else{
+				return this.transform.GetHighestParent().lossyScale;
+			}
+		}
         /// <summary>
         /// Updates the Laser beam indicated by the LineRenderer.
         /// </summary>
         public void UpdateBeam()
         {
             Color color = this.LaserColor;
-
-            this.LineRenderer.LineWidth = this.Strength * this.transform.GetHighestParent().lossyScale.Average();
+			this.LineRenderer.LineWidth = this.Strength *markerScale().Average();
 
             this.LineRenderer.LineMaterial.color = color;
         }
