@@ -41,15 +41,18 @@ namespace Projection
             {
                 instantiatedMarkers.Remove(update.Id);
             }
-            else if (!instantiatedMarkers.ContainsKey(update.Id))
+            else if (update.Type == UpdateType.UpdatePosition || update.Type == UpdateType.UpdateRotation)
             {
-                RemoteMarker marker = Instantiate(this.ReferenceMarker).GetComponent<RemoteMarker>();
-                marker.ID = update.Id;
+                if (!instantiatedMarkers.ContainsKey(update.Id))
+                {
+                    RemoteMarker marker = Instantiate(this.ReferenceMarker).GetComponent<RemoteMarker>();
+                    marker.ID = update.Id;
 
-                marker.transform.parent = this.transform;
-                marker.gameObject.SetActive(true);
+                    marker.transform.parent = this.transform;
+                    marker.gameObject.SetActive(true);
 
-                instantiatedMarkers.Add(update.Id, marker);
+                    instantiatedMarkers.Add(update.Id, marker);
+                }
             }
         }
 
