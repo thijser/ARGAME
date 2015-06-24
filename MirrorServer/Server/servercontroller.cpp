@@ -101,7 +101,10 @@ void ServerController::stopServer() {
     Q_ASSERT(serverState == Started || serverState == Starting);
     changeState(Stopping);
     sock->stop();
-    currentLevel = -1;
+
+    mirrorRotations.clear();
+    currentLevel = 0;
+    emit levelChanged(currentLevel);
 }
 
 void ServerController::changeLevel(int nextLevel) {
@@ -191,6 +194,8 @@ void ServerController::detectFrame() {
         changeState(Idle);
         delete trackerManager;
         trackerManager = nullptr;
+
+        emit fpsChanged(-1);
 
         disconnect(detectorTimer,    SIGNAL(timeout()),
                 this,             SLOT(detectFrame()));
