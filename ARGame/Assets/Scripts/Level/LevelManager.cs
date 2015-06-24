@@ -83,7 +83,11 @@ namespace Level
         /// <param name="index">The index of the level to load.</param>
         public void LoadLevel(int index)
         {
-            GameObject.Destroy(this.level);
+            if (this.level != null)
+            {
+                GameObject.Destroy(this.level);
+            }
+
             this.levelLoader.BoardSize = this.BoardSize;
             this.level = this.levelLoader.CreateLevel("Levels/" + this.levelMappings[index]);
             this.CurrentLevelIndex = index;
@@ -104,17 +108,6 @@ namespace Level
                 this.BoardSize = levelup.Size;
                 this.LoadLevel(levelup.NextLevelIndex);
             }
-        }
-
-        /// <summary>
-        /// Scales the level along with the board size.
-        /// </summary>
-        public void ScaleLevel()
-        {
-            LevelComponent levelcomp = this.level.GetComponent<LevelComponent>();
-            float xproportions = this.BoardSize.x / levelcomp.Size.x;
-            float yproportions = this.BoardSize.y / levelcomp.Size.y;
-            this.level.transform.localScale = Mathf.Min(xproportions, yproportions) * Vector3.one;
         }
 
         /// <summary>

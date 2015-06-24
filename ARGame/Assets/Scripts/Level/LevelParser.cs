@@ -88,6 +88,7 @@
                 if (type != TileType.Nothing)
                 {
                     levelObjects.Add(new LevelObject(type, pos, rotation));
+                    Debug.LogError("Level object " + System.Enum.GetName(typeof(TileType), type) + ": pos=" + pos + ", rot=" + rotation);
                 }
 
                 // UpdatePosition X, Y position

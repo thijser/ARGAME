@@ -101,8 +101,8 @@ namespace Level
         {
             GameObject obj = GameObject.Instantiate(objectPrefabs[levelObject.Type]);
 
-            obj.transform.position = new Vector3(levelObject.Position.x, 0, levelObject.Position.y);
-            obj.transform.rotation = Quaternion.AngleAxis(levelObject.Rotation, Vector3.up);
+            obj.transform.position = new Vector3(levelObject.Position.x, 0, -levelObject.Position.y);
+            obj.transform.rotation = Quaternion.Euler(0, 180 + levelObject.Rotation, 0);
 
             InitializeObjectColor(obj, levelObject);
 
@@ -211,6 +211,10 @@ namespace Level
             // Simulate a PositionUpdate from the server.
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, position, 0, LevelMarkerID);
             marker.RemotePosition = new MarkerPosition(update);
+            
+            // Due to a scaling issue, the scale of the level should be 8 times as large as the scale of a marker.
+            marker.RemotePosition.Scale = 8 * Vector3.one;
+
             return marker;
         }
 
