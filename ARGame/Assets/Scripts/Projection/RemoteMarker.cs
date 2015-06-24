@@ -34,38 +34,6 @@ namespace Projection
         public const float VerticalOffset = -0.05f;
 
         /// <summary>
-        /// The marker id.
-        /// </summary>
-        private int id = -1;
-
-        /// <summary>
-        /// Gets or sets the Id of the Marker.
-        /// </summary>
-        public int Id 
-        {
-            get 
-            {
-                return this.id;
-            }
-
-            set 
-            {
-                this.id = value;
-                gameObject.name = "Marker" + value;
-            } 
-        }
-
-        /// <summary>
-        /// Gets or sets the remote position from the server.
-        /// </summary>
-        public MarkerPosition RemotePosition { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rotation of the object.
-        /// </summary>
-        public float ObjectRotation { get; set; }
-
-        /// <summary>
         /// Moves the object to the given coordinates.
         /// <para>
         /// The object is enabled first if it was disabled.
@@ -99,23 +67,6 @@ namespace Projection
         public void RotateObject(float newRotation)
         {
             transform.localEulerAngles = new Vector3(0, newRotation, 0);
-        }
-
-        /// <summary>
-        /// Updates the position of this marker using the provided remote-to-camera
-        /// transformation matrix.
-        /// </summary>
-        /// <param name="transformMatrix">The transformation matrix to use.</param>
-        public void UpdatePosition(Matrix4x4 transformMatrix)
-        {
-            if (this.RemotePosition != null)
-            {
-                Matrix4x4 levelProjection = Matrix4x4.TRS(
-                        this.RemotePosition.Position,
-                        Quaternion.Euler(0, this.ObjectRotation, 0),
-                        this.RemotePosition.Scale);
-                this.transform.SetFromMatrix(transformMatrix * levelProjection);
-            }
         }
     }
 }

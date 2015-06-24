@@ -31,41 +31,9 @@ namespace Projection
         public int MarkerId = -1;
 
         /// <summary>
-        /// Gets or sets the Id of this Marker.
-        /// <para>
-        /// If the Id is already set to a valid Id, the setter does nothing.
-        /// </para>
-        /// </summary>
-        public int Id
-        {
-            get
-            {
-                return this.MarkerId;
-            }
-
-            set
-            {
-                if (this.MarkerId < 0)
-                {
-                    this.MarkerId = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the remote position of this marker.
-        /// </summary>
-        public MarkerPosition RemotePosition { get; set; }
-
-        /// <summary>
         /// Gets or sets the local position of this marker.
         /// </summary>
         public MarkerPosition LocalPosition { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rotation of the object on this marker.
-        /// </summary>
-        public float ObjectRotation { get; set; }
 
         /// <summary>
         /// Gets the remote to local transformation matrix.
@@ -102,27 +70,8 @@ namespace Projection
         /// </summary>
         public void Start()
         {
+            this.Id = this.MarkerId;
             this.SendMessageUpwards("OnMarkerRegister", new MarkerRegister(this));
-        }
-
-        /// <summary>
-        /// Updates the position of the Marker using the provided transformation matrix.
-        /// <para>
-        /// The argument matrix represents the linear transformation from the remote coordinate
-        /// system to the local coordinate system.
-        /// </para>
-        /// </summary>
-        /// <param name="transformMatrix">The remote to local transformation matrix.</param>
-        public void UpdatePosition(Matrix4x4 transformMatrix)
-        {
-            if (this.RemotePosition != null)
-            {
-                Matrix4x4 levelProjection = Matrix4x4.TRS(
-                        this.RemotePosition.Position,
-                        Quaternion.Euler(0, this.ObjectRotation, 0),
-                        this.RemotePosition.Scale);
-                this.transform.SetFromMatrix(transformMatrix * levelProjection);
-            }
         }
 
         /// <summary>
