@@ -88,8 +88,8 @@ namespace Core.Receiver
             this.outRight.SetActive(this.hit);
 
             // Split the incoming light between the two outputs
-            this.outLeft.GetComponent<LaserProperties>().RGBStrengths = this.rgbStrengths / 2;
-            this.outRight.GetComponent<LaserProperties>().RGBStrengths = this.rgbStrengths / 2;
+            this.outLeft.GetComponent<LaserProperties>().RGBStrengths = this.rgbStrengths;
+            this.outRight.GetComponent<LaserProperties>().RGBStrengths = this.rgbStrengths;
 
             this.hit = false;
         }

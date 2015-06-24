@@ -90,7 +90,7 @@ namespace Core
         {
             Color color = this.LaserColor;
 
-            this.LineRenderer.LineWidth = this.Strength * this.transform.GetHighestParent().lossyScale.Average();
+            this.LineRenderer.LineWidth = this.Strength * this.transform.lossyScale.Average();
 
             this.LineRenderer.LineMaterial.color = color;
         }

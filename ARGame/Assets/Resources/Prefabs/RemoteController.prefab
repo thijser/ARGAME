@@ -64,6 +64,7 @@ GameObject:
   - 114: {fileID: 11402936}
   - 114: {fileID: 11498990}
   - 114: {fileID: 11443242}
+  - 114: {fileID: 11452770}
   m_Layer: 0
   m_Name: RemoteController
   m_TagString: Untagged
@@ -98,6 +99,7 @@ GameObject:
   - 54: {fileID: 5471178}
   - 65: {fileID: 6512526}
   - 114: {fileID: 11441750}
+  - 114: {fileID: 11403864}
   m_Layer: 0
   m_Name: MarkerTemplate
   m_TagString: Untagged
@@ -451,6 +453,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReferenceMarker: {fileID: 171870}
+--- !u!114 &11403864
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 254ce69e270b64e40a915285eee5ddf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11411818
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -474,7 +487,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08926f242b5664946be1bf918859b997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextLevelIndex: 1
 --- !u!114 &11441750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -495,6 +507,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7523b1c080f598c45a87259885d16f8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11452770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee8ae67b824b0d48862a47cbcd0cf89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11465036

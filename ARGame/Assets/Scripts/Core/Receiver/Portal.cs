@@ -73,7 +73,7 @@ namespace Core.Receiver
             LaserEmitter emitter = this.PortalEmitter.GetEmitter(laser);
             emitter.transform.position = offset;
             emitter.transform.rotation = Quaternion.FromToRotation(Vector3.forward, angle);
-            emitter.transform.localScale = new Vector3(-0.03606047f, 0.150085f, 0.1843657f);
+            emitter.transform.localScale = new Vector3(-0.385f, -0.385f, -0.385f);
         }
 
         /// <summary>
