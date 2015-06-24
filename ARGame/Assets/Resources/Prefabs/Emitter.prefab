@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ede963d143e414fa40a7de33156afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RGBStrengths: {x: 0, y: .100000001, z: 0}
+  RGBStrengths: {x: 0, y: .300000012, z: 0}
 --- !u!114 &11444832
 MonoBehaviour:
   m_ObjectHideFlags: 1

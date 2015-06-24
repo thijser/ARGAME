@@ -25,7 +25,7 @@ namespace Level
         /// <summary>
         /// The Id of the virtual level marker.
         /// </summary>
-        private const int LevelMarkerID = 13379001;
+        public const int LevelMarkerID = 13379001;
 
         /// <summary>
         /// Mapping of level object types to prefabs.
@@ -121,13 +121,13 @@ namespace Level
             switch (levelObject.Type)
             {
                 case TileType.EmitterR:
-                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0.1f, 0f, 0f);
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0.3f, 0f, 0f);
                     break;
                 case TileType.EmitterG:
-                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0.1f, 0f);
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0.3f, 0f);
                     break;
                 case TileType.EmitterB:
-                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0f, 0.1f);
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0f, 0.3f);
                     break;
                 case TileType.TargetR:
                     obj.GetComponent<LaserTarget>().TargetColor = new Color(1, 0, 0);
