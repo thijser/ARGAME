@@ -10,11 +10,8 @@
 namespace Projection
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using Network;
     using UnityEngine;
-    using UnityEngine.Assertions;
 
     /// <summary>
     /// A class that handles marker registration and updates positions.
@@ -22,48 +19,20 @@ namespace Projection
     public class LocalMarkerHolder : MarkerHolder<LocalMarker>
     {
         /// <summary>
+        /// How long are we willing to wait after losing track of a marker. 
+        /// </summary>
+        public const long Patience = 1;
+
+        /// <summary>
         /// Scale of the object.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
         public float Scale = 1;
-
-        /// <summary>
-        /// How long are we willing to wait after losing track of a marker. 
-        /// </summary>
-        private long patience = 1;
-
+        
         /// <summary>
         /// Gets or sets the central level marker, this should be visible. 
         /// </summary>
         public LocalMarker Parent { get; set; }
-
-        /// <summary>
-        /// Registers a new marker.
-        /// <para>
-        /// The <c>register</c> argument should not be null or contain a null Marker.
-        /// </para>
-        /// <para>
-        /// This method adds the indicated marker as a child to the parent marker, or sets
-        /// the marker as parent marker if no parent marker existed yet.
-        /// </para>
-        /// </summary>
-        /// <param name="register">The marker register parameter that registers the new marker.</param>
-        public void OnMarkerRegister(MarkerRegister register)
-        {
-            if (register == null)
-            {
-                throw new ArgumentNullException("register");
-            }
-
-            if (register.RegisteredMarker == null)
-            {
-                throw new ArgumentException("Invalid marker", "register");
-            }
-
-            // We try to remove an old marker binding first. This allows us to overwrite marker IDs.
-            this.RemoveMarker(register.RegisteredMarker.Id);
-            this.AddMarker(register.RegisteredMarker);
-        }
 
         /// <summary>
         /// Updates the position of all markers.
@@ -109,7 +78,7 @@ namespace Projection
                 throw new ArgumentNullException("position");
             }
 
-            LocalMarker marker = this.GetMarker(position.ID);
+            LocalMarker marker = this.GetMarkerOrCreate(position.ID);
             this.SelectParent(marker);
             marker.LocalPosition = position;
         }
@@ -126,68 +95,15 @@ namespace Projection
                 throw new ArgumentNullException("updatedMarker");
             }
 
-            if (updatedMarker.LocalPosition == null)
+            if (updatedMarker.LocalPosition == null || updatedMarker.RemotePosition == null)
             {
                 return;
             }
 
-            if (this.Parent == null || this.Parent.LocalPosition == null || this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
+            if (this.Parent == null || this.Parent.LocalPosition == null || 
+                this.Parent.LocalPosition.TimeStamp.AddMilliseconds(Patience) < updatedMarker.LocalPosition.TimeStamp)
             {
-                if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null)
-                {
-                    this.Parent = updatedMarker;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Called whenever a RotationUpdate is received from the remote server.
-        /// <para>
-        /// The <c>serverUpdate</c> argument should not be null. This method will serverUpdate the rotation 
-        /// of the object referenced by the serverUpdate to reflect the change in rotation.
-        /// </para>
-        /// </summary>
-        /// <param name="update">The rotation serverUpdate, not null.</param>
-        public void OnRotationUpdate(RotationUpdate update)
-        {
-            if (update == null)
-            {
-                throw new ArgumentNullException("update");
-            }
-
-            this.GetMarker(update.Id).ObjectRotation = update.Rotation;
-        }
-
-        /// <summary>
-        /// Updates the location of the marker based on the remote position.
-        /// <para>
-        /// The <c>serverUpdate</c> argument should not be null. The marker with the Id referenced by the serverUpdate should
-        /// be registered previously using the <c>OnMarkerRegister(...)</c> method, otherwise this method logs a warning
-        /// and returns without affecting any Markers. When the marker is registered, the Marker's remote position is set to 
-        /// a <see cref="MarkerPosition"/> object based on the argument.
-        /// </para>
-        /// </summary>
-        /// <param name="update">The <see cref="PositionUpdate"/>, not null.</param>
-        public void OnPositionUpdate(PositionUpdate update)
-        {
-            if (update == null)
-            {
-                throw new ArgumentNullException("update");
-            }
-
-            try
-            {
-                Vector3 position = update.Coordinate;
-                position.y *= -1;
-                this.GetMarker(update.Id).RemotePosition = new MarkerPosition(update);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                // This should never happen on well-designed levels.
-                // We log a warning message stating this, and ignore it.
-                // We do this because we do not want to risk throwing an exception
-                // to Unity's message system.
-                Debug.LogWarning("Received PositionUpdate of unknown Marker: " + ex);
+                this.Parent = updatedMarker;
             }
         }
     }

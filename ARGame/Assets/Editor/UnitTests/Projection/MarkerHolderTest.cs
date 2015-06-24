@@ -23,58 +23,6 @@ namespace Projection
     public class MarkerHolderTest : MirrorsUnitTest
     {
         /// <summary>
-        /// Tests if calling <c>OnMarkerRegister(null)</c> throws an
-        /// <see cref="ArgumentNullException"/>.
-        /// </summary>
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void TestOnMarkerRegisterNull()
-        {
-            GameObjectFactory.Create<LocalMarkerHolder>().OnMarkerRegister(null);
-        }
-
-        /// <summary>
-        /// Tests if calling <c>OnMarkerRegister</c> with no parent set will cause
-        /// the argument Marker to not yet become the parent.
-        /// </summary>
-        [Test]
-        public void TestOnMarkerRegisterWithNoParent()
-        {
-            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
-            LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
-            marker.Id = 4;
-            updater.OnMarkerRegister(new MarkerRegister(marker));
-            Assert.Null(updater.Parent);
-        }
-
-        /// <summary>
-        /// Tests whether the correct exception is thrown when an invalid Id
-        /// is requested.
-        /// </summary>
-        [Test]
-        [ExpectedException(typeof(KeyNotFoundException))]
-        public void TestGetMarkerInvalidID()
-        {
-            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
-            LocalMarker parent = GameObjectFactory.Create<LocalMarker>();
-            updater.OnMarkerRegister(new MarkerRegister(parent));
-            updater.GetMarker(2);
-        }
-
-        /// <summary>
-        /// Tests whether the <c>GetMarker(int)</c> returns the correct marker.
-        /// </summary>
-        [Test]
-        public void TestGetMarkerTypical()
-        {
-            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
-            LocalMarker parent = GameObjectFactory.Create<LocalMarker>();
-            parent.Id = 54;
-            updater.OnMarkerRegister(new MarkerRegister(parent));
-            Assert.AreEqual(parent, updater.GetMarker(54));
-        }
-
-        /// <summary>
         /// Tests whether the <c>GetMarker(int)</c> method succeeds if no markers are
         /// registered.
         /// </summary>
@@ -108,7 +56,7 @@ namespace Projection
             LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 12;
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 34, 12);
-            updater.OnMarkerRegister(new MarkerRegister(marker));
+            updater.AddMarker(marker);
             updater.OnPositionUpdate(update);
             
             RoughAssert.AreEqual(new Vector3(16, 0, -16), marker.RemotePosition.Position, 0.01f);
@@ -128,7 +76,7 @@ namespace Projection
             marker.Id = 6;
 
             LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
-            updater.OnMarkerRegister(new MarkerRegister(marker));
+            updater.AddMarker(marker);
             updater.OnPositionUpdate(update);
 
             // Assert the marker data is not changed.
@@ -157,7 +105,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentException))]
         public void TestOnMarkerRegisterWithNullRegister()
         {
-            GameObjectFactory.Create<LocalMarkerHolder>().OnMarkerRegister(new MarkerRegister(null));
+            GameObjectFactory.Create<LocalMarkerHolder>().AddMarker(null);
         }
 
         /// <summary>
@@ -193,7 +141,7 @@ namespace Projection
             LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 12;
             RotationUpdate update = new RotationUpdate(UpdateType.UpdateRotation, 180, 12);
-            updater.OnMarkerRegister(new MarkerRegister(marker));
+            updater.AddMarker(marker);
             updater.OnRotationUpdate(update);
             Assert.AreEqual(180, marker.ObjectRotation);
         }

@@ -9,7 +9,9 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
+    using Network;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
     using UnityEngine.Assertions;
     
@@ -19,6 +21,12 @@ namespace Projection
     /// <typeparam name="T">The type of markers this MarkerHolder holds.</typeparam>
     public class MarkerHolder<T> : MonoBehaviour where T : Marker
     {
+        /// <summary>
+        /// The GameObject to use as a template for Markers.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
+        public T ReferenceMarker;
+
         /// <summary>
         /// Collection of all registered to this class. 
         /// </summary>
@@ -34,6 +42,14 @@ namespace Projection
             {
                 return this.markers.Values;
             }
+        }
+
+        /// <summary>
+        /// Deactivates the Reference Marker.
+        /// </summary>
+        public virtual void Start()
+        {
+            this.ReferenceMarker.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -73,7 +89,35 @@ namespace Projection
         /// <exception cref="KeyNotFoundException">If no Marker with that id exists.</exception>
         public T GetMarker(int id)
         {
-            return this.markers[id];
+            if (this.Contains(id))
+            {
+                return this.markers[id];
+            }
+            else
+            {
+                throw new KeyNotFoundException("No such Marker exists: " + id);
+            }
+        }
+
+        /// <summary>
+        /// Returns the Marker with the given id, creating one if it doesn't exist.
+        /// </summary>
+        /// <param name="id">The marker id.</param>
+        /// <returns>The Marker with the requested id.</returns>
+        public T GetMarkerOrCreate(int id)
+        {
+            if (this.Contains(id))
+            {
+                return this.markers[id];
+            }
+            else
+            {
+                T marker = GameObject.Instantiate(this.ReferenceMarker);
+                marker.Id = id;
+                marker.transform.parent = this.transform;
+                this.AddMarker(marker);
+                return marker;
+            }
         }
 
         /// <summary>
@@ -85,6 +129,38 @@ namespace Projection
             foreach (Marker marker in this.Markers)
             {
                 marker.UpdatePosition(transformMatrix);
+            }
+        }
+
+        /// <summary>
+        /// Applies the <see cref="RotationUpdate"/> to the corresponding <see cref="Marker"/>
+        /// in this <see cref="MarkerHolder"/>.
+        /// </summary>
+        /// <param name="update">The <see cref="RotationUpdate"/>, not null.</param>
+        public virtual void OnRotationUpdate(RotationUpdate update)
+        {
+            Assert.IsNotNull(update);
+            this.GetMarkerOrCreate(update.Id).ObjectRotation = update.Rotation;
+        }
+
+        /// <summary>
+        /// Applies the <see cref="PositionUpdate"/> to the corresponding <see cref="Marker"/>
+        /// in this <see cref="MarkerHolder"/>.
+        /// </summary>
+        /// <param name="update">The <see cref="PositionUpdate"/>, not null.</param>
+        public virtual void OnPositionUpdate(PositionUpdate update)
+        {
+            Assert.IsNotNull(update);
+            T marker = this.GetMarkerOrCreate(update.Id);
+            if (update.Type == UpdateType.UpdatePosition)
+            {
+                marker.RemotePosition = new MarkerPosition(update);
+                marker.gameObject.SetActive(true);
+            }
+            else
+            {
+                Assert.AreEqual(UpdateType.DeletePosition, update.Type);
+                marker.gameObject.SetActive(false);
             }
         }
     }

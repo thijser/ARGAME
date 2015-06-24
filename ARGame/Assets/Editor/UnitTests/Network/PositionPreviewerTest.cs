@@ -39,10 +39,10 @@ namespace Network
         public void StartTest()
         {
             RemoteMarkerHolder pp = GameObjectFactory.Create<RemoteMarkerHolder>();
-            pp.ReferenceMarker = new UnityEngine.GameObject();
+            pp.ReferenceMarker = GameObjectFactory.Create<RemoteMarker>();
             pp.Start();
-            Assert.False(pp.ReferenceMarker.activeSelf);
-            pp.ReferenceMarker.SetActive(true);
+            Assert.False(pp.ReferenceMarker.gameObject.activeSelf);
+            pp.ReferenceMarker.gameObject.SetActive(true);
         }
     }
 }
