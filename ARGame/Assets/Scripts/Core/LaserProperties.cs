@@ -84,7 +84,7 @@ namespace Core
         }
 
 		public Vector3 markerScale(){
-			Marker[] m = this.transform.GetHighestParent().gameObject.GetComponentInChildren<Marker>();
+			Marker[] m = this.transform.GetHighestParent().gameObject.GetComponentsInChildren<Marker>();
 			if (m.Length!=0){
 				return m[0].transform.lossyScale;
 			}else{
