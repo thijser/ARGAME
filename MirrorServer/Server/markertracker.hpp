@@ -49,7 +49,7 @@ namespace mirrors {
 
     /// Minimum distance (pixels) between smoothed rotation and new rotation before
     /// smoothing is disabled and the new rotation is assumed directly.
-    const float MARKER_ROTATION_SMOOTH_THRESHOLD = 2;
+    const float MARKER_ROTATION_SMOOTH_THRESHOLD = 10;
 
     /// Angle to round rotation to.
     //const float MARKER_ROTATION_ROUNDING = 22.5f;
