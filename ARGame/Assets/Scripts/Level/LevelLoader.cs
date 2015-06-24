@@ -100,7 +100,7 @@ namespace Level
         {
             GameObject obj = GameObject.Instantiate(objectPrefabs[levelObject.Type]);
 
-            obj.transform.position = new Vector3(-levelObject.Position.x, 0, levelObject.Position.y);
+            obj.transform.position = new Vector3(levelObject.Position.x, 0, levelObject.Position.y);
             obj.transform.rotation = Quaternion.AngleAxis(levelObject.Rotation, Vector3.up);
 
             InitializeObjectColor(obj, levelObject);
@@ -172,19 +172,51 @@ namespace Level
             // Link paired portals together
             LinkPortals(levelObjects);
 
-            // Determine offset to center level on board
-            Vector3 levelPosition = new Vector3(-(this.BoardSize.x - level.Width) / 2, 0, (this.BoardSize.y - level.Height) / 2);
-            parent.transform.localPosition = levelPosition;
-
-            // Add level marker if this is a local player
-            if (GameObject.Find("MetaWorld") != null)
-            {
-                LocalMarker marker = parent.AddComponent<LocalMarker>();
-                marker.Id = LevelMarkerID;
-                marker.RemotePosition = new MarkerPosition(-8f * levelPosition, Quaternion.identity, DateTime.Now, 8f * new Vector3(-1, 1, -1), LevelMarkerID);
-            }
+            this.ConstructMarker(parent, level);
 
             return parent;
+        }
+
+        /// <summary>
+        /// Contructs a correct type of marker for the level.
+        /// </summary>
+        /// <param name="level">The level GameObject to assign the Marker to.</param>
+        /// <param name="properties">The <see cref="LevelProperties"/> object describing the level.</param>
+        /// <returns>The constructed marker.</returns>
+        private Marker ConstructMarker(GameObject level, LevelProperties properties)
+        {
+            Vector3 levelPosition = new Vector3(
+                (this.BoardSize.x - properties.Width) / 2, 
+                0, 
+                (this.BoardSize.y - properties.Height) / 2);
+            level.transform.localPosition = levelPosition;
+
+            Marker marker;
+            if (GameObject.Find("MetaWorld") == null)
+            {
+                marker = level.AddComponent<RemoteMarker>();
+                marker.Id = LevelMarkerID;
+                GameObject.Find("RemoteController")
+                            .GetComponent<RemoteMarkerHolder>()
+                            .AddMarker(marker as RemoteMarker);
+            }
+            else
+            {
+                marker = level.AddComponent<LocalMarker>();
+                marker.Id = LevelMarkerID;
+                GameObject.Find("MetaWorld")
+                            .GetComponent<LocalMarkerHolder>()
+                            .AddMarker(marker as LocalMarker);
+            }
+
+            marker.RemotePosition = new MarkerPosition(
+                8f * levelPosition, 
+                Quaternion.identity, 
+                DateTime.Now, 
+                8f * new Vector3(1, 1, -1), 
+                LevelMarkerID);
+
+            return marker;
         }
 
         /// <summary>

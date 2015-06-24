@@ -6203,7 +6203,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 412652}
@@ -14403,18 +14403,18 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 113020}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 985698959, guid: c194b141a03c88649a39294c9c55f84c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _handCloud: 0
-  _fingertipIndicators: 1
-  _hoverIndicators: 1
-  _pressIndicators: 1
-  _pressSounds: 1
-  _dwellIndicators: 1
-  _grabCircles: 1
+  _fingertipIndicators: 0
+  _hoverIndicators: 0
+  _pressIndicators: 0
+  _pressSounds: 0
+  _dwellIndicators: 0
+  _grabCircles: 0
   _grabCirclesAlways: 0
   _handCloudObject: {fileID: 111356}
   _fingertipIndicator: {fileID: 100000, guid: 5ba239eeb9e4c9540aacba43ffadef64, type: 2}
@@ -17446,12 +17446,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 171892}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -2078278213, guid: c194b141a03c88649a39294c9c55f84c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enableVirtualKeyboard: 1
+  _enableVirtualKeyboard: 0
 --- !u!114 &11463246
 MonoBehaviour:
   m_ObjectHideFlags: 1

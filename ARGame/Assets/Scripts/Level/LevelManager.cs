@@ -40,11 +40,6 @@ namespace Level
         public Vector2 BoardSize { get; set; }
 
         /// <summary>
-        /// Gets or sets the scale of the underlying <see cref="IARLink"/> implementation.
-        /// </summary>
-        public float IARscale { get; set; }
-
-        /// <summary>
         /// Gets the current level index.
         /// </summary>
         public int CurrentLevelIndex { get; private set; }
@@ -55,14 +50,6 @@ namespace Level
         public void Start()
         {
             this.LoadLevelMappings();
-
-            this.IARscale = 1;
-            IARLink link = gameObject.GetComponent<IARLink>();
-            if (link != null)
-            {
-                this.IARscale = link.GetScale();
-            }
-
             this.RestartGame();
         }
 
@@ -101,7 +88,6 @@ namespace Level
             this.level = this.levelLoader.CreateLevel("Levels/" + this.levelMappings[index]);
             this.CurrentLevelIndex = index;
             this.level.transform.SetParent(this.transform);
-            this.level.transform.localScale = this.IARscale * Vector3.one;
         }
 
         /// <summary>
@@ -128,7 +114,7 @@ namespace Level
             LevelComponent levelcomp = this.level.GetComponent<LevelComponent>();
             float xproportions = this.BoardSize.x / levelcomp.Size.x;
             float yproportions = this.BoardSize.y / levelcomp.Size.y;
-            this.level.transform.localScale = Mathf.Min(xproportions, yproportions) * Vector3.one * this.IARscale;
+            this.level.transform.localScale = Mathf.Min(xproportions, yproportions) * Vector3.one;
         }
 
         /// <summary>

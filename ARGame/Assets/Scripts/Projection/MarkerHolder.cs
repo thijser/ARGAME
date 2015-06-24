@@ -63,11 +63,15 @@ namespace Projection
 
         /// <summary>
         /// Adds a Marker to this MarkerHolder.
+        /// <para>
+        /// If a Marker with the same Id already exists, it is overwritten.
+        /// </para>
         /// </summary>
         /// <param name="marker">The Marker to add, not null.</param>
         public void AddMarker(T marker)
         {
             Assert.IsNotNull(marker);
+            this.markers.Remove(marker.Id);
             this.markers.Add(marker.Id, marker);
         }
 
