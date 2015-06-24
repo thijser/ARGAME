@@ -55,7 +55,7 @@ namespace Projection
             parent.Id = 4;
             parent.LocalPosition = new MarkerPosition(new Vector3(2, 5, 8), Quaternion.Euler(12, 15, 20), DateTime.Now, new Vector3(4, 5, 6), 4);
             parent.RemotePosition = new MarkerPosition(new Vector3(3, 7, 12), Quaternion.Euler(0, 5, 10), DateTime.Now, new Vector3(7, 8, 9), 4);
-            parent.UpdatePosition(parent.TransformMatrix);
+            parent.UpdatePosition(parent.LocalPosition.Matrix * parent.RemotePosition.Matrix.inverse);
 
             // The parent marker should take over the position and scale from the Local position.
             // The rotation is determined by the server and not tested here.
@@ -73,7 +73,7 @@ namespace Projection
             LocalMarker parent = GameObjectFactory.Create<LocalMarker>();
             parent.Id = 4;
             parent.LocalPosition = new MarkerPosition(new Vector3(2, 5, 8), Quaternion.Euler(12, 15, 20), DateTime.Now, new Vector3(4, 5, 6), 4);
-            parent.UpdatePosition(parent.TransformMatrix);
+            parent.UpdatePosition(parent.LocalPosition.Matrix * parent.RemotePosition.Matrix.inverse);
 
             RoughAssert.AreEqual(Vector3.zero, parent.transform.localPosition, 0.01f);
             RoughAssert.AreEqual(Quaternion.identity, parent.transform.localRotation, 0.01f);
@@ -105,7 +105,7 @@ namespace Projection
             child.RemotePosition = new MarkerPosition(new Vector3(25, 0, 30), Quaternion.Euler(0, -90, 0), DateTime.Now, new Vector3(5, 5, 1), 3);
 
             MarkerPosition expected = new MarkerPosition(new Vector3(30, 0, 45), Quaternion.Euler(0, 90, 0), DateTime.Now, new Vector3(5, 5, 1), 3);
-            child.UpdatePosition(parent.TransformMatrix);
+            child.UpdatePosition(parent.LocalPosition.Matrix * parent.RemotePosition.Matrix.inverse);
 
             RoughAssert.AreEqual(expected.Position, child.transform.position, 0.01f);
             RoughAssert.AreEqual(expected.Rotation, child.transform.rotation, 0.01f);
@@ -130,7 +130,7 @@ namespace Projection
             MarkerPosition expected = new MarkerPosition(new Vector3(25, 0, 30), Quaternion.identity, DateTime.Now, new Vector3(6, 10, 1), 3);
             child.RemotePosition = expected;
 
-            child.UpdatePosition(parent.TransformMatrix);
+            child.UpdatePosition(parent.LocalPosition.Matrix * parent.RemotePosition.Matrix.inverse);
 
             RoughAssert.AreEqual(expected.Position, child.transform.position, 0.01f);
             RoughAssert.AreEqual(expected.Rotation, child.transform.rotation, 0.01f);
@@ -152,7 +152,7 @@ namespace Projection
             LocalMarker child = GameObjectFactory.Create<LocalMarker>();
             child.Id = 7;
             child.RemotePosition = new MarkerPosition(new Vector3(20, 0, 10), Quaternion.identity, DateTime.Now, Vector3.one, 7);
-            child.UpdatePosition(parent.TransformMatrix);
+            child.UpdatePosition(parent.LocalPosition.Matrix * parent.RemotePosition.Matrix.inverse);
 
             MarkerPosition expected = new MarkerPosition(new Vector3(20, 10, 0), Quaternion.Euler(-90, 0, 0), DateTime.Now, Vector3.one, 7);
             
@@ -176,7 +176,7 @@ namespace Projection
             LocalMarker child = GameObjectFactory.Create<LocalMarker>();
             child.Id = 7;
             child.RemotePosition = new MarkerPosition(new Vector3(20, 0, 10), Quaternion.identity, DateTime.Now, Vector3.one, 7);
-            child.UpdatePosition(parent.TransformMatrix);
+            child.UpdatePosition(parent.LocalPosition.Matrix * parent.RemotePosition.Matrix.inverse);
 
             MarkerPosition expected = new MarkerPosition(new Vector3(30, 40, 20), Quaternion.Euler(-90, 0, 0), DateTime.Now, Vector3.one, 7);
 
@@ -205,7 +205,7 @@ namespace Projection
             LocalMarker child = GameObjectFactory.Create<LocalMarker>();
             child.Id = 7;
             child.RemotePosition = new MarkerPosition(new Vector3(35, 20, 0), rotation, DateTime.Now, Vector3.one, 7);
-            child.UpdatePosition(parent.TransformMatrix);
+            child.UpdatePosition(parent.LocalPosition.Matrix * parent.RemotePosition.Matrix.inverse);
 
             MarkerPosition expected = new MarkerPosition(new Vector3(-42.5f, -30, 0), Quaternion.identity, DateTime.Now, Vector3.one / 2, 7);
 

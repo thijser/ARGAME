@@ -19,54 +19,29 @@ namespace Projection
     public class RemoteMarker : Marker
     {
         /// <summary>
-        /// The factor with which to scale the position.
+        /// The scale factor to apply.
         /// </summary>
-        public const float ScaleFactor = 1f;
+        public float ScaleFactor { get; set; }
 
         /// <summary>
-        /// The horizontal offset for marker positions.
+        /// Initializes the scale factor to 1 if it was not set.
         /// </summary>
-        public const float HorizontalOffset = -0.2f;
-
-        /// <summary>
-        /// The vertical offset for marker positions.
-        /// </summary>
-        public const float VerticalOffset = -0.05f;
-
-        /// <summary>
-        /// Moves the object to the given coordinates.
-        /// <para>
-        /// The object is enabled first if it was disabled.
-        /// </para>
-        /// </summary>
-        /// <param name="coordinate">The coordinates to move to.</param>
-        [Obsolete("Use UpdatePosition(Matrix4x4) instead")]
-        public void MoveObject(Vector2 coordinate)
+        public void Start()
         {
-            gameObject.SetActive(true);
-            transform.localPosition = new Vector3(
-                -(coordinate.x + HorizontalOffset) * ScaleFactor,
-                0,
-                (coordinate.y + VerticalOffset) * ScaleFactor);
+            if (this.ScaleFactor == 0)
+            {
+                this.ScaleFactor = 2f;
+            }
         }
 
         /// <summary>
-        /// Disables the object.
+        /// Updates the position of this Marker using the provided Matrix.
         /// </summary>
-        [Obsolete("Use UpdatePosition(Matrix4x4) instead")]
-        public void RemoveObject()
+        /// <param name="transformMatrix">The transformation Matrix.</param>
+        public override void UpdatePosition(Matrix4x4 transformMatrix)
         {
-            gameObject.SetActive(false);
-        }
-
-        /// <summary>
-        /// Changes the rotation of the object to the given rotation.
-        /// </summary>
-        /// <param name="newRotation">The new rotation.</param>
-        [Obsolete("Use UpdatePosition(Matrix4x4) instead")]
-        public void RotateObject(float newRotation)
-        {
-            transform.localEulerAngles = new Vector3(0, newRotation, 0);
+            this.RemotePosition.Scale = this.ScaleFactor * Vector3.one;
+            base.UpdatePosition(transformMatrix);
         }
     }
 }

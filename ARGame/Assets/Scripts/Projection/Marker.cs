@@ -53,7 +53,7 @@ namespace Projection
         /// transformation matrix.
         /// </summary>
         /// <param name="transformMatrix">The transformation matrix to use.</param>
-        public void UpdatePosition(Matrix4x4 transformMatrix)
+        public virtual void UpdatePosition(Matrix4x4 transformMatrix)
         {
             if (this.RemotePosition != null)
             {

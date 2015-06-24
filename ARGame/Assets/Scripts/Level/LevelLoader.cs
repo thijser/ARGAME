@@ -215,6 +215,12 @@ namespace Level
             // Due to a scaling issue, the scale of the level should be 8 times as large as the scale of a marker.
             marker.RemotePosition.Scale = 8 * Vector3.one;
 
+            RemoteMarker remoteMarker = marker as RemoteMarker;
+            if (remoteMarker != null)
+            {
+                remoteMarker.ScaleFactor = 8f;
+            }
+
             return marker;
         }
 
