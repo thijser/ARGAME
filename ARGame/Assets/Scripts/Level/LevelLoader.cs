@@ -25,7 +25,7 @@ namespace Level
         /// <summary>
         /// The Id of the virtual level marker.
         /// </summary>
-        private const int LevelMarkerID = 13379001;
+        public const int LevelMarkerID = 13379001;
 
         /// <summary>
         /// Mapping of level object types to prefabs.

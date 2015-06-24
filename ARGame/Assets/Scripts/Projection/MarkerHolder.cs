@@ -15,6 +15,7 @@ namespace Projection
     using Network;
     using UnityEngine;
     using UnityEngine.Assertions;
+    using Level;
 
     /// <summary>
     /// A class that handles marker registration and updates positions.
@@ -115,7 +116,7 @@ namespace Projection
             {
                 marker.UpdatePosition(remoteToLocal);
 
-                if (marker.Id == 13379001)
+                if (marker.Id == LevelLoader.LevelMarkerID)
                 {
                     Debug.Log("Placed level marker at: " + marker.transform.localPosition);
                 }
