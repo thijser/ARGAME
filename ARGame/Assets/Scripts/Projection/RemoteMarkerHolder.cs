@@ -37,11 +37,7 @@ namespace Projection
         /// <param name="update">The server update to be handled.</param>
         public void OnServerUpdate(AbstractUpdate update)
         {
-            if (update.Type == UpdateType.DeletePosition)
-            {
-                instantiatedMarkers.Remove(update.Id);
-            }
-            else if (update.Type == UpdateType.UpdatePosition || update.Type == UpdateType.UpdateRotation)
+            if (update.Type == UpdateType.UpdatePosition || update.Type == UpdateType.UpdateRotation)
             {
                 if (!instantiatedMarkers.ContainsKey(update.Id))
                 {
@@ -65,6 +61,7 @@ namespace Projection
             if (update.Type == UpdateType.DeletePosition)
             {
                 instantiatedMarkers[update.Id].RemoveObject();
+                instantiatedMarkers.Remove(update.Id);
             }
             else
             {
