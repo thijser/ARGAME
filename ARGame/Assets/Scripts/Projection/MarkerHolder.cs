@@ -9,224 +9,163 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using Level;
     using Network;
     using UnityEngine;
     using UnityEngine.Assertions;
-    using Level;
-
+    
     /// <summary>
-    /// A class that handles marker registration and updates positions.
+    /// Container class for Markers.
     /// </summary>
-    public class MarkerHolder : MonoBehaviour
+    /// <typeparam name="T">The type of markers this MarkerHolder holds.</typeparam>
+    public class MarkerHolder<T> : MonoBehaviour where T : Marker
     {
         /// <summary>
-        /// Scale of the object.
+        /// The GameObject to use as a template for Markers.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public float Scale = 1;
+        public T ReferenceMarker;
 
         /// <summary>
         /// Collection of all registered to this class. 
         /// </summary>
-        private Dictionary<int, Marker> markerTable = new Dictionary<int, Marker>();
+        private Dictionary<int, T> markers = new Dictionary<int, T>();
 
         /// <summary>
-        /// How long are we willing to wait after losing track of a marker. 
+        /// Gets an <see cref="IEnumerable"/> over all Markers in
+        /// this <see cref="MarkerHolder"/>.
         /// </summary>
-        private long patience = 1;
-
-        /// <summary>
-        /// Gets or sets the central level marker, this should be visible. 
-        /// </summary>
-        public Marker Parent { get; set; }
-
-        /// <summary>
-        /// Registers a new marker.
-        /// <para>
-        /// The <c>register</c> argument should not be null or contain a null Marker.
-        /// </para>
-        /// <para>
-        /// This method adds the indicated marker as a child to the parent marker, or sets
-        /// the marker as parent marker if no parent marker existed yet.
-        /// </para>
-        /// </summary>
-        /// <param name="register">The marker register parameter that registers the new marker.</param>
-        public void OnMarkerRegister(MarkerRegister register)
+        public IEnumerable<T> Markers 
         {
-            if (register == null)
+            get
             {
-                throw new ArgumentNullException("register");
+                return this.markers.Values;
             }
-
-            if (register.RegisteredMarker == null)
-            {
-                throw new ArgumentException("Invalid marker", "register");
-            }
-
-            // We try to remove an old marker binding first. This allows us to overwrite marker IDs.
-            this.markerTable.Remove(register.RegisteredMarker.Id);
-            this.markerTable.Add(register.RegisteredMarker.Id, register.RegisteredMarker);
         }
 
         /// <summary>
-        /// Gets a marker by Id.
+        /// Deactivates the Reference Marker.
         /// </summary>
-        /// <returns>The Marker.</returns>
-        /// <param name="id">The Id.</param>
-        /// <exception cref="KeyNotFoundException">If the marker is not (yet) registered.</exception>
-        public Marker GetMarker(int id)
+        public virtual void Start()
         {
-            if (this.markerTable.ContainsKey(id))
+            this.ReferenceMarker.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// Removes a Marker with the given id, if it exists.
+        /// </summary>
+        /// <param name="id">The id of the Marker to remove.</param>
+        public void RemoveMarker(int id)
+        {
+            this.markers.Remove(id);
+        }
+
+        /// <summary>
+        /// Adds a Marker to this MarkerHolder.
+        /// <para>
+        /// If a Marker with the same Id already exists, it is overwritten.
+        /// </para>
+        /// </summary>
+        /// <param name="marker">The Marker to add, not null.</param>
+        public void AddMarker(T marker)
+        {
+            Assert.IsNotNull(marker);
+            this.markers.Remove(marker.Id);
+            this.markers.Add(marker.Id, marker);
+        }
+
+        /// <summary>
+        /// Returns whether this MarkerHolder contains a Marker with the given id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <returns>True if a Marker with the given id exists, false otherwise.</returns>
+        public bool Contains(int id)
+        {
+            return this.markers.ContainsKey(id);
+        }
+
+        /// <summary>
+        /// Returns the Marker with the given id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <returns>The Marker with the given id.</returns>
+        /// <exception cref="KeyNotFoundException">If no Marker with that id exists.</exception>
+        public T GetMarker(int id)
+        {
+            if (this.Contains(id))
             {
-                return this.markerTable[id];
+                return this.markers[id];
             }
             else
             {
-                throw new KeyNotFoundException("this marker is not registered");
+                throw new KeyNotFoundException("No such Marker exists: " + id);
             }
         }
 
         /// <summary>
-        /// Updates the position of all markers.
+        /// Returns the Marker with the given id, creating one if it doesn't exist.
         /// </summary>
-        public void Update()
+        /// <param name="id">The marker id.</param>
+        /// <returns>The Marker with the requested id.</returns>
+        public T GetMarkerOrCreate(int id)
         {
-            if (this.Parent == null || this.Parent.LocalPosition == null)
+            if (this.Contains(id))
             {
-                Debug.Log("No marker is visible");
-                return;
+                return this.markers[id];
             }
-
-            // We perform a linear transform on markers using three bases:
-            //   - the Remote base, which is based on remote positions.
-            //   - the Local base, which is based on local positions.
-            //   - and the zero base, which is the base with the level marker at the origin.
-            //
-            // Through these bases, a Matrix 'remote to local' can be constructed to transform 
-            // remote positions to local positions because we have the 'remote to zero' and 
-            // 'zero to local' transformations.
-            Matrix4x4 remoteToZero = this.Parent.RemotePosition.Matrix.inverse;
-            Matrix4x4 zeroToLocal = this.Parent.LocalPosition.Matrix;
-            Matrix4x4 remoteToLocal = zeroToLocal * remoteToZero;
-
-            foreach (Marker marker in this.markerTable.Values)
+            else
             {
-                marker.UpdatePosition(remoteToLocal);
-
-                if (marker.Id == LevelLoader.LevelMarkerID)
-                {
-                    Debug.Log("Placed level marker at: " + marker.transform.localPosition);
-                }
+                T marker = GameObject.Instantiate(this.ReferenceMarker);
+                marker.Id = id;
+                marker.transform.parent = this.transform;
+                this.AddMarker(marker);
+                return marker;
             }
         }
 
         /// <summary>
-        /// Called whenever a marker is seen by the detector.
-        /// <para>
-        /// The <c>position</c> argument should not be null.
-        /// </para>
-        /// <para>
-        /// This method updates the local position of the marker, and possibly changes the parent of 
-        /// all markers to the indicated marker if the current parent is no longer visible.
-        /// </para>
+        /// Applies the given transformMatrix to all Markers in this MarkerHolder.
         /// </summary>
-        /// <param name="position">The marker position, not null.</param>
-        /// <exception cref="ArgumentNullException">If <c>position == null</c>.</exception>
-        public void OnMarkerSeen(MarkerPosition position)
+        /// <param name="transformMatrix">The transformMatrix to apply.</param>
+        public void UpdateMarkerPositions(Matrix4x4 transformMatrix)
         {
-            if (position == null)
+            foreach (Marker marker in this.Markers)
             {
-                throw new ArgumentNullException("position");
-            }
-
-            Marker marker = this.GetMarker(position.ID);
-            this.SelectParent(marker);
-            marker.LocalPosition = position;
-        }
-
-        /// <summary>
-        /// Sees if the marker is more suited for being the level marker then the old marker. 
-        /// If updatedMarker has been seen more recently then the parent+patience and the updateMarker is complete then replace.
-        /// </summary>
-        /// <param name="updatedMarker">The new parent Marker, not null.</param>
-        public void SelectParent(Marker updatedMarker)
-        {
-            if (updatedMarker == null)
-            {
-                throw new ArgumentNullException("updatedMarker");
-            }
-
-            if (updatedMarker.LocalPosition == null)
-            {
-                return;
-            }
-
-            if (this.Parent == null || this.Parent.LocalPosition == null || this.Parent.LocalPosition.TimeStamp.Ticks + this.patience < updatedMarker.LocalPosition.TimeStamp.Ticks)
-            {
-                if (updatedMarker.LocalPosition != null && updatedMarker.RemotePosition != null)
-                {
-                    this.Parent = updatedMarker;
-                }
+                marker.UpdatePosition(transformMatrix);
             }
         }
 
         /// <summary>
-        /// Called whenever a RotationUpdate is received from the remote server.
-        /// <para>
-        /// The <c>serverUpdate</c> argument should not be null. This method will serverUpdate the rotation 
-        /// of the object referenced by the serverUpdate to reflect the change in rotation.
-        /// </para>
+        /// Applies the <see cref="RotationUpdate"/> to the corresponding <see cref="Marker"/>
+        /// in this <see cref="MarkerHolder"/>.
         /// </summary>
-        /// <param name="update">The rotation serverUpdate, not null.</param>
-        public void OnRotationUpdate(RotationUpdate update)
-        {
-            if (update == null)
-            {
-                throw new ArgumentNullException("update");
-            }
-
-            this.GetMarker(update.Id).ObjectRotation = update.Rotation;
-        }
-
-        /// <summary>
-        /// Updates the location of the marker based on the remote position.
-        /// <para>
-        /// The <c>serverUpdate</c> argument should not be null. The marker with the Id referenced by the serverUpdate should
-        /// be registered previously using the <c>OnMarkerRegister(...)</c> method, otherwise this method logs a warning
-        /// and returns without affecting any Markers. When the marker is registered, the Marker's remote position is set to 
-        /// a <see cref="MarkerPosition"/> object based on the argument.
-        /// </para>
-        /// </summary>
-        /// <param name="update">The <see cref="PositionUpdate"/>, not null.</param>
-        public void OnPositionUpdate(PositionUpdate update)
+        /// <param name="update">The <see cref="RotationUpdate"/>, not null.</param>
+        public virtual void OnRotationUpdate(RotationUpdate update)
         {
             Assert.IsNotNull(update);
-            try
+            this.GetMarkerOrCreate(update.Id).ObjectRotation = update.Rotation;
+        }
+
+        /// <summary>
+        /// Applies the <see cref="PositionUpdate"/> to the corresponding <see cref="Marker"/>
+        /// in this <see cref="MarkerHolder"/>.
+        /// </summary>
+        /// <param name="update">The <see cref="PositionUpdate"/>, not null.</param>
+        public virtual void OnPositionUpdate(PositionUpdate update)
+        {
+            Assert.IsNotNull(update);
+            T marker = this.GetMarkerOrCreate(update.Id);
+            if (update.Type == UpdateType.UpdatePosition)
             {
-                Marker marker = this.GetMarker(update.Id);
-                if (update.Type == UpdateType.UpdatePosition)
-                {
-                    Vector3 position = update.Coordinate;
-                    position.y *= -1;
-                    marker.RemotePosition = new MarkerPosition(update);
-                    marker.gameObject.SetActive(true);
-                }
-                else 
-                {
-                    Assert.AreEqual(UpdateType.DeletePosition, update.Type);
-                    marker.gameObject.SetActive(false);
-                }
+                marker.RemotePosition = new MarkerPosition(update);
+                marker.gameObject.SetActive(true);
             }
-            catch (KeyNotFoundException ex)
+            else
             {
-                // This should never happen on well-designed levels.
-                // We log a warning message stating this, and ignore it.
-                // We do this because we do not want to risk throwing an exception
-                // to Unity's message system.
-                Debug.LogWarning("Received PositionUpdate of unknown Marker: " + ex);
+                Assert.AreEqual(UpdateType.DeletePosition, update.Type);
+                marker.gameObject.SetActive(false);
             }
         }
     }

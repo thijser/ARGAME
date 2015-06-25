@@ -68,11 +68,11 @@
 			world to select that mirror. When a mirror is selected, the outer
 			frame of the mirror (shown in \ref{fig:mirror}) will change color
 			from gold to bright yellow, indicating that this mirror is selected
-			(the recolor will only be visible for the remote player responsible
+			(the color change will only be visible for the remote player responsible
 			for clicking on that mirror, even other remote players will not be
-			able to see this recolor). Also, a selected mirror can be rotated by
+			able to see this color change). A selected mirror can be rotated by
 			using the "A" key (for rotation to the left, relative to the surface
-			normal of the mirror) or the "D" key (for rotation to the right).
+			normal of the mirror) or the "D" key (for rotation to the right). The mouse can also be used for rotation by pressing the left and right mouse buttons on a mirror.
 		
 		\subsection{Use case diagrams} \label{ssec:usecasediagrams}
 			To illustrate the given main activities, two use case diagrams are
@@ -246,7 +246,7 @@
 			\end{figure}
 			
 		\subsection{The Vision component} \label{ssec:visioncomponent}
-			The \texttt{Vision} component is a small component responsible 
+			The \texttt{Vision} component is a small component responsible for
             providing hardware-specific details regarding marker tracking. 
             It used to be a part of the \texttt{Projection} component, but 
             it got split off, because it had little to do with the projection 
@@ -338,8 +338,7 @@
 			value for the game, for example). It was also changed later to
 			allow for more possible paths (not only spirals, but also paths with
 			less or more than four bends). However, it was scrapped after
-			discussing it with our coach, especially after talking about how it
-			would increase the replay value of the game. Another reason to abandon 
+			discussing it with our coach, after which we agreed that the increase of the replay value of the game was not worth it. Another reason to abandon 
 			it was because the classes belonging to it were some of the most complex
 			in the project. Even after several attempts to rewrite these classes, 
 			they were still just barely under the maximum complexity that we
@@ -367,7 +366,7 @@
 			When the target is hit by a laser beam, the outer columns around
 			the crystal inside will rotate and spread out, indicating that
 			the target has been hit. The game will proceed to the
-			next level once all targets are hit. An image of the target is shown in figure 
+			next level once all targets are hit, provided that the level contains no checkpoints. An image of the target is shown in figure 
 			\ref{fig:target}. The gold columns depicted are the outer columns
 			described earlier. Also, the inner crystal will change color
 			when hit.

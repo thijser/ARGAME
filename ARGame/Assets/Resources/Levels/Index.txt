@@ -1,3 +1,13 @@
+LevelEasy1
+LevelEasy2
+LevelEasy3
+LevelEasy4
+LevelEasy5
+LevelEasy6
+LevelEasy7
+LevelEasy8
+LevelEasy9
+LevelEasy10
 LevelAdvanced1
 LevelAdvanced2
 LevelAdvanced3
@@ -8,3 +18,8 @@ LevelAdvanced7
 LevelAdvanced8
 LevelAdvanced9
 LevelAdvanced10
+LevelBasic1
+LevelBasic2
+LevelBasic3
+LevelBasic4
+LevelBasic5

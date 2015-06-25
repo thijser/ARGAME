@@ -23,58 +23,6 @@ namespace Projection
     public class MarkerHolderTest : MirrorsUnitTest
     {
         /// <summary>
-        /// Tests if calling <c>OnMarkerRegister(null)</c> throws an
-        /// <see cref="ArgumentNullException"/>.
-        /// </summary>
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void TestOnMarkerRegisterNull()
-        {
-            GameObjectFactory.Create<MarkerHolder>().OnMarkerRegister(null);
-        }
-
-        /// <summary>
-        /// Tests if calling <c>OnMarkerRegister</c> with no parent set will cause
-        /// the argument Marker to not yet become the parent.
-        /// </summary>
-        [Test]
-        public void TestOnMarkerRegisterWithNoParent()
-        {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            Marker marker = GameObjectFactory.Create<Marker>();
-            marker.Id = 4;
-            updater.OnMarkerRegister(new MarkerRegister(marker));
-            Assert.Null(updater.Parent);
-        }
-
-        /// <summary>
-        /// Tests whether the correct exception is thrown when an invalid Id
-        /// is requested.
-        /// </summary>
-        [Test]
-        [ExpectedException(typeof(KeyNotFoundException))]
-        public void TestGetMarkerInvalidID()
-        {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            Marker parent = GameObjectFactory.Create<Marker>();
-            updater.OnMarkerRegister(new MarkerRegister(parent));
-            updater.GetMarker(2);
-        }
-
-        /// <summary>
-        /// Tests whether the <c>GetMarker(int)</c> returns the correct marker.
-        /// </summary>
-        [Test]
-        public void TestGetMarkerTypical()
-        {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            Marker parent = GameObjectFactory.Create<Marker>();
-            parent.Id = 54;
-            updater.OnMarkerRegister(new MarkerRegister(parent));
-            Assert.AreEqual(parent, updater.GetMarker(54));
-        }
-
-        /// <summary>
         /// Tests whether the <c>GetMarker(int)</c> method succeeds if no markers are
         /// registered.
         /// </summary>
@@ -82,7 +30,7 @@ namespace Projection
         [ExpectedException(typeof(KeyNotFoundException))]
         public void TestGetMarkerWithNoMarkersRegistered()
         {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
+            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
             updater.GetMarker(0);
         }
 
@@ -94,7 +42,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestOnPositionUpdateNull()
         {
-            GameObjectFactory.Create<MarkerHolder>().OnPositionUpdate(null);
+            GameObjectFactory.Create<LocalMarkerHolder>().OnPositionUpdate(null);
         }
 
         /// <summary>
@@ -104,11 +52,11 @@ namespace Projection
         [Test]
         public void TestOnPositionUpdateTypical()
         {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            Marker marker = GameObjectFactory.Create<Marker>();
+            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
+            LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 12;
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 34, 12);
-            updater.OnMarkerRegister(new MarkerRegister(marker));
+            updater.AddMarker(marker);
             updater.OnPositionUpdate(update);
             
             RoughAssert.AreEqual(new Vector3(16, 0, -16), marker.RemotePosition.Position, 0.01f);
@@ -124,11 +72,11 @@ namespace Projection
         public void TestOnPositionUpdateNonexistingMarker()
         {
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, new Vector2(2, 2), 0, 5);
-            Marker marker = GameObjectFactory.Create<Marker>();
+            LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 6;
 
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            updater.OnMarkerRegister(new MarkerRegister(marker));
+            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
+            updater.AddMarker(marker);
             updater.OnPositionUpdate(update);
 
             // Assert the marker data is not changed.
@@ -146,7 +94,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestOnRotationUpdateNull()
         {
-            GameObjectFactory.Create<MarkerHolder>().OnRotationUpdate(null);
+            GameObjectFactory.Create<LocalMarkerHolder>().OnRotationUpdate(null);
         }
 
         /// <summary>
@@ -157,7 +105,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentException))]
         public void TestOnMarkerRegisterWithNullRegister()
         {
-            GameObjectFactory.Create<MarkerHolder>().OnMarkerRegister(new MarkerRegister(null));
+            GameObjectFactory.Create<LocalMarkerHolder>().AddMarker(null);
         }
 
         /// <summary>
@@ -168,7 +116,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestOnMarkerSeenNull()
         {
-            GameObjectFactory.Create<MarkerHolder>().OnMarkerSeen(null);
+            GameObjectFactory.Create<LocalMarkerHolder>().OnMarkerSeen(null);
         }
 
         /// <summary>
@@ -179,7 +127,7 @@ namespace Projection
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestSelectParentNull()
         {
-            GameObjectFactory.Create<MarkerHolder>().SelectParent(null);
+            GameObjectFactory.Create<LocalMarkerHolder>().SelectParent(null);
         }
 
         /// <summary>
@@ -189,11 +137,11 @@ namespace Projection
         [Test]
         public void TestOnRotationUpdateTypical()
         {
-            MarkerHolder updater = GameObjectFactory.Create<MarkerHolder>();
-            Marker marker = GameObjectFactory.Create<Marker>();
+            LocalMarkerHolder updater = GameObjectFactory.Create<LocalMarkerHolder>();
+            LocalMarker marker = GameObjectFactory.Create<LocalMarker>();
             marker.Id = 12;
             RotationUpdate update = new RotationUpdate(UpdateType.UpdateRotation, 180, 12);
-            updater.OnMarkerRegister(new MarkerRegister(marker));
+            updater.AddMarker(marker);
             updater.OnRotationUpdate(update);
             Assert.AreEqual(180, marker.ObjectRotation);
         }

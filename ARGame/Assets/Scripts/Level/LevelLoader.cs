@@ -16,6 +16,7 @@ namespace Level
     using Core;
     using Core.Receiver;
     using Projection;
+    using Network;
 
     /// <summary>
     /// Level loader that loads levels created with the Tiled map editor.
@@ -100,8 +101,8 @@ namespace Level
         {
             GameObject obj = GameObject.Instantiate(objectPrefabs[levelObject.Type]);
 
-            obj.transform.position = new Vector3(-levelObject.Position.x, 0, levelObject.Position.y);
-            obj.transform.rotation = Quaternion.AngleAxis(levelObject.Rotation, Vector3.up);
+            obj.transform.position = new Vector3(levelObject.Position.x, 0, -levelObject.Position.y);
+            obj.transform.rotation = Quaternion.Euler(0, 180 + levelObject.Rotation, 0);
 
             InitializeObjectColor(obj, levelObject);
 
@@ -121,13 +122,13 @@ namespace Level
             switch (levelObject.Type)
             {
                 case TileType.EmitterR:
-                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0.1f, 0f, 0f);
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0.3f, 0f, 0f);
                     break;
                 case TileType.EmitterG:
-                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0.1f, 0f);
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0.3f, 0f);
                     break;
                 case TileType.EmitterB:
-                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0f, 0.1f);
+                    obj.GetComponentInChildren<LaserProperties>().RGBStrengths = new Vector3(0f, 0f, 0.3f);
                     break;
                 case TileType.TargetR:
                     obj.GetComponent<LaserTarget>().TargetColor = new Color(1, 0, 0);
@@ -172,19 +173,55 @@ namespace Level
             // Link paired portals together
             LinkPortals(levelObjects);
 
-            // Determine offset to center level on board
-            Vector3 levelPosition = new Vector3(-(this.BoardSize.x - level.Width) / 2, 0, (this.BoardSize.y - level.Height) / 2);
-            parent.transform.localPosition = levelPosition;
-
-            // Add level marker if this is a local player
-            if (GameObject.Find("MetaWorld") != null)
-            {
-                Marker marker = parent.AddComponent<Marker>();
-                marker.Id = LevelMarkerID;
-                marker.RemotePosition = new MarkerPosition(-8f * levelPosition, Quaternion.identity, DateTime.Now, 8f * new Vector3(-1, 1, -1), LevelMarkerID);
-            }
+            this.ConstructMarker(parent, level);
 
             return parent;
+        }
+
+        /// <summary>
+        /// Contructs a correct type of marker for the level.
+        /// </summary>
+        /// <param name="level">The level GameObject to assign the Marker to.</param>
+        /// <param name="properties">The <see cref="LevelProperties"/> object describing the level.</param>
+        /// <returns>The constructed marker.</returns>
+        private Marker ConstructMarker(GameObject level, LevelProperties properties)
+        {
+            Vector2 position = new Vector2(
+                (this.BoardSize.x - properties.Width) / 2,
+                (this.BoardSize.y - properties.Height) / 2);
+
+            Marker marker;
+            if (GameObject.Find("MetaWorld") == null)
+            {
+                marker = level.AddComponent<RemoteMarker>();
+                marker.Id = LevelMarkerID;
+                GameObject.Find("RemoteController")
+                            .GetComponent<RemoteMarkerHolder>()
+                            .AddMarker(marker as RemoteMarker);
+            }
+            else
+            {
+                marker = level.AddComponent<LocalMarker>();
+                marker.Id = LevelMarkerID;
+                GameObject.Find("MetaWorld")
+                            .GetComponent<LocalMarkerHolder>()
+                            .AddMarker(marker as LocalMarker);
+            }
+
+            // Simulate a PositionUpdate from the server.
+            PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, position, 0, LevelMarkerID);
+            marker.RemotePosition = new MarkerPosition(update);
+            
+            // Due to a scaling issue, the scale of the level should be 8 times as large as the scale of a marker.
+            marker.RemotePosition.Scale = 8 * Vector3.one;
+
+            RemoteMarker remoteMarker = marker as RemoteMarker;
+            if (remoteMarker != null)
+            {
+                remoteMarker.ScaleFactor = 8f;
+            }
+
+            return marker;
         }
 
         /// <summary>

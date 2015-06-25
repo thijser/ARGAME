@@ -102,7 +102,11 @@ void MainWindow::handleFrame(const QPixmap& image) {
 }
 
 void MainWindow::showFPS(int fps) {
-    ui->fps->setText(QString::number(fps));
+    if (fps == -1) {
+        ui->fps->setText("N/A");
+    } else {
+        ui->fps->setText(QString::number(fps));
+    }
 }
 
 void MainWindow::stopServer() {

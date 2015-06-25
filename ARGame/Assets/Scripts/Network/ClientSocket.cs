@@ -130,6 +130,16 @@ namespace Network
         public int ReadAllUpdates()
         {
             int count = 0;
+
+            if (this.socket == null)
+            {
+                // This may sometimes happen without any explanation. Our only option is to restart
+                // the socket connection.
+                Debug.Log("Restarted broken socket connection");
+                this.Start();
+                return 0;
+            }
+
             while (this.socket.Available >= MinPacketSize && count < MaxUpdates)
             {
                 AbstractUpdate update = this.ReadMessage();

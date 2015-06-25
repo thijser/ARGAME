@@ -64,6 +64,7 @@ GameObject:
   - 114: {fileID: 11402936}
   - 114: {fileID: 11498990}
   - 114: {fileID: 11443242}
+  - 114: {fileID: 11452770}
   m_Layer: 0
   m_Name: RemoteController
   m_TagString: Untagged
@@ -98,6 +99,7 @@ GameObject:
   - 54: {fileID: 5471178}
   - 65: {fileID: 6512526}
   - 114: {fileID: 11441750}
+  - 114: {fileID: 11403864}
   m_Layer: 0
   m_Name: MarkerTemplate
   m_TagString: Untagged
@@ -197,7 +199,7 @@ Transform:
   m_GameObject: {fileID: 121114}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -10.3999996, y: .200000003, z: 12}
+  m_LocalScale: {x: 80, y: .200000003, z: -100}
   m_Children:
   - {fileID: 447920}
   m_Father: {fileID: 479736}
@@ -237,7 +239,7 @@ Transform:
   m_GameObject: {fileID: 171870}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .25, y: .25, z: .25}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 419770}
   - {fileID: 405256}
@@ -450,7 +452,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1a18ddf0990f34d97b366a7a11a82d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ReferenceMarker: {fileID: 171870}
+  ReferenceMarker: {fileID: 11403864}
+--- !u!114 &11403864
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 254ce69e270b64e40a915285eee5ddf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11411818
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -474,7 +487,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08926f242b5664946be1bf918859b997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextLevelIndex: 1
 --- !u!114 &11441750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -497,6 +509,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7523b1c080f598c45a87259885d16f8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11452770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee8ae67b824b0d48862a47cbcd0cf89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11465036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -508,7 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a186731744c974cf3bbca6fc8e841a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerAddress: localhost
+  ServerAddress: 145.94.146.167
   ServerPort: 23369
 --- !u!114 &11482950
 MonoBehaviour:

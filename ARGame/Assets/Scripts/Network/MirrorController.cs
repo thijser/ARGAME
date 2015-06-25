@@ -81,13 +81,14 @@ namespace Network
                 RaycastHit hitInfo;
                 bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
 
-
-					if (hit&&hitInfo.collider.gameObject.GetComponent<Mirror>() != null)
-                    {
-                        this.SelectedMirror = hitInfo.collider.gameObject.GetComponent<Mirror>();
-                    }else{
-						this.SelectedMirror = null;
-					}
+                if (hit && hitInfo.collider.gameObject.GetComponent<Mirror>() != null)
+                {
+                    this.SelectedMirror = hitInfo.collider.gameObject.GetComponent<Mirror>();
+                }
+                else
+                {
+                    this.SelectedMirror = null;
+                }
             }
         }
 
@@ -102,7 +103,10 @@ namespace Network
             Assert.IsNotNull(this.SelectedMirror, "SendRotationUpdate: No Mirror Selected");
             RemoteMarker marker = this.SelectedMirror.GetComponent<RemoteMarker>();
             float rotation = this.SelectedMirror.transform.eulerAngles.y;
-            this.SendMessageUpwards("OnRotationChanged", new RotationUpdate(UpdateType.UpdateRotation, rotation, marker.ID));
+
+            RotationUpdate update = new RotationUpdate(UpdateType.UpdateRotation, rotation, marker.Id);
+            this.SendMessage("OnRotationChanged", update);
+            this.SendMessage("OnRotationUpdate", update);
         }
 
         /// <summary>
@@ -140,12 +144,12 @@ namespace Network
         {
             if (this.SelectedMirror != null)
             {
-				if (Input.GetKeyDown(KeyCode.A) ||Input.GetKeyDown(KeyCode.Mouse1)||Input.GetKeyDown(KeyCode.Mouse0)|| Input.GetKeyDown(KeyCode.D))
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.D))
                 {
                     rotationSpeed = 0.0f;
                 }
 
-				if (Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.Mouse0))
+                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.Mouse0))
                 {
                     float t = Time.deltaTime * -rotationSpeed;
                     rotationSpeed = Mathf.Min(90f, rotationSpeed + Time.deltaTime * 45.0f);
@@ -153,7 +157,7 @@ namespace Network
                     this.SelectedMirror.transform.Rotate(0, t, 0);
                     this.SendRotationUpdate();
                 }
-				else if (Input.GetKey(KeyCode.D)||Input.GetKey(KeyCode.Mouse1))
+                else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.Mouse1))
                 {
                     float t = Time.deltaTime * rotationSpeed;
                     rotationSpeed = Mathf.Min(90.0f, rotationSpeed + Time.deltaTime * 45.0f);
