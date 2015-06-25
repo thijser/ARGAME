@@ -87,7 +87,6 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< HEAD
 --- !u!1001 &302403173
 Prefab:
   m_ObjectHideFlags: 0
@@ -139,18 +138,12 @@ Transform:
   m_PrefabParentObject: {fileID: 421954, guid: e87fd8eedbb7df24caec3bcb56c57c27, type: 2}
   m_PrefabInternal: {fileID: 302403173}
 --- !u!114 &302403176
-=======
+
 --- !u!1 &326436729 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 171082, guid: b678665f429d0694cb68468b1c85b470, type: 2}
   m_PrefabInternal: {fileID: 752509141}
 --- !u!114 &326436739
->>>>>>> master
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-<<<<<<< HEAD
   m_GameObject: {fileID: 302403174}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -158,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-=======
+
   m_GameObject: {fileID: 326436729}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -166,7 +159,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseRemote: 1
->>>>>>> master
 --- !u!1 &643102146
 GameObject:
   m_ObjectHideFlags: 0
