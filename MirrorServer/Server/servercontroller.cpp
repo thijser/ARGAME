@@ -26,7 +26,7 @@ ServerController::ServerController(QObject *parent)
     connect(sock, SIGNAL(mirrorRotated(int, float, QTcpSocket*)),
             this, SLOT(setMirrorRotation(int, float, QTcpSocket*)));
     connect(sock, SIGNAL(clientConnected(QTcpSocket*)),
-            this, SLOT(handleNewClient()));
+            this, SLOT(handleNewClient(QTcpSocket*)));
     connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
             this, SLOT(sendBoard(QHttpRequest*, QHttpResponse*)));
 
@@ -50,11 +50,15 @@ void ServerController::sendBoard(QHttpRequest* req, QHttpResponse* resp) {
     resp->end();
 }
 
-void ServerController::handleNewClient() {
-    sock->broadcastLevelUpdate(currentLevel, trackerManager->scaledBoardSize());
+void ServerController::handleNewClient(QTcpSocket* newClient) {
+    auto newClientFilter = [&](QTcpSocket* client) {
+        return client->peerPort() == newClient->peerPort();
+    };
+
+    sock->broadcastLevelUpdate(currentLevel, trackerManager->scaledBoardSize(), newClientFilter);
 
     for (auto& pair : mirrorRotations) {
-        sock->broadcastRotationUpdate(pair.first, pair.second);
+        sock->broadcastRotationUpdate(pair.first, pair.second, newClientFilter);
     }
 }
 

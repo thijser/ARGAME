@@ -163,7 +163,7 @@ protected slots:
     /**
      * @brief Brings the new client up to speed with the current level and mirror rotations.
      */
-    void handleNewClient();
+    void handleNewClient(QTcpSocket* newClient);
 public slots:
     /**
      * @brief Starts this ServerController.
