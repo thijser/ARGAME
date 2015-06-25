@@ -12,7 +12,7 @@
 			The local user ensures the main camera is set up according to the 
 			provided guidelines. The local user then starts the server on the 
 			machine the camera is connected to. The local user needs to take note 
-			of the IP address of the server machine and fill this into his local 
+			of the IP address of the server machine and fill this into his or her local 
 			machine (to which the Meta One glasses are attached). The other players
 			also fill in the same IP address. The server can also run on one of the 
 			players' machines. The local user needs to wait for others to join the 
@@ -30,31 +30,20 @@
 			A physically remote player wants to join an active game. Before this can
 			happen, a game has to be started first. The remote user needs to acquire 
 			the IP address of the local server machine (see \ref{ssec:userstartgame})
-			and fill this in. The remote user will see a virtualized version of the 
+			and fill this in. The remote user will see a virtual version of the 
 			same game world as the local players.
 			
 		\subsection{A local player wants to move a mirror} \label{ssec:localmovemirror}
-			A local player is partaking in an active game. To hit the target, they
-			need to move a mirror from point A to point B to allow the laser beam
-			coming from the emitter to be deflected and therefore to hit the target.
-			The local player uses moveable markers to place a mirror in the game
-			world. Using the Meta One glasses, local players can see the game objects
-			when they see a marker. For this example, it is assumed that the player that wants
-			to move the mirror marker also has that mirror marker to their disposal,
-			and also that the mirror is rotated such that no more rotation is required.
-			The local player can then take the mirror marker, move it to the point
-			it should be moved to, and complete the game that way.
-			
-		\subsection{Two local players want to move a mirror} \label{ssec:localmovemirrorcollab}
-			Due to mirror markers being divided between the players, it is possible
-			that two (or, more generally speaking, multiple) players want to move
-			a mirror, possibly the last mirror required to solve the level. However,
-			a mirror marker can only be placed by one person. The local players then
-			need to collaborate on where the marker should be placed. As the players
-			are physically co-located (by definition of them being local players),
-			this collaboration can happen in multiple ways, like pointing to a 
-			location on the playing field, or discussing the best position for the
-			marker.
+			A local player is partaking in an active game. To hit the target, 
+			they need to move a mirror to a certain point to allow the laser 
+			beam coming from the emitter to be deflected and therefore to hit 
+			the target. The local player uses movable markers to place a mirror 
+			in the game world. Using the Meta One glasses, local players can see
+			the game objects when at least one marker is in their view. For this
+			example, it is assumed that the mirror is rotated such that no more 
+			rotation is required. The local player can then take the mirror 
+			marker, move it to the point it should be moved to, and complete the
+			game that way.
 			
 		\subsection{A remote player wants to rotate a mirror} \label{ssec:remoterotatemirror}
 			Remote players, due to them not being physically co-located with the
@@ -63,17 +52,14 @@
 			remote players have access to an ability that the local players do
 			not have access to, that being the ability to rotate selected mirrors.
 			The remote player uses a computer for this. In order to rotate a mirror,
-			the player has select a mirror first. Using the "M" key, the player can
-			cycle through mirrors, but they can also click on a mirror in the game
-			world to select that mirror. When a mirror is selected, the outer
-			frame of the mirror (shown in \ref{fig:mirror}) will change color
-			from gold to bright yellow, indicating that this mirror is selected
-			(the color change will only be visible for the remote player responsible
-			for clicking on that mirror, even other remote players will not be
-			able to see this color change). A selected mirror can be rotated by
-			using the "A" key (for rotation to the left, relative to the surface
-			normal of the mirror) or the "D" key (for rotation to the right). The mouse can also be used for rotation by pressing the left and right mouse buttons on a mirror.
-		
+			the player can click on a mirror to select and rotate it. When a mirror 
+			is selected, the outer frame of the mirror (shown in \ref{fig:mirror}) 
+			will change color from gold to bright yellow, indicating that this mirror 
+			is selected (the color change will only be visible for the remote player 
+			responsible for clicking on that mirror, even other remote players will not 
+			be able to see this color change). The selected mirror can be rotated clockwise
+			using the right mouse button, and counter-clockwise using the left mouse button. 
+			
 		\subsection{Use case diagrams} \label{ssec:usecasediagrams}
 			To illustrate the given main activities, two use case diagrams are
 			displayed here. The use cases for the remote player are depicted in
@@ -91,40 +77,10 @@
 				\caption{The use cases for the local player.}
 				\label{fig:localusecase}
 			\end{figure}
-		%TODO add some use case diagrams?
 
 	\section{Back-end design} \label{sec:backenddesign}
-		The system is composed of three main parts: The Laser mechanics, the network
-		functionality and the projection to 3D glasses. For this purpose, we divided
+		The system is composed of several main parts. For this purpose, we divided
 		the C\# code over various components, which will be highlighted below.
-
-		The "Core" component is responsible for drawing the Laser beams and
-		providing the interactions of laser beams with the other game objects.
-		The layout of this component is discussed in paragraph 
-		\ref{ssec:corecomponent}.
-
-		The "Network" component is responsible for synchronizing the game state
-		between all connected players. The layout of this component is discussed 
-		in paragraph \ref{ssec:networkcomponent}.
-
-		The "Projection" component is responsible for providing the projection to
-		the VR glasses. This component provides the functionality required to project
-		the game world to the VR glasses. The layout of this component is discussed in
-		paragraph \ref{ssec:projectioncomponent}.
-		
-		The "Vision" component is responsible for providing a Augmented Reality back-end.
-		At first this was part of the responsibility of the "Projection"
-		component, but that got too big and needed to be split,
-		resulting into this extra component. The layout of this component is
-		discussed in paragraph \ref{ssec:visioncomponent}.
-        
-        
-		
-		Additionally, the game depends on the deployment of a server application
-		written in C++. The purpose of this server application will be discussed 
-		along with the Network component in \ref{ssec:networkcomponent}. Also,
-		in the past we wanted to potentially add random levels for replay value,
-		and this is discussed in paragraph \ref{ssec:randomlevelcomponent}
 		
 		\subsection{The Core component} \label{ssec:corecomponent}
 			The \texttt{Core} component contains all the code for all the core game play
@@ -134,9 +90,7 @@
 			it would be possible to create the same game without using AR
 			technology or using markers to play the game with, for that matter.
 			
-			The \texttt{Core} component is further subdivided into three components:
-			the \texttt{Core} component itself, which contains code relating to the laser
-			and code that helps the other two components, the 
+			The \texttt{Core} component has two subcomponents: The 
 			\texttt{Core.Emitter} component, which contains code for objects 
 			that emit laser beams, and the \texttt{Core.Receiver} component, 
 			which contains code for objects that receive laser beams and have to 
@@ -145,7 +99,7 @@
 			There are several game objects that emit laser beams as well as 
 			receive them (as seen in \ref{sec:graphicaldesign}). This causes the
 			\texttt{Core.Emitter} and \texttt{Core.Receiver} components to have 
-			some coupling. However, the coupling is minor, and coupling is only 
+			some coupling. However, the coupling is minor, and it only exists 
 			between sub-components in the same main component. As such, this 
 			should not cause that much of a problem, when considered in a 
 			software engineering context.
@@ -162,35 +116,36 @@
 			
 			The first take on creating a network functionality in the game
 			was to use the standard way of networking within Unity itself.
-			This involved creating a rather simple networking script that
-			allowed the game to connect to the Unity master server or their own
-			master server (provided they had one installed), which then handled
+			This involved creating a rather simple network script that
+			allowed the game to connect to a Unity master server, which then handled
 			all changes that were recorded by network view components of objects,
 			and sent them to all the players, synchronizing the game world.
 			There are several tutorials on how to write such a networking
-			script and how to use it in a multiplayer game, the tutorial that
+			script and how to use it in a multi-player game, the tutorial that
 			was used for the script in the component can be found here:
-			\url{http://www.paladinstudios.com/2013/07/10/how-to-create-an-online-multiplayer-game-with-unity/}
+			\url{http://www.paladinstudios.com/2013/07/10/how-to-create-an-online-multiplayer-game-with-unity/}.
 			
-			The base networking functionality of Unity, however, was not enough
-			for what we were trying to do (for example, it had very poor VR and
-			AR support, and our game is an AR game after all). Because of this,
-			a different solution was required to create synchronization across
-			the game world. The next option was to use the Photon Unity Networking
-			package, which not only supported multiplayer better (it allowed for
-			more people to play the same game), but it also allowed VR and AR games
-			to have multiplayer functionality (there is a free package available
-			on the Unity Asset Store, which can be found here: \url{https://www.assetstore.unity3d.com/en/#!/content/1786}). However,
+			Unfortunately, due to the major differences between local and remote
+			players, as well as the way the Meta One manipulated object positions
+			and rotations to fit the real world, we needed a custom solution to
+			be able to synchronize the world state in a more controlled way.
+			Because of this, a different solution was required to create 
+			synchronization across the game world. The next option was to use the 
+			Photon Unity Networking package, which not only supported multi-player 
+			better (it allowed for more people to play the same game), but it also 
+			allowed VR and AR games to have multi-player functionality (there is a 
+			free package available on the Unity Asset Store, which can be found here:
+			\url{https://www.assetstore.unity3d.com/en/#!/content/1786}). However,
 			this was not used, as the problem was not that we needed to connect
 			several AR players in the game world (as these would be the local players,
 			and therefore would be able to see what was going on in the game world
 			by just looking at the marker that was placed near them). As such,
 			a different solution had to be found.
 			
-			The final solution is the solution that is used right now. Instead of 
+			The final solution we used is as follows: Instead of 
 			relying on Unity for the networking functionality, we decided to 
 			combine this problem with another issue we came across regarding 
-			the detection and synchronisation of marker locations. This solution
+			the detection and synchronization of marker locations. This solution
 			was to deploy a server, written in C++, that uses OpenCV to detect 
 			the markers. This also allows us full control over the detection and 
 			manipulation of object transformations in Unity, as this was causing 
@@ -199,7 +154,7 @@
 			The OpenCV server makes use of a single camera to detect marker locations.
 			These locations are then sent to all clients over a socket connection.
 			This solution makes it easier to synchronize object positions between users
-			because all gameplay activities take place in a predefined area on a table,
+			because all game activities take place in a predefined area on a table,
 			and the users need only look at a single marker to be able to see the 
 			entire scene. 
 			
@@ -223,12 +178,12 @@
 			the same time. In order to ensure the game objects and 
 			corresponding laser beams still appear at the correct positions,
 			the Network component provides relative positions and rotations for 
-			all game markers in the playing area (also see paragraph 
+			all game objects in the playing area (also see paragraph 
 			\ref{ssec:networkcomponent}). The \texttt{Projection} component then uses
 			this information to place the objects in correct positions relative
 			to any marker detected by the Meta SDK. This ensures that all objects
 			remain visible and in the correct locations, as long as the Meta SDK 
-			tracks at least a single marker.
+			can see at least a single marker.
 			
 			Note that even if the marker cannot be detected temporarily, there 
 			is only a slight error in the locations of objects. This is due to 
@@ -261,12 +216,10 @@
 			
 			By design, and because of how it was conceived, the \texttt{Vision} 
 			component depends lightly on the \texttt{Projection} component.
-			However, this dependency is not cyclic, and should not cause too
-			much of a problem because of it, when viewed from a software
-			engineering standpoint. The only communication from the \texttt{Vision}
-			component to the \texttt{Projection} component is by sending out
-			messages into the object hierarchy, which are then received by 
-			components that can actually receive said messages. 
+			The only communication from the \texttt{Vision} component to the 
+			\texttt{Projection} component is by sending out messages into the 
+			object hierarchy, which are then received by components that can 
+			actually receive said messages. 
 			
 			\begin{figure}[ht]
 				\includegraphics[width=\textwidth]{ClassDiagramVision}
@@ -338,7 +291,8 @@
 			value for the game, for example). It was also changed later to
 			allow for more possible paths (not only spirals, but also paths with
 			less or more than four bends). However, it was scrapped after
-			discussing it with our coach, after which we agreed that the increase of the replay value of the game was not worth it. Another reason to abandon 
+			discussing it with our coach, after which we agreed that the increase 
+			of the replay value of the game was not worth it. Another reason to abandon 
 			it was because the classes belonging to it were some of the most complex
 			in the project. Even after several attempts to rewrite these classes, 
 			they were still just barely under the maximum complexity that we
@@ -357,7 +311,6 @@
 		
 		The following sections display and describe the graphics used in the 
 		game play elements, as well as the function of these elements.
-		%TODO Explain why we chose this graphics style
 		
 		\subsection{Laser target} \label{ssec:lasertarget}
 			The laser target is the main target of the game. It consists of
@@ -366,10 +319,11 @@
 			When the target is hit by a laser beam, the outer columns around
 			the crystal inside will rotate and spread out, indicating that
 			the target has been hit. The game will proceed to the
-			next level once all targets are hit, provided that the level contains no checkpoints. An image of the target is shown in figure 
+			next level once all targets are hit, provided that the level contains 
+			no checkpoints. An image of the target is shown in figure 
 			\ref{fig:target}. The gold columns depicted are the outer columns
-			described earlier. Also, the inner crystal will change color
-			when hit.
+			described earlier. Also, the inner crystal can have various colors 
+			depending on the color of the laser beam required to hit it.
 			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.4]{Target}
@@ -471,8 +425,9 @@
 			therefore forcing the players to redirect laser beams to portals.
 			A portal is depicted in \ref{fig:portal}. It looks like a 
 			recolored mirror. It has one black side and one green side. The 
-			black side is the side that allows laser beams to travel through 
-			it to the portal linked to it. The green side blocks laser beams completely.
+			black side allows laser beams to travel through it to the portal linked to 
+			it. The green side blocks laser beams completely.
+			
 			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.3]{Portal}
@@ -482,14 +437,15 @@
 			
 		\subsection{Lens splitter} \label{ssec:splitter}
 			The lens splitter is another advanced game object. It splits incoming
-			laser beams into two, creating two separate laser beams that each go
+			laser beams, creating two separate laser beams that each go
 			a different way. This allows creation of another laser beam without
-			another emitter, which allows hitting of multiple targets, for
+			needing an extra emitter, which allows hitting of multiple targets, for
 			example. A lens splitter is depicted in \ref{fig:lenssplitter}. As
-			can be seen, it has two lenses (to focus the laser beam to the crystal)
-			and a crystal (to split the incoming beam). The incoming beam has to hit
-			the outer lens, and the outgoing beams will be emitted from the outer
-			points of the crystal.
+			can be seen, it has two lenses, to focus the laser beam to a specific 
+			point in the splitter; and a crystal, to split the incoming beam. The 
+			laser beam has to hit the outer lens in order to be split, and the 
+			outgoing beams will be emitted from the outer points of the crystal.
+			
 			\begin{figure}[!ht]
 				\centering
 				\includegraphics[scale = 0.3]{LensSplitter}
@@ -504,7 +460,7 @@
 			was given (this would be at least one beam for the OR-gate, and
 			at least two for the AND-gate, while these gates would then emit
 			a single beam as output). These were the first logic gates that
-			we thought about, and later ideas included XOR and NO-XOR gates
+			we thought about, and later ideas included XOR and NXOR gates
 			(gates that would only emit a laser beam when hit by an odd or 
 			even amount of beams, respectively). There was (and still is) 
 			code that manages the behavior of AND- and OR-gates, however, 
@@ -540,7 +496,7 @@
 			elements that the game has to offer. These include walls, mirrors,
 			and the laser target. Mechanics introduced and explained in these
 			levels are: walls block incoming laser beams, mirrors reflect
-			incoming laser beams, one needs to hit all laser targets in order
+			laser beams, one needs to hit all laser targets in order
 			to proceed to the next level, and the color of the emitted laser
 			beam should correspond to the color of the crystal it is hit with.
 			
