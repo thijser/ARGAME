@@ -3,6 +3,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QDataStream>
+#include <opencv2/core.hpp>
 
 #include <iostream>
 
@@ -122,6 +123,10 @@ void ServerSocket::broadcastARViewUpdate(int id, cv::Point3f position, cv::Point
            << rotation.x
            << rotation.y
            << rotation.z;
+
+    qDebug() << "AR View:" << id
+             << "Position:" << position.x << position.y << position.z
+             << "Rotation:" << rotation.x << rotation.y << rotation.z;
 
     broadcastBytes(bytes);
 }

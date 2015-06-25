@@ -43,17 +43,14 @@ style=autoresize
       <x>20</x>
       <y>110</y>
       <w>300</w>
-      <h>250</h>
+      <h>200</h>
     </coordinates>
     <panel_attributes>MarkerHolder&lt;T&gt; :: MonoBehaviour
 /where T :: Marker/
 style=autoresize
 --
-+ Scale : float
-- markerTable : Dictionary&lt;int, Marker&gt;
-- patience : long
+- markerTable : Dictionary&lt;int, T&gt;
 --
-+ Parent : Marker
 
 + GetMarker(id : int) : Marker
 + Update()
