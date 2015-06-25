@@ -12,6 +12,7 @@ namespace Network
     using System;
     using System.Net;
     using UnityEngine;
+    using UnityEngine.Assertions;
 
     /// <summary>
     /// A class that processes the data sent over the network
@@ -136,6 +137,31 @@ namespace Network
         }
 
         /// <summary>
+        /// Reads an <see cref="ARViewUpdate"/> message from the given byte array.
+        /// </summary>
+        /// <param name="bytes">The byte array to read from.</param>
+        /// <param name="length">The maximum amount of bytes to read.</param>
+        /// <returns></returns>
+        public static ARViewUpdate ReadARViewUpdate(byte[] bytes, int length)
+        {
+            Assert.IsNotNull(bytes);
+            Assert.IsFalse(length < 28, "ARViewUpdate length needs to be at least 28");
+            Assert.IsFalse(bytes.Length < length, "byte array length is insufficient");
+
+            int id = MessageProcessor.ReadInt32(bytes, 0);
+            Vector3 position = new Vector3(
+                MessageProcessor.ReadSingle(bytes, 4),
+                MessageProcessor.ReadSingle(bytes, 8),
+                MessageProcessor.ReadSingle(bytes, 12));
+            Vector3 rotation = new Vector3(
+                MessageProcessor.ReadSingle(bytes, 16),
+                MessageProcessor.ReadSingle(bytes, 20),
+                MessageProcessor.ReadSingle(bytes, 24));
+
+            return new ARViewUpdate(id, position, rotation);
+        }
+
+        /// <summary>
         /// Writes the given <see cref="RotationUpdate"/> to a byte array.
         /// </summary>
         /// <param name="update">The <see cref="RotationUpdate"/>, not null.</param>
@@ -167,10 +193,34 @@ namespace Network
             }
 
             byte[] message = new byte[13];
-            message[0] = (byte)UpdateType.Level;
+            message[0] = (byte)UpdateType.UpdateLevel;
             WriteInt32(update.NextLevelIndex, message, 1);
             WriteSingle(update.Size.x, message, 5);
             WriteSingle(update.Size.y, message, 9);
+            return message;
+        }
+
+        /// <summary>
+        /// Writes the given <see cref="ARViewUpdate"/> to a byte array.
+        /// </summary>
+        /// <param name="update">The <see cref="ARViewUpdate"/>, not null.</param>
+        /// <returns>A byte array containing the data from the <see cref="ARViewUpdate"/>.</returns>
+        public static byte[] WriteARViewUpdate(ARViewUpdate update)
+        {
+            Assert.IsNotNull(update);
+
+            byte[] message = new byte[29];
+            message[0] = (byte)UpdateType.UpdateARView;
+            WriteInt32(update.Id, message, 1);
+
+            WriteSingle(update.Position.x, message, 5);
+            WriteSingle(update.Position.y, message, 9);
+            WriteSingle(update.Position.z, message, 13);
+
+            WriteSingle(update.Rotation.x, message, 17);
+            WriteSingle(update.Rotation.y, message, 21);
+            WriteSingle(update.Rotation.z, message, 25);
+
             return message;
         }
 

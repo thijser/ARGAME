@@ -312,7 +312,7 @@ namespace Network
             LevelUpdate actual = MessageProcessor.ReadUpdateLevel(message, message.Length);
 
             Assert.AreEqual(expected, actual);
-            Assert.AreEqual((byte)UpdateType.Level, tag);
+            Assert.AreEqual((byte)UpdateType.UpdateLevel, tag);
         }
     }
 }

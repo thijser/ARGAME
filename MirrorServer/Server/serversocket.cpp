@@ -110,6 +110,22 @@ void ServerSocket::broadcastPing(std::function<bool(QTcpSocket*)> filter) {
     broadcastBytes(QByteArray(1, 2), filter);
 }
 
+void ServerSocket::broadcastARViewUpdate(int id, cv::Point3f position, cv::Point3f rotation) {
+    QByteArray bytes;
+    bytes.reserve(28);
+    QDataStream stream(&bytes, QIODevice::WriteOnly);
+    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+    stream << (qint32) id
+           << position.x
+           << position.y
+           << position.z
+           << rotation.x
+           << rotation.y
+           << rotation.z;
+
+    broadcastBytes(bytes);
+}
+
 void ServerSocket::processUpdates() {
     foreach (QTcpSocket *sock, clients) {
         processUpdates(sock);
@@ -128,6 +144,9 @@ void ServerSocket::processUpdates(QTcpSocket *client) {
             break;
         case 4: // Level Update
             readLevelUpdate(client);
+            break;
+        case 5: // AR View Update
+            readARViewUpdate(client);
             break;
         default:
             qDebug() << "Received message with unknown tag:" << (int) tag;
@@ -171,6 +190,34 @@ void ServerSocket::readLevelUpdate(QTcpSocket *client) {
     }
 }
 
+void ServerSocket::readARViewUpdate(QTcpSocket *client) {
+    Q_ASSERT(client != nullptr);
+    if (client->bytesAvailable() >= 28) {
+        QByteArray data = client->read(28);
+        if (data.length() != 28) {
+            return;
+        }
+
+        qint32 id;
+        cv::Point3f position;
+        cv::Point3f rotation;
+        QDataStream stream(&data, QIODevice::ReadOnly);
+        stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+        stream >> id;
+        stream >> position.x;
+        stream >> position.y;
+        stream >> position.z;
+        stream >> rotation.x;
+        stream >> rotation.y;
+        stream >> rotation.z;
+
+        // We do not use the ID in the message, but assign the ID based on
+        // the client's port number.
+        id = client->localPort();
+
+        emit arViewUpdated(id, position, rotation);
+    }
+}
 
 void ServerSocket::newConnection() {
     QTcpSocket *client = sock->nextPendingConnection();
