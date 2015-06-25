@@ -7,11 +7,12 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-namespace Network
+namespace Core
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Core.Receiver;
+    using Network;
     using Projection;
     using UnityEngine;
     using UnityEngine.Assertions;
