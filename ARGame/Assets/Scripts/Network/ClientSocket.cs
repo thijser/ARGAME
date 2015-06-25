@@ -31,7 +31,7 @@ namespace Network
         /// This is used as the size of the message buffer.
         /// </para>
         /// </summary>
-        public const int MaxPacketSize = 17;
+        public const int MaxPacketSize = 30;
 
         /// <summary>
         /// The maximum amount of updates to read in a single step.
@@ -112,7 +112,10 @@ namespace Network
         /// </summary>
         public void Update()
         {
-            this.ReadAllUpdates();
+            if (this.socket != null)
+            {
+                this.ReadAllUpdates();
+            }
         }
 
         /// <summary>
@@ -198,9 +201,12 @@ namespace Network
                 case UpdateType.UpdateRotation:
                     received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
                     return MessageProcessor.ReadUpdateRotation(this.buffer, received);
-                case UpdateType.Level:
+                case UpdateType.UpdateLevel:
                     received = this.socket.Receive(this.buffer, 12, SocketFlags.None);
                     return MessageProcessor.ReadUpdateLevel(this.buffer, received);
+                case UpdateType.UpdateARView:
+                    received = this.socket.Receive(this.buffer, 28, SocketFlags.None);
+                    return MessageProcessor.ReadARViewUpdate(this.buffer, received);
                 default:
                     return null;
             }
@@ -222,6 +228,16 @@ namespace Network
         public void OnLevelCompleted(LevelUpdate update)
         {
             this.socket.Send(MessageProcessor.WriteLevelUpdate(update));
+        }
+
+        /// <summary>
+        /// Called whenever a local player changes its position.
+        /// </summary>
+        /// <param name="update"></param>
+        public void OnSendPosition(ARViewUpdate update)
+        {
+            this.socket.Send(MessageProcessor.WriteARViewUpdate(update));
+            Debug.LogError("Sending message: " + update);
         }
     }
 }

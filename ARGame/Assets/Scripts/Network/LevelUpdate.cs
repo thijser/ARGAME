@@ -31,7 +31,7 @@ namespace Network
         /// </exception>
         public LevelUpdate(int index, Vector2 size)
         {
-            this.Type = UpdateType.Level;
+            this.Type = UpdateType.UpdateLevel;
             this.Id = -1;
             if (size.x <= 0 || size.y <= 0)
             {

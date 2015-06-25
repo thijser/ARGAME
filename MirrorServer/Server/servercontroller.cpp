@@ -1,7 +1,13 @@
 #include "servercontroller.hpp"
 #include "serversocket.hpp"
+
+#include "qhttpserver.h"
+#include "qhttprequest.h"
+#include "qhttpresponse.h"
+
 #include <QBuffer>
 #include <QTcpSocket>
+
 
 namespace mirrors {
 
@@ -29,6 +35,7 @@ ServerController::ServerController(QObject *parent)
             this, SLOT(handleNewClient(QTcpSocket*)));
     connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
             this, SLOT(sendBoard(QHttpRequest*, QHttpResponse*)));
+
 
     // A single-shot Timer with an interval of 0 will
     // directly fire the timeout when control goes back
