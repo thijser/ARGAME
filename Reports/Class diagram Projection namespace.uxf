@@ -4,19 +4,17 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>100</y>
+      <x>360</x>
+      <y>110</y>
       <w>300</w>
-      <h>170</h>
+      <h>130</h>
     </coordinates>
     <panel_attributes>Marker :: MonoBehaviour
 style=autoresize
 --
 + ID : int
 + RemotePosition : MarkerPosition
-+ LocalPosition : MarkerPosition
 + ObjectRotation : float
-+ TransformMatrix : Matrix4x4
 
 + Start()
 + UpdatePosition(projectionMatrix : Matrix4x4)</panel_attributes>
@@ -25,33 +23,30 @@ style=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>500</x>
-      <y>100</y>
-      <w>300</w>
-      <h>170</h>
+      <x>690</x>
+      <y>110</y>
+      <w>170</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>MarkerPosition
 style=autoresize
 --
-+ ID : int
-+ RemotePosition : MarkerPosition
-+ LocalPosition : MarkerPosition
-+ ObjectRotation : float
-+ TransformMatrix : Matrix4x4
-
-+ Start()
-+ UpdatePosition(projectionMatrix : Matrix4x4)</panel_attributes>
++ Position : Vector3
++ Rotation : Vector3
++ Scale : Vector3
++ Timestamp : DateTime</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>360</y>
+      <x>20</x>
+      <y>110</y>
       <w>300</w>
-      <h>230</h>
+      <h>250</h>
     </coordinates>
-    <panel_attributes>MarkerHolder :: MonoBehaviour
+    <panel_attributes>MarkerHolder&lt;T&gt; :: MonoBehaviour
+/where T :: Marker/
 style=autoresize
 --
 + Scale : float
@@ -72,53 +67,25 @@ style=autoresize
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
-      <y>260</y>
-      <w>30</w>
-      <h>120</h>
+      <x>310</x>
+      <y>150</y>
+      <w>70</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=*</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
-      <y>180</y>
-      <w>150</w>
-      <h>50</h>
+      <x>650</x>
+      <y>160</y>
+      <w>60</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;
-m2=2</panel_attributes>
-    <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>490</x>
-      <y>360</y>
-      <w>230</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>MarkerRegister
-style=autoresize
---
-+ MarkerRegister(marker : Marker)
-
-+ RegisteredMarker : Marker</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>290</x>
-      <y>260</y>
-      <w>320</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=1</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0;300.0;70.0;300.0;100.0</additional_attributes>
+m2=</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0</additional_attributes>
   </element>
 </diagram>

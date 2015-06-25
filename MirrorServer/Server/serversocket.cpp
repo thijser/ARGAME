@@ -112,7 +112,6 @@ void ServerSocket::broadcastPing(std::function<bool(QTcpSocket*)> filter) {
 
 void ServerSocket::broadcastARViewUpdate(int id, cv::Point3f position, cv::Point3f rotation) {
     QByteArray bytes;
-    bytes.reserve(29);
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
     stream << (qint8) 5
