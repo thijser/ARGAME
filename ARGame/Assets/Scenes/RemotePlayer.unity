@@ -87,6 +87,22 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &326436729 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 171082, guid: b678665f429d0694cb68468b1c85b470, type: 2}
+  m_PrefabInternal: {fileID: 752509141}
+--- !u!114 &326436739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 326436729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e2a96c5e7dd2c4dac0a4f51e9341fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseRemote: 1
 --- !u!1 &643102146
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +226,10 @@ Prefab:
     - target: {fileID: 479736, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11465036, guid: b678665f429d0694cb68468b1c85b470, type: 2}
+      propertyPath: ServerAddress
+      value: localhost
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b678665f429d0694cb68468b1c85b470, type: 2}
