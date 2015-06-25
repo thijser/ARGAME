@@ -25,7 +25,7 @@ namespace Network
         public void OnServerUpdate(AbstractUpdate update)
         {
             Assert.IsNotNull(update);
-			switch(update.Type){
+            switch (update.Type){
                 case UpdateType.UpdatePosition:
                 case UpdateType.DeletePosition:
                     this.SendMessage("OnPositionUpdate", update as PositionUpdate);

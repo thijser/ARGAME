@@ -16,6 +16,7 @@
 class QHttpServer;
 class QHttpRequest;
 class QHttpResponse;
+class QTcpSocket;
 
 namespace mirrors {
 using std::vector;

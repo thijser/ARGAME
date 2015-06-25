@@ -70,13 +70,13 @@ namespace Graphics
         }
 
         /// <summary>
-        /// attempts to use the image if it is done loading yet if not we can always try again later 
+        /// Attempts to use the image if it is done loading yet if not we can always try again later 
         /// </summary>
         public void TryImage()
         {
             if (this.webpage != null && this.webpage.isDone)
             {
-                Renderer renderer = gameObject.GetComponent<Renderer>();
+                Renderer renderer = GameObject.Find("RemoteController/Board/Tabletop").GetComponent<Renderer>();
                 renderer.material.mainTexture = this.webpage.texture;
                 Debug.Log("texture has loaded");
                 this.webpage.Dispose();
@@ -85,7 +85,7 @@ namespace Graphics
         }
 
         /// <summary>
-        /// start loading the image, note that if the result is to be used then tryImage has to be called later
+        /// Start loading the image, note that if the result is to be used then tryImage has to be called later
         /// </summary>
         public void GrabImage()
         {

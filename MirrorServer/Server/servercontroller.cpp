@@ -33,6 +33,11 @@ ServerController::ServerController(QObject *parent)
             this, SLOT(setMirrorRotation(int, float, QTcpSocket*)));
     connect(sock, SIGNAL(clientConnected(QTcpSocket*)),
             this, SLOT(handleNewClient(QTcpSocket*)));
+<<<<<<< HEAD
+=======
+    connect(sock, SIGNAL(arViewUpdated(int,cv::Point3f,cv::Point3f)),
+            sock, SLOT(broadcastARViewUpdate(int,cv::Point3f,cv::Point3f)));
+>>>>>>> master
     connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
             this, SLOT(sendBoard(QHttpRequest*, QHttpResponse*)));
 

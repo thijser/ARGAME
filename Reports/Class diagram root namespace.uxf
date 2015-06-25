@@ -6,7 +6,11 @@
     <coordinates>
       <x>80</x>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <y>170</y>
+=======
+      <y>150</y>
+>>>>>>> master
 =======
       <y>150</y>
 >>>>>>> master
@@ -30,7 +34,11 @@ _+ Speed : float_
       <y>70</y>
       <w>250</w>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <h>90</h>
+=======
+      <h>70</h>
+>>>>>>> master
 =======
       <h>70</h>
 >>>>>>> master
@@ -41,8 +49,12 @@ style=autoresize
 + QuitKey : KeyCode
 --
 <<<<<<< HEAD
+<<<<<<< HEAD
 + Update()
 </panel_attributes>
+=======
++ Update()</panel_attributes>
+>>>>>>> master
 =======
 + Update()</panel_attributes>
 >>>>>>> master
