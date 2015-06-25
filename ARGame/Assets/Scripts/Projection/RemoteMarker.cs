@@ -40,7 +40,11 @@ namespace Projection
         /// <param name="transformMatrix">The transformation Matrix.</param>
         public override void UpdatePosition(Matrix4x4 transformMatrix)
         {
-            this.RemotePosition.Scale = this.ScaleFactor * Vector3.one;
+            if (this.RemotePosition != null)
+            {
+                this.RemotePosition.Scale = this.ScaleFactor * Vector3.one;
+            }
+
             base.UpdatePosition(transformMatrix);
         }
     }
