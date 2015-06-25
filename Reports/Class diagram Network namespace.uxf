@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="13.2">
-  <zoom_level>10</zoom_level>
+  <zoom_level>7</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>350</x>
-      <y>60</y>
-      <w>230</w>
-      <h>250</h>
+      <x>280</x>
+      <y>28</y>
+      <w>154</w>
+      <h>175</h>
     </coordinates>
     <panel_attributes>MirrorController :: MonoBehaviour
 style=autoresize
@@ -31,10 +31,10 @@ style=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>30</x>
-      <y>120</y>
-      <w>310</w>
-      <h>350</h>
+      <x>56</x>
+      <y>28</y>
+      <w>217</w>
+      <h>238</h>
     </coordinates>
     <panel_attributes>ClientSocket :: MonoBehaviour
 style=autoresize
@@ -64,24 +64,10 @@ _+ Timeout : long_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>30</x>
-      <y>60</y>
-      <w>300</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>PositionPreviewer :: MonoBehaviour
-style=autoresize
---
-+ OnPositionUpdate(update : PositionUpdate)</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>350</x>
-      <y>410</y>
-      <w>390</w>
-      <h>170</h>
+      <x>133</x>
+      <y>315</y>
+      <w>273</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>PositionUpdate :: AbstractUpdate
 style=autoresize
@@ -99,10 +85,10 @@ style=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>600</x>
-      <y>250</y>
-      <w>140</w>
-      <h>90</h>
+      <x>280</x>
+      <y>210</y>
+      <w>98</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>/AbstractUpdate/
 style=autoresize
@@ -115,10 +101,10 @@ style=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>750</x>
-      <y>210</y>
-      <w>130</w>
-      <h>120</h>
+      <x>441</x>
+      <y>189</y>
+      <w>91</w>
+      <h>77</h>
     </coordinates>
     <panel_attributes>enum UpdateType
 style=autoresize
@@ -133,10 +119,10 @@ style=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>750</x>
-      <y>410</y>
-      <w>270</w>
-      <h>170</h>
+      <x>525</x>
+      <y>476</y>
+      <w>182</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>LevelUpdate :: AbstractUpdate
 style=autoresize
@@ -154,10 +140,10 @@ style=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>390</x>
-      <y>600</y>
-      <w>290</w>
-      <h>50</h>
+      <x>539</x>
+      <y>189</y>
+      <w>203</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>MessageDistributer
 style=autoresize
@@ -168,10 +154,10 @@ style=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>30</x>
-      <y>600</y>
-      <w>350</w>
-      <h>220</h>
+      <x>56</x>
+      <y>434</y>
+      <w>245</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>MarkerState
 style=autoresize
@@ -193,10 +179,10 @@ _+ VerticalOffset : float_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>390</x>
-      <y>660</y>
-      <w>430</w>
-      <h>210</h>
+      <x>441</x>
+      <y>28</y>
+      <w>301</w>
+      <h>147</h>
     </coordinates>
     <panel_attributes>_MessageProcessor_
 style=autoresize
@@ -213,5 +199,101 @@ _+ WriteLevelUpdate(update : LevelUpdate) : byte[]_
 _+ WriteFloat(value : float, buffer : byte[], offset : int)_
 _+ WriteInt(value : int, buffer : byte[], offset : int)_</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>308</x>
+      <y>259</y>
+      <w>315</w>
+      <h>231</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0;160.0;40.0;160.0;280.0;430.0;280.0;430.0;310.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>371</x>
+      <y>238</y>
+      <w>84</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>315</x>
+      <y>483</y>
+      <w>182</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>RotationUpdate :: AbstractUpdate
+style=autoresize
+--
++ RotationUpdate(id : int, rotation : float)
+
++ Rotation : float
+
++ GetHashCode() : int
++ Equals(other : object)
++ ToString() : string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>259</x>
+      <y>259</y>
+      <w>70</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;80.0;40.0;10.0;40.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>308</x>
+      <y>259</y>
+      <w>252</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0;340.0;40.0;340.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>434</x>
+      <y>315</y>
+      <w>273</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>ARViewUpdate :: AbstractUpdate
+style=autoresize
+--
++ ARViewUpdate(id : int, position : Vector3, rotation : Vector3)
+
++ Position : Vector3
++ Rotation : Vector3
+
++ GetHashCode() : int
++ Equals(other : object)
++ ToString() : string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>413</x>
+      <y>448</y>
+      <w>21</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
   </element>
 </diagram>
