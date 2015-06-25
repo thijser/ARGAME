@@ -43,6 +43,7 @@ public class HeadHolder : MonoBehaviour {
 		return Heads[id];
 	}
 	public void place(GameObject head,ARViewUpdate playerInfo){
+		Debug.Log (" I know where you sleep");
 		RemoteMarker rm = head.GetComponent<RemoteMarker>();
 		rm.RemotePosition.Position=playerInfo.Position;
 		rm.RemotePosition.Rotation=Quaternion.Euler(playerInfo.Rotation);

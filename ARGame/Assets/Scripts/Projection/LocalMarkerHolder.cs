@@ -12,7 +12,7 @@ namespace Projection
     using System;
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
-
+	using Network;
     /// <summary>
     /// A class that handles marker registration and updates positions.
     /// </summary>
@@ -56,7 +56,9 @@ namespace Projection
             Matrix4x4 remoteToZero = this.Parent.RemotePosition.Matrix.inverse;
             Matrix4x4 zeroToLocal = this.Parent.LocalPosition.Matrix;
 
-            this.UpdateMarkerPositions(zeroToLocal * remoteToZero);
+			this.SendMessage("OnSendPosition",new ARViewUpdate(-1,this));
+			this.UpdateMarkerPositions(zeroToLocal * remoteToZero);
+
         }
 
         /// <summary>

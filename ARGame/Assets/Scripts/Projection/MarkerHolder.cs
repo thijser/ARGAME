@@ -33,6 +33,8 @@ namespace Projection
         /// </summary>
         private Dictionary<int, T> markers = new Dictionary<int, T>();
 
+
+	
         /// <summary>
         /// Gets an <see cref="IEnumerable"/> over all Markers in
         /// this <see cref="MarkerHolder"/>.
