@@ -71,12 +71,19 @@ namespace Core.Receiver
                 throw new ArgumentException("The supplied HitEventArgs object was invalid.");
             }
 
-            this.hit = true;
-            this.rgbStrengths = args.Laser.Emitter.GetComponent<LaserProperties>().RGBStrengths;
+            Vector3 incomingDir = args.Laser.Direction;
+            Vector3 incomingDirLocal = transform.worldToLocalMatrix * incomingDir;
 
-            // Slight offset to make sure the laser passes through the surface
-            Vector3 dir = this.focusPoint.position - args.Point;
-            args.Laser.Extend(args.Point + (dir.normalized * 0.1f), dir);
+            // Check if laser is hitting lens from correct side
+            if (incomingDirLocal.z > 0.0f)
+            {
+                this.hit = true;
+                this.rgbStrengths = args.Laser.Emitter.GetComponent<LaserProperties>().RGBStrengths;
+
+                // Slight offset to make sure the laser passes through the surface
+                Vector3 dir = this.focusPoint.position - args.Point;
+                args.Laser.Extend(args.Point + (dir.normalized * 0.1f), dir);
+            }
         }
 
         /// <summary>
