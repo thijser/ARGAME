@@ -57,7 +57,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 479736}
-  - 114: {fileID: 11482950}
   - 114: {fileID: 11465036}
   - 114: {fileID: 11428554}
   - 114: {fileID: 11411818}
@@ -66,6 +65,7 @@ GameObject:
   - 114: {fileID: 11443242}
   - 114: {fileID: 11452770}
   - 114: {fileID: 11437880}
+  - 114: {fileID: 11436580}
   m_Layer: 0
   m_Name: RemoteController
   m_TagString: Untagged
@@ -488,6 +488,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08926f242b5664946be1bf918859b997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11436580
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85ceb4099d5d974449af8c90926a6cb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11437880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -544,21 +555,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a186731744c974cf3bbca6fc8e841a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerAddress: localhost
+  ServerAddress: 145.94.145.223
   ServerPort: 23369
---- !u!114 &11482950
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 171082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bfb278425c763748b23a0ae092df470, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Highlight: {fileID: 2100000, guid: 108d91fbe2d19e4488a3050473cbdb19, type: 2}
-  Original: {fileID: 2100000, guid: 83a21b131569d4c4bb93d98e9b11834a, type: 2}
 --- !u!114 &11491228
 MonoBehaviour:
   m_ObjectHideFlags: 1

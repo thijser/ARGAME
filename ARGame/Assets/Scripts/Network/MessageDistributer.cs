@@ -36,8 +36,7 @@ namespace Network
                     this.SendMessage("OnLevelUpdate", update as LevelUpdate);
                     break;
                 case UpdateType.UpdateARView:
-				Debug.Log (update.ToString());
-				this.SendMessage("OnFollowPlayerInfo", update as ARViewUpdate);
+				    this.SendMessage("OnFollowPlayerInfo", update as ARViewUpdate);
                     break;
                 default:
                     Assert.IsTrue(false, "Reached unreachable default case in MessageDistributer");
