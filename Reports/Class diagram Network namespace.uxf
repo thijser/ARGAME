@@ -4,33 +4,6 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>280</x>
-      <y>28</y>
-      <w>154</w>
-      <h>175</h>
-    </coordinates>
-    <panel_attributes>MirrorController :: MonoBehaviour
-style=autoresize
---
-+ Highlight : Material
-+ Original : Material
-
-- selected : bool
---
-+ SelectedMirror : Mirror
-
-+ Start()
-+ Update()
-+ SendRotationUpdate()
-- UpdateSelectedMirror()
-- Rotate()
-- HighlightMirror(Mirror)
-- ResetHighlight(Mirror)</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
       <x>56</x>
       <y>28</y>
       <w>217</w>
@@ -179,7 +152,7 @@ _+ VerticalOffset : float_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>441</x>
+      <x>315</x>
       <y>28</y>
       <w>301</w>
       <h>147</h>
@@ -270,7 +243,7 @@ style=autoresize
       <x>434</x>
       <y>315</y>
       <w>273</w>
-      <h>119</h>
+      <h>112</h>
     </coordinates>
     <panel_attributes>ARViewUpdate :: AbstractUpdate
 style=autoresize
