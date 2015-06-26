@@ -37,7 +37,7 @@ namespace Graphics
         /// <summary>
         /// Gets or sets the port to connect to.
         /// </summary>
-        public string Port { get; set; }
+        public int Port { get; set; }
 
         /// <summary>
         /// If we are using the remote check if image is done and use. 
@@ -62,7 +62,7 @@ namespace Graphics
         {
             Assert.IsNotNull(endPoint);
             this.IPAddress = endPoint.Address.ToString();
-            this.Port = (endPoint.Port + 1).ToString(CultureInfo.InvariantCulture);
+            this.Port = endPoint.Port + 1;
             if (this.webpage == null)
             {
                 this.GrabImage();
