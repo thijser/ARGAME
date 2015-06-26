@@ -3,6 +3,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QDataStream>
+#include <opencv2/core.hpp>
 
 #include <iostream>
 
@@ -112,16 +113,20 @@ void ServerSocket::broadcastPing(std::function<bool(QTcpSocket*)> filter) {
 
 void ServerSocket::broadcastARViewUpdate(int id, cv::Point3f position, cv::Point3f rotation) {
     QByteArray bytes;
-    bytes.reserve(28);
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
-    stream << (qint32) id
+    stream << (qint8) 5
+           << (qint32) id
            << position.x
            << position.y
            << position.z
            << rotation.x
            << rotation.y
            << rotation.z;
+
+    qDebug() << "AR View:" << id
+             << "Position:" << position.x << position.y << position.z
+             << "Rotation:" << rotation.x << rotation.y << rotation.z;
 
     broadcastBytes(bytes);
 }
@@ -213,7 +218,7 @@ void ServerSocket::readARViewUpdate(QTcpSocket *client) {
 
         // We do not use the ID in the message, but assign the ID based on
         // the client's port number.
-        id = client->localPort();
+        id = client->peerPort();
 
         emit arViewUpdated(id, position, rotation);
     }

@@ -25,9 +25,7 @@ namespace Network
         public void OnServerUpdate(AbstractUpdate update)
         {
             Assert.IsNotNull(update);
-
-            switch (update.Type)
-            {
+            switch (update.Type){
                 case UpdateType.UpdatePosition:
                 case UpdateType.DeletePosition:
                     this.SendMessage("OnPositionUpdate", update as PositionUpdate);
@@ -39,7 +37,8 @@ namespace Network
                     this.SendMessage("OnLevelUpdate", update as LevelUpdate);
                     break;
                 case UpdateType.UpdateARView:
-                    this.SendMessage("OnARViewUpdate", update as ARViewUpdate);
+				Debug.Log (update.ToString());
+				this.SendMessage("OnFollowPlayerInfo", update as ARViewUpdate);
                     break;
                 default:
                     Assert.IsTrue(false, "Reached unreachable default case in MessageDistributer");

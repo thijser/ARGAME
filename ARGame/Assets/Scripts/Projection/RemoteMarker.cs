@@ -18,6 +18,7 @@ namespace Projection
     /// </summary>
     public class RemoteMarker : Marker
     {
+		public bool useRemoteRotation{get; set;}
         /// <summary>
         /// The scale factor to apply.
         /// </summary>
@@ -33,7 +34,7 @@ namespace Projection
                 this.ScaleFactor = 2f;
             }
         }
-
+	
         /// <summary>
         /// Updates the position of this Marker using the provided Matrix.
         /// </summary>
@@ -45,7 +46,15 @@ namespace Projection
                 this.RemotePosition.Scale = this.ScaleFactor * Vector3.one;
             }
 
-            base.UpdatePosition(transformMatrix);
-        }
+			if(useRemoteRotation){
+			Matrix4x4 levelProjection = Matrix4x4.TRS(
+				this.RemotePosition.Position,
+				RemotePosition.Rotation,
+				this.RemotePosition.Scale);
+			this.transform.SetFromMatrix(transformMatrix * levelProjection);
+		}else{
+				base.UpdatePosition(transformMatrix);
+			}
+		}
     }
 }

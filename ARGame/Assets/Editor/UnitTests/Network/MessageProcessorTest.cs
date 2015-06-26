@@ -314,5 +314,22 @@ namespace Network
             Assert.AreEqual(expected, actual);
             Assert.AreEqual((byte)UpdateType.UpdateLevel, tag);
         }
+
+        /// <summary>
+        /// Tests if the <c>ReadARViewUpdate</c> and <c>WriteARViewUpdate</c> methods cycle.
+        /// </summary>
+        [Test]
+        public void TestReadWriteARViewUpdateCycles()
+        {
+            ARViewUpdate expected = new ARViewUpdate(45, new Vector3(23, 92, 56), new Vector3(52, 46, 75));
+            byte[] bytes = MessageProcessor.WriteARViewUpdate(expected);
+
+            byte tag = bytes[0];
+            byte[] message = bytes.Skip(1).ToArray<byte>();
+            ARViewUpdate actual = MessageProcessor.ReadARViewUpdate(message, message.Length);
+
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual((byte)UpdateType.UpdateARView, tag);
+        }
     }
 }

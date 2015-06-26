@@ -89,7 +89,7 @@ public static class TransformExtensions
     /// <returns>
     /// Translation offset.
     /// </returns>
-    private static Vector3 ExtractTranslationFromMatrix(ref Matrix4x4 matrix)
+    public static Vector3 ExtractTranslationFromMatrix(ref Matrix4x4 matrix)
     {
         Vector3 translate;
         translate.x = matrix.m03;
@@ -106,7 +106,7 @@ public static class TransformExtensions
     /// <returns>
     /// Quaternion representation of rotation transform.
     /// </returns>
-    private static Quaternion ExtractRotationFromMatrix(ref Matrix4x4 matrix)
+    public static Quaternion ExtractRotationFromMatrix(ref Matrix4x4 matrix)
     {
         Vector3 forward;
         forward.x = matrix.m02;
@@ -129,7 +129,7 @@ public static class TransformExtensions
     /// <returns>
     /// Scale vector.
     /// </returns>
-    private static Vector3 ExtractScaleFromMatrix(ref Matrix4x4 matrix)
+    public static Vector3 ExtractScaleFromMatrix(ref Matrix4x4 matrix)
     {
         Vector3 scale;
         scale.x = new Vector4(matrix.m00, matrix.m10, matrix.m20, matrix.m30).magnitude;

@@ -83,6 +83,7 @@ namespace Level
         /// <param name="index">The index of the level to load.</param>
         public void LoadLevel(int index)
         {
+			Debug.Log("loading level : "+index);
             if (this.level != null)
             {
                 GameObject.Destroy(this.level);
