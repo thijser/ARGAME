@@ -48,11 +48,14 @@ namespace Network
             Vector2 coordinate = new Vector2(x, y);
             float rotation = MessageProcessor.ReadSingle(buffer, 8);
             int id = MessageProcessor.ReadInt32(buffer, 12);
-			if(id>200||id<0){
-				throw new ArgumentOutOfRangeException("received message is not sane"+new PositionUpdate(UpdateType.UpdatePosition, coordinate, rotation, id));
-				return null;
+
+            PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, coordinate, rotation, id);
+			if(id > 200 || id < 0)
+            {
+				throw new ArgumentOutOfRangeException("Received message is not sane: " + update);
 			}
-            return new PositionUpdate(UpdateType.UpdatePosition, coordinate, rotation, id);
+
+            return update;
         }
 
         /// <summary>
