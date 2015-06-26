@@ -38,16 +38,21 @@ public class HeadHolder : MonoBehaviour {
 			Heads.Add(id,Instantiate(PrefabHead));
 			Heads[id].transform.SetParent(transform);
 			RemoteMarker rm = Heads[id].GetComponent<RemoteMarker>();
+			rm.useRemoteRotation=true;
 			rm.Id=9000+id;
+			Debug.LogWarning(id);
+			holder.AddMarker(rm);
 		}
 		return Heads[id];
 	}
 	public void place(GameObject head,ARViewUpdate playerInfo){
-		Debug.Log (" I know where you sleep");
+		Vector3 pos=new Vector3(playerInfo.Position.x,playerInfo.Position.y,playerInfo.Position.z);
 		RemoteMarker rm = head.GetComponent<RemoteMarker>();
-		rm.RemotePosition.Position=playerInfo.Position;
-		rm.RemotePosition.Rotation=Quaternion.Euler(playerInfo.Rotation);
-	}
+		rm.RemotePosition=new MarkerPosition(pos,
+		                                      Quaternion.Euler(playerInfo.Rotation),
+		                                      System.DateTime.Now,new Vector3(1,1,1),playerInfo.Id+9000);
+		Debug.Log (Quaternion.Euler(playerInfo.Rotation));
+	}	
 
 	/// <summary>
 	/// Updates the board size.
