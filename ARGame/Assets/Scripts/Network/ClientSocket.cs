@@ -238,7 +238,6 @@ namespace Network
         public void OnSendPosition(ARViewUpdate update)
         {
             this.socket.Send(MessageProcessor.WriteARViewUpdate(update));
-            Debug.LogError("Sending message: " + update);
         }
     }
 }

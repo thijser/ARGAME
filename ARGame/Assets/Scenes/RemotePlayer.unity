@@ -102,9 +102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ceb4099d5d974449af8c90926a6cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScaleFactor: .125
-  RotationOffset: {x: 0, y: 0, z: 0}
-  LinairOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &752509141
 Prefab:
   m_ObjectHideFlags: 0
@@ -148,6 +145,7 @@ Prefab:
       propertyPath: ServerAddress
       value: 145.94.145.223
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11482950, guid: b678665f429d0694cb68468b1c85b470, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: b678665f429d0694cb68468b1c85b470, type: 2}
   m_IsPrefabParent: 0

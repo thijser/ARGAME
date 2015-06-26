@@ -118,6 +118,11 @@ public static class TransformExtensions
         upwards.y = matrix.m11;
         upwards.z = matrix.m21;
 
+        if (forward == Vector3.zero || upwards == Vector3.zero)
+        {
+            return Quaternion.identity;
+        }
+
         return Quaternion.LookRotation(forward, upwards);
     }
 

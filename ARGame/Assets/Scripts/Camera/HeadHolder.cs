@@ -1,65 +1,89 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Network;
-using Projection;
-using UnityEngine.Assertions;
+﻿//----------------------------------------------------------------------------
+// <copyright file="HeadHolder.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not,
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
+namespace Camera
+{
+    using System;
+    using System.Collections.Generic;
+    using Network;
+    using Projection;
+    using UnityEngine;
+    using UnityEngine.Assertions;
 
-public class HeadHolder : MonoBehaviour {
+    /// <summary>
+    /// Keeps track of local players and updates their positions in the world.
+    /// </summary>
+    public class HeadHolder : MonoBehaviour
+    {
+        /// <summary>
+        /// A Dictionary mapping player id to Head.
+        /// </summary>
+        private Dictionary<int, RemotePlayerMarker> Heads = new Dictionary<int, RemotePlayerMarker>();
 
-	private Dictionary<int,GameObject> Heads = new Dictionary<int, GameObject>();
+        /// <summary>
+        /// The <see cref="RemoteMarkerHolder"/>.
+        /// </summary>
+        private RemoteMarkerHolder holder;
 
-	private RemoteMarkerHolder holder;
+        /// <summary>
+        /// The reference <c>GameObject</c> for a player head.
+        /// </summary>
+        private GameObject referenceHead;
 
-	private GameObject PrefabHead;
+        public void Start()
+        {
+            this.referenceHead = Resources.Load("Prefabs/HEAD") as GameObject;
+            this.holder = gameObject.GetComponent<RemoteMarkerHolder>();
+        }
 
-	public Vector2 BoardSize { get; set; }
+        public void OnFollowPlayerInfo(ARViewUpdate playerInfo)
+        {
+            this.PlacePlayerHead(this.GetPlayer(playerInfo.Id), playerInfo);
+        }
 
-	public void Start(){
-		PrefabHead= (GameObject)Resources.Load("Prefabs/HEAD");
-		holder=gameObject.GetComponent<RemoteMarkerHolder>();
-	}
+        public RemotePlayerMarker GetPlayer(int id)
+        {
+            if (!this.Heads.ContainsKey(id))
+            {
+                GameObject head = GameObject.Instantiate(this.referenceHead);
+                RemotePlayerMarker marker = head.GetComponent<RemotePlayerMarker>();
+                Heads.Add(id, marker);
+                marker.transform.SetParent(this.transform);
 
-	/// <summary>
-	/// The factor with which to scale the position.
-	/// </summary>
-	public  float ScaleFactor = 1f/8f;
+                marker.Id = 9000 + id;
+                this.holder.AddMarker(marker);
+            }
 
-	public Vector3 RotationOffset=new Vector3(0,0,0);
-	public Vector3 LinairOffset = new Vector3(0,0,0);
+            return this.Heads[id];
+        }
 
-	public void OnFollowPlayerInfo(ARViewUpdate playerInfo){
-		place (this.HeadInstance(playerInfo.Id),playerInfo);
-	}
+        public void PlacePlayerHead(RemotePlayerMarker head, ARViewUpdate playerInfo)
+        {
+            Assert.IsNotNull(head);
+            Assert.IsNotNull(playerInfo);
 
-	private GameObject HeadInstance(int id){
-		if(!Heads.ContainsKey(id)){
-			Heads.Add(id,Instantiate(PrefabHead));
-			Heads[id].transform.SetParent(transform);
-			RemoteMarker rm = Heads[id].GetComponent<RemoteMarker>();
-			rm.useRemoteRotation=true;
-			rm.Id=9000+id;
-			Debug.LogWarning(id);
-			holder.AddMarker(rm);
-		}
-		return Heads[id];
-	}
-	public void place(GameObject head,ARViewUpdate playerInfo){
-		Vector3 pos=new Vector3(playerInfo.Position.x,playerInfo.Position.y,playerInfo.Position.z);
-		RemoteMarker rm = head.GetComponent<RemoteMarker>();
-		rm.RemotePosition=new MarkerPosition(pos,
-		                                      Quaternion.Euler(playerInfo.Rotation),
-		                                      System.DateTime.Now,new Vector3(1,1,1),playerInfo.Id+9000);
-		Debug.Log (Quaternion.Euler(playerInfo.Rotation));
-	}	
+            head.RemotePosition = new MarkerPosition(
+                playerInfo.Position,
+                Quaternion.Euler(playerInfo.Rotation),
+                DateTime.Now,
+                Vector3.one,
+                playerInfo.Id + 9000);
+        }
 
-	/// <summary>
-	/// Updates the board size.
-	/// </summary>
-	/// <param name="update">The level update.</param>
-	public void OnLevelUpdate(LevelUpdate update)
-	{
-		this.BoardSize = update.Size;
-	}
+        /// <summary>
+        /// Starts following the given RemotePlayerMarker as camera origin.
+        /// </summary>
+        /// <param name="player">The player to follow.</param>
+        public void Follow(RemotePlayerMarker player)
+        {
+            this.holder.PlayerToFollow = player;
+            Debug.Log("Started following player: " + (player == null ? "none" : player.Id.ToString()));
+        }
+    }
 }

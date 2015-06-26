@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UnityTest
 {
-    public class IsRenderedByCamera : ComparerBaseGeneric<Renderer, Camera>
+    public class IsRenderedByCamera : ComparerBaseGeneric<Renderer, UnityEngine.Camera>
     {
         public enum CompareType
         {
@@ -14,7 +14,7 @@ namespace UnityTest
 
         public CompareType compareType;
 
-        protected override bool Compare(Renderer renderer, Camera camera)
+        protected override bool Compare(Renderer renderer, UnityEngine.Camera camera)
         {
             var planes = GeometryUtility.CalculateFrustumPlanes(camera);
             var isVisible = GeometryUtility.TestPlanesAABB(planes, renderer.bounds);
