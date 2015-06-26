@@ -5,8 +5,6 @@
 #include <QDataStream>
 #include <opencv2/core.hpp>
 
-#include <iostream>
-
 namespace mirrors {
 
 ServerSocket::ServerSocket(QObject *parent)
@@ -227,6 +225,7 @@ void ServerSocket::readARViewUpdate(QTcpSocket *client) {
 void ServerSocket::newConnection() {
     QTcpSocket *client = sock->nextPendingConnection();
     clients.append(client);
+    connect(client, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(handleClientError()));
     emit clientConnected(client);
 }
 
