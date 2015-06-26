@@ -11,7 +11,6 @@ namespace Network
 {
     using UnityEngine;
     using Projection;
-    using UnityEngine.Assertions;
 
     /// <summary>
     /// Update sent by the server when the view of a local player 

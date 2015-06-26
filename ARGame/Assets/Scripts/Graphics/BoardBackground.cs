@@ -9,7 +9,6 @@
 //----------------------------------------------------------------------------
 namespace Graphics
 {
-    using System.Globalization;
     using System.Net;
     using UnityEngine;
     using UnityEngine.Assertions;

@@ -9,7 +9,6 @@
 //----------------------------------------------------------------------------
 namespace Core
 {
-    using System.Collections;
     using System.Diagnostics.CodeAnalysis;
     using Graphics;
     using UnityEngine;

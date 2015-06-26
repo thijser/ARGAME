@@ -10,7 +10,6 @@
 namespace Core.Receiver
 {
     using System;
-    using System.Collections.Generic;
     using Core.Emitter;
     using UnityEngine;
 

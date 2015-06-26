@@ -13,6 +13,7 @@ namespace Projection
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 	using Network;
+
     /// <summary>
     /// A class that handles marker registration and updates positions.
     /// </summary>

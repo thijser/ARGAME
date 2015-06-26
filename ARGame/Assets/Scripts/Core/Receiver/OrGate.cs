@@ -13,9 +13,6 @@ namespace Core.Receiver
     /// An OR-gate that outputs a laser beam if another beam hits it.
     /// </summary>
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using Core.Emitter;
     using UnityEngine;
 

@@ -9,7 +9,6 @@
 //----------------------------------------------------------------------------
 namespace Network
 {
-    using System;
     using UnityEngine;
     using UnityEngine.Assertions;
 

@@ -9,7 +9,6 @@
 //----------------------------------------------------------------------------
 namespace Projection
 {
-    using Network;
     using UnityEngine;
 
     /// <summary>

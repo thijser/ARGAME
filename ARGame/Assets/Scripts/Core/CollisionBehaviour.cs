@@ -9,7 +9,6 @@
 //----------------------------------------------------------------------------
 namespace Core
 {
-    using System.Collections;
     using UnityEngine;
 
     /// <summary>

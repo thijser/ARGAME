@@ -12,7 +12,6 @@ namespace Level
     using System.Text.RegularExpressions;
     using Network;
     using UnityEngine;
-    using Vision;
 
     /// <summary>
     /// Manages loading and changing of levels.
