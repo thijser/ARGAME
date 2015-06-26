@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.3">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>704</x>
+      <y>464</y>
+      <w>104</w>
+      <h>256</h>
+    </coordinates>
+    <panel_attributes>enum TileType
+style=autoresize
+--
++ Nothing
++ Wall
++ EmitterG
++ EmitterR
++ EmitterB
++ TargetG
++ TargetR
++ TargetB
++ Mirror
++ Splitter
++ Elevator
++ PortalEntryOne
++ PortalExitOne
++ PortalEntryTwo
++ PortalExitTwo
++ PortalEntryThree
++ PortalExitThree
++ Checkpoint</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>600</x>
+      <y>320</y>
+      <w>528</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>_LevelParser_
+style=autoresize
+--
+_+ LoadLevel(path : string) : Level_
+
+_- ParseLevel(xml : string) : Level_
+_- ParseLevelHeader(levelDoc : XmlDocument) : LevelProperties_
+_- ParseLevelTiles(levelDoc : XmlDocument, level : LevelProperties) : ReadOnlyCollection&lt;LevelObject&gt;_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>152</x>
+      <y>320</y>
+      <w>416</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>Level
+style=autoresize
+--
++ Properties : LevelProperties
++ Objects : ReadOnlyCollection&lt;LevelObject&gt;
+--
++ Level(properties : LevelProperties, objects : ReadOnlyCollection&lt;LevelObject&gt;)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>336</x>
+      <y>464</y>
+      <w>328</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>LevelObject
+style=autoresize
+--
++ Type : TileType
++ Position : Vector2
++ Rotation : float
++ Instance : GameObject
+
++ PortalPair : int (get)
+--
++ LevelObject(type : TileType, position : Vector2, rotation : float)
+
++ IsPortal() : bool</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>848</x>
+      <y>464</y>
+      <w>184</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>LevelComponent :: MonoBehaviour
+style=autoresize
+--
++ Size : Vector2 (get; set)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>168</x>
+      <y>464</y>
+      <w>160</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>LevelProperties
+style=autoresize
+--
++ Width : int (get; set)
++ Height : int (get; set)
++ TileWidth : int (get; set)
++ TileHeight : int (get; set)
++ HorizontalTiles : int (get; set)
++ VerticalTiles : int (get; set)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>432</x>
+      <y>72</y>
+      <w>592</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>LevelLoader
+style=autoresize
+--
+_+ LevelMarkerID : int_
+
++ BoardSize : int (get; set)
+
+- objectPrefabs : Dictionary&lt;TileType, GameObject&gt;
+--
++ CreateLevel(path : string) : GameObject
+
+_- LinkPortals(levelObjects : ReadOnlyCollection&lt;LevelObject&gt;)_
+_- InstantiateLevelObject(levelObject : LevelObject, objectPrefabs : Dictionary&lt;TileType, GameObject&gt;) : GameObject_
+_- InitializeObjectColor(obj : GameObject, levelObject : LevelObject) : bool_
+
+- ConstructLevel(level : LevelProperties, levelObjects : ReadOnlyCollection&lt;LevelObject&gt;) : GameObject
+- ConstructMarker(level : GameObject, properties : LevelProperties) : Marker
+- LoadPrefabs()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>152</x>
+      <y>72</y>
+      <w>216</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>LevelManager
+style=autoresize
+--
++ BoardSize : Vector2
++ CurrentLevelIndex : int
+
+- levelLoader : LevelLoader
+- levelMappings : string[]
+- level : GameObject
+--
++ Start()
++ NextLevel()
++ RestartLevel()
++ RestartGame()
++ LoadLevel(index : int)
++ OnLevelUpdate(levelup : LevelUpdate)
+
+- LoadLevelMappings()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>656</x>
+      <y>488</y>
+      <w>64</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>384</y>
+      <w>24</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;
+m2=</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>496</x>
+      <y>384</y>
+      <w>24</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;
+m2=</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>128</y>
+      <w>88</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;
+m2=</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>848</x>
+      <y>280</y>
+      <w>24</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

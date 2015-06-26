@@ -171,7 +171,7 @@ m2= 1</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>0</y>
-      <w>810</w>
+      <w>1070</w>
       <h>510</h>
     </coordinates>
     <panel_attributes>Core</panel_attributes>
@@ -182,7 +182,7 @@ m2= 1</panel_attributes>
     <coordinates>
       <x>0</x>
       <y>530</y>
-      <w>1280</w>
+      <w>1540</w>
       <h>470</h>
     </coordinates>
     <panel_attributes>Core.Receiver</panel_attributes>
@@ -245,7 +245,7 @@ style=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>730</x>
+      <x>830</x>
       <y>590</y>
       <w>270</w>
       <h>170</h>
@@ -269,16 +269,16 @@ style=autoresize
     <coordinates>
       <x>570</x>
       <y>370</y>
-      <w>330</w>
+      <w>430</w>
       <h>240</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>30;30;30;200;310;200;310;220</additional_attributes>
+    <additional_attributes>30;30;30;200;410;200;410;220</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1010</x>
+      <x>1210</x>
       <y>590</y>
       <w>240</w>
       <h>170</h>
@@ -302,11 +302,11 @@ style=autoresize
     <coordinates>
       <x>570</x>
       <y>370</y>
-      <w>580</w>
+      <w>780</w>
       <h>240</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>30;30;30;200;560;200;560;220</additional_attributes>
+    <additional_attributes>30;30;30;200;760;200;760;220</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -506,6 +506,33 @@ style=autoresize
 
 + Start()
 + LateUpdate()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1290</x>
+      <y>130</y>
+      <w>230</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>MirrorController :: MonoBehaviour
+style=autoresize
+--
++ Highlight : Material
++ Original : Material
+
+- selected : bool
+--
++ SelectedMirror : Mirror
+
++ Start()
++ Update()
++ SendRotationUpdate()
+- UpdateSelectedMirror()
+- Rotate()
+- HighlightMirror(Mirror)
+- ResetHighlight(Mirror)</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>360</x>
-      <y>110</y>
+      <x>740</x>
+      <y>160</y>
       <w>300</w>
       <h>130</h>
     </coordinates>
@@ -23,8 +23,8 @@ style=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>690</x>
-      <y>110</y>
+      <x>1070</x>
+      <y>160</y>
       <w>170</w>
       <h>100</h>
     </coordinates>
@@ -40,8 +40,8 @@ style=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>110</y>
+      <x>400</x>
+      <y>160</y>
       <w>300</w>
       <h>200</h>
     </coordinates>
@@ -64,25 +64,133 @@ style=autoresize
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>310</x>
-      <y>150</y>
-      <w>70</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=*</panel_attributes>
-    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>650</x>
-      <y>160</y>
+      <x>1030</x>
+      <y>210</y>
       <w>60</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;
 m2=</panel_attributes>
     <additional_attributes>10.0;10.0;40.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>610</x>
+      <y>400</y>
+      <w>280</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>LocalMarker :: Marker
+--
++ LocalPosition (get; set;) : MarkerPosition
+
++ ToString() : string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>900</x>
+      <y>390</y>
+      <w>280</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>RemoteMarker :: Marker
+--
++ ScaleFactor (get; set;) : float
+
++ Start()
++ UpdatePosition(Matrix4x4)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>890</x>
+      <y>280</y>
+      <w>150</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0;130.0;50.0;130.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>740</x>
+      <y>280</y>
+      <w>180</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>160.0;10.0;160.0;50.0;10.0;50.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>570</y>
+      <w>340</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>LocalMarkerHolder :: MarkerHolder&lt;LocalMarker&gt;
+--
++ Patience : long
++ Scale : float
+--
++ Parent (get; set;) : LocalMarker
+
++ Update()
++ OnMarkerSeen(MarkerPosition)
++ SelectParent(LocalMarker)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>550</x>
+      <y>590</y>
+      <w>350</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>RemoteMarkerHolder :: MarkerHolder&lt;RemoteMarker&gt;
+--
++ Update()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>350</y>
+      <w>220</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>200.0;10.0;200.0;160.0;10.0;160.0;10.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>350</y>
+      <w>180</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;160.0;160.0;160.0;160.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>220</y>
+      <w>70</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>50.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>

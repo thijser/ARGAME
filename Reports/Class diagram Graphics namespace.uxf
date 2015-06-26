@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.3">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>200</x>
+      <y>180</y>
+      <w>260</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>BoardBackground :: MonoBehaviour
+style=autoresize
+--
++ UseRemote : bool
++ IPAddress : string (get; set)
++ Port : string (get; set)
+
+- webpage : WWW
+--
+
++ Update()
++ OnSocketStart(endPoint : IPEndPoint)
++ TryImage()
++ GrabImage()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>180</y>
+      <w>590</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>VolumeLineRenderer :: MonoBehaviour
+style=autoresize
+--
++ LineMaterial : Material
++ LineWidth : float
++ UseWorldSpace : bool
++ CastShadows : bool
++ ReceiveShadows : bool
++ Positions : ReadOnlyCollection&lt;Vector3&gt; (get)
+
+- meshFilter : MeshFilter
+- meshRenderer : MeshRenderer
+- positions : Vector3[]
+--
+
++ Start()
++ Update()
++ SetVertexCount(count : int)
++ SetPosition(index : int, position : Vector3)
+_- CubeVerticesBetween(from : Vector3[], to : Vector3[]) : List&lt;Vector3&gt;_
+- CreateLineMesh(vertices : List&lt;Vector3&gt;, triangles : List&lt;int&gt;)
+- TransformWorldToLocal(vertices : List&lt;Vector3&gt;)
+- AddLineSegment(from : Vector3, to : Vector3, vertices : List&lt;Vector3&gt;, triangles : List&lt;int&gt;)
+- AddConnectingSegment(between : Vector3[], vertices : List&lt;Vector3&gt;, triangles : List&lt;int&gt;)</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
