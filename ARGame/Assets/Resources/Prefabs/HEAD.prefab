@@ -29,7 +29,6 @@ GameObject:
   - 4: {fileID: 499800}
   - 33: {fileID: 3325956}
   - 23: {fileID: 2336098}
-  - 95: {fileID: 9586526}
   m_Layer: 0
   m_Name: HEAD
   m_TagString: Untagged
@@ -59,7 +58,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146664}
-  m_LocalRotation: {x: .382683456, y: 0, z: 0, w: .923879504}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -71,8 +70,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 172496}
-  m_LocalRotation: {x: .343659729, y: -2.72205181e-16, z: 9.96129275e-17, w: .939094245}
-  m_LocalPosition: {x: 7.80000019, y: 8.82999992, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 414466}
@@ -86,7 +85,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 170932}
   m_LocalRotation: {x: -.665096939, y: 0, z: 0, w: .74675709}
-  m_LocalPosition: {x: -.270000011, y: .0500000007, z: -1.12}
+  m_LocalPosition: {x: .0599999987, y: .0500000007, z: -1.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 421954}
@@ -169,23 +168,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146664}
   m_Enabled: 1
---- !u!95 &9586526
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 170932}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: b69157825401b8f49aa1981954e1247b, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11407596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -213,7 +195,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.x
-      value: .446014941
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.y
@@ -225,7 +207,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.w
-      value: .856786668
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: .0599999987
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

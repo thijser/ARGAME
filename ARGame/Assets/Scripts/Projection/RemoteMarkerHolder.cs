@@ -31,7 +31,7 @@ namespace Projection
         /// </summary>
         public void Update()
         {
-            if (this.PlayerToFollow == null)
+            if (this.PlayerToFollow == null || this.PlayerToFollow.RemotePosition == null)
             {
                 this.UpdateMarkerPositions(Matrix4x4.identity);
             }

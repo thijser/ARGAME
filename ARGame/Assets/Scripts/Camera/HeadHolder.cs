@@ -22,10 +22,15 @@ namespace Camera
     public class HeadHolder : MonoBehaviour
     {
         /// <summary>
+        /// The offset used for player Ids.
+        /// </summary>
+        public const int PlayerIdOffset = 9000;
+        
+        /// <summary>
         /// A Dictionary mapping player id to Head.
         /// </summary>
         private Dictionary<int, RemotePlayerMarker> Heads = new Dictionary<int, RemotePlayerMarker>();
-
+        
         /// <summary>
         /// The <see cref="RemoteMarkerHolder"/>.
         /// </summary>
@@ -53,10 +58,12 @@ namespace Camera
             {
                 GameObject head = GameObject.Instantiate(this.referenceHead);
                 RemotePlayerMarker marker = head.GetComponent<RemotePlayerMarker>();
+                Assert.IsNotNull(marker, "Reference Player Marker has no `RemotePlayerMarker` script attached");
+
                 Heads.Add(id, marker);
                 marker.transform.SetParent(this.transform);
 
-                marker.Id = 9000 + id;
+                marker.Id = PlayerIdOffset + id;
                 this.holder.AddMarker(marker);
             }
 
@@ -72,8 +79,8 @@ namespace Camera
                 playerInfo.Position,
                 Quaternion.Euler(playerInfo.Rotation),
                 DateTime.Now,
-                Vector3.one,
-                playerInfo.Id + 9000);
+                8 * Vector3.one,
+                playerInfo.Id + PlayerIdOffset);
         }
 
         /// <summary>
