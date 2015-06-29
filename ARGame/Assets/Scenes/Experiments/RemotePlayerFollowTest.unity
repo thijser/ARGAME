@@ -140,15 +140,27 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 454304, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_LocalScale.z
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 454304, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_LocalScale.x
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 447920, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_LocalPosition.z
       value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 454304, guid: b678665f429d0694cb68468b1c85b470, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: .70710659
+      objectReference: {fileID: 0}
+    - target: {fileID: 454304, guid: b678665f429d0694cb68468b1c85b470, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: -.707106948
+      objectReference: {fileID: 0}
+    - target: {fileID: 454304, guid: b678665f429d0694cb68468b1c85b470, type: 2}
+      propertyPath: m_LocalScale.y
+      value: .200000003
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11403426, guid: b678665f429d0694cb68468b1c85b470, type: 2}
@@ -197,5 +209,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c3fb296b3d1bfb42ae98c1ca4a0d9b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SimulatedBoardSize: {x: 8, y: 10}
+  SimulatedBoardSize: {x: 10, y: 12}
   PlayerId: 1001

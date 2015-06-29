@@ -18,8 +18,6 @@ namespace Core
     /// </summary>
     public class BoardResizer : MonoBehaviour
     {
-
-
         /// <summary>
         /// Updates the board size with the size in the argument.
         /// </summary>

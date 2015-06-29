@@ -35,9 +35,8 @@
             HeadHolder holder = this.transform.parent.GetComponent<HeadHolder>();
             this.marker = holder.GetPlayer(this.PlayerId);
             holder.Follow(this.marker);
-            
-            this.transform.parent.GetComponent<BoardResizer>().UpdateBoardSize(this.SimulatedBoardSize);
-            
+
+            this.StartCoroutine(this.transform.parent.GetComponent<BoardResizer>().UpdateBoardSize(this.SimulatedBoardSize));
             LevelManager manager = this.transform.parent.GetComponent<LevelManager>();
             manager.BoardSize = this.SimulatedBoardSize;
             manager.RestartLevel();
@@ -50,7 +49,6 @@
         public void Update()
         {
             Vector3 position = this.transform.position;
-            position = new Vector3(position.x, position.z, position.y);
             ARViewUpdate update = new ARViewUpdate(this.PlayerId, position, this.transform.eulerAngles);
             this.SendMessageUpwards("OnFollowPlayerInfo", update);
         }

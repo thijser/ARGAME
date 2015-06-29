@@ -37,7 +37,9 @@ namespace Projection
             }
             else
             {
-                this.UpdateMarkerPositions(this.PlayerToFollow.RemotePosition.Matrix.inverse);
+                Matrix4x4 matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0, 90, 0), Vector3.one) * 
+                                   this.PlayerToFollow.RemotePosition.Matrix.inverse;
+                this.UpdateMarkerPositions(matrix);
             }
         }
     }

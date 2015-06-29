@@ -65,7 +65,7 @@ namespace Camera
 
                 marker.Id = PlayerIdOffset + id;
                 this.holder.AddMarker(marker);
-				this.holder.PlayerToFollow=marker;
+                this.Follow(marker);
             }
 
             return this.Heads[id];
