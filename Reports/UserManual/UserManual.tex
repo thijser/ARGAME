@@ -3,7 +3,7 @@
 
 % Title Page
 \title{AR Mirror Game user manual}
-\author{Tim van Rossum}
+\author{Alexander Overvoorde, Tim van Rossum}
 
 
 \begin{document}
@@ -34,6 +34,23 @@ subdirectories:
 After running \verb#Build -> Run qmake# the server can then be built using
 \verb#Build -> Rebuild All#. The output files will be placed in the \verb#dist#
 folder in the repository root directory.
+
+\section*{Building the client}
+
+The client scenes are contained in the \verb#ARGame# directory, under 
+\verb#ARGame\Assets\Scenes#. The scenes can be built using Unity, as they are 
+Unity scenes. It depends on the latest version of Unity (5.1.0, as of writing 
+this manual). 
+
+Building it can be done by following these steps:
+
+\begin{itemize}
+	\item Go to \verb#File -> Build Settings#
+	\item Add the scene that needs to be built (either RemotePlayer.unity or LocalPlayer.unity)
+	\item Select the option "PC, Mac \& Linux Standalone" as the platform
+	\item (Optional) check "Development Build", and afterwards "Script Debugging" if you want to see debugging output from the scripts.
+	\item Click "Build", or, if you want to run it immediately, click "Build and Run"
+\end{itemize}
 
 \section*{Starting up the server}
 Before one can start up the server and actually have it do something, the master
