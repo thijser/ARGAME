@@ -52,4 +52,23 @@ and its options can be found in \ref{fig:remotecontroller}
 	\label{fig:remotecontroller}
 \end{figure}
 \section*{Joining as a local player}
+In order to join the game as an extra local player one needs to have Unity
+installed, just like with joining as an extra remote player, and to be able
+to play properly as a local player, the player should also have a META One
+connected to their device. The interface for the local player is also
+a Unity scene. It contains a single object, the MetaWorld object. This object
+contains all the settings necessary for the local player gameplay.\\
+\\
+In order to connect to the server, one has to know the IP address of the
+device that the server runs on. Once known, the server can be accessed by
+entering the IP address into the "Server Address" field of the Client Socket
+component of the MetaWorld object. Again, it is possible to also change the
+server port, but it is discouraged. The settings of the MetaWorld object
+are shown in \ref{fig:metaworld}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale = 0.6]{MetaWorld}
+	\caption{The settings for the MetaWorld object.}
+	\label{fig:metaworld}
+\end{figure}
 \end{document}          
