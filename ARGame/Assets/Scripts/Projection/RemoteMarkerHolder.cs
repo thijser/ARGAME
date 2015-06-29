@@ -33,12 +33,11 @@ namespace Projection
         {
             if (this.PlayerToFollow == null || this.PlayerToFollow.RemotePosition == null)
             {
-                this.UpdateMarkerPositions(Matrix4x4.identity);
+                this.UpdateMarkerPositions(Matrix4x4.Scale(Vector3.one / 8f));
             }
             else
             {
-                Matrix4x4 matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0, 90, 0), Vector3.one) * 
-                                   this.PlayerToFollow.RemotePosition.Matrix.inverse;
+                Matrix4x4 matrix = this.PlayerToFollow.RemotePosition.Matrix.inverse;
                 this.UpdateMarkerPositions(matrix);
             }
         }

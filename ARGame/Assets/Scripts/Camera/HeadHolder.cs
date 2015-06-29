@@ -77,16 +77,11 @@ namespace Camera
             Assert.IsNotNull(playerInfo);
             int markerId = playerInfo.Id + PlayerIdOffset;
 
-            Vector3 scale = new Vector3(8, -8, -8);
+            Vector3 position = 8 * (playerInfo.Position + new Vector3(0, 0, 1));
+            Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
+            Vector3 scale = 8 * Vector3.one;
 
-            Vector3 position = playerInfo.Position;
-			position=new Vector3(position.x,position.z,position.y);
-			position.Scale(scale);
-
-            Quaternion direction = Quaternion.Euler(playerInfo.Rotation - new Vector3(0, 90, 0));
-            position = direction * position;
-            
-            head.RemotePosition = new MarkerPosition(position, direction, DateTime.Now, 8 * Vector3.one, markerId);
+            head.RemotePosition = new MarkerPosition(position, direction, DateTime.Now, scale, markerId);
         }
 
         /// <summary>

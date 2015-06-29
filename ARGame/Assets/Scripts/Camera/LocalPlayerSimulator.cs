@@ -15,7 +15,7 @@
         /// <summary>
         /// The size of the simulated board.
         /// </summary>
-        public Vector2 SimulatedBoardSize = new Vector2(8f, 10f);
+        public Vector2 SimulatedBoardSize = new Vector2(10f, 12f);
 
         /// <summary>
         /// The simulated player Id.
@@ -23,20 +23,15 @@
         public int PlayerId = 1001;
 
         /// <summary>
-        /// The remote player marker being simulated.
-        /// </summary>
-        private RemotePlayerMarker marker;
-
-        /// <summary>
         /// Initializes the LocalPlayerSimulator and simulates a board.
         /// </summary>
         public void Start()
         {
             HeadHolder holder = this.transform.parent.GetComponent<HeadHolder>();
-            this.marker = holder.GetPlayer(this.PlayerId);
-            holder.Follow(this.marker);
+            holder.GetPlayer(this.PlayerId);
 
             this.StartCoroutine(this.transform.parent.GetComponent<BoardResizer>().UpdateBoardSize(this.SimulatedBoardSize));
+            
             LevelManager manager = this.transform.parent.GetComponent<LevelManager>();
             manager.BoardSize = this.SimulatedBoardSize;
             manager.RestartLevel();
@@ -48,9 +43,8 @@
         /// </summary>
         public void Update()
         {
-            Vector3 position = this.transform.position;
-            ARViewUpdate update = new ARViewUpdate(this.PlayerId, position, this.transform.eulerAngles);
-            this.SendMessageUpwards("OnFollowPlayerInfo", update);
+            AbstractUpdate update = new ARViewUpdate(this.PlayerId, this.transform.position, this.transform.eulerAngles);
+            this.SendMessageUpwards("OnServerUpdate", update);
         }
     }
 }

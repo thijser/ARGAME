@@ -9,9 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 414466}
   - 20: {fileID: 2053844}
-  - 124: {fileID: 12474512}
   - 92: {fileID: 9253544}
-  - 81: {fileID: 8184908}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -98,8 +96,8 @@ Camera:
   m_GameObject: {fileID: 146664}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -108,7 +106,7 @@ Camera:
     height: 1
   near clip plane: .00999999978
   far clip plane: 1000
-  field of view: 17
+  field of view: 24
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -154,13 +152,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 170932}
   m_Mesh: {fileID: 4300000, guid: b69157825401b8f49aa1981954e1247b, type: 3}
---- !u!81 &8184908
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146664}
-  m_Enabled: 1
 --- !u!92 &9253544
 Behaviour:
   m_ObjectHideFlags: 1
@@ -179,13 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72ab1afe30b0974ebb08cb3d6ecd943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!124 &12474512
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146664}
-  m_Enabled: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -212,6 +196,26 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x
       value: .0599999987
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: field of view
+      value: 24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

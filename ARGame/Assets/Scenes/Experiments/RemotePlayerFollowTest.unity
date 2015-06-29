@@ -144,7 +144,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 454304, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_LocalScale.x
-      value: 10
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 447920, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_LocalPosition.z
@@ -152,11 +152,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 454304, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_LocalRotation.y
-      value: .70710659
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 454304, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_LocalRotation.w
-      value: -.707106948
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 454304, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_LocalScale.y
@@ -192,8 +192,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1574119437}
-  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
-  m_LocalPosition: {x: 3.48000002, y: 5, z: 4.46999979}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 752509142}
@@ -209,5 +209,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c3fb296b3d1bfb42ae98c1ca4a0d9b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SimulatedBoardSize: {x: 10, y: 12}
+  SimulatedBoardSize: {x: 14, y: 12}
   PlayerId: 1001
+--- !u!1 &1651726024 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 171082, guid: b678665f429d0694cb68468b1c85b470, type: 2}
+  m_PrefabInternal: {fileID: 752509141}
+--- !u!81 &1651726025
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1651726024}
+  m_Enabled: 1

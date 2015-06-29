@@ -101,8 +101,8 @@ namespace Level
         {
             GameObject obj = GameObject.Instantiate(objectPrefabs[levelObject.Type]);
 
-            obj.transform.position = new Vector3(levelObject.Position.x, 0, -levelObject.Position.y);
-            obj.transform.rotation = Quaternion.Euler(0, 180 + levelObject.Rotation, 0);
+            obj.transform.position = new Vector3(levelObject.Position.x, 0, levelObject.Position.y);
+            obj.transform.rotation = Quaternion.Euler(0, levelObject.Rotation, 0);
 
             InitializeObjectColor(obj, levelObject);
 
@@ -173,17 +173,23 @@ namespace Level
             // Link paired portals together
             LinkPortals(levelObjects);
 
+            this.AddBoard(parent.transform);
             this.ConstructMarker(parent, level);
-			addBoard(parent);
             return parent;
         }
 
-		private void addBoard(GameObject level){
-			GameObject board=GameObject.Instantiate(Resources.Load("Prefabs/Board") as GameObject);
-			board.transform.SetParent(level.transform);
-			board.transform.localPosition=new Vector3(0,0,0);
-			board.transform.localRotation=Quaternion.Euler(new Vector3(0,0,0));
-		}
+        /// <summary>
+        /// Adds the board to the level.
+        /// </summary>
+        /// <param name="level">The level GameObject.</param>
+        private void AddBoard(Transform level)
+        {
+            Transform board = GameObject.Instantiate(Resources.Load("Prefabs/Board") as GameObject).transform;
+            board.name = "Board";
+            board.SetParent(level);
+            board.localRotation = Quaternion.identity;
+        }
+
         /// <summary>
         /// Contructs a correct type of marker for the level.
         /// </summary>
@@ -194,9 +200,10 @@ namespace Level
         {
             Vector2 position = new Vector2(
                 (this.BoardSize.x - properties.Width) / 2,
-                (this.BoardSize.y - properties.Height) / 2);
+                -(this.BoardSize.y - properties.Height + 1) / 2);
 
-			Debug.Log("Level position: " + position);
+            // Correct the position of the board.
+            level.GetComponentInChildren<board>().transform.parent.localPosition = new Vector3(-position.x, 0, position.y);
 
             Marker marker;
             if (GameObject.Find("MetaWorld") == null)
@@ -217,9 +224,9 @@ namespace Level
             }
 
             // Simulate a PositionUpdate from the server.
-            PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, position, 0, LevelMarkerID);
+            PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, position - new Vector2(0, 1), 0, LevelMarkerID);
             marker.RemotePosition = new MarkerPosition(update);
-            
+
             // Due to a scaling issue, the scale of the level should be 8 times as large as the scale of a marker.
             marker.RemotePosition.Scale = 8 * Vector3.one;
 
