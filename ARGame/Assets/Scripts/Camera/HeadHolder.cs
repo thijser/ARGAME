@@ -74,17 +74,17 @@ namespace Camera
         {
             Assert.IsNotNull(head);
             Assert.IsNotNull(playerInfo);
+            int markerId = playerInfo.Id + PlayerIdOffset;
+
+            Vector3 scale = new Vector3(8, -8, -8);
 
             Vector3 position = playerInfo.Position;
-            position.Scale(new Vector3(8, 8, -8));
+            position.Scale(scale);
+
             Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
             position = direction * position;
-            head.RemotePosition = new MarkerPosition(
-                position,
-                direction,
-                DateTime.Now,
-                8 * Vector3.one,
-                playerInfo.Id + PlayerIdOffset);
+            
+            head.RemotePosition = new MarkerPosition(position, direction, DateTime.Now, 8 * Vector3.one, markerId);
         }
 
         /// <summary>
