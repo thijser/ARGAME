@@ -24,10 +24,32 @@ information.\\
 The server UI also specifies some useful information: it shows the FPS the
 server is recording the board at, the index of the current level, and a debug
 overlay (if enabled) that shows what the camera sees, with marker indices
-overlaid on the different markers.
+overlaid on the different markers. The server UI is shown in \ref{fig:serverui}
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[scale = 0.5]{MirrorServerUI}
-	\caption{The use cases for the remote player.}
+	\caption{The server UI.}
+	\label{fig:serverui}
 \end{figure}
+\section*{Joining as a remote player}
+In order to join the game as an extra remote player, one needs to have Unity
+installed on their machine, as the interface for the remote player is a Unity
+scene. The scene is called RemotePlayer.unity, and contains a single object,
+the RemoteController object. This object contains a lot of scripts necessary
+for the functioning of the remote player gameplay.\\
+\\
+In order to connect to the server, one has to know the IP address of the
+device that the server runs on. Once known, the server can be accessed by
+entering the IP address into the "Server Address" field of the Client Socket
+component of the RemoteController object. The server port is set to a default
+23369, and can be changed, but just like changing the port of the server,
+this is not recommended. A detailed overview of the RemoteController object
+and its options can be found in \ref{fig:remotecontroller}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale = 0.6]{RemoteController}
+	\caption{The settings for the RemoteController object.}
+	\label{fig:remotecontroller}
+\end{figure}
+\section*{Joining as a local player}
 \end{document}          
