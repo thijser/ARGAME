@@ -90,7 +90,6 @@ namespace Projection
             viewPosition.Scale(Vector3.one / 8);
             viewPosition.Scale(new Vector3(1, 1, -1));
 
-            Debug.LogError("Local: Position=" + viewPosition.ToString("G4") + ", Rotation=" + viewRotation.ToString("G4"));
             this.SendMessage("OnSendPosition", new ARViewUpdate(-1, viewPosition, viewRotation));
         }
 
