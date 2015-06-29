@@ -140,11 +140,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 454304, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_LocalScale.z
-      value: 12
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 454304, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_LocalScale.x
-      value: 14
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 447920, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: m_LocalPosition.z
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c3fb296b3d1bfb42ae98c1ca4a0d9b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SimulatedBoardSize: {x: 14, y: 12}
+  SimulatedBoardSize: {x: 10, y: 20}
   PlayerId: 1001
 --- !u!1 &1651726024 stripped
 GameObject:
