@@ -18,6 +18,8 @@ namespace Core
     /// </summary>
     public class BoardResizer : MonoBehaviour
     {
+
+
         /// <summary>
         /// Updates the board size with the size in the argument.
         /// </summary>
@@ -35,15 +37,19 @@ namespace Core
         /// <returns>True if the board size was updated, false if no board was found.</returns>
         public bool UpdateBoardSize(Vector2 size)
         {
-            Transform board = GetComponentsInChildren<Transform>()
-                .FirstOrDefault(t => t.gameObject.tag == "PlayingBoard");
-            if (board != null)
+			Transform board = this.GetComponentInChildren<board>().transform.parent;
+			if (board != null)
             {
+				board.gameObject.SetActive(true);
+				board.gameObject.AddComponent<ThrowError>();
                 Vector3 scale = new Vector3(8 * size.x, board.localScale.y, -8 * size.y);
-                board.localScale = scale;
-                return true;
+				scale.Scale(new Vector3(1/board.parent.localScale.x,1/board.parent.localScale.y,1/board.parent.localScale.z));
+				board.localScale = scale;
+				Debug.Log(board.position);
+				Debug.LogWarning("board found: "+ this.GetComponentsInChildren<ThrowError>().Length);
+				return true;
             }
-
+			Debug.LogError("no board found");
             return false;
         }
     }

@@ -188,7 +188,7 @@ namespace Network
             }
 
             byte type = this.buffer[0];
-            switch ((UpdateType)type)
+			switch ((UpdateType)type)
             {
                 case UpdateType.DeletePosition:
                     received = this.socket.Receive(this.buffer, 4, SocketFlags.None);
@@ -206,7 +206,6 @@ namespace Network
                     return MessageProcessor.ReadUpdateLevel(this.buffer, received);
                 case UpdateType.UpdateARView:
                     received = this.socket.Receive(this.buffer, 28, SocketFlags.None);
-				Debug.Log ("I see");
                     return MessageProcessor.ReadARViewUpdate(this.buffer, received);
                 default:
                     return null;

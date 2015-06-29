@@ -174,10 +174,16 @@ namespace Level
             LinkPortals(levelObjects);
 
             this.ConstructMarker(parent, level);
-
+			addBoard(parent);
             return parent;
         }
 
+		private void addBoard(GameObject level){
+			GameObject board=GameObject.Instantiate(Resources.Load("Prefabs/Board") as GameObject);
+			board.transform.SetParent(level.transform);
+			board.transform.localPosition=new Vector3(0,0,0);
+			board.transform.localRotation=Quaternion.Euler(new Vector3(0,0,0));
+		}
         /// <summary>
         /// Contructs a correct type of marker for the level.
         /// </summary>

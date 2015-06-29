@@ -126,6 +126,19 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 11465036, guid: b678665f429d0694cb68468b1c85b470, type: 2}
+      propertyPath: ServerAddress
+      value: localhost
+      objectReference: {fileID: 0}
+    - target: {fileID: 11465036, guid: b678665f429d0694cb68468b1c85b470, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11437880, guid: b678665f429d0694cb68468b1c85b470, type: 2}
+      propertyPath: UseRemote
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11403426, guid: b678665f429d0694cb68468b1c85b470, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: b678665f429d0694cb68468b1c85b470, type: 2}
   m_IsPrefabParent: 0
