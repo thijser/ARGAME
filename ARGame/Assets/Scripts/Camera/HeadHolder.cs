@@ -75,11 +75,12 @@ namespace Camera
             Assert.IsNotNull(head);
             Assert.IsNotNull(playerInfo);
 
+            Vector3 position = playerInfo.Position;
             head.RemotePosition = new MarkerPosition(
-                playerInfo.Position,
+                new Vector3(8 * position.x, position.y, -8 * position.z),
                 Quaternion.Euler(playerInfo.Rotation),
                 DateTime.Now,
-                8 * Vector3.one,
+                Vector3.one,
                 playerInfo.Id + PlayerIdOffset);
         }
 
