@@ -74,7 +74,7 @@ namespace Graphics
         /// </summary>
         public void TryImage()
         {
-            if (this.webpage != null && this.webpage.isDone)
+			if (this.webpage != null && this.webpage.isDone&&this.GetComponentInChildren<board>()!=null)
             {
 				Renderer renderer = this.GetComponentInChildren<board>().gameObject.GetComponent<Renderer>();
                 renderer.material.mainTexture = this.webpage.texture;

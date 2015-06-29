@@ -196,6 +196,8 @@ namespace Level
                 (this.BoardSize.x - properties.Width) / 2,
                 (this.BoardSize.y - properties.Height) / 2);
 
+			Debug.Log("Level position: " + position);
+
             Marker marker;
             if (GameObject.Find("MetaWorld") == null)
             {

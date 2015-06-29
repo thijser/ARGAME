@@ -32,16 +32,6 @@ namespace Network
             this.Rotation = rotation;
         }
 
-        public ARViewUpdate(int id, LocalMarkerHolder mh)
-        {
-            this.Type = UpdateType.UpdateARView;
-            this.Id = id;
-			LocalMarker parent = mh.Parent;
-            Matrix4x4 posmatrix = parent.RemotePosition.Matrix * parent.LocalPosition.Matrix.inverse;
-			this.Position = TransformExtensions.ExtractTranslationFromMatrix(ref posmatrix);
-			this.Rotation = TransformExtensions.ExtractRotationFromMatrix(ref posmatrix).eulerAngles;
-        }
-
         /// <summary>
         /// Gets the position of the local player.
         /// </summary>

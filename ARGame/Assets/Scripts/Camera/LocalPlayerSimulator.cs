@@ -49,7 +49,8 @@
         /// </summary>
         public void Update()
         {
-            Vector3 position = this.transform.localPosition;
+            Vector3 position = this.transform.position;
+            position = new Vector3(position.x, position.z, position.y);
             ARViewUpdate update = new ARViewUpdate(this.PlayerId, position, this.transform.eulerAngles);
             this.SendMessageUpwards("OnFollowPlayerInfo", update);
         }
