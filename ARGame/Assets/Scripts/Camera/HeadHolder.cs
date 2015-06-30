@@ -88,6 +88,12 @@ namespace Camera
             return this.Heads[id];
         }
 
+        /// <summary>
+        /// Places the given <see cref="RemotePlayerMarker"/> at the position and 
+        /// rotation indicated by the <see cref="ARViewUpdate"/>.
+        /// </summary>
+        /// <param name="head">The <see cref="RemotePlayerMarker"/>.</param>
+        /// <param name="playerInfo">The <see cref="ARViewUpdate"/>.</param>
         public void PlacePlayerHead(RemotePlayerMarker head, ARViewUpdate playerInfo)
         {
             Assert.IsNotNull(head);
@@ -97,7 +103,14 @@ namespace Camera
             Vector3 position = 8 * (playerInfo.Position + new Vector3(0, 0, 1));
             Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
             Vector3 scale = 8 * Vector3.one;
-			if(trackingIndex==-1){NextTracking();}
+
+			if (trackingIndex == -1)
+            {
+                this.NextTracking();
+            }
+
+            this.Heads[this.trackingIndex].RemotePosition = 
+                new MarkerPosition(position, direction, DateTime.Now, scale, markerId);
         }
 
         /// <summary>
