@@ -73,6 +73,7 @@ namespace Camera
             }
 
             int i = 0;
+			Debug.Log (trackingIndex);
             foreach (RemotePlayerMarker marker in Heads.Values)
             {
                 if (this.trackingIndex == i)
