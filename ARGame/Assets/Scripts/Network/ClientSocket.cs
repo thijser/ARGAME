@@ -81,6 +81,16 @@ namespace Network
         public void Start()
         {
             this.buffer = new byte[MaxPacketSize];
+            if (RemoteLocalUI.ip != null && RemoteLocalUI.ip != "")
+            {
+                string myIpString = RemoteLocalUI.ip;
+                IPAddress ipAddress = null;
+                bool isValidIp = System.Net.IPAddress.TryParse(myIpString, out ipAddress);
+                if (isValidIp)
+                {
+                    this.ServerAddress = RemoteLocalUI.ip;
+                }
+            }
 
             IPAddress[] addresses = Dns.GetHostEntry(this.ServerAddress).AddressList;
             if (addresses.Length == 0)
