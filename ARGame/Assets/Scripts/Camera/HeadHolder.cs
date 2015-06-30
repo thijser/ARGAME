@@ -25,13 +25,13 @@ namespace Camera
         /// The offset used for player Ids.
         /// </summary>
         public const int PlayerIdOffset = 9000;
-        
+
         /// <summary>
         /// A Dictionary mapping player id to Head.
         /// </summary>
         private Dictionary<int, RemotePlayerMarker> Heads = new Dictionary<int, RemotePlayerMarker>();
-        
-		private int trackingIndex=-1;
+
+        private int trackingIndex = -1;
         /// <summary>
         /// The <see cref="RemoteMarkerHolder"/>.
         /// </summary>
@@ -41,11 +41,15 @@ namespace Camera
         /// The reference <c>GameObject</c> for a player head.
         /// </summary>
         private GameObject referenceHead;
-		void Update(){
-			if(Input.GetKeyDown(KeyCode.Space)){
-				NextTracking();
-			}
-		}
+
+        public void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                this.NextTracking();
+            }
+        }
+
         public void Start()
         {
             this.referenceHead = Resources.Load("Prefabs/HEAD") as GameObject;
@@ -56,19 +60,30 @@ namespace Camera
         {
             this.PlacePlayerHead(this.GetPlayer(playerInfo.Id), playerInfo);
         }
-		public void NextTracking(){
-			if(trackingIndex+1>Heads.Values.Count){
-				trackingIndex++;
-			}else{
-				trackingIndex=0;
-			}
-			int i=0;
-			foreach(RemotePlayerMarker r in Heads.Values){
-				if(trackingIndex==i){
-					holder.PlayerToFollow=r;
-				}
-			}
-		}
+
+        public void NextTracking()
+        {
+            if (this.trackingIndex + 1 > this.Heads.Values.Count)
+            {
+                this.trackingIndex++;
+            }
+            else
+            {
+                this.trackingIndex = 0;
+            }
+
+            int i = 0;
+            foreach (RemotePlayerMarker marker in Heads.Values)
+            {
+                if (this.trackingIndex == i)
+                {
+                    this.holder.PlayerToFollow = marker;
+                }
+
+                i++;
+            }
+        }
+
         public RemotePlayerMarker GetPlayer(int id)
         {
             if (!this.Heads.ContainsKey(id))
@@ -100,16 +115,18 @@ namespace Camera
             Assert.IsNotNull(playerInfo);
             int markerId = playerInfo.Id + PlayerIdOffset;
 
-            Vector3 position = 8 * (playerInfo.Position + new Vector3(0, 0, 1));
-            Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
-            Vector3 scale = 8 * Vector3.one;
+            Vector3 scale = new Vector3(8, 8, -8);
 
-			if (trackingIndex == -1)
+            Vector3 position = playerInfo.Position;
+            position.Scale(scale);
+            Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
+
+            if (trackingIndex == -1)
             {
                 this.NextTracking();
             }
 
-            this.Heads[this.trackingIndex].RemotePosition = 
+            this.GetPlayer(playerInfo.Id).RemotePosition =
                 new MarkerPosition(position, direction, DateTime.Now, scale, markerId);
         }
 

@@ -47,8 +47,7 @@ namespace Projection
             {
                 this.RemotePosition.Scale = this.ScaleFactor * Vector3.one;
             }
-
-            Debug.Log("Level RemotePosition: " + this.RemotePosition);
+            
             base.UpdatePosition(transformMatrix);
 		}
     }

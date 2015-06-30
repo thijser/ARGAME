@@ -33,7 +33,7 @@ namespace Projection
         {
             if (this.PlayerToFollow == null || this.PlayerToFollow.RemotePosition == null)
             {
-                this.UpdateMarkerPositions(Matrix4x4.Scale(Vector3.one / 8f));
+                this.UpdateMarkerPositions(Matrix4x4.identity);
             }
             else
             {
