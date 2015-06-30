@@ -31,6 +31,7 @@ namespace Camera
         /// </summary>
         private Dictionary<int, RemotePlayerMarker> Heads = new Dictionary<int, RemotePlayerMarker>();
         
+		private int trackingIndex=-1;
         /// <summary>
         /// The <see cref="RemoteMarkerHolder"/>.
         /// </summary>
@@ -40,7 +41,11 @@ namespace Camera
         /// The reference <c>GameObject</c> for a player head.
         /// </summary>
         private GameObject referenceHead;
-
+		void Update(){
+			if(Input.GetKeyDown(KeyCode.Space)){
+				NextTracking();
+			}
+		}
         public void Start()
         {
             this.referenceHead = Resources.Load("Prefabs/HEAD") as GameObject;
@@ -51,7 +56,19 @@ namespace Camera
         {
             this.PlacePlayerHead(this.GetPlayer(playerInfo.Id), playerInfo);
         }
-
+		public void NextTracking(){
+			if(trackingIndex+1>Heads.Values.Count){
+				trackingIndex++;
+			}else{
+				trackingIndex=0;
+			}
+			int i=0;
+			foreach(RemotePlayerMarker r in Heads.Values){
+				if(trackingIndex==i){
+					holder.PlayerToFollow=r;
+				}
+			}
+		}
         public RemotePlayerMarker GetPlayer(int id)
         {
             if (!this.Heads.ContainsKey(id))
@@ -80,8 +97,7 @@ namespace Camera
             Vector3 position = 8 * (playerInfo.Position + new Vector3(0, 0, 1));
             Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
             Vector3 scale = 8 * Vector3.one;
-
-            head.RemotePosition = new MarkerPosition(position, direction, DateTime.Now, scale, markerId);
+			if(trackingIndex==-1){NextTracking();}
         }
 
         /// <summary>
