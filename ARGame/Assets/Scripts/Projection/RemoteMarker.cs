@@ -45,10 +45,10 @@ namespace Projection
         {
             if (this.RemotePosition != null)
             {
-                this.RemotePosition.Scale = this.ScaleFactor * Vector3.one;
+                this.RemotePosition.Scale = this.ScaleFactor * new Vector3(1, 1, 1);
             }
             
-            base.UpdatePosition(transformMatrix);
+            base.UpdatePosition(Matrix4x4.Scale(new Vector3(1, 1, -1)) * transformMatrix);
 		}
     }
 }
