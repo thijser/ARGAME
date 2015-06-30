@@ -185,9 +185,12 @@ namespace Level
         /// <param name="level"></param>
         private void AddBoard(GameObject level)
         {
-            GameObject board = GameObject.Instantiate(Resources.Load("Prefabs/Board") as GameObject);
-            board.transform.SetParent(level.transform);
-            board.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            if (GameObject.Find("MetaWorld") == null)
+            {
+                GameObject board = GameObject.Instantiate(Resources.Load("Prefabs/Board") as GameObject);
+                board.transform.SetParent(level.transform);
+                board.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            }
         }
 
         /// <summary>
