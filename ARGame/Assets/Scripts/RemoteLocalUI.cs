@@ -8,11 +8,12 @@
 // </copyright>
 //----------------------------------------------------------------------------
 using UnityEngine;
+using Network;
 using System.Collections;
 
 public class RemoteLocalUI : MonoBehaviour
 {
-    string ip = "";
+    public static string ip = "";
 
     void OnGUI()
     {
