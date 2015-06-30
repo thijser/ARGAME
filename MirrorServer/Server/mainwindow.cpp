@@ -5,6 +5,7 @@
 #include <QImage>
 #include <QDialog>
 #include <QErrorMessage>
+#include <QHostAddress>
 
 namespace mirrors {
 
@@ -40,6 +41,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // Enable configuration and set proper constraints for
     // a disabled server state.
     setConfigEnabled(true);
+
+    // Set up headers of clients list
+    QStringList labels;
+    labels << "IP Address" << "ID";
+    ui->clientsTable->setHorizontalHeaderLabels(labels);
 }
 
 MainWindow::~MainWindow() {
@@ -65,6 +71,8 @@ void MainWindow::startServer() {
             errorDialog, SLOT(showMessage(QString)));
     connect(controller,  SIGNAL(fatalErrorOccurred(QString)),
             errorDialog, SLOT(showMessage(QString)));
+    connect(controller,  SIGNAL(clientsChanged(QList<QTcpSocket*>)),
+            this,        SLOT(showClients(QList<QTcpSocket*>)));
 
     // Disable the configuration options.
     setConfigEnabled(false);
@@ -106,6 +114,20 @@ void MainWindow::showFPS(int fps) {
         ui->fps->setText("N/A");
     } else {
         ui->fps->setText(QString::number(fps));
+    }
+}
+
+void MainWindow::showClients(QList<QTcpSocket*> clients) {
+    qDebug() << "showing clients...";
+
+    ui->clientsTable->clearContents();
+
+    ui->clientsTable->setRowCount(clients.size());
+
+    for (int i = 0; i < clients.size(); i++) {
+        QTcpSocket* client = clients[i];
+        ui->clientsTable->setItem(i, 0, new QTableWidgetItem(client->peerAddress().toString()));
+        ui->clientsTable->setItem(i, 1, new QTableWidgetItem(QString::number(client->peerPort())));
     }
 }
 

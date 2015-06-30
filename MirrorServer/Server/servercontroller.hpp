@@ -138,6 +138,12 @@ signals:
      */
     void fatalErrorOccurred(QString errorMessage);
 
+    /**
+     * @brief Signal emitted when the list of connected clients has changed.
+     * @param clients - Updated list of clients.
+     */
+    void clientsChanged(QList<QTcpSocket*> clients);
+
 protected slots:
     /**
      * @brief Changes the current ServerState.
@@ -166,6 +172,11 @@ protected slots:
      * @brief Brings the new client up to speed with the current level and mirror rotations.
      */
     void handleNewClient(QTcpSocket* newClient);
+
+    /**
+     * @brief Removes the client from the list of connected clients.
+     */
+    void clientDisconnected();
 public slots:
     /**
      * @brief Starts this ServerController.

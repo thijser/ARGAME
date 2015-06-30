@@ -33,6 +33,8 @@ ServerController::ServerController(QObject *parent)
             this, SLOT(setMirrorRotation(int, float, QTcpSocket*)));
     connect(sock, SIGNAL(clientConnected(QTcpSocket*)),
             this, SLOT(handleNewClient(QTcpSocket*)));
+    connect(sock, SIGNAL(clientDisconnected(QTcpSocket*)),
+            this, SLOT(clientDisconnected()));
     connect(sock, SIGNAL(arViewUpdated(int,cv::Point3f,cv::Point3f)),
             sock, SLOT(broadcastARViewUpdate(int,cv::Point3f,cv::Point3f)));
     connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
@@ -69,6 +71,14 @@ void ServerController::handleNewClient(QTcpSocket* newClient) {
     for (auto& pair : mirrorRotations) {
         sock->broadcastRotationUpdate(pair.first, pair.second, newClientFilter);
     }
+
+    // Update list of clients
+    emit clientsChanged(sock->connections());
+}
+
+void ServerController::clientDisconnected() {
+    // Update list of clients
+    emit clientsChanged(sock->connections());
 }
 
 ServerController::~ServerController() {
