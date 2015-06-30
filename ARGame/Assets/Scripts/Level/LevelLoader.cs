@@ -173,17 +173,23 @@ namespace Level
             // Link paired portals together
             LinkPortals(levelObjects);
 
+            this.AddBoard(parent);
             this.ConstructMarker(parent, level);
-			addBoard(parent);
+
             return parent;
         }
 
-		private void addBoard(GameObject level){
-			GameObject board=GameObject.Instantiate(Resources.Load("Prefabs/Board") as GameObject);
-			board.transform.SetParent(level.transform);
-			board.transform.localPosition=new Vector3(0,0,0);
-			board.transform.localRotation=Quaternion.Euler(new Vector3(0,0,0));
-		}
+        /// <summary>
+        /// Adds a board for the level.
+        /// </summary>
+        /// <param name="level"></param>
+        private void AddBoard(GameObject level)
+        {
+            GameObject board = GameObject.Instantiate(Resources.Load("Prefabs/Board") as GameObject);
+            board.transform.SetParent(level.transform);
+            board.transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+
         /// <summary>
         /// Contructs a correct type of marker for the level.
         /// </summary>
@@ -194,13 +200,16 @@ namespace Level
         {
             Vector2 position = new Vector2(
                 (this.BoardSize.x - properties.Width) / 2,
-                (this.BoardSize.y - properties.Height) / 2);
+                -(this.BoardSize.y - properties.Height) / 2);
 
-			Debug.Log("Level position: " + position);
+            Debug.Log("Level position: " + position);
 
             Marker marker;
             if (GameObject.Find("MetaWorld") == null)
             {
+                Transform board = level.GetComponentInChildren<board>().transform;
+                board.localPosition = new Vector3(-0.5f, 0, 0.5f);
+
                 marker = level.AddComponent<RemoteMarker>();
                 marker.Id = LevelMarkerID;
                 GameObject.Find("RemoteController")
@@ -219,7 +228,7 @@ namespace Level
             // Simulate a PositionUpdate from the server.
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, position, 0, LevelMarkerID);
             marker.RemotePosition = new MarkerPosition(update);
-            
+
             // Due to a scaling issue, the scale of the level should be 8 times as large as the scale of a marker.
             marker.RemotePosition.Scale = 8 * Vector3.one;
 

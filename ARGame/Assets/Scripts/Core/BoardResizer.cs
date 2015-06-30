@@ -40,10 +40,8 @@ namespace Core
 			if (board != null)
             {
 				board.gameObject.SetActive(true);
-			    Vector3 scale = new Vector3(size.x, board.localScale.y, -1 * size.y);
-				scale.Scale(new Vector3(1/board.parent.localScale.x,1/board.parent.localScale.y,1/board.parent.localScale.z));
+			    Vector3 scale = new Vector3(size.x, board.localScale.y, size.y);
 				board.localScale = scale;
-				Debug.LogWarning("board found: "+ this.GetComponentsInChildren<ThrowError>().Length);
             }else{
 				Debug.LogError("no board found");
 			}
