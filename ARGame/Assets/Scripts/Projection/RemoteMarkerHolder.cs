@@ -26,7 +26,8 @@ namespace Projection
         /// <para>
         /// If <c>PlayerToFollow</c> is set, then the board is 
         /// projected as seen by that player. Otherwise, the 
-        /// board is projection on the xz-plane.
+        /// board is projection on the plane spanned by the x-axis 
+        /// and the z-axis.
         /// </para>
         /// </summary>
         public void Update()

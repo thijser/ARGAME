@@ -50,10 +50,10 @@ namespace Network
             int id = MessageProcessor.ReadInt32(buffer, 12);
 
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, coordinate, rotation, id);
-			if(id > 200 || id < 0)
+            if (id > 200 || id < 0)
             {
-				throw new ArgumentOutOfRangeException("Received message is not sane: " + update);
-			}
+                throw new ArgumentOutOfRangeException("Received message is not sane: " + update);
+            }
 
             return update;
         }
@@ -148,7 +148,7 @@ namespace Network
         /// </summary>
         /// <param name="bytes">The byte array to read from.</param>
         /// <param name="length">The maximum amount of bytes to read.</param>
-        /// <returns></returns>
+        /// <returns>The created <see cref="ARViewUpdate"/>.</returns>
         public static ARViewUpdate ReadARViewUpdate(byte[] bytes, int length)
         {
             Assert.IsNotNull(bytes);

@@ -164,24 +164,22 @@ namespace Core
             {
                 if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.D))
                 {
-                    rotationSpeed = 0.0f;
+                    this.rotationSpeed = 0.0f;
                 }
 
                 if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.Mouse0))
                 {
-                    float t = Time.deltaTime * -rotationSpeed;
-                    rotationSpeed = Mathf.Min(90f, rotationSpeed + Time.deltaTime * 45.0f);
+                    float t = Time.deltaTime * -this.rotationSpeed;
+                    this.rotationSpeed = Mathf.Min(90f, this.rotationSpeed + (Time.deltaTime * 45.0f));
 
-                    //this.SelectedMirror.transform.Rotate(0, t / 10.0f, 0);
                     this.SelectedMirror.GetComponent<RemoteMarker>().ObjectRotation += t;
                     this.SendRotationUpdate();
                 }
                 else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.Mouse1))
                 {
-                    float t = Time.deltaTime * rotationSpeed;
-                    rotationSpeed = Mathf.Min(90.0f, rotationSpeed + Time.deltaTime * 45.0f);
+                    float t = Time.deltaTime * this.rotationSpeed;
+                    this.rotationSpeed = Mathf.Min(90.0f, this.rotationSpeed + (Time.deltaTime * 45.0f));
 
-                    //this.SelectedMirror.transform.Rotate(0, t, 0);
                     this.SelectedMirror.GetComponent<RemoteMarker>().ObjectRotation += t;
                     this.SendRotationUpdate();
                 }

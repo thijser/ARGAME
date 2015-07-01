@@ -15,7 +15,7 @@ namespace Projection
     using Network;
     using UnityEngine;
     using UnityEngine.Assertions;
-    
+
     /// <summary>
     /// Container class for Markers.
     /// </summary>
@@ -33,13 +33,11 @@ namespace Projection
         /// </summary>
         private Dictionary<int, T> markers = new Dictionary<int, T>();
 
-
-	
         /// <summary>
         /// Gets an <see cref="IEnumerable"/> over all Markers in
         /// this <see cref="MarkerHolder"/>.
         /// </summary>
-        public IEnumerable<T> Markers 
+        public IEnumerable<T> Markers
         {
             get
             {

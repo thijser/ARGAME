@@ -9,10 +9,10 @@
 //----------------------------------------------------------------------------
 namespace Core
 {
-    using System.Linq;
+    using System.Collections;
     using Network;
     using UnityEngine;
-	using System.Collections;
+
     /// <summary>
     /// Resizes the board when a level serverUpdate is received with a new board size.
     /// </summary>
@@ -25,7 +25,7 @@ namespace Core
         public void OnLevelUpdate(LevelUpdate level)
         {
             Debug.Log("Applying Board Size: " + level.Size);
-			this.StartCoroutine(this.UpdateBoardSize(level.Size));
+            this.StartCoroutine(this.UpdateBoardSize(level.Size));
         }
 
         /// <summary>
@@ -33,18 +33,20 @@ namespace Core
         /// </summary>
         /// <param name="size">The new board size.</param>
         /// <returns>True if the board size was updated, false if no board was found.</returns>
-		public IEnumerator UpdateBoardSize(Vector2 size)
-		{	
-			yield return new WaitForEndOfFrame();
-			Transform board = this.GetComponentInChildren<board>().transform.parent;
-			if (board != null)
+        public IEnumerator UpdateBoardSize(Vector2 size)
+        {
+            yield return new WaitForEndOfFrame();
+            Transform board = this.GetComponentInChildren<Board>().transform.parent;
+            if (board != null)
             {
-				board.gameObject.SetActive(true);
-			    Vector3 scale = new Vector3(-size.x, board.localScale.y, size.y);
-				board.localScale = scale;
-            }else{
-				Debug.LogError("no board found");
-			}
+                board.gameObject.SetActive(true);
+                Vector3 scale = new Vector3(-size.x, board.localScale.y, size.y);
+                board.localScale = scale;
+            }
+            else
+            {
+                Debug.LogError("no board found");
+            }
         }
     }
 }

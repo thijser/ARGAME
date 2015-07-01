@@ -1,4 +1,13 @@
-﻿namespace Level
+﻿//----------------------------------------------------------------------------
+// <copyright file="LevelParser.cs" company="Delft University of Technology">
+//     Copyright 2015, Delft University of Technology
+//
+//     This software is licensed under the terms of the MIT License.
+//     A copy of the license should be included with this software. If not,
+//     see http://opensource.org/licenses/MIT for the full license.
+// </copyright>
+//----------------------------------------------------------------------------
+namespace Level
 {
     using System;
     using System.Collections.Generic;
@@ -12,6 +21,24 @@
     /// </summary>
     public static class LevelParser
     {
+        /// <summary>
+        /// Loads the Tiled level given by the specified path.
+        /// </summary>
+        /// <param name="path">Path to level file in Resources.</param>
+        /// <returns>Info about parsed level.</returns>
+        public static Level LoadLevel(string path)
+        {
+            try
+            {
+                string xml = (Resources.Load(path) as TextAsset).text;
+                return ParseLevel(xml);
+            }
+            catch (NullReferenceException)
+            {
+                throw new ArgumentException("Invalid level path (" + path + ").");
+            }
+        }
+
         /// <summary>
         /// Parse a level created with Tiled and the objects within.
         /// </summary>
@@ -100,24 +127,6 @@
             }
 
             return levelObjects.AsReadOnly();
-        }
-
-        /// <summary>
-        /// Loads the Tiled level given by the specified path.
-        /// </summary>
-        /// <param name="path">Path to level file in Resources.</param>
-        /// <returns>Info about parsed level.</returns>
-        public static Level LoadLevel(string path)
-        {
-            try
-            {
-                string xml = (Resources.Load(path) as TextAsset).text;
-                return ParseLevel(xml);
-            }
-            catch (NullReferenceException)
-            {
-                throw new ArgumentException("Invalid level path (" + path + ").");
-            }
         }
     }
 }

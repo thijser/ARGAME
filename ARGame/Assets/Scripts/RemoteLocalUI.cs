@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="LaserEmitter.cs" company="Delft University of Technology">
+// <copyright file="RemoteLocalUI.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -8,14 +8,13 @@
 // </copyright>
 //----------------------------------------------------------------------------
 using System;
-using System.Collections;
 using System.Net;
-using Network;
-using UnityEngine;
 using System.Net.Sockets;
+using UnityEngine;
 
 /// <summary>
-/// Small script that creates a UI useful for selecting between being a local or remote player.
+/// Provides a user interface where the user can select to play as local or remote 
+/// player and can enter a server IP address.
 /// </summary>
 public class RemoteLocalUI : MonoBehaviour
 {

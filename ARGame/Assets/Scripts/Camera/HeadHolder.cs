@@ -27,11 +27,15 @@ namespace Camera
         public const int PlayerIdOffset = 9000;
 
         /// <summary>
-        /// A Dictionary mapping player id to Head.
+        /// A Dictionary mapping player id to a player marker.
         /// </summary>
-        private Dictionary<int, RemotePlayerMarker> Heads = new Dictionary<int, RemotePlayerMarker>();
+        private Dictionary<int, RemotePlayerMarker> players = new Dictionary<int, RemotePlayerMarker>();
 
+        /// <summary>
+        /// The index of the currently tracked player.
+        /// </summary>
         private int trackingIndex = -1;
+
         /// <summary>
         /// The <see cref="RemoteMarkerHolder"/>.
         /// </summary>
@@ -42,6 +46,9 @@ namespace Camera
         /// </summary>
         private GameObject referenceHead;
 
+        /// <summary>
+        /// Switches the tracked player to the next if the space bar is pressed.
+        /// </summary>
         public void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -50,20 +57,31 @@ namespace Camera
             }
         }
 
+        /// <summary>
+        /// Initializes this <see cref="HeadHolder"/> instance.
+        /// </summary>
         public void Start()
         {
             this.referenceHead = Resources.Load("Prefabs/HEAD") as GameObject;
             this.holder = gameObject.GetComponent<RemoteMarkerHolder>();
         }
 
-        public void OnFollowPlayerInfo(ARViewUpdate playerInfo)
+        /// <summary>
+        /// Updates the position of a player as indicated by the argument 
+        /// <see cref="ARViewUpdate"/>.
+        /// </summary>
+        /// <param name="update">The <see cref="ARViewUpdate"/>.</param>
+        public void OnFollowPlayerInfo(ARViewUpdate update)
         {
-            this.PlacePlayerHead(this.GetPlayer(playerInfo.Id), playerInfo);
+            this.PlacePlayerHead(this.GetPlayer(update.Id), update);
         }
 
+        /// <summary>
+        /// Changes the tracked player to the next player in the sequence.
+        /// </summary>
         public void NextTracking()
         {
-            if (this.trackingIndex + 1 > this.Heads.Values.Count)
+            if (this.trackingIndex + 1 > this.players.Values.Count)
             {
                 this.trackingIndex++;
             }
@@ -73,7 +91,7 @@ namespace Camera
             }
 
             int i = 0;
-            foreach (RemotePlayerMarker marker in Heads.Values)
+            foreach (RemotePlayerMarker marker in this.players.Values)
             {
                 if (this.trackingIndex == i)
                 {
@@ -84,15 +102,20 @@ namespace Camera
             }
         }
 
+        /// <summary>
+        /// Gets a local player by its id.
+        /// </summary>
+        /// <param name="id">The player id.</param>
+        /// <returns>The <see cref="RemotePlayerMarker"/> that represents the player.</returns>
         public RemotePlayerMarker GetPlayer(int id)
         {
-            if (!this.Heads.ContainsKey(id))
+            if (!this.players.ContainsKey(id))
             {
                 GameObject head = GameObject.Instantiate(this.referenceHead);
                 RemotePlayerMarker marker = head.GetComponent<RemotePlayerMarker>();
                 Assert.IsNotNull(marker, "Reference Player Marker has no `RemotePlayerMarker` script attached");
 
-                Heads.Add(id, marker);
+                this.players.Add(id, marker);
                 marker.transform.SetParent(this.transform);
 
                 marker.Id = PlayerIdOffset + id;
@@ -100,7 +123,7 @@ namespace Camera
                 this.Follow(marker);
             }
 
-            return this.Heads[id];
+            return this.players[id];
         }
 
         /// <summary>
@@ -121,7 +144,7 @@ namespace Camera
             position.Scale(scale);
             Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
 
-            if (trackingIndex == -1)
+            if (this.trackingIndex == -1)
             {
                 this.NextTracking();
             }
