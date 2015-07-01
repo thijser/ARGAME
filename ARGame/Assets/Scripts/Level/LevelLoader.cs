@@ -170,13 +170,10 @@ namespace Level
                 }
             }
 
-            // Link paired portals together
             LinkPortals(levelObjects);
+            Marker marker = this.ConstructMarker(parent, level);
 
-            this.AddBoard(parent);
-            this.ConstructMarker(parent, level);
-
-            return parent;
+            return marker.gameObject;
         }
 
         /// <summary>
@@ -189,6 +186,7 @@ namespace Level
             {
                 GameObject board = GameObject.Instantiate(Resources.Load("Prefabs/Board") as GameObject);
                 board.transform.SetParent(level.transform);
+                board.transform.localPosition = Vector3.zero;
                 board.transform.localRotation = Quaternion.Euler(0, 180, 0);
             }
         }
@@ -201,45 +199,45 @@ namespace Level
         /// <returns>The constructed marker.</returns>
         private Marker ConstructMarker(GameObject level, LevelProperties properties)
         {
-            Vector2 position = new Vector2(
-                (this.BoardSize.x - properties.Width) / 2,
+            Vector3 position = new Vector3(
+                -(this.BoardSize.x - properties.Width) / 2,
+                0, 
                 -(this.BoardSize.y - properties.Height) / 2);
 
             Debug.Log("Level position: " + position);
 
-            Marker marker;
+            GameObject levelMarker = new GameObject("LevelMarker");
+            this.AddBoard(levelMarker);
+            
             if (GameObject.Find("MetaWorld") == null)
             {
-                Transform board = level.GetComponentInChildren<board>().transform;
-                board.localPosition = new Vector3(-0.5f, 0, 0.5f);
-
-                marker = level.AddComponent<RemoteMarker>();
-                marker.Id = LevelMarkerID;
+                RemoteMarker remoteMarker = levelMarker.AddComponent<RemoteMarker>();
+                remoteMarker.Id = LevelMarkerID;
+                remoteMarker.ScaleFactor = 8f;
                 GameObject.Find("RemoteController")
                             .GetComponent<RemoteMarkerHolder>()
-                            .AddMarker(marker as RemoteMarker);
+                            .AddMarker(remoteMarker as RemoteMarker);
             }
             else
             {
-                marker = level.AddComponent<LocalMarker>();
-                marker.Id = LevelMarkerID;
+                LocalMarker localMarker = levelMarker.AddComponent<LocalMarker>();
+                localMarker.Id = LevelMarkerID;
                 GameObject.Find("MetaWorld")
                             .GetComponent<LocalMarkerHolder>()
-                            .AddMarker(marker as LocalMarker);
+                            .AddMarker(localMarker as LocalMarker);
             }
 
+            level.transform.parent = levelMarker.transform;
+            level.transform.localPosition = position;
+            
+            Marker marker = levelMarker.GetComponent<Marker>();
+
             // Simulate a PositionUpdate from the server.
-            PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, position, 0, LevelMarkerID);
+            PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, Vector3.zero, 0, LevelMarkerID);
             marker.RemotePosition = new MarkerPosition(update);
 
             // Due to a scaling issue, the scale of the level should be 8 times as large as the scale of a marker.
             marker.RemotePosition.Scale = 8 * Vector3.one;
-
-            RemoteMarker remoteMarker = marker as RemoteMarker;
-            if (remoteMarker != null)
-            {
-                remoteMarker.ScaleFactor = 8f;
-            }
 
             return marker;
         }

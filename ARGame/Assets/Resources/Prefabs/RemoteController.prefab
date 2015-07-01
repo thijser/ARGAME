@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &117270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 409782}
+  - 114: {fileID: 11486858}
+  m_Layer: 0
+  m_Name: LocalPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &145888
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +158,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 490258}
   m_RootOrder: 1
+--- !u!4 &409782
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117270}
+  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 479736}
+  m_RootOrder: 3
 --- !u!4 &419770
 Transform:
   m_ObjectHideFlags: 1
@@ -191,6 +219,7 @@ Transform:
   - {fileID: 485972}
   - {fileID: 490258}
   - {fileID: 447596}
+  - {fileID: 409782}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &485972
@@ -547,6 +576,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ServerAddress: 145.94.145.134
   ServerPort: 23369
+--- !u!114 &11486858
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3fb296b3d1bfb42ae98c1ca4a0d9b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SimulatedBoardSize: {x: 10, y: 12}
+  PlayerId: 1001
 --- !u!114 &11498990
 MonoBehaviour:
   m_ObjectHideFlags: 1
