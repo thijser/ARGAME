@@ -37,22 +37,22 @@ public class RemoteLocalUI : MonoBehaviour
     public void OnGUI()
     {
         // Make a background box
-        GUI.Box(new Rect(10, 10, 150, 90), "Loader Menu");
-        GUI.Box(new Rect(10, 110, 150, 90), "Enter Host");
+        GUI.Box(new Rect(Screen.width / 2 - 190, Screen.height / 2 - 120, 150, 90), "Loader Menu");
+        GUI.Box(new Rect(Screen.width / 2 - 190, Screen.height / 2 - 20, 150, 90), "Enter Host");
 
         if (!string.IsNullOrEmpty(this.errorMessage))
         {
-            GUI.Box(new Rect(170, 10, 200, 190), this.errorMessage);
+            GUI.Box(new Rect(Screen.width / 2 - 20, Screen.height / 2 - 120, 200, 190), this.errorMessage);
         }
 
-        RemoteLocalUI.IPAddress = GUI.TextField(new Rect(20, 130, 130, 60), RemoteLocalUI.IPAddress);
+        RemoteLocalUI.IPAddress = GUI.TextField(new Rect(Screen.width / 2 - 180, Screen.height / 2, 130, 60), RemoteLocalUI.IPAddress);
 
-        if (GUI.Button(new Rect(20, 40, 130, 20), "Local"))
+        if (GUI.Button(new Rect(Screen.width / 2 - 180, Screen.height / 2 - 90, 130, 20), "Local"))
         {
             this.TryLoadNext(RemoteLocalUI.IPAddress, 1);
         }
 
-        if (GUI.Button(new Rect(20, 70, 130, 20), "Remote"))
+        if (GUI.Button(new Rect(Screen.width / 2 - 180, Screen.height / 2 - 60, 130, 20), "Remote"))
         {
             this.TryLoadNext(RemoteLocalUI.IPAddress, 2);
         }
@@ -100,7 +100,7 @@ public class RemoteLocalUI : MonoBehaviour
         }
         catch (SocketException ex)
         {
-            this.errorMessage = "Could not connect to the server at '" + address + "': " + ex.Message;
+            this.errorMessage = "Could not connect \n to the server at '" + address + "':\n " + ex.Message;
             return false;
         }
     }
