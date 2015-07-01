@@ -7,33 +7,72 @@
 //     see http://opensource.org/licenses/MIT for the full license.
 // </copyright>
 //----------------------------------------------------------------------------
-using UnityEngine;
-using Network;
 using System;
 using System.Collections;
+using System.Net;
+using Network;
+using UnityEngine;
 
+/// <summary>
+/// Small script that creates a UI useful for selecting between being a local or remote player.
+/// </summary>
 public class RemoteLocalUI : MonoBehaviour
 {
     public static string ip = "";
+    private bool enteredOnce = false;
+    private bool invalid = false;
 
     public void OnGUI()
     {
         // Make a background box
         GUI.Box(new Rect(10, 10, 150, 90), "Loader Menu");
         GUI.Box(new Rect(10, 110, 150, 90), "Enter IP");
+        if(!enteredOnce)
+        {
+            GUI.Box(new Rect(170, 10, 200, 190), "Please enter a valid IP.");
+        }
 
         ip = GUI.TextField(new Rect(20, 130, 130, 60), ip);
 
         // Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
         if (GUI.Button(new Rect(20, 40, 130, 20), "Local"))
         {
-            Application.LoadLevel(1);
+            enteredOnce = true;
+            invalid = !CheckIPValid(ip);
+            if (invalid)
+            {
+                return;
+            }
+            else
+            {
+                Application.LoadLevel(1);
+            }
         }
 
         // Make the second button.
         if (GUI.Button(new Rect(20, 70, 130, 20), "Remote"))
         {
-            Application.LoadLevel(2);
+            enteredOnce = true;
+            invalid = !CheckIPValid(ip);
+            if (invalid)
+            {
+                return;
+            }
+            else
+            {
+                Application.LoadLevel(2);
+            }
         }
+    }
+
+    public bool CheckIPValid(String strIP)
+    {
+        IPAddress[] addresses = Dns.GetHostEntry(strIP).AddressList;
+        if (addresses.Length == 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
