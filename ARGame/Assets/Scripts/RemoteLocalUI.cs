@@ -73,6 +73,8 @@ public class RemoteLocalUI : MonoBehaviour
             return false;
         }
 
+        ip = addresses[0].ToString();
+
         return true;
     }
 }
