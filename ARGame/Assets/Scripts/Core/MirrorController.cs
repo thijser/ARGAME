@@ -82,9 +82,26 @@ namespace Core
                 RaycastHit hitInfo;
                 bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
 
-                if (hit && hitInfo.collider.gameObject.GetComponent<Mirror>() != null)
+                if (hit)
                 {
-                    this.SelectedMirror = hitInfo.collider.gameObject.GetComponent<Mirror>();
+                    // Find closest mirror to point
+                    Mirror[] mirrors = GameObject.FindObjectsOfType<Mirror>();
+
+                    float closestDistance = float.PositiveInfinity;
+                    Mirror closestMirror = null;
+
+                    foreach (Mirror mirror in mirrors)
+                    {
+                        float d = (hitInfo.point - mirror.transform.position).magnitude;
+
+                        if (d < closestDistance)
+                        {
+                            closestDistance = d;
+                            closestMirror = mirror;
+                        }
+                    }
+
+                    this.SelectedMirror = closestMirror;
                 }
                 else
                 {
@@ -104,8 +121,6 @@ namespace Core
             Assert.IsNotNull(this.SelectedMirror, "SendRotationUpdate: No Mirror Selected");
             RemoteMarker marker = this.SelectedMirror.GetComponent<RemoteMarker>();
             float rotation = marker.ObjectRotation;
-
-            Debug.Log(rotation);
 
             RotationUpdate update = new RotationUpdate(UpdateType.UpdateRotation, rotation, marker.Id);
             this.SendMessage("OnRotationChanged", update);
