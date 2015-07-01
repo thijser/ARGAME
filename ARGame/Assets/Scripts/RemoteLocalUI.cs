@@ -9,13 +9,14 @@
 //----------------------------------------------------------------------------
 using UnityEngine;
 using Network;
+using System;
 using System.Collections;
 
 public class RemoteLocalUI : MonoBehaviour
 {
     public static string ip = "";
 
-    void OnGUI()
+    public void OnGUI()
     {
         // Make a background box
         GUI.Box(new Rect(10, 10, 150, 90), "Loader Menu");
