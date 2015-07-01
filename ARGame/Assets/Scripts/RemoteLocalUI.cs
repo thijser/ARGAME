@@ -12,6 +12,7 @@ using System.Collections;
 using System.Net;
 using Network;
 using UnityEngine;
+using System.Net.Sockets;
 
 /// <summary>
 /// Small script that creates a UI useful for selecting between being a local or remote player.
@@ -19,17 +20,17 @@ using UnityEngine;
 public class RemoteLocalUI : MonoBehaviour
 {
     public static string ip = "";
-    private bool enteredOnce = false;
+    private bool enteredWronglyOnce = false;
     private bool invalid = false;
 
     public void OnGUI()
     {
         // Make a background box
         GUI.Box(new Rect(10, 10, 150, 90), "Loader Menu");
-        GUI.Box(new Rect(10, 110, 150, 90), "Enter IP");
-        if(!enteredOnce)
+        GUI.Box(new Rect(10, 110, 150, 90), "Enter Host");
+        if (enteredWronglyOnce)
         {
-            GUI.Box(new Rect(170, 10, 200, 190), "Please enter a valid IP.");
+            GUI.Box(new Rect(170, 10, 200, 190), "Please enter a valid host.");
         }
 
         ip = GUI.TextField(new Rect(20, 130, 130, 60), ip);
@@ -37,10 +38,10 @@ public class RemoteLocalUI : MonoBehaviour
         // Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
         if (GUI.Button(new Rect(20, 40, 130, 20), "Local"))
         {
-            enteredOnce = true;
             invalid = !CheckIPValid(ip);
             if (invalid)
             {
+                enteredWronglyOnce = true;
                 return;
             }
             else
@@ -52,10 +53,10 @@ public class RemoteLocalUI : MonoBehaviour
         // Make the second button.
         if (GUI.Button(new Rect(20, 70, 130, 20), "Remote"))
         {
-            enteredOnce = true;
             invalid = !CheckIPValid(ip);
             if (invalid)
             {
+                enteredWronglyOnce = true;
                 return;
             }
             else
@@ -67,14 +68,21 @@ public class RemoteLocalUI : MonoBehaviour
 
     public bool CheckIPValid(String strIP)
     {
-        IPAddress[] addresses = Dns.GetHostEntry(strIP).AddressList;
-        if (addresses.Length == 0)
+        try
+        {
+            IPAddress[] addresses = Dns.GetHostEntry(strIP).AddressList;
+            if (addresses.Length == 0)
+            {
+                return false;
+            }
+
+            ip = addresses[0].ToString();
+
+            return true;
+        }
+        catch (SocketException)
         {
             return false;
         }
-
-        ip = addresses[0].ToString();
-
-        return true;
     }
 }
