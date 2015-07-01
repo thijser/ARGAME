@@ -81,7 +81,7 @@ namespace Camera
         /// </summary>
         public void NextTracking()
         {
-            if (this.trackingIndex + 1 > this.players.Values.Count)
+            if (this.trackingIndex + 2 > this.players.Values.Count)
             {
                 this.trackingIndex = 0;
             }
