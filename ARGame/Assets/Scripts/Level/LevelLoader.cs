@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------------
-// <copyright file="TiledLevelLoader.cs" company="Delft University of Technology">
+// <copyright file="LevelLoader.cs" company="Delft University of Technology">
 //     Copyright 2015, Delft University of Technology
 //
 //     This software is licensed under the terms of the MIT License.
@@ -10,13 +10,13 @@
 namespace Level
 {
     using System;
-    using System.Collections.ObjectModel;
     using System.Collections.Generic;
-    using UnityEngine;
+    using System.Collections.ObjectModel;
     using Core;
     using Core.Receiver;
-    using Projection;
     using Network;
+    using Projection;
+    using UnityEngine;
 
     /// <summary>
     /// Level loader that loads levels created with the Tiled map editor.
@@ -179,7 +179,7 @@ namespace Level
         /// <summary>
         /// Adds a board for the level.
         /// </summary>
-        /// <param name="level"></param>
+        /// <param name="level">The level GameObject.</param>
         private void AddBoard(GameObject level)
         {
             if (GameObject.Find("MetaWorld") == null)
@@ -192,7 +192,7 @@ namespace Level
         }
 
         /// <summary>
-        /// Contructs a correct type of marker for the level.
+        /// Constructs a correct type of marker for the level.
         /// </summary>
         /// <param name="level">The level GameObject to assign the Marker to.</param>
         /// <param name="properties">The <see cref="LevelProperties"/> object describing the level.</param>

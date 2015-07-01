@@ -10,9 +10,8 @@
 namespace Projection
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
+    using Network;
     using UnityEngine;
-	using Network;
     using Vision;
 
     /// <summary>
@@ -26,16 +25,15 @@ namespace Projection
         public const long Patience = 1;
 
         /// <summary>
-        /// Gets or sets the central level marker, this should be visible. 
-        /// </summary>
-        public LocalMarker Parent { get; set; }
-
-
-        /// <summary>
         /// The matrix that applies a correction for the underlying <see cref="IARLink"/>
         /// that provides the marker positions.
         /// </summary>
         private Matrix4x4 localViewMatrix;
+
+        /// <summary>
+        /// Gets or sets the central level marker, this should be visible. 
+        /// </summary>
+        public LocalMarker Parent { get; set; }
 
         /// <summary>
         /// Retrieves the scale of the AR glasses used for scaling positions.
@@ -72,7 +70,7 @@ namespace Projection
             Matrix4x4 localToRemote = remoteToLocal.inverse * this.localViewMatrix;
 
             this.SendPositionUpdate(ref localToRemote);
-			this.UpdateMarkerPositions(remoteToLocal);
+            this.UpdateMarkerPositions(remoteToLocal);
         }
 
         /// <summary>
@@ -134,7 +132,7 @@ namespace Projection
                 return;
             }
 
-            if (this.Parent == null || this.Parent.LocalPosition == null || 
+            if (this.Parent == null || this.Parent.LocalPosition == null ||
                 this.Parent.LocalPosition.TimeStamp.AddMilliseconds(Patience) < updatedMarker.LocalPosition.TimeStamp)
             {
                 this.Parent = updatedMarker;

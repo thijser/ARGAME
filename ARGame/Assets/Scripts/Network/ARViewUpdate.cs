@@ -10,7 +10,6 @@
 namespace Network
 {
     using UnityEngine;
-    using Projection;
 
     /// <summary>
     /// Update sent by the server when the view of a local player 
@@ -54,6 +53,7 @@ namespace Network
             {
                 return false;
             }
+
             ARViewUpdate that = obj as ARViewUpdate;
             return this.Id == that.Id
                 && this.Position == that.Position
@@ -67,9 +67,9 @@ namespace Network
         public override int GetHashCode()
         {
             int hash = this.GetType().GetHashCode();
-            hash = 23 * hash + this.Id;
-            hash = 23 * hash + this.Position.GetHashCode();
-            hash = 23 * hash + this.Rotation.GetHashCode();
+            hash = (23 * hash) + this.Id;
+            hash = (23 * hash) + this.Position.GetHashCode();
+            hash = (23 * hash) + this.Rotation.GetHashCode();
             return hash;
         }
 

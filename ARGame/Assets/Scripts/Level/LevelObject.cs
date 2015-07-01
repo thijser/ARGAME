@@ -9,8 +9,8 @@
 //----------------------------------------------------------------------------
 namespace Level
 {
-    using UnityEngine;
     using System.Collections.Generic;
+    using UnityEngine;
 
     /// <summary>
     /// Description of object found in the level.
@@ -33,9 +33,9 @@ namespace Level
         public readonly float Rotation;
 
         /// <summary>
-        /// Game object instantiated from this level object.
+        /// Gets or sets the game object instantiated from this level object.
         /// </summary>
-        public GameObject Instance;
+        public GameObject Instance { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelObject"/> class.
@@ -64,13 +64,12 @@ namespace Level
             {
                 Dictionary<TileType, int> portals = new Dictionary<TileType, int>()
                 {
-                    {TileType.PortalEntryOne, 0},
-                    {TileType.PortalEntryTwo, 1},
-                    {TileType.PortalEntryThree, 2},
-
-                    {TileType.PortalExitOne, 0},
-                    {TileType.PortalExitTwo, 1},
-                    {TileType.PortalExitThree, 2}
+                    { TileType.PortalEntryOne, 0 },
+                    { TileType.PortalEntryTwo, 1 },
+                    { TileType.PortalEntryThree, 2 },
+                    { TileType.PortalExitOne, 0 },
+                    { TileType.PortalExitTwo, 1 },
+                    { TileType.PortalExitThree, 2 }
                 };
 
                 try

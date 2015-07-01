@@ -99,13 +99,13 @@ namespace Level
         /// this method does nothing.
         /// </summary>
         /// <param name="update">The level update.</param>
-        public void OnLevelUpdate(LevelUpdate levelup)
+        public void OnLevelUpdate(LevelUpdate update)
         {
-            if (this.CurrentLevelIndex != levelup.NextLevelIndex ||
-                this.BoardSize != levelup.Size)
+            if (this.CurrentLevelIndex != update.NextLevelIndex ||
+                this.BoardSize != update.Size)
             {
-                this.BoardSize = levelup.Size;
-                this.LoadLevel(levelup.NextLevelIndex);
+                this.BoardSize = update.Size;
+                this.LoadLevel(update.NextLevelIndex);
             }
         }
 

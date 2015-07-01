@@ -101,7 +101,7 @@ namespace Network
 
             IPAddress address = addresses[0];
             this.endPoint = new IPEndPoint(address, this.ServerPort);
-            
+
             // Acquires permission to use a Socket for the desired connection.
             SocketPermission permission = new SocketPermission(
                     System.Security.Permissions.PermissionState.Unrestricted);
@@ -198,13 +198,13 @@ namespace Network
             }
 
             byte type = this.buffer[0];
-			switch ((UpdateType)type)
+            switch ((UpdateType)type)
             {
                 case UpdateType.DeletePosition:
                     received = this.socket.Receive(this.buffer, 4, SocketFlags.None);
                     return MessageProcessor.ReadDelete(this.buffer, received);
                 case UpdateType.UpdatePosition:
-                    received = this.socket.Receive(this.buffer, 16, SocketFlags.None);                   
+                    received = this.socket.Receive(this.buffer, 16, SocketFlags.None);
                     return MessageProcessor.ReadUpdatePosition(this.buffer, received);
                 case UpdateType.Ping:
                     return new PingUpdate();
@@ -243,7 +243,7 @@ namespace Network
         /// <summary>
         /// Called whenever a local player changes its position.
         /// </summary>
-        /// <param name="update"></param>
+        /// <param name="update">The <see cref="ARViewUpdate"/> to send.</param>
         public void OnSendPosition(ARViewUpdate update)
         {
             this.socket.Send(MessageProcessor.WriteARViewUpdate(update));

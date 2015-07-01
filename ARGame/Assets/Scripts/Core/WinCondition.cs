@@ -11,15 +11,20 @@ namespace Core
 {
     using System;
     using Core.Receiver;
+    using Level;
     using Network;
     using UnityEngine;
-    using Level;
 
     /// <summary>
     /// A class that tracks if the level has been won.
     /// </summary>
     public class WinCondition : MonoBehaviour
     {
+        /// <summary>
+        /// Reference to LevelManager component.
+        /// </summary>
+        private LevelManager levelManager;
+
         /// <summary>
         /// Gets all targets in the level.
         /// </summary>
@@ -29,11 +34,6 @@ namespace Core
         /// Gets all checkpoints in the level.
         /// </summary>
         public Checkpoint[] Checks { get; private set; }
-
-        /// <summary>
-        /// Reference to LevelManager component.
-        /// </summary>
-        private LevelManager levelManager;
 
         /// <summary>
         /// Find any initial targets and checkpoints.
