@@ -81,14 +81,14 @@ namespace Network
         public void Start()
         {
             this.buffer = new byte[MaxPacketSize];
-            if (RemoteLocalUI.ip != null && RemoteLocalUI.ip != "")
+            if (RemoteLocalUI.IPAddress != null && RemoteLocalUI.IPAddress != "")
             {
-                string myIpString = RemoteLocalUI.ip;
+                string myIpString = RemoteLocalUI.IPAddress;
                 IPAddress ipAddress = null;
                 bool isValidIp = System.Net.IPAddress.TryParse(myIpString, out ipAddress);
                 if (isValidIp)
                 {
-                    this.ServerAddress = RemoteLocalUI.ip;
+                    this.ServerAddress = RemoteLocalUI.IPAddress;
                 }
             }
 

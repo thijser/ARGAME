@@ -18,69 +18,89 @@ using UnityEngine;
 /// </summary>
 public class RemoteLocalUI : MonoBehaviour
 {
-    public static string ip = "";
-    private bool enteredWronglyOnce = false;
-    private bool invalid = false;
+    /// <summary>
+    /// The server IP address to connect to.
+    /// </summary>
+    public static string IPAddress = string.Empty;
 
+    /// <summary>
+    /// The last error that occurred. 
+    /// <para>
+    /// If no error occurred, this value is null.
+    /// </para>
+    /// </summary>
+    private string errorMessage = null;
+
+    /// <summary>
+    /// Shows the user interface.
+    /// </summary>
     public void OnGUI()
     {
         // Make a background box
         GUI.Box(new Rect(10, 10, 150, 90), "Loader Menu");
         GUI.Box(new Rect(10, 110, 150, 90), "Enter Host");
-        if (enteredWronglyOnce)
+
+        if (!string.IsNullOrEmpty(this.errorMessage))
         {
-            GUI.Box(new Rect(170, 10, 200, 190), "Please enter a valid host.");
+            GUI.Box(new Rect(170, 10, 200, 190), this.errorMessage);
         }
 
-        ip = GUI.TextField(new Rect(20, 130, 130, 60), ip);
+        RemoteLocalUI.IPAddress = GUI.TextField(new Rect(20, 130, 130, 60), RemoteLocalUI.IPAddress);
 
-        // Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
         if (GUI.Button(new Rect(20, 40, 130, 20), "Local"))
         {
-            invalid = !CheckIPValid(ip);
-            if (invalid)
-            {
-                enteredWronglyOnce = true;
-                return;
-            }
-            else
-            {
-                Application.LoadLevel(1);
-            }
+            this.TryLoadNext(RemoteLocalUI.IPAddress, 1);
         }
 
-        // Make the second button.
         if (GUI.Button(new Rect(20, 70, 130, 20), "Remote"))
         {
-            invalid = !CheckIPValid(ip);
-            if (invalid)
-            {
-                enteredWronglyOnce = true;
-                return;
-            }
-            else
-            {
-                Application.LoadLevel(2);
-            }
+            this.TryLoadNext(RemoteLocalUI.IPAddress, 2);
         }
     }
 
-    public bool CheckIPValid(String strIP)
+    /// <summary>
+    /// Tries to load the scene indicated by the given index.
+    /// <para>
+    /// This method first validates the server address and returns false
+    /// when the address is invalid. Otherwise, this method loads the 
+    /// scene at the given index and returns true.
+    /// </para>
+    /// </summary>
+    /// <param name="ipAddress">The server IP to connect to.</param>
+    /// <param name="index">The scene index to load.</param>
+    /// <returns>True if connecting to the server succeeded, false otherwise.</returns>
+    public bool TryLoadNext(string ipAddress, int index)
+    {
+        bool isValid = this.CheckIPValid(ipAddress);
+        if (isValid)
+        {
+            Application.LoadLevel(index);
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if the given host address is valid as an IP address.
+    /// </summary>
+    /// <param name="address">The host address to connect to.</param>
+    /// <returns>True if it is valid.</returns>
+    public bool CheckIPValid(string address)
     {
         try
         {
-            IPAddress[] addresses = Dns.GetHostEntry(strIP).AddressList;
+            IPAddress[] addresses = Dns.GetHostEntry(address).AddressList;
             if (addresses.Length == 0)
             {
                 return false;
             }
 
-            ip = addresses[0].ToString();
-
+            RemoteLocalUI.IPAddress = addresses[0].ToString();
             return true;
         }
-        catch (SocketException)
+        catch (SocketException ex)
         {
+            this.errorMessage = "Could not connect to the server at '" + address + "': " + ex.Message;
             return false;
         }
     }
