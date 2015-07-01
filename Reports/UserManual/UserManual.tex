@@ -76,10 +76,27 @@ overlaid on the different markers. The server UI is shown in \ref{fig:serverui}
     \label{fig:serverui}
 \end{figure}
 
-\section*{Joining as a remote player}
-In order to join the game as an extra remote player, one needs to have Unity
-installed on their machine, as the interface for the remote player is a Unity
-scene. The scene is called RemotePlayer.unity, and contains a single object,
+\section*{Joining as a local or remote player, through the build}
+In order to join the game as either a local or remote player by using the built
+executable, one needs to run the executable. The user is then presented with a
+simple UI, which contains a text field to enter the IP or a standard name (like
+"localhost"). One can then choose whether they are a local player or a remote
+player. An image of the UI is shown in \ref{fig:remotelocalui}. Also shown is the
+error message provided when connecting to a host that does not run a mirror server.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[scale = 0.6]{RemoteLocalUI}
+    \caption{The UI usable for choosing between local and remote player.}
+    \label{fig:remotelocalui}
+\end{figure}
+
+To properly play as a local player, one needs to connect the META One beforehand.
+There is no (foolproof) option right now to check whether or not the META One is
+connected to the device of the player.
+
+\section*{Joining as a remote player, using Unity}
+In order to join the game as an extra remote player through Unity, the corresponding
+scene must be opened. The scene is called RemotePlayer.unity, and contains a single object,
 the RemoteController object. This object contains a lot of scripts necessary
 for the functioning of the remote player gameplay.\\
 \\
@@ -97,12 +114,11 @@ and its options can be found in \ref{fig:remotecontroller}
     \label{fig:remotecontroller}
 \end{figure}
 
-\section*{Joining as a local player}
-In order to join the game as an extra local player one needs to have Unity
-installed, just like with joining as an extra remote player, and to be able
+\section*{Joining as a local player, using Unity}
+In order to join the game as an extra remote player through Unity, the 
+corresponding scene must be opened, and to be able
 to play properly as a local player, the player should also have a META One
-connected to their device. The interface for the local player is also
-a Unity scene. It contains a single object, the MetaWorld object. This object
+connected to their device. The scene contains a single object, the MetaWorld object. This object
 contains all the settings necessary for the local player gameplay.\\
 \\
 In order to connect to the server, one has to know the IP address of the
