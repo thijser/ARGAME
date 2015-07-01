@@ -88,6 +88,11 @@ namespace Level
             }
 
             this.levelLoader.BoardSize = this.BoardSize;
+            if(this.levelMappings == null)
+            {
+                this.LoadLevelMappings();
+            }
+
             this.level = this.levelLoader.CreateLevel("Levels/" + this.levelMappings[index]);
             this.CurrentLevelIndex = index;
             this.level.transform.SetParent(this.transform);
