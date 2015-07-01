@@ -83,11 +83,11 @@ namespace Camera
         {
             if (this.trackingIndex + 1 > this.players.Values.Count)
             {
-                this.trackingIndex++;
+                this.trackingIndex = 0;
             }
             else
             {
-                this.trackingIndex = 0;
+                this.trackingIndex++;
             }
 
             int i = 0;
