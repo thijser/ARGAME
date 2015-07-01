@@ -30,7 +30,7 @@ namespace Core
         [ExpectedException(typeof(ArgumentNullException))]
         public static void ConstructorFirstArgNull()
         {
-            new HitEventArgs(null, Vector3.zero, Vector3.zero, Create<AndGate>());
+            new HitEventArgs(null, Vector3.zero, Vector3.zero, Create<Mirror>());
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Core
         public static void ConstructorNoArgNull()
         {
             LaserBeam lb = new LaserBeam(Vector3.zero, Vector3.zero, CreateEmitter());
-            ILaserReceiver ilr = Create<OrGate>();
+            ILaserReceiver ilr = Create<Mirror>();
             Vector3 zero1 = Vector3.zero;
             Vector3 zero2 = Vector3.zero;
             HitEventArgs hea = new HitEventArgs(lb, zero1, zero2, ilr);

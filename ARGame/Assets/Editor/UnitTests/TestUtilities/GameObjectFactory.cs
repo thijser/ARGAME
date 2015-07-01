@@ -71,15 +71,6 @@ namespace TestUtilities
         }
 
         /// <summary>
-        /// Creates a valid HitEventArgs object for testing purposes.
-        /// </summary>
-        /// <returns>A valid HitEventArgs object.</returns>
-        public static HitEventArgs CreateTestHit()
-        {
-            return new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.forward, Create<AndGate>());
-        }
-
-        /// <summary>
         /// Creates a portal that is linked to another portal.
         /// </summary>
         /// <returns>A linked portal.</returns>
@@ -102,6 +93,16 @@ namespace TestUtilities
             System.Type type = typeof(T);
             GameObject gameObject = new GameObject(type.Name, type);
             return gameObject.GetComponent<T>();
+        }
+
+        /// <summary>
+        /// Creates a simple <see cref="HitEventArgs"/> instance for testing
+        /// purposes.
+        /// </summary>
+        /// <returns>The created <see cref="HitEventArgs"/>.</returns>
+        public static HitEventArgs CreateTestHit()
+        {
+            return new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.right, Create<Mirror>());
         }
     }
 }

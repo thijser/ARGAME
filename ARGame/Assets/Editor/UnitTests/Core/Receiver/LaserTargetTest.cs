@@ -40,7 +40,7 @@ namespace Core.Receiver
         {
             GameObject gameObject = new GameObject("LaserTarget", typeof(LaserTarget));
             gameObject.AddComponent<Animator>();
-            gameObject.GetComponent<LaserTarget>().OnLaserHit(null, new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.forward, Create<AndGate>()));
+            gameObject.GetComponent<LaserTarget>().OnLaserHit(null, new HitEventArgs(CreateTestBeam(), Vector3.zero, Vector3.forward, Create<Mirror>()));
             Assert.True(gameObject.GetComponent<LaserTarget>().IsOpening);
         }
         
