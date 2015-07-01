@@ -31,13 +31,14 @@ namespace Projection
         /// </summary>
         public void Update()
         {
-            if (this.PlayerToFollow == null)
+            if (this.PlayerToFollow == null || this.PlayerToFollow.RemotePosition == null)
             {
                 this.UpdateMarkerPositions(Matrix4x4.identity);
             }
             else
             {
-                this.UpdateMarkerPositions(this.PlayerToFollow.RemotePosition.Matrix.inverse);
+                Matrix4x4 matrix = this.PlayerToFollow.RemotePosition.Matrix.inverse;
+                this.UpdateMarkerPositions(matrix);
             }
         }
     }

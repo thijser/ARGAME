@@ -2112,7 +2112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &132264
 GameObject:
   m_ObjectHideFlags: 1
@@ -13400,7 +13400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _particleColor: {r: .361051053, g: .762693882, b: .926470578, a: 1}
-  _particleSize: .00999999978
+  _particleSize: .00100000005
 --- !u!114 &11433844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14306,7 +14306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a186731744c974cf3bbca6fc8e841a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerAddress: 145.94.146.129
+  ServerAddress: 145.94.208.187
   ServerPort: 23369
 --- !u!114 &11445498
 MonoBehaviour:
@@ -16340,7 +16340,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReferenceMarker: {fileID: 11444700}
-  Scale: 1
 --- !u!114 &11451888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17450,7 +17449,7 @@ MonoBehaviour:
   m_Script: {fileID: -2078278213, guid: c194b141a03c88649a39294c9c55f84c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enableVirtualKeyboard: 0
+  _enableVirtualKeyboard: 1
 --- !u!114 &11463246
 MonoBehaviour:
   m_ObjectHideFlags: 1

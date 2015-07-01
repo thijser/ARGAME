@@ -103,7 +103,9 @@ namespace Core
         {
             Assert.IsNotNull(this.SelectedMirror, "SendRotationUpdate: No Mirror Selected");
             RemoteMarker marker = this.SelectedMirror.GetComponent<RemoteMarker>();
-            float rotation = this.SelectedMirror.transform.eulerAngles.y;
+            float rotation = marker.ObjectRotation;
+
+            Debug.Log(rotation);
 
             RotationUpdate update = new RotationUpdate(UpdateType.UpdateRotation, rotation, marker.Id);
             this.SendMessage("OnRotationChanged", update);
@@ -155,7 +157,8 @@ namespace Core
                     float t = Time.deltaTime * -rotationSpeed;
                     rotationSpeed = Mathf.Min(90f, rotationSpeed + Time.deltaTime * 45.0f);
 
-                    this.SelectedMirror.transform.Rotate(0, t, 0);
+                    //this.SelectedMirror.transform.Rotate(0, t / 10.0f, 0);
+                    this.SelectedMirror.GetComponent<RemoteMarker>().ObjectRotation += t;
                     this.SendRotationUpdate();
                 }
                 else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.Mouse1))
@@ -163,7 +166,8 @@ namespace Core
                     float t = Time.deltaTime * rotationSpeed;
                     rotationSpeed = Mathf.Min(90.0f, rotationSpeed + Time.deltaTime * 45.0f);
 
-                    this.SelectedMirror.transform.Rotate(0, t, 0);
+                    //this.SelectedMirror.transform.Rotate(0, t, 0);
+                    this.SelectedMirror.GetComponent<RemoteMarker>().ObjectRotation += t;
                     this.SendRotationUpdate();
                 }
             }

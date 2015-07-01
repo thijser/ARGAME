@@ -13,6 +13,7 @@ namespace Projection
     using System.Diagnostics.CodeAnalysis;
     using UnityEngine;
 	using Network;
+    using Vision;
 
     /// <summary>
     /// A class that handles marker registration and updates positions.
@@ -25,15 +26,26 @@ namespace Projection
         public const long Patience = 1;
 
         /// <summary>
-        /// Scale of the object.
-        /// </summary>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Unity Property")]
-        public float Scale = 1;
-        
-        /// <summary>
         /// Gets or sets the central level marker, this should be visible. 
         /// </summary>
         public LocalMarker Parent { get; set; }
+
+
+        /// <summary>
+        /// The matrix that applies a correction for the underlying <see cref="IARLink"/>
+        /// that provides the marker positions.
+        /// </summary>
+        private Matrix4x4 localViewMatrix;
+
+        /// <summary>
+        /// Retrieves the scale of the AR glasses used for scaling positions.
+        /// </summary>
+        public override void Start()
+        {
+            base.Start();
+            float scale = this.GetComponent<IARLink>().GetScale();
+            this.localViewMatrix = Matrix4x4.Scale(scale * Vector3.one);
+        }
 
         /// <summary>
         /// Updates the position of all markers.
@@ -56,10 +68,29 @@ namespace Projection
             // 'zero to local' transformations.
             Matrix4x4 remoteToZero = this.Parent.RemotePosition.Matrix.inverse;
             Matrix4x4 zeroToLocal = this.Parent.LocalPosition.Matrix;
+            Matrix4x4 remoteToLocal = zeroToLocal * remoteToZero;
+            Matrix4x4 localToRemote = remoteToLocal.inverse * this.localViewMatrix;
 
-			this.SendMessage("OnSendPosition",new ARViewUpdate(-1,this));
-			this.UpdateMarkerPositions(zeroToLocal * remoteToZero);
+            this.SendPositionUpdate(ref localToRemote);
+			this.UpdateMarkerPositions(remoteToLocal);
+        }
 
+        /// <summary>
+        /// Sends an <see cref="ARViewUpdate"/> based on the given Matrix transform.
+        /// </summary>
+        /// <param name="localToRemote">The local-to-remote matrix transformation, 
+        /// passed by reference for performance.</param>
+        public void SendPositionUpdate(ref Matrix4x4 localToRemote)
+        {
+            Vector3 viewPosition = TransformExtensions.ExtractTranslationFromMatrix(ref localToRemote);
+            Vector3 viewRotation = TransformExtensions.ExtractRotationFromMatrix(ref localToRemote).eulerAngles;
+
+            // Perform scaling corrections on the position. This occurs because of the order in which Unity applies 
+            // scaling and translation.
+            viewPosition.Scale(Vector3.one / 8);
+            viewPosition.Scale(new Vector3(1, 1, -1));
+
+            this.SendMessage("OnSendPosition", new ARViewUpdate(-1, viewPosition, viewRotation));
         }
 
         /// <summary>

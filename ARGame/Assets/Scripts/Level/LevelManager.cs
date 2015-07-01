@@ -32,7 +32,7 @@ namespace Level
         /// The level GameObject.
         /// </summary>
         private GameObject level;
-
+        
         /// <summary>
         /// Gets or sets the size of the board.
         /// </summary>
@@ -44,12 +44,11 @@ namespace Level
         public int CurrentLevelIndex { get; private set; }
 
         /// <summary>
-        /// Initializes this LevelManager and loads the first level.
+        /// Loads the level mappings.
         /// </summary>
         public void Start()
         {
             this.LoadLevelMappings();
-            this.RestartGame();
         }
 
         /// <summary>
@@ -82,7 +81,7 @@ namespace Level
         /// <param name="index">The index of the level to load.</param>
         public void LoadLevel(int index)
         {
-			Debug.Log("loading level : "+index);
+            Debug.Log("loading level : " + index);
             if (this.level != null)
             {
                 GameObject.Destroy(this.level);

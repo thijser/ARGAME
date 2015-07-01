@@ -22,10 +22,16 @@ namespace Camera
     public class HeadHolder : MonoBehaviour
     {
         /// <summary>
+        /// The offset used for player Ids.
+        /// </summary>
+        public const int PlayerIdOffset = 9000;
+
+        /// <summary>
         /// A Dictionary mapping player id to Head.
         /// </summary>
         private Dictionary<int, RemotePlayerMarker> Heads = new Dictionary<int, RemotePlayerMarker>();
 
+        private int trackingIndex = -1;
         /// <summary>
         /// The <see cref="RemoteMarkerHolder"/>.
         /// </summary>
@@ -35,6 +41,14 @@ namespace Camera
         /// The reference <c>GameObject</c> for a player head.
         /// </summary>
         private GameObject referenceHead;
+
+        public void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                this.NextTracking();
+            }
+        }
 
         public void Start()
         {
@@ -47,33 +61,74 @@ namespace Camera
             this.PlacePlayerHead(this.GetPlayer(playerInfo.Id), playerInfo);
         }
 
+        public void NextTracking()
+        {
+            if (this.trackingIndex + 1 > this.Heads.Values.Count)
+            {
+                this.trackingIndex++;
+            }
+            else
+            {
+                this.trackingIndex = 0;
+            }
+
+            int i = 0;
+			Debug.Log (trackingIndex);
+            foreach (RemotePlayerMarker marker in Heads.Values)
+            {
+                if (this.trackingIndex == i)
+                {
+                    this.holder.PlayerToFollow = marker;
+                }
+
+                i++;
+            }
+        }
+
         public RemotePlayerMarker GetPlayer(int id)
         {
             if (!this.Heads.ContainsKey(id))
             {
                 GameObject head = GameObject.Instantiate(this.referenceHead);
                 RemotePlayerMarker marker = head.GetComponent<RemotePlayerMarker>();
+                Assert.IsNotNull(marker, "Reference Player Marker has no `RemotePlayerMarker` script attached");
+
                 Heads.Add(id, marker);
                 marker.transform.SetParent(this.transform);
 
-                marker.Id = 9000 + id;
+                marker.Id = PlayerIdOffset + id;
                 this.holder.AddMarker(marker);
+                this.Follow(marker);
             }
 
             return this.Heads[id];
         }
 
+        /// <summary>
+        /// Places the given <see cref="RemotePlayerMarker"/> at the position and 
+        /// rotation indicated by the <see cref="ARViewUpdate"/>.
+        /// </summary>
+        /// <param name="head">The <see cref="RemotePlayerMarker"/>.</param>
+        /// <param name="playerInfo">The <see cref="ARViewUpdate"/>.</param>
         public void PlacePlayerHead(RemotePlayerMarker head, ARViewUpdate playerInfo)
         {
             Assert.IsNotNull(head);
             Assert.IsNotNull(playerInfo);
+            int markerId = playerInfo.Id + PlayerIdOffset;
 
-            head.RemotePosition = new MarkerPosition(
-                playerInfo.Position,
-                Quaternion.Euler(playerInfo.Rotation),
-                DateTime.Now,
-                Vector3.one,
-                playerInfo.Id + 9000);
+            Vector3 scale = new Vector3(8, 8, -8);
+
+            Vector3 position = playerInfo.Position;
+            position.Scale(scale);
+            Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
+
+            if (trackingIndex == -1)
+            {
+                this.NextTracking();
+            }
+
+            this.GetPlayer(playerInfo.Id).RemotePosition =
+                new MarkerPosition(position, direction, DateTime.Now, scale, markerId);
         }
 
         /// <summary>

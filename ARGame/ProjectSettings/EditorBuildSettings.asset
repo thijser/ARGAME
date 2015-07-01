@@ -10,6 +10,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LocalPlayer.unity
   - enabled: 0
-    path: Assets/Scenes/Levels/Basic levels (1-5)/level1.unity
-  - enabled: 1
     path: Assets/Scenes/RemotePlayer.unity

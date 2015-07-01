@@ -22,7 +22,6 @@ namespace Graphics
         /// Indicates whether to load a board texture remotely.
         /// </summary>
         public bool UseRemote;
-
         /// <summary>
         /// The <see cref="WWW"/> instance used for connecting to the server.
         /// </summary>
@@ -68,14 +67,16 @@ namespace Graphics
             }
         }
 
+
+
         /// <summary>
         /// Attempts to use the image if it is done loading yet if not we can always try again later 
         /// </summary>
         public void TryImage()
         {
-            if (this.webpage != null && this.webpage.isDone)
+			if (this.webpage != null && this.webpage.isDone&&this.GetComponentInChildren<board>()!=null)
             {
-                Renderer renderer = GameObject.Find("RemoteController/Board/Tabletop").GetComponent<Renderer>();
+				Renderer renderer = this.GetComponentInChildren<board>().gameObject.GetComponent<Renderer>();
                 renderer.material.mainTexture = this.webpage.texture;
                 Debug.Log("texture has loaded");
                 this.webpage.Dispose();
