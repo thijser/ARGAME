@@ -98,7 +98,7 @@ namespace Core.Receiver
                 Vector3 direction = args.Point - args.Laser.Origin;
 
                 // Transform laser hit point to local coordinates and flip to other side
-                Vector3 p = Quaternion.AngleAxis(180, transform.up) * transform.InverseTransformPoint(args.Point);
+                Vector3 p = Quaternion.AngleAxis(180, Vector3.up) * transform.InverseTransformPoint(args.Point);
 
                 // Transform back to world coordinates on the other portal
                 Vector3 p2 = this.LinkedPortal.transform.TransformPoint(p);

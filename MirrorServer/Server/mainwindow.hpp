@@ -7,6 +7,7 @@
  */
 
 #include <QMainWindow>
+#include <QTcpSocket>
 #include <vector>
 
 class QErrorMessage;
@@ -50,6 +51,12 @@ public slots:
      * @param fps - The framerate to display
      */
     void showFPS(int fps);
+
+    /**
+     * @brief Update the list of connected clients.
+     * @param clients - Clients to list.
+     */
+    void showClients(QList<QTcpSocket*> clients);
 
     /**
      * @brief Set if the debug overlay should be shown.
