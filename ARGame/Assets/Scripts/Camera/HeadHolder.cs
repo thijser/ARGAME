@@ -44,7 +44,7 @@ namespace Camera
         /// <summary>
         /// The reference <c>GameObject</c> for a player head.
         /// </summary>
-        private GameObject referenceHead = Resources.Load("Prefabs/HEAD") as GameObject;
+        private GameObject referenceHead;
 
         /// <summary>
         /// Switches the tracked player to the next if the space bar is pressed.
@@ -62,6 +62,7 @@ namespace Camera
         /// </summary>
         public void Start()
         {
+            this.referenceHead = Resources.Load("Prefabs/HEAD") as GameObject;
             this.holder = gameObject.GetComponent<RemoteMarkerHolder>();
         }
 
@@ -110,6 +111,11 @@ namespace Camera
         {
             if (!this.players.ContainsKey(id))
             {
+                if (this.referenceHead == null)
+                {
+                    this.referenceHead = Resources.Load("Prefabs/HEAD") as GameObject;
+                }
+
                 GameObject head = GameObject.Instantiate(this.referenceHead);
                 RemotePlayerMarker marker = head.GetComponent<RemotePlayerMarker>();
                 Assert.IsNotNull(marker, "Reference Player Marker has no `RemotePlayerMarker` script attached");
