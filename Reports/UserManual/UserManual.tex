@@ -1,149 +1,156 @@
-\documentclass[]{report}
+\documentclass{report}
 \usepackage{graphicx}
 
 % Title Page
 \title{AR Mirror Game user manual}
-\author{Alexander Overvoorde, Tim van Rossum}
-
+\author{Thijs Boumans \and Patrick Kramer \and Alexander Overvoorde \and Tim van Rossum}
 
 \begin{document}
 \maketitle
 
 \section*{Acquiring the source code}
-
-The source code can be downloaded using git from the following repository:
-
-\verb#git@github.com:thijser/ARGAME.git#
+	The source code can be downloaded using git from the following repository:
+	
+	\verb#git@github.com:thijser/ARGAME.git#
 
 \section*{Building the server}
+	The server code is in the \verb#MirrorServer# directory and includes a Qt
+	Creator project to build it. It depends on the latest version of OpenCV, which
+	needs to be built manually using Visual Studio.
+	
+	After building it, the "Projects" menu needs to be opened and the
+	\verb#OPENCV_HOME# variable needs to be set to a directory with the following
+	subdirectories:
 
-The server code is in the \verb#MirrorServer# directory and includes a Qt
-Creator project to build it. It depends on the latest version of OpenCV, which
-needs to be built manually using Visual Studio.
-
-After building it, the "Projects" menu needs to be opened and the
-\verb#OPENCV_HOME# variable needs to be set to a directory with the following
-subdirectories:
-
-\begin{itemize}
-    \item \verb#include# - Include directories
-    \item \verb#bin# - OpenCV DLLs
-    \item \verb#lib# - OpenCV libraries
-\end{itemize}
-
-After running \verb#Build -> Run qmake# the server can then be built using
-\verb#Build -> Rebuild All#. The output files will be placed in the \verb#dist#
-folder in the repository root directory.
+	\begin{itemize}
+	    \item \verb#include# - Include directories (\texttt{.h} files)
+	    \item \verb#bin# - OpenCV libraries (\texttt{.dll}, \texttt{.so} or \texttt{.dylib} files, depending on the operating system)
+	    \item \verb#lib# - OpenCV library definitions (\texttt{.lib} files)
+	\end{itemize}
+	
+	After running \verb#Build -> Run qmake# the server can then be built using
+	\verb#Build -> Rebuild All#. The output files will be placed in the \verb#dist#
+	folder in the repository root directory.
 
 \section*{Building the client}
-
-The client scenes are contained in the \verb#ARGame# directory, under 
-\verb#ARGame\Assets\Scenes#. The scenes can be built using Unity, as they are 
-Unity scenes. It depends on the latest version of Unity (5.1.0, as of writing 
-this manual). 
-
-Building it can be done by following these steps:
-
-\begin{itemize}
-	\item Go to \verb#File -> Build Settings#
-	\item Add the scene that needs to be built (either RemotePlayer.unity or LocalPlayer.unity)
-	\item Select the option "PC, Mac \& Linux Standalone" as the platform
-	\item (Optional) check "Development Build", and afterwards "Script Debugging" if you want to see debugging output from the scripts.
-	\item Click "Build", or, if you want to run it immediately, click "Build and Run"
-\end{itemize}
+	The client scenes are contained in the \verb#ARGame# directory, under 
+	\verb#ARGame\Assets\Scenes#. The scenes can be built using Unity, as they are 
+	Unity scenes. It depends on the latest version of Unity (5.1.0, as of writing 
+	this manual). Also, because the Meta SDK only works under Windows, local players
+	cannot use the application when built for Linux and Mac platforms.
+	
+	Building it can be done by following these steps:
+	
+	\begin{itemize}
+		\item Go to \verb#File -> Build Settings#
+		\item Add the scene that needs to be built (either RemotePlayer.unity or LocalPlayer.unity)
+		\item Select the option "PC, Mac \& Linux Standalone" as the platform. Make sure the 
+		      target platform is set to Windows, because the Meta does not work on other platforms,
+		      as mentioned above.
+		\item (Optional) check "Development Build", and afterwards "Script Debugging" if you
+			  want to see debugging output from the scripts.
+		\item Click "Build", or, if you want to run it immediately, click "Build and Run"
+	\end{itemize}
 
 \section*{Starting up the server}
-Before one can start up the server and actually have it do something, the master
-camera needs to be connected to the computer that the server should run on. 
-Then, the user should select whether completely red markers or red-and-yellow
-markers should be detected as corner markers. They should also enter the camera
-device ID (usually 1, if the computer has its own webcam, but it can also be 0.
-It is advised to try out both options to find the one that works). The server
-port and camera resolution can also be specified (the default server port is 
-23369, and it is advised to not change it as that also has to be changed
-client-side in that case). Enabling "Require empty board" will require the board
-to be empty (no markers on the board) before the server is initialized. This is
-used to capture an image of the empty board for remote players. \\
-\\
-The server UI also specifies some useful information: it shows the FPS the
-server is recording the board at, the index of the current level, and a debug
-overlay (if enabled) that shows what the camera sees, with marker indices
-overlaid on the different markers. The server UI is shown in \ref{fig:serverui}
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[scale = 0.5]{MirrorServerUI}
-    \caption{The server UI.}
-    \label{fig:serverui}
-\end{figure}
-
-\section*{Joining as a local or remote player, through the build}
-In order to join the game as either a local or remote player by using the built
-executable, one needs to run the executable. The user is then presented with a
-simple UI, which contains a text field to enter the IP or a standard name (like
-"localhost"). One can then choose whether they are a local player or a remote
-player. An image of the UI is shown in \ref{fig:remotelocalui}. Also shown is the
-error message provided when connecting to a host that does not run a mirror server.
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[scale = 0.6]{RemoteLocalUI}
-    \caption{The UI usable for choosing between local and remote player.}
-    \label{fig:remotelocalui}
-\end{figure}
-
-To properly play as a local player, one needs to connect the META One beforehand.
-There is no (foolproof) option right now to check whether or not the META One is
-connected to the device of the player.
+	Before one can start up the server and actually have it do something, the master
+	camera needs to be connected to the computer that the server should run on. 
+	Then, the user should select whether completely red markers or red-and-yellow
+	markers should be detected as corner markers. They should also enter the camera
+	device ID (this is system dependent and may change even between different runs on the 
+	same system). The server port and camera resolution can also be specified (the default 
+	server port is 23369, and it is advised to not change it as that also has to be changed
+	client-side in that case). Enabling "Require empty board" will require the board
+	to be empty (no markers on the board) before the server is initialized. This is
+	used to capture an image of the empty board for remote players.
+	
+	The server UI also specifies some useful information: it shows the FPS the
+	server is recording the board at, the index of the current level, and a debug
+	overlay (if enabled) that shows what the camera sees, with marker numbers
+	overlaid on the different markers. The server UI is shown in \ref{fig:serverui}
+	\begin{figure}[!ht]
+	    \centering
+	    \includegraphics[scale = 0.5]{MirrorServerUI}
+	    \caption{The server interface}
+	    \label{fig:serverui}
+	\end{figure}
+	
+	\section*{Joining as a local or remote player, through the build}
+	In order to join the game as either a local or remote player by using the built
+	executable, one needs to run the executable. The user is then presented with a
+	simple UI, which contains a text field to enter the IP or a standard name (like
+	"localhost"). One can then choose whether they are a local player or a remote
+	player. An image of the UI is shown in \ref{fig:remotelocalui}. Also shown is the
+	error message provided when connecting to a host that does not run a mirror server.
+	\begin{figure}[!ht]
+	    \centering
+	    \includegraphics[scale = 0.6]{RemoteLocalUI}
+	    \caption{The UI usable for choosing between local and remote player.}
+	    \label{fig:remotelocalui}
+	\end{figure}
+	
+	To properly play as a local player, one needs to connect the META One beforehand.
+	There is no (foolproof) option right now to check whether or not the META One is
+	connected to the device of the player.
 
 \section*{Joining as a remote player, using Unity}
-In order to join the game as an extra remote player through Unity, the corresponding
-scene must be opened. The scene is called RemotePlayer.unity, and contains a single object,
-the RemoteController object. This object contains a lot of scripts necessary
-for the functioning of the remote player gameplay.\\
-\\
-In order to connect to the server, one has to know the IP address of the
-device that the server runs on. Once known, the server can be accessed by
-entering the IP address into the "Server Address" field of the Client Socket
-component of the RemoteController object. The server port is set to a default
-23369, and can be changed, but just like changing the port of the server,
-this is not recommended. A detailed overview of the RemoteController object
-and its options can be found in \ref{fig:remotecontroller}
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[scale = 0.6]{RemoteController}
-    \caption{The settings for the RemoteController object.}
-    \label{fig:remotecontroller}
-\end{figure}
+	In order to join the game as an extra remote player through Unity, the corresponding
+	scene must be opened. The scene is called \texttt{RemotePlayer.unity}, and holds a 
+	single object, the remote controller. This object contains a lot of scripts necessary
+	for the functioning of the remote player gameplay.
+	
+	In order to connect to the server, one has to know the IP address of the
+	device that the server runs on. Once known, the server can be accessed by
+	entering the IP address into the "Server Address" field of the Client Socket
+	component of the remote controller object. The server port is set to a default
+	23369, and can be changed, but just like changing the port of the server,
+	this is not recommended. A detailed overview of the remote controller object
+	and its options can be found in \ref{fig:remotecontroller}
+	\begin{figure}[!ht]
+	    \centering
+	    \includegraphics[scale = 0.6]{RemoteController}
+	    \caption{The settings for the remote controller object.}
+	    \label{fig:remotecontroller}
+	\end{figure}
 
 \section*{Joining as a local player, using Unity}
-In order to join the game as an extra remote player through Unity, the 
-corresponding scene must be opened, and to be able
-to play properly as a local player, the player should also have a META One
-connected to their device. The scene contains a single object, the MetaWorld object. This object
-contains all the settings necessary for the local player gameplay.\\
-\\
-In order to connect to the server, one has to know the IP address of the
-device that the server runs on. Once known, the server can be accessed by
-entering the IP address into the "Server Address" field of the Client Socket
-component of the MetaWorld object. Again, it is possible to also change the
-server port, but it is discouraged. The settings of the MetaWorld object
-are shown in \ref{fig:metaworld}
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[scale = 0.6]{MetaWorld}
-    \caption{The settings for the MetaWorld object.}
-    \label{fig:metaworld}
-\end{figure}
+	In order to join the game as an extra remote player through Unity, the 
+	corresponding scene must be opened, and to be able
+	to play properly as a local player, the player should also have a META One
+	connected to their device. The scene contains a single object, the MetaWorld object. This object
+	contains all the settings necessary for the local player gameplay.
+	
+	In order to connect to the server, one has to know the IP address of the
+	device that the server runs on. Once known, the server can be accessed by
+	entering the IP address into the "Server Address" field of the Client Socket
+	component of the MetaWorld object. Again, it is possible to also change the
+	server port, but it is discouraged. The settings of the MetaWorld object
+	are shown in \ref{fig:metaworld}
+	
+	\begin{figure}[!ht]
+	    \centering
+	    \includegraphics[scale = 0.6]{MetaWorld}
+	    \caption{The settings for the MetaWorld object.}
+	    \label{fig:metaworld}
+	\end{figure}
 
 \section*{Creating a new level and playing it}
-New levels are easily created in Tiled (see report for more details). For the board used with most testing,
-it is recommended that the level is 10 squares by 10 squares big. A level can be
-created using the tileset and entering tiles from the tileset into the level
-(a key for which tile is which is easily found on the repository). Then, the 
-level can be exported as an .xml file, and saved in the Resources/Levels folder.
-After saving it as an .xml, the level file name (without the .xml extension)
-has to be added to the index.txt. Adding it at the end will mean that the level
-is the last level, and adding it at the beginning will mean that the level is
-the first level.
+	New levels are easily created in Tiled (see report for more details). The size 
+	of the level can be chosen to match the available area. For reference, one unit
+	is equal to the size of the black and white pattern area on the markers (excluding 
+	the green border).  
+	
+	A level can be created using the tileset and entering tiles 
+	from the tileset into the level (a key for which tile is which is easily found 
+	on the repository). Then, the level can be exported as an XML file, and saved 
+	in the Resources/Levels folder. Note that the default extension of Tiled maps is
+	\texttt{tmx}, but the file name needs to end in \texttt{.xml} for Unity to be able
+	to find the file.
+	
+	After saving it as an XML file, the level name (without the extension)
+	has to be added to the file \texttt{index.txt} found in the Levels directory of 
+	the project's assets. The contents of the index file may be changed to 
+	change the levels and order in which they appear in the game. Note that the Unity
+	project will have to be rebuilt for the changes to take effect.
 
 \end{document}          
