@@ -9,9 +9,8 @@
 \maketitle
 
 \section*{Acquiring the source code}
-	The source code can be downloaded using git from the following repository:
-	
-	\verb#git@github.com:thijser/ARGAME.git#
+	The source code can be found on GitHub at \texttt{github.com/thijser/ARGAME},
+	and can be cloned directly using Git from \verb#git@github.com:thijser/ARGAME.git#.
 
 \section*{Building the server}
 	The server code is in the \verb#MirrorServer# directory and includes a Qt
@@ -35,27 +34,28 @@
 \section*{Building the client}
 	The client scenes are contained in the \verb#ARGame# directory, under 
 	\verb#ARGame\Assets\Scenes#. The scenes can be built using Unity, as they are 
-	Unity scenes. It depends on the latest version of Unity (5.1.0, as of writing 
-	this manual). Also, because the Meta SDK only works under Windows, local players
-	cannot use the application when built for Linux and Mac platforms.
+	Unity scenes. It depends Unity 5.1.0 or later. Also, because the Meta SDK only 
+	works under Windows, local players cannot use the application when built for 
+	Linux and Mac platforms.
 	
 	Building it can be done by following these steps:
 	
 	\begin{itemize}
 		\item Go to \verb#File -> Build Settings#
-		\item Add the scene that needs to be built (either RemotePlayer.unity or LocalPlayer.unity)
+		\item Add the scenes that needs to be built (StartUpGUI, LocalPlayer, RemotePlayer).
 		\item Select the option "PC, Mac \& Linux Standalone" as the platform. Make sure the 
 		      target platform is set to Windows, because the Meta does not work on other platforms,
 		      as mentioned above.
 		\item (Optional) check "Development Build", and afterwards "Script Debugging" if you
-			  want to see debugging output from the scripts.
-		\item Click "Build", or, if you want to run it immediately, click "Build and Run"
+			  want to see debug output from the scripts. Note, however, that performance
+			  may be lower in Development builds than in regular builds. 
+		\item Click "Build", or, if you want to run it immediately, click "Build and Run".
 	\end{itemize}
 
 \section*{Starting up the server}
 	Before one can start up the server and actually have it do something, the master
 	camera needs to be connected to the computer that the server should run on. 
-	Then, the user should select whether completely red markers or red-and-yellow
+	Then, the user should select whether completely red, or red-and-yellow
 	markers should be detected as corner markers. They should also enter the camera
 	device ID (this is system dependent and may change even between different runs on the 
 	same system). The server port and camera resolution can also be specified (the default 
@@ -75,13 +75,14 @@
 	    \label{fig:serverui}
 	\end{figure}
 	
-	\section*{Joining as a local or remote player, through the build}
+\section*{Joining as a local or remote player, through the build}
 	In order to join the game as either a local or remote player by using the built
 	executable, one needs to run the executable. The user is then presented with a
-	simple UI, which contains a text field to enter the IP or a standard name (like
-	"localhost"). One can then choose whether they are a local player or a remote
+	simple UI, which contains a text field to enter the IP or a host name (like
+	"localhost" or a server address). One can then choose whether they are a local player or a remote
 	player. An image of the UI is shown in \ref{fig:remotelocalui}. Also shown is the
-	error message provided when connecting to a host that does not run a mirror server.
+	error message provided when connecting to a non-existing
+	host.
 	\begin{figure}[!ht]
 	    \centering
 	    \includegraphics[scale = 0.6]{RemoteLocalUI}
@@ -90,14 +91,14 @@
 	\end{figure}
 	
 	To properly play as a local player, one needs to connect the META One beforehand.
-	There is no (foolproof) option right now to check whether or not the META One is
+	There is no way to check right now whether or not the META One is
 	connected to the device of the player.
 
 \section*{Joining as a remote player, using Unity}
 	In order to join the game as an extra remote player through Unity, the corresponding
 	scene must be opened. The scene is called \texttt{RemotePlayer.unity}, and holds a 
 	single object, the remote controller. This object contains a lot of scripts necessary
-	for the functioning of the remote player gameplay.
+	for the functioning of the remote player game play.
 	
 	In order to connect to the server, one has to know the IP address of the
 	device that the server runs on. Once known, the server can be accessed by
@@ -125,7 +126,12 @@
 	entering the IP address into the "Server Address" field of the Client Socket
 	component of the MetaWorld object. Again, it is possible to also change the
 	server port, but it is discouraged. The settings of the MetaWorld object
-	are shown in \ref{fig:metaworld}
+	are shown in figure \ref{fig:metaworld}.
+	
+	It is possible, however, that the Meta cannot be started properly from within Unity.
+	This is indicated by errors in Unity's output pane looking like 
+	\texttt{DllNotFoundException: MetaVisionDLL}. If this is the case, build and run the 
+	application through Unity's "Build and Run" command instead.
 	
 	\begin{figure}[!ht]
 	    \centering
@@ -140,17 +146,23 @@
 	is equal to the size of the black and white pattern area on the markers (excluding 
 	the green border).  
 	
-	A level can be created using the tileset and entering tiles 
-	from the tileset into the level (a key for which tile is which is easily found 
-	on the repository). Then, the level can be exported as an XML file, and saved 
-	in the Resources/Levels folder. Note that the default extension of Tiled maps is
-	\texttt{tmx}, but the file name needs to end in \texttt{.xml} for Unity to be able
-	to find the file.
+	(a key for which tile is which is seen in \ref{fig:tilekey}). The tileset can be
+	found on the repository (located at \verb#ARGame/Assets/Resources/Levels/tiles.png#), 
+	and has to be imported before it can be used in a map. Then, the 
+	level can be exported as an XML file, and saved in the \verb#ARGame/Assets/Resources/Levels# folder.
+	It is important that one saves the level as "All Files", and adds \texttt{.xml} as the file extension.
 	
 	After saving it as an XML file, the level name (without the extension)
-	has to be added to the file \texttt{index.txt} found in the Levels directory of 
+	has to be added to the file \texttt{ARGame/Assets/Resources/Levels/index.txt} found in the Levels directory of 
 	the project's assets. The contents of the index file may be changed to 
 	change the levels and order in which they appear in the game. Note that the Unity
 	project will have to be rebuilt for the changes to take effect.
+	
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[scale = 0.3]{TileKey}
+		\caption{The key for the tile set}
+		\label{fig:tilekey}
+	\end{figure}
 
 \end{document}          
