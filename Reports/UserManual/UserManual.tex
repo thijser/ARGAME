@@ -139,10 +139,13 @@ are shown in \ref{fig:metaworld}
 New levels are easily created in Tiled (see report for more details). For the board used with most testing,
 it is recommended that the level is 10 squares by 10 squares big. A level can be
 created using the tileset and entering tiles from the tileset into the level
-(a key for which tile is which is seen in \ref{fig:tilekey}). Then, the 
-level can be exported as an .xml file, and saved in the Resources/Levels folder.
+(a key for which tile is which is seen in \ref{fig:tilekey}). The tileset can be
+found on the repository (located at \verb#ARGame\Assets\Resources\Levels\tiles.png#), and has to be imported before it can be used in a map. Then, the 
+level can be exported as an .xml file, and saved in the \verb#ARGame\Assets\Resources\Levels# folder.
+It is important that one saves the level as "All Files", and adds their own
+.xml tag at the end of it, as Tiled likes saving its levels as .tmx files.
 After saving it as an .xml, the level file name (without the .xml extension)
-has to be added to the index.txt. Adding it at the end will mean that the level
+has to be added to \verb#ARGame\Assets\Resources\Levels\index.txt#. Adding it at the end will mean that the level
 is the last level, and adding it at the beginning will mean that the level is
 the first level.
 \begin{figure}[!ht]
