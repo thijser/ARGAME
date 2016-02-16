@@ -15,11 +15,11 @@ namespace Core
     /// Disables GameObjects when they collide with Colliders.
     /// <para>
     /// This MonoBehavior is intended to be attached to GameObjects that are bound to markers.
-    /// By disabling behaviors on such objects when they collide with others, we can prevent 
+    /// By disabling behaviors on such Objects when they collide with others, we can prevent 
     /// unexpected behavior.
     /// </para>
     /// <para>
-    /// For this class to work, The object to which this is applied must have a convex Collider,
+    /// For this class to work, The UnityEngine.Object to which this is applied must have a convex Collider,
     /// and a <c>Rigidbody</c>. The <c>Rigidbody</c>'s Collision Detection must be set to Continuous, and 
     /// the Constraints should freeze all values.
     /// </para>
@@ -28,7 +28,7 @@ namespace Core
     {
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Core.CollisionBehaviour"/> 
-        /// is colliding with another object.
+        /// is colliding with another UnityEngine.Object.
         /// </summary>
         public bool Colliding { get; set; }
 
@@ -42,7 +42,7 @@ namespace Core
 
         /// <summary>
         /// Enables or disables Behaviors based on whether this GameObject collides with
-        /// other objects.
+        /// other Objects.
         /// </summary>
         public virtual void Update()
         {

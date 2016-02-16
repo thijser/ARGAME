@@ -37,7 +37,7 @@ namespace Vision
         private Transform lamb;
 
         /// <summary>
-        /// meta object required for tracking 
+        /// meta UnityEngine.Object required for tracking 
         /// </summary>
         private MarkerDetector markerDetector;
 

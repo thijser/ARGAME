@@ -42,7 +42,7 @@ namespace Network
         public float Rotation { get; private set; }
 
         /// <summary>
-        ///   Serves as a hash function for a <see cref="Network.PositionUpdate"/> object.
+        ///   Serves as a hash function for a <see cref="Network.PositionUpdate"/> UnityEngine.Object.
         /// </summary>
         /// <returns>
         ///   A hash code for this instance that is suitable for use in hashing

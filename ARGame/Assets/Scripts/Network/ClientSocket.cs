@@ -223,7 +223,7 @@ namespace Network
         }
 
         /// <summary>
-        /// Called whenever the remote player rotates an object.
+        /// Called whenever the remote player rotates an UnityEngine.Object.
         /// </summary>
         /// <param name="update">The RotationUpdate describing the change.</param>
         public void OnRotationChanged(RotationUpdate update)

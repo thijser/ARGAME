@@ -89,7 +89,7 @@ namespace Core.Receiver
 
             if (!args.IsValid)
             {
-                throw new ArgumentException("The HitEventArgs object is invalid.");
+                throw new ArgumentException("The HitEventArgs UnityEngine.Object is invalid.");
             }
 
             if (this.LinkedPortal != null)

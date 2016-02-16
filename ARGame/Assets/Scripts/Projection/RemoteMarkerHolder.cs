@@ -12,7 +12,7 @@ namespace Projection
     using UnityEngine;
 
     /// <summary>
-    /// Previews the position of PositionUpdate objects.
+    /// Previews the position of PositionUpdate Objects.
     /// </summary>
     public class RemoteMarkerHolder : MarkerHolder<RemoteMarker>
     {

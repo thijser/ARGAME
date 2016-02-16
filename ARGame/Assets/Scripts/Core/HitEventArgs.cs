@@ -13,7 +13,7 @@ namespace Core
     using UnityEngine;
 
     /// <summary>
-    /// Describes the event of a Laser beam hitting an object.
+    /// Describes the event of a Laser beam hitting an UnityEngine.Object.
     /// </summary>
     public class HitEventArgs : EventArgs
     {
@@ -36,8 +36,8 @@ namespace Core
         /// <summary>
         /// Initializes a new instance of the <see cref="HitEventArgs"/> class.
         /// </summary>
-        /// <param name="laser">The Laser beam that Hit the object, not null.</param>
-        /// <param name="point">The position where the Laser Hit the object.</param>
+        /// <param name="laser">The Laser beam that Hit the UnityEngine.Object, not null.</param>
+        /// <param name="point">The position where the Laser Hit the UnityEngine.Object.</param>
         /// <param name="normal">The normal of the surface that the Laser beam Hit.</param>
         /// <param name="receiver">The ILaserReceiver that got Hit.</param>
         public HitEventArgs(LaserBeam laser, Vector3 point, Vector3 normal, ILaserReceiver receiver)
@@ -54,7 +54,7 @@ namespace Core
         }
 
         /// <summary>
-        /// Gets the Laser beam that Hit the object.
+        /// Gets the Laser beam that Hit the UnityEngine.Object.
         /// </summary>
         public LaserBeam Laser { get; private set; }
 

@@ -15,7 +15,7 @@ using UnityEngine;
 public class ArrowKeyMove : MonoBehaviour
 {
     /// <summary>
-    /// The Speed with which to move the object.
+    /// The Speed with which to move the UnityEngine.Object.
     /// </summary>
     public const float Speed = 10f;
 

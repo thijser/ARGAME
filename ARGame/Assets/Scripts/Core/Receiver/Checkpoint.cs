@@ -14,7 +14,7 @@ namespace Core.Receiver
     using UnityEngine;
 
     /// <summary>
-    /// An object that verifies whether or not a laser beam has hit it.
+    /// An UnityEngine.Object that verifies whether or not a laser beam has hit it.
     /// All checkpoints have to be hit in order to beat the level.
     /// </summary>
     public class Checkpoint : MonoBehaviour, ILaserReceiver
@@ -56,7 +56,7 @@ namespace Core.Receiver
         }
 
         /// <summary>
-        /// Initialize by creating emitter object.
+        /// Initialize by creating emitter UnityEngine.Object.
         /// </summary>
         public void Start()
         {
@@ -78,7 +78,7 @@ namespace Core.Receiver
         /// passes through.
         /// </summary>
         /// <param name="sender">The sender of the event, ignored here.</param>
-        /// <param name="args">The EventArgs object that describes the event.</param>
+        /// <param name="args">The EventArgs UnityEngine.Object that describes the event.</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
             if (args == null)
@@ -88,7 +88,7 @@ namespace Core.Receiver
 
             if (!args.IsValid)
             {
-                throw new ArgumentException("The supplied HitEventArgs object is invalid.");
+                throw new ArgumentException("The supplied HitEventArgs UnityEngine.Object is invalid.");
             }
 
             // Create a new ray coming out of the other side with the same direction

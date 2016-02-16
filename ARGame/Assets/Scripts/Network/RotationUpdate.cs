@@ -10,7 +10,7 @@
 namespace Network
 {
     /// <summary>
-    /// An serverUpdate object that describes a changed rotation of a game object.
+    /// An serverUpdate UnityEngine.Object that describes a changed rotation of a game UnityEngine.Object.
     /// The rotation is caused by the remote player.
     /// </summary>
     public class RotationUpdate : AbstractUpdate 
@@ -29,14 +29,14 @@ namespace Network
         }
 
         /// <summary>
-        /// Gets the rotation if this serverUpdate object.
+        /// Gets the rotation if this serverUpdate UnityEngine.Object.
         /// </summary>
         public float Rotation { get; private set; }
 
         /// <summary>
-        /// Tests whether this RotationUpdate is equal to the given object
+        /// Tests whether this RotationUpdate is equal to the given UnityEngine.Object
         /// </summary>
-        /// <param name="obj">The object to test against.</param>
+        /// <param name="obj">The UnityEngine.Object to test against.</param>
         /// <returns>True if this RotationObject is equal to <c>obj</c>, false otherwise.</returns>
         public override bool Equals(object obj)
         {

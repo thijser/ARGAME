@@ -73,7 +73,7 @@ namespace Core.Receiver
         /// <summary>
         /// Consumes the Laser beam and loads the next level if the Target is fully opened.
         /// </summary>
-        /// <param name="sender">The object that sent this event</param>
+        /// <param name="sender">The UnityEngine.Object that sent this event</param>
         /// <param name="args">The arguments that describe the event</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
@@ -84,7 +84,7 @@ namespace Core.Receiver
 
             if (!args.IsValid)
             {
-                throw new ArgumentException("The supplied HitEventArgs object was invalid.");
+                throw new ArgumentException("The supplied HitEventArgs UnityEngine.Object was invalid.");
             }
 
             if (this.IsHitColorSufficient(args.Laser.Emitter.Properties.LaserColor))

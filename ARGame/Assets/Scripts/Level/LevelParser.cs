@@ -40,10 +40,10 @@ namespace Level
         }
 
         /// <summary>
-        /// Parse a level created with Tiled and the objects within.
+        /// Parse a level created with Tiled and the UnityEngine.Objects within.
         /// </summary>
         /// <param name="xml">XML representation of level as written by Tiled editor.</param>
-        /// <returns>Level descriptor and descriptors of objects within the level.</returns>
+        /// <returns>Level descriptor and descriptors of UnityEngine.Objects within the level.</returns>
         private static Level ParseLevel(string xml)
         {
             XmlDocument doc = new XmlDocument();
@@ -83,11 +83,11 @@ namespace Level
         }
 
         /// <summary>
-        /// Load objects from tiles in level exported to XML.
+        /// Load UnityEngine.Objects from tiles in level exported to XML.
         /// </summary>
         /// <param name="levelDoc">XML document of level.</param>
         /// <param name="level">Level descriptor returned by ParseLevelHeader.</param>
-        /// <returns>List of objects placed within level.</returns>
+        /// <returns>List of UnityEngine.Objects placed within level.</returns>
         private static ReadOnlyCollection<LevelObject> ParseLevelTiles(XmlDocument levelDoc, LevelProperties level)
         {
             int x = 0;
@@ -102,14 +102,14 @@ namespace Level
                 // Bug in Tiled where it sometimes outputs tiles with gid 1 as 0
                 gid = Math.Max(1, gid);
 
-                // Determine rotation of object
+                // Determine rotation of UnityEngine.Object
                 int rotation = ((gid - 1) / level.HorizontalTiles) * 45;
 
-                // Determine type of object
+                // Determine type of UnityEngine.Object
                 int rawType = (gid - 1) % level.HorizontalTiles;
                 TileType type = (TileType)rawType;
 
-                // Determine position of object in world coordinates
+                // Determine position of UnityEngine.Object in world coordinates
                 Vector2 pos = new Vector2(x, y);
 
                 if (type != TileType.Nothing)

@@ -58,7 +58,7 @@ namespace Core.Receiver
         /// Curves the incoming laser beam towards the crystal.
         /// </summary>
         /// <param name="sender">The sender of the event, ignored here.</param>
-        /// <param name="args">The EventArgs object that describes the event.</param>
+        /// <param name="args">The EventArgs UnityEngine.Object that describes the event.</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
             if (args == null)
@@ -68,7 +68,7 @@ namespace Core.Receiver
 
             if (!args.IsValid)
             {
-                throw new ArgumentException("The supplied HitEventArgs object was invalid.");
+                throw new ArgumentException("The supplied HitEventArgs UnityEngine.Object was invalid.");
             }
 
             Vector3 incomingDir = args.Laser.Direction;
@@ -102,9 +102,9 @@ namespace Core.Receiver
         }
 
         /// <summary>
-        /// Returns whether or not the object is hit by a laser beam.
+        /// Returns whether or not the UnityEngine.Object is hit by a laser beam.
         /// </summary>
-        /// <returns>True if the object is hit by a laser beam in the 
+        /// <returns>True if the UnityEngine.Object is hit by a laser beam in the 
         /// same frame, false otherwise.</returns>
         public bool IsHit()
         {

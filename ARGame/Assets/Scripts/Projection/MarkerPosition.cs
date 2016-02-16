@@ -47,7 +47,7 @@ namespace Projection
         /// <param name="position">The position.</param>
         /// <param name="rotation">The rotation.</param>
         /// <param name="stamp">The timestamp of the serverUpdate.</param>
-        /// <param name="scale">The scale of the object.</param>
+        /// <param name="scale">The scale of the UnityEngine.Object.</param>
         /// <param name="id">The Id of the Marker.</param>
         public MarkerPosition(Vector3 position, Quaternion rotation, DateTime stamp, Vector3 scale, int id)
         {

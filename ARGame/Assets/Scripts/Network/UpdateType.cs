@@ -15,12 +15,12 @@ namespace Network
     public enum UpdateType
     {
         /// <summary>
-        /// Indicates the position of the object is updated.
+        /// Indicates the position of the UnityEngine.Object is updated.
         /// </summary>
         UpdatePosition = 0,
 
         /// <summary>
-        /// Indicates the object is removed from the field.
+        /// Indicates the UnityEngine.Object is removed from the field.
         /// </summary>
         DeletePosition = 1,
 
@@ -30,7 +30,7 @@ namespace Network
         Ping = 2,
 
         /// <summary>
-        /// Indicates that the rotation of the object is updated.
+        /// Indicates that the rotation of the UnityEngine.Object is updated.
         /// </summary>
         UpdateRotation = 3,
 

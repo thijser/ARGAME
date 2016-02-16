@@ -14,7 +14,7 @@ namespace Core.Receiver
     using UnityEngine;
 
     /// <summary>
-    /// An object that splits the beam into a reflection and pass-through ray.
+    /// An UnityEngine.Object that splits the beam into a reflection and pass-through ray.
     /// </summary>
     public class BeamSplitter : MonoBehaviour, ILaserReceiver
     {
@@ -24,7 +24,7 @@ namespace Core.Receiver
         public MultiEmitter PassThroughEmitter { get; set; }
 
         /// <summary>
-        /// Initialize by creating emitter object.
+        /// Initialize by creating emitter UnityEngine.Object.
         /// </summary>
         public void Start()
         {
@@ -36,7 +36,7 @@ namespace Core.Receiver
         /// passes through.
         /// </summary>
         /// <param name="sender">The sender of the event, ignored here.</param>
-        /// <param name="args">The EventArgs object that describes the event.</param>
+        /// <param name="args">The EventArgs UnityEngine.Object that describes the event.</param>
         public void OnLaserHit(object sender, HitEventArgs args)
         {
             if (args == null)
@@ -46,7 +46,7 @@ namespace Core.Receiver
 
             if (!args.IsValid)
             {
-                throw new ArgumentException("The supplied HitEventArgs object is invalid.");
+                throw new ArgumentException("The supplied HitEventArgs UnityEngine.Object is invalid.");
             }
 
             // Create a new ray coming out of the other side with the same direction

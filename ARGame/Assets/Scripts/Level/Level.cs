@@ -22,7 +22,7 @@ namespace Level
         public readonly LevelProperties Properties;
 
         /// <summary>
-        /// List of objects within the level.
+        /// List of Objects within the level.
         /// </summary>
         public readonly ReadOnlyCollection<LevelObject> Objects;
 

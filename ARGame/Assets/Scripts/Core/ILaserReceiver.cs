@@ -10,7 +10,7 @@
 namespace Core
 {
     /// <summary>
-    /// An object that is manipulated by a Laser beam.
+    /// An UnityEngine.Object that is manipulated by a Laser beam.
     /// <para>
     /// Implementations of this class must extend from
     /// <c>MonoBehaviour</c> to work properly. Implementations
@@ -21,7 +21,7 @@ namespace Core
     public interface ILaserReceiver
     {
         /// <summary>
-        /// Called every time the object is Hit by a laser beam.
+        /// Called every time the UnityEngine.Object is Hit by a laser beam.
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="args">The event arguments.</param>

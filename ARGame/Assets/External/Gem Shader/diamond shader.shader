@@ -14,7 +14,7 @@ Shader "FX/Diamond"
 			"Queue" = "Transparent"
 		}
 		// First pass - here we render the backfaces of the diamonds. Since those diamonds are more-or-less
-		// convex objects, this is effectively rendering the inside of them
+		// convex Objects, this is effectively rendering the inside of them
 		Pass {
 			Color (0,0,0,0)
 			Offset  -1, -1
@@ -47,7 +47,7 @@ Shader "FX/Diamond"
 	// Older cards. Here we remove the bright specular highlight
 	SubShader {
 		// First pass - here we render the backfaces of the diamonds. Since those diamonds are more-or-less
-		// convex objects, this is effectively rendering the inside of them
+		// convex Objects, this is effectively rendering the inside of them
 		Pass {
 			Color (0,0,0,0)
 			Cull Front

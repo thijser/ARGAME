@@ -64,7 +64,7 @@ namespace Level
         /// <summary>
         /// Link all of the portals in pairs together.
         /// </summary>
-        /// <param name="levelObjects">Level objects containing portal pairs.</param>
+        /// <param name="levelObjects">Level Objects containing portal pairs.</param>
         private static void LinkPortals(ReadOnlyCollection<LevelObject> levelObjects)
         {
             GameObject[] portals = new GameObject[3];
@@ -147,10 +147,10 @@ namespace Level
         }
 
         /// <summary>
-        /// Constructs the game objects from objects within a level.
+        /// Constructs the game Objects from Objects within a level.
         /// </summary>
         /// <param name="level">Level descriptor.</param>
-        /// <param name="levelObjects">List of level objects.</param>
+        /// <param name="levelObjects">List of level Objects.</param>
         /// <returns>Parent GameObject that represents level.</returns>
         private GameObject ConstructLevel(LevelProperties level, ReadOnlyCollection<LevelObject> levelObjects)
         {

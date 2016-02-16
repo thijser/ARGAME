@@ -12,7 +12,7 @@ using UnityEngine;
 
 /// <summary>
 /// Behavior class that shuts down the application if a certain key is
-/// pressed. Add this to any game object to make it work.
+/// pressed. Add this to any game UnityEngine.Object to make it work.
 /// </summary>
 public class ShutdownBehaviour : MonoBehaviour
 {

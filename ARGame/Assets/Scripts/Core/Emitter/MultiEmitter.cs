@@ -134,8 +134,8 @@ namespace Core.Emitter
         /// Creates a new LaserEmitter that emits the same type of Laser beam
         /// as the provided one.
         /// <para>
-        /// The LaserEmitter is created as a separate game object and
-        /// added as a child of this game object.
+        /// The LaserEmitter is created as a separate game UnityEngine.Object and
+        /// added as a child of this game UnityEngine.Object.
         /// </para>
         /// <para>
         /// To save resources, it is recommended to call <see cref="MultiEmitter.GetEmitter"/>

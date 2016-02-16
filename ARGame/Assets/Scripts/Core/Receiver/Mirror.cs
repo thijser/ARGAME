@@ -39,7 +39,7 @@ namespace Core.Receiver
         /// in the reflected direction.
         /// </summary>
         /// <param name="sender">The sender of the event, ignored here.</param>
-        /// <param name="args">The EventArgs object that describes the event.</param>
+        /// <param name="args">The EventArgs UnityEngine.Object that describes the event.</param>
         public void OnLaserHit(object sender, HitEventArgs args) 
         {
             if (args == null) 

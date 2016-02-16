@@ -43,9 +43,9 @@ namespace Network
 
         /// <summary>
         /// Tests whether this <see cref="ARViewUpdate"/> is equal to the 
-        /// provided object.
+        /// provided UnityEngine.Object.
         /// </summary>
-        /// <param name="obj">The object to test against.</param>
+        /// <param name="obj">The UnityEngine.Object to test against.</param>
         /// <returns>True if this <see cref="ARViewUpdate"/> is equal to <c>obj</c>, false otherwise.</returns>
         public override bool Equals(object obj)
         {
@@ -61,7 +61,7 @@ namespace Network
         }
 
         /// <summary>
-        /// Returns a hash code for this object.
+        /// Returns a hash code for this UnityEngine.Object.
         /// </summary>
         /// <returns>The hash code.</returns>
         public override int GetHashCode()

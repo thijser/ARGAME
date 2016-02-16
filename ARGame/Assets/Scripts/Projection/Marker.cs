@@ -44,7 +44,7 @@ namespace Projection
         public MarkerPosition RemotePosition { get; set; }
 
         /// <summary>
-        /// Gets or sets the actual rotation of this object.
+        /// Gets or sets the actual rotation of this UnityEngine.Object.
         /// </summary>
         public float ObjectRotation { get; set; }
 

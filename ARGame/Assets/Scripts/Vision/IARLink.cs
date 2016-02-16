@@ -32,7 +32,7 @@ namespace Vision
         Collection<MarkerPosition> GetMarkerPositions();
 
         /// <summary>
-        /// Gets the scale by which objects need to be scaled to fit the
+        /// Gets the scale by which Objects need to be scaled to fit the
         /// AR glasses.
         /// </summary>
         /// <returns>The ARLink scale.</returns>

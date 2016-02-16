@@ -71,7 +71,7 @@ namespace Core.Emitter
 
             if (this.gameObject.GetComponent<LaserProperties>() == null)
             {
-                Debug.LogError("No LaserProperties object detected.");
+                Debug.LogError("No LaserProperties UnityEngine.Object detected.");
             }
 
             this.Enabled = true;

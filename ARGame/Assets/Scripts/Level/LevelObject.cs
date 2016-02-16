@@ -13,36 +13,36 @@ namespace Level
     using UnityEngine;
 
     /// <summary>
-    /// Description of object found in the level.
+    /// Description of UnityEngine.Object found in the level.
     /// </summary>
     public class LevelObject
     {
         /// <summary>
-        /// Type of object.
+        /// Type of UnityEngine.Object.
         /// </summary>
         public readonly TileType Type;
 
         /// <summary>
-        /// position of object in level coordinates.
+        /// position of UnityEngine.Object in level coordinates.
         /// </summary>
         public readonly Vector2 Position;
 
         /// <summary>
-        /// Rotation of object in level.
+        /// Rotation of UnityEngine.Object in level.
         /// </summary>
         public readonly float Rotation;
 
         /// <summary>
-        /// Gets or sets the game object instantiated from this level object.
+        /// Gets or sets the game UnityEngine.Object instantiated from this level UnityEngine.Object.
         /// </summary>
         public GameObject Instance { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelObject"/> class.
         /// </summary>
-        /// <param name="type">The <see cref="TileType"/> of the object.</param>
-        /// <param name="position">The position of the object in level coordinates.</param>
-        /// <param name="rotation">The rotation of the object in the level.</param>
+        /// <param name="type">The <see cref="TileType"/> of the UnityEngine.Object.</param>
+        /// <param name="position">The position of the UnityEngine.Object in level coordinates.</param>
+        /// <param name="rotation">The rotation of the UnityEngine.Object in the level.</param>
         public LevelObject(TileType type, Vector2 position, float rotation)
         {
             this.Type = type;
@@ -51,7 +51,7 @@ namespace Level
         }
 
         /// <summary>
-        /// Gets the pair Id of portal if this object is one.
+        /// Gets the pair Id of portal if this UnityEngine.Object is one.
         /// <para>
         /// This property is <c>-1</c> if this <see cref="LevelObject"/> is not 
         /// a portal.
@@ -84,9 +84,9 @@ namespace Level
         }
 
         /// <summary>
-        /// Check if this level object is a portal.
+        /// Check if this level UnityEngine.Object is a portal.
         /// </summary>
-        /// <returns>True if this level object is a portal entry or exit.</returns>
+        /// <returns>True if this level UnityEngine.Object is a portal entry or exit.</returns>
         public bool IsPortal()
         {
             return this.Type >= TileType.PortalEntryOne && this.Type <= TileType.PortalExitThree;

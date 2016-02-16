@@ -58,19 +58,19 @@ namespace Network
         public int NextLevelIndex { get; private set; }
 
         /// <summary>
-        /// Gets the hash code for this object.
+        /// Gets the hash code for this UnityEngine.Object.
         /// </summary>
-        /// <returns>The hash code for this object.</returns>
+        /// <returns>The hash code for this UnityEngine.Object.</returns>
         public override int GetHashCode()
         {
             return (this.GetType().GetHashCode() * this.NextLevelIndex) ^ this.Size.GetHashCode();
         }
 
         /// <summary>
-        /// Tests whether this object is equal to the argument.
+        /// Tests whether this UnityEngine.Object is equal to the argument.
         /// </summary>
-        /// <param name="obj">The object to test for equality.</param>
-        /// <returns>True if this object is equal to the argument, false otherwise.</returns>
+        /// <param name="obj">The UnityEngine.Object to test for equality.</param>
+        /// <returns>True if this UnityEngine.Object is equal to the argument, false otherwise.</returns>
         public override bool Equals(object obj)
         {
             if (obj == null || obj.GetType() != this.GetType())

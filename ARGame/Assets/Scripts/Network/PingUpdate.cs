@@ -12,7 +12,7 @@ namespace Network
     using System;
 
     /// <summary>
-    /// An serverUpdate object that describes a ping message,
+    /// An serverUpdate UnityEngine.Object that describes a ping message,
     /// causing the server to not time out.
     /// </summary>
     public class PingUpdate : AbstractUpdate
