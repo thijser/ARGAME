@@ -102,7 +102,7 @@ Changes:
 	• VectorLine.SetWidth has the same options as SetColor now. Namely, SetWidth(width) sets the entire line to the specified width, SetWidth(width, index) sets only the line segment indicated by the index to the specified width, and SetWidth(width, startIndex, endIndex) sets all the line segments from the start to the end indices to the specified width.
 
 Fixes:
-	• The last point in a VectorPoints UnityEngine.Object is colored correctly when using VectorLine.SetColors.
+	• The last point in a VectorPoints object is colored correctly when using VectorLine.SetColors.
 
 -----------
 
@@ -259,7 +259,7 @@ Changes:
 	• When using Joins.Fill, you no longer need to take into consideration whether the first and last points in the points array match, since that's handled automatically now. The first and last points can be made the same or different at any time, and it will always be drawn correctly.
 	• ZeroPoints (formerly ZeroPointsInLine) can use an end index in addition to a start index, so you can erase a range instead of always to the end of the points array.
 	• The LineMaker utility now has a button for loading previously-saved line files.
-	• The LineMaker utility will list the indices of any selected line segments, so you can use this info for things like setting certain colors for specific line segments in a vector UnityEngine.Object.
+	• The LineMaker utility will list the indices of any selected line segments, so you can use this info for things like setting certain colors for specific line segments in a vector object.
 
 Additions:
 	• VectorLine.drawStart and VectorLine.drawEnd for drawing sections of a line. This is different than minDrawIndex and maxDrawIndex, which are optimizations for updating only part of a line when the rest of it stays the same. In comparison, using drawStart and drawEnd actually draws the specified range and erases the rest of the line, so it can be used for things like animating part of a line (see the PartialLine example scene).
@@ -280,9 +280,9 @@ Fixes:
 Vectrosity 1.5
 
 Additions:
-	• Vector.MakeWireframeInLine, for making automatic wireframes from a mesh. Essentially the same as if you used the LineMaker utility on an UnityEngine.Object and clicked "Connect all points", except you can use it at runtime on arbitrary meshes. (Note: not animated meshes, sorry; that's impossible because the state of animated meshes can't be read in Unity.)
+	• Vector.MakeWireframeInLine, for making automatic wireframes from a mesh. Essentially the same as if you used the LineMaker utility on an object and clicked "Connect all points", except you can use it at runtime on arbitrary meshes. (Note: not animated meshes, sorry; that's impossible because the state of animated meshes can't be read in Unity.)
 	• Vector.DrawLineViewport, for drawing 2D lines with normalized viewport coordinates. This works like the coordinates for GUIText and GUITexture, where (0.0, 0.0) is the lower-left corner, and (1.0, 1.0) is the upper-right corner. This means lines drawn with DrawLineViewport will be in the same relative position regardless of screen resolution. e.g, using [Vector2(.5, .5), Vector2(1.0, .5)] will always result in a line that starts in the middle of the screen and ends at the right edge.
-	• Vector.GetLinePoint and Vector.GetLinePoint3D, for getting a position on a 2D or 3D line based on length. Can be used for things like making an UnityEngine.Object travel along a spline at a constant speed.
+	• Vector.GetLinePoint and Vector.GetLinePoint3D, for getting a position on a 2D or 3D line based on length. Can be used for things like making an object travel along a spline at a constant speed.
 	• Vector.GetLinePoint01 and Vector.GetLinePoint3D01: as above, but you can use a 0..1 percentage length instead of unit length. e.g., using 0.5 returns a point halfway along the line.
 	• Vector.GetLineLength, which returns the total length of a given line.
 	• Vector.SetLineDistances: use this if you've changed the position of any points in a VectorLine after using GetLineLength, GetLinePoint, etc. and want to use those functions again. For performance reasons this isn't done automatically.
@@ -297,7 +297,7 @@ Changes:
 
 Fixes:
 	• Vector.DestroyLine works with VectorPoints again.
-	• Rotation and scale for Objects used with the LineMaker utility is properly respected when generating lines.
+	• Rotation and scale for objects used with the LineMaker utility is properly respected when generating lines.
 
 -----------
 
@@ -335,7 +335,7 @@ Changes:
 	• Vector.SetDepth only works for standard transforms now, not VectorLines. To set the depth of a line, use VectorLine.depth instead. e.g., "myLine.depth = 10;".
 	• Vector.DestroyLine and Vector.DestroyObject require "ref" to be used with VectorLines when used with C# now. e.g., "Vector.DestroyLine(ref myLine);"
 	• The BoundsMaker editor script is no more. The invisible bounds meshes it made are now created automatically as necessary. If you've made any bounds meshes, you can delete them since they're not used anymore. If you want a GameObject to use a standard mesh and not have it be replaced with a bounds mesh, add "false" to the end of the parameters when using ObjectSetup.
-	• It's no longer necessary to attach the VectorManager script to an UnityEngine.Object in the scene in order to use VectorManager functions. If you're upgrading from an older version and you have VectorManager attached to an UnityEngine.Object, you should remove it.
+	• It's no longer necessary to attach the VectorManager script to an object in the scene in order to use VectorManager functions. If you're upgrading from an older version and you have VectorManager attached to an object, you should remove it.
 	• Joins.Open is removed; use Joins.None instead...it was kind of silly having two enum values that did the same thing. Along the same lines, Visibility.NotControlled is removed (use Visibility.None) along with Brightness.Normal (use Brightness.None). 
 	• Vector.SetColor and Vector.SetColors can now be used even if the line wasn't created with colors originally.
 	• VectorPoints can be made with Vector3 arrays now.
@@ -371,10 +371,10 @@ Changes:
 	• Some miscellaneous minor speedups; line drawing is 2-5% faster depending on the function.
 	• VectorLine.vertexColors changed to VectorLine.lineColors, to make it consistent with lineVertices and lineUVs.
 	• Improved documentation.
-	• Simpler handling for 3D vector Objects using VectorManager functions, thanks to OnDestroy in Unity 3.2.
+	• Simpler handling for 3D vector objects using VectorManager functions, thanks to OnDestroy in Unity 3.2.
 
 Fixes:
-	• VisibilityControlStatic accounts for rotated Objects now.
+	• VisibilityControlStatic accounts for rotated objects now.
 
 -----------
 
@@ -402,12 +402,12 @@ Additions:
 	• Vector.MakeCurveInLine for bezier curves.
 	• Vector.SetTextureScale for setting a uniform texture scale, useful for dotted/dashed/etc. lines.
 	• Vector.ResetTextureScale in case you want to reset the line UVs back to normal after using SetTextureScale.
-	• Vector.DrawLine3D for drawing 3D vector lines in 3D space, where they can be occluded by 3D Objects.
+	• Vector.DrawLine3D for drawing 3D vector lines in 3D space, where they can be occluded by 3D objects.
 	• Vector.SetCamera3D for setting up the camera exclusively for 3D lines. In this case the standard vector camera is not used.
 	• Vector.SetLayer for setting the layer of 3D lines, in case you're using SetCamera instead of SetCamera3D because you want to mix normal lines with 3D lines.
 	• Vector.SetVectorCamDepth for setting the depth of the vector camera (surprise!).  Rather than setting Vector.cam.depth, since Vector.cam is now private.
 	• VectorManager.useDrawLine3D variable for telling VectorManager whether it should use DrawLine3D or not.
-	• VectorManager.DestroyObject for destroying 3D vectorline Objects.
+	• VectorManager.DestroyObject for destroying 3D vectorline objects.
 	• Some new example scripts in the VectrosityDemos package.
 
 Changes:

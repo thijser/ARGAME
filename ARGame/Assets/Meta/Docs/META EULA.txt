@@ -58,12 +58,12 @@ External Service requires Internet access and use of certain External Service re
 accept additional terms.
 
 You understand that by using any of the External Service, you may encounter content 
-that may be deemed offensive, indecent, or Objectionable, which content may or may not 
+that may be deemed offensive, indecent, or objectionable, which content may or may not 
 be identified as having explicit language, and that the results of any search or entering 
 of a particular URL may automatically and unintentionally generate links or references to 
 objectionable material. Nevertheless, you agree to use the External Service at your sole risk 
 and that neither the Licensor nor its agents shall have any liability to you for content that may 
-be found to be offensive, indecent, or Objectionable.
+be found to be offensive, indecent, or objectionable.
 
 Certain External Service may display, include or make available content, data, information, 
 applications or materials from third parties ("Third Party Materials") or provide links to certain 
