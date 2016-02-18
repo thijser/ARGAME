@@ -81,6 +81,8 @@ namespace Level
         /// <param name="index">The index of the level to load.</param>
         public void LoadLevel(int index)
         {
+            GetComponent<Logger>().NewLevel();
+
             Debug.Log("loading level : " + index);
             if (this.level != null)
             {
