@@ -13,6 +13,9 @@ public class Logger : MonoBehaviour {
     private LevelManager levelManager = null;
     private RemoteMarkerHolder markerHolder = null;
 
+    private Dictionary<int, DateTime> timeKeeper = new Dictionary<int, DateTime>();
+    private Dictionary<int, Vector2> positionKeeper = new Dictionary<int, Vector2>();
+
     public void Start() {
         Debug.Log("Starting logger.");
 
@@ -23,7 +26,22 @@ public class Logger : MonoBehaviour {
     }
 
     public void OnPositionUpdate(PositionUpdate update) {
-        WriteLog(string.Format("marker #{0} moved to ({1}, {2}) (rotation = {3})", update.Id, update.Coordinate.x, update.Coordinate.y, update.Rotation));
+        int updateID = update.Id;
+        if (timeKeeper.ContainsKey(updateID) && positionKeeper.ContainsKey(updateID))
+        {
+            TimeSpan span = DateTime.Now - timeKeeper[updateID];
+            Vector2 movement = positionKeeper[updateID] - update.Coordinate;
+            if (span.Seconds > 1 && Math.Abs(movement.x) > 1 && Math.Abs(movement.y) > 1)
+            {
+                WriteLog(string.Format("marker #{0} moved to position = ({1}, {2}), rotation = {3}", update.Id, update.Coordinate.x, update.Coordinate.y, update.Rotation));
+            }
+        }
+        else
+        {
+            positionKeeper.Add(updateID, update.Coordinate);
+            timeKeeper.Add(updateID, DateTime.Now);
+            WriteLog(string.Format("marker #{0} registered, position = ({1}, {2}), rotation = {3}", update.Id, update.Coordinate.x, update.Coordinate.y, update.Rotation));
+        }
     }
 
     public void OnRotationUpdate(RotationUpdate update) {
