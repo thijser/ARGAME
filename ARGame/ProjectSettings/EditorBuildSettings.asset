@@ -5,9 +5,11 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/StartUpGUI.unity
   - enabled: 1
     path: Assets/Scenes/LocalPlayer.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RemotePlayer.unity
+  - enabled: 0
+    path: Assets/Meta/Apps/Meta SDK Guide/Meta SDK Guide.unity
