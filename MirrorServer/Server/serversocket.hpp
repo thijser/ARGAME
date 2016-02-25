@@ -188,10 +188,11 @@ public slots:
     /**
      * @brief Sends a LevelUpdate message to all clients.
      * @param levelIndex - The index of the next level.
+     * @param levelTime - Time spent on the previous level.
      * @param boardSize  - The board size.
      * @param filter     - Callback for determining which sockets to send to.
      */
-    void broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize, std::function<bool(QTcpSocket*)> filter = [](QTcpSocket*){ return true; });
+    void broadcastLevelUpdate(int levelIndex, int levelTime, cv::Size2f boardSize, std::function<bool(QTcpSocket*)> filter = [](QTcpSocket*){ return true; });
 
     /**
      * @brief Sends an ARViewUpdate message to all clients.

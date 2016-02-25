@@ -18,6 +18,7 @@ ServerController::ServerController(QObject *parent)
       detectorTimer(new QTimer(this)),
       serverState(Idle),
       currentLevel(0),
+      lastLevelChange(0),
       server(new QHttpServer)
 {
 
@@ -62,11 +63,16 @@ void ServerController::sendBoard(QHttpRequest* req, QHttpResponse* resp) {
 }
 
 void ServerController::handleNewClient(QTcpSocket* newClient) {
+    // If this is the first client, initialize the level change time
+    if (lastLevelChange == 0) {
+        lastLevelChange = time(NULL);
+    }
+
     auto newClientFilter = [&](QTcpSocket* client) {
         return client->peerPort() == newClient->peerPort();
     };
 
-    sock->broadcastLevelUpdate(currentLevel, trackerManager->scaledBoardSize(), newClientFilter);
+    sock->broadcastLevelUpdate(currentLevel, 0, trackerManager->scaledBoardSize(), newClientFilter);
 
     for (auto& pair : mirrorRotations) {
         sock->broadcastRotationUpdate(pair.first, pair.second, newClientFilter);
@@ -133,8 +139,13 @@ void ServerController::stopServer() {
 void ServerController::changeLevel(int nextLevel) {
     if (nextLevel != currentLevel) {
         cv::Size2f boardSize(trackerManager->scaledBoardSize());
-        sock->broadcastLevelUpdate(nextLevel, boardSize);
+        int levelTime = time(NULL) - lastLevelChange;
+
+        sock->broadcastLevelUpdate(nextLevel, levelTime, boardSize);
+
         currentLevel = nextLevel;
+        lastLevelChange = time(NULL);
+
         emit levelChanged(nextLevel);
     }
 }

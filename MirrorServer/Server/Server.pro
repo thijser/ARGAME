@@ -43,8 +43,8 @@ OPENCV_PATH = $$(OPENCV_HOME)
 isEmpty(OPENCV_PATH) {
     error(OPENCV_HOME is not defined. Set OPENCV_HOME to point to the OpenCV home directory)
 }
-win32_debug: OPENCV_SUFFIX = 300d
-else:win32:  OPENCV_SUFFIX = 300
+win32_debug: OPENCV_SUFFIX = 310d
+else:win32:  OPENCV_SUFFIX = 310
 
 LIBS += -L$$OPENCV_PATH/lib \
         -lopencv_core$$OPENCV_SUFFIX \

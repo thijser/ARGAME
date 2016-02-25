@@ -85,12 +85,13 @@ void ServerSocket::broadcastRotationUpdate(int id, float rotation, std::function
     broadcastBytes(bytes, filter);
 }
 
-void ServerSocket::broadcastLevelUpdate(int levelIndex, cv::Size2f boardSize, std::function<bool(QTcpSocket*)> filter) {
+void ServerSocket::broadcastLevelUpdate(int levelIndex, int levelTime, cv::Size2f boardSize, std::function<bool(QTcpSocket*)> filter) {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
     stream << (qint8) 4
            << (qint32) levelIndex
+           << (qint32) levelTime
            << boardSize.width
            << boardSize.height;
 

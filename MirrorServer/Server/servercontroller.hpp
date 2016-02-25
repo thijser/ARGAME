@@ -251,6 +251,9 @@ private:
     /// The current level.
     int currentLevel;
 
+    /// Timestamp of last level change
+    int lastLevelChange;
+
     /// The current mirror rotations.
     std::map<int, float> mirrorRotations;
 
