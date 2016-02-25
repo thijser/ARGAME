@@ -213,7 +213,7 @@ namespace Level
             {
                 RemoteMarker remoteMarker = levelMarker.AddComponent<RemoteMarker>();
                 remoteMarker.Id = LevelMarkerID;
-                remoteMarker.ScaleFactor = 8f;
+                remoteMarker.ScaleFactor = 1f;
                 GameObject.Find("RemoteController")
                             .GetComponent<RemoteMarkerHolder>()
                             .AddMarker(remoteMarker as RemoteMarker);
@@ -237,7 +237,7 @@ namespace Level
             marker.RemotePosition = new MarkerPosition(update);
 
             // Due to a scaling issue, the scale of the level should be 8 times as large as the scale of a marker.
-            marker.RemotePosition.Scale = 8 * Vector3.one;
+            marker.RemotePosition.Scale = Vector3.one;
 
             return marker;
         }

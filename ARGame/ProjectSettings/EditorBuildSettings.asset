@@ -12,4 +12,4 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/RemotePlayer.unity
   - enabled: 0
-    path: Assets/Meta/Apps/Meta SDK Guide/Meta SDK Guide.unity
+    path: Assets/Meta/Examples/Scenes/MarkerTrackerExample.unity

@@ -17,11 +17,6 @@ namespace Projection
     public class RemoteMarker : Marker
     {
         /// <summary>
-        /// The scale vector to use.
-        /// </summary>
-        private Vector3 scaleVector;
-        
-        /// <summary>
         /// Gets or sets the scale factor to apply.
         /// </summary>
         public float ScaleFactor { get; set; }
@@ -33,7 +28,7 @@ namespace Projection
         {
             if (this.ScaleFactor == 0)
             {
-                this.ScaleFactor = 2f;
+                this.ScaleFactor = 0.25f;
             }
         }
 
@@ -45,7 +40,7 @@ namespace Projection
         {
             if (this.RemotePosition != null)
             {
-                this.RemotePosition.Scale = this.ScaleFactor * new Vector3(1, 1, 1);
+                this.RemotePosition.Scale = this.ScaleFactor * Vector3.one;
             }
 
             base.UpdatePosition(Matrix4x4.Scale(new Vector3(1, 1, -1)) * transformMatrix);

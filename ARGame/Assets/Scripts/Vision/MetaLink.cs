@@ -10,6 +10,7 @@
 namespace Vision
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Meta;
     using Projection;
@@ -24,7 +25,7 @@ namespace Vision
         /// <summary>
         /// The scale of the Meta glasses with respect to the world.
         /// </summary>
-        public const float MetaScale = 0.0057f;
+        public const float MetaScale = 0.056f;
 
         /// <summary>
         /// Offset of Meta One positions with respect to the marker center.
@@ -90,7 +91,8 @@ namespace Vision
             this.EnsureMeta();
             Collection<MarkerPosition> list = new Collection<MarkerPosition>();
 
-            foreach (int id in this.markerDetector.updatedMarkerTransforms)
+            List<int> updates = this.markerDetector.updatedMarkerTransforms;
+            foreach (int id in updates)
             {
                 this.markerDetector.GetMarkerTransform(id, ref this.lamb);
                 MarkerPosition pos = new MarkerPosition(
