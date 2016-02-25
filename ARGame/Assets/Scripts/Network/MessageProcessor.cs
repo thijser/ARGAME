@@ -131,16 +131,17 @@ namespace Network
                 throw new ArgumentOutOfRangeException("buffer", buffer, "The buffer is not long enough to contain a message of the specified length.");
             }
 
-            if (length < 12)
+            if (length < 16)
             {
                 return null;
             }
 
             int index = MessageProcessor.ReadInt32(buffer, 0);
-            float width = MessageProcessor.ReadSingle(buffer, 4);
-            float height = MessageProcessor.ReadSingle(buffer, 8);
-
-            return new LevelUpdate(index, new Vector2(width, height));
+            int time = MessageProcessor.ReadInt32(buffer, 4);
+            float width = MessageProcessor.ReadSingle(buffer, 8);
+            float height = MessageProcessor.ReadSingle(buffer, 12);
+            
+            return new LevelUpdate(index, new Vector2(width, height), time);
         }
 
         /// <summary>
