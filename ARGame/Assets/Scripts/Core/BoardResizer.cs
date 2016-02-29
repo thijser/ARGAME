@@ -35,7 +35,7 @@ namespace Core
         /// <returns>True if the board size was updated, false if no board was found.</returns>
         public IEnumerator UpdateBoardSize(Vector2 size)
         {
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
             Transform board = this.GetComponentInChildren<Board>().transform.parent;
             if (board != null)
             {
