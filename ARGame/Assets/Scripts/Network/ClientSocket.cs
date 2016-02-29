@@ -212,7 +212,7 @@ namespace Network
                     received = this.socket.Receive(this.buffer, 8, SocketFlags.None);
                     return MessageProcessor.ReadUpdateRotation(this.buffer, received);
                 case UpdateType.UpdateLevel:
-                    received = this.socket.Receive(this.buffer, 12, SocketFlags.None);
+                    received = this.socket.Receive(this.buffer, 16, SocketFlags.None);
                     return MessageProcessor.ReadUpdateLevel(this.buffer, received);
                 case UpdateType.UpdateARView:
                     received = this.socket.Receive(this.buffer, 28, SocketFlags.None);
