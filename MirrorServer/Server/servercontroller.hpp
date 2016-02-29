@@ -86,6 +86,19 @@ public:
      */
     void setDebugOverlay(bool enable);
 
+    /**
+     * @brief Get the id of the current level.
+     * @return Id of the current level.
+     */
+    int getCurrentLevel();
+
+    /**
+     * @brief Get the time in seconds that the current level
+     * has been played.
+     * @return Current level time in seconds.
+     */
+    int getLevelTime();
+
 signals:
     /**
      * @brief Signal emitted when the board has been detected.

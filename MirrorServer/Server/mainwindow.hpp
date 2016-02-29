@@ -80,10 +80,27 @@ public slots:
     void stopServer();
 
     /**
+     * @brief Force the level to be changed to the user
+     * specified level.
+     */
+    void forceChangeLevel();
+
+    /**
+     * @brief Compare the entered level with the current
+     * level and reflect this in the change button.
+     */
+    void checkLevelEntry();
+
+    /**
      * @brief Updates the level index shown on the UI.
      * @param level - The new level index.
      */
     void updateLevel(int level);
+
+    /**
+     * @brief Updates the level time in the UI.
+     */
+    void updateLevelTime();
 private:
     /**
      * @brief Enables or disables the server configuration options.
@@ -99,6 +116,9 @@ private:
 
     /// The Error message dialog used to queue and show error messages.
     QErrorMessage *errorDialog;
+
+    /// Timer to update current level time.
+    QTimer *updateLevelTimer;
 };
 
 }

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>824</width>
-    <height>518</height>
+    <height>538</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -251,13 +251,20 @@
            </widget>
           </item>
           <item row="3" column="0">
+           <widget class="QLabel" name="levelLabel">
+            <property name="text">
+             <string>Current Level:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
            <widget class="QLabel" name="debugLabel">
             <property name="text">
              <string>Debug overlay:</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
+          <item row="5" column="1">
            <widget class="QCheckBox" name="debugCheck">
             <property name="text">
              <string>Enable</string>
@@ -270,28 +277,14 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="levelLabel">
-            <property name="text">
-             <string>Current Level:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLabel" name="level">
-            <property name="text">
-             <string>0</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
+          <item row="6" column="0">
            <widget class="QLabel" name="clientsLabel">
             <property name="text">
              <string>Clients:</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
+          <item row="6" column="1">
            <widget class="QTableWidget" name="clientsTable">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -331,6 +324,50 @@
             </attribute>
             <column/>
             <column/>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLineEdit" name="level">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="changeLevelButton">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>90</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Change level</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="labelTime">
+            <property name="text">
+             <string>Current Time:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLabel" name="time">
+            <property name="text">
+             <string>0</string>
+            </property>
            </widget>
           </item>
          </layout>

@@ -6,13 +6,15 @@
 #include <QDialog>
 #include <QErrorMessage>
 #include <QHostAddress>
+#include <QTime>
 
 namespace mirrors {
 
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::MainWindow),
-        errorDialog(new QErrorMessage()) {
+        errorDialog(new QErrorMessage()),
+        updateLevelTimer(new QTimer()) {
     ui->setupUi(this);
 
     connect(ui->startButton, SIGNAL(clicked(bool)),
@@ -21,6 +23,14 @@ MainWindow::MainWindow(QWidget *parent) :
             this,            SLOT(stopServer()));
     connect(ui->debugCheck,  SIGNAL(clicked(bool)),
             this,            SLOT(setDebugOverlay(bool)));
+    connect(ui->changeLevelButton, SIGNAL(clicked(bool)),
+            this,            SLOT(forceChangeLevel()));
+    connect(ui->level, SIGNAL(textEdited(QString)),
+            this,            SLOT(checkLevelEntry()));
+    connect(this->updateLevelTimer, SIGNAL(timeout()),
+            this,            SLOT(updateLevelTime()));
+
+    updateLevelTimer->start(500);
 
     // Set the port number LineEdit to only accept numbers in
     // the range 0-65536
@@ -38,6 +48,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->camHeight->setValidator(sizeValidator);
     ui->camWidth->setValidator(sizeValidator);
 
+    // Set the level number LineEdit to only accept numbers
+    ui->level->setValidator(new QIntValidator(0, 256, this));
+
     // Enable configuration and set proper constraints for
     // a disabled server state.
     setConfigEnabled(true);
@@ -46,6 +59,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QStringList labels;
     labels << "IP Address" << "ID";
     ui->clientsTable->setHorizontalHeaderLabels(labels);
+}
+
+void MainWindow::updateLevelTime() {
+    QTime t(0, 0, 0);
+    t.addSecs(controller->getLevelTime());
+    ui->time->setText(t.toString());
 }
 
 MainWindow::~MainWindow() {
@@ -58,6 +77,19 @@ void MainWindow::setController(ServerController *controller) {
 
 void MainWindow::setDebugOverlay(bool enable) {
     this->controller->setDebugOverlay(enable);
+}
+
+void MainWindow::forceChangeLevel() {
+    // Already guaranteed to be an integer
+    int levelId = ui->level->text().toInt();
+    controller->changeLevel(levelId);
+}
+
+void MainWindow::checkLevelEntry() {
+    int levelId = ui->level->text().toInt();
+    int currentLevel = controller->getCurrentLevel();
+
+    ui->changeLevelButton->setEnabled(levelId != currentLevel);
 }
 
 void MainWindow::startServer() {
@@ -142,6 +174,7 @@ void MainWindow::stopServer() {
 
 void MainWindow::updateLevel(int level) {
     ui->level->setText(QString::number(level));
+    checkLevelEntry();
 }
 
 void MainWindow::setConfigEnabled(bool enabled) {
@@ -154,6 +187,14 @@ void MainWindow::setConfigEnabled(bool enabled) {
     ui->cornerChoiceRed->setEnabled(enabled);
     ui->cornerChoiceRedYellow->setEnabled(enabled);
     ui->emptyBoardCheck->setEnabled(enabled);
+
+    ui->level->setEnabled(!enabled);
+
+    if (enabled) {
+        ui->changeLevelButton->setEnabled(false);
+    } else {
+        checkLevelEntry();
+    }
 
     if (enabled) {
         ui->image->setText(tr("Server stopped.\n\nClick the \"Start Server\" button."));

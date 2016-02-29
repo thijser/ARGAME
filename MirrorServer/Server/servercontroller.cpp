@@ -136,6 +136,19 @@ void ServerController::stopServer() {
     emit levelChanged(currentLevel);
 }
 
+int ServerController::getLevelTime() {
+    // lastLevelChange is 0 when no players have joined yet
+    if (lastLevelChange == 0) {
+        return 0;
+    } else {
+        return time(NULL) - lastLevelChange;
+    }
+}
+
+int ServerController::getCurrentLevel() {
+    return currentLevel;
+}
+
 void ServerController::changeLevel(int nextLevel) {
     if (nextLevel != currentLevel) {
         cv::Size2f boardSize(trackerManager->scaledBoardSize());
