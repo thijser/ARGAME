@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::updateLevelTime() {
     QTime t(0, 0, 0);
-    t.addSecs(controller->getLevelTime());
+    t = t.addSecs(controller->getLevelTime());
     ui->time->setText(t.toString());
 }
 

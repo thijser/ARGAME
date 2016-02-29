@@ -133,6 +133,7 @@ void ServerController::stopServer() {
 
     mirrorRotations.clear();
     currentLevel = 0;
+    lastLevelChange = 0;
     emit levelChanged(currentLevel);
 }
 
