@@ -4,22 +4,23 @@
     public class WinScreen : MonoBehaviour {
         public readonly float TransitionTime = 5;
 
-        private TextMesh MainText;
-        private TextMesh SubText;
-        private Camera OrthoCamera;
+        public TextMesh MainText { get; private set; }
+        public TextMesh SubText { get; private set; }
+        public Camera OrthoCamera { get; private set; }
 
-        private bool ShowingWinScreen;
-        private float ;
-        private int 
+        public bool ShowingWinScreen
+        {
+            get { return this.OrthoCamera.enabled; }
+        }
 
         public void Start() {
-            MainText = transform.Find("MainText").GetComponent<TextMesh>();
-            SubText = transform.Find("SubText").GetComponent<TextMesh>();
+            this.MainText = transform.Find("MainText").GetComponent<TextMesh>();
+            this.SubText = transform.Find("SubText").GetComponent<TextMesh>();
 
-            OrthoCamera = transform.Find("Camera").GetComponent<Camera>();
+            this.OrthoCamera = transform.Find("Camera").GetComponent<Camera>();
 
             // Initially don't draw the win screen
-            OrthoCamera.enabled = false;
+            this.OrthoCamera.enabled = false;
         }
 
         public void FinishLevel(int timeSpent, int nextLevel) {
