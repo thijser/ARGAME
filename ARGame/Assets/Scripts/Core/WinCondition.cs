@@ -73,7 +73,7 @@ namespace Core
 
             if (win)
             {
-                this.SendMessageUpwards("OnLevelCompleted", new LevelUpdate(this.levelManager.CurrentLevelIndex + 1, Vector2.one));
+                this.SendMessageUpwards("OnLevelCompleted", new LevelUpdate(this.levelManager.CurrentLevelIndex + 1, Vector2.one, 0));
             }
         }
     }

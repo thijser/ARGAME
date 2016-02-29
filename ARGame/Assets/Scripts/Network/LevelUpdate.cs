@@ -25,11 +25,12 @@ namespace Network
         /// </summary>
         /// <param name="index">The index of the next level.</param>
         /// <param name="size">The new size of the board.</param>
+        /// <param name="time">The time it took to beat the previous level, in seconds.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// If one of the values in the supplied <see cref="Vector2"/> is not positive,
-        /// or if the supplied level index is not positive.
+        /// or if the supplied level index or time is not positive.
         /// </exception>
-        public LevelUpdate(int index, Vector2 size)
+        public LevelUpdate(int index, Vector2 size, int time)
         {
             this.Type = UpdateType.UpdateLevel;
             this.Id = -1;
@@ -43,8 +44,14 @@ namespace Network
                 throw new ArgumentOutOfRangeException("index", index, "The index of the next level must be a positive integer.");
             }
 
+            if (time < 0)
+            {
+                throw new ArgumentOutOfRangeException("time", time, "The time taken must be a positive integer.");
+            }
+
             this.Size = size;
             this.NextLevelIndex = index;
+            this.TimeTaken = time;
         }
 
         /// <summary>
@@ -56,6 +63,11 @@ namespace Network
         /// Gets the index of the next level.
         /// </summary>
         public int NextLevelIndex { get; private set; }
+
+        /// <summary>
+        /// Gets the time it took to beat the previous level.
+        /// </summary>
+        public int TimeTaken { get; private set; }
 
         /// <summary>
         /// Gets the hash code for this object.
