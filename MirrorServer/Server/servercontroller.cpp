@@ -19,7 +19,7 @@ ServerController::ServerController(QObject *parent)
       serverState(Idle),
       currentLevel(0),
       lastLevelChange(0),
-      server(new QHttpServer)
+      server(nullptr)
 {
 
     connect(this, SIGNAL(markersUpdated(vector<MarkerUpdate>)),
@@ -123,6 +123,7 @@ void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camS
             this,          SLOT(detectBoard()));
 
     // Start server that broadcasts board image
+    server = new QHttpServer;
     server->listen(port + 1);
 }
 
@@ -130,6 +131,7 @@ void ServerController::stopServer() {
     Q_ASSERT(serverState == Started || serverState == Starting);
     changeState(Stopping);
     sock->stop();
+    server->deleteLater();
 
     mirrorRotations.clear();
     currentLevel = 0;
