@@ -32,20 +32,29 @@
 
         public void OnPositionUpdate(PositionUpdate update)
         {
+            if (update.Type != UpdateType.UpdatePosition && update.Type != UpdateType.UpdateRotation) return;
+
             int updateID = update.Id;
             if (timeKeeper.ContainsKey(updateID) && positionKeeper.ContainsKey(updateID))
             {
                 TimeSpan span = DateTime.Now - timeKeeper[updateID];
                 Vector2 movement = positionKeeper[updateID] - update.Coordinate;
-                if (span.Seconds > 1 && Math.Abs(movement.x) > 1 && Math.Abs(movement.y) > 1)
+
+                float dist = Mathf.Sqrt(movement.x * movement.x + movement.y * movement.y);
+
+                if (span.Seconds > 1 && dist > 0.1)
                 {
                     WriteLog(string.Format("marker #{0} moved to position = ({1}, {2}), rotation = {3}", update.Id, update.Coordinate.x, update.Coordinate.y, update.Rotation));
+
+                    positionKeeper[updateID] = update.Coordinate;
+                    timeKeeper[updateID] = DateTime.Now;
                 }
             }
             else
             {
-                positionKeeper.Add(updateID, update.Coordinate);
-                timeKeeper.Add(updateID, DateTime.Now);
+                positionKeeper[updateID] = update.Coordinate;
+                timeKeeper[updateID] = DateTime.Now;
+
                 WriteLog(string.Format("marker #{0} registered, position = ({1}, {2}), rotation = {3}", update.Id, update.Coordinate.x, update.Coordinate.y, update.Rotation));
             }
         }
