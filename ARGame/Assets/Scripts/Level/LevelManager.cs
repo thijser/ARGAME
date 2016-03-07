@@ -12,6 +12,7 @@ namespace Level
     using System.Text.RegularExpressions;
     using Network;
     using UnityEngine;
+    using Logger = Core.Logger;
 
     /// <summary>
     /// Manages loading and changing of levels.
