@@ -14,9 +14,6 @@
         private StreamWriter logWriter = null;
         private DateTime levelStartTime;
 
-        private LevelManager levelManager = null;
-        private RemoteMarkerHolder markerHolder = null;
-
         private Dictionary<int, DateTime> timeKeeper = new Dictionary<int, DateTime>();
         private Dictionary<int, Vector2> positionKeeper = new Dictionary<int, Vector2>();
 
@@ -25,9 +22,6 @@
             Debug.Log("Starting logger.");
 
             Directory.CreateDirectory("logs");
-
-            levelManager = GetComponent<LevelManager>();
-            markerHolder = GetComponent<RemoteMarkerHolder>();
         }
 
         public void OnPositionUpdate(PositionUpdate update)
@@ -72,20 +66,21 @@
             }
         }
 
-        public void NewLevel()
+        public void NewLevel(int oldLevel, int newLevel)
         {
+            // Ignore level finish of first level change (initialization)
             if (logWriter != null)
             {
                 TimeSpan playTime = DateTime.Now - levelStartTime;
-                WriteLog("Finished playthrough of level #" + levelManager.CurrentLevelIndex + " after " + playTime.ToString());
+                WriteLog("Finished playthrough of level #" + oldLevel + " after " + playTime.ToString());
             }
 
             Debug.Log("Logging playthough of a new level...");
 
             int unixTimestamp = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            logWriter = new StreamWriter("logs/level_" + levelManager.CurrentLevelIndex + "_playthrough_" + unixTimestamp + ".txt");
+            logWriter = new StreamWriter("logs/level_" + newLevel + "_playthrough_" + unixTimestamp + ".txt");
 
-            WriteLog("Started new playthrough of level #" + levelManager.CurrentLevelIndex);
+            WriteLog("Started new playthrough of level #" + newLevel);
             levelStartTime = DateTime.Now;
         }
     }
