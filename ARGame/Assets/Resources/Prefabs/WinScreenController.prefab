@@ -27,7 +27,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 477774}
-  - 114: {fileID: 11411390}
   m_Layer: 0
   m_Name: WinScreenController
   m_TagString: Untagged
@@ -45,7 +44,7 @@ GameObject:
   - 4: {fileID: 453358}
   - 23: {fileID: 2394746}
   - 102: {fileID: 10242570}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SubText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +61,7 @@ GameObject:
   - 4: {fileID: 405478}
   - 23: {fileID: 2348750}
   - 102: {fileID: 10287900}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: MainText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +75,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 111464}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7528411, y: 1.1960952, z: -6.70627}
+  m_LocalPosition: {x: 0.7528411, y: 1.1960952, z: -8.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 477774}
@@ -111,8 +110,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 153008}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7528411, y: -1.1960952, z: 6.70627}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
+  m_LocalPosition: {x: -28.49, y: -1.1960952, z: 2.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 405478}
@@ -129,7 +128,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.27443773, g: 0.43650278, b: 0.6911765, a: 0.019607844}
+  m_BackGroundColor: {r: 0.042117216, g: 0.14297685, b: 0.30147058, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -141,10 +140,10 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -262,17 +261,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &11411390
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 153008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1039cb44de26eb43944cded11e4b750, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!124 &12497868
 Behaviour:
   m_ObjectHideFlags: 1

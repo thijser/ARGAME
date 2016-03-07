@@ -15,6 +15,8 @@
         /// </summary>
         public const float TransitionTime = 5;
 
+        private bool initialized = false;
+
         /// <summary>
         /// Gets the main text.
         /// </summary>
@@ -65,16 +67,17 @@
         /// </summary>
         public int CurrentLevel
         {
-            get { return this.LevelManager.CurrentLevelIndex; }
+            get; private set;
         }
 
         /// <summary>
         /// Initializes this <see cref="WinScreen"/> instance.
         /// </summary>
         public void Start() {
-            this.MainText = transform.Find("MainText").GetComponent<TextMesh>();
-            this.SubText = transform.Find("SubText").GetComponent<TextMesh>();
-            this.OrthoCamera = transform.Find("Camera").GetComponent<Camera>();
+            Transform winScreen = transform.Find("WinScreenController");
+            this.MainText = winScreen.Find("MainText").GetComponent<TextMesh>();
+            this.SubText = winScreen.Find("SubText").GetComponent<TextMesh>();
+            this.OrthoCamera = winScreen.Find("Camera").GetComponent<Camera>();
 
             // Initially don't draw the win screen
             this.ShowingWinScreen = false;
@@ -86,9 +89,11 @@
         /// <param name="timeSpent">The time it took to complete the level.</param>
         /// <param name="nextLevel">The next level to go to.</param>
         public void FinishLevel(int timeSpent, int nextLevel) {
+            Debug.Log("Finished level");
             this.MainText.text = "You completed level " + this.CurrentLevel + " in " + this.FormatSeconds(timeSpent) + " minutes !";
             this.SubText.text = "Going to the next level in " + Convert.ToInt32(TransitionTime) + " seconds...";
             this.ShowingWinScreen = true;
+            this.CurrentLevel = nextLevel;
             this.StartCoroutine(this.LoadNextLevel(nextLevel));
         }
 
@@ -98,7 +103,15 @@
         /// <param name="level">The <see cref="LevelUpdate"/>.</param>
         public void OnLevelUpdate(LevelUpdate level)
         {
-            this.FinishLevel(level.TimeTaken, level.NextLevelIndex);
+            if (this.initialized)
+            {
+                this.FinishLevel(level.TimeTaken, level.NextLevelIndex);
+            }
+            else
+            {
+                this.CurrentLevel = level.NextLevelIndex;
+                this.initialized = true;
+            }
         }
 
         /// <summary>
@@ -133,8 +146,6 @@
         private IEnumerator LoadNextLevel(int level)
         {
             yield return new WaitForSeconds(TransitionTime);
-
-            this.LevelManager.LoadLevel(level);
             this.ShowingWinScreen = false;
         }
     }
