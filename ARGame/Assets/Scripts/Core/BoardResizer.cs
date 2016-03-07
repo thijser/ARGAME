@@ -40,7 +40,8 @@ namespace Core
             if (board != null)
             {
                 board.gameObject.SetActive(true);
-                Vector3 scale = new Vector3(-size.x, board.localScale.y, size.y);
+                Vector3 scale = new Vector3(size.x, board.localScale.y, size.y);
+                board.localPosition = new Vector3(size.x, 0, 0);
                 board.localScale = scale;
             }
             else

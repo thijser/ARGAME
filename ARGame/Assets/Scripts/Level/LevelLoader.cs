@@ -200,7 +200,7 @@ namespace Level
         private Marker ConstructMarker(GameObject level, LevelProperties properties)
         {
             Vector3 position = new Vector3(
-                -(this.BoardSize.x - properties.Width) / 2,
+                (this.BoardSize.x - properties.Width) / 2,
                 0, 
                 -(this.BoardSize.y - properties.Height) / 2);
 
