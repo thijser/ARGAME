@@ -12,6 +12,7 @@ namespace Vision
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.IO;
     using Meta;
     using Projection;
     using UnityEngine;
@@ -23,24 +24,52 @@ namespace Vision
     public class MetaLink : MonoBehaviour, IARLink
     {
         /// <summary>
-        /// The scale of the Meta glasses with respect to the world.
+        /// The default scale of the Meta glasses with respect to the world.
         /// </summary>
-        public const float MetaScale = 0.056f;
+        public const float DefaultMetaScale = 0.053f;
 
         /// <summary>
-        /// Offset of Meta One positions with respect to the marker center.
+        /// The default depth correction factor for the Meta glasses.
         /// </summary>
-        public static readonly Vector3 PositionOffset = new Vector3(-0.5f * MetaScale, 0, 0);
+        public const float DefaultMetaDepth = 0.84f;
 
         /// <summary>
-        /// like cattle this class is driven all around it's very position consumed by the meta, please no cow tipping with the lamb
+        /// The step size of the Meta scale configuration keys.
+        /// </summary>
+        public const float ScaleConfigurationStepSize = 0.001f;
+
+        /// <summary>
+        /// The step size of the Meta depth configuration keys.
+        /// </summary>
+        public const float DepthConfigurationStepSize = 0.01f;
+
+        /// <summary>
+        /// The <see cref="Transform"/> used by the Meta's <see cref="MarkerTracker"/> to set positions of tracked markers.
         /// </summary>
         private Transform lamb;
 
         /// <summary>
-        /// meta object required for tracking 
+        /// The Meta <see cref="MarkerDetector"/> instance used for tracking markers.
         /// </summary>
         private MarkerDetector markerDetector;
+
+        /// <summary>
+        /// Gets or sets the scale of the Meta glasses with respect to the world.
+        /// </summary>
+        public float MetaScale { get; set; }
+
+        /// <summary>
+        /// Gets or sets the depth correction factor for the Meta glasses.
+        /// </summary>
+        public float MetaDepth { get; set; }
+
+        /// <summary>
+        /// Gets the offset of Meta One positions with respect to the marker center.
+        /// </summary>
+        public Vector3 PositionOffset
+        {
+            get { return new Vector3(-0.5f * MetaScale, MetaScale, 0); }
+        }
 
         /// <summary>
         /// Returns the scale of the Meta One glasses.
@@ -58,6 +87,8 @@ namespace Vision
         {
             this.lamb = new GameObject("lamb").transform;
             this.markerDetector = MarkerDetector.Instance;
+            this.MetaScale = DefaultMetaScale;
+            this.MetaDepth = DefaultMetaDepth;
 
             if (this.markerDetector == null)
             {
@@ -67,6 +98,42 @@ namespace Vision
             // Hide the markerindicator
             MarkerTargetIndicator indicator = this.markerDetector.GetComponent<MarkerTargetIndicator>();
             indicator.enabled = false;
+        }
+
+        /// <summary>
+        /// Checks if a configuration key is pressed and updates the Meta depth and scale accordingly.
+        /// </summary>
+        public void FixedUpdate()
+        {
+            float newDepth = this.MetaDepth;
+            float newScale = this.MetaScale;
+            if (Input.GetKeyUp(KeyCode.W))
+            {
+                newDepth += DepthConfigurationStepSize;
+            }
+
+            if (Input.GetKeyUp(KeyCode.S))
+            {
+                newDepth -= DepthConfigurationStepSize;
+            }
+
+            if (Input.GetKeyUp(KeyCode.D))
+            {
+                newScale += ScaleConfigurationStepSize;
+            }
+
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+                newScale -= ScaleConfigurationStepSize;
+            }
+
+            if (newDepth != this.MetaDepth || newScale != this.MetaScale)
+            {
+                File.AppendAllText("MetaConfiguration.txt", "\r\nMetaLink: Scale = " + newScale + ", Depth = " + newDepth);
+            }
+
+            this.MetaScale = newScale;
+            this.MetaDepth = newDepth;
         }
 
         /// <summary>
@@ -95,11 +162,13 @@ namespace Vision
             foreach (int id in updates)
             {
                 this.markerDetector.GetMarkerTransform(id, ref this.lamb);
+                Vector3 position = this.lamb.localPosition + PositionOffset;
+                position.Scale(new Vector3(1, 1, MetaDepth));
                 MarkerPosition pos = new MarkerPosition(
-                    this.lamb.position + PositionOffset,
-                    this.lamb.rotation,
+                    position,
+                    this.lamb.localRotation,
                     DateTime.Now,
-                    MetaScale * this.lamb.lossyScale,
+                    MetaScale * this.lamb.localScale,
                     id);
                 list.Add(pos);
             }
