@@ -161,6 +161,8 @@ namespace Camera
 
             this.GetPlayer(playerInfo.Id).RemotePosition =
                 new MarkerPosition(position, direction, DateTime.Now, scale, markerId);
+
+            Debug.Log("Positioning player: " + playerInfo);
         }
 
         /// <summary>
