@@ -11,7 +11,7 @@
 
     public class Logger : MonoBehaviour
     {
-        private StreamWriter logWriter = null;
+        private string filePath = null;
         private DateTime levelStartTime;
 
         private Dictionary<int, DateTime> timeKeeper = new Dictionary<int, DateTime>();
@@ -60,16 +60,16 @@
 
         private void WriteLog(string message)
         {
-            if (logWriter != null)
+            if (filePath != null)
             {
-                logWriter.WriteLine(DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'ffff") + ": " + message);
+                File.AppendAllText(filePath, DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'ffff") + ": " + message + "\n");
             }
         }
 
         public void NewLevel(int oldLevel, int newLevel)
         {
             // Ignore level finish of first level change (initialization)
-            if (logWriter != null)
+            if (filePath != null)
             {
                 TimeSpan playTime = DateTime.Now - levelStartTime;
                 WriteLog("Finished playthrough of level #" + oldLevel + " after " + playTime.ToString());
@@ -78,7 +78,7 @@
             Debug.Log("Logging playthough of a new level...");
 
             int unixTimestamp = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            logWriter = new StreamWriter("logs/level_" + newLevel + "_playthrough_" + unixTimestamp + ".txt");
+            filePath = "logs/level_" + newLevel + "_playthrough_" + unixTimestamp + ".log";
 
             WriteLog("Started new playthrough of level #" + newLevel);
             levelStartTime = DateTime.Now;
