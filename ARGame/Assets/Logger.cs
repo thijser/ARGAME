@@ -37,7 +37,10 @@
             {
                 TimeSpan span = DateTime.Now - timeKeeper[updateID];
                 Vector2 movement = positionKeeper[updateID] - update.Coordinate;
-                if (span.Seconds > 1 && Math.Abs(movement.x) > 0.1 && Math.Abs(movement.y) > 0.1)
+
+                float dist = Mathf.Sqrt(movement.x * movement.x + movement.y * movement.y);
+
+                if (span.Seconds > 1 && dist > 0.1)
                 {
                     WriteLog(string.Format("marker #{0} moved to position = ({1}, {2}), rotation = {3}", update.Id, update.Coordinate.x, update.Coordinate.y, update.Rotation));
 
