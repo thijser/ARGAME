@@ -38,8 +38,6 @@ ServerController::ServerController(QObject *parent)
             this, SLOT(clientDisconnected()));
     connect(sock, SIGNAL(arViewUpdated(int,cv::Point3f,cv::Point3f)),
             sock, SLOT(broadcastARViewUpdate(int,cv::Point3f,cv::Point3f)));
-    connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
-            this, SLOT(sendBoard(QHttpRequest*, QHttpResponse*)));
 
 
     // A single-shot Timer with an interval of 0 will
@@ -126,6 +124,9 @@ void ServerController::startServer(quint16 port, int cameraDevice, cv::Size camS
     if (server == nullptr) {
         server = new QHttpServer;
         server->listen(port + 1);
+
+        connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
+            this, SLOT(sendBoard(QHttpRequest*, QHttpResponse*)));
     }
 }
 
