@@ -37,15 +37,19 @@
             {
                 TimeSpan span = DateTime.Now - timeKeeper[updateID];
                 Vector2 movement = positionKeeper[updateID] - update.Coordinate;
-                if (span.Seconds > 1 && Math.Abs(movement.x) > 1 && Math.Abs(movement.y) > 1)
+                if (span.Seconds > 1 && Math.Abs(movement.x) > 0.1 && Math.Abs(movement.y) > 0.1)
                 {
                     WriteLog(string.Format("marker #{0} moved to position = ({1}, {2}), rotation = {3}", update.Id, update.Coordinate.x, update.Coordinate.y, update.Rotation));
+
+                    positionKeeper[updateID] = update.Coordinate;
+                    timeKeeper[updateID] = DateTime.Now;
                 }
             }
             else
             {
-                positionKeeper.Add(updateID, update.Coordinate);
-                timeKeeper.Add(updateID, DateTime.Now);
+                positionKeeper[updateID] = update.Coordinate;
+                timeKeeper[updateID] = DateTime.Now;
+
                 WriteLog(string.Format("marker #{0} registered, position = ({1}, {2}), rotation = {3}", update.Id, update.Coordinate.x, update.Coordinate.y, update.Rotation));
             }
         }
