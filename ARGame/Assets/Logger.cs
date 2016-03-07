@@ -32,6 +32,8 @@
 
         public void OnPositionUpdate(PositionUpdate update)
         {
+            if (update.Type != UpdateType.UpdatePosition && update.Type != UpdateType.UpdateRotation) return;
+
             int updateID = update.Id;
             if (timeKeeper.ContainsKey(updateID) && positionKeeper.ContainsKey(updateID))
             {
