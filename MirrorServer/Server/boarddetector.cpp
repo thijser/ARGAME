@@ -28,11 +28,25 @@ namespace mirrors {
 
         Mat tmp = extractBoard(cameraImage);
 
-        if (tmp.rows != 0) {
-            // Determine actual aspect ratio from corner marker size
-            auto corners = findMarkers(tmp);
-            cv::Rect bb = cv::boundingRect(corners[0]);
-            boardRatio = bb.width / (float) bb.height;
+        if (tmp.rows != 0) {            
+            // Determine actual aspect ratio from average corner marker size
+            auto corners = findMarkers(tmp, true);
+
+            int totalWidth = 0, totalHeight = 0, count = 0;
+
+            for (auto& corner : corners) {
+                cv::RotatedRect bb = cv::minAreaRect(corner);
+
+                totalWidth += bb.size.width;
+                totalHeight += bb.size.height;
+
+                count++;
+            }
+
+            totalWidth /= count;
+            totalHeight /= count;
+
+            boardRatio = totalWidth / (float) totalHeight;
 
             tmp = extractBoard(cameraImage);
             boardSize = Size(tmp.cols, tmp.rows);
@@ -75,7 +89,7 @@ namespace mirrors {
         return output;
     }
 
-    vector<vector<Point>> BoardDetector::findMarkers(const Mat& cameraImage) const {
+    vector<vector<Point>> BoardDetector::findMarkers(const Mat& cameraImage, bool forAspectRatio) const {
         // Convert image to HSV channels
         Mat imageHSV;
         cvtColor(cameraImage, imageHSV, CV_BGR2HSV);
@@ -116,7 +130,11 @@ namespace mirrors {
                 bool largeEnough = bb.size.width >= 10 && bb.size.height >= 10;
 
                 if (isInnerContour && isFirstLevel && largeEnough) {
-                    potentialCorners.push_back(contours[parent]);
+                    if (forAspectRatio) {
+                        potentialCorners.push_back(contours[i]);
+                    } else {
+                        potentialCorners.push_back(contours[parent]);
+                    }
                 }
             }
 

@@ -92,7 +92,7 @@ namespace mirrors {
          * @param cameraImage - Image to find red markers in.
          * @return List of contours that represent possible markers.
          */
-        vector<vector<Point>> findMarkers(const Mat& cameraImage) const;
+        vector<vector<Point>> findMarkers(const Mat& cameraImage, bool forAspectRatio = false) const;
 
         /**
          * @brief Determines the four corners of the board from the marker contours

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>824</width>
-    <height>538</height>
+    <height>575</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -123,7 +123,7 @@
              <item>
               <widget class="QLineEdit" name="camWidth">
                <property name="text">
-                <string>800</string>
+                <string>1920</string>
                </property>
                <property name="maxLength">
                 <number>5</number>
@@ -140,7 +140,7 @@
              <item>
               <widget class="QLineEdit" name="camHeight">
                <property name="text">
-                <string>600</string>
+                <string>1080</string>
                </property>
                <property name="maxLength">
                 <number>5</number>
@@ -160,7 +160,7 @@
           <item row="2" column="1">
            <widget class="QLineEdit" name="cameraDevice">
             <property name="text">
-             <string>0</string>
+             <string>1</string>
             </property>
             <property name="maxLength">
              <number>8</number>
@@ -211,7 +211,7 @@
              <string>Require empty board</string>
             </property>
             <property name="checked">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
