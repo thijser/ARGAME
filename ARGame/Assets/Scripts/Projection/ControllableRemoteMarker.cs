@@ -149,12 +149,12 @@
 
             if (Input.GetKey(KeyCode.D))
             {
-                horizontal += HorizontalSpeed;
+                horizontal -= HorizontalSpeed;
             }
 
             if (Input.GetKey(KeyCode.A))
             {
-                horizontal -= HorizontalSpeed;
+                horizontal += HorizontalSpeed;
             }
 
             return new Vector2(horizontal, vertical);
