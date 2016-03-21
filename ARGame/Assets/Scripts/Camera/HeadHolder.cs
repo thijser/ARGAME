@@ -148,8 +148,6 @@ namespace Camera
             Assert.IsNotNull(playerInfo);
             int markerId = playerInfo.Id + PlayerIdOffset;
 
-            Vector3 scale = new Vector3(8, 8, -8);
-
             Vector3 position = playerInfo.Position;
             position.Scale(scale);
             Quaternion direction = Quaternion.Euler(playerInfo.Rotation);

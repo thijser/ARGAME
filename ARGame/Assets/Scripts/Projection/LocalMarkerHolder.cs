@@ -83,11 +83,6 @@ namespace Projection
             Vector3 viewPosition = TransformExtensions.ExtractTranslationFromMatrix(ref localToRemote);
             Vector3 viewRotation = TransformExtensions.ExtractRotationFromMatrix(ref localToRemote).eulerAngles;
 
-            // Perform scaling corrections on the position. This occurs because of the order in which Unity applies 
-            // scaling and translation.
-            viewPosition.Scale(Vector3.one / 8);
-            viewPosition.Scale(new Vector3(1, 1, -1));
-
             this.SendMessage("OnSendPosition", new ARViewUpdate(-1, viewPosition, viewRotation));
         }
 
