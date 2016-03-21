@@ -81,9 +81,11 @@ namespace Projection
         public void SendPositionUpdate(ref Matrix4x4 localToRemote)
         {
             Vector3 viewPosition = TransformExtensions.ExtractTranslationFromMatrix(ref localToRemote);
-            Vector3 viewRotation = TransformExtensions.ExtractRotationFromMatrix(ref localToRemote).eulerAngles;
+            Quaternion viewRotation = TransformExtensions.ExtractRotationFromMatrix(ref localToRemote);
 
-            this.SendMessage("OnSendPosition", new ARViewUpdate(-1, viewPosition, viewRotation));
+            Vector3 forwardPoint = (viewRotation * Vector3.forward) + viewPosition;
+
+            this.SendMessage("OnSendPosition", new ARViewUpdate(-1, viewPosition, forwardPoint));
         }
 
         /// <summary>
