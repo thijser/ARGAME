@@ -149,7 +149,6 @@ namespace Camera
             int markerId = playerInfo.Id + PlayerIdOffset;
 
             Vector3 position = playerInfo.Position;
-            position.Scale(scale);
             Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
 
             if (this.trackingIndex == -1)
@@ -158,7 +157,7 @@ namespace Camera
             }
 
             this.GetPlayer(playerInfo.Id).RemotePosition =
-                new MarkerPosition(position, direction, DateTime.Now, scale, markerId);
+                new MarkerPosition(position, direction, DateTime.Now, Vector3.one, markerId);
 
             Debug.Log("Positioning player: " + playerInfo);
         }
