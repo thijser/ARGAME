@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &118540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 428948}
+  - 114: {fileID: 11454798}
+  m_Layer: 0
+  m_Name: ControlledMarker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &123606
 GameObject:
   m_ObjectHideFlags: 1
@@ -123,6 +139,7 @@ GameObject:
   - 114: {fileID: 11436580}
   - 114: {fileID: 11439734}
   - 114: {fileID: 11425302}
+  - 114: {fileID: 11492802}
   m_Layer: 0
   m_Name: RemoteController
   m_TagString: Untagged
@@ -254,6 +271,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 490258}
   m_RootOrder: 0
+--- !u!4 &428948
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 118540}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 479736}
+  m_RootOrder: 5
 --- !u!4 &433752
 Transform:
   m_ObjectHideFlags: 1
@@ -272,8 +301,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 145888}
-  m_LocalRotation: {x: 0.2657394, y: -0.26577428, z: 0.076475166, w: 0.92352486}
-  m_LocalPosition: {x: 15.8, y: 10.75, z: -26.18}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 479736}
@@ -317,6 +346,7 @@ Transform:
   - {fileID: 447596}
   - {fileID: 490468}
   - {fileID: 415194}
+  - {fileID: 428948}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &485364
@@ -857,6 +887,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ee8ae67b824b0d48862a47cbcd0cf89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11454798
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 118540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92cb187e19d4d594ba8d9e2451446d4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11465036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -868,8 +909,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a186731744c974cf3bbca6fc8e841a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerAddress: 145.94.217.104
+  ServerAddress: 145.94.216.214
   ServerPort: 23369
+--- !u!114 &11492802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acfef2ccc12e5254d94922b80df515cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11498990
 MonoBehaviour:
   m_ObjectHideFlags: 1

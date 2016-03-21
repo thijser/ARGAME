@@ -155,19 +155,20 @@ namespace Core
         }
 
         /// <summary>
-        /// Rotates the mirror corresponding with whether the 'A' (left) or 'D' (right) key 
-        /// is pressed.
+        /// Rotates the mirror corresponding with whether the left or right arrow key,
+        /// or the left or right mouse button is pressed.
         /// </summary>
         private void Rotate()
         {
             if (this.SelectedMirror != null)
             {
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.D))
+                if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Mouse1) || 
+                    Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     this.rotationSpeed = 0.0f;
                 }
 
-                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.Mouse0))
+                if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.Mouse0))
                 {
                     float t = Time.deltaTime * -this.rotationSpeed;
                     this.rotationSpeed = Mathf.Min(90f, this.rotationSpeed + (Time.deltaTime * 45.0f));
@@ -175,7 +176,7 @@ namespace Core
                     this.SelectedMirror.GetComponent<RemoteMarker>().ObjectRotation += t;
                     this.SendRotationUpdate();
                 }
-                else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.Mouse1))
+                else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.Mouse1))
                 {
                     float t = Time.deltaTime * this.rotationSpeed;
                     this.rotationSpeed = Mathf.Min(90.0f, this.rotationSpeed + (Time.deltaTime * 45.0f));

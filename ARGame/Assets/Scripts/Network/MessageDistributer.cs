@@ -34,7 +34,7 @@ namespace Network
                     this.SendMessage("OnRotationUpdate", update as RotationUpdate);
                     break;
                 case UpdateType.UpdateLevel:
-                    this.SendMessage("OnLevelUpdate", update as LevelUpdate);
+                    this.BroadcastMessage("OnLevelUpdate", update as LevelUpdate);
                     break;
                 case UpdateType.UpdateARView:
                     this.SendMessage("OnFollowPlayerInfo", update as ARViewUpdate);

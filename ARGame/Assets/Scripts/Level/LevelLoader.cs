@@ -172,7 +172,6 @@ namespace Level
 
             LinkPortals(levelObjects);
             Marker marker = this.ConstructMarker(parent, level);
-
             return marker.gameObject;
         }
 
@@ -235,8 +234,6 @@ namespace Level
             // Simulate a PositionUpdate from the server.
             PositionUpdate update = new PositionUpdate(UpdateType.UpdatePosition, Vector3.zero, 0, LevelMarkerID);
             marker.RemotePosition = new MarkerPosition(update);
-
-            // Due to a scaling issue, the scale of the level should be 8 times as large as the scale of a marker.
             marker.RemotePosition.Scale = Vector3.one;
 
             return marker;

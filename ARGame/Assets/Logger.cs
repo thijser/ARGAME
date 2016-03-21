@@ -11,6 +11,8 @@
 
     public class Logger : MonoBehaviour
     {
+        private const float PositionLogThreshold = 0.5f;
+
         private string filePath = null;
         private DateTime levelStartTime;
 
@@ -36,7 +38,7 @@
 
                 float dist = Mathf.Sqrt(movement.x * movement.x + movement.y * movement.y);
 
-                if (span.Seconds > 1 && dist > 0.1)
+                if (span.Seconds > 1 && dist > PositionLogThreshold)
                 {
                     WriteLog(string.Format("marker #{0} moved to position = ({1}, {2}), rotation = {3}", update.Id, update.Coordinate.x, update.Coordinate.y, update.Rotation));
 
