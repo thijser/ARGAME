@@ -72,7 +72,7 @@ namespace Core.Receiver
             }
 
             Vector3 incomingDir = args.Laser.Direction;
-            Vector3 incomingDirLocal = transform.worldToLocalMatrix * incomingDir;
+            Vector3 incomingDirLocal = transform.worldToLocalMatrix.MultiplyVector(incomingDir);
 
             // Check if laser is hitting lens from correct side
             if (incomingDirLocal.z > 0.0f)
