@@ -93,37 +93,19 @@ namespace Projection
         /// passed by reference for performance.</param>
         public void SendPositionUpdate(ref Matrix4x4 remoteToLocal)
         {
-            Vector3 viewPosition = Vector3.zero;
-            Vector3 viewDirection = Vector3.forward;
-
             Vector3 boardNormal = remoteToLocal * new Vector4(0, 1, 0, 1);
             Vector3 boardPoint = remoteToLocal * new Vector4(0, 0, 0, 1);
-
-            Ray lineOfSight = new Ray(viewPosition, viewDirection);
-            Plane board = new Plane(boardNormal, boardPoint);
             
-            float enterDistance;
+            Matrix4x4 inverse = remoteToLocal.inverse;
+            Vector4 forward = Camera.main.transform.forward;
+            Vector4 intersection = inverse * forward; // new Vector4(0, 0, 1, 1);
+            Vector4 position = inverse * new Vector4(0, 0, 0, 1);
+            
+            this.logMessage =
+                "AR View: Position = " + position +
+                "\nDirection = " + intersection;
 
-            // If Raycast returns false, the local player is not looking at the board.
-            if (board.Raycast(lineOfSight, out enterDistance))
-            {
-                Vector3 intersection = lineOfSight.GetPoint(enterDistance);
-                this.cube.transform.position = intersection;
-                this.logMessage = "position = " + intersection + ", distance = " + enterDistance;
-
-                this.SendMessage("OnSendPosition", new ARViewUpdate(-1, viewPosition, intersection));
-            }
-            else
-            {
-                Matrix4x4 matrix = new Matrix4x4();
-                matrix.SetRow(0, new Vector4(0.023f,  0.000f, -0.048f, -0.369f));
-                matrix.SetRow(1, new Vector4(-0.024f, 0.045f, -0.012f, -0.607f));
-                matrix.SetRow(2, new Vector4(0.041f, 0.027f, 0.020f, 0.011f));
-                matrix.SetRow(3, new Vector4(0, 0, 0, 1));
-
-
-                this.logMessage = "Board not in view (distance: " + enterDistance + "), Board Point = " + boardPoint;
-            }
+            this.SendMessage("OnSendPosition", new ARViewUpdate(-1, position, intersection));
         }
 
         /// <summary>
