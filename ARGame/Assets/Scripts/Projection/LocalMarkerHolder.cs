@@ -45,7 +45,7 @@ namespace Projection
             base.Start();
             float scale = this.GetComponent<IARLink>().GetScale();
             this.localViewMatrix = Matrix4x4.Scale(scale * Vector3.one);
-            cube = GameObject.Find("Cube");
+            this.cube = GameObject.Find("Cube");
         }
 
         /// <summary>

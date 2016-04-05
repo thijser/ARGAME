@@ -11,6 +11,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Provides a user interface where the user can select to play as local or remote 
@@ -74,7 +75,7 @@ public class RemoteLocalUI : MonoBehaviour
         bool isValid = this.CheckIPValid(ipAddress);
         if (isValid)
         {
-            Application.LoadLevel(index);
+            SceneManager.LoadScene(index);
             return true;
         }
         return false;
