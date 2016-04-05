@@ -43,7 +43,7 @@ namespace Projection
                 this.RemotePosition.Scale = this.ScaleFactor * Vector3.one;
             }
 
-            base.UpdatePosition(Matrix4x4.Scale(new Vector3(1, 1, 1)) * transformMatrix);
+            base.UpdatePosition(transformMatrix);
         }
     }
 }

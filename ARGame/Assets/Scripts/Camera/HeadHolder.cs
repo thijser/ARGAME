@@ -176,6 +176,7 @@ namespace Camera
             this.GetPlayer(playerInfo.Id).RemotePosition =
                 new MarkerPosition(position, direction, DateTime.Now, Vector3.one, markerId);
 
+            //Debug.LogWarning("LOCAL " + position);
         }
 
         /// <summary>
@@ -184,8 +185,11 @@ namespace Camera
         /// <param name="player">The player to follow.</param>
         public void Follow(RemotePlayerMarker player)
         {
+            if (this.OverviewMarker == null) {
+                this.OverviewMarker = this.holder.PlayerToFollow;
+            }
+
             this.holder.PlayerToFollow = player;
-            Debug.Log("Started following player: " + (player == null ? "none" : player.Id.ToString()));
         }
     }
 }

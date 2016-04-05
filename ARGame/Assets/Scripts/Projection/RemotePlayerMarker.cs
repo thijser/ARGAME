@@ -27,9 +27,14 @@ namespace Projection
         /// <param name="transformMatrix">The transformation matrix.</param>
         public override void UpdatePosition(Matrix4x4 transformMatrix)
         {
-            if (this.RemotePosition != null)
-            {
-                this.transform.SetFromMatrix(this.RemotePosition.Matrix * transformMatrix);
+            if (this.RemotePosition != null) {
+                Quaternion rotation = Quaternion.LookRotation(this.RemotePosition.Position, this.RemotePosition.Rotation.eulerAngles);
+
+                Matrix4x4 levelProjection = Matrix4x4.TRS(
+                        this.RemotePosition.Position,
+                        rotation,
+                        this.RemotePosition.Scale);
+                this.transform.SetFromMatrix(transformMatrix * levelProjection);
             }
         }
     }
