@@ -10,6 +10,7 @@
 namespace Projection
 {
     using System;
+    using System.IO;
     using Network;
     using UnityEngine;
     using Vision;
@@ -37,6 +38,8 @@ namespace Projection
 
         private GameObject cube;
 
+        private string logMessage;
+
         /// <summary>
         /// Retrieves the scale of the AR glasses used for scaling positions.
         /// </summary>
@@ -46,6 +49,14 @@ namespace Projection
             float scale = this.GetComponent<IARLink>().GetScale();
             this.localViewMatrix = Matrix4x4.Scale(scale * Vector3.one);
             this.cube = GameObject.Find("Cube");
+        }
+
+        public void OnGUI()
+        {
+            if (!string.IsNullOrEmpty(logMessage))
+            {
+                GUI.Box(new Rect(10, 10, 700, 150), logMessage);
+            }
         }
 
         /// <summary>
@@ -69,41 +80,49 @@ namespace Projection
             // 'zero to local' transformations.
             Matrix4x4 remoteToZero = this.Parent.RemotePosition.Matrix.inverse;
             Matrix4x4 zeroToLocal = this.Parent.LocalPosition.Matrix;
-            Matrix4x4 remoteToLocal = zeroToLocal * remoteToZero;
-            Matrix4x4 localToRemote = remoteToLocal.inverse * this.localViewMatrix;
+            Matrix4x4 remoteToLocal = zeroToLocal * remoteToZero;;
 
-            this.SendPositionUpdate(ref localToRemote, ref remoteToLocal);
+            this.SendPositionUpdate(ref remoteToLocal);
             this.UpdateMarkerPositions(remoteToLocal);
         }
 
         /// <summary>
         /// Sends an <see cref="ARViewUpdate"/> based on the given Matrix transform.
         /// </summary>
-        /// <param name="localToRemote">The local-to-remote matrix transformation, 
-        /// passed by reference for performance.</param>
         /// <param name="remoteToLocal">The remote-to-local matrix transformation,
-        /// passed by reference for performance. This is equivalent to the inverse
-        /// of the <c>localToRemote</c> matrix, but passed as an additional 
-        /// parameter to prevent computing the inverse multiple times.</param>
-        public void SendPositionUpdate(ref Matrix4x4 localToRemote, ref Matrix4x4 remoteToLocal)
+        /// passed by reference for performance.</param>
+        public void SendPositionUpdate(ref Matrix4x4 remoteToLocal)
         {
-            Vector3 viewPosition = localToRemote * Vector3.zero;
-            Vector3 viewDirection = localToRemote * Vector3.forward;
+            Vector3 viewPosition = Vector3.zero;
+            Vector3 viewDirection = Vector3.forward;
+
+            Vector3 boardNormal = remoteToLocal * new Vector4(0, 1, 0, 1);
+            Vector3 boardPoint = remoteToLocal * new Vector4(0, 0, 0, 1);
 
             Ray lineOfSight = new Ray(viewPosition, viewDirection);
-            Plane board = new Plane(remoteToLocal * Vector3.up, remoteToLocal * Vector3.zero);
+            Plane board = new Plane(boardNormal, boardPoint);
+            
             float enterDistance;
 
             // If Raycast returns false, the local player is not looking at the board.
             if (board.Raycast(lineOfSight, out enterDistance))
             {
                 Vector3 intersection = lineOfSight.GetPoint(enterDistance);
-
-                Vector3 forwardPoint = Vector3.ProjectOnPlane(Vector3.forward, remoteToLocal * Vector3.up);
-                cube.transform.position = intersection;
-                Debug.Log("Position: " + intersection);
+                this.cube.transform.position = intersection;
+                this.logMessage = "position = " + intersection + ", distance = " + enterDistance;
 
                 this.SendMessage("OnSendPosition", new ARViewUpdate(-1, viewPosition, intersection));
+            }
+            else
+            {
+                Matrix4x4 matrix = new Matrix4x4();
+                matrix.SetRow(0, new Vector4(0.023f,  0.000f, -0.048f, -0.369f));
+                matrix.SetRow(1, new Vector4(-0.024f, 0.045f, -0.012f, -0.607f));
+                matrix.SetRow(2, new Vector4(0.041f, 0.027f, 0.020f, 0.011f));
+                matrix.SetRow(3, new Vector4(0, 0, 0, 1));
+
+
+                this.logMessage = "Board not in view (distance: " + enterDistance + "), Board Point = " + boardPoint;
             }
         }
 

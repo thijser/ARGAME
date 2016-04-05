@@ -90,7 +90,7 @@ public class RemoteLocalUI : MonoBehaviour
     {
         try
         {
-            IPAddress[] addresses = Dns.GetHostEntry(address).AddressList;
+            IPAddress[] addresses = Dns.GetHostAddresses(address);
             if (addresses.Length == 0)
             {
                 return false;

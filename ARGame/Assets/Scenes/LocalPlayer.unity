@@ -230,6 +230,10 @@ Prefab:
       propertyPath: m_Name
       value: MetaWorld
       objectReference: {fileID: 0}
+    - target: {fileID: 11439116, guid: 20d43ed2354650e42a6bc0371376c58d, type: 2}
+      propertyPath: ServerAddress
+      value: 145.94.219.132
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20d43ed2354650e42a6bc0371376c58d, type: 2}
   m_IsPrefabParent: 0

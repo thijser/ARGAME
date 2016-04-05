@@ -1,15 +1,14 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-
-namespace AltProg.CleanEmptyDir
+﻿namespace AltProg.CleanEmptyDir
 {
+    using UnityEngine;
+    using UnityEditor;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.IO;
+
     [InitializeOnLoad]
-    public class Core : UnityEditor.AssetModificationProcessor
+    public class Core : AssetModificationProcessor
     {
         public const string CLEAN_ON_SAVE_KEY = "k1";
 
@@ -35,8 +34,7 @@ namespace AltProg.CleanEmptyDir
 
             return paths;
         }
-
-
+        
         public static bool CleanOnSave
         {
             get
