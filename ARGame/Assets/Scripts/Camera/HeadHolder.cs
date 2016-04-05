@@ -163,7 +163,9 @@ namespace Camera
             int markerId = playerInfo.Id + PlayerIdOffset;
 
             Vector3 position = playerInfo.Position;
-            Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
+            
+            //Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
+            Quaternion direction = Quaternion.LookRotation(playerInfo.Rotation - position);
 
             if (this.trackingIndex == -1)
             {
