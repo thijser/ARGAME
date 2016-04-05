@@ -10,6 +10,7 @@
 namespace Camera
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using Network;
     using Projection;
@@ -46,6 +47,17 @@ namespace Camera
         /// </summary>
         private GameObject referenceHead;
 
+        public RemotePlayerMarker OverviewMarker;
+
+        /// <summary>
+        /// Initializes this <see cref="HeadHolder"/> instance.
+        /// </summary>
+        public void Start()
+        {
+            this.referenceHead = Resources.Load("Prefabs/HEAD") as GameObject;
+            this.holder = gameObject.GetComponent<RemoteMarkerHolder>();
+        }
+
         /// <summary>
         /// Switches the tracked player to the next if the space bar is pressed.
         /// </summary>
@@ -55,15 +67,11 @@ namespace Camera
             {
                 this.NextTracking();
             }
-        }
-
-        /// <summary>
-        /// Initializes this <see cref="HeadHolder"/> instance.
-        /// </summary>
-        public void Start()
-        {
-            this.referenceHead = Resources.Load("Prefabs/HEAD") as GameObject;
-            this.holder = gameObject.GetComponent<RemoteMarkerHolder>();
+            else if (Input.GetKeyDown(KeyCode.O) && this.OverviewMarker != null)
+            {
+                // `O` for overview camera.
+                this.holder.PlayerToFollow = this.OverviewMarker;
+            }
         }
 
         /// <summary>
@@ -81,24 +89,30 @@ namespace Camera
         /// </summary>
         public void NextTracking()
         {
-            if (this.trackingIndex + 2 > this.players.Values.Count)
+            RemotePlayerMarker marker = null;
+            bool takeNextEntry = false;
+            foreach (var entry in this.players)
             {
-                this.trackingIndex = 0;
-            }
-            else
-            {
-                this.trackingIndex++;
-            }
-
-            int i = 0;
-            foreach (RemotePlayerMarker marker in this.players.Values)
-            {
-                if (this.trackingIndex == i)
+                if (takeNextEntry)
                 {
-                    this.holder.PlayerToFollow = marker;
+                    marker = entry.Value;
                 }
 
-                i++;
+                if (entry.Key == this.trackingIndex)
+                {
+                    takeNextEntry = true;
+                }
+            }
+
+            if (marker == null && this.players.Count > 0)
+            {
+                // We reached the end, so take the first one.
+                marker = this.players.First().Value;
+            }
+
+            if (marker != null)
+            {
+                this.holder.PlayerToFollow = marker;
             }
         }
 
@@ -153,6 +167,7 @@ namespace Camera
 
             if (this.trackingIndex == -1)
             {
+                this.OverviewMarker = this.holder.PlayerToFollow;
                 this.NextTracking();
             }
 

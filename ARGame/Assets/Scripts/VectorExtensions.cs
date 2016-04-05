@@ -23,4 +23,20 @@ public static class VectorExtensions
     {
         return (vector.x + vector.y + vector.z) / 3.0f;
     }
+
+    /// <summary>
+    /// Converts a <see cref="Vector3"/> to a <see cref="Vector4"/>
+    /// suitable for use in linear transformations. 
+    /// <para>
+    /// The <c>x</c>, <c>y</c> and <c>z</c> components are set to 
+    /// the values from the <see cref="Vector3"/>. The <c>w</c>
+    /// component is set to 1.
+    /// </para>
+    /// </summary>
+    /// <param name="vector">The <see cref="Vector3"/> to convert.</param>
+    /// <returns></returns>
+    public static Vector4 ToVec4(this Vector3 vector)
+    {
+        return new Vector4(vector.x, vector.y, vector.z, 1);
+    }
 }

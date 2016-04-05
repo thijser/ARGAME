@@ -26,37 +26,16 @@ namespace Projection
         public const long Patience = 1;
 
         /// <summary>
-        /// The matrix that applies a correction for the underlying <see cref="IARLink"/>
-        /// that provides the marker positions.
-        /// </summary>
-        private Matrix4x4 localViewMatrix;
-
-        /// <summary>
         /// Gets or sets the central level marker, this should be visible. 
         /// </summary>
         public LocalMarker Parent { get; set; }
-
-        private GameObject cube;
-
-        private string logMessage;
-
+        
         /// <summary>
         /// Retrieves the scale of the AR glasses used for scaling positions.
         /// </summary>
         public override void Start()
         {
             base.Start();
-            float scale = this.GetComponent<IARLink>().GetScale();
-            this.localViewMatrix = Matrix4x4.Scale(scale * Vector3.one);
-            this.cube = GameObject.Find("Cube");
-        }
-
-        public void OnGUI()
-        {
-            if (!string.IsNullOrEmpty(logMessage))
-            {
-                GUI.Box(new Rect(10, 10, 700, 150), logMessage);
-            }
         }
 
         /// <summary>
@@ -93,18 +72,9 @@ namespace Projection
         /// passed by reference for performance.</param>
         public void SendPositionUpdate(ref Matrix4x4 remoteToLocal)
         {
-            Vector3 boardNormal = remoteToLocal * new Vector4(0, 1, 0, 1);
-            Vector3 boardPoint = remoteToLocal * new Vector4(0, 0, 0, 1);
-            
             Matrix4x4 inverse = remoteToLocal.inverse;
-            Vector4 forward = Camera.main.transform.forward;
-            Vector4 intersection = inverse * forward; // new Vector4(0, 0, 1, 1);
+            Vector4 intersection = inverse * Camera.main.transform.forward.ToVec4();
             Vector4 position = inverse * new Vector4(0, 0, 0, 1);
-            
-            this.logMessage =
-                "AR View: Position = " + position +
-                "\nDirection = " + intersection;
-
             this.SendMessage("OnSendPosition", new ARViewUpdate(-1, position, intersection));
         }
 
