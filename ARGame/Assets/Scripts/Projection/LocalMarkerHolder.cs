@@ -35,6 +35,8 @@ namespace Projection
         /// </summary>
         public LocalMarker Parent { get; set; }
 
+        private GameObject cube;
+
         /// <summary>
         /// Retrieves the scale of the AR glasses used for scaling positions.
         /// </summary>
@@ -43,6 +45,7 @@ namespace Projection
             base.Start();
             float scale = this.GetComponent<IARLink>().GetScale();
             this.localViewMatrix = Matrix4x4.Scale(scale * Vector3.one);
+            cube = GameObject.Find("Cube");
         }
 
         /// <summary>
@@ -69,7 +72,7 @@ namespace Projection
             Matrix4x4 remoteToLocal = zeroToLocal * remoteToZero;
             Matrix4x4 localToRemote = remoteToLocal.inverse * this.localViewMatrix;
 
-            this.SendPositionUpdate(ref localToRemote);
+            this.SendPositionUpdate(ref localToRemote, ref remoteToLocal);
             this.UpdateMarkerPositions(remoteToLocal);
         }
 
@@ -78,14 +81,30 @@ namespace Projection
         /// </summary>
         /// <param name="localToRemote">The local-to-remote matrix transformation, 
         /// passed by reference for performance.</param>
-        public void SendPositionUpdate(ref Matrix4x4 localToRemote)
+        /// <param name="remoteToLocal">The remote-to-local matrix transformation,
+        /// passed by reference for performance. This is equivalent to the inverse
+        /// of the <c>localToRemote</c> matrix, but passed as an additional 
+        /// parameter to prevent computing the inverse multiple times.</param>
+        public void SendPositionUpdate(ref Matrix4x4 localToRemote, ref Matrix4x4 remoteToLocal)
         {
-            Vector3 viewPosition = TransformExtensions.ExtractTranslationFromMatrix(ref localToRemote);
-            Quaternion viewRotation = TransformExtensions.ExtractRotationFromMatrix(ref localToRemote);
+            Vector3 viewPosition = localToRemote * Vector3.zero;
+            Vector3 viewDirection = localToRemote * Vector3.forward;
 
-            Vector3 forwardPoint = (viewRotation * Vector3.forward) + viewPosition;
+            Ray lineOfSight = new Ray(viewPosition, viewDirection);
+            Plane board = new Plane(remoteToLocal * Vector3.up, remoteToLocal * Vector3.zero);
+            float enterDistance;
 
-            this.SendMessage("OnSendPosition", new ARViewUpdate(-1, viewPosition, forwardPoint));
+            // If Raycast returns false, the local player is not looking at the board.
+            if (board.Raycast(lineOfSight, out enterDistance))
+            {
+                Vector3 intersection = lineOfSight.GetPoint(enterDistance);
+
+                Vector3 forwardPoint = Vector3.ProjectOnPlane(Vector3.forward, remoteToLocal * Vector3.up);
+                cube.transform.position = intersection;
+                Debug.Log("Position: " + intersection);
+
+                this.SendMessage("OnSendPosition", new ARViewUpdate(-1, viewPosition, intersection));
+            }
         }
 
         /// <summary>
