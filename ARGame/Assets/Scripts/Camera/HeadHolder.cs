@@ -113,6 +113,7 @@ namespace Camera
             if (marker != null)
             {
                 this.holder.PlayerToFollow = marker;
+                trackingIndex = marker.Id;
             }
         }
 
@@ -169,14 +170,12 @@ namespace Camera
 
             if (this.trackingIndex == -1)
             {
-                this.OverviewMarker = this.holder.PlayerToFollow;
                 this.NextTracking();
             }
 
             this.GetPlayer(playerInfo.Id).RemotePosition =
                 new MarkerPosition(position, direction, DateTime.Now, Vector3.one, markerId);
 
-            Debug.Log("Positioning player: " + playerInfo);
         }
 
         /// <summary>
