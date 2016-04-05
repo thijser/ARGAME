@@ -92,7 +92,7 @@ namespace Network
                 }
             }
 
-            IPAddress[] addresses = Dns.GetHostEntry(this.ServerAddress).AddressList;
+            IPAddress[] addresses = Array.FindAll(Dns.GetHostEntry(this.ServerAddress).AddressList, a => a.AddressFamily == AddressFamily.InterNetwork);
             if (addresses.Length == 0)
             {
                 Debug.LogError("Host is unavailable. No IP addresses found for " + this.ServerAddress);
