@@ -36,7 +36,7 @@ namespace Projection
                 }
 
                 if (value != null) {
-                    if (value.Id == OverviewCamera.FakeOverviewPlayerId) {
+                    if (value.Id == -1) {
                         Camera.main.fieldOfView = 70;
                     } else {
                         Camera.main.fieldOfView = 12;
