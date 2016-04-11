@@ -60,6 +60,7 @@ namespace Projection
         /// <summary>
         /// Updates the position of the frustum corners on the board.
         /// </summary>
+        /// <param name="transformMatrix">The transformation matrix.</param>
         public void UpdateFrustum(Matrix4x4 transformMatrix)
         {
             Rect r = this.PlayerCamera.pixelRect;
@@ -79,16 +80,18 @@ namespace Projection
         /// the given screen position of the <see cref="Camera"/> inside this
         /// <see cref="RemotePlayerMarker"/>.
         /// </summary>
-        /// <param name="screenPosition"></param>
-        /// <returns></returns>
+        /// <param name="screenPosition">The screen position to raycast through.</param>
+        /// <param name="transformMatrix">The transformation matrix.</param>
+        /// <returns>The intersection point with the board.</returns>
         private Vector4 IntersectWithBoard(Vector2 screenPosition, Matrix4x4 transformMatrix)
         {
             Ray ray = this.PlayerCamera.ScreenPointToRay(screenPosition);
+            Vector4 boardOrigin = transformMatrix * new Vector4(0, 0, 0, 1);
             Vector4 normal = transformMatrix * new Vector4(0, 1, 0, 1);
             Vector4 origin = ray.origin.ToVec4();
             Vector4 direction = ray.direction.ToVec4();
 
-            float t = -Vector4.Dot(origin, normal) / Vector4.Dot(direction, normal);
+            float t = Vector4.Dot(boardOrigin - origin, normal) / Vector4.Dot(direction, normal);
             Vector4 intersection = origin + t * direction;
 
             return intersection;
