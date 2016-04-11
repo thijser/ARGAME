@@ -10,6 +10,8 @@
 namespace Projection
 {
     using UnityEngine;
+    using System.Linq;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Remote marker that represents a player.
@@ -26,6 +28,11 @@ namespace Projection
         /// </summary>
         public Camera PlayerCamera { get; set; }
 
+        public Material FrustrumMaterial;
+
+        private MeshFilter meshFilter = null;
+        private MeshRenderer meshRender = null;
+
         /// <summary>
         /// Initializes this <see cref="RemotePlayerMarker"/>.
         /// </summary>
@@ -33,6 +40,8 @@ namespace Projection
         {
             base.Start();
             this.PlayerCamera = this.GetComponentInChildren<Camera>();
+            this.meshFilter = this.GetComponent<MeshFilter>();
+            this.meshRender = this.GetComponent<MeshRenderer>();
         }
 
         /// <summary>
@@ -43,15 +52,7 @@ namespace Projection
         {
             if (this.RemotePosition != null)
             {
-                // The rotation in the RemotePosition is actually an upwards vector here, so we can use
-                // Quaternion.LookRotation with the rotation's Euler angles.
-                Quaternion rotation = Quaternion.LookRotation(this.RemotePosition.Position, this.RemotePosition.Rotation.eulerAngles);
-
-                Matrix4x4 levelProjection = Matrix4x4.TRS(
-                        this.RemotePosition.Position,
-                        rotation,
-                        this.RemotePosition.Scale);
-                this.transform.SetFromMatrix(transformMatrix * levelProjection);
+                this.transform.SetFromMatrix(transformMatrix * this.RemotePosition.Matrix);
 
                 this.UpdateFrustum(transformMatrix);
             }
@@ -69,10 +70,33 @@ namespace Projection
             Vector4 bottomLeft = this.IntersectWithBoard(new Vector2(r.xMin, r.yMax), transformMatrix);
             Vector4 bottomRight = this.IntersectWithBoard(new Vector2(r.xMax, r.yMax), transformMatrix);
 
-            GameObject.Find("TopLeft").transform.position = topLeft;
-            GameObject.Find("TopRight").transform.position = topRight;
-            GameObject.Find("BottomLeft").transform.position = bottomLeft;
-            GameObject.Find("BottomRight").transform.position = bottomRight;
+            Vector4 planeNormal = transformMatrix * new Vector4(0, 0.1f, 0, 0);
+
+            Mesh m = new Mesh();
+            m.Clear();
+
+            m.vertices = TransformWorldToLocal((new Vector3[] {
+                topLeft + planeNormal,
+                topRight + planeNormal,
+                bottomRight + planeNormal,
+                bottomLeft + planeNormal
+            }).ToList());
+            m.triangles = new int[] {
+                2, 1, 0,
+                0, 3, 2
+            };
+
+            m.RecalculateBounds();
+
+            meshFilter.mesh = m;
+            meshRender.material = FrustrumMaterial;
+        }
+
+        private Vector3[] TransformWorldToLocal(List<Vector3> vertices) {
+            for (int i = 0; i < vertices.Count; i++) {
+                vertices[i] = this.transform.InverseTransformPoint(vertices[i]);
+            }
+            return vertices.ToArray();
         }
 
         /// <summary>
@@ -87,7 +111,7 @@ namespace Projection
         {
             Ray ray = this.PlayerCamera.ScreenPointToRay(screenPosition);
             Vector4 boardOrigin = transformMatrix * new Vector4(0, 0, 0, 1);
-            Vector4 normal = transformMatrix * new Vector4(0, 1, 0, 1);
+            Vector4 normal = transformMatrix * new Vector4(0, 1, 0, 0);
             Vector4 origin = ray.origin.ToVec4();
             Vector4 direction = ray.direction.ToVec4();
 

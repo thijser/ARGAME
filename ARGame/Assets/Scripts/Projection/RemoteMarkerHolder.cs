@@ -16,10 +16,31 @@ namespace Projection
     /// </summary>
     public class RemoteMarkerHolder : MarkerHolder<RemoteMarker>
     {
+        private RemotePlayerMarker playerToFollow = null;
+
         /// <summary>
         /// Gets or sets the player to follow.
         /// </summary>
-        public RemotePlayerMarker PlayerToFollow { get; set; }
+        public RemotePlayerMarker PlayerToFollow {
+            get {
+                return playerToFollow;
+            }
+            set {
+                if (DoesMarkerHaveHead(playerToFollow)) {
+                    playerToFollow.transform.FindChild("HEAD").GetComponent<MeshRenderer>().enabled = true;
+                }
+
+                if (DoesMarkerHaveHead(value)) {
+                    value.transform.FindChild("HEAD").GetComponent<MeshRenderer>().enabled = false;
+                }
+
+                playerToFollow = value;
+            }
+        }
+
+        private bool DoesMarkerHaveHead(RemotePlayerMarker marker) {
+            return marker != null && marker.transform.FindChild("HEAD") != null;
+        }
 
         /// <summary>
         /// Updates the positions of the markers.
