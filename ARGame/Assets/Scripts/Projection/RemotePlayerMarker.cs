@@ -22,6 +22,20 @@ namespace Projection
     public class RemotePlayerMarker : RemoteMarker
     {
         /// <summary>
+        /// The <see cref="Camera"/> inside this <see cref="RemotePlayerMarker"/>.
+        /// </summary>
+        public Camera PlayerCamera { get; set; }
+
+        /// <summary>
+        /// Initializes this <see cref="RemotePlayerMarker"/>.
+        /// </summary>
+        public override void Start()
+        {
+            base.Start();
+            this.PlayerCamera = this.GetComponentInChildren<Camera>();
+        }
+
+        /// <summary>
         /// Updates the position of this <see cref="RemotePlayerMarker"/>.
         /// </summary>
         /// <param name="transformMatrix">The transformation matrix.</param>
@@ -38,7 +52,46 @@ namespace Projection
                         rotation,
                         this.RemotePosition.Scale);
                 this.transform.SetFromMatrix(transformMatrix * levelProjection);
+
+                this.UpdateFrustum(transformMatrix);
             }
+        }
+
+        /// <summary>
+        /// Updates the position of the frustum corners on the board.
+        /// </summary>
+        public void UpdateFrustum(Matrix4x4 transformMatrix)
+        {
+            Rect r = this.PlayerCamera.pixelRect;
+            Vector4 topLeft = this.IntersectWithBoard(new Vector2(r.xMin, r.yMin), transformMatrix);
+            Vector4 topRight = this.IntersectWithBoard(new Vector2(r.xMax, r.yMin), transformMatrix);
+            Vector4 bottomLeft = this.IntersectWithBoard(new Vector2(r.xMin, r.yMax), transformMatrix);
+            Vector4 bottomRight = this.IntersectWithBoard(new Vector2(r.xMax, r.yMax), transformMatrix);
+
+            GameObject.Find("TopLeft").transform.position = topLeft;
+            GameObject.Find("TopRight").transform.position = topRight;
+            GameObject.Find("BottomLeft").transform.position = bottomLeft;
+            GameObject.Find("BottomRight").transform.position = bottomRight;
+        }
+
+        /// <summary>
+        /// Computes the intersection between the board and the ray through
+        /// the given screen position of the <see cref="Camera"/> inside this
+        /// <see cref="RemotePlayerMarker"/>.
+        /// </summary>
+        /// <param name="screenPosition"></param>
+        /// <returns></returns>
+        private Vector4 IntersectWithBoard(Vector2 screenPosition, Matrix4x4 transformMatrix)
+        {
+            Ray ray = this.PlayerCamera.ScreenPointToRay(screenPosition);
+            Vector4 normal = transformMatrix * new Vector4(0, 1, 0, 1);
+            Vector4 origin = ray.origin.ToVec4();
+            Vector4 direction = ray.direction.ToVec4();
+
+            float t = -Vector4.Dot(origin, normal) / Vector4.Dot(direction, normal);
+            Vector4 intersection = origin + t * direction;
+
+            return intersection;
         }
     }
 }
