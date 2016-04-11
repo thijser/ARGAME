@@ -10,6 +10,7 @@
 namespace Projection
 {
     using UnityEngine;
+    using Camera;
 
     /// <summary>
     /// Previews the position of PositionUpdate objects.
@@ -32,6 +33,14 @@ namespace Projection
 
                 if (DoesMarkerHaveHead(value)) {
                     value.transform.FindChild("HEAD").GetComponent<MeshRenderer>().enabled = false;
+                }
+
+                if (value != null) {
+                    if (value.Id == OverviewCamera.FakeOverviewPlayerId) {
+                        Camera.main.fieldOfView = 70;
+                    } else {
+                        Camera.main.fieldOfView = 12;
+                    }
                 }
 
                 playerToFollow = value;

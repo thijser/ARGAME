@@ -85,48 +85,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &1208608932
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 421954, guid: e87fd8eedbb7df24caec3bcb56c57c27, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 2.3812227
-      objectReference: {fileID: 0}
-    - target: {fileID: 421954, guid: e87fd8eedbb7df24caec3bcb56c57c27, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -1.1587658
-      objectReference: {fileID: 0}
-    - target: {fileID: 421954, guid: e87fd8eedbb7df24caec3bcb56c57c27, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -4.257287
-      objectReference: {fileID: 0}
-    - target: {fileID: 421954, guid: e87fd8eedbb7df24caec3bcb56c57c27, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 421954, guid: e87fd8eedbb7df24caec3bcb56c57c27, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 421954, guid: e87fd8eedbb7df24caec3bcb56c57c27, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 421954, guid: e87fd8eedbb7df24caec3bcb56c57c27, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 421954, guid: e87fd8eedbb7df24caec3bcb56c57c27, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: e87fd8eedbb7df24caec3bcb56c57c27, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &2071688318
 Prefab:
   m_ObjectHideFlags: 0
@@ -169,6 +127,10 @@ Prefab:
     - target: {fileID: 11465036, guid: b678665f429d0694cb68468b1c85b470, type: 2}
       propertyPath: ServerAddress
       value: localhost
+      objectReference: {fileID: 0}
+    - target: {fileID: 2020012, guid: b678665f429d0694cb68468b1c85b470, type: 2}
+      propertyPath: field of view
+      value: 70
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b678665f429d0694cb68468b1c85b470, type: 2}

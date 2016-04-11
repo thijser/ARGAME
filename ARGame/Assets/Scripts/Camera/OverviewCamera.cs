@@ -14,7 +14,7 @@
         /// <summary>
         /// The simulated player Id.
         /// </summary>
-        public int FakeOverviewPlayerId = 1001;
+        public static int FakeOverviewPlayerId = 1001;
 
         /// <summary>
         /// The remote player marker being simulated.
@@ -27,7 +27,7 @@
         public void Start()
         {
             HeadHolder holder = this.transform.parent.GetComponent<HeadHolder>();
-            this.marker = holder.GetPlayer(this.FakeOverviewPlayerId);
+            this.marker = holder.GetPlayer(FakeOverviewPlayerId);
             holder.Follow(this.marker);
         }
 
@@ -41,7 +41,7 @@
             transform.position = new Vector3(manager.BoardSize.x / 2, 30, manager.BoardSize.y / 2);
 
             Vector3 position = this.transform.position;
-            ARViewUpdate update = new ARViewUpdate(this.FakeOverviewPlayerId, position, this.transform.eulerAngles);
+            ARViewUpdate update = new ARViewUpdate(FakeOverviewPlayerId, position, this.transform.eulerAngles);
             this.SendMessageUpwards("OnFollowPlayerInfo", update);
         }
     }
