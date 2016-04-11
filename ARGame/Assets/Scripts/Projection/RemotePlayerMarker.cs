@@ -27,7 +27,10 @@ namespace Projection
         /// <param name="transformMatrix">The transformation matrix.</param>
         public override void UpdatePosition(Matrix4x4 transformMatrix)
         {
-            if (this.RemotePosition != null) {
+            if (this.RemotePosition != null)
+            {
+                // The rotation in the RemotePosition is actually an upwards vector here, so we can use
+                // Quaternion.LookRotation with the rotation's Euler angles.
                 Quaternion rotation = Quaternion.LookRotation(this.RemotePosition.Position, this.RemotePosition.Rotation.eulerAngles);
 
                 Matrix4x4 levelProjection = Matrix4x4.TRS(
