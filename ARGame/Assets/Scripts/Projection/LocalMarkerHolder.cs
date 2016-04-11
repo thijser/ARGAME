@@ -32,7 +32,16 @@ namespace Projection
         /// This reduces image vibrations caused by inaccuracies in tracking.
         /// </para>
         /// </summary>
-        public const float MoveTreshold = 0.2f;
+        public const float MoveThreshold = 0.2f;
+
+        /// <summary>
+        /// The threshold value for rotating, in degrees.
+        /// <para>
+        /// Rotation jumps larger than this value are assumed 
+        /// to be tracking errors, and they are ignored if the position
+        /// has not changed a lot.</para>
+        /// </summary>
+        public const float RotateThreshold = 30f;
 
         /// <summary>
         /// Gets or sets the central level marker, this should be visible. 
@@ -107,11 +116,13 @@ namespace Projection
             }
 
             LocalMarker marker = this.GetMarkerOrCreate(position.ID);
+            this.SelectParent(marker);
 
             if (marker.LocalPosition != null)
             {
                 float posDifference = (position.Position - marker.LocalPosition.Position).sqrMagnitude;
-                if (posDifference < MoveTreshold)
+                float dirDifference = (position.Rotation * Quaternion.Inverse(marker.LocalPosition.Rotation)).eulerAngles.sqrMagnitude;
+                if (posDifference < MoveThreshold || (posDifference < 2 * MoveThreshold && dirDifference > RotateThreshold))
                 {
                     // Do not update the position when there is not enough difference.
                     return;
@@ -119,7 +130,6 @@ namespace Projection
             }
 
             marker.LocalPosition = position;
-            this.SelectParent(marker);
         }
 
         /// <summary>
