@@ -26,6 +26,15 @@ namespace Projection
         public const long Patience = 1;
 
         /// <summary>
+        /// The threshold value for moving.
+        /// <para>
+        /// Movements smaller than this (squared) distance are discarded.
+        /// This reduces image vibrations caused by inaccuracies in tracking.
+        /// </para>
+        /// </summary>
+        public const float MoveTreshold = 0.2f;
+
+        /// <summary>
         /// Gets or sets the central level marker, this should be visible. 
         /// </summary>
         public LocalMarker Parent { get; set; }
@@ -98,8 +107,19 @@ namespace Projection
             }
 
             LocalMarker marker = this.GetMarkerOrCreate(position.ID);
-            this.SelectParent(marker);
+
+            if (marker.LocalPosition != null)
+            {
+                float posDifference = (position.Position - marker.LocalPosition.Position).sqrMagnitude;
+                if (posDifference < MoveTreshold)
+                {
+                    // Do not update the position when there is not enough difference.
+                    return;
+                }
+            }
+
             marker.LocalPosition = position;
+            this.SelectParent(marker);
         }
 
         /// <summary>
