@@ -11,7 +11,6 @@ namespace Projection
 {
     using UnityEngine;
     using System.Linq;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Remote marker that represents a player.
@@ -24,13 +23,23 @@ namespace Projection
     public class RemotePlayerMarker : RemoteMarker
     {
         /// <summary>
-        /// The <see cref="Camera"/> inside this <see cref="RemotePlayerMarker"/>.
+        /// Gets or sets the <see cref="Camera"/> inside this <see cref="RemotePlayerMarker"/>.
         /// </summary>
         public Camera PlayerCamera { get; set; }
 
+        /// <summary>
+        /// The <see cref="Material"/> to use for drawing the frustum.
+        /// </summary>
         public Material FrustrumMaterial;
 
+        /// <summary>
+        /// The <see cref="MeshFilter"/> for the player's frustum.
+        /// </summary>
         private MeshFilter meshFilter = null;
+
+        /// <summary>
+        /// The <see cref="MeshRenderer"/> for the frustum.
+        /// </summary>
         private MeshRenderer meshRender = null;
 
         /// <summary>
@@ -72,33 +81,27 @@ namespace Projection
 
             Vector4 planeNormal = transformMatrix * new Vector4(0, 0.1f, 0, 0);
 
-            Mesh m = new Mesh();
-            m.Clear();
+            Mesh mesh = new Mesh();
+            mesh.Clear();
 
-            m.vertices = TransformWorldToLocal((new Vector3[] {
+            mesh.vertices = (new Vector3[] {
                 topLeft + planeNormal,
                 topRight + planeNormal,
                 bottomRight + planeNormal,
                 bottomLeft + planeNormal
-            }).ToList());
-            m.triangles = new int[] {
+            }).Select(vertex => this.transform.InverseTransformPoint(vertex)).ToArray();
+
+            mesh.triangles = new int[] {
                 2, 1, 0,
                 0, 3, 2
             };
 
-            m.RecalculateBounds();
+            mesh.RecalculateBounds();
 
-            meshFilter.mesh = m;
-            meshRender.material = FrustrumMaterial;
+            meshFilter.mesh = mesh;
+            meshRender.material = this.FrustrumMaterial;
         }
-
-        private Vector3[] TransformWorldToLocal(List<Vector3> vertices) {
-            for (int i = 0; i < vertices.Count; i++) {
-                vertices[i] = this.transform.InverseTransformPoint(vertices[i]);
-            }
-            return vertices.ToArray();
-        }
-
+        
         /// <summary>
         /// Computes the intersection between the board and the ray through
         /// the given screen position of the <see cref="Camera"/> inside this
