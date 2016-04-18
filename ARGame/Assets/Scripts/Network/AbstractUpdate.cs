@@ -11,7 +11,7 @@ namespace Network
 {
     /// <summary>
     /// An abstract class used as an accessibility interface
-    /// for parameters for both types of updates.
+    /// for parameters for all types of updates.
     /// </summary>
     public abstract class AbstractUpdate
     {

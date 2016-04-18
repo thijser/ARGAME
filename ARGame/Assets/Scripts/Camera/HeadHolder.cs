@@ -23,6 +23,11 @@ namespace Camera
     public class HeadHolder : MonoBehaviour
     {
         /// <summary>
+        /// The offset used for player Ids.
+        /// </summary>
+        public const int PlayerIdOffset = 9000;
+
+        /// <summary>
         /// The array with the colors to use for players.
         /// <para>
         /// The colors are assigned to players in order: the first player gets the 
@@ -41,12 +46,7 @@ namespace Camera
             Color.green,
             Color.yellow
         };
-
-        /// <summary>
-        /// The offset used for player Ids.
-        /// </summary>
-        public const int PlayerIdOffset = 9000;
-
+        
         /// <summary>
         /// A Dictionary mapping player id to a player marker.
         /// </summary>
@@ -63,14 +63,14 @@ namespace Camera
         private RemoteMarkerHolder holder;
 
         /// <summary>
-        /// The reference <c>GameObject</c> for a player head.
+        /// The reference <see cref="GameObject"/> for a player head.
         /// </summary>
         private GameObject referenceHead;
 
         /// <summary>
-        /// The <see cref="RemotePlayerMarker"/> that simulates the overview camera.
+        /// Gets or sets the <see cref="RemotePlayerMarker"/> that simulates the overview camera.
         /// </summary>
-        public RemotePlayerMarker OverviewMarker;
+        public RemotePlayerMarker OverviewMarker { get; set; }
 
         /// <summary>
         /// Initializes this <see cref="HeadHolder"/> instance.

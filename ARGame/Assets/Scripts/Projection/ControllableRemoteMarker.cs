@@ -69,6 +69,11 @@
             this.transform.parent.GetComponent<RemoteMarkerHolder>().PlayerToFollow = this;
         }
 
+        /// <summary>
+        /// Updates the rotation based on the provided rotation.
+        /// </summary>
+        /// <param name="newRotation">A <see cref="Vector2"/> containing the horizontal
+        /// and vertical rotation, in degrees.</param>
         public void UpdateRotation(Vector2 newRotation)
         {
             // Reset the fake marker back to initial state.
