@@ -23,6 +23,26 @@ namespace Camera
     public class HeadHolder : MonoBehaviour
     {
         /// <summary>
+        /// The array with the colors to use for players.
+        /// <para>
+        /// The colors are assigned to players in order: the first player gets the 
+        /// first color in this array, the second player the second color, and so on.
+        /// </para>
+        /// <para>
+        /// If there are more players than defined colors, the array is traversed again
+        /// to prevent exceptions. This does mean that there will be multiple players with 
+        /// the same color.
+        /// </para>
+        /// </summary>
+        private static readonly Color[] PlayerColors = new Color[]
+        {
+            Color.red,
+            Color.blue,
+            Color.green,
+            Color.yellow
+        };
+
+        /// <summary>
         /// The offset used for player Ids.
         /// </summary>
         public const int PlayerIdOffset = 9000;
@@ -47,6 +67,9 @@ namespace Camera
         /// </summary>
         private GameObject referenceHead;
 
+        /// <summary>
+        /// The <see cref="RemotePlayerMarker"/> that simulates the overview camera.
+        /// </summary>
         public RemotePlayerMarker OverviewMarker;
 
         /// <summary>
@@ -59,7 +82,11 @@ namespace Camera
         }
 
         /// <summary>
-        /// Switches the tracked player to the next if the space bar is pressed.
+        /// Changes the view of the local player if an appropriate key is pressed.
+        /// <para>
+        /// Pressing the space bar changes the view to the next player's local view,
+        /// while pressing `O` changes back to the overview camera.
+        /// </para>
         /// </summary>
         public void Update()
         {
@@ -112,7 +139,7 @@ namespace Camera
 
             if (marker != null)
             {
-                this.holder.PlayerToFollow = marker;
+                this.Follow(marker);
                 trackingIndex = marker.Id;
             }
         }
@@ -134,18 +161,19 @@ namespace Camera
                 GameObject head = GameObject.Instantiate(this.referenceHead);
                 RemotePlayerMarker marker = head.GetComponent<RemotePlayerMarker>();
                 Assert.IsNotNull(marker, "Reference Player Marker has no `RemotePlayerMarker` script attached");
-
+                
                 this.players.Add(id, marker);
+                marker.PlayerColor = PlayerColors[this.players.Count % PlayerColors.Length];
                 marker.transform.SetParent(this.transform);
 
                 marker.Id = PlayerIdOffset + id;
                 if (this.holder == null)
                 {
                     this.holder = gameObject.GetComponent<RemoteMarkerHolder>();
+                    Assert.IsNotNull(this.holder, "No RemoteMarkerHolder attached to HeadHolder's GameObject.");
                 }
 
                 this.holder.AddMarker(marker);
-                this.Follow(marker);
             }
 
             return this.players[id];
@@ -164,8 +192,6 @@ namespace Camera
             int markerId = playerInfo.Id + PlayerIdOffset;
 
             Vector3 position = playerInfo.Position;
-            
-            //Quaternion direction = Quaternion.Euler(playerInfo.Rotation);
             Quaternion direction = Quaternion.LookRotation(playerInfo.Rotation - position);
 
             if (this.trackingIndex == -1)
@@ -175,16 +201,15 @@ namespace Camera
 
             this.GetPlayer(playerInfo.Id).RemotePosition =
                 new MarkerPosition(position, direction, DateTime.Now, Vector3.one, markerId);
-
-            //Debug.LogWarning("LOCAL " + position);
         }
 
         /// <summary>
         /// Starts following the given RemotePlayerMarker as camera origin.
         /// </summary>
-        /// <param name="player">The player to follow.</param>
+        /// <param name="player">The player to follow, not null.</param>
         public void Follow(RemotePlayerMarker player)
         {
+            Assert.IsNotNull(player, "Attempt to follow null");
             if (this.OverviewMarker == null) {
                 this.OverviewMarker = this.holder.PlayerToFollow;
             }

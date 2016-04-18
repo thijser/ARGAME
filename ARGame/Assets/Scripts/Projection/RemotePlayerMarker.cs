@@ -23,11 +23,6 @@ namespace Projection
     public class RemotePlayerMarker : RemoteMarker
     {
         /// <summary>
-        /// Gets or sets the <see cref="Camera"/> inside this <see cref="RemotePlayerMarker"/>.
-        /// </summary>
-        public Camera PlayerCamera { get; set; }
-
-        /// <summary>
         /// The <see cref="Material"/> to use for drawing the frustum.
         /// </summary>
         public Material FrustrumMaterial;
@@ -41,6 +36,26 @@ namespace Projection
         /// The <see cref="MeshRenderer"/> for the frustum.
         /// </summary>
         private MeshRenderer meshRender = null;
+
+        /// <summary>
+        /// Gets or sets the <see cref="Camera"/> inside this <see cref="RemotePlayerMarker"/>.
+        /// </summary>
+        public Camera PlayerCamera { get; set; }
+
+        /// <summary>
+        /// Gets or sets the color for the player.
+        /// </summary>
+        public Color PlayerColor
+        {
+            get { return this.FrustrumMaterial == null ? Color.black : this.FrustrumMaterial.color; }
+            set
+            {
+                if (this.FrustrumMaterial != null)
+                {
+                    this.FrustrumMaterial.color = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes this <see cref="RemotePlayerMarker"/>.
