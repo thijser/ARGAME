@@ -21,9 +21,19 @@ namespace Logging
     public class Logger : MonoBehaviour
     {
         /// <summary>
+        /// The directory all log files are placed in.
+        /// </summary>
+        public const string LogDirectory = "logs";
+
+        /// <summary>
         /// The minimum squared distance a marker must be moved for it to be logged as a movement.
         /// </summary>
         private const float PositionLogThreshold = 0.25f;
+
+        /// <summary>
+        /// The minimum time interval between consecutive log entries on the same marker, in seconds.
+        /// </summary>
+        private const float TimeInterval = 1f;
 
         /// <summary>
         /// The path to the log file.
@@ -34,17 +44,7 @@ namespace Logging
         /// The time the current level was started.
         /// </summary>
         private DateTime levelStartTime;
-
-        /// <summary>
-        /// A dictionary mapping marker id to the <see cref="DateTime"/> it was last moved.
-        /// </summary>
-        private Dictionary<int, DateTime> timeKeeper = new Dictionary<int, DateTime>();
-
-        /// <summary>
-        /// A dictionary mapping marker id to the position that was last logged for the marker.
-        /// </summary>
-        private Dictionary<int, Vector2> positionKeeper = new Dictionary<int, Vector2>();
-
+        
         /// <summary>
         /// The dictionary keeping track of the currently logged information of markers.
         /// </summary>
@@ -56,12 +56,11 @@ namespace Logging
         public void Start()
         {
             Debug.Log("Starting logger.");
-
             Directory.CreateDirectory("logs");
         }
 
         /// <summary>
-        /// Logs the movement of a marker 
+        /// Logs the movement of a marker.
         /// </summary>
         /// <param name="update">The <see cref="PositionUpdate"/>.</param>
         public void OnPositionUpdate(PositionUpdate update)
@@ -81,22 +80,26 @@ namespace Logging
 
                 float dist = movement.SqrMagnitude();
 
-                if (span.Seconds >= 1 && dist >= PositionLogThreshold)
+                if (span.Seconds >= TimeInterval && dist >= PositionLogThreshold)
                 {
                     this.markerPositions[entry.MarkerId] = entry;
-                    WriteLog(entry.ToUpdateString());
+                    this.WriteLog(entry.ToUpdateString());
                 }
             }
             else
             {
                 this.markerPositions[entry.MarkerId] = entry;
-                WriteLog(entry.ToCreateString());
+                this.WriteLog(entry.ToCreateString());
             }
         }
 
+        /// <summary>
+        /// Logs a message that the rotation of a marker has been updated.
+        /// </summary>
+        /// <param name="update">The <see cref="RotationUpdate"/> instance.</param>
         public void OnRotationUpdate(RotationUpdate update)
         {
-            WriteLog(string.Format("marker #{0} rotated to {1}", update.Id, update.Rotation));
+            this.WriteLog(string.Format("marker #{0} rotated to {1}", update.Id, update.Rotation));
         }
 
         /// <summary>
@@ -108,7 +111,7 @@ namespace Logging
         /// <param name="message">The message to write.</param>
         private void WriteLog(string message)
         {
-            if (filePath != null)
+            if (this.filePath != null)
             {
                 File.AppendAllText(filePath, DateTime.Now.ToString("yyyy-MM-dd'T'HH:mm:ss") + " - " + message + Environment.NewLine);
             }
@@ -129,13 +132,11 @@ namespace Logging
             if (this.filePath != null)
             {
                 TimeSpan playTime = DateTime.Now - this.levelStartTime;
-                WriteLog("Finished playthrough of level #" + oldLevel + " after " + playTime.ToString());
+                this.WriteLog("Finished playthrough of level #" + oldLevel + " after " + playTime.ToString());
             }
-
-            Debug.Log("Logging playthough of a new level...");
             
             string isoDate = DateTime.Now.ToString("yyyy-MM-dd'T'HH:mm:ss");
-            this.filePath = "logs/" + isoDate + " - Level " + newLevel + ".log";
+            this.filePath = LogDirectory + Path.DirectorySeparatorChar + isoDate + " - Level " + newLevel + ".log";
 
             this.WriteLog("Started new playthrough of level #" + newLevel);
             this.levelStartTime = DateTime.Now;
