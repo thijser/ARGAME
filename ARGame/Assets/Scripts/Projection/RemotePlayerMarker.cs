@@ -12,6 +12,7 @@ namespace Projection
     using UnityEngine;
     using System.Linq;
     using System.Collections.Generic;
+    using Core.Receiver;
 
     /// <summary>
     /// Remote marker that represents a player.
@@ -55,6 +56,28 @@ namespace Projection
                 this.transform.SetFromMatrix(transformMatrix * this.RemotePosition.Matrix);
 
                 this.UpdateFrustum(transformMatrix);
+
+                this.UpdateMirrors(transformMatrix);
+            }
+        }
+
+        public void UpdateMirrors(Matrix4x4 transformMatrix) {
+            var markerHolder = GameObject.Find("RemoteController").GetComponent<RemoteMarkerHolder>();
+
+            foreach (var marker in markerHolder.Markers) {
+                var mirror = marker.GetComponentInChildren<Mirror>();
+
+                if (mirror != null) {
+                    var pos = this.PlayerCamera.WorldToViewportPoint(marker.transform.position);
+                    var indicator = marker.transform.Find("PlayerIndicator").GetComponent<MeshRenderer>();
+
+                    if (pos.x >= 0 && pos.y >= 0 && pos.x <= 1 && pos.y <= 1) {
+                        Debug.Log("looking at mirror " + marker.Id);
+                        indicator.enabled = true;
+                    } else {
+                        indicator.enabled = false;
+                    }
+                }
             }
         }
 
