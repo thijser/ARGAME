@@ -135,7 +135,7 @@ namespace Logging
                 this.WriteLog("Finished playthrough of level #" + oldLevel + " after " + playTime.ToString());
             }
             
-            string isoDate = DateTime.Now.ToString("yyyy-MM-dd'T'HH:mm:ss");
+            string isoDate = DateTime.Now.ToString("yyyy-MM-dd'T'HHmmss");
             this.filePath = LogDirectory + Path.DirectorySeparatorChar + isoDate + " - Level " + newLevel + ".log";
 
             this.WriteLog("Started new playthrough of level #" + newLevel);
