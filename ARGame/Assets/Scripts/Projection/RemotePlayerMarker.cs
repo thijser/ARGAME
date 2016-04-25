@@ -52,6 +52,7 @@ namespace Projection
             {
                 if (this.FrustrumMaterial != null)
                 {
+                    this.FrustrumMaterial = new Material(this.FrustrumMaterial);
                     this.FrustrumMaterial.color = value;
                 }
             }
@@ -66,8 +67,6 @@ namespace Projection
             this.PlayerCamera = this.GetComponentInChildren<Camera>();
             this.meshFilter = this.GetComponent<MeshFilter>();
             this.meshRender = this.GetComponent<MeshRenderer>();
-
-            this.FrustrumMaterial = new Material(this.FrustrumMaterial);
         }
 
         /// <summary>
