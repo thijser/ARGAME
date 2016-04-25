@@ -66,6 +66,8 @@ namespace Projection
             this.PlayerCamera = this.GetComponentInChildren<Camera>();
             this.meshFilter = this.GetComponent<MeshFilter>();
             this.meshRender = this.GetComponent<MeshRenderer>();
+
+            this.FrustrumMaterial = new Material(this.FrustrumMaterial);
         }
 
         /// <summary>
