@@ -99,6 +99,11 @@ namespace Camera
                 // `O` for overview camera.
                 this.holder.PlayerToFollow = this.OverviewMarker;
             }
+
+            if (!GameplaySettings.Instance.EnablePlayerViews && this.OverviewMarker != null) {
+                this.holder.PlayerToFollow = this.OverviewMarker;
+                return;
+            }
         }
 
         /// <summary>
