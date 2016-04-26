@@ -103,6 +103,8 @@ namespace Camera
             if (!GameplaySettings.Instance.EnablePlayerViews && this.OverviewMarker != null) {
                 this.holder.PlayerToFollow = this.OverviewMarker;
                 return;
+            } else if (!GameplaySettings.Instance.EnableOverview && this.holder.PlayerToFollow == this.OverviewMarker && this.players.Count > 0) {
+                this.NextTracking();
             }
         }
 
