@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Note: These settings can only be changed in the editor.
 public class GameplaySettings : MonoBehaviour {
     public bool EnablePlayerViews = true;
     public bool EnableOverview = true;

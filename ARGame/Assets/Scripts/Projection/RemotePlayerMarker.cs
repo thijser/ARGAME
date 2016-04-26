@@ -121,27 +121,29 @@ namespace Projection
         }
 
         public void UpdateMirrorIndicators() {
-            // For every mirror, check if it's in view and enable/disable the indicator with
-            // same color as the player
-            var remoteMarkerHolder = transform.parent.GetComponent<RemoteMarkerHolder>();
+            if (GameplaySettings.Instance.EnableIndicators) {
+                // For every mirror, check if it's in view and enable/disable the indicator with
+                // same color as the player
+                var remoteMarkerHolder = transform.parent.GetComponent<RemoteMarkerHolder>();
 
-            foreach (RemoteMarker marker in remoteMarkerHolder.Markers) {
-                if (marker.GetComponent<Mirror>() == null) continue;
+                foreach (RemoteMarker marker in remoteMarkerHolder.Markers) {
+                    if (marker.GetComponent<Mirror>() == null) continue;
 
-                string indicatorName = "PlayerIndicatorRed";
-                if (PlayerColor == Color.green) {
-                    indicatorName = "PlayerIndicatorGreen";
-                } else if (PlayerColor == Color.blue) {
-                    indicatorName = "PlayerIndicatorBlue";
+                    string indicatorName = "PlayerIndicatorRed";
+                    if (PlayerColor == Color.green) {
+                        indicatorName = "PlayerIndicatorGreen";
+                    } else if (PlayerColor == Color.blue) {
+                        indicatorName = "PlayerIndicatorBlue";
+                    }
+
+                    var meshRenderer = marker.transform.Find(indicatorName).GetComponent<MeshRenderer>();
+
+                    // Check if the mirror base position lies within the player's viewport
+                    Vector3 coords = this.PlayerCamera.WorldToViewportPoint(marker.transform.position);
+                    bool inView = coords.x >= 0 && coords.x <= 1 && coords.y >= 0 && coords.y <= 1;
+
+                    meshRenderer.enabled = inView;
                 }
-
-                var meshRenderer = marker.transform.Find(indicatorName).GetComponent<MeshRenderer>();
-
-                // Check if the mirror base position lies within the player's viewport
-                Vector3 coords = this.PlayerCamera.WorldToViewportPoint(marker.transform.position);
-                bool inView = coords.x >= 0 && coords.x <= 1 && coords.y >= 0 && coords.y <= 1;
-
-                meshRenderer.enabled = inView;
             }
         }
 
