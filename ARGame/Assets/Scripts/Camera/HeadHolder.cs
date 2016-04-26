@@ -125,7 +125,7 @@ namespace Camera
                     marker = entry.Value;
                 }
 
-                if (entry.Key == this.trackingIndex)
+                if (entry.Value.Id == this.trackingIndex)
                 {
                     takeNextEntry = true;
                 }
