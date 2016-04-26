@@ -102,19 +102,22 @@ namespace Projection
             Mesh mesh = new Mesh();
             mesh.Clear();
 
-            mesh.vertices = (new Vector3[] {
-                topLeft + planeNormal,
-                topRight + planeNormal,
-                bottomRight + planeNormal,
-                bottomLeft + planeNormal
-            }).Select(vertex => this.transform.InverseTransformPoint(vertex)).ToArray();
+            // Leave mesh empty if frustrums are disabled
+            if (GameplaySettings.Instance.EnableFrustrums) {
+                mesh.vertices = (new Vector3[] {
+                    topLeft + planeNormal,
+                    topRight + planeNormal,
+                    bottomRight + planeNormal,
+                    bottomLeft + planeNormal
+                }).Select(vertex => this.transform.InverseTransformPoint(vertex)).ToArray();
 
-            mesh.triangles = new int[] {
-                2, 1, 0,
-                0, 3, 2
-            };
+                mesh.triangles = new int[] {
+                    2, 1, 0,
+                    0, 3, 2
+                };
 
-            mesh.RecalculateBounds();
+                mesh.RecalculateBounds();
+            }
 
             meshFilter.mesh = mesh;
             meshRender.material = this.FrustrumMaterial;
