@@ -28,7 +28,7 @@ namespace Projection
             }
             set {
                 if (DoesMarkerHaveHead(playerToFollow)) {
-                    playerToFollow.transform.FindChild("HEAD").GetComponent<MeshRenderer>().enabled = true;
+                    playerToFollow.transform.FindChild("HEAD").GetComponent<MeshRenderer>().enabled = true && GameplaySettings.Instance.EnableMonkeyHeads;
                 }
 
                 if (DoesMarkerHaveHead(value)) {

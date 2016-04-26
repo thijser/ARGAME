@@ -161,7 +161,9 @@ namespace Camera
                 GameObject head = GameObject.Instantiate(this.referenceHead);
                 RemotePlayerMarker marker = head.GetComponent<RemotePlayerMarker>();
                 Assert.IsNotNull(marker, "Reference Player Marker has no `RemotePlayerMarker` script attached");
-                
+
+                head.transform.Find("HEAD").GetComponent<MeshRenderer>().enabled = GameplaySettings.Instance.EnableMonkeyHeads;
+
                 this.players.Add(id, marker);
                 marker.PlayerColor = PlayerColors[this.players.Count % PlayerColors.Length];
                 marker.transform.SetParent(this.transform);
