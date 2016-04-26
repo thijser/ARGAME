@@ -11,6 +11,7 @@ namespace Graphics
 {
     using System;
     using System.Net;
+    using Network;
     using UnityEngine;
     using UnityEngine.Assertions;
 
@@ -38,6 +39,11 @@ namespace Graphics
         /// Gets or sets the port to connect to.
         /// </summary>
         public int Port { get; set; }
+
+        /// <summary>
+        /// Indicates if the image has been loaded.
+        /// </summary>
+        private bool imageLoaded = false;
 
         /// <summary>
         /// Disposes the web connection if it is still active.
@@ -69,32 +75,24 @@ namespace Graphics
         /// </summary>
         public void Update()
         {
-            if (this.UseRemote)
+            if (this.UseRemote && !this.imageLoaded)
             {
                 bool complete = this.TryImage();
 
-                if (complete)
-                {
-                    MonoBehaviour.Destroy(this);
+                if (complete) {
+                    this.imageLoaded = true;
                 }
             }
         }
 
-        /// <summary>
-        /// Sets the IPAddress and Port to match the IPEndPoint and creates
-        /// the <see cref="WWW"/> instance to retrieve the texture from.
-        /// <para>
-        /// Called from ClientSocket when the server is ready.
-        /// </para>
-        /// </summary>
-        /// <param name="endPoint">The IP EndPoint of the Socket.</param>
-        public void OnSocketStart(IPEndPoint endPoint)
-        {
-            Assert.IsNotNull(endPoint);
-            this.IPAddress = endPoint.Address.ToString();
-            this.Port = endPoint.Port + 1;
-            if (this.webpage == null)
-            {
+        public void OnLevelUpdate(LevelUpdate update) {
+            ClientSocket clientSocket = GetComponent<ClientSocket>();
+
+            if (clientSocket != null) {
+                this.IPAddress = clientSocket.ServerAddress;
+                this.Port = clientSocket.ServerPort + 1;
+
+                this.imageLoaded = false;
                 this.GrabImage();
             }
         }
