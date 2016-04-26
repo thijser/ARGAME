@@ -11,7 +11,7 @@ namespace Projection
 {
     using UnityEngine;
     using System.Linq;
-
+    using Core.Receiver;
     /// <summary>
     /// Remote marker that represents a player.
     /// <para>
@@ -80,6 +80,8 @@ namespace Projection
                 this.transform.SetFromMatrix(transformMatrix * this.RemotePosition.Matrix);
 
                 this.UpdateFrustum(transformMatrix);
+
+                this.UpdateMirrorIndicators();
             }
         }
 
@@ -117,7 +119,32 @@ namespace Projection
             meshFilter.mesh = mesh;
             meshRender.material = this.FrustrumMaterial;
         }
-        
+
+        public void UpdateMirrorIndicators() {
+            // For every mirror, check if it's in view and enable/disable the indicator with
+            // same color as the player
+            var remoteMarkerHolder = transform.parent.GetComponent<RemoteMarkerHolder>();
+
+            foreach (RemoteMarker marker in remoteMarkerHolder.Markers) {
+                if (marker.GetComponent<Mirror>() == null) continue;
+
+                string indicatorName = "PlayerIndicatorRed";
+                if (PlayerColor == Color.green) {
+                    indicatorName = "PlayerIndicatorGreen";
+                } else if (PlayerColor == Color.blue) {
+                    indicatorName = "PlayerIndicatorBlue";
+                }
+
+                var meshRenderer = marker.transform.Find(indicatorName).GetComponent<MeshRenderer>();
+
+                // Check if the mirror base position lies within the player's viewport
+                Vector3 coords = this.PlayerCamera.WorldToViewportPoint(marker.transform.position);
+                bool inView = coords.x >= 0 && coords.x <= 1 && coords.y >= 0 && coords.y <= 1;
+
+                meshRenderer.enabled = inView;
+            }
+        }
+
         /// <summary>
         /// Computes the intersection between the board and the ray through
         /// the given screen position of the <see cref="Camera"/> inside this

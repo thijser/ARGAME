@@ -124,34 +124,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11465036, guid: b678665f429d0694cb68468b1c85b470, type: 2}
-      propertyPath: ServerAddress
-      value: localhost
-      objectReference: {fileID: 0}
-    - target: {fileID: 2020012, guid: b678665f429d0694cb68468b1c85b470, type: 2}
-      propertyPath: field of view
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 10834874, guid: b678665f429d0694cb68468b1c85b470, type: 2}
-      propertyPath: m_Intensity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 485972, guid: b678665f429d0694cb68468b1c85b470, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 485972, guid: b678665f429d0694cb68468b1c85b470, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 485972, guid: b678665f429d0694cb68468b1c85b470, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 485972, guid: b678665f429d0694cb68468b1c85b470, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b678665f429d0694cb68468b1c85b470, type: 2}
   m_IsPrefabParent: 0
